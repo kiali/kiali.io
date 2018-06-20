@@ -1,3 +1,11 @@
 baseURL = "http://example.org/"
 languageCode = "en-us"
-title = "My New Hugo Site"
+title = "Kiali"
+theme = "lazyfox"
+
+[menu]
+ [[menu.main]]
+    identifier = "home"
+    name = "Home"
+    url = "/"
+    weight = 0
