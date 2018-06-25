@@ -1,5 +1,6 @@
 build:
 	rm -rf public
+	sh scripts/build-swagger.sh
 	hugo
 
 deploy: build
