@@ -12,7 +12,7 @@ theme = "canvas"
   [[menu.mainright]]
   identifier = "swagger"
   name = "API"
-  url = "/api"
+  url = "/api/overview"
   weight = 1
   [[menu.mainright]]
   identifier = "overview"

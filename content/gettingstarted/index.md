@@ -37,6 +37,9 @@ Then install Kiali:
 curl https://raw.githubusercontent.com/kiali/kiali/master/deploy/openshift/kiali-configmap.yaml | \
    VERSION_LABEL=master envsubst | oc create -n istio-system -f -
 
+curl https://raw.githubusercontent.com/kiali/kiali/master/deploy/openshift/kiali-secrets.yaml | \
+   VERSION_LABEL=master envsubst | oc create -n istio-system -f -
+
 curl https://raw.githubusercontent.com/kiali/kiali/master/deploy/openshift/kiali.yaml | \
    IMAGE_NAME=kiali/kiali \
    IMAGE_VERSION=latest \
@@ -69,6 +72,9 @@ If you wish to install in Minikube, ensure that you enable the Ingress add-on by
 
 ```
 curl https://raw.githubusercontent.com/kiali/kiali/master/deploy/kubernetes/kiali-configmap.yaml | \
+   VERSION_LABEL=master envsubst | kubectl create -n istio-system -f -
+
+curl https://raw.githubusercontent.com/kiali/kiali/master/deploy/kubernetes/kiali-secrets.yaml | \
    VERSION_LABEL=master envsubst | kubectl create -n istio-system -f -
 
 curl https://raw.githubusercontent.com/kiali/kiali/master/deploy/kubernetes/kiali.yaml | \
