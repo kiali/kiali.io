@@ -50,7 +50,7 @@ If you do not have `envsubst` installed, you can get it via the Gnu `gettext` pa
 
 Once the above has completed and the Docker image has been pulled from Dockerhub, go to the OpenShift console, select the istio-system project and determine the base-URL of Kiali
 
-![OpenShift console](/assets/img/os-console.png)
+![OpenShift console](/images/gettingstarted/os-console.png)
 
 In this case it is `http://kiali-istio-system.192.168.64.13.nip.io`. In your case this could be a different IP.
 
@@ -102,9 +102,9 @@ To achieve the best results you should have an example application like 'bookinf
 
 ### Detail view of a single service
 
-![Service view](/assets/img/kiali-service.png)
+![Service view](/images/gettingstarted/kiali-service.png)
 
 
 ### Distributed tracing view
 
-![Jaeger view](/assets/img/kiali-jaeger.png)
+![Jaeger view](/images/gettingstarted/kiali-jaeger.png)
