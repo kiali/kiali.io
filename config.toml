@@ -1,11 +1,16 @@
 baseURL = "http://example.org/"
 languageCode = "en-us"
 title = "Kiali"
-theme = "lazyfox"
+theme = "canvas"
 
 [menu]
- [[menu.main]]
-    identifier = "home"
-    name = "Home"
-    url = "/"
-    weight = 0
+  [[menu.mainleft]]
+  identifier = "home"
+  name = "Home"
+  url = "/"
+  weight = 1
+  [[menu.mainleft]]
+  identifier = "features"
+  name = "Features"
+  url = "/features"
+  weight = 0

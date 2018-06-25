@@ -1,18 +1,57 @@
 {{ partial "header.html" . }}
-<section id="introduction" class="gradient-violat padding-top-90 home-slider">
-    <div>
-      <div class="sliding-card-with-bottom-image text-center padding-top-90">
-        <h2 class="cta-heading text-white">Kiali</h2>
-        <p class="text-white slider-para">Service Mesh observability</p>
-        <div class="cta-btn-group">
-          <a class="btn btn-orange border-none btn-rounded-corner" href="#">Try it yourself <span class="icon-on-button"><i class="ion-person"></i></span></a>
-          <a class="btn-video text-white" href="#"><span class="icon-rounded bordered-ios"><i class="ion-play"></i></span>watch introduction video</a>
-        </div>
-        <div class="image-container text-center sm-display-none">
-          <img class="img-responsive" src="images/mockuo2.png" alt="">
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+		<!-- Page Title
+		============================================= -->
+		<section id="page-title">
+			<div class="container clearfix">
+        <h1>tl;dr:</h1>
+        <div>Kiali provides answers to the question: What are the microservices in my Istio service mesh doing?</div>
+			</div>
+		</section><!-- #page-title end -->
+
+    <!-- Content
+		============================================= -->
+    <section id="content">
+			<div class="content-wrap nopadding">
+        <div class="section nomargin noborder bgcolor dark" style="padding: 80px 0;">
+					<div class="container center clearfix">
+						<div class="heading-block">
+							<h2>Project description</h2>
+						</div>
+						<div>
+
+              <div class="container clearfix">
+
+                <div class="col_half nobottommargin bgcolor">
+
+                  <div class="heading-block topmargin-sm nobottommargin">
+                    <h2>{{ .Title }}</h2>
+                    <span>{{ .Params.subTitle }}</span>
+                  </div>
+
+                  <p>A Microservice Architecture breaks up the monolith into many smaller pieces that are composed together.
+                    Patterns to secure the communication between services like fault tolerance (via timeout, retry, circuit breaking, etc.)
+                    have come up as well as distributed tracing to be able to see where calls are going.
+                    A service mesh can now provide these services on a platform level and frees the application writers from those tasks.
+                    Routing decisions are done at the mesh level.
+                    Kiali works with Istio to visualise the service mesh topology, features like circuit breakers or request rates.
+                    Kiali also includes Jaeger Tracing to provide distributed tracing out of the box.</p>
+                    <a href="/gettingstarted" class="button button-3d button-large button-dark">Try it</a>
+                </div>
+
+                <div class="col_half topmargin-sm col_last" style="vertical-align: center">
+                  <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+                    <iframe src="//www.youtube.com/embed/8HZlDGURzLc" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="Kiali Overview"></iframe>
+                  </div>
+                </div>
+
+
+              </div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</section><!-- #content end -->
+
+
 {{ partial "footer.html" . }}

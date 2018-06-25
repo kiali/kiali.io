@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="author" content="SemiColonWeb" />
+
+	<!-- Stylesheets
+	============================================= -->
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700|Raleway:300,400,500,600,700|Crete+Round:400i" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="/css/bootstrap.css" type="text/css" />
+	<link rel="stylesheet" href="/style.css" type="text/css" />
+	<link rel="stylesheet" href="/css/dark.css" type="text/css" />
+	<link rel="stylesheet" href="/css/font-icons.css" type="text/css" />
+	<link rel="stylesheet" href="/css/animate.css" type="text/css" />
+	<link rel="stylesheet" href="/css/magnific-popup.css" type="text/css" />
+
+	<link rel="stylesheet" href="/css/responsive.css" type="text/css" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<!-- Document Title
+	============================================= -->
+	<title>Split Menu | Canvas</title>
+
+</head>
+
+<body class="stretched no-transition">
+
+	<!-- Document Wrapper
+	============================================= -->
+	<div id="wrapper" class="clearfix">
+
+		<!-- Header
+		============================================= -->
+		<header id="header" class="split-menu">
+
+			<div id="header-wrap">
+
+				<div class="container clearfix">
+
+					<div id="primary-menu-trigger"><i class="icon-reorder"></i></div>
+
+					<!-- Logo
+					============================================= -->
+					<div id="logo">
+						<a href="index.html" class="standard-logo" data-dark-logo="/images/logo-dark.png"><img src="/images/logo.png" alt="Canvas Logo"></a>
+						<a href="index.html" class="retina-logo" data-dark-logo="/images/logo-dark@2x.png"><img src="/images/logo@2x.png" alt="Canvas Logo"></a>
+					</div><!-- #logo end -->
+
+					<!-- Primary Navigation
+					============================================= -->
+					<nav id="primary-menu" class="with-arrows clearfix">
+						<ul>
+						{{ range .Site.Menus.mainleft }}
+							<li><a href="{{ .URL }}"><div>{{ .Name }}</div></a></li>
+						{{end}}
+						</ul>
+						<ul>
+						{{ range .Site.Menus.mainright }}
+							<li><a href="{{ .URL }}"><div>{{ .Name }}</div></a></li>
+						{{end}}
+						</ul>
+
+					</nav><!-- #primary-menu end -->
+
+				</div>
+
+			</div>
+
+		</header><!-- #header end -->
