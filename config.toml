@@ -9,8 +9,3 @@ theme = "canvas"
   name = "Home"
   url = "/"
   weight = 1
-  [[menu.mainleft]]
-  identifier = "features"
-  name = "Features"
-  url = "/features"
-  weight = 0
