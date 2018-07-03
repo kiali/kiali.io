@@ -4,29 +4,24 @@ title = "Kiali"
 theme = "canvas"
 
 [menu]
-  [[menu.mainleft]]
-  identifier = "home"
-  name = "Home"
-  url = "/"
-  weight = 1
-  [[menu.mainright]]
+  [[menu.main]]
   identifier = "swagger"
   name = "API"
   url = "/api/overview"
-  weight = 1
-  [[menu.mainright]]
+  weight = 40
+  [[menu.main]]
   identifier = "overview"
   name = "Overview"
   url = "/api/overview"
   weight = 1
   parent="swagger"
-  [[menu.mainright]]
+  [[menu.main]]
   identifier = "paths"
   name = "Paths"
   url = "/api/paths"
   weight = 2
   parent="swagger"
-  [[menu.mainright]]
+  [[menu.main]]
   identifier = "definitions"
   name = "Definitions"
   url = "/api/definitions"

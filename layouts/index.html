@@ -1,55 +1,106 @@
 {{ partial "header.html" . }}
-		<!-- Page Title
-		============================================= -->
-		<section id="page-title">
-			<div class="container clearfix">
-        <h3>Kiali provides answers to the question: What are the microservices in my Istio service mesh doing ?</h3>
-			</div>
-		</section><!-- #page-title end -->
 
-    <!-- Content
-		============================================= -->
-    <section id="content">
-			<div class="content-wrap nopadding">
-        <div class="section nomargin noborder dark" style="padding: 80px 0;">
-					<div class="container center clearfix">
-						<div class="heading-block">
-							<h2>Project description</h2>
-						</div>
-						<div>
+<section id="slider" class="slider-element bg-angle">
 
-              <div class="container clearfix">
+  <img class="img-map parallax" src="images/map.png" alt="" data-0="opacity: 0.05;margin-top:0px" data-800="opacity: 0.5;margin-top:150px">
 
-                <div class="col_half nobottommargin">
+  <div class="cloud-wrap">
+    <div class="c1">
+      <div class="cloud"></div>
+    </div>
+    <div class="c2">
+      <div class="cloud"></div>
+    </div>
+    <div class="c3">
+      <div class="cloud"></div>
+    </div>
+    <div class="c4">
+      <div class="cloud"></div>
+    </div>
+    <div class="c5">
+      <div class="cloud"></div>
+    </div>
+  </div>
 
-                  <div class="heading-block topmargin-sm nobottommargin">
-                    <h2>{{ .Title }}</h2>
-                    <span>{{ .Params.subTitle }}</span>
-                  </div>
+  <div class="vertical-middle ignore-header dark">
+    <div class="container">
+      <div class="row justify-content-between align-items-center">
+        <div class="col-md-5">
+          <div class="slider-title">
+            <h2 class="text-white text-rotater mb-3" data-separator="," data-rotate="fadeIn" data-speed="3500">Service mesh observability.</h2>
+            <p>Kiali provides answers to the question: What are the microservices in my Istio service mesh doing ?</p>
+          </div>
+          <a href="/gettingstarted" class="button bg-white text-dark button-light button-rounded button-large color ml-0">Get started <i class="icon-line-arrow-right t600"></i></a>
+        </div>
+        <div class="col-md-5 d-none d-md-block">
+          <img src="/images/features/feature3.png" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-                  <p>A Microservice Architecture breaks up the monolith into many smaller pieces that are composed together.
-                    Patterns to secure the communication between services like fault tolerance (via timeout, retry, circuit breaking, etc.)
-                    have come up as well as distributed tracing to be able to see where calls are going.
-                    A service mesh can now provide these services on a platform level and frees the application writers from those tasks.
-                    Routing decisions are done at the mesh level.
-                    Kiali works with Istio to visualise the service mesh topology, features like circuit breakers or request rates.
-                    Kiali also includes Jaeger Tracing to provide distributed tracing out of the box.</p>
-                    <a href="/gettingstarted" class="button button-3d button-large button-dark">Try it</a>
-                </div>
-
-                <div class="col_half topmargin-sm col_last" style="vertical-align: center">
-                  <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-                    <iframe src="//www.youtube.com/embed/8HZlDGURzLc" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="Kiali Overview"></iframe>
-                  </div>
-                </div>
-
-
+<section id="content">
+  <div class="content-wrap nopadding">
+    <div class="container clearfix">
+      <div class="row justify-content-center slider-box-wrap clearfix">
+        <div class="col-10">
+          <div class="slider-bottom-box">
+            <div class="row align-items-center clearfix">
+              <div class="col-lg-4 mb-3 mb-lg-0">
+                <h2 class="mb-3 h1 t300">Features</h2>
+                <p class="t400 text-muted mb-0">A growing set of features</p>
               </div>
+              <div class="col-lg-4 col-sm-6">
+                <ul class="iconlist m-0">
+                  <li class="pt-3 pt-lg-0"><img src="images/checked.svg" width="20" height="20" alt="" class="mr-2">Service graph representation</li>
+                  <li class="pt-3"><img src="images/checked.svg" width="20" height="20" alt="" class="mr-2">Distributed tracing</li>
+                  <li class="pt-3"><img src="images/checked.svg" width="20" height="20" alt="" class="mr-2">Metrics collection and graphs</li>
+                </ul>
+              </div>
+              <div class="col-lg-4 col-sm-6">
+                <ul class="iconlist m-0">
+                  <li class="pt-3 pt-lg-0"><img src="images/checked.svg" width="20" height="20" alt="" class="mr-2">Configuration validation</li>
+                  <li class="pt-3"><img src="images/checked.svg" width="20" height="20" alt="" class="mr-2">Health computation/display</li>
+                  <li class="pt-3"><img src="images/checked.svg" width="20" height="20" alt="" class="mr-2">Service discovery</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-						</div>
-					</div>
-				</div>
-			</div>
-		</section><!-- #content end -->
+    <div class="content-wrap  top-margin-lg">
+      <div class="section nomargin noborder dark" style="padding: 80px 0;">
+        <div class="container center clearfix">
+          <div class="heading-block">
+            <h2>Project description</h2>
+          </div>
+          <div>
+            <div class="container clearfix">
+              <div class="col_half nobottommargin">
+                <div class="heading-block topmargin-sm nobottommargin">
+                  <h2>{{ .Title }}</h2>
+                  <span>{{ .Params.subTitle }}</span>
+                </div>
+                <p>A Microservice Architecture breaks up the monolith into many smaller pieces that are composed together. Patterns to secure the communication between services like fault tolerance (via timeout, retry, circuit breaking, etc.) have come up
+                  as well as distributed tracing to be able to see where calls are going. A service mesh can now provide these services on a platform level and frees the application writers from those tasks. Routing decisions are done at the mesh level.
+                  Kiali works with Istio to visualise the service mesh topology, features like circuit breakers or request rates. Kiali also includes Jaeger Tracing to provide distributed tracing out of the box.</p>
+                <a href="/gettingstarted" class="button button-3d button-large button-dark">Get started</a>
+              </div>
+              <div class="col_half topmargin-sm col_last" style="vertical-align: center">
+                <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+                  <iframe src="//www.youtube.com/embed/8HZlDGURzLc" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="Kiali Overview"></iframe>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- #content end -->
 
 {{ partial "footer.html" . }}

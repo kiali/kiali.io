@@ -2,7 +2,9 @@
 title: "Contribute"
 date: 2018-06-20T19:04:38+02:00
 draft: false
-menu: "mainright"
+menu:
+  main:
+    weight: 30
 ---
 
 ## Reporting issues and feature requests

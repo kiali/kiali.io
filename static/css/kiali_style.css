@@ -1,0 +1,303 @@
+.slider-element {
+  height: 600px;
+  overflow: visible;
+  background-color: #44aaac
+}
+
+.slider-title h2 {
+  font-size: 2.7rem;
+  letter-spacing: -1px;
+  line-height: 1.25 !important
+}
+
+.slider-title p {
+  opacity: .9;
+  font-size: 1.1rem;
+  line-height: 1.8 !important;
+  font-weight: 300
+}
+
+.slider-bottom-box {
+  display: block;
+  padding: 40px;
+  background: #fff;
+  box-shadow: 0 10px 40px 0 rgba(47, 47, 47, .1);
+  border-radius: 3px
+}
+
+.slider-bottom-box li {
+  font-size: 16px;
+  font-weight: 500
+}
+
+.slider-element {
+  height: 700px
+}
+
+#header-wrap {
+  background-color: #44aaac
+}
+
+.dark #header-wrap:not(.not-dark) #primary-menu>ul>li>a {
+  color: #fff !important
+}
+
+.dark #header-wrap:not(.not-dark) #primary-menu>ul>li>ul>li>a {
+  color: #fff !important
+}
+
+#primary-menu ul li>a {
+  letter-spacing: 0
+}
+
+#content {
+  overflow: visible
+}
+
+.slider-box-wrap {
+  position: relative;
+  top: -50px;
+  margin-bottom: -50px;
+  z-index: 2
+}
+
+.heading-block p {
+  margin-top: 10px;
+  font-size: 17px;
+  font-weight: 300;
+  line-height: 1.7 !important
+}
+
+.cloud-wrap {
+  bottom: 0;
+  left: 0;
+  padding-top: 50px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  overflow: hidden;
+  opacity: .09
+}
+
+@-webkit-keyframes animateCloud {
+  0% {
+    margin-left: -1e3px
+  }
+  100% {
+    margin-left: 100%
+  }
+}
+
+@-moz-keyframes animateCloud {
+  0% {
+    margin-left: -1e3px
+  }
+  100% {
+    margin-left: 100%
+  }
+}
+
+@keyframes animateCloud {
+  0% {
+    margin-left: -1e3px
+  }
+  100% {
+    margin-left: 100%
+  }
+}
+
+.c1 {
+  -webkit-animation: animateCloud 35s linear infinite;
+  -moz-animation: animateCloud 35s linear infinite;
+  animation: animateCloud 35s linear infinite;
+  -webkit-transform: scale(.65);
+  -moz-transform: scale(.65);
+  transform: scale(.65)
+}
+
+.c2 {
+  -webkit-animation: animateCloud 20s linear infinite;
+  -moz-animation: animateCloud 20s linear infinite;
+  animation: animateCloud 20s linear infinite;
+  -webkit-transform: scale(.3);
+  -moz-transform: scale(.3);
+  transform: scale(.3)
+}
+
+.c3 {
+  -webkit-animation: animateCloud 30s linear infinite;
+  -moz-animation: animateCloud 30s linear infinite;
+  animation: animateCloud 30s linear infinite;
+  -webkit-transform: scale(.5);
+  -moz-transform: scale(.5);
+  transform: scale(.5)
+}
+
+.c4 {
+  -webkit-animation: animateCloud 18s linear infinite;
+  -moz-animation: animateCloud 18s linear infinite;
+  animation: animateCloud 18s linear infinite;
+  -webkit-transform: scale(.4);
+  -moz-transform: scale(.4);
+  transform: scale(.4)
+}
+
+.c5 {
+  -webkit-animation: animateCloud 25s linear infinite;
+  -moz-animation: animateCloud 25s linear infinite;
+  animation: animateCloud 25s linear infinite;
+  -webkit-transform: scale(.55);
+  -moz-transform: scale(.55);
+  transform: scale(.55)
+}
+
+.cloud {
+  background: #fff;
+  background: -moz-linear-gradient(top, #FFF 5%, #F1F1F1 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(5%, #FFF), color-stop(100%, #F1F1F1));
+  background: -webkit-linear-gradient(top, #FFF 5%, #F1F1F1 100%);
+  background: -o-linear-gradient(top, #FFF 5%, #F1F1F1 100%);
+  background: -ms-linear-gradient(top, #FFF 5%, #F1F1F1 100%);
+  background: linear-gradient(top, #FFF 5%, #F1F1F1 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FFF', endColorstr='#F1F1F1', GradientType=0);
+  -webkit-border-radius: 100px;
+  -moz-border-radius: 100px;
+  border-radius: 100px;
+  -webkit-box-shadow: 0 8px 5px rgba(0, 0, 0, .1);
+  -moz-box-shadow: 0 8px 5px rgba(0, 0, 0, .1);
+  box-shadow: 0 8px 5px rgba(0, 0, 0, .1);
+  height: 120px;
+  position: relative;
+  width: 350px
+}
+
+.cloud:after, .cloud:before {
+  background: #fff;
+  content: '';
+  position: absolute;
+  z-index: -1
+}
+
+.cloud:after {
+  -webkit-border-radius: 100px;
+  -moz-border-radius: 100px;
+  border-radius: 100px;
+  height: 100px;
+  left: 50px;
+  top: -50px;
+  width: 100px
+}
+
+.cloud:before {
+  -webkit-border-radius: 200px;
+  -moz-border-radius: 200px;
+  border-radius: 200px;
+  width: 180px;
+  height: 180px;
+  right: 50px;
+  top: -90px
+}
+
+.bg-angle:after, .section.bg-angle:before {
+  content: '';
+  height: 100%;
+  overflow: hidden;
+  width: 100%;
+  position: absolute;
+  height: 70px;
+  bottom: -70px;
+  left: 0;
+  transform-origin: 0;
+  -webkit-transform-origin: 0;
+  -webkit-transform: skewY(-1.5deg);
+  -moz-transform: skewY(-1.5deg);
+  -ms-transform: skewY(-1.5deg);
+  -o-transform: skewY(-1.5deg);
+  transform: skewY(-1.5deg);
+  background-color: #44aaac;
+  z-index: 1
+}
+
+.section.bg-angle:before {
+  top: -30px
+}
+
+.section.bg-angle:after, .section.bg-angle:before {
+  background-color: #fff
+}
+
+.slider-bottom-box {
+  padding: 15px
+}
+
+.img-map {
+  opacity: .2
+}
+
+.swagger table {
+  width: 100%;
+  border-spacing: 0;
+  box-sizing: border-box;
+  border: 1px solid #d1d1d1;
+}
+
+.swagger table, th, td {
+  border: 1px solid #d1d1d1;
+}
+
+.swagger table>thead {
+  background-clip: padding-box;
+  background-image: linear-gradient(to bottom, #fafafa 0, #ededed 100%);
+  background-repeat: repeat-x;
+  background-color: #f5f5f5;
+  box-sizing: border-box;
+  border: 1px solid #d1d1d1;
+  border-bottom-width: 1px;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  line-height: 1.66666667;
+  color: #363636;
+}
+
+.swagger table>thead>tr>th {
+  padding: 2px 10px 3px;
+}
+
+.swagger table>tbody>tr>td {
+  padding: 2px 10px 3px;
+}
+
+.swagger table>tbody {
+  box-sizing: border-box;
+  border-collapse: collapse;
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  border: 1px solid #d1d1d1;
+  border-bottom-width: 1px;
+  font-size: 12px;
+  line-height: 1.66666667;
+  color: #363636;
+  border-spacing: 0;
+}
+
+.swagger table>tbody>td.even {
+  background-color: #f5f5f5;
+}
+
+pre {
+  display: block;
+  padding: 9.5px;
+  margin: 0 0 10px;
+  font-size: 11px;
+  line-height: 1.66666667;
+  word-break: break-all;
+  word-wrap: break-word;
+  color: #363636;
+  background-color: #fafafa;
+  border: 1px solid #ccc;
+  border-radius: 1px
+}
+
+code {
+  color: #1ABC9C;
+}

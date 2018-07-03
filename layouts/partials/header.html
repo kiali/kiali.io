@@ -1,39 +1,54 @@
 <!DOCTYPE html>
 <html dir="ltr" lang="en-US">
-<head>
 
+<head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="author" content="SemiColonWeb" />
 
-	<!-- Stylesheets
-	============================================= -->
-	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700|Raleway:300,400,500,600,700|Crete+Round:400i" rel="stylesheet" type="text/css" />
+	<link href="http://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Istok+Web:400,700" rel="stylesheet" type="text/css" />
 	<link rel="stylesheet" href="/css/bootstrap.css" type="text/css" />
 	<link rel="stylesheet" href="/style.css" type="text/css" />
 	<link rel="stylesheet" href="/css/dark.css" type="text/css" />
 	<link rel="stylesheet" href="/css/font-icons.css" type="text/css" />
 	<link rel="stylesheet" href="/css/animate.css" type="text/css" />
 	<link rel="stylesheet" href="/css/magnific-popup.css" type="text/css" />
-
+	<link rel="stylesheet" href="/css/components/ion.rangeslider.css" type="text/css" />
 	<link rel="stylesheet" href="/css/responsive.css" type="text/css" />
-	<link rel="stylesheet" href="/css/styles.css" type="text/css" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-	<!-- Document Title
-	============================================= -->
+	<link rel="stylesheet" href="/css/kiali_style.css" type="text/css" />
+
+	<meta name='viewport' content='initial-scale=1, viewport-fit=cover'>
+
+	<link rel="stylesheet" href="/css/colors.php?color=44aaac" type="text/css" />
+
+
 	<title>{{ .Site.Title }}</title>
-
 </head>
 
 <body class="stretched no-transition">
 
-	<!-- Document Wrapper
-	============================================= -->
 	<div id="wrapper" class="clearfix">
 
+		<!--div id="top-bar" class="center dark" style="background-color: #15888a">
+<p class="mb-0 text-white" style="font-size: 14px;">Holisticly cultivate multifunctional quality vectors after Mobile SDK.<a href="#" class="ml-2 font-primary t700 text-white"><u>Learn More</u> &#8250;</a></p>
+</div-->
+
+
+		<div id="top-bar">
+			<div class="container clearfix">
+				<div id="top-social">
+					<ul>
+						<li><a href="https://twitter.com/kialiproject" class="si-twitter"><span class="ts-icon"><i class="icon-twitter"></i></span><span class="ts-text">Twitter</span></a></li>
+						<li><a href="https://medium.com/kialiproject" class="si-rss"><span class="ts-icon"><i class="icon-rss"></i></span><span class="ts-text">Medium</span></a></li>
+						<li><a href="https://github.com/kiali" class="si-github"><span class="ts-icon"><i class="icon-github-circled"></i></span><span class="ts-text">Github</span></a></li>
+						<li><a href="https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w" class="si-youtube"><span class="ts-icon"><i class="icon-youtube"></i></span><span class="ts-text">YouTube</span></a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
 		<!-- Header
-		============================================= -->
-		<header id="header" class="split-menu">
+============================================= -->
+		<header id="header" class="full-header transparent-header dark" data-sticky-class="not-dark">
 
 			<div id="header-wrap">
 
@@ -42,42 +57,43 @@
 					<div id="primary-menu-trigger"><i class="icon-reorder"></i></div>
 
 					<!-- Logo
-					============================================= -->
+			============================================= -->
 					<div id="logo">
-						<a href="index.html" class="standard-logo" data-dark-logo="/images/logo-dark.svg"><img src="/images/logo.svg" alt="Kiali Logo"></a>
+						<a href="/" class="standard-logo" data-dark-logo="/images/logo-dark.svg"><img src="/images/logo.svg" alt="Kiali Logo"></a>
 						<!--a href="index.html" class="retina-logo" data-dark-logo="/images/logo-dark@2x.svg"><img src="/images/logo@2x.svg" alt="Kiali Logo"></a-->
-					</div><!-- #logo end -->
+					</div>
+					<!-- #logo end -->
 
 					<!-- Primary Navigation
-					============================================= -->
+			============================================= -->
 					<nav id="primary-menu" class="with-arrows clearfix">
 						<ul>
-						{{ range .Site.Menus.mainleft }}
-							<li><a href="{{ .URL }}"><div>{{ .Name }}</div></a></li>
-						{{end}}
-						</ul>
-						<ul>
-						{{ range .Site.Menus.mainright }}
-							{{ if .HasChildren }}
-								<li><a href="{{ .URL }}"><div>{{ .Name }}</div></a>
+							{{ range .Site.Menus.main }} {{ if .HasChildren }}
+							<li>
+								<a href="{{ .URL }}">
+									<div>{{ .Name }}</div>
+								</a>
 								<ul class="sub-menu">
-										{{ range .Children }}
-												<li>
-														<a href="{{ .URL }}">{{ .Name }}</a>
-												</li>
-										{{ end }}
+									{{ range .Children }}
+									<li>
+										<a href="{{ .URL }}">{{ .Name }}</a>
+									</li>
+									{{ end }}
 								</ul>
-								</li>
+							</li>
 							{{else}}
-								<li><a href="{{ .URL }}"><div>{{ .Name }}</div></a></li>
-							{{end}}
-						{{end}}
+							<li>
+								<a href="{{ .URL }}">
+									<div>{{ .Name }}</div>
+								</a>
+							</li>
+							{{end}} {{end}}
 						</ul>
-
-					</nav><!-- #primary-menu end -->
-
+					</nav>
+					<!-- #primary-menu end -->
 				</div>
 
 			</div>
 
-		</header><!-- #header end -->
+		</header>
+		<!-- #header end -->
