@@ -42,6 +42,7 @@ It should live reload. If not, you may have to restart the server.
 
 ## Project directory structure
 
+```
 ├── [archetypes]- Directory where you define the content, tags, categories, etc.
 ├── [content] - Directory that contains the content of the site.
 │   ├── [api]
@@ -57,6 +58,7 @@ It should live reload. If not, you may have to restart the server.
 ├── Makefile
 ├── config.toml - Main configuration file, where you define the web site title, URL, language, etc.
 ├── README.md (This file)
+```
 
 ## Add a new feature to be listed
 `hugo new features/my-feature.md`
