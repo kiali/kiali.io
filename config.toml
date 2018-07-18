@@ -3,6 +3,9 @@ languageCode = "en-us"
 title = "Kiali"
 theme = "canvas"
 
+[params]
+    custom_css = ["/css/kiali_style.css"]
+
 [menu]
   [[menu.main]]
   identifier = "swagger"

@@ -301,3 +301,27 @@ pre {
 code {
   color: #1ABC9C;
 }
+
+.section ul>li>ul {
+  padding-left: 15px;
+}
+
+.section ul>li{
+  padding-top: 10px;
+}
+
+.section ul>li>p{
+  all: unset;
+}
+
+.content-wrap ul>li>ul {
+  padding-left: 15px;
+}
+
+.content-wrap ul>li{
+  padding-top: 10px;
+}
+
+.content-wrap ul>li>p{
+  all: unset;
+}

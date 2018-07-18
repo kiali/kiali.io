@@ -15,12 +15,13 @@
 	<link rel="stylesheet" href="/css/components/ion.rangeslider.css" type="text/css" />
 	<link rel="stylesheet" href="/css/responsive.css" type="text/css" />
 
-	<link rel="stylesheet" href="/css/kiali_style.css" type="text/css" />
-
 	<meta name='viewport' content='initial-scale=1, viewport-fit=cover'>
 
 	<link rel="stylesheet" href="/css/colors.php?color=44aaac" type="text/css" />
 
+	{{ range .Site.Params.custom_css -}}
+		<link rel="stylesheet" href="{{ . }}" type="text/css">
+	{{- end }}
 
 	<title>{{ .Site.Title }}</title>
 </head>
