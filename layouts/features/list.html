@@ -24,13 +24,19 @@
 						<div class="col_three_fifth nobottommargin col_last">
 
 							<div class="heading-block topmargin-sm">
-								<h2>{{ .Title }}</h2>
+
+                                <h2>
+                                    {{ if .Params.file }}
+                                        <a href="/features/{{ .Params.file }}">{{ .Title }}</a>
+                                    {{ else }}
+                                        {{ .Title }}
+                                    {{ end }}
+                                </h2>
 								<span>{{ .Params.subTitle }}</span>
 							</div>
-
 							<p>{{ .Content }}</p>
 
-							<!--a href="#" class="button button-3d button-large">Check out</a-->
+                            <!--a href="#" class="button button-3d button-large">Check out</a-->
 
 						</div>
 
@@ -45,7 +51,13 @@
             <div class="col_three_fifth nobottommargin">
 
               <div class="heading-block topmargin-sm nobottommargin">
-                <h2>{{ .Title }}</h2>
+                  <h2>
+                      {{ if .Params.file }}
+                         <a href="/features/{{ .Params.file }}">{{ .Title }}</a>
+                      {{ else }}
+                         {{ .Title }}
+                      {{ end }}
+                  </h2>
                 <span>{{ .Params.subTitle }}</span>
               </div>
 
