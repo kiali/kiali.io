@@ -2,7 +2,7 @@
 title: "Features"
 date: 2018-06-20T19:04:38+02:00
 draft: false
-type: "gettingstarted"
+type: "features"
 menu:
   main:
     weight: 10

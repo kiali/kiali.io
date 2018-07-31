@@ -1,0 +1,9 @@
+---
+title: "Graph: Traffic Animation"
+date: 2018-06-20T19:04:38+02:00
+draft: false
+image: features/graph-traffic-animation.gif
+subTitle: "Animating your traffic flow"
+---
+
+The traffic animation provides a visualization of traffic between your applications as represented as circles flowing between them. The more circles means more **requests**, faster moving circles means a faster **response time**, and red triangles flowing between the applications represents **errors**. 
