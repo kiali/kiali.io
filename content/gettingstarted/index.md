@@ -49,6 +49,13 @@ curl https://raw.githubusercontent.com/kiali/kiali/master/deploy/openshift/kiali
 
 If you do not have `envsubst` installed, you can get it via the Gnu `gettext` package.
 
+If you need the Jaeger or Grafana service you need to set the URL in the configuration
+
+```
+curl https://raw.githubusercontent.com/kiali/kiali/master/deploy/openshift/kiali-configmap.yaml | \
+   VERSION_LABEL=master JAEGER_URL=http://jaeger-query-istio-system.127.0.0.1.nip.io GRAFANA_URL=http://grafana-istio-system.127.0.0.1.nip.io envsubst | oc create -n istio-system -f -
+```
+
 Once the above has completed and the Docker image has been pulled from Dockerhub, go to the OpenShift console, select the istio-system project and determine the base-URL of Kiali
 
 ![OpenShift console](/images/gettingstarted/os-console.png)
@@ -82,6 +89,14 @@ curl https://raw.githubusercontent.com/kiali/kiali/master/deploy/kubernetes/kial
    VERSION_LABEL=master \
    VERBOSE_MODE=4 envsubst | kubectl create -n istio-system -f -
 
+```
+If you do not have `envsubst` installed, you can get it via the Gnu `gettext` package.
+
+If you need the Jaeger or Grafana service you need to set the URL in the configuration
+
+```
+curl https://raw.githubusercontent.com/kiali/kiali/master/deploy/kubernetes/kiali-configmap.yaml | \
+   VERSION_LABEL=master JAEGER_URL=http://jaeger-query-istio-system.127.0.0.1.nip.io GRAFANA_URL=http://grafana-istio-system.127.0.0.1.nip.io envsubst | kubectl create -n istio-system -f -
 ```
 
 Once this is done, Kiali will be deployed and running in Kubernetes. An Ingress will have been set up so you can go directly to the Kiali UI at the URL `http://[minikube-ip]/` where `[minikube-ip]` is what is reported when you run the command: `minikube ip`.
