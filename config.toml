@@ -4,29 +4,67 @@ title = "Kiali"
 theme = "canvas"
 
 [params]
-    custom_css = ["/css/kiali_style.css"]
+    custom_css = [
+      "/css/kiali_style.css",
+      "https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+    ]
 
 [menu]
   [[menu.main]]
-  identifier = "swagger"
-  name = "API"
-  url = "/api/overview"
-  weight = 40
+      identifier = "swagger"
+      name = "API"
+      url = "/api/overview"
+      weight = 40
   [[menu.main]]
-  identifier = "overview"
-  name = "Overview"
-  url = "/api/overview"
-  weight = 1
-  parent="swagger"
+      identifier = "overview"
+      name = "Overview"
+      url = "/api/overview"
+      weight = 1
+      parent="swagger"
   [[menu.main]]
-  identifier = "paths"
-  name = "Paths"
-  url = "/api/paths"
-  weight = 2
-  parent="swagger"
+      identifier = "paths"
+      name = "Paths"
+      url = "/api/paths"
+      weight = 2
+      parent="swagger"
   [[menu.main]]
-  identifier = "definitions"
-  name = "Definitions"
-  url = "/api/definitions"
-  weight = 3
-  parent="swagger"
+      identifier = "definitions"
+      name = "Definitions"
+      url = "/api/definitions"
+      weight = 3
+      parent="swagger"
+  [[menu.main]]
+      identifier = "documentation"
+      name = "Documentation"
+      url = "/documentation"
+      weight =  30
+  [[menu.main]]
+      identifier = "doc_overview"
+      name = "Overview"
+      url = "/documentation/overview"
+      weight = 1
+      parent="documentation"
+ #  [[menu.main]]
+ #      identifier = "prerequisites"
+ #      name = "Prerequisites"
+ #      url = "/documentation/prerequisites"
+ #      weight = 2
+ #      parent="documentation"
+ #  [[menu.main]]
+ #      identifier = "terminology"
+ #      name = "Terminology"
+ #      url = "/documentation/terminology"
+ #      weight = 3
+ #      parent="documentation"
+ #  [[menu.main]]
+ #      identifier = "known_issues"
+ #      name = "Known issues"
+ #      url = "/documentation/known_issues"
+ #      weight = 4
+ #      parent="documentation"
+ #  [[menu.main]]
+ #      identifier = "architecture"
+ #      name = "Architecture"
+ #      url = "/documentation/architecture"
+ #      weight = 5
+ #      parent="documentation"
