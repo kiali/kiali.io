@@ -1,0 +1,29 @@
+{{ partial "header.html" . }}
+
+<!-- Page Title
+============================================= -->
+<section id="page-title">
+
+  <div class="container clearfix">
+    <h1>Documentation</h1>
+    <span>Kiali project</span>
+  </div>
+
+</section><!-- #page-title end -->
+
+<div class="section notopborder nomargin">
+    <div class="container clearfix">
+        <h2>Index</h2>
+        <ol>
+            {{ range $index, $element := .Data.Pages }}
+                 <h2>
+                     <li>
+                         <a href="/documentation/{{ lower .Name   }}">{{ .Name }}</a>
+                     </li>
+                 </h2>
+            {{ end }}
+        </ol>
+    </div>
+</div>
+
+{{ partial "footer.html" . }}

@@ -122,8 +122,3 @@ To achieve the best results you should have an example application like 'bookinf
 ### Detail view of a single service
 
 ![Service view](/images/gettingstarted/kiali-service.png)
-
-
-### Distributed tracing view
-
-![Jaeger view](/images/gettingstarted/kiali-jaeger.png)

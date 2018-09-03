@@ -12,6 +12,16 @@ On Mac: `brew install hugo`
 
 Or see the Hugo installation instructions here: https://gohugo.io/getting-started/installing/
 
+## Install AsciiDoctor
+
+On Fedora: `sudo dnf install asciidoctor`
+
+On Mac: ` brew install asciidoctor`
+
+With Ruby: `bundle install`
+
+Or see the asciidoctor installation instructions here: https://asciidoctor.org/docs
+
 ## Start local server
 
 Hugo has a live `serve` command that runs a small, lightweight web server on your computer so you can test your site locally without needing to upload it anywhere.  As you make changes to files in your project, it will rebuild your project and reload the browser for you.

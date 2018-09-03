@@ -325,3 +325,7 @@ code {
 .content-wrap ul>li>p{
   all: unset;
 }
+
+.toc > ul  {
+  list-style: none;
+}

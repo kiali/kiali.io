@@ -3,6 +3,7 @@ branches:
 language: go
 install:
 - go get -v github.com/spf13/hugo
+- bundle install
 - pip install --user awscli
 script:
 - hugo version
