@@ -48,20 +48,38 @@ theme = "canvas"
       identifier = "doc_prerequisites"
       name = "Prerequisites"
       url = "/documentation/prerequisites"
-      weight = 1
+      weight = 2
       parent="documentation"
- #  [[menu.main]]
- #      identifier = "terminology"
- #      name = "Terminology"
- #      url = "/documentation/terminology"
- #      weight = 3
- #      parent="documentation"
   [[menu.main]]
       identifier = "known_issues"
       name = "Known issues"
       url = "/documentation/known_issues"
+      weight = 3
+      parent="documentation"
+  [[menu.main]]
+      identifier = "doc_glossary"
+      name = "Glossary"
+      url = "/documentation/glossary"
       weight = 4
       parent="documentation"
+      [[menu.main]]
+         identifier = "concepts"
+         name = "Concepts"
+         url = "/documentation/glossary/concepts"
+         weight = 1
+         parent="doc_glossary"
+      [[menu.main]]
+         identifier = "observability"
+         name = "Observability"
+         url = "/documentation/glossary/observability"
+         weight = 2
+         parent="doc_glossary"
+      [[menu.main]]
+         identifier = "networking"
+         name = "Networking"
+         url = "/documentation/glossary/networking"
+         weight = 3
+         parent="doc_glossary"
  #  [[menu.main]]
  #      identifier = "architecture"
  #      name = "Architecture"

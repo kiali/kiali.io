@@ -5,8 +5,9 @@
 <section id="page-title">
 
   <div class="container clearfix">
-    <h1>{{ .Name }}</h1>
+    <h1>Glossary</h1>
     <span>Kiali project</span>
+    <a href="/documentation">Go back to index</a>
   </div>
 
 </section><!-- #page-title end -->
@@ -15,18 +16,13 @@
     <div class="container clearfix">
         <h2>Index</h2>
         <ol>
-            {{ range $index, $element := .Data.Pages.ByWeight }}
+            {{ range $index, $element := .Data.Pages }}
                  <h2>
                      <li>
-                         <a href="/documentation/{{ lower .Name   }}">{{ .Name }}</a>
+                         <a href="/documentation/glossary/{{ lower .Name   }}">{{ .Name }}</a>
                      </li>
                  </h2>
             {{ end }}
-            <h2>
-                <li>
-                    <a href="/documentation/glossary">Glossary</a>
-                </li>
-            </h2>
         </ol>
     </div>
 </div>
