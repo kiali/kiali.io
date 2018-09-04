@@ -80,9 +80,9 @@ theme = "canvas"
          url = "/documentation/glossary/networking"
          weight = 3
          parent="doc_glossary"
- #  [[menu.main]]
- #      identifier = "architecture"
- #      name = "Architecture"
- #      url = "/documentation/architecture"
- #      weight = 5
- #      parent="documentation"
+  [[menu.main]]
+      identifier = "architecture"
+      name = "Architecture"
+      url = "/documentation/architecture"
+      weight = 5
+      parent="documentation"
