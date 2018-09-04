@@ -1,0 +1,28 @@
+---
+title: "Known Issues"
+date: 2018-09-04T15:55:00+02:00
+draft: false
+type: "documentation"
+---
+
+= Known Issues
+:sectnums:
+:toc: left
+toc::[]
+:keywords: Kiali Documentation Known Issues
+:icons: font
+:imagesdir: /images/documentation/known_issues/
+
+This section describes some known issues in Kiali that may not be fixed in the very short term, and lead to limitations in a restricted number of corner cases. Hopefully, you wouldn't even notice them.
+
+If you are hitting a limitation, regardless if it's listed here or not, do not hesitate to use the https://github.com/kiali/kiali/issues[GitHub issue tracker]. You can simply _vote_ (using emojis) for any existing bug or feature request, this will help us to understand the most demanded enhancements, or you can create a new ticket. For existing JIRA tickets, use the _vote_ link or add a comment describing your expectation or scenario.
+
+The whole list of JIRA tickets can be found https://issues.jboss.org/projects/KIALI/issues/[here].
+
+icon:lightbulb[size=2x] {nbsp}{nbsp}{nbsp}{nbsp} In general, we use the GitHub tracker for issues raised by the community, and JIRA for issues raised by the core engineering team. Both are publicly accessible.
+
+== Non Deployment-based workloads
+
+In Istio, a _Workload_ can be any pod or group of pods, regardless where they originate from. They may come from Kubernetes Deployments, Replica Sets or even as a single "orphan" pod. In Kiali, we essentially assume, currently, that a Workload comes from a Deployment. They should represent the vast majority of the cases.
+
+icon:info[size=2x] {nbsp}{nbsp}{nbsp}{nbsp} JIRA link: https://issues.jboss.org/browse/KIALI-1284[KIALI-1284]
