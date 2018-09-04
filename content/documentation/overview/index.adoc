@@ -27,8 +27,7 @@ A Microservice Architecture breaks up the monolith into many smaller pieces that
 
 A service mesh can now provide these services on a platform level and frees the application writers from those tasks. Routing decisions are done at the mesh level.
 
-
-icon:lightbulb[size=2x] {nbsp}{nbsp}{nbsp}{nbsp} Kiali works with Istio, in OpenShift or Kubernetes, to visualize the service mesh topology, features like circuit breakers or request rates.
+Kiali works with Istio, in OpenShift or Kubernetes, to visualize the service mesh topology, to provide visibility into features like circuit breakers, request rates and more. It offers insights about the mesh components at different levels, from abstract Applications to Services and Workloads.
 
 icon:lightbulb[size=2x] {nbsp}{nbsp}{nbsp}{nbsp} Kiali also includes Jaeger Tracing to provide distributed tracing out of the box.
 
@@ -46,19 +45,20 @@ image::graph-view.png[Demo Website]
 
 === Applications
 
-The Applications menu shows all the apps running in our environment.
+The Applications menu entry shows all the applications running in our environment.
 
 [#img-kiali-app-list]
 .List of Applications
 image::app-list.png[Demo Website]
 {nbsp} +
 Kiali provides detailed information related to the application, such as its health or the list of its workloads.
+The health summary comes with detailed information of multiple indicators in a tooltip.
 {nbsp} +
 [#img-kiali-app-view]
 .Application Info
 image::app-view-info.png[Demo Website]
 {nbsp} +
-We can also see the metrics associated with an application provided by Istio.
+Kiali also displays Istio metrics associated with an application.
 {nbsp} +
 [#img-kiali-metrics]
 .Application Metrics
@@ -67,7 +67,7 @@ image::app-metrics.png[Demo Website]
 
 === Workloads
 
-The Workloads menu shows the list of workloads with their health, error rate and labels validations.
+The Workloads menu entry shows the list of workloads with their health, error rate and labels validations.
 {nbsp} +
 [#img-kiali-workload-list]
 .List of Workloads
@@ -82,9 +82,9 @@ image::workload-view-pods.png[Demo Website]
 
 === Services
 
-The Services menu shows the list of services, with the health icon to check indicators such as the error rate.
+The Services menu entry shows the list of services with their health and error rate.
 
-When selecting a single service, the details page includes service labels, type, ip, ports, endpoints, workloads, destination rules, virtual services...
+When selecting a single service, its details page includes service ip, ports, endpoints, workloads, destination rules, virtual services and more details.
 
 Inbound/outbound metrics are displayed for this service and a more detailed view is available in its Grafana dashboard.
 
@@ -95,19 +95,19 @@ image::service-view.png[Demo Website]
 
 === Istio Config
 
-In the Istio Config menu we have a list with all the Istio objects that we have in our environment.
+Istio Config menu entry displays a list of all available Istio configuration objects that exist in user's environment.
 
 [#img-kiali-istio-list]
 .List of Istio Configs
 image::istio-list.png[Demo Website]
 {nbsp} +
-We can inspect the configuration yaml about a specific Istio item
+Inspecting the configuration yaml about a specific Istio object:
 {nbsp} +
 [#img-kiali-istio-valid]
 .Valid Configuration of Istio Config
 image::istio-yaml.png[Demo Website]
 {nbsp} +
-Kiali show us the errors in configurations.
+Showing the configuration errors:
 {nbsp} +
 [#img-kiali-istio-invalid]
 .Invalid Configuration of Istio Config
@@ -116,7 +116,7 @@ image::istio-yaml-validation.png[Demo Website]
 
 === Distributed Tracing
 
-The Distributed Tracing menu will open the whole https://www.jaegertracing.io/[Jaeger] UI in a new tab for tracing services.
+Clicking on Distributed Tracing menu item will open a new tab with the https://www.jaegertracing.io/[Jaeger] UI for tracing services.
 
 
 == Useful resources
