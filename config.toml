@@ -51,12 +51,6 @@ theme = "canvas"
       weight = 1
       parent="documentation"
  #  [[menu.main]]
- #      identifier = "prerequisites"
- #      name = "Prerequisites"
- #      url = "/documentation/prerequisites"
- #      weight = 2
- #      parent="documentation"
- #  [[menu.main]]
  #      identifier = "terminology"
  #      name = "Terminology"
  #      url = "/documentation/terminology"
