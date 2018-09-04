@@ -4,3 +4,6 @@ Gemfile.lock
 
 # IntelliJ
 .idea/
+
+# Autogenerate by build
+content/api
