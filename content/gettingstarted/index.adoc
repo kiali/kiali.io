@@ -19,6 +19,8 @@ toc::[]
 
 == Getting started on OpenShift
 
+Kiali currently requires Istio version 1.0 (see below if you have not yet installed Istio).
+
 Kiali is still in development. Snapshots releases are pushed on Dockerhub from the CI pipeline.
 
 To deploy Kiali to your Istio-enabled OpenShift cluster you can run the following. Kiali currently requires Istio version 1.0.0 (see below if you have not yet installed Istio).
@@ -39,33 +41,31 @@ You can now install Istio if needed. See https://istio.io/docs/setup/ for detail
 
 === Install Kiali
 
-Then install Kiali:
-
-[source,bash]
-----
-curl https://raw.githubusercontent.com/kiali/kiali/master/deploy/openshift/kiali-configmap.yaml | \
-   VERSION_LABEL=master envsubst | oc create -n istio-system -f -
-
-curl https://raw.githubusercontent.com/kiali/kiali/master/deploy/openshift/kiali-secrets.yaml | \
-   VERSION_LABEL=master envsubst | oc create -n istio-system -f -
-
-curl https://raw.githubusercontent.com/kiali/kiali/master/deploy/openshift/kiali.yaml | \
-   IMAGE_NAME=kiali/kiali \
-   IMAGE_VERSION=latest \
-   NAMESPACE=istio-system \
-   VERSION_LABEL=master \
-   VERBOSE_MODE=4 envsubst | oc create -n istio-system -f -
-
-----
-
-If you do not have `envsubst` installed, you can get it via the Gnu `gettext` package.
-
-If you need the Jaeger or Grafana service you need to set the URL in the configuration
+Then install Kiali (note: this assumes you are installing v0.6 - set your VERSION_LABEL to the appropriate version you want to install):
 
 ```
-curl https://raw.githubusercontent.com/kiali/kiali/master/deploy/openshift/kiali-configmap.yaml | \
-   VERSION_LABEL=master JAEGER_URL=http://jaeger-query-istio-system.127.0.0.1.nip.io GRAFANA_URL=http://grafana-istio-system.127.0.0.1.nip.io envsubst | oc create -n istio-system -f -
+JAEGER_URL="http://jaeger-query-istio-system.127.0.0.1.nip.io"
+GRAFANA_URL="http://grafana-istio-system.127.0.0.1.nip.io"
+VERSION_LABEL="v0.6"
+
+curl https://raw.githubusercontent.com/kiali/kiali/${VERSION_LABEL}/deploy/openshift/kiali-configmap.yaml | \
+  VERSION_LABEL=${VERSION_LABEL} \
+  JAEGER_URL=${JAEGER_URL}  \
+  GRAFANA_URL=${GRAFANA_URL} envsubst | oc create -n istio-system -f -
+
+curl https://raw.githubusercontent.com/kiali/kiali/${VERSION_LABEL}/deploy/openshift/kiali-secrets.yaml | \
+  VERSION_LABEL=${VERSION_LABEL} envsubst | oc create -n istio-system -f -
+
+curl https://raw.githubusercontent.com/kiali/kiali/${VERSION_LABEL}/deploy/openshift/kiali.yaml | \
+  VERSION_LABEL=${VERSION_LABEL}  \
+  IMAGE_NAME=kiali/kiali \
+  IMAGE_VERSION=${VERSION_LABEL}  \
+  NAMESPACE=istio-system  \
+  VERBOSE_MODE=4  \
+  IMAGE_PULL_POLICY_TOKEN="imagePullPolicy: Always" envsubst | oc create -n istio-system -f -
 ```
+
+If you do not have `envsubst` installed, you can get it via the GNU `gettext` package.
 
 Once the above has completed and the Docker image has been pulled from Dockerhub, go to the OpenShift console, select the istio-system project and determine the base-URL of Kiali
 
@@ -84,33 +84,35 @@ oc get route -n istio-system -l app=kiali
 
 == Getting started on Kubernetes
 
-To deploy Kiali to your Istio-enabled Kubernetes cluster you can run the following. Kiali currently requires Istio version 0.8.0 (see below if you have not yet installed Istio).
+Kiali currently requires Istio version 1.0 (see below if you have not yet installed Istio).
+
+To deploy Kiali to your Istio-enabled Kubernetes cluster you can run the following (note: this assumes you are installing v0.6 - set your VERSION_LABEL to the appropriate version you want to install):
 
 icon:bullhorn[size=2x] {nbsp}{nbsp}{nbsp}{nbsp} If you wish to install in Minikube, ensure that you enable the Ingress add-on by executing `minikube addons enable ingress`.
 
 ```
-curl https://raw.githubusercontent.com/kiali/kiali/master/deploy/kubernetes/kiali-configmap.yaml | \
-   VERSION_LABEL=master envsubst | kubectl create -n istio-system -f -
+JAEGER_URL="http://jaeger-query-istio-system.127.0.0.1.nip.io"
+GRAFANA_URL="http://grafana-istio-system.127.0.0.1.nip.io"
+VERSION_LABEL="v0.6"
 
-curl https://raw.githubusercontent.com/kiali/kiali/master/deploy/kubernetes/kiali-secrets.yaml | \
-   VERSION_LABEL=master envsubst | kubectl create -n istio-system -f -
+curl https://raw.githubusercontent.com/kiali/kiali/${VERSION_LABEL}/deploy/kubernetes/kiali-configmap.yaml | \
+  VERSION_LABEL=${VERSION_LABEL} \
+  JAEGER_URL=${JAEGER_URL}  \
+  GRAFANA_URL=${GRAFANA_URL} envsubst | kubectl create -n istio-system -f -
 
-curl https://raw.githubusercontent.com/kiali/kiali/master/deploy/kubernetes/kiali.yaml | \
-   IMAGE_NAME=kiali/kiali \
-   IMAGE_VERSION=latest \
-   NAMESPACE=istio-system \
-   VERSION_LABEL=master \
-   VERBOSE_MODE=4 envsubst | kubectl create -n istio-system -f -
+curl https://raw.githubusercontent.com/kiali/kiali/${VERSION_LABEL}/deploy/kubernetes/kiali-secrets.yaml | \
+  VERSION_LABEL=${VERSION_LABEL} envsubst | kubectl create -n istio-system -f -
 
+curl https://raw.githubusercontent.com/kiali/kiali/${VERSION_LABEL}/deploy/kubernetes/kiali.yaml | \
+  VERSION_LABEL=${VERSION_LABEL}  \
+  IMAGE_NAME=kiali/kiali \
+  IMAGE_VERSION=${VERSION_LABEL}  \
+  NAMESPACE=istio-system  \
+  VERBOSE_MODE=4  \
+  IMAGE_PULL_POLICY_TOKEN="imagePullPolicy: Always" envsubst | kubectl create -n istio-system -f -
 ```
-If you do not have `envsubst` installed, you can get it via the Gnu `gettext` package.
 
-If you need the Jaeger or Grafana service you need to set the URL in the configuration
-
-```
-curl https://raw.githubusercontent.com/kiali/kiali/master/deploy/kubernetes/kiali-configmap.yaml | \
-   VERSION_LABEL=master JAEGER_URL=http://jaeger-query-istio-system.127.0.0.1.nip.io GRAFANA_URL=http://grafana-istio-system.127.0.0.1.nip.io envsubst | kubectl create -n istio-system -f -
-```
+If you do not have `envsubst` installed, you can get it via the GNU `gettext` package.
 
 Once this is done, Kiali will be deployed and running in Kubernetes. An Ingress will have been set up so you can go directly to the Kiali UI at the URL `http://[minikube-ip]/` where `[minikube-ip]` is what is reported when you run the command: `minikube ip`.
 
