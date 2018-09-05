@@ -1,0 +1,24 @@
+---
+title: "Contribute"
+date: 2018-06-20T19:04:38+02:00
+draft: false
+menu:
+  main:
+    weight: 30
+---
+
+== Reporting issues and feature requests
+
+The Kiali team uses link:http://issues.jboss.org/browse/KIALI[JIRA at JBoss.org] as its preferred tracker. Please use it to report issues and create new feature requests (select issue type 'Bug' for bugs and 'Story' for enhancement requests).
+
+Alternatively you can also use the link:https://github.com/kiali/kiali/issues[GitHub tracker] for this purpose.
+
+== More...
+
+link:https://groups.google.com/forum/#!forum/kiali-users[Kiali-Users] Google Group about using Kiali
+
+link:https://groups.google.com/forum/#!forum/kiali-dev[Kiali-Dev] Google Group about developing Kiali
+
+link:https://github.com/kiali[Kiali Sources on GitHub] and link:https://github.com/kiali/kiali/blob/master/README.adoc[detailed instructions for building and deploying Kiali] (includes notes for running on plain Kubernetes)
+
+link:irc://irc.freenode.net/#kiali[Kiali on Irc]

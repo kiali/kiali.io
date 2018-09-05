@@ -329,3 +329,7 @@ code {
 .toc > ul  {
   list-style: none;
 }
+
+.toc > ul > li > ul {
+  list-style: none;
+}
