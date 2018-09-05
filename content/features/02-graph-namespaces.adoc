@@ -4,7 +4,7 @@ date: 2018-06-20T19:04:38+02:00
 draft: false
 image: features/graph-namespaces.gif
 subTitle: "Separate your mesh by namespace or see it all"
-indice: "02"
+weight: "02"
 ---
 The graph can provide a more focused view by only showing the graph for a **single namespace**. Connections which go outside of your namespace are displayed as pentagons and **double clicking** on them will take you to that other namespace.
 
