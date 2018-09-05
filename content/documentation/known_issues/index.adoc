@@ -26,3 +26,9 @@ icon:lightbulb[size=2x] {nbsp}{nbsp}{nbsp}{nbsp} In general, we use the GitHub t
 In Istio, a _Workload_ can be any pod or group of pods, regardless where they originate from. They may come from Kubernetes Deployments, Replica Sets or even as a single "orphan" pod. In Kiali, we essentially assume, currently, that a Workload comes from a Deployment. They should represent the vast majority of the cases.
 
 icon:info[size=2x] {nbsp}{nbsp}{nbsp}{nbsp} JIRA link: https://issues.jboss.org/browse/KIALI-1284[KIALI-1284]
+
+== Graph layout sometimes doesn't render nicely
+
+The layout for Kiali Graph may render differently, depending on the data to display (number of graph nodes and their interactions) and it's sometimes difficult, not to say impossible, to have a single layout that renders nicely in every situations. That's why Kiali offers a choice of several layout algorithms. However, we may still find some scenarios where none of the proposed algorithm offer a satisfying display.
+
+If you search in the https://groups.google.com/forum/#!msg/kiali-dev/[mailing list], you will find a number of discussions about the graph layouts.
