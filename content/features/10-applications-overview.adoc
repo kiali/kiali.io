@@ -4,7 +4,7 @@ date: 2018-06-20T19:04:38+02:00
 draft: false
 image: features/applications_workloads_services_overview.gif
 subTitle: "Browse your service mesh by applications, workloads and services"
-weight: "10"
+weight: 10
 ---
 
 The applications, workloads and services views allow to navigate and search your service mesh focus on the *health* of each element.
