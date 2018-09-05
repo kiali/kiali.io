@@ -1,0 +1,19 @@
+---
+title: "Istio Configuration"
+date: 2018-06-20T19:04:38+02:00
+draft: false
+subTitle: "Browse and validate Istio configuration"
+image: features/istio_configuration.gif
+weight: "40"
+---
+
+The Istio configuration view provides advanced filtering on navigation through Istio objects.
+
+Kiali provides inline config validation for networking objects (VirtualServices and DestinationRules).
+
+  
+
+
+
+
+
