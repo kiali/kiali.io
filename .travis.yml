@@ -2,7 +2,7 @@ branches:
   only: master
 language: go
 install:
-- go get -v github.com/spf13/hugo
+- wget https://github.com/gohugoio/hugo/releases/download/v0.48/hugo_0.48_Linux-64bit.deb -O /tmp/hugo.deb && sudo dpkg -i /tmp/hugo.deb
 - bundle install
 - pip install --user awscli
 script:
