@@ -56,12 +56,12 @@ theme = "canvas"
  #      url = "/documentation/terminology"
  #      weight = 3
  #      parent="documentation"
- #  [[menu.main]]
- #      identifier = "known_issues"
- #      name = "Known issues"
- #      url = "/documentation/known_issues"
- #      weight = 4
- #      parent="documentation"
+  [[menu.main]]
+      identifier = "known_issues"
+      name = "Known issues"
+      url = "/documentation/known_issues"
+      weight = 4
+      parent="documentation"
  #  [[menu.main]]
  #      identifier = "architecture"
  #      name = "Architecture"
