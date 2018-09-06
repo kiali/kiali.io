@@ -7,27 +7,41 @@ This repository contains the source code for https://kiali.io website.
 
 The website is written in link:https://asciidoctor.org/docs/asciidoc-syntax-quick-reference/[AsciiDoc], generated using [Hugo](https://gohugo.io/), and hosted on GitHub.
 
+== Requirements
 
-== Install Hugo
+- You need Go & Bundler (Ruby)
 
-On Fedora: `sudo dnf install hugo`
+== Building
 
-On Mac: `brew install hugo`
+- Clone this repository inside a GOPATH.  These instructions will use the example GOPATH of "/source/kiali/kiali" but you can use whatever you want. Just change the first line of the below instructions to use your GOPATH.
 
-Or see the Hugo installation instructions here: https://gohugo.io/getting-started/installing/
+[source, bash]
+----
+export GOPATH=/source/kiali/kiali
+mkdir -p $GOPATH
+cd $GOPATH
+mkdir -p src/github.com/kiali/kiali.io
+git clone git@github.com:kiali/kiali.io
+export PATH=${PATH}:${GOPATH}/bin
+----
 
-== Install AsciiDoctor
+- Install Requirements
 
-You need to install the ruby gem AsciiDoctor to render the files in hugo: `bundle install`
-
+[source, bash]
+----
+make install
+----
 
 ==  Start local server
 
 Hugo has a live `serve` command that runs a small, lightweight web server on your computer so you can test your site locally without needing to upload it anywhere.  As you make changes to files in your project, it will rebuild your project and reload the browser for you.
 
-```
-$ hugo serve  
+[source,bash]
+----
+make serve
+----
 
+```
                    | EN
 +------------------+-----+
   Pages            |  12
