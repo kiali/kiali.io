@@ -56,8 +56,8 @@ It's an object that manages external access to the services in a cluster, typica
 
 == Source
 
-For more information see the <<Source>> definition in link:https://istio.io/help/glossary/#source[Istio Glossary].
+For more information see the <<Source>> definition in the link:https://istio.io/help/glossary/#source[Istio Glossary].
 
 == Subset
 
-For more information see the <<Subset>> definition in link:https://istio.io/docs/reference/config/istio.networking.v1alpha3/#Subset[Istio Subset Documentation].
+For more information see the <<Subset>> definition in the link:https://istio.io/docs/reference/config/istio.networking.v1alpha3/#Subset[Istio Subset Documentation].
