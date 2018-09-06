@@ -86,7 +86,7 @@ The Services menu entry shows the list of services with their health and error r
 
 When selecting a single service, its details page includes service ip, ports, endpoints, workloads, destination rules, virtual services and more details.
 
-Inbound/outbound metrics are displayed for this service and a more detailed view is available in its Grafana dashboard.
+Inbound/outbound metrics are displayed for this service and a more detailed view is available in a linked Grafana dashboard.
 
 [#img-kiali-service-view]
 .Service Info
@@ -95,19 +95,19 @@ image::service-view.png[Demo Website]
 
 === Istio Config
 
-Istio Config menu entry displays a list of all available Istio configuration objects that exist in user's environment.
+The Istio Config menu entry displays a list of all of the available Istio configuration objects that exist in the user's environment.
 
 [#img-kiali-istio-list]
 .List of Istio Configs
 image::istio-list.png[Demo Website]
 {nbsp} +
-Inspecting the configuration yaml about a specific Istio object:
+You can inspect the configuration yaml around a specific Istio object.
 {nbsp} +
 [#img-kiali-istio-valid]
 .Valid Configuration of Istio Config
 image::istio-yaml.png[Demo Website]
 {nbsp} +
-Showing the configuration errors:
+Kiali will highlight configuration errors.
 {nbsp} +
 [#img-kiali-istio-invalid]
 .Invalid Configuration of Istio Config
