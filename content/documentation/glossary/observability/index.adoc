@@ -12,6 +12,7 @@ toc::[]
 :toc-title: Observability Glossary Content
 :keywords: Kiali Documentation Glossary
 :icons: font
+:imagesdir: /images/documentation/glossary/observability/
 
 == Citadel
 
@@ -37,4 +38,4 @@ For more information see the <<Pilot>> definition in link:https://istio.io/docs/
 
 [#img-homepage]
 .Kiali Graph
-image::/images/documentation/glossary/observability/arch.svg[Demo Website].
+image::arch.svg[Demo Website]
