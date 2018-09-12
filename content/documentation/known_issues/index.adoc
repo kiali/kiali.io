@@ -12,6 +12,7 @@ toc::[]
 :keywords: Kiali Documentation Known Issues
 :icons: font
 :imagesdir: /images/documentation/known_issues/
+:xrefstyle: short
 
 This section describes some known issues in Kiali that may not be fixed in the very short term, and lead to limitations in a restricted number of corner cases. Hopefully, you wouldn't even notice them.
 
@@ -27,8 +28,10 @@ In Istio, a _Workload_ can be any pod or group of pods, regardless where they or
 
 icon:info[size=2x] {nbsp}{nbsp}{nbsp}{nbsp} JIRA link: https://issues.jboss.org/browse/KIALI-1284[KIALI-1284]
 
-== Graph layout sometimes doesn't render nicely
-
-The layout for Kiali Graph may render differently, depending on the data to display (number of graph nodes and their interactions) and it's sometimes difficult, not to say impossible, to have a single layout that renders nicely in every situations. That's why Kiali offers a choice of several layout algorithms. However, we may still find some scenarios where none of the proposed algorithm offer a satisfying display.
+== Graph badly laid out
 
 If you search in the https://groups.google.com/forum/#!msg/kiali-dev/[mailing list], you will find a number of discussions about the graph layouts.
+
+The layout for Kiali Graph may render differently, depending on the data to display (number of graph nodes and their interactions) and it's sometimes difficult, not to say impossible, to have a single layout that renders nicely in every situations. That's why Kiali offers a choice of several layout algorithms. However, we may still find some scenarios where none of the proposed algorithm offer a satisfying display. If Kiali doesn't not render your graph layout in a satisfactory manner please switch to another layout option. This can be done from the _Graph Settings_ dropdown by changing the _Layout Schema_.
+
+icon:info[size=2x] {nbsp}{nbsp}{nbsp}{nbsp} If Kiali doesn't produce a good graph for you, don't hesitate to https://github.com/kiali/kiali/issues/new?template=bug_report.md[open an issue in GitHub] or reach us in the https://groups.google.com/forum/#!forum/kiali-users[mailing lists], and describe your situation.
