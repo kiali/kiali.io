@@ -1,5 +1,5 @@
 ---
-title: "Known_Issues"
+title: "Known Issues"
 date: 2018-09-04T15:55:00+02:00
 draft: false
 type: "documentation"
@@ -21,6 +21,12 @@ If you are hitting a limitation, regardless if it's listed here or not, do not h
 The whole list of JIRA tickets can be found https://issues.jboss.org/projects/KIALI/issues/[here].
 
 icon:lightbulb[size=2x] {nbsp}{nbsp}{nbsp}{nbsp} In general, we use the GitHub tracker for issues raised by the community, and JIRA for issues raised by the core engineering team. Both are publicly accessible.
+
+== Accessing Kiali with Internet Explorer
+
+No version of Internet Explorer is supported with Kiali. Users may experience some https://github.com/kiali/kiali/issues/507[issues] when using Kiali through this browser.
+
+In order to have the best experience with Kiali you will need to update to use a link:../prerequisites/#_browser_requirements[supported browser].
 
 == Non Deployment-based workloads
 
