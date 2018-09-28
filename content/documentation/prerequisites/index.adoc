@@ -14,6 +14,12 @@ toc::[]
 :icons: font
 :imagesdir: /images/documentation/prerequisites/
 
+== Browser Requirements
+
+Kiali requires a modern web browser to be able to function properly.
+
+Users accessing Kiali should be doing so using the last two versions of Chrome, Edge, Firefox or Safari.
+
 == Software Requirements
 
 To run Kiali, you're going to need two things:
