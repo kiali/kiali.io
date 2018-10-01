@@ -140,3 +140,22 @@ To achieve the best results you should have an example application like 'bookinf
 .Service view
 image::kiali-service.png[Service view]
 {nbsp} +
+
+== Additional Notes
+
+=== Customize the UI web context root
+
+By default Kiali UI is deployed to the top level of `https://kiali-istio-system.<your_cluster_domain_or_ip>/`.  In some situation such as when you want to serve Kiali UI along with other apps under the same host name, e.g., `example.com/kiali`, `example.com/app1`, you can edit Kiali Config Map and provide a different value for `web_root`.  Note: the path must begin with a `/`.
+
+An example of custom web root:
+
+[source,yaml]
+----
+server:
+  port: 20001
+  web_root: /kiali
+external_services:
+  jaeger:
+  ...
+----
+{nbsp} +
