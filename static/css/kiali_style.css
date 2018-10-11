@@ -310,6 +310,14 @@ code {
   all: unset;
 }
 
+.sectionbody table>thead>tr>th {
+  background: #f7f8f7
+}
+
+.sectionbody table>tbody>tr:nth-child(even) {
+  background-color: #f5f5f5;
+}
+
 .toc > ul  {
   list-style: none;
 }
