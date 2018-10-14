@@ -17,15 +17,16 @@
   font-weight: 300
 }
 
-.slider-bottom-box {
+.features-bottom-box {
   display: block;
   padding: 40px;
   background: #fff;
   box-shadow: 0 10px 40px 0 rgba(47, 47, 47, .1);
-  border-radius: 3px
+  border-radius: 3px;
+  cursor: pointer
 }
 
-.slider-bottom-box li {
+.features-bottom-box li {
   font-size: 16px;
   font-weight: 500
 }
