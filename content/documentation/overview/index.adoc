@@ -118,6 +118,9 @@ image::istio-yaml-validation.png[Demo Website]
 {nbsp} +
 
 ==== Validations performed
+
+This section lists all the validations that Kiali performs on all Istio configurations. Most of these validations are done in addition to/on top of the existing ones performed by Istio's Galley component (except those marked as deprecated)
+
 [cols="2,1,2,1,1", options="header"]
 .List of destination rule validations
 |===
@@ -174,6 +177,30 @@ image::istio-yaml-validation.png[Demo Website]
 |When a Destination field within a DestinationWeight is empty
 |https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/subset_presence_checker.go[source code, window="_blank"]
 |link:/files/validation_examples/106.yaml[106.yaml, window="_blank"]
+
+|(Deprecated) Weight must be a number
+|error
+|When a destination weight is not a number
+|https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/route_checker.go[source code, window="_blank"]
+|link:/files/validation_examples/107.yaml[107.yaml, window="_blank"]
+
+|(Deprecated) Weight should be between 0 and 100
+|error
+|When a destination weight is > 100 or < 0
+|https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/route_checker.go[source code, window="_blank"]
+|link:/files/validation_examples/108.yaml[108.yaml, window="_blank"]
+
+|(Deprecated) Weight sum should be 100
+|error
+|When the sum of all the weight for a protocol doesnt sum 100
+|https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/route_checker.go[source code, window="_blank"]
+|link:/files/validation_examples/109.yaml[109.yaml, window="_blank"]
+
+|(Deprecated) All routes should have weight
+|error
+|When one destinationWeight has no weight, but all the rest have
+|https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/route_checker.go[source code, window="_blank"]
+|link:/files/validation_examples/110.yaml[110.yaml, window="_blank"]
 |===
 
 === Distributed Tracing
