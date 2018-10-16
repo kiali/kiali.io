@@ -159,3 +159,27 @@ external_services:
   ...
 ----
 {nbsp} +
+
+=== Reducing Permissions in OpenShift
+
+By default Kiali will run with the cluster wide `kiali` role.
+
+If you prefer not to run Kiali with cluster wide permissions, it is possible to reduce these permissions to individual namespaces.
+
+icon:lightbulb[size=2x] {nbsp}{nbsp}{nbsp}{nbsp} This only works for OpenShift since it can return a list of namespaces that a user has access to. Know how to make this work with Kubernetes? Awesome, please let us know in this https://issues.jboss.org/browse/KIALI-1675[issue].
+
+The first thing you will need to do is to remove the cluster-wide permissions that are granted to Kiali by default:
+
+[source,bash]
+----
+oc delete clusterrolebindings kiali
+----
+{nbsp} +
+
+Then you will need to grant the `kiali` role in the namespace of your choosing:
+
+[source,bash]
+----
+oc adm policy add-role-to-user kiali system:serviceaccount:istio-system:kiali -n ${NAMESPACE}
+----
+{nbsp} +
