@@ -9,7 +9,7 @@ weight: 20
 
 The details views show *predefined* metrics dashboards per application, workload and service level.
 
-Application and workload details views show *request* and *response* metrics (volume, duration, size, tcp traffic) per *inbound* and *outbound* traffic. Service details view will show request and response metrics per *inbound* traffic.
+Application and workload details views show *request* and *response* metrics (volume, duration, size, tcp traffic) per *inbound* and *outbound* traffic. Service details view shows request and response metrics per *inbound* traffic.
 
 
 
