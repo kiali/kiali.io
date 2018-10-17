@@ -6,6 +6,8 @@ type: "documentation"
 weight: 1
 ---
 
+:linkattrs:
+
 = Kiali Overview
 :sectnums:
 :toc: left
@@ -114,6 +116,92 @@ Kiali will highlight configuration errors.
 .Invalid Configuration of Istio Config
 image::istio-yaml-validation.png[Demo Website]
 {nbsp} +
+
+==== Validations performed
+
+This section lists all the validations that Kiali performs on all Istio configurations. Most of these validations are done in addition to/on top of the existing ones performed by Istio's Galley component (except those marked as deprecated)
+
+[cols="2,1,2,1,1", options="header"]
+.List of destination rule validations
+|===
+|Validation message |Severity |Description |Source |Example
+|More than one Destination Rules for same host subset combination
+|warning
+|Warning shown when 2 Destination Rules points to the same host and shares one or more subsets
+|https://github.com/kiali/kiali/tree/master/business/checkers/destination_rules/multi_match_checker.go[source code, window="_blank"]
+|link:/files/validation_examples/001.yaml[001.yaml, window="_blank"]
+
+|Host doesn't have a valid service
+|error
+|When one destination rule has a host that doesn't exist
+|https://github.com/kiali/kiali/tree/master/business/checkers/destination_rules/no_host_checker.go[source code, window="_blank"]
+|link:/files/validation_examples/002.yaml[002.yaml, window="_blank"]
+|===
+
+.List of virtual service validations
+[cols="2,1,2,1,1", options="header"]
+|===
+|Validation message |Severity |Description |Source |Example
+|VirtualService is pointing to a non-existent gateway
+|error
+|When the virtual service has a specified a gateway that doesn't exist
+|https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/no_gateway_checker.go[source code, window="_blank"]
+|link:/files/validation_examples/101.yaml[101.yaml, window="_blank"]
+
+|DestinationWeight on route doesn't have a valid service (host not found)
+|error
+|When a destination weight has a host that doesn't exist
+|https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/no_host_checker.go[source code, window="_blank"]
+|link:/files/validation_examples/102.yaml[102.yaml, window="_blank"]
+
+|VirtualService doesn't define any route protocol
+|error
+|When a Virtual Service doesn't define neither tcp, http, tls routes
+|https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/no_host_checker.go[source code, window="_blank"]
+|link:/files/validation_examples/103.yaml[103.yaml, window="_blank"]
+
+|More than one Virtual Service for same host
+|warning
+|When two virtual services points to same host
+|https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/single_host_checker.go[source code, window="_blank"]
+|link:/files/validation_examples/104.yaml[104.yaml, window="_blank"]
+
+|Subset not found
+|warning
+|When there is no subset defined in any destination rule
+|https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/subset_presence_checker.go[source code, window="_blank"]
+|link:/files/validation_examples/105.yaml[105.yaml, window="_blank"]
+
+|Destination field is mandatory
+|error
+|When a Destination field within a DestinationWeight is empty
+|https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/subset_presence_checker.go[source code, window="_blank"]
+|link:/files/validation_examples/106.yaml[106.yaml, window="_blank"]
+
+|(Deprecated) Weight must be a number
+|error
+|When a destination weight is not a number
+|https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/route_checker.go[source code, window="_blank"]
+|link:/files/validation_examples/107.yaml[107.yaml, window="_blank"]
+
+|(Deprecated) Weight should be between 0 and 100
+|error
+|When a destination weight is > 100 or < 0
+|https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/route_checker.go[source code, window="_blank"]
+|link:/files/validation_examples/108.yaml[108.yaml, window="_blank"]
+
+|(Deprecated) Weight sum should be 100
+|error
+|When the sum of all the weight for a protocol doesnt sum 100
+|https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/route_checker.go[source code, window="_blank"]
+|link:/files/validation_examples/109.yaml[109.yaml, window="_blank"]
+
+|(Deprecated) All routes should have weight
+|error
+|When one destinationWeight has no weight, but all the rest have
+|https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/route_checker.go[source code, window="_blank"]
+|link:/files/validation_examples/110.yaml[110.yaml, window="_blank"]
+|===
 
 === Distributed Tracing
 
