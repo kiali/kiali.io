@@ -13,26 +13,8 @@ theme = "canvas"
   [[menu.main]]
       identifier = "swagger"
       name = "API"
-      url = "/api/overview"
+      url = "/api"
       weight = 40
-  [[menu.main]]
-      identifier = "overview"
-      name = "Overview"
-      url = "/api/overview"
-      weight = 1
-      parent="swagger"
-  [[menu.main]]
-      identifier = "paths"
-      name = "Paths"
-      url = "/api/paths"
-      weight = 2
-      parent="swagger"
-  [[menu.main]]
-      identifier = "definitions"
-      name = "Definitions"
-      url = "/api/definitions"
-      weight = 3
-      parent="swagger"
   [[menu.main]]
       identifier = "documentation"
       name = "Documentation"
