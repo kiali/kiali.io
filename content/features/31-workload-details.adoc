@@ -2,9 +2,9 @@
 title: "Workloads: Istio compliance"
 date: 2018-07-18T12:33:50+02:00
 draft: false
-subTitle: "Check Istio sidecars and labeling on deployments"
+subTitle: "Check Istio sidecars and labeling on workloads (deployments)"
 image: features/workload_details.png
 weight: 31
 ---
 
-Kiali checks workloads validating Istio sidecars deployed and proper *app* and *version* labels used.
+Kiali performs several validations on workloads configuration - are Istio sidecars deployed and whether the proper *app* and *version* labels are used.
