@@ -51,9 +51,9 @@ theme = "canvas"
       weight = 2
       parent="documentation"
   [[menu.main]]
-      identifier = "known_issues"
+      identifier = "known-issues"
       name = "Known issues"
-      url = "/documentation/known_issues"
+      url = "/documentation/known-issues"
       weight = 3
       parent="documentation"
   [[menu.main]]
