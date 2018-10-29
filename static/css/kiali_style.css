@@ -7,6 +7,9 @@
   color:rgb(102,102,102,102);
 }
 
+a {
+  color: #0094DE;
+}
 
 .slider-element {
   height: 600px;
@@ -22,10 +25,9 @@
 }
 
 .slider-title p {
-  opacity: .9;
-  font-size: 1.1rem;
-  line-height: 1.8 !important;
-  font-weight: 300
+  color: #FFFFF;
+  font-size: 17px;
+  font-weight: Regular;
 }
 
 .features-bottom-box {
@@ -40,6 +42,12 @@
 .features-bottom-box li {
   font-size: 16px;
   font-weight: 500
+}
+
+.features-bottom-box h2 {
+  color: #0093DD;
+  font-size: 40px;
+  font-weight: Regular;
 }
 
 .slider-element {
@@ -85,6 +93,19 @@
 
 #content {
   overflow: visible
+}
+
+#description h2{
+   color: #0094DE;
+   font-weight: Regular;
+   font-size: 28px;
+   text-align: left;
+}
+
+#description p{
+   text-align: left;
+    font-size: 16px;
+    color: #55555;
 }
 
 .slider-box-wrap {
@@ -178,6 +199,10 @@ code {
 
 .sectionbody table>tbody>tr:nth-child(even) {
   background-color: #f5f5f5;
+}
+
+.toc {
+  color: #0094DE;
 }
 
 .toc > ul  {
