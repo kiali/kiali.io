@@ -1,15 +1,32 @@
 ---
 title: "Contribute"
-date: 2018-06-20T19:04:38+02:00
+date: 2018-10-31T16:04:38+02:00
 draft: false
 menu:
   main:
     weight: 30
 ---
 
+== Kiali is Open Source
+
+Kiali is developed in the open under an https://www.apache.org/licenses/LICENSE-2.0.txt[Apache Software License version 2.0].
+As such Kiali welcomes contributions in every form. 
+This can be code, but also bug reports, feature requests, translations and much more.
+
+Kiali source code is hosted at https://github.com/kiali[GitHub] with the two major repositories being:
+
+* Kiali server -- https://github.com/kiali/kiali
+* Kaili user interface -- https://github.com/kiali/kiali-ui
+
+The source for this website is hosted at https://github.com/kiali/kiali.io
+
+Please have a look at the README files in the repositories as well as the CONTRIBUTING.md ones.
+Also make sure to check out the link:https://github.com/kiali/kiali/blob/master/CODE_OF_CONDUCT.md[Kiali code of conduct].
+
 == Reporting issues and feature requests
 
-The Kiali team uses link:http://issues.jboss.org/browse/KIALI[JIRA at JBoss.org] as its preferred tracker. Please use it to report issues and create new feature requests (select issue type 'Bug' for bugs and 'Story' for enhancement requests).
+The Kiali team uses link:http://issues.jboss.org/browse/KIALI[JIRA at JBoss.org] as its preferred tracker.
+Please use it to report issues and create new feature requests (select issue type 'Bug' for bugs and 'Story' for enhancement requests).
 
 Alternatively you can also use the link:https://github.com/kiali/kiali/issues[GitHub tracker] for this purpose.
 
