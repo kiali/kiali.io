@@ -16,7 +16,7 @@ This can be code, but also bug reports, feature requests, translations and much 
 Kiali source code is hosted at https://github.com/kiali[GitHub] with the two major repositories being:
 
 * Kiali server -- https://github.com/kiali/kiali
-* Kaili user interface -- https://github.com/kiali/kiali-ui
+* Kiali user interface -- https://github.com/kiali/kiali-ui
 
 The source for this website is hosted at https://github.com/kiali/kiali.io
 
