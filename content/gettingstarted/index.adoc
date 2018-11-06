@@ -41,7 +41,7 @@ You can now install Istio if needed. See https://istio.io/docs/setup/ for detail
 
 === Install Kiali
 
-Then install Kiali (note: this assumes you are installing v0.9.0 - set your VERSION_LABEL to the appropriate version you want to install):
+Then install Kiali. Note that this assumes you are installing v0.9.0 - set your VERSION_LABEL to the appropriate version you want to install. This also assumes Istio is installed in the `istio-system` namespace.
 
 ```
 JAEGER_URL="http://jaeger-query-istio-system.127.0.0.1.nip.io"
@@ -51,6 +51,7 @@ VERSION_LABEL="v0.9.0"
 curl https://raw.githubusercontent.com/kiali/kiali/${VERSION_LABEL}/deploy/openshift/kiali-configmap.yaml | \
   VERSION_LABEL=${VERSION_LABEL} \
   JAEGER_URL=${JAEGER_URL}  \
+  ISTIO_NAMESPACE=istio-system  \
   GRAFANA_URL=${GRAFANA_URL} envsubst | oc create -n istio-system -f -
 
 curl https://raw.githubusercontent.com/kiali/kiali/${VERSION_LABEL}/deploy/openshift/kiali-secrets.yaml | \
@@ -86,7 +87,7 @@ oc get route -n istio-system -l app=kiali
 
 Kiali currently requires Istio version 1.0 (see below if you have not yet installed Istio).
 
-To deploy Kiali to your Istio-enabled Kubernetes cluster you can run the following (note: this assumes you are installing v0.9.0 - set your VERSION_LABEL to the appropriate version you want to install):
+To deploy Kiali to your Istio-enabled Kubernetes cluster you can run the following commands. Note that this assumes you are installing v0.9.0 - set your VERSION_LABEL to the appropriate version you want to install. This also assumes Istio is installed in the `istio-system` namespace.
 
 icon:bullhorn[size=2x] {nbsp}{nbsp}{nbsp}{nbsp} If you wish to install in Minikube, ensure that you enable the Ingress add-on by executing `minikube addons enable ingress`.
 
@@ -98,6 +99,7 @@ VERSION_LABEL="v0.9.0"
 curl https://raw.githubusercontent.com/kiali/kiali/${VERSION_LABEL}/deploy/kubernetes/kiali-configmap.yaml | \
   VERSION_LABEL=${VERSION_LABEL} \
   JAEGER_URL=${JAEGER_URL}  \
+  ISTIO_NAMESPACE=istio-system  \
   GRAFANA_URL=${GRAFANA_URL} envsubst | kubectl create -n istio-system -f -
 
 curl https://raw.githubusercontent.com/kiali/kiali/${VERSION_LABEL}/deploy/kubernetes/kiali-secrets.yaml | \
