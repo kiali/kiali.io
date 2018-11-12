@@ -41,12 +41,12 @@ You can now install Istio if needed. See https://istio.io/docs/setup/ for detail
 
 === Install Kiali
 
-Then install Kiali. Note that this assumes you are installing v0.9.0 - set your VERSION_LABEL to the appropriate version you want to install. This also assumes Istio is installed in the `istio-system` namespace.
+Then install Kiali. Note that this assumes you are installing v0.10.0 - set your VERSION_LABEL to the appropriate version you want to install. This also assumes Istio is installed in the `istio-system` namespace.
 
 ```
 JAEGER_URL="http://jaeger-query-istio-system.127.0.0.1.nip.io"
 GRAFANA_URL="http://grafana-istio-system.127.0.0.1.nip.io"
-VERSION_LABEL="v0.9.0"
+VERSION_LABEL="v0.10.0"
 
 curl https://raw.githubusercontent.com/kiali/kiali/${VERSION_LABEL}/deploy/openshift/kiali-configmap.yaml | \
   VERSION_LABEL=${VERSION_LABEL} \
@@ -87,14 +87,14 @@ oc get route -n istio-system -l app=kiali
 
 Kiali currently requires Istio version 1.0 (see below if you have not yet installed Istio).
 
-To deploy Kiali to your Istio-enabled Kubernetes cluster you can run the following commands. Note that this assumes you are installing v0.9.0 - set your VERSION_LABEL to the appropriate version you want to install. This also assumes Istio is installed in the `istio-system` namespace.
+To deploy Kiali to your Istio-enabled Kubernetes cluster you can run the following commands. Note that this assumes you are installing v0.10.0 - set your VERSION_LABEL to the appropriate version you want to install. This also assumes Istio is installed in the `istio-system` namespace.
 
 icon:bullhorn[size=2x] {nbsp}{nbsp}{nbsp}{nbsp} If you wish to install in Minikube, ensure that you enable the Ingress add-on by executing `minikube addons enable ingress`.
 
 ```
 JAEGER_URL="http://jaeger-query-istio-system.127.0.0.1.nip.io"
 GRAFANA_URL="http://grafana-istio-system.127.0.0.1.nip.io"
-VERSION_LABEL="v0.9.0"
+VERSION_LABEL="v0.10.0"
 
 curl https://raw.githubusercontent.com/kiali/kiali/${VERSION_LABEL}/deploy/kubernetes/kiali-configmap.yaml | \
   VERSION_LABEL=${VERSION_LABEL} \
@@ -126,6 +126,9 @@ If you do not already have an Istio-enabled cluster but want to see what Kiali i
 wget https://raw.githubusercontent.com/kiali/kiali/master/hack/cluster-openshift.sh
 sh cluster-openshift.sh --kiali-enabled true up
 ```
+
+PLEASE NOTE: Currently, this script uses a version of Maistra that does not support --kiali-enabled true. If you run cluster-openshift.sh, it will start OpenShift and install Istio, but you must install Kiali using the directions above in the "Getting Started on OpenShift" section. This will be addressed in the future.
+
 {nbsp} +
 icon:bullhorn[size=2x] {nbsp}{nbsp}{nbsp}{nbsp} If you do not already have an Istio-enabled application to test with, you can install one using the link:https://github.com/kiali/kiali/blob/master/hack/istio[Bookinfo Sample install script] provided as a convenience. See link:https://istio.io/docs/guides/bookinfo/[the Istio docs] for more details about this sample application.
 
