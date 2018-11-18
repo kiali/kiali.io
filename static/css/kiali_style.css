@@ -18,10 +18,27 @@ a {
   background-image:url("/images/hero-background.svg")
 }
 
-.slider-title h2 {
-  font-size: 2.7rem;
-  letter-spacing: -1px;
-  line-height: 1.25 !important
+#primary-menu ul li > a {
+  font-family: Comfortaa;
+  font-size: 14px;
+  font-weight: bold;
+  color: #FFFFFF;
+}
+
+.slider-title h1 {
+  font-family: Comfortaa;
+  font-size: 40px;
+  font-weight: bold;
+  color: #FFFFFF;
+}
+
+#slider a.button {
+  font-family: Comfortaa;
+  font-size: 16px;
+  font-weight: bold;
+  color: #0094DE;
+  border-radius: 2px;
+  background-color: #FFFFFF;
 }
 
 .slider-title p {
@@ -39,9 +56,10 @@ a {
   cursor: pointer
 }
 
-.features-bottom-box li {
+#content .features-bottom-box li > a , :hover{
   font-size: 16px;
   font-weight: 500
+  color: #55555;
 }
 
 .features-bottom-box h2 {
