@@ -64,17 +64,74 @@ p {
 }
 
 .features-bottom-box {
-  display: block;
-  padding: 40px;
+  display: inline-block;
+  padding: 5px;
+  top: -50px;
+  position: relative;
+  width: 100%;
   background: #fff;
   box-shadow: 0 10px 40px 0 rgba(47, 47, 47, .1);
   border-radius: 3px;
   cursor: pointer
 }
 
+#features-list {
+  display: flex;
+  margin-right: 15px;
+  margin-left: 15px;
+  justify-content: space-between !important;
+}
+
+@media screen and (max-width: 768px) {
+  .features-bottom-box {
+    width: 65%;
+    top: 40px;
+  }
+
+  #features-list  {
+    display: inline-grid;
+  }
+}
+
+ #features-title {
+    float:left;
+    padding: 4px;
+}
+
+#features-title p {
+   font-size: 14px;
+   color: #6C757D;
+}
+
+ .imgContainer {
+    float:left;
+    padding: 4px;
+}
+
+.imgContainer p {
+  font-family: Varela Round, sans-serif;
+  text-align: center;
+  font-size: 16px;
+  font-weight: Regular;
+}
+
+.imgContainer img {
+  height: 126px;
+  width: 116px;
+}
+
+#graph-feature img {
+    width: 130px;
+}
+
+#health-feature img {
+    width: 127px;
+}
+
 .features-bottom-box h2 {
+  font-family: Varela Round, sans-serif;
   color: #0093DD;
-  font-size: 40px;
+  font-size: 36px;
   font-weight: Regular;
 }
 
