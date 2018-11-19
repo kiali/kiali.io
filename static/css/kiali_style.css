@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css?family=Varela+Round');
+@import url('https://fonts.googleapis.com/css?family=Comfortaa');
+
 #header-wrap {
   background-color: #0094DE;
   background-image:url("/images/hero-background.svg")
@@ -112,10 +115,12 @@ a {
 }
 
 #description h2{
+   font-family: Varela Round, sans-serif;
    color: #0094DE;
    font-weight: Regular;
    font-size: 28px;
    text-align: left;
+   text-transform: capitalize;
 }
 
 #description p{
