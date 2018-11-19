@@ -95,8 +95,6 @@ a {
 }
 
 
-
-
 .dark #header-wrap:not(.not-dark) #primary-menu>ul>li>a {
   color: #fff !important
 }
@@ -124,6 +122,17 @@ a {
    text-align: left;
     font-size: 16px;
     color: #55555;
+}
+
+#description a.button{
+  font-family: Comfortaa;
+  font-size: 16px;
+  font-weight: bold;
+  color: #0094DE;
+  border-color: #0094DE;
+  border-radius: 3px;
+  border: 1px solid;
+  background-color: #FFFFFF;
 }
 
 .slider-box-wrap {
