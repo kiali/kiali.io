@@ -59,7 +59,7 @@ a {
   cursor: pointer
 }
 
-#content .features-bottom-box li > a , :hover{
+#content .features-bottom-box li > a , a:hover{
   font-size: 16px;
   font-weight: 500
   color: #55555;
