@@ -158,6 +158,12 @@ a {
   padding: 15px
 }
 
+#page-title h1 {
+  font-family: Comfortaa, sans-serif;
+  font-size: 32px;
+  font-weight: Regular;
+}
+
 .img-map {
   opacity: .2
 }
