@@ -3,7 +3,8 @@
 
 #header-wrap {
   background-color: #0094DE;
-  background-image:url("/images/hero-background.svg")
+  background-image:url("/images/hero-background.svg");
+  background-size: cover;
 }
 
 #top-social i{
