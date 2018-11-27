@@ -9,23 +9,17 @@ The website is written in link:https://asciidoctor.org/docs/asciidoc-syntax-quic
 
 == Requirements
 
-- You need Go & Bundler (Ruby)
+Kiali.io runs on top of Hugo. You will need to have link://https://gohugo.io/[Hugo] installed and the `hugo` command available on your path in order to locally run a kiali.io instance.
 
-== Building
+It is likely you can easily install `hugo` using your system's package manager. For more information about how to install Hugo please see its link:https://gohugo.io/getting-started/installing/[installation documentation]. 
 
-- Clone this repository inside a GOPATH.  These instructions will use the example GOPATH of "/source/kiali/kiali" but you can use whatever you want. Just change the first line of the below instructions to use your GOPATH.
+It is recommended to run **Hugo 0.48**
 
-[source, bash]
-----
-export GOPATH=/source/kiali/kiali
-mkdir -p $GOPATH
-cd $GOPATH
-mkdir -p src/github.com/kiali/kiali.io
-git clone git@github.com:kiali/kiali.io
-export PATH=${PATH}:${GOPATH}/bin
-----
+Asciidoctor is also required to run Kiali.io. The `make install` command will install Asciidoctor using link:https://rubygems.org[Ruby Gem] and Bundler. You will need to have the `gem` command on your path. Please see the link:https://rubygems.org/pages/download[Ruby Gem installation docs] for more information.
 
-- Install Requirements
+== Installing
+
+The following command needs to be run in order to install a few dependencies:
 
 [source, bash]
 ----
@@ -40,6 +34,8 @@ Hugo has a live `serve` command that runs a small, lightweight web server on you
 ----
 make serve
 ----
+
+If everything is working as expected you should see something like the following being outputted:
 
 ```
                    | EN
@@ -61,7 +57,11 @@ Web Server is available at http://localhost:1313/ (bind address 127.0.0.1)
 Press Ctrl+C to stop
 ```
 
-It should live reload. If not, you may have to restart the server.
+You should now be able to access hugo running kiali.io at link:http://localhost:1313/[http://localhost:1313]
+
+This running instance should support live reload. Changes you make to files should be automatically updated in your running instance.
+
+Some files may not be supported for live reload. If you are not automatically seeing your changes live you may need to restart the server. You can restart the server by pressing 'ctrl-c' and running `make serve` again.
 
 ==  Project directory structure
 
