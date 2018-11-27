@@ -61,7 +61,7 @@ You should now be able to access hugo running kiali.io at link:http://localhost:
 
 This running instance should support live reload. Changes you make to files should be automatically updated in your running instance.
 
-Some files may not be supportted for live reload. If you are not automatically seeing your changes live you may need to restart the server. You can restart the server by pressing 'ctrl-c' and running `make serve` again.
+Some files may not be supported for live reload. If you are not automatically seeing your changes live you may need to restart the server. You can restart the server by pressing 'ctrl-c' and running `make serve` again.
 
 ==  Project directory structure
 
