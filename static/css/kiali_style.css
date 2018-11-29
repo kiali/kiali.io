@@ -28,11 +28,17 @@ p {
   background-image:url("/images/hero-background.svg")
 }
 
-#primary-menu ul li > a {
+#primary-menu ul li > a, #primary-menu ul li:hover > a, #primary-menu ul li.current > a, #primary-menu ul ul li > a {
   font-family: Comfortaa;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: bold;
   color: #FFFFFF;
+}
+
+#content .features-bottom-box li > a {
+  font-size: 16px;
+  font-weight: 500
+  color: #55555;
 }
 
 .slider-title h1 {
@@ -64,12 +70,6 @@ p {
   box-shadow: 0 10px 40px 0 rgba(47, 47, 47, .1);
   border-radius: 3px;
   cursor: pointer
-}
-
-#content .features-bottom-box li > a , a:hover{
-  font-size: 16px;
-  font-weight: 500
-  color: #55555;
 }
 
 .features-bottom-box h2 {
