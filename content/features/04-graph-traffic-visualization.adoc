@@ -3,8 +3,10 @@ title: "Graph: Traffic Animation"
 date: 2018-06-20T19:04:38+02:00
 draft: false
 image: features/graph-traffic-animation.gif
-subTitle: "Animating your traffic flow"
+subTitle: "Visualizing your traffic flow"
 weight: 04
 ---
 
-The traffic animation provides a visualization of traffic between your applications as represented as circles flowing between them. More circles means more **requests**, faster moving circles means a faster **response time**, and red triangles flowing between the applications represents **errors**. 
+For HTTP traffic, circles represent successful requests while red diamonds represent errors. More shapes means more **requests** and faster moving shapes means a faster **response time**.
+
+TCP traffic is represented by offset circles where the speed of the circles indicates the traffic speed.
