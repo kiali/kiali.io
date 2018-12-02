@@ -3,10 +3,11 @@ title: "Graph"
 date: 2018-06-20T19:04:38+02:00
 draft: false
 image: features/graph-overview.png
-subTitle: "See how your microservices are connected in the Kiali graph"
+subTitle: "Gain insight into how your mesh is functioning"
 weight: -1
 ---
 
-The graph view allows you to select a time period and see the **requests per second** between your microservices, the **response time** of those requests and whether they were secured with **mutual TLS**.
+The graph provides a powerful way to visualize what is actually happening within your service mesh. In one view you can know what components are **communicating** with each other and where **errors** or **health** issues might be located. The graph lets you see what services are **configured** with such things as virtual services and circuit breakers. And you can observe the **traffic flow** between components by watching the animation or viewing the **metrics**.
 
-The graph view **groups** applications by version, this makes it easy to see how each version of the application is behaving.
+You can configure the graph to show the data that is important to you, and display it in the way that best meets your needs.
+
