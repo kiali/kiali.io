@@ -203,6 +203,17 @@ This section lists all the validations that Kiali performs on all Istio configur
 |link:/files/validation_examples/110.yaml[110.yaml, window="_blank"]
 |===
 
+.List of gateway validations
+[cols="2,1,2,1,1", options="header"]
+|===
+|Validation message |Severity |Description |Source |Example
+|More than one Gateway for same host port combination
+|warning
+|When two or more gateways (from same or different namespace) points to same host-port combination
+|https://github.com/kiali/kiali/tree/master/business/checkers/gateways/multi_match_checker.go[source code, window="_blank"]
+|link:/files/validation_examples/201.yaml[201.yaml, window="_blank"]
+|===
+
 === Distributed Tracing
 
 Clicking on Distributed Tracing menu item will open a new tab with the https://www.jaegertracing.io/[Jaeger] UI for tracing services.
