@@ -24,32 +24,34 @@
 <section id="content">
   <div class="content-wrap nopadding">
     <div class="container clearfix">
-      <div class="row justify-content-center slider-box-wrap clearfix">
-        <div class="col-10">
           <div class="features-bottom-box" onclick="location.href='/features/'">
-            <div class="row align-items-center clearfix">
-              <div class="col-lg-4 mb-3 mb-lg-0">
-                <h2 class="mb-3 h1 t300">Features</h2>
-                <p class="t400 text-muted mb-0">A growing set of features</p>
-              </div>
-              <div class="col-lg-4 col-sm-6">
-                <ul class="iconlist m-0">
-                  <li class="pt-3 pt-lg-0"><img src="images/checked.svg" width="20" height="20" alt="" class="mr-2">Service graph representation</li>
-                  <li class="pt-3"><img src="images/checked.svg" width="20" height="20" alt="" class="mr-2">Distributed tracing</li>
-                  <li class="pt-3"><img src="images/checked.svg" width="20" height="20" alt="" class="mr-2">Metrics collection and graphs</li>
-                </ul>
-              </div>
-              <div class="col-lg-4 col-sm-6">
-                <ul class="iconlist m-0">
-                  <li class="pt-3 pt-lg-0"><img src="images/checked.svg" width="20" height="20" alt="" class="mr-2">Configuration validation</li>
-                  <li class="pt-3"><img src="images/checked.svg" width="20" height="20" alt="" class="mr-2">Health computation/display</li>
-                  <li class="pt-3"><img src="images/checked.svg" width="20" height="20" alt="" class="mr-2">Service discovery</li>
-                </ul>
-              </div>
+              <div id="features-list">
+               <div id="features-title">
+                  <h2>Features</h2>
+                  <p>A growing set of features</p>
+                </div>
+                <div id="graph-feature" class="imgContainer">
+                    <img src="images/features/graph.svg"/>
+                    <p>Topology</p>
+                </div>
+                <div id="health-feature" class="imgContainer">
+                    <img src="images/features/services.svg"/>
+                    <p>Health <br>computation</p>
+                </div>
+                <div class="imgContainer">
+                    <img src="images/features/metrics.svg"/>
+                    <p>Metrics</p>
+                </div>
+                <div class="imgContainer">
+                    <img src="images/features/info.svg"/>
+                    <p>Configuration <br>validation</p>
+                </div>
+                <div class="imgContainer">
+                    <img src="images/features/tracing.svg"/>
+                    <p>Distributed <br>tracing</p>
+                </div>
             </div>
           </div>
-        </div>
-      </div>
     </div>
 
       <div class="section nomargin noborder" style="padding: 80px 0;">
