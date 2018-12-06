@@ -284,7 +284,9 @@ p {
 
 
 code {
-  color: #1ABC9C;
+  color: black;
+  font-style: italic;
+  font-weight: bold;
 }
 
 .sectionbody ul {
