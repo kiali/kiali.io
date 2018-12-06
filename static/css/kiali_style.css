@@ -18,7 +18,11 @@ a {
 
 p {
   font-family: Lato;
-    font-size: 16px;
+    font-size: 18px;
+}
+
+h2 {
+  font-family: Varela Round, sans-serif;
 }
 
 .slider-element {
@@ -59,7 +63,7 @@ p {
 
 .slider-title p {
   color: #FFFFF;
-  font-size: 17px;
+  font-size: 18px;
   font-weight: Regular;
 }
 
@@ -305,6 +309,7 @@ code {
 
 .toc {
   color: #0094DE;
+  font-size: 16px;
 }
 
 .toc > ul  {
