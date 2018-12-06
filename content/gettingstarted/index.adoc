@@ -29,7 +29,7 @@ To deploy Kiali to your Istio-enabled OpenShift cluster you can run the followin
 
 First you need to grant the user that is installing Istio and Kiali the `cluster-admin` role.
 
-If OpenShift is installed locally on the machine you are using, the follow command should log you in as a user with the 'cluster-admin' role:
+If OpenShift is installed locally on the machine you are using, the follow command should log you in as a user with the `cluster-admin` role:
 
 [source,bash]
 ----
