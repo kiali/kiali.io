@@ -61,6 +61,23 @@ h2 {
   background-color: #FFFFFF;
 }
 
+.icon-envelope2 , .middot {
+  color: #FFFFFF;
+}
+
+#gotoTop {
+  background-color: #39b7f9;
+  color: #FFF;
+  box-shadow: 1px 1px 1px rgba(0,0,0,.15)
+}
+
+#gotoTop:hover {
+  background-color: #30a7ff;
+  color: #FFF;
+  box-shadow: 1px 1px 1px rgba(0,0,0,.15)
+}
+
+
 .slider-title p {
   color: #FFFFF;
   font-size: 18px;
@@ -204,7 +221,7 @@ h2 {
   color: #0094DE;
   border-color: #0094DE;
   border-radius: 3px;
-  border: 1px solid;
+  border: 2px solid;
   background-color: #FFFFFF;
 }
 
