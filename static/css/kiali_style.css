@@ -16,6 +16,16 @@ a {
   color: #0094DE;
 }
 
+.email-group {
+  font-weight: bold;
+  font-size: 15px;
+  opacity: 0.9;
+}
+
+.email-group:hover {
+  opacity: 1;
+}
+
 p {
   font-family: Lato;
     font-size: 18px;
@@ -64,6 +74,7 @@ h2 {
 
 .icon-envelope2 , .middot {
   color: #FFFFFF;
+  font-size: 20px;
 }
 
 #gotoTop {
