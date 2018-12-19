@@ -59,6 +59,7 @@ h2 {
   color: #0094DE;
   border-radius: 2px;
   background-color: #FFFFFF;
+  text-shadow: none;
 }
 
 .icon-envelope2 , .middot {
@@ -223,6 +224,7 @@ h2 {
   border-radius: 3px;
   border: 2px solid;
   background-color: #FFFFFF;
+  text-shadow: none;
 }
 
 .slider-box-wrap {
