@@ -170,6 +170,7 @@ h2 {
 }
 
 #footer {
+  border-top: 0px;
   background-color: #0093DD;
   background-image:linear-gradient(rgba(255, 255, 255, 0.52),rgba(25, 172, 225, 0.43));
 }
