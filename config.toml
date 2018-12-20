@@ -33,16 +33,64 @@ theme = "canvas"
       weight = 2
       parent="documentation"
   [[menu.main]]
+      identifier = "doc_installation"
+      name = "Installation"
+      url = "/documentation/installation"
+      weight = 3
+      parent="documentation"
+      [[menu.main]]
+         identifier = "installation_istio"
+         name = "Istio"
+         url = "https://preliminary.istio.io/docs/tasks/telemetry/kiali/"
+         weight = 1
+         parent="doc_installation"
+      [[menu.main]]
+         identifier = "installation_maistra"
+         name = "Maistra"
+         url = "https://maistra.io/docs/kiali/"
+         weight = 2
+         parent="doc_installation"
+      [[menu.main]]
+         identifier = "installation_github"
+         name = "GitHub"
+         url = "https://github.com/kiali/kiali#building"
+         weight = 3
+         parent="doc_installation"
+      [[menu.main]]
+         identifier = "installation_quick"
+         name = "Quick Install"
+         url = "/gettingstarted"
+         weight = 4
+         parent="doc_installation"
+         [[menu.main]]
+            identifier = "installation_quick_os"
+            name = "OpenShift"
+            url = "/gettingstarted/#_getting_started_on_openshift"
+            weight = 1
+            parent="installation_quick"
+         [[menu.main]]
+            identifier = "installation_quick_k8s"
+            name = "Kubernetes"
+            url = "/gettingstarted/#_getting_started_on_kubernetes"
+            weight = 2
+            parent="installation_quick"
+  [[menu.main]]
+      identifier = "architecture"
+      name = "Architecture"
+      url = "/documentation/architecture"
+      weight = 4
+      parent="documentation"
+  [[menu.main]]
       identifier = "known-issues"
       name = "Known issues"
       url = "/documentation/known-issues"
-      weight = 3
+      weight = 5
       parent="documentation"
   [[menu.main]]
       identifier = "doc_glossary"
       name = "Glossary"
       url = "/documentation/glossary"
-      weight = 4
+      weight = 6
       parent="documentation"
       [[menu.main]]
          identifier = "concepts"
@@ -62,9 +110,3 @@ theme = "canvas"
          url = "/documentation/glossary/networking"
          weight = 3
          parent="doc_glossary"
-  [[menu.main]]
-      identifier = "architecture"
-      name = "Architecture"
-      url = "/documentation/architecture"
-      weight = 5
-      parent="documentation"
