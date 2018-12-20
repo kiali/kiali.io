@@ -32,7 +32,7 @@ theme = "canvas"
       url = "/documentation/prerequisites"
       weight = 2
       parent="documentation"
-   [[menu.main]]
+  [[menu.main]]
       identifier = "doc_installation"
       name = "Installation"
       url = "/documentation/installation"
@@ -56,6 +56,24 @@ theme = "canvas"
          url = "https://github.com/kiali/kiali#building"
          weight = 3
          parent="doc_installation"
+      [[menu.main]]
+         identifier = "installation_quick"
+         name = "Quick Install"
+         url = "/gettingstarted"
+         weight = 4
+         parent="doc_installation"
+         [[menu.main]]
+            identifier = "installation_quick_os"
+            name = "OpenShift"
+            url = "/gettingstarted/#_getting_started_on_openshift"
+            weight = 1
+            parent="installation_quick"
+         [[menu.main]]
+            identifier = "installation_quick_k8s"
+            name = "Kubernetes"
+            url = "/gettingstarted/#_getting_started_on_kubernetes"
+            weight = 2
+            parent="installation_quick"
   [[menu.main]]
       identifier = "architecture"
       name = "Architecture"

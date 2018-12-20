@@ -16,57 +16,37 @@ toc::[]
 :icons: font
 :imagesdir: /images/gettingstarted/
 
+icon:bullhorn[size=2x]{nbsp} Kiali currently requires Istio version *1.0*.
 
 == Getting started on OpenShift
 
-Kiali currently requires Istio version 1.0 (see below if you have not yet installed Istio).
-
-Kiali is still in development. Snapshots releases are pushed on Dockerhub from the CI pipeline.
-
-To deploy Kiali to your Istio-enabled OpenShift cluster you can run the following. Kiali currently requires Istio version 1.0 (see below if you have not yet installed Istio).
+To deploy Kiali to your OpenShift cluster you can do the following.
 
 === Preparation
 
-First you need to grant the user that is installing Istio and Kiali the `cluster-admin` role.
+First, you need to grant the user that is installing Istio and Kiali the `cluster-admin` role.
 
-If OpenShift is installed locally on the machine you are using, the follow command should log you in as a user with the `cluster-admin` role:
+If OpenShift is installed locally on the machine you are using, the following command should log you in as a user with the `cluster-admin` role:
 
 [source,bash]
 ----
 oc login -u system:admin
 ----
 
-
-You can now install Istio if needed. See https://istio.io/docs/setup/ for details.
+You can now install Istio if needed. See the link:https://istio.io/docs/setup/[Istio Setup docs] for details.
 
 === Install Kiali
 
-Then install Kiali. Note that this assumes you are installing v0.10.0 - set your VERSION_LABEL to the appropriate version you want to install. This also assumes Istio is installed in the `istio-system` namespace.
+Now install the latest release of Kiali.
 
-```
-JAEGER_URL="http://jaeger-query-istio-system.127.0.0.1.nip.io"
-GRAFANA_URL="http://grafana-istio-system.127.0.0.1.nip.io"
-VERSION_LABEL="v0.10.0"
+icon:lightbulb[size=1x]{nbsp} The install script can be configured for a customized install by setting environment variables when running the script. For example, to install a different version of Kiali, set IMAGE_VERSION to the version you want. Also, if your Jaeger or Grafana are accessible at different URLs than the default, then set JAEGER_URL and GRAFANA_URL appropriately. The defaults are: `JAEGER_URL="http://jaeger-query-istio-system.127.0.0.1.nip.io"` and `GRAFANA_URL="http://grafana-istio-system.127.0.0.1.nip.io"`
 
-curl https://raw.githubusercontent.com/kiali/kiali/${VERSION_LABEL}/deploy/openshift/kiali-configmap.yaml | \
-  VERSION_LABEL=${VERSION_LABEL} \
-  JAEGER_URL=${JAEGER_URL}  \
-  ISTIO_NAMESPACE=istio-system  \
-  GRAFANA_URL=${GRAFANA_URL} envsubst | oc create -n istio-system -f -
+icon:bullhorn[size=1x]{nbsp} This script requires `envsubst` installed and in your PATH; you can get it via the GNU `gettext` package.
 
-curl https://raw.githubusercontent.com/kiali/kiali/${VERSION_LABEL}/deploy/openshift/kiali-secrets.yaml | \
-  VERSION_LABEL=${VERSION_LABEL} envsubst | oc create -n istio-system -f -
-
-curl https://raw.githubusercontent.com/kiali/kiali/${VERSION_LABEL}/deploy/openshift/kiali.yaml | \
-  VERSION_LABEL=${VERSION_LABEL}  \
-  IMAGE_NAME=kiali/kiali \
-  IMAGE_VERSION=${VERSION_LABEL}  \
-  NAMESPACE=istio-system  \
-  VERBOSE_MODE=4  \
-  IMAGE_PULL_POLICY_TOKEN="imagePullPolicy: Always" envsubst | oc create -n istio-system -f -
-```
-
-If you do not have `envsubst` installed, you can get it via the GNU `gettext` package.
+[source,bash]
+----
+curl -L http://git.io/getLatestKiali | sh
+----
 
 Once the above has completed and the Docker image has been pulled from Dockerhub, go to the OpenShift console, select the istio-system project and determine the base-URL of Kiali
 
@@ -79,42 +59,38 @@ In this case it is `http://kiali-istio-system.192.168.64.13.nip.io`. In your cas
 
 You can also use the `oc` command to determine the base-url:
 
-```
+[source,bash]
+----
 oc get route -n istio-system -l app=kiali
-```
+----
 
 == Getting started on Kubernetes
 
-Kiali currently requires Istio version 1.0 (see below if you have not yet installed Istio).
+To deploy Kiali to your Kubernetes cluster you can do the following.
 
-To deploy Kiali to your Istio-enabled Kubernetes cluster you can run the following commands. Note that this assumes you are installing v0.10.0 - set your VERSION_LABEL to the appropriate version you want to install. This also assumes Istio is installed in the `istio-system` namespace.
+=== Preparation
 
-icon:bullhorn[size=2x] {nbsp}{nbsp}{nbsp}{nbsp} If you wish to install in Minikube, ensure that you enable the Ingress add-on by executing `minikube addons enable ingress`.
+Preparation is only needed if you are installing in Minikube. When installing in Minikube, ensure that you enable the Ingress add-on by executing the following command:
 
-```
-JAEGER_URL="http://jaeger-query-istio-system.127.0.0.1.nip.io"
-GRAFANA_URL="http://grafana-istio-system.127.0.0.1.nip.io"
-VERSION_LABEL="v0.10.0"
+[source,bash]
+----
+minikube addons enable ingress
+----
 
-curl https://raw.githubusercontent.com/kiali/kiali/${VERSION_LABEL}/deploy/kubernetes/kiali-configmap.yaml | \
-  VERSION_LABEL=${VERSION_LABEL} \
-  JAEGER_URL=${JAEGER_URL}  \
-  ISTIO_NAMESPACE=istio-system  \
-  GRAFANA_URL=${GRAFANA_URL} envsubst | kubectl create -n istio-system -f -
+You can now install Istio if needed. See the link:https://istio.io/docs/setup/[Istio Setup docs] for details.
 
-curl https://raw.githubusercontent.com/kiali/kiali/${VERSION_LABEL}/deploy/kubernetes/kiali-secrets.yaml | \
-  VERSION_LABEL=${VERSION_LABEL} envsubst | kubectl create -n istio-system -f -
+=== Install Kiali
 
-curl https://raw.githubusercontent.com/kiali/kiali/${VERSION_LABEL}/deploy/kubernetes/kiali.yaml | \
-  VERSION_LABEL=${VERSION_LABEL}  \
-  IMAGE_NAME=kiali/kiali \
-  IMAGE_VERSION=${VERSION_LABEL}  \
-  NAMESPACE=istio-system  \
-  VERBOSE_MODE=4  \
-  IMAGE_PULL_POLICY_TOKEN="imagePullPolicy: Always" envsubst | kubectl create -n istio-system -f -
-```
+Now install the latest release of Kiali.
 
-If you do not have `envsubst` installed, you can get it via the GNU `gettext` package.
+icon:lightbulb[size=1x]{nbsp} The install script can be configured for a customized install by setting environment variables when running the script. For example, to install a different version of Kiali, set IMAGE_VERSION to the version you want. Also, if your Jaeger or Grafana are accessible at different URLs than the default, then set JAEGER_URL and GRAFANA_URL appropriately. The defaults are: `JAEGER_URL="http://jaeger-query-istio-system.127.0.0.1.nip.io"` and `GRAFANA_URL="http://grafana-istio-system.127.0.0.1.nip.io"`
+
+icon:bullhorn[size=1x]{nbsp} This script requires `envsubst` installed and in your PATH; you can get it via the GNU `gettext` package.
+
+[source,bash]
+----
+curl -L http://git.io/getLatestKialiKubernetes | sh
+----
 
 Once this is done, Kiali will be deployed and running in Kubernetes. An Ingress will have been set up so you can go directly to the Kiali UI at the URL `http://[minikube-ip]/` where `[minikube-ip]` is what is reported when you run the command: `minikube ip`.
 
@@ -122,15 +98,15 @@ Once this is done, Kiali will be deployed and running in Kubernetes. An Ingress 
 
 If you do not already have an Istio-enabled cluster but want to see what Kiali is all about, you can try to run the convenience hack script link:https://github.com/kiali/kiali/tree/master/hack[cluster-openshift.sh] which will install OpenShift, Istio, and Kiali all at once:
 
-```
+[source,bash]
+----
 wget https://raw.githubusercontent.com/kiali/kiali/master/hack/cluster-openshift.sh
 sh cluster-openshift.sh --kiali-enabled true up
-```
+----
 
-PLEASE NOTE: Currently, this script uses a version of Maistra that does not support --kiali-enabled true. If you run cluster-openshift.sh, it will start OpenShift and install Istio, but you must install Kiali using the directions above in the "Getting Started on OpenShift" section. This will be addressed in the future.
+This command installs an OpenShift cluster with Maistra and Kiali.
 
-{nbsp} +
-icon:bullhorn[size=2x] {nbsp}{nbsp}{nbsp}{nbsp} If you do not already have an Istio-enabled application to test with, you can install one using the link:https://github.com/kiali/kiali/blob/master/hack/istio[Bookinfo Sample install script] provided as a convenience. See link:https://istio.io/docs/guides/bookinfo/[the Istio docs] for more details about this sample application.
+icon:lightbulb[size=1x]{nbsp} If you do not already have an Istio-enabled application to test with, you can install one using the link:https://github.com/kiali/kiali/blob/master/hack/istio[Bookinfo Sample install script] provided as a convenience. See link:https://istio.io/docs/guides/bookinfo/[the Istio docs] for more details about this sample application.
 
 == The Kiali UI
 
@@ -139,7 +115,6 @@ Log in to Kiali-UI as `admin`/`admin`.
 To achieve the best results you should have an example application like 'bookinfo' from the Istio examples deployed.
 
 === Detail view of a single service
-
 
 [#img-Service-view]
 .Service view
@@ -150,28 +125,25 @@ image::kiali-service.png[Service view]
 
 === Customize the UI web context root
 
-By default Kiali UI is deployed to the top level of `https://kiali-istio-system.<your_cluster_domain_or_ip>/`.  In some situation such as when you want to serve Kiali UI along with other apps under the same host name, e.g., `example.com/kiali`, `example.com/app1`, you can edit Kiali Config Map and provide a different value for `web_root`.  Note: the path must begin with a `/`.
+By default, Kiali UI is deployed to the top level of `https://kiali-istio-system.<your_cluster_domain_or_ip>/`.  In some situation such as when you want to serve Kiali UI along with other apps under the same host name, e.g., `example.com/kiali`, `example.com/app1`, you can edit Kiali Config Map and provide a different value for `web_root`.  Note: the path must begin with a `/`.
 
 An example of custom web root:
 
 [source,yaml]
 ----
 server:
-  port: 20001
   web_root: /kiali
-external_services:
-  jaeger:
   ...
 ----
 {nbsp} +
 
 === Reducing Permissions in OpenShift
 
-By default Kiali will run with the cluster wide `kiali` role.
+By default, Kiali will run with the cluster wide `kiali` role.
 
 If you prefer not to run Kiali with cluster wide permissions, it is possible to reduce these permissions to individual namespaces.
 
-icon:lightbulb[size=2x] {nbsp}{nbsp}{nbsp}{nbsp} This only works for OpenShift since it can return a list of namespaces that a user has access to. Know how to make this work with Kubernetes? Awesome, please let us know in this https://issues.jboss.org/browse/KIALI-1675[issue].
+icon:lightbulb[size=1x]{nbsp} This only works for OpenShift since it can return a list of namespaces that a user has access to. Know how to make this work with Kubernetes? Awesome, please let us know in this https://issues.jboss.org/browse/KIALI-1675[issue].
 
 The first thing you will need to do is to remove the cluster-wide permissions that are granted to Kiali by default:
 
@@ -179,7 +151,6 @@ The first thing you will need to do is to remove the cluster-wide permissions th
 ----
 oc delete clusterrolebindings kiali
 ----
-{nbsp} +
 
 Then you will need to grant the `kiali` role in the namespace of your choosing:
 
@@ -187,4 +158,3 @@ Then you will need to grant the `kiali` role in the namespace of your choosing:
 ----
 oc adm policy add-role-to-user kiali system:serviceaccount:istio-system:kiali -n ${NAMESPACE}
 ----
-{nbsp} +
