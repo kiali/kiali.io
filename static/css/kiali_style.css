@@ -39,6 +39,10 @@ h2 {
   color: #FFFFFF;
 }
 
+#primary-menu ul ul li > a {
+  color: black;
+}
+
 #content .features-bottom-box li > a {
   font-size: 16px;
   font-weight: 500
