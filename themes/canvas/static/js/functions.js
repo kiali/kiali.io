@@ -1053,16 +1053,21 @@ var SEMICOLON = SEMICOLON || {};
 		},
 
 		menuInvert: function() {
+			$('#primary-menu .mega-menu-content, #primary-menu ul ul ul').each( function( index, element ){
+				/*
+					Calculate the space on the right to check if the menu will be displayed outside window
+				*/
+				/*
+					var $menuChildElement = $(element),
+						menuChildOffset = $menuChildElement.offset(),
+						menuChildWidth = $menuChildElement.width(),
+						menuChildLeft = menuChildOffset.left;
 
-			$('#primary-menu .mega-menu-content, #primary-menu ul ul').each( function( index, element ){
-				var $menuChildElement = $(element),
-					menuChildOffset = $menuChildElement.offset(),
-					menuChildWidth = $menuChildElement.width(),
-					menuChildLeft = menuChildOffset.left;
-
-				if(windowWidth - (menuChildWidth + menuChildLeft) < 0) {
-					$menuChildElement.addClass('menu-pos-invert');
-				}
+					if(windowWidth - (menuChildWidth + menuChildLeft) < 0) {
+						$(element).addClass('menu-pos-invert');
+					}
+				*/
+				$(element).addClass('menu-pos-invert');
 			});
 
 		},
