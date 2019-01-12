@@ -8,6 +8,7 @@ theme = "canvas"
       "/css/kiali_style.css",
       "https://use.fontawesome.com/releases/v5.3.1/css/all.css"
     ]
+    maxBlogPosts   = 10
 
 [menu]
   [[menu.main]]

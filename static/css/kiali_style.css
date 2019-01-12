@@ -398,3 +398,148 @@ div.kiali-video {
   margin-left: auto;
   margin-right: auto;
 }
+
+.title-line {
+  margin-top: 46px;
+  background-color: #0094DE;
+  width: 40px;
+  height: 2px;
+}
+
+/* Last articles in medium */
+
+.blog {
+  width: 1120px;
+}
+
+.blog-section-last-posts-title {
+  font-family: Varela Round;
+  font-weight: lighter;
+  color: #0094DE;
+  font-size: 28px;
+  text-transform: capitalize;
+}
+.title {
+  color: #363636;
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.125;
+  word-break: break-word;
+}
+
+.blog__container {
+  position: relative;
+  margin-top:20px;
+  width: 100%;
+  height: 100%;
+}
+
+.blog__slider {
+  width: 100%;
+  list-style: none;
+  height: 700px;
+  padding: 0;
+  overflow: hidden;
+  margin: 0 10px 0 10px;
+  display: inline-flex; }
+
+.blog__post {
+  background-color: #fff;
+  shadow: 3px,5px, 6, rgba(0,0,0,.3);
+  padding: 14px;
+  width: 350px;
+  height: 480px;
+  display: flex;
+  flex-shrink: 0;
+  flex-grow: 1;
+  margin: 0 10px 0 10px;
+  justify-content: center;
+}
+
+.blog__topImg {
+  width: 380px;
+  height: 270px;
+  display: block;
+  margin: 0 auto;
+  object-fit: cover; }
+
+.blog__content {
+  margin: 0;
+  color: black;
+  padding: .8rem; }
+
+.blog__preview {
+  height: 200px;
+  font-size: .95rem;
+  margin-top: 20px;
+  font-weight: 300;
+}
+
+.blog__title {
+  background-color:rgba(0, 148, 222, .9);
+  color: #ffffff;
+  margin-top: -160px;
+  height:100px;
+  position: relative;
+  opacity: 0.9;
+  font-family:Varela round;
+  font-size:24px;
+}
+
+.blog__intro {
+  color: #555555;
+  font-family: Lato;
+  font-size: 16px;
+}
+
+.blog__info {
+  font-family: Lato;
+  display: inline-block;
+  float: left;
+}
+
+.blog__author {
+  font-size: 18px;
+  color: #555555;
+}
+
+.blog__author:hover .tooltip__author {
+  visibility: visible;
+}
+
+.blog__date {
+  font-size: 16px;
+  color: #6C757D;
+}
+
+.blog__readMore {
+  font-family: Lato;
+  float: right;
+  margin-top: 20px;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: bold;
+  color: #0094DE;
+  border-color: #0094DE;
+  border-radius: 3px;
+  border: 2px solid;
+  background-color: #FFFFFF;
+  text-shadow: none;
+}
+.arrows {
+  position: absolute;
+  top: 50%;
+  margin-top: -31px;
+  color:#39B7F9;
+  display: inline-flex;
+}
+.prev {
+  left: -30px;
+}
+.next{
+  right: -40px;
+}
+
+.arrow_disabled{
+  opacity: 0.3;
+}
