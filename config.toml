@@ -41,7 +41,7 @@ theme = "canvas"
       [[menu.main]]
          identifier = "installation_istio"
          name = "Istio"
-         url = "https://preliminary.istio.io/docs/tasks/telemetry/kiali/"
+         url = "https://istio.io/docs/tasks/telemetry/kiali/"
          weight = 1
          parent="doc_installation"
       [[menu.main]]
