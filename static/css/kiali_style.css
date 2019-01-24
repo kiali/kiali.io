@@ -56,6 +56,21 @@ h2 {
   color: black;
 }
 
+@keyframes menu-icon-animation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(90deg);
+  }
+}
+
+#primary-menu ul li.sfHover > a i {
+  animation-name: menu-icon-animation;
+  animation-duration: 1s;
+  transform: rotate(90deg);
+}
+
 #content .features-bottom-box li > a {
   font-size: 16px;
   font-weight: 500
