@@ -100,6 +100,24 @@ Once this is done, Kiali will be deployed and running in Kubernetes with an Ingr
 
 If you deployed in minikube, you can go directly to the Kiali UI at the URL `https://[minikube-ip]/kiali/console` where `[minikube-ip]` is what is reported when you run the command: `minikube ip`.
 
+== Uninstall
+
+To uninstall Kiali is simple - just delete the objects that have the label `app=kiali` from your cluster.
+
+To uninstall from OpenShift:
+
+[source,bash]
+----
+oc delete all,secrets,sa,configmaps,deployments,ingresses,clusterroles,clusterrolebindings,virtualservices,destinationrules,customresourcedefinitions,templates --selector=app=kiali -n istio-system
+----
+
+To uninstall from Kubernetes:
+
+[source,bash]
+----
+kubectl delete all,secrets,sa,configmaps,deployments,ingresses,clusterroles,clusterrolebindings,virtualservices,destinationrules,customresourcedefinitions --selector=app=kiali -n istio-system
+----
+
 == Quick Start
 
 If you do not already have an Istio-enabled cluster but want to see what Kiali is all about, you can try to run the convenience hack script link:https://github.com/kiali/kiali/tree/master/hack[cluster-openshift.sh] which will install OpenShift, Istio, and Kiali all at once:
