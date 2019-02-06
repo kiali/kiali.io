@@ -185,6 +185,6 @@ Then you will need to grant the `kiali` role in the namespace of your choosing:
 
 [source,bash]
 ----
-oc adm policy add-role-to-user kiali system:serviceaccount:istio-system:kiali -n ${NAMESPACE}
+oc adm policy add-role-to-user kiali system:serviceaccount:istio-system:kiali-service-account -n ${NAMESPACE}
 ----
 {nbsp} +
