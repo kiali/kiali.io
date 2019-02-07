@@ -117,9 +117,9 @@ Kiali will highlight configuration errors.
 image::istio-yaml-validation.png[Demo Website]
 {nbsp} +
 
-==== Validations performed
+=== Validations performed
 
-This section lists all the validations that Kiali performs on all Istio configurations. Most of these validations are done in addition to/on top of the existing ones performed by Istio's Galley component (except those marked as deprecated)
+This section lists all the validations that Kiali performs on all Istio configurations. Most of these validations are done in addition to/on top of the existing ones performed by Istio's Galley component (except those marked as deprecated). Most validations are done inside a single namespace only, any exceptions (such as gateways) are marked below.
 
 [cols="2,1,2,1,1", options="header"]
 .List of destination rule validations
@@ -127,13 +127,13 @@ This section lists all the validations that Kiali performs on all Istio configur
 |Validation message |Severity |Description |Source |Example
 |More than one Destination Rule for the same host subset combination
 |warning
-|Warning shown when 2 Destination Rules point to the same host and share one or more subsets
+|Warning shown when two Destination Rules point to the same host and share one or more subsets. If non-local tMLS is enabled, this check is ignored.
 |https://github.com/kiali/kiali/tree/master/business/checkers/destination_rules/multi_match_checker.go[source code, window="_blank"]
 |link:/files/validation_examples/001.yaml[001.yaml, window="_blank"]
 
 |Host doesn't have a valid service
 |error
-|When one destination rule has a host that doesn't exist
+|When one destination rule has a host that doesn't exist. This checks against any workload, service names as well as service entries
 |https://github.com/kiali/kiali/tree/master/business/checkers/destination_rules/no_host_checker.go[source code, window="_blank"]
 |link:/files/validation_examples/002.yaml[002.yaml, window="_blank"]
 |===
@@ -150,19 +150,19 @@ This section lists all the validations that Kiali performs on all Istio configur
 
 |DestinationWeight on route doesn't have a valid service (host not found)
 |error
-|When a destination weight has a host that doesn't exist
+|When a destination weight has a host that doesn't exist. This checks against service names as well as service entries
 |https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/no_host_checker.go[source code, window="_blank"]
 |link:/files/validation_examples/102.yaml[102.yaml, window="_blank"]
 
 |VirtualService doesn't define any route protocol
 |error
-|When a Virtual Service doesn't define neither tcp, http, tls routes
+|When a Virtual Service doesn't define any tcp, http or tls routes
 |https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/no_host_checker.go[source code, window="_blank"]
 |link:/files/validation_examples/103.yaml[103.yaml, window="_blank"]
 
 |More than one Virtual Service for same host
 |warning
-|When two virtual services points to same host
+|When two virtual services point to the same host. This includes hosts with wildcards also.
 |https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/single_host_checker.go[source code, window="_blank"]
 |link:/files/validation_examples/104.yaml[104.yaml, window="_blank"]
 
