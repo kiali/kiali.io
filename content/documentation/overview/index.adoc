@@ -127,7 +127,7 @@ This section lists all the validations that Kiali performs on all Istio configur
 |Validation message |Severity |Description |Source |Example
 |More than one Destination Rule for the same host subset combination
 |warning
-|Warning shown when two Destination Rules point to the same host and share one or more subsets. If non-local tMLS is enabled, this check is ignored.
+|Warning shown when two Destination Rules point to the same host and share one or more subsets. If non-local mTLS is enabled this check is ignored.
 |https://github.com/kiali/kiali/tree/master/business/checkers/destination_rules/multi_match_checker.go[source code, window="_blank"]
 |link:/files/validation_examples/001.yaml[001.yaml, window="_blank"]
 
