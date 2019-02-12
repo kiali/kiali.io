@@ -192,13 +192,13 @@ This section lists all the validations that Kiali performs on all Istio configur
 
 |(Deprecated) Weight sum should be 100
 |error
-|When the sum of all the weight for a protocol doesnt sum 100
+|When the sum of all the weights for a protocol doesn't sum up to 100
 |https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/route_checker.go[source code, window="_blank"]
 |link:/files/validation_examples/109.yaml[109.yaml, window="_blank"]
 
 |(Deprecated) All routes should have weight
-|error
-|When one destinationWeight has no weight, but all the rest have
+|warning
+|When weight sum is different from 100 and one or more destination weights have no weight, but the rest have.
 |https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/route_checker.go[source code, window="_blank"]
 |link:/files/validation_examples/110.yaml[110.yaml, window="_blank"]
 |===
