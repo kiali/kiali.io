@@ -137,7 +137,7 @@ This section lists all the validations that Kiali performs on all Istio configur
 |https://github.com/kiali/kiali/blob/master/business/checkers/destinationrules/no_dest_checker.go#L28[source code, window="_blank"]
 |link:/files/validation_examples/002.yaml[002.yaml, window="_blank"]
 
-|This subset's labels are not found from any matching host
+|This subset's labels are not found in any matching host
 |error
 |There isn't any workload for this host matching its labels with the ones from that subset
 |https://github.com/kiali/kiali/blob/master/business/checkers/destinationrules/no_dest_checker.go#L46[source code, window="_blank"]
