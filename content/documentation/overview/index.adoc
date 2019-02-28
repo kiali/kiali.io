@@ -224,9 +224,9 @@ This section lists all the validations that Kiali performs on all Istio configur
 [cols="2,1,2,1,1", options="header"]
 |===
 |Validation message |Severity |Description |Source |Example
-|Mesh-wide Destination Rule enabling mTLS missing
+|Mesh-wide Destination Rule enabling mTLS is missing
 |error
-|When there is a MeshPolicy enabling mTLS but there isn't any mesh-wide Destination Rule enabling mTLS
+|When there is a MeshPolicy enabling mTLS, but there isn't any mesh-wide Destination Rule enabling mTLS
 |https://github.com/kiali/kiali/tree/master/business/checkers/mesh_policies_checker.go[source code, window="_blank"]
 |link:/files/validation_examples/401.yaml[401.yaml, window="_blank"]
 |===
