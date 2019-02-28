@@ -7,3 +7,7 @@ Gemfile.lock
 
 # Autogenerate by build
 content/api
+
+# Emacs
+*~
+\#*\#
