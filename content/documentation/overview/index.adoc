@@ -142,6 +142,13 @@ This section lists all the validations that Kiali performs on all Istio configur
 |There isn't any workload for this host matching its labels with the ones from that subset
 |https://github.com/kiali/kiali/blob/master/business/checkers/destinationrules/no_dest_checker.go#L46[source code, window="_blank"]
 |link:/files/validation_examples/003.yaml[003.yaml, window="_blank"]
+
+|MeshPolicy enabling mTLS is missing
+|error
+|When there is a DestinationRule enabling mTLS mesh-wide, but there isn't any MeshPolicy enabling mTLS
+|https://github.com/kiali/kiali/tree/master/business/checkers/destinationrules/meshwide_mtls_checker.go[source code, window="_blank"]
+|link:/files/validation_examples/004.yaml[004.yaml, window="_blank"]
+
 |===
 
 .List of virtual service validations
