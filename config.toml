@@ -81,16 +81,22 @@ theme = "canvas"
       weight = 4
       parent="documentation"
   [[menu.main]]
+      identifier = "runtimes"
+      name = "Runtimes Monitoring"
+      url = "/documentation/runtimes-monitoring"
+      weight = 5
+      parent="documentation"
+  [[menu.main]]
       identifier = "known-issues"
       name = "Known issues"
       url = "/documentation/known-issues"
-      weight = 5
+      weight = 6
       parent="documentation"
   [[menu.main]]
       identifier = "doc_glossary"
       name = "Glossary"
       url = "/documentation/glossary"
-      weight = 6
+      weight = 7
       parent="documentation"
       [[menu.main]]
          identifier = "concepts"

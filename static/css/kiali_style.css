@@ -73,8 +73,8 @@ h2 {
 
 #content .features-bottom-box li > a {
   font-size: 16px;
-  font-weight: 500
-  color: #55555;
+  font-weight: 500;
+  color: #555555;
 }
 
 .slider-title h1 {
@@ -118,7 +118,7 @@ h2 {
 
 
 .slider-title p {
-  color: #FFFFF;
+  color: #FFFFFF;
   font-size: 18px;
   font-weight: Regular;
 }
@@ -251,7 +251,7 @@ h2 {
 #description p{
    text-align: left;
     font-size: 16px;
-    color: #55555;
+    color: #555555;
 }
 
 #description a.button{
