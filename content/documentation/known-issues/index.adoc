@@ -3,6 +3,7 @@ title: "Known Issues"
 date: 2018-09-04T15:55:00+02:00
 draft: false
 type: "documentation"
+weight: 6
 ---
 
 = Known Issues
