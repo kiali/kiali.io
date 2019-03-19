@@ -78,14 +78,14 @@ Since version 0.15, Kiali comes with a set of default dashboards for three diffe
 
 Contains metrics such as the number of threads, goroutines, and heap usage. The expected metrics are provided by the link:https://prometheus.io/docs/guides/go-application/[Prometheus Go client].
 
-Example to get default Go metrics:
+Example to expose default Go metrics:
 
 ```go
         http.Handle("/metrics", promhttp.Handler())
         http.ListenAndServe(":2112", nil)
 ```
 
-As an example and for self-monitoring purpose Kiali itself exposes Go metrics (link to github).
+As an example and for self-monitoring purpose Kiali itself link:https://github.com/kiali/kiali/blob/055b593e52ebf8a0eb00372bca71fbef94230f0f/server/metrics_server.go[exposes Go metrics].
 
 The pod annotation for Kiali is: `kiali.io/runtimes: go`
 
