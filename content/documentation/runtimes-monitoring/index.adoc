@@ -111,7 +111,7 @@ The pod annotation for Kiali is: `kiali.io/runtimes: nodejs`
 
 === Spring Boot
 
-Two dashboards are provided: one for JVM metrics and another for Tomcat metrics. The expected metrics come from link:https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-metrics.html#production-ready-metrics-export-prometheus[Spring Boot Actuator for Prometheus]. Example with maven:
+Three dashboards are provided: one for JVM memory / threads, another for JVM buffer pools and the last one for Tomcat metrics. The expected metrics come from link:https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-metrics.html#production-ready-metrics-export-prometheus[Spring Boot Actuator for Prometheus]. Example with maven:
 
 ```xml
     <dependency>
@@ -130,7 +130,7 @@ Two dashboards are provided: one for JVM metrics and another for Tomcat metrics.
 
 Full working example: https://github.com/jotak/bookinfo-runtimes/tree/master/details
 
-The pod annotation for Kiali with the full list of dashboards is: `kiali.io/runtimes: springboot-jvm,springboot-tomcat`
+The pod annotation for Kiali with the full list of dashboards is: `kiali.io/runtimes: springboot-jvm,springboot-jvm-pool,springboot-tomcat`
 
 By default, the metrics are exposed on path _/actuator/prometheus_, so it must be specified in the corresponding annotation: `prometheus.io/path: "/actuator/prometheus"`
 
@@ -151,7 +151,7 @@ The pod annotation for Kiali is: `kiali.io/runtimes: thorntail`
 
 === Vert.x
 
-Several dashboards are provided, related to different components in Vert.x: HTTP client/server metrics, Net client/server metrics, Pools usage, and Eventbus metrics. The expected metrics are provided by the link:https://vertx.io/docs/vertx-micrometer-metrics/java/[vertx-micrometer-metrics] module. Example with maven:
+Several dashboards are provided, related to different components in Vert.x: HTTP client/server metrics, Net client/server metrics, Pools usage, Eventbus metrics and JVM. The expected metrics are provided by the link:https://vertx.io/docs/vertx-micrometer-metrics/java/[vertx-micrometer-metrics] module. Example with maven:
 
 ```xml
     <dependency>
@@ -178,7 +178,7 @@ Init example of Vert.x metrics, starting a dedicated server (other options are p
 
 Full working example: https://github.com/jotak/bookinfo-runtimes/tree/master/reviews
 
-The pod annotation for Kiali with the full list of dashboards is: `kiali.io/runtimes: vertx-client,vertx-server,vertx-eventbus,vertx-pool`
+The pod annotation for Kiali with the full list of dashboards is: `kiali.io/runtimes: vertx-client,vertx-server,vertx-eventbus,vertx-pool,vertx-jvm`
 
 == Create new dashboards
 
@@ -228,6 +228,11 @@ Spec fields definitions are:
 ** *aggregations*: list of labels eligible for aggregations / groupings (they will be displayed in Kiali through a dropdown list)
 *** *label*: Prometheus label name
 *** *displayName*: Name to display in Kiali
+
+icon:bullhorn[size=2x]{nbsp} *Label clash*: you should try to avoid labels clashes within a dashboard.
+In Kiali, labels for grouping are aggregated in the top toolbar, so if the same label refers to different things depending on the metric, you wouldn't be able to distinguish them in the UI. For that reason, ideally, labels should not have too generic names in Prometheus.
+For instance labels named "id" for both memory spaces and buffer pools would better be named "space_id" and "pool_id". If you have control on label names, it's an important aspect to take into consideration.
+Else, it is up to you to organize dashboards with that in mind, eventually splitting them into smaller ones to resolve clashes.
 
 Dashboard resources are added in Kubernetes just like any other resource:
 
