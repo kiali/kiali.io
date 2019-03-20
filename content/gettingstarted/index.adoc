@@ -1,6 +1,6 @@
 ---
 title: "Getting started"
-date: 2018-06-20T19:04:38+02:00
+date: 2019-03-20T09:04:38+02:00
 draft: false
 type: "gettingstarted"
 menu:
@@ -16,7 +16,11 @@ toc::[]
 :icons: font
 :imagesdir: /images/gettingstarted/
 
-icon:bullhorn[size=2x]{nbsp} Kiali currently requires Istio version *1.0*.
+icon:bullhorn[size=2x]{nbsp} Kiali works with Istio versions *1.0.5+* and *1.1*.
+ + 
+Kiali will support the latest Istio version (1.1 at the moment) and the development
+is closely following the development of Istio.
+Older Istio versions like 1.0.x may continue to work, but will no longer be actively supported.
 
 == Getting started on OpenShift
 
