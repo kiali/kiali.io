@@ -93,11 +93,13 @@ bash <(curl -L https://git.io/getLatestKialiOperator)
 
 You will be prompted for the authentication strategy you want to use.
 
-   * Choose `login` if you want to define a username and passphrase that users will be required to access Kiali.
-   * Choose `anonymous` to allow full access to Kiali without requiring any credentials.
+   * Choose `login` if you want to secure Kiali using a username and passphrase.
+   * Choose `anonymous` to remove authentication from Kiali and allow full access to Kiali without requiring any credentials.
    * Choose `openshift` to use the OpenShift OAuth login which controls access based on the individual's RBAC roles in OpenShift (this is only a feature available when deployed on OpenShift - the Operator will fail to install Kiali successfully and will log an appropriate error message if you choose this when installing on Kubernetes).
 
 If the authentication strategy of "login" is selected, a secret containing Kiali login credentials is required to be deployed along with Kiali. In this case, the install script will prompt you to enter a username and passphrase for the credentials that you want users to enter in order to log in successfully to Kiali. The install script will store those credentials in a secret that is deployed in the same namespace where Kiali is installed.
+
+See the link:#_login_options[Login Options] section below for more information.
 
 icon:bullhorn[size=1x]{nbsp} If you told the install script to not create a Kiali CR (and thus not have Kiali installed yet) via the OPERATOR_INSTALL_KIALI=false environment variable, you are responsible for creating this secret if you wish to install Kiali with the authentication strategy of "login". A secret is not required if your authentication strategy is not "login". The following command is a simple way to create a secret for Kiali whose username is "admin" and passphrase is "admin":
 [source,bash]
@@ -172,6 +174,49 @@ server:
 ----
 
 The above is actually the default when Kiali is installed on Kubernetes - so to access the Kiali UI on Kubernetes you access it at the root context path of "/kiali".
+
+=== Login Options
+
+Kiali supports three different login options.
+
+*login*: This option allows a user to login into Kiali using a username and password. This is the default option if using Kubernetes.
+
+*anonymous*: This option removes any login requirement. A user will not be presented the login page and will automatically have access to Kiali without having to present any credentials. 
+
+*openshift*: If you have deployed Kiali on OpenShift you can use this option (this is the default option if using OpenShift). With this option users will log into Kiali using the OpenShift OAuth login. What users can access in Kiali will now be based on their user roles in OpenShift using the kubernetes RBAC.
+
+icon:bullhorn[size=2x]{nbsp} Using the *anonymous* option will leave Kiali unsecured. Anyone who can access the console will have full access to Kiali. If you are using this option you will need to make sure that it is only available on a trusted network and that only trusted users can access it.
+
+For the `login` and `anonymous` login options, the content displayed in Kiali is based on the permissions of the Kiali service account. On Kubernetes, the Kiali service account has cluster wide access and will be able to display everything in the cluster. By default, in OpenShift the service account will also have access to everything in the cluster but this can be customized by following the link:#_reducing_permissions_in_openshift[instructions below].
+
+For the `openshift` login option, the content displayed in Kiali is based on the permissions of the user who logged in via the OpenShift OAuth login page. This means that individual users will be shown different content based on their roles within OpenShift. See the link:#openshift_user_permissions[section] below for how to grant or remove a user's access to specific namespaces. 
+
+The login option can be specified in the Kiali CR when installing Kiali. For instance, to use the `openshift` login option, the Kiali CR should contain the following in the `auth` section:
+
+[source,yaml]
+----
+auth:
+  strategy: openshift
+----
+
+[#openshift_user_permissions]
+==== OpenShift User Permissions
+
+If you are running with the `openshift` login option you will need to grant a user the 'kiali' role for them to be able to properly access a namespace in Kiali.
+
+For instance, to grant the user 'developer' access to the 'myproject' namespace, you could run the following command:
+
+[source,bash]
+----
+oc adm policy add-role-to-user kiali developer -n myproject
+----
+
+To remove the 'kiali' role from the user 'developer' in the 'myproject' namespace you can run the following command:
+
+[source,bash]
+----
+oc adm policy remove-role-from-user kiali developer -n myproject
+----
 
 === Reducing Permissions in OpenShift
 
