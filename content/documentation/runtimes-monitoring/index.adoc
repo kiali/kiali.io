@@ -48,9 +48,9 @@ external_services:
 Make sure that Kiali pod can reach this URL.
 
 [#pods-annotations]
-== Pods Annotations
+== Pods Annotations and Auto-discovery
 
-Application pods must be annotated, both for the Prometheus scraper and to associate with Kiali dashboards. For instance, within a _Deployment_ definition:
+Application pods must be annotated for the Prometheus scraper. For instance, within a _Deployment_ definition:
 
 ```yaml
 spec:
@@ -61,18 +61,31 @@ spec:
         prometheus.io/port: "8080"
         prometheus.io/scheme: http
         prometheus.io/path: "/metrics"
-        kiali.io/runtimes: vertx-server
 ```
 
 * _prometheus.io/scrape_ tells Prometheus to fetch these metrics or not
 * _prometheus.io/port_ is the port under which metrics are exposed
 * _prometheus.io/scheme_ must be set to http for non-secure or https for secure connection
 * _prometheus.io/path_ is the endpoint path where metrics are exposed, default is /metrics
-* _kiali.io/runtimes_ is a coma-separated list of runtimes / dashboards that Kiali will look for
+
+Kiali will try to discover automatically dashboards that are relevant for a given Application or Workload. To do so, it reads their metrics and try to match them with the `discoverOn` field defined on dashboards.
+
+But if, for whatever reason, you cannot (or don't want to) rely on automatic discovery, you can explicitly annotate the pods to associate them with Kiali dashboards:
+
+```yaml
+spec:
+  template:
+    metadata:
+      annotations:
+        # (prometheus annotations...)
+        kiali.io/runtimes: vertx-server
+```
+
+_kiali.io/runtimes_ is a coma-separated list of runtimes / dashboards that Kiali will look for
 
 == Default dashboards
 
-Since version 0.15, Kiali comes with a set of default dashboards for three different runtimes: Node.js, Thorntail and Vert.x. In Kiali 0.16, we've added Go and Spring Boot.
+Since version 0.15, Kiali comes with a set of default dashboards for various runtimes. We keep adding new ones over time.
 
 === Go
 
@@ -108,6 +121,19 @@ app.get('/metrics', (request, response) => {
 Full working example: https://github.com/jotak/bookinfo-runtimes/tree/master/ratings
 
 The pod annotation for Kiali is: `kiali.io/runtimes: nodejs`
+
+=== Quarkus
+
+Contains JVM-related, GC usage metrics. The expected metrics can be provided by link:https://smallrye.io/[SmallRye Metrics], a MicroProfile Metrics implementation. Example with maven:
+
+```xml
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-smallrye-metrics</artifactId>
+    </dependency>
+```
+
+The pod annotation for Kiali is: `kiali.io/runtimes: quarkus`
 
 === Spring Boot
 
@@ -190,26 +216,30 @@ When installing Kiali, a new CRD is installed in the system: _monitoringdashboar
 apiVersion: "monitoring.kiali.io/v1alpha1"
 kind: MonitoringDashboard
 metadata:
-  name: vertx-server
+  name: vertx-custom
 spec:
   runtime: Vert.x
-  title: Vert.x Server Metrics
-  charts:
-    - name: "Server response time"
-      unit: "s"
+  title: Vert.x Metrics
+  discoverOn: "vertx_http_server_connections"
+  items:
+  - chart:
+      name: "Server response time"
+      unit: "seconds"
       spans: 6
       metricName: "vertx_http_server_responseTime_seconds"
       dataType: "histogram"
       aggregations:
-        - label: "path"
-          displayName: "Path"
-        - label: "method"
-          displayName: "Method"
-    - name: "Server active connections"
+      - label: "path"
+        displayName: "Path"
+      - label: "method"
+        displayName: "Method"
+  - chart:
+      name: "Server active connections"
       unit: ""
       spans: 6
       metricName: "vertx_http_server_connections"
       dataType: "raw"
+  - include: "micrometer-1.1-jvm"
 ```
 
 The *name* field (from metadata) corresponds to what you will have to set in pods annotation link:#pods-annotations[`kiali.io/runtimes`].
@@ -218,16 +248,19 @@ Spec fields definitions are:
 
 * *runtime*: name of the related runtime. It will be displayed on the corresponding Workload Details page. If omitted no name is displayed.
 * *title*: dashboard title, displayed as a tab in Application or Workloads Details
-* *charts*: list of charts in the dashboard
-** *name*: name of the chart
-** *unit*: unit for Y-axis. This unit may be converted using metric SI system, for instance "s" can be shown as "ms" or "µs" as well.
-** *spans*: number of "spans" taken by the chart, from 1 to 12, using link:https://www.w3schools.com/bootstrap4/bootstrap_grid_system.asp[bootstrap convention]
-** *metricName*: the metric name in Prometheus
-** *dataType*: type of data to be displayed in the chart. Can be one of _raw_, _rate_ or _histogram_. Raw data will be queried without transformation. Rate data will be queried using link:https://prometheus.io/docs/prometheus/latest/querying/functions/#rate[_promQL rate() function_]. And histogram with link:https://prometheus.io/docs/prometheus/latest/querying/functions/#histogram_quantile[_histogram_quantile() function_].
-** *aggregator*: defines how the time-series are aggregated when several are returned for a given metric and label set. For example, if a Deployment creates a ReplicaSet of several Pods, you will have at least one time-series per Pod. Since Kiali shows the dashboards at the workload (ReplicaSet) level or at the application level, they will have to be aggregated. This field can be used to fix the aggregator, with values such as _sum_ or _avg_ (full list available link:https://prometheus.io/docs/prometheus/latest/querying/operators/#aggregation-operators[in Prometheus documentation]). However, if omitted the aggregator will default to _sum_ and can be changed from the dashboard UI.
-** *aggregations*: list of labels eligible for aggregations / groupings (they will be displayed in Kiali through a dropdown list)
-*** *label*: Prometheus label name
-*** *displayName*: Name to display in Kiali
+* *discoverOn*: metric name to match for auto-discovery. If omitted, the dashboard won't be discovered automatically, but can still be used via pods annotation.
+* *items*: can be either *chart*, to define a new chart, or *include* to reference another dashboard
+** *chart*: new chart object
+*** *name*: name of the chart
+*** *unit*: unit for Y-axis. Free-text field to provide any unit suffix. It can eventually be scaled on display. See link:#units[specific section below].
+*** *spans*: number of "spans" taken by the chart, from 1 to 12, using link:https://www.w3schools.com/bootstrap4/bootstrap_grid_system.asp[bootstrap convention]
+*** *metricName*: the metric name in Prometheus
+*** *dataType*: type of data to be displayed in the chart. Can be one of _raw_, _rate_ or _histogram_. Raw data will be queried without transformation. Rate data will be queried using link:https://prometheus.io/docs/prometheus/latest/querying/functions/#rate[_promQL rate() function_]. And histogram with link:https://prometheus.io/docs/prometheus/latest/querying/functions/#histogram_quantile[_histogram_quantile() function_].
+*** *aggregator*: defines how the time-series are aggregated when several are returned for a given metric and label set. For example, if a Deployment creates a ReplicaSet of several Pods, you will have at least one time-series per Pod. Since Kiali shows the dashboards at the workload (ReplicaSet) level or at the application level, they will have to be aggregated. This field can be used to fix the aggregator, with values such as _sum_ or _avg_ (full list available link:https://prometheus.io/docs/prometheus/latest/querying/operators/#aggregation-operators[in Prometheus documentation]). However, if omitted the aggregator will default to _sum_ and can be changed from the dashboard UI.
+*** *aggregations*: list of labels eligible for aggregations / groupings (they will be displayed in Kiali through a dropdown list)
+**** *label*: Prometheus label name
+**** *displayName*: Name to display in Kiali
+** *include*: to include another dashboard, or a specific chart from another dashboard. Typically used to compose with generic dashboards such as the ones about _MicroProfile Metrics_ or _Micrometer_-based JVM metrics. To reference a full dashboard, set the name of that dashboard. To reference a specific chart of another dashboard, set the name of the dashboard followed by `$` and the name of the chart (ex: `include: "microprofile-1.1$Thread count"`).
 
 icon:bullhorn[size=2x]{nbsp} *Label clash*: you should try to avoid labels clashes within a dashboard.
 In Kiali, labels for grouping are aggregated in the top toolbar, so if the same label refers to different things depending on the metric, you wouldn't be able to distinguish them in the UI. For that reason, ideally, labels should not have too generic names in Prometheus.
@@ -247,3 +280,14 @@ oc apply -f mydashboard.yml
 ```
 
 To make the dashboard resources available cluster-wide, just create them in Kiali namespace (usually _istio-system_). Else, they will be available only for applications or workloads of the same namespace. In the case where the same dashboard name exists in a specific namespace and in Kiali namespace, the former takes precedence.
+
+[#units]
+== Units
+
+Some units are recognized in Kiali and scaled appropriately when displayed on charts:
+
+* `unit: "seconds"` can be scaled down to `ms`, `µs`, etc.
+* `unit: "bytes-si"` and `unit: "bitrate-si"` can be scaled up to `kB`, `MB` (etc.) using link:https://en.wikipedia.org/wiki/International_System_of_Units[SI / metric system]. The aliases `unit: "bytes"` and `unit: "bitrate"` can be used instead.
+* `unit: "bytes-iec"` and `unit: "bitrate-iec"` can be scaled up to `KiB`, `MiB` (etc.) using link:https://en.wikipedia.org/wiki/IEEE_1541-2002[IEC standard / IEEE 1541-2002] (scale by powers of 2).
+
+Other units will fall into the default case and be scaled using SI standard. For instance, `unit: "m"` for meter can be scaled up to `km`.
