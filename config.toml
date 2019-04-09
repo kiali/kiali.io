@@ -62,18 +62,6 @@ theme = "canvas"
          url = "/gettingstarted"
          weight = 4
          parent="doc_installation"
-         [[menu.main]]
-            identifier = "installation_quick_os"
-            name = "OpenShift"
-            url = "/gettingstarted/#_getting_started_on_openshift"
-            weight = 1
-            parent="installation_quick"
-         [[menu.main]]
-            identifier = "installation_quick_k8s"
-            name = "Kubernetes"
-            url = "/gettingstarted/#_getting_started_on_kubernetes"
-            weight = 2
-            parent="installation_quick"
   [[menu.main]]
       identifier = "architecture"
       name = "Architecture"
