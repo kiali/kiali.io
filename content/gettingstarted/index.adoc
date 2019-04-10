@@ -106,7 +106,7 @@ image::os-console.png[OpenShift console]
 
 In this case, the Kiali URL is `http://kiali-istio-system.192.168.64.13.nip.io`. In your case this will be a different IP.
 
-You can also use the `oc` (or `kubectl` if on Kubernetes) command to determine the base URL:
+You can also use the `oc` command to determine the base URL:
 
 [source,bash]
 ----
