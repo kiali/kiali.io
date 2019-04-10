@@ -24,9 +24,11 @@ Older Istio versions like 1.0.x may continue to work, but will no longer be acti
 
 == Installing Kiali
 
-To deploy Kiali, you may need to prepare your cluster environment.
+=== Preparation
 
-=== OpenShift Preparation
+Kiali can be installed in an OpenShift or Kubernetes cluster environment. Before you begin, you may need to prepare your OpenShift or Kubernetes environment.
+
+==== OpenShift Preparation
 
 If you are installing on OpenShift, you need to grant the `cluster-admin` role to the user that is installing Istio and Kiali.  If OpenShift is installed locally on the machine you are using, the following command should log you in as user `system:admin` which has this `cluster-admin` role:
 
@@ -35,16 +37,16 @@ If you are installing on OpenShift, you need to grant the `cluster-admin` role t
 oc login -u system:admin
 ----
 
-=== Kubernetes Preparation
+==== Kubernetes Preparation
 
-If you are installing on Kubernetes, there are no additional preparation steps required unless you are installing on Minikube. When installing on Minikube, ensure that you enable the Ingress add-on by executing the following command:
+If you are not installing on OpenShift but instead installing on Kubernetes, there are no additional preparation steps required unless you are installing on Minikube. When installing on Minikube, ensure that you enable the Ingress add-on by executing the following command:
 
 [source,bash]
 ----
 minikube addons enable ingress
 ----
 
-Once Kiali is installed, you will now be able to go directly to the Kiali UI at the URL `https://[minikube-ip]/kiali/console` where `[minikube-ip]` is what is reported when you run the command: `minikube ip`.
+When Kiali is installed in Minikube, this Ingress add-on will enable you to go directly to the Kiali UI at the URL `https://[minikube-ip]/kiali/console` where `[minikube-ip]` is what is reported when you run the command: `minikube ip`.
 
 === Install Istio
 
@@ -74,9 +76,9 @@ metadata:
 
 ==== Installing the Kiali Operator
 
-In the instructions below, you will be shown how to install the Kiali Operator using the link:https://github.com/kiali/kiali/blob/master/operator/deploy/deploy-kiali-operator.sh[Kiali Operator install script]. That install script has the option of installing a Kiali CR for you, thus making it easy to get started with Kiali by running a single command (this is, in fact, its default behavior). If, however, you wish to configure Kiali with specific settings of your choosing, you can tell the script to skip the installation of a Kiali CR and just simply install the Operator. In this case, you would be responsible for writing the Kiali CR yaml file and creating it in your cluster.
+In the instructions below, you will be shown how to install the Kiali Operator using the link:https://github.com/kiali/kiali/blob/master/operator/deploy/deploy-kiali-operator.sh[Kiali Operator install script]. That install script has the option of also immediately installing a simple Kiali CR for you so you do not have to, thus making it easy to get started with Kiali by running a single command (this is, in fact, the install script's default behavior). If, however, you wish to install Kiali specifically configured with custom settings of your choosing, you can tell the script to skip the installation of a Kiali CR and just simply install the Operator. In this case, you would be responsible for writing the Kiali CR yaml file and creating it in your cluster, thus allowing you to tell the Operator to install Kiali with the settings you want.
 
-icon:lightbulb[size=1x]{nbsp} The Kiali Operator install script can be configured by setting environment variables when running it. For example, if you do not want it to install a Kiali CR (and thus avoid having the Kiali Operator install Kiali itself), set the OPERATOR_INSTALL_KIALI environment variable to "false" and then run the script. Read the comments at the top of the link:https://github.com/kiali/kiali/blob/master/operator/deploy/deploy-kiali-operator.sh[Kiali Operator install script] for details on what custom configuration settings are available to you.
+icon:lightbulb[size=1x]{nbsp} The Kiali Operator install script can be configured by setting environment variables when running it. For example, if you do not want the install script to install a Kiali CR (and thus avoid having the Kiali Operator install Kiali itself, as explained above), set the OPERATOR_INSTALL_KIALI environment variable to "false" and then run the script. Read the comments at the top of the link:https://github.com/kiali/kiali/blob/master/operator/deploy/deploy-kiali-operator.sh[Kiali Operator install script] for details on what custom configuration settings are available to you.
 
 icon:bullhorn[size=1x]{nbsp} The install script requires `envsubst` installed and in your PATH; you can get it via the GNU `gettext` package.
 
@@ -87,7 +89,7 @@ To install the Kiali Operator (and, by default, the Kiali CR), run the install s
 bash <(curl -L https://git.io/getLatestKialiOperator)
 ----
 
-You will be prompted for the authentication strategy you want to use. Choose "login" if you want to define a username and password that users will be required to access Kiali. Choose "anonymous" to allow full access to Kiali without requiring any credentials. Choose "openshift" to use the OpenShift OAuth login which controls access based on the individual's RBAC roles in OpenShift (this is only a feature available when deployed on OpenShift).
+You will be prompted for the authentication strategy you want to use. Choose "login" if you want to define a username and password that users will be required to access Kiali. Choose "anonymous" to allow full access to Kiali without requiring any credentials. Choose "openshift" to use the OpenShift OAuth login which controls access based on the individual's RBAC roles in OpenShift (this is only a feature available when deployed on OpenShift - the Operator will fail to install Kiali successfully and will log an appropriate error message if you choose this when installing on Kubernetes).
 
 If the authentication strategy of "login" is selected, a secret containing Kiali login credentials is required to be deployed along with Kiali. In this case, the install script will prompt you to enter a username and passphrase for the credentials that you want users to enter in order to log in successfully to Kiali. The install script will store those credentials in a secret that is deployed in the same namespace where Kiali is installed.
 
@@ -110,6 +112,8 @@ You can also use the `oc` (or `kubectl` if on Kubernetes) command to determine t
 ----
 oc get route -n istio-system -l app=kiali
 ----
+
+If on Kubernetes, access Kiali over the Ingress URL.
 
 == Uninstall
 
