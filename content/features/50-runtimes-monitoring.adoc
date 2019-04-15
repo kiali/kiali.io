@@ -7,7 +7,7 @@ image: features/runtimes_monitoring.png
 weight: 50
 ---
 
-Kiali comes with default dashboards for several runtimes: Go, Node.js, Spring Boot, Thorntail and Vert.x.
+Kiali comes with default dashboards for several runtimes, including Go, Node.js, Spring Boot, Thorntail, Vert.x, etc.
 
 These dashboards are simple Kubernetes resources, so you can use your favorite tool to create, modify or delete them.
 As they are defined as plain _yaml_ or _json_ files, it's a perfect fit for keeping under source control like GIT, track changes, share, etc.
