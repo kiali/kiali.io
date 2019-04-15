@@ -222,7 +222,7 @@ h2 {
   color: #FFFFFF;
 }
 
-
+/*
 .dark #header-wrap:not(.not-dark) #primary-menu>ul>li>a {
   color: #fff !important
 }
@@ -230,7 +230,7 @@ h2 {
 .dark #header-wrap:not(.not-dark) #primary-menu>ul>li>ul>li>a {
   color: #fff !important
 }
-
+*/
 #primary-menu ul li>a {
   letter-spacing: 0
 }
