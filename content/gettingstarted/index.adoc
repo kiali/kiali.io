@@ -16,11 +16,24 @@ toc::[]
 :icons: font
 :imagesdir: /images/gettingstarted/
 
-icon:bullhorn[size=1x]{nbsp} Kiali works with Istio versions *1.0.5+* and *1.1*.
- + 
-Kiali will support the latest Istio version (1.1 at the moment) and the development
-is closely following the development of Istio.
-Older Istio versions like 1.0.x may continue to work, but will no longer be actively supported.
+icon:bullhorn[size=1x]{nbsp} Kiali Compatibility
+[cols="10%,10%,10%,70%",options="header"]
+|===
+|Istio
+|Maistra
+|Kiali
+|Notes
+
+|1.1+
+|0.7+
+|0.17+
+|Kiali 0.17+ requires istio 1.1+
+
+|1.0.5+
+|0.1+
+|0.16
+| Older Kiali versions may work but are not supported
+|===
 
 icon:lightbulb[size=1x]{nbsp}For several commands listed on this page, the OpenShift CLI command `oc` is used to interact with the cluster environment. If you are on Kubernetes, simply replace `oc` with `kubectl` unless otherwise noted.
 
