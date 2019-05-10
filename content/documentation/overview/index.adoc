@@ -104,7 +104,7 @@ The Istio Config menu entry displays a list of all of the available Istio config
 .List of Istio Configs
 image::istio-list.png[Demo Website]
 {nbsp} +
-You can view and edit and delete the configuration yaml around a specific Istio object.
+You can view, edit and delete the configuration yaml around a specific Istio object.
 {nbsp} +
 [#img-istio-config-view]
 .Istio Config View
@@ -252,7 +252,7 @@ image::service-istio-actions.png[Service Istio Actions]
 {nbsp} +
 These actions are enabled by default. +
 Kiali can be also installed in "view only" mode to restrict any write operation on Istio configuration. +
-Check https://github.com/kiali/kiali/blob/master/operator/deploy/kiali/kiali_cr.yaml#L134[Kiali Operator CR] to get more details about how to configure this option.
+Check https://github.com/kiali/kiali/blob/master/operator/deploy/kiali/kiali_cr.yaml#L134[Kiali Operator CR, window="_blank"] to get more details about how to configure this option.
 
 ==== Weighted Routing Wizard
 
@@ -303,7 +303,7 @@ When mTLS is enabled by default in the global cluster or namespace this option i
 
 ==== More Wizard examples
 
-The following article https://medium.com/kialiproject/kiali-observability-in-action-for-istio-service-mesh-69127f792103[Kiali: Observability in Action for Istio Service Mesh]
+The following article https://medium.com/kialiproject/kiali-observability-in-action-for-istio-service-mesh-69127f792103[Kiali: Observability in Action for Istio Service Mesh, window="_blank"]
 describes more examples of how to use the Kiali Wizards to configure Istio configuration.
 
 === Distributed Tracing
