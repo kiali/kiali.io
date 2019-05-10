@@ -104,7 +104,11 @@ The Istio Config menu entry displays a list of all of the available Istio config
 .List of Istio Configs
 image::istio-list.png[Demo Website]
 {nbsp} +
-You can inspect the configuration yaml around a specific Istio object.
+You can view and edit and delete the configuration yaml around a specific Istio object.
+{nbsp} +
+[#img-istio-config-view]
+.Istio Config View
+image::istio-view.png[Demo Website]
 {nbsp} +
 [#img-kiali-istio-valid]
 .Valid Configuration of Istio Config
@@ -237,6 +241,70 @@ This section lists all the validations that Kiali performs on all Istio configur
 |https://github.com/kiali/kiali/tree/master/business/checkers/mesh_policies_checker.go[source code, window="_blank"]
 |link:/files/validation_examples/401.yaml[401.yaml, window="_blank"]
 |===
+
+=== Istio Wizards
+
+Kiali provides different actions to create, update and delete Istio configuration driven by Wizards.
+These actions are located under Service Details page.
+
+.Service Details Actions
+image::service-istio-actions.png[Service Istio Actions]
+{nbsp} +
+These actions are enabled by default. +
+Kiali can be also installed in "view only" mode to restrict any write operation on Istio configuration. +
+Check https://github.com/kiali/kiali/blob/master/operator/deploy/kiali/kiali_cr.yaml#L134[Kiali Operator CR] to get more details about how to configure this option.
+
+==== Weighted Routing Wizard
+
+This wizard allows to select the percentage of traffic that will be routed to a specific Workload.
+
+.Weighted Routing Wizard
+image::wizard-weighted-routing.png[Weighted Routing]
+{nbsp} +
+Kiali will create a pair of Istio resources (VirtualService and DestinationRule) with a single routing rule using the selected weights for the destination workloads.
+
+==== Matching Routing Wizard
+
+The Matching Routing Wizard allows to create multiple routing rules.
+
+Every rule is composed by a Matching and a Routes section.
+
+The Matching section can add multiple filters using HEADERS, URI, SCHEME, METHOD or AUTHORITY Http parameters.
+The Matching section can be empty, on this case, any http request received is matched against this rule.
+
+The Routes section can select one or multiple Workloads.
+
+Istio applies routing rules in order, meaning that first rule that matches an HTTP request, it is responsible to perform the routing. The Matching Routing Wizard allows to change order of rules.
+
+.Matching Routing Wizard
+image::wizard-matching-routing.png[Matching Routing]
+{nbsp} +
+In the same way that the previous Wizard, Kiali will create a pair of Istio resources mapping the routing rules defined into the generated VirtualService.
+
+==== Suspend Traffic Wizard
+
+This wizard helps user to stop partially or totally traffic for a service. It allows to define which workloads will receive traffic.
+
+When traffic is suspended for all workloads, Istio will return an error code to any Service request.
+
+.Suspend Routing Wizard
+image::wizard-suspend-traffic.png[Suspend Traffic]
+{nbsp} +
+When there is traffic for some workload, the wizard will map a weighted rule; when there is not traffic, an abort rule will be coded in the pair of Istio resources VirtualService and DestinationRule generated.
+
+==== Advanced Options
+
+All previous wizards have an "advanced options" section where user can define specific configuration for TLS and LoadBalancing.
+
+.Advanced options section
+image::wizard-advanced-options.png[Advanced Options]
+{nbsp} +
+When mTLS is enabled by default in the global cluster or namespace this option is already preselected.
+
+==== More Wizard examples
+
+The following article https://medium.com/kialiproject/kiali-observability-in-action-for-istio-service-mesh-69127f792103[Kiali: Observability in Action for Istio Service Mesh]
+describes more examples of how to use the Kiali Wizards to configure Istio configuration.
 
 === Distributed Tracing
 
