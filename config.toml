@@ -47,7 +47,7 @@ theme = "canvas"
       [[menu.main]]
          identifier = "installation_maistra"
          name = "Maistra"
-         url = "https://maistra.io/docs/kiali/"
+         url = "https://maistra.io/docs/getting_started/kiali/"
          weight = 2
          parent="doc_installation"
       [[menu.main]]
