@@ -77,7 +77,7 @@ See the link:#_login_options[Login Options] section below for more information.
 
 === Configure Kiali
 
-The Kiali Operator runs inside the `kiali-operator` namespace and listens for the creation of a Kiali CR (custom resource) object. When it sees one created, it will install Kiali using the settings it finds in the CR object. To see all the different settings you can configure in a Kiali CR, see link:https://github.com/kiali/kiali/blob/master/operator/deploy/kiali/kiali_cr.yaml[this fully documented example Kiali CR yaml file].
+The Kiali Operator runs inside the `kiali-operator` namespace and listens for a Kiali CR (custom resource) creation or changes. When it sees one created, it will install Kiali using the settings it finds in the CR object. To see all the different settings you can configure in a Kiali CR, see link:https://github.com/kiali/kiali/blob/master/operator/deploy/kiali/kiali_cr.yaml[this fully documented example Kiali CR yaml file].
 
 To edit from a terminal, run:
 
@@ -95,7 +95,9 @@ oc apply -f kiali.yml -n kiali-operator
 
 === Open the UI
 
-Once the Kiali Operator has installed Kiali and the Kiali pod has successfully started, you can access the Kiali UI.
+Once the Kiali Operator has installed Kiali and the Kiali pod has successfully started, you can access the UI.
+
+icon:bullhorn[size=2x]{nbsp} The credentials you use on the login screen depend on the authentication strategy that was configured for Kiali. See link:#_login_options[Login Options] for more details.
 
 ==== On OpenShift
 
