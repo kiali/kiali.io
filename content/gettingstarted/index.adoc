@@ -250,7 +250,7 @@ Then you will need to grant the `kiali` role in the namespace of your choosing:
 
 [source,bash]
 ----
-oc adm policy add-role-to-user kiali system:serviceaccount:istio-system:kiali -n ${NAMESPACE}
+oc adm policy add-role-to-user kiali system:serviceaccount:istio-system:kiali-service-account -n ${NAMESPACE}
 ----
 
 You can alternatively tell the Kiali Operator to install Kiali in "view only" mode (this does work for either OpenShift or Kubernetes). You do this by setting the `view_only_mode` to `true` in the Kiali CR:
