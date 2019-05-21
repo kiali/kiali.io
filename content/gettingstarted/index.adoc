@@ -86,11 +86,11 @@ To edit from a terminal, run:
 oc edit kiali kiali -n kiali-operator
 ----
 
-Or to create / update using a local file (here `kiali.yml`):
+Or to create / update using a local file (here `kiali_cr.yaml`):
 
 [source,bash]
 ----
-oc apply -f kiali.yml -n kiali-operator
+oc apply -f kiali_cr.yaml -n kiali-operator
 ----
 
 === Open the UI
