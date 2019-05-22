@@ -66,9 +66,9 @@ To install the Kiali Operator (and, by default, the Kiali CR), run the install s
 bash <(curl -L https://git.io/getLatestKialiOperator)
 ----
 
-It will pull the latest version of Kiali Operator and Kiali itself, and install them with default options. If Kiali was already installed, you will be prompted about removing it first.
+This will pull the latest version of the Kiali Operator and Kiali itself, and install them using the default options. If Kiali was already installed, you will be prompted to remove the older version.
 
-icon:lightbulb[size=1x]{nbsp} The Kiali Operator install script can be configured by setting environment variables when running it. For example, if you do not want the install script to install a Kiali CR (and thus avoid having the Kiali Operator install Kiali itself), set the OPERATOR_INSTALL_KIALI environment variable to "false" and then run the script. Read the comments at the top of the link:https://github.com/kiali/kiali/blob/master/operator/deploy/deploy-kiali-operator.sh[Kiali Operator install script] for details on what custom configuration settings are available to you.
+icon:lightbulb[size=1x]{nbsp} You can configure the Kiali Operator install script by setting environment variables when you run it. For example, if you do not want the install script to install a Kiali custom resource (and thus avoid having the Kiali Operator install Kiali itself), set the OPERATOR_INSTALL_KIALI environment variable to "false" and then run the script. Read the comments at the top of the link:https://github.com/kiali/kiali/blob/master/operator/deploy/deploy-kiali-operator.sh[Kiali Operator install script] for details on what custom configuration settings are available to you.
 
 icon:bullhorn[size=1x]{nbsp} The install script requires `envsubst` installed and in your PATH; you can get it via the GNU `gettext` package.
 
