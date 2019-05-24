@@ -1,8 +1,12 @@
 ---
 title: "Getting started"
+aliases: [
+    "/gettingstarted/"
+]
 date: 2019-03-20T09:04:38+02:00
 draft: false
-type: "gettingstarted"
+type: "getting-started"
+weight: 3
 menu:
   main:
     weight: 20
@@ -39,7 +43,7 @@ icon:lightbulb[size=1x]{nbsp}For several commands listed on this page, the OpenS
 
 == Installing Kiali
 
-Kiali can be installed in an OpenShift or Kubernetes cluster environment. For OpenShift only, a minimal preparation is necessary.
+Kiali can be installed in an OpenShift or Kubernetes cluster environment. For OpenShift only, a minimal preparation is necessary.  See link:/documentation/prerequisites[Prerequisites] for environment requirements.
 
 === OpenShift Preparation
 
@@ -52,8 +56,13 @@ oc login -u system:admin
 
 === Install Istio
 
-Make sure your cluster environment has Istio installed.
-For details on how to install Istio, see the link:https://istio.io/docs/setup/[Istio Setup docs].
+Make sure your cluster environment has Istio installed. For details on how to install Istio, see the link:https://istio.io/docs/setup/[Istio Setup docs].  If you are running on OpenShift and prefer Maistra, see link:https://maistra.io/docs/getting_started/install/[Maistra Setup docs].
+
+icon:lightbulb[size=1x]{nbsp}Both Istio and Maistra include Kiali distributions.
+
+If the Kiali version packaged with Istio or Maistra meets your needs then install Kiali using the Istio or Maistra installation procedure. You may then continue to link:#_open_the_ui[Open the UI].
+
+If you prefer to use the latest Kiali version then do not install Kiali during the Istio or Maistra installation procedure. Complete the Istio or Maistra installation and then install Kiali using the steps below. Note that the Kiali installation script documented below will ask to delete an existing Kiali installation, if found.
 
 === Install the Kiali Operator
 
@@ -95,7 +104,7 @@ oc apply -f kiali_cr.yaml -n kiali-operator
 
 === Open the UI
 
-Once the Kiali Operator has installed Kiali and the Kiali pod has successfully started, you can access the UI.
+Once Istio, Maistra or the Kiali Operator has installed Kiali, and the Kiali pod has successfully started, you can access the UI.
 
 icon:bullhorn[size=2x]{nbsp} The credentials you use on the login screen depend on the authentication strategy that was configured for Kiali. See link:#_login_options[Login Options] for more details.
 
