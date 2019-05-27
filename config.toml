@@ -51,16 +51,22 @@ theme = "canvas"
       weight = 5
       parent="documentation"
   [[menu.main]]
+      identifier = "tracing"
+      name = "Distributed Tracing"
+      url = "/documentation/tracing"
+      weight = 6
+      parent="documentation"
+  [[menu.main]]
       identifier = "known-issues"
       name = "Known issues"
       url = "/documentation/known-issues"
-      weight = 6
+      weight = 7
       parent="documentation"
   [[menu.main]]
       identifier = "doc_glossary"
       name = "Glossary"
       url = "/documentation/glossary"
-      weight = 7
+      weight = 8
       parent="documentation"
       [[menu.main]]
          identifier = "concepts"
