@@ -9,6 +9,6 @@
   </a>
 {{ else if .Params.image }}
   <a class="image-popup-fit-height" href="/images/{{ .Params.image }}" title="{{ .Params.subTitle }}">
-    <img src="/images/{{ .Params.image }}"/>
+    <img src="/images/{{or .Params.thumbnail .Params.image }}"/>
   </a>
 {{ end }}

@@ -3,6 +3,7 @@ title: "Graph: Detailed View"
 date: 2018-06-20T19:04:38+02:00
 draft: false
 image: features/graph-detailed.png
+thumbnail: features/graph-detailed-thumb.png
 subTitle: "Zoom in to see what is happening with a single component"
 weight: 02
 ---
