@@ -2,7 +2,8 @@
 title: "Graph: Traffic Animation"
 date: 2018-06-20T19:04:38+02:00
 draft: false
-image: features/graph-traffic-animation.gif
+video: features/kiali_traffic_animation.mp4
+thumbnail: features/kiali_traffic_animation_thumb.mp4
 subTitle: "Visualizing your traffic flow"
 weight: 04
 ---

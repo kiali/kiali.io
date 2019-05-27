@@ -2,7 +2,8 @@
 title: "Services: Traffic Routing"
 date: 2018-06-20T19:04:38+02:00
 draft: false
-image: features/services_traffic_routing.gif
+video: features/services_traffic_routing.mp4
+thumbnail: features/services_traffic_routing_thumb.mp4
 subTitle: "Examine service details and traffic routing configuration"
 weight: 30
 ---

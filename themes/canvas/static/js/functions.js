@@ -3478,11 +3478,44 @@ var SEMICOLON = SEMICOLON || {};
 					verticalFit: true
 				},
 				zoom: {
-					enabled: true, // By default it's false, so don't forget to enable it
-
-					duration: 300, // duration of the effect, in milliseconds
-					easing: 'ease-in-out', // CSS transition easing function
+					enabled: true,
+					duration: 300,
+					easing: 'ease-in-out',
 				}
+			});
+
+			function containerForVideo(element) {
+				return $(`
+					<div class="mfp-image-holder kiali-video">
+				   		<figure>
+				   			<video class="mfp-img" loop="loop" autoplay="autoplay">
+				   				<source src="${$(element).attr('href')}"/>
+				   			</video>
+				   			<figcaption>
+								<div class="mfp-bottom-bar kiali-video-caption">
+									<div class="mfp-title">${$(element).attr('title')}</div>
+								</div>
+				   			</figcaption>
+				   		</figure>
+				   	</div>`);
+			}
+
+
+			$.each($('.video-popup'), function(_, element) {
+				const href = $(element).attr('href');
+				$(element).magnificPopup({
+					items: {
+						type: 'inline',
+						src: containerForVideo(element)
+					},
+					closeBtnInside:true,
+					closeOnContentClick: true,
+					callbacks: {
+						open: function() {
+							$(this.content).find('video')[0].play();
+						}
+					}
+				})
 			});
 		}
 

@@ -2,7 +2,8 @@
 title: "Applications, Workloads and Services"
 date: 2018-06-20T19:04:38+02:00
 draft: false
-image: features/applications_workloads_services_overview.gif
+video: features/applications_workloads_services_overview.mp4
+thumbnail: features/applications_workloads_services_overview-thumb.mp4
 subTitle: "Browse your service mesh by applications, workloads and services"
 weight: 10
 ---
