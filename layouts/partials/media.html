@@ -5,7 +5,7 @@
 </div>
 {{ else if .Params.video }}
   <a class="video-popup" href="/images/{{ .Params.video }}" title="{{ .Params.subTitle }}">
-    <video autoplay muted loop width="428px" src="/images/{{ .Params.thumbnail }}"/>
+    <video autoplay muted loop width="600px" src="/images/{{ .Params.thumbnail }}"/>
   </a>
 {{ else if .Params.image }}
   <a class="image-popup-fit-height" href="/images/{{ .Params.image }}" title="{{ .Params.subTitle }}">
