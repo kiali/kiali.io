@@ -4,6 +4,7 @@ date: 2018-07-18T12:33:50+02:00
 draft: false
 subTitle: "Check Istio sidecars and labeling on workloads (deployments)"
 image: features/workload_details.png
+thumbnail: features/workload_details_thumb.png
 weight: 31
 ---
 

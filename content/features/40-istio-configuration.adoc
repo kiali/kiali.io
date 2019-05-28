@@ -3,7 +3,8 @@ title: "Istio Configuration"
 date: 2018-06-20T19:04:38+02:00
 draft: false
 subTitle: "Browse, edit and validate Istio configuration"
-image: features/istio_configuration.gif
+video: features/istio_configuration.mp4
+thumbnail: features/istio_configuration_thumb.mp4
 weight: 40
 ---
 

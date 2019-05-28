@@ -2,7 +2,8 @@
 title: "Detailed Metrics"
 date: 2018-06-20T19:04:38+02:00
 draft: false
-image: features/detailed_metrics.gif
+video: features/detailed_metrics.mp4
+thumbnail: features/detailed_metrics_thumb.mp4
 subTitle: "Detailed metrics per Application, Workload and Service level"
 weight: 20
 ---

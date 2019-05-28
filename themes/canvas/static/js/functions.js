@@ -2089,7 +2089,7 @@ var SEMICOLON = SEMICOLON || {};
 			SEMICOLON.widget.stickySidebar();
 			SEMICOLON.widget.cookieNotify();
 			SEMICOLON.widget.extras();
-
+			SEMICOLON.widget.imagePopup();
 		},
 
 		parallax: function(){
@@ -3468,6 +3468,55 @@ var SEMICOLON = SEMICOLON || {};
 			// el.darkRetinaLogo.prependTo("body");
 			// el.darkLogo.css({'position':'absolute','z-index':'-100'});
 			// el.darkRetinaLogo.css({'position':'absolute','z-index':'-100'});
+		},
+
+		imagePopup: function() {
+			$('a.image-popup-fit-height').magnificPopup({
+				type: 'image',
+				closeOnContentClick: true,
+				image: {
+					verticalFit: true
+				},
+				zoom: {
+					enabled: true,
+					duration: 300,
+					easing: 'ease-in-out',
+				}
+			});
+
+			function containerForVideo(element) {
+				return $(`
+					<div class="mfp-image-holder kiali-video">
+				   		<figure>
+				   			<video class="mfp-img" loop="loop" autoplay="autoplay">
+				   				<source src="${$(element).attr('href')}"/>
+				   			</video>
+				   			<figcaption>
+								<div class="mfp-bottom-bar kiali-video-caption">
+									<div class="mfp-title">${$(element).attr('title')}</div>
+								</div>
+				   			</figcaption>
+				   		</figure>
+				   	</div>`);
+			}
+
+
+			$.each($('.video-popup'), function(_, element) {
+				const href = $(element).attr('href');
+				$(element).magnificPopup({
+					items: {
+						type: 'inline',
+						src: containerForVideo(element)
+					},
+					closeBtnInside:true,
+					closeOnContentClick: true,
+					callbacks: {
+						open: function() {
+							$(this.content).find('video')[0].play();
+						}
+					}
+				})
+			});
 		}
 
 	};

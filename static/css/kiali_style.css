@@ -379,3 +379,22 @@ code {
 .toc > ul > li > ul {
   list-style: none;
 }
+
+div.kiali-video {
+  height: 100vh;
+  visibility: visible;
+}
+
+.kiali-video .mfp-title {
+  text-align: center;
+  padding: 0;
+}
+
+.kiali-video video {
+  height: calc(100vh - 80px);
+  width: 100vw;
+  margin-top: 44px;
+  margin-bottom: 40px;
+  margin-left: auto;
+  margin-right: auto;
+}
