@@ -1,4 +1,4 @@
-baseURL = "http://example.org/"
+baseURL = "https://www.kiali.io"
 languageCode = "en-us"
 title = "Kiali"
 theme = "canvas"
