@@ -12,18 +12,26 @@ menu:
     weight: 1
 ---
 
+:sectnums:
 :toc: left
-toc::[]
 :toc-title: Kiali Features
+:toclevels: 4
 :keywords: Kiali Features
 :includedir: content/documentation/features
 :imagesdir: /images/features/
 
-= Overview
-Kiali helps you define, validate, and observe your service mesh.
+== Overview
 
-== Observability
-Observability is being able to see your service mesh in operation.  It combines topology, traces, telemetry, logs and definitions. It help you ensure your mesh is healthy or  quickly identify problem areas.
+Kiali helps you define, validate, and observe your Istio service mesh. Kiali provides answers to the questions: What are the microservices in my service mesh, and how are they connected?
+
+Kiali works with Istio in OpenShift or Kubernetes. It visualizes the service mesh topology and provides visibility into features like request routing, circuit breakers, request rates, latency and more. Kial offers insights about the mesh components at different levels, from abstract Applications to Services and Workloads.
+
+icon:lightbulb[size=2x] {nbsp}{nbsp}{nbsp}{nbsp} Kiali also includes Jaeger Tracing to provide distributed tracing out of the box.
+
+
+== Observability Features
+
+Observability is being able to see your service mesh in operation.  It combines topology, telemetry, traces, logs, events and definitions. It help you ensure your mesh is healthy or to quickly identify problem areas.  It helps correlate different information sources into a holistic view of the system.
 
 
 === Graph
@@ -34,6 +42,7 @@ The graph provides a powerful way to visualize the topology of your service mesh
 The graph also lets you see which services are **configured** with such things as virtual services and circuit breakers. It also identifies **security** issues by identifying traffic not configured as expected.  And you can observe the **traffic flow** between components by watching the animation or viewing the **metrics**.
 
 You can configure the graph to show the namespaces and data that is important to you, and display it in the way that best meets your needs.
+
 
 {empty} +
 
@@ -48,6 +57,7 @@ The **side panel** provides more detailed information about the overall traffic.
 
 The side-panel also provides links to full detail views.
 
+
 {empty} +
 
 ==== Graph: Drill-Down
@@ -58,6 +68,7 @@ Sometimes you want to want to focus on just one component, whether it be a servi
 Double click on a graph node and Kiali will drill in and give you a detailed view centered on that component.  It shows you only the incoming requests being served, and the outgoing requests being made.  All from the point-of-view of that component's telemetry.
 
 You can jump back to the main graph and continue where you left off.
+
 
 {empty} +
 
@@ -72,6 +83,7 @@ Want to get a quick summary of anything in the graph? Select any node with a sin
 * **Response Code** breakdowns.
 
 Or, click on the graph background and the side panel provides an overall summary for the entire graph.
+
 
 {empty} +
 
@@ -99,9 +111,9 @@ Kiali offers four different graph renderings of the mesh telemetry. Each graph t
 
 * The **service** graph provides a high-level view, aggregating all traffic for defined services.
 
-{empty} +
-{empty} +
 
+{empty} +
+{empty} +
 
 === Detail Views
 
@@ -113,9 +125,10 @@ Kiali provides filtered list views of all your service mesh definitions.  Each v
 * Workloads
 * Istio Configurations (Virtual Services, Gateways, etc)
 
+
 {empty} +
 
-=== Detail: Metrics
+==== Detail: Metrics
 
 video::detailed_metrics_thumb.mp4[opts="autoplay,loop"]
 Each detail view provides **predefined metrics dashboards**.  The metrics dashboards provided are tailored to the relevant application, workload or service level.
@@ -124,18 +137,20 @@ Application and workload detail views show *request* and *response* metrics (vol
 
 The service detail view shows request and response metrics per *inbound* traffic.
 
+
 {empty} +
 
-=== Detail: Services
+==== Detail: Services
 
 video::services_traffic_routing_thumb.mp4[opts="autoplay,loop"]
 The service detail view shows the user the workloads running the service. It also shows the *Istio* traffic routing configuration (VirtualServices and DestinationRules) associated with the service.
 
 Kiali provides access to YAML definitions and allows modification and delete for authorized users. It provides wizards to assist in common configurations and performs additional validation on VirtualServices to detect misconfigured routes.
 
+
 {empty} +
 
-=== Detail: Workloads
+==== Detail: Workloads
 
 image:workload_details_thumb.png[float=right, link="{imagesdir}workload_details.png"]
 Kiali performs several validations on workload configuration:
@@ -148,9 +163,10 @@ Workload detail provides a view of the services for which the workload is handli
 
 Workload detail also allows access to the **pod logs**, and provides detailed traffic breakdown.
 
+
 {empty} +
 
-=== Detail: Runtimes Monitoring/Dashboards
+==== Detail: Runtimes Monitoring/Dashboards
 
 image:runtimes_monitoring_thumb.png[float=right, link="{imagesdir}runtimes_monitoring.png"]
 Kiali comes with default dashboards for several runtimes, including Go, Node.js, Spring Boot, Thorntail, and Vert.x.
@@ -160,25 +176,234 @@ As they are defined as plain _yaml_ or _json_ files, it's a perfect fit for keep
 
 Check out the link:/documentation/runtimes-monitoring/[documentation page] to learn more about it.
 
+
 {empty} +
 
-== Configuration and Validation
+=== Distributed Tracing
 
-=== Detail: Istio Configuration
+Clicking on Distributed Tracing menu item will open a new tab with the https://www.jaegertracing.io/[Jaeger] UI for tracing services.
+
+
+{empty} +
+
+== Configuration and Validation Features
+
+Kiali is more than observability, it also helps you to configure, update and validate your Istio service mesh.
+
+
+=== Istio Configuration
 
 video::istio_configuration_thumb.mp4[opts="autoplay,loop"]
 The Istio configuration view provides advanced filtering and navigation for Istio configuration objects such as Virtual Services and Gateways.
 
 Kiali provides inline config edition and powerful **semantic validation** for Istio resources.
 
+
 {empty} +
 
-=== Detail: Istio Wizards
+=== Validations Performed
 
-image:istio_wizard.png[float=right]
-Kiali provides powerful Wizards to hide complexity and make configuring Istio easy and safe.
+This section lists all the validations that Kiali performs on all Istio configurations. Most of these validations are done in addition to/on top of the existing ones performed by Istio's Galley component (except those marked as deprecated). Most validations are done inside a single namespace only, any exceptions (such as gateways) are marked below.
 
-Kiali provides a wizard for traffic routing. The user selects an action type: Weighted Routing, Matching Routing, or Suspend Traffic and then defines the desired parameters.  The Kiali wizard will create the specific Istio resources for the given Service.
+[cols="2,1,2,1,1", options="header"]
+.List of destination rule validations
+|===
+|Validation message |Severity |Description |Source |Example
+|More than one Destination Rule for the same host subset combination
+|warning
+|Warning shown when two Destination Rules point to the same host and share one or more subsets. If non-local mTLS is enabled this check is ignored.
+|https://github.com/kiali/kiali/tree/master/business/checkers/destination_rules/multi_match_checker.go[source code, window="_blank"]
+|link:/files/validation_examples/001.yaml[001.yaml, window="_blank"]
 
-Kiali is adding and improving wizards frequently!
+|This host has no matching workloads
+|error
+|When one destination rule has a host that doesn't exist. This checks against any workload, service names as well as service entries
+|https://github.com/kiali/kiali/blob/master/business/checkers/destinationrules/no_dest_checker.go#L28[source code, window="_blank"]
+|link:/files/validation_examples/002.yaml[002.yaml, window="_blank"]
+
+|This subset's labels are not found in any matching host
+|error
+|There isn't any workload for this host matching its labels with the ones from that subset
+|https://github.com/kiali/kiali/blob/master/business/checkers/destinationrules/no_dest_checker.go#L46[source code, window="_blank"]
+|link:/files/validation_examples/003.yaml[003.yaml, window="_blank"]
+
+|MeshPolicy enabling mTLS is missing
+|error
+|When there is a DestinationRule enabling mTLS mesh-wide, but there isn't any MeshPolicy enabling mTLS
+|https://github.com/kiali/kiali/tree/master/business/checkers/destinationrules/meshwide_mtls_checker.go[source code, window="_blank"]
+|link:/files/validation_examples/004.yaml[004.yaml, window="_blank"]
+
+|===
+
+.List of virtual service validations
+[cols="2,1,2,1,1", options="header"]
+|===
+|Validation message |Severity |Description |Source |Example
+|VirtualService is pointing to a non-existent gateway
+|error
+|When the virtual service has a specified a gateway that doesn't exist
+|https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/no_gateway_checker.go[source code, window="_blank"]
+|link:/files/validation_examples/101.yaml[101.yaml, window="_blank"]
+
+|DestinationWeight on route doesn't have a valid service (host not found)
+|error
+|When a destination weight has a host that doesn't exist. This checks against service names as well as service entries
+|https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/no_host_checker.go[source code, window="_blank"]
+|link:/files/validation_examples/102.yaml[102.yaml, window="_blank"]
+
+|VirtualService doesn't define any route protocol
+|error
+|When a Virtual Service doesn't define any tcp, http or tls routes
+|https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/no_host_checker.go[source code, window="_blank"]
+|link:/files/validation_examples/103.yaml[103.yaml, window="_blank"]
+
+|More than one Virtual Service for same host
+|warning
+|When two virtual services point to the same host. This includes hosts with wildcards also.
+|https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/single_host_checker.go[source code, window="_blank"]
+|link:/files/validation_examples/104.yaml[104.yaml, window="_blank"]
+
+|Subset not found
+|warning
+|When there is no subset defined in any destination rule
+|https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/subset_presence_checker.go[source code, window="_blank"]
+|link:/files/validation_examples/105.yaml[105.yaml, window="_blank"]
+
+|Destination field is mandatory
+|error
+|When a Destination field within a DestinationWeight is empty
+|https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/subset_presence_checker.go[source code, window="_blank"]
+|link:/files/validation_examples/106.yaml[106.yaml, window="_blank"]
+
+|(Deprecated) Weight must be a number
+|error
+|When a destination weight is not a number
+|https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/route_checker.go[source code, window="_blank"]
+|link:/files/validation_examples/107.yaml[107.yaml, window="_blank"]
+
+|(Deprecated) Weight should be between 0 and 100
+|error
+|When a destination weight is > 100 or < 0
+|https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/route_checker.go[source code, window="_blank"]
+|link:/files/validation_examples/108.yaml[108.yaml, window="_blank"]
+
+|(Deprecated) Weight sum should be 100
+|error
+|When the sum of all the weights for a protocol doesn't sum up to 100
+|https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/route_checker.go[source code, window="_blank"]
+|link:/files/validation_examples/109.yaml[109.yaml, window="_blank"]
+
+|(Deprecated) All routes should have weight
+|warning
+|When weight sum is different from 100 and one or more destination weights have no weight, but the rest have.
+|https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/route_checker.go[source code, window="_blank"]
+|link:/files/validation_examples/110.yaml[110.yaml, window="_blank"]
+|===
+
+.List of Gateway validations
+[cols="2,1,2,1,1", options="header"]
+|===
+|Validation message |Severity |Description |Source |Example
+|More than one Gateway for the same host port combination
+|warning
+|When two or more gateways (from same or different namespace) point to the same host-port combination
+|https://github.com/kiali/kiali/tree/master/business/checkers/gateways/multi_match_checker.go[source code, window="_blank"]
+|link:/files/validation_examples/201.yaml[201.yaml, window="_blank"]
+|===
+
+.List of MeshPolicy validations
+[cols="2,1,2,1,1", options="header"]
+|===
+|Validation message |Severity |Description |Source |Example
+|Mesh-wide Destination Rule enabling mTLS is missing
+|error
+|When there is a MeshPolicy enabling mTLS, but there isn't any mesh-wide Destination Rule enabling mTLS
+|https://github.com/kiali/kiali/tree/master/business/checkers/mesh_policies_checker.go[source code, window="_blank"]
+|link:/files/validation_examples/401.yaml[401.yaml, window="_blank"]
+|===
+
+
+{empty} +
+
+=== Istio Wizards
+
+Kiali provides different actions to create, update and delete Istio configuration driven by Wizards.
+These actions are located under Service Details page.
+
+.Service Details Actions
+image::service-istio-actions.png[Service Istio Actions]
+{nbsp} +
+These actions are enabled by default. +
+Kiali can also be installed in "view only" mode to restrict any write operation on Istio configuration. +
+Check https://github.com/kiali/kiali/blob/master/operator/deploy/kiali/kiali_cr.yaml#L134[Kiali Operator CR, window="_blank"] to get more details about how to configure this option.
+
+==== Weighted Routing Wizard
+
+This wizard allows to select the percentage of traffic that will be routed to a specific Workload.
+
+.Weighted Routing Wizard
+image::wizard-weighted-routing.png[Weighted Routing]
+{nbsp} +
+Kiali will create a pair of Istio resources (VirtualService and DestinationRule) with a single routing rule using the selected weights for the destination workloads.
+
+==== Matching Routing Wizard
+
+The Matching Routing Wizard allows to create multiple routing rules.
+
+Every rule is composed by a Matching and a Routes section.
+
+The Matching section can add multiple filters using HEADERS, URI, SCHEME, METHOD or AUTHORITY Http parameters.
+The Matching section can be empty, on this case, any http request received is matched against this rule.
+
+The Routes section can select one or multiple Workloads.
+
+Istio applies routing rules in order, meaning that first rule that matches an HTTP request, it is responsible to perform the routing. The Matching Routing Wizard allows to change order of rules.
+
+.Matching Routing Wizard
+image::wizard-matching-routing.png[Matching Routing]
+{nbsp} +
+In the same way that the previous Wizard, Kiali will create a pair of Istio resources mapping the routing rules defined into the generated VirtualService.
+
+==== Suspend Traffic Wizard
+
+This wizard helps user to stop partially or totally traffic for a service. It allows to define which workloads will receive traffic.
+
+When traffic is suspended for all workloads, Istio will return an error code to any Service request.
+
+.Suspend Routing Wizard
+image::wizard-suspend-traffic.png[Suspend Traffic]
+{nbsp} +
+When there is traffic for some workload, the wizard will map a weighted rule; when there is not traffic, an abort rule will be coded in the pair of Istio resources VirtualService and DestinationRule generated.
+
+==== Advanced Options
+
+All previous wizards have an "advanced options" section where user can define specific configuration for TLS and LoadBalancing.
+
+.Advanced options section
+image::wizard-advanced-options.png[Advanced Options]
+{nbsp} +
+When mTLS is enabled by default in the global cluster or namespace this option is already preselected.
+
+==== More Wizard examples
+
+The following article https://medium.com/kialiproject/kiali-observability-in-action-for-istio-service-mesh-69127f792103[Kiali: Observability in Action for Istio Service Mesh, window="_blank"]
+describes more examples of how to use the Kiali Wizards to configure Istio configuration.
+
+
+== Useful resources
+
+.Kiali
+* https://github.com/kiali/kiali/blob/master/README.adoc[Kiali Readme]
+* https://github.com/kiali/kiali-ui/blob/master/README.adoc[Kiali-ui Readme]
+* https://github.com/kiali/kiali-test-mesh[Kiali-test-mesh]
+
+.Istio
+* https://istio.io/[Istio]
+ - https://istio.io/docs/concepts/what-is-istio/[What is Istio?]
+ - https://istio.io/docs/concepts/traffic-management/[Traffic Management]
+ - https://istio.io/docs/examples/[Examples]
+
+.Jaeger
+* https://www.jaegertracing.io/[Jaeger]
+
 
