@@ -37,7 +37,7 @@ theme = "canvas"
       name = "Getting Started"
       url = "/documentation/getting-started"
       weight = 3
-      parent="documentation"      
+      parent="documentation"
   [[menu.main]]
       identifier = "architecture"
       name = "Architecture"
@@ -53,7 +53,7 @@ theme = "canvas"
   [[menu.main]]
       identifier = "tracing"
       name = "Distributed Tracing"
-      url = "/documentation/tracing"
+      url = "/documentation/distributed-tracing"
       weight = 6
       parent="documentation"
   [[menu.main]]
