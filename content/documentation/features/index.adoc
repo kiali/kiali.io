@@ -17,8 +17,8 @@ menu:
 :toc-title: Kiali Features
 :toclevels: 4
 :keywords: Kiali Features
-:includedir: content/documentation/features
-:imagesdir: /images/features/
+:icons: font
+:imagesdir: /images/documentation/features/
 
 == Overview
 
