@@ -21,9 +21,9 @@ theme = "canvas"
       url = "/documentation"
       weight =  30
   [[menu.main]]
-      identifier = "doc_overview"
-      name = "Overview"
-      url = "/documentation/overview"
+      identifier = "doc_features"
+      name = "Features"
+      url = "/documentation/features"
       weight = 1
       parent="documentation"
   [[menu.main]]
