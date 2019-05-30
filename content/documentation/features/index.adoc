@@ -43,7 +43,7 @@ The graph also lets you see which services are **configured** with such things a
 You can configure the graph to show the namespaces and data that is important to you, and display it in the way that best meets your needs.
 ++++
 <a class="image-popup-fit-height" href="/images/documentation/features/graph-overview.png" title="Visualize your service mesh topology">
-    <img src="/images/documentation/features/graph-overview-thumb.png"/>
+    <img src="/images/documentation/features/graph-overview-thumb.png" style="display:block;margin: 0 auto;" />
 </a>
 ++++
 
@@ -55,7 +55,7 @@ Colors in the graph represent the **health** of your service mesh. A nodes color
 The health of nodes and edges is **refreshed automatically** based on the user's preference.  The graph can also be paused to examine a particular state.
 ++++
 <a class="image-popup-fit-height" href="/images/documentation/features/graph-health.png" title="Visualize the health of your mesh">
-    <img src="/images/documentation/features/graph-health-thumb.png"/>
+    <img src="/images/documentation/features/graph-health-thumb.png" style="display:block;margin: 0 auto;" />
 </a>
 ++++
 
@@ -69,7 +69,7 @@ Double click on a graph node and Kiali will drill in and give you a detailed vie
 You can jump back to the main graph and continue where you left off.
 ++++
 <a class="image-popup-fit-height" href="/images/documentation/features/graph-detailed.png" title="Focus your graph on a selected component">
-    <img src="/images/documentation/features/graph-detailed-thumb.png"/>
+    <img src="/images/documentation/features/graph-detailed-thumb.png" style="display:block;margin: 0 auto;" />
 </a>
 ++++
 
@@ -86,7 +86,7 @@ Want to get a quick summary of anything in the graph? Select any node with a sin
 Or, click on the graph background and the side panel provides an overall summary for the entire graph.
 ++++
 <a class="image-popup-fit-height" href="/images/documentation/features/graph-side-panel.png" title="Quick summary of a selected component">
-    <img src="/images/documentation/features/graph-side-panel-thumb.png"/>
+    <img src="/images/documentation/features/graph-side-panel-thumb.png" style="display:block;margin: 0 auto;" />
 </a>
 ++++
 
@@ -100,7 +100,7 @@ For HTTP traffic, circles represent successful requests while red diamonds repre
 TCP traffic is represented by offset circles where the speed of the circles indicates the traffic speed.
 ++++
 <a class="video-popup" href="/images/documentation/features/kiali_traffic_animation.mp4" title="Visualize your traffic flow">
-    <video autoplay muted loop width="600px" src="/images/documentation/features/kiali_traffic_animation_thumb.mp4"/>
+    <video autoplay muted loop width="600px" src="/images/documentation/features/kiali_traffic_animation_thumb.mp4" style="display:block;margin:0 auto;" />
 </a>
 ++++
 
@@ -118,7 +118,7 @@ Kiali offers four different graph renderings of the mesh telemetry. Each graph t
 * The **service** graph provides a high-level view, aggregating all traffic for defined services.
 ++++
 <a class="image-popup-fit-height" href="/images/documentation/features/graph-types.png" title="Visualize your mesh different ways">
-    <img src="/images/documentation/features/graph-types-thumb.png"/>
+    <img src="/images/documentation/features/graph-types-thumb.png" style="display:block;margin: 0 auto;" />
 </a>
 ++++
 
@@ -133,7 +133,7 @@ Kiali provides filtered list views of all your service mesh definitions.  Each v
 * Istio Configurations (Virtual Services, Gateways, etc)
 ++++
 <a class="video-popup" href="/images/documentation/features/applications_workloads_services_overview.mp4" title="Filtered component lists">
-    <video autoplay muted loop width="600px" src="/images/documentation/features/applications_workloads_services_overview-thumb.mp4"/>
+    <video autoplay muted loop width="600px" src="/images/documentation/features/applications_workloads_services_overview-thumb.mp4" style="display:block;margin:0 auto;" />
 </a>
 ++++
 
@@ -147,7 +147,7 @@ Application and workload detail views show *request* and *response* metrics (vol
 The service detail view shows request and response metrics per *inbound* traffic.
 ++++
 <a class="video-popup" href="/images/documentation/features/detailed_metrics.mp4" title="Metric Charts">
-    <video autoplay muted loop width="600px" src="/images/documentation/features/detailed_metrics_thumb.mp4"/>
+    <video autoplay muted loop width="600px" src="/images/documentation/features/detailed_metrics_thumb.mp4" style="display:block;margin:0 auto;" />
 </a>
 ++++
 
@@ -159,7 +159,7 @@ The service detail view shows the user the workloads running the service. It als
 Kiali provides access to YAML definitions and allows modification and delete for authorized users. It provides wizards to assist in common configurations and performs additional validation on VirtualServices to detect misconfigured routes.
 ++++
 <a class="video-popup" href="/images/documentation/features/services_traffic_routing.mp4" title="Service Details">
-    <video autoplay muted loop width="600px" src="/images/documentation/features/services_traffic_routing_thumb.mp4"/>
+    <video autoplay muted loop width="600px" src="/images/documentation/features/services_traffic_routing_thumb.mp4" style="display:block;margin:0 auto;" />
 </a>
 ++++
 
@@ -177,7 +177,7 @@ Workload detail provides a view of the services for which the workload is handli
 Workload detail also allows access to the **pod logs**, and provides detailed traffic breakdown.
 ++++
 <a class="image-popup-fit-height" href="/images/documentation/features/workload_details.png" title="Workload Details">
-    <img src="/images/documentation/features/workload_details_thumb.png"/>
+    <img src="/images/documentation/features/workload_details_thumb.png" style="display:block;margin: 0 auto;" />
 </a>
 ++++
 
@@ -192,7 +192,7 @@ As they are defined as plain _yaml_ or _json_ files, it's a perfect fit for keep
 Check out the link:/documentation/runtimes-monitoring/[documentation page, window=_blank] to learn more about it.
 ++++
 <a class="image-popup-fit-height" href="/images/documentation/features/runtimes_monitoring.png" title="Runtimes Dashboards">
-    <img src="/images/documentation/features/runtimes_monitoring_thumb.png"/>
+    <img src="/images/documentation/features/runtimes_monitoring_thumb.png" style="display:block;margin: 0 auto;" />
 </a>
 ++++
 
@@ -214,7 +214,7 @@ The Istio configuration view provides advanced filtering and navigation for Isti
 Kiali provides inline config edition and powerful **semantic validation** for Istio resources.
 ++++
 <a class="video-popup" href="/images/documentation/features/istio_configuration.mp4" title="Istio Configurations">
-    <video autoplay muted loop width="600px" src="/images/documentation/features/istio_configuration_thumb.mp4"/>
+    <video autoplay muted loop width="600px" src="/images/documentation/features/istio_configuration_thumb.mp4" style="display:block;margin:0 auto;" />
 </a>
 ++++
 
@@ -346,7 +346,7 @@ This section lists all the validations that Kiali performs on all Istio configur
 Kiali provides different actions to create, update and delete Istio configuration driven by Wizards. These are located in the *Actions* menu on the Service Details page.
 ++++
 <a class="image-popup-fit-height" href="/images/documentation/features/service-istio-actions.png" title="Service Details Actions">
-    <img src="/images/documentation/features/service-istio-actions-thumb.png"/>
+    <img src="/images/documentation/features/service-istio-actions-thumb.png" style="display:block;margin: 0 auto;" />
 </a>
 ++++
 {nbsp} +
@@ -358,7 +358,7 @@ Check https://github.com/kiali/kiali/blob/master/operator/deploy/kiali/kiali_cr.
 This wizard allows to select the percentage of traffic that will be routed to a specific Workload.
 ++++
 <a class="image-popup-fit-height" href="/images/documentation/features/wizard-weighted-routing.png" title="Weighted Routing Wizard">
-    <img src="/images/documentation/features/wizard-weighted-routing-thumb.png"/>
+    <img src="/images/documentation/features/wizard-weighted-routing-thumb.png" style="display:block;margin: 0 auto;" />
 </a>
 ++++
 Kiali will create a pair of Istio resources (VirtualService and DestinationRule) with a single routing rule using the selected weights for the destination workloads.
@@ -374,7 +374,7 @@ The Matching Routing Wizard allows to create multiple routing rules.
 Istio applies routing rules in order, meaning that first rule that matches an HTTP request, it is responsible to perform the routing. The Matching Routing Wizard allows to change order of rules.
 ++++
 <a class="image-popup-fit-height" href="/images/documentation/features/wizard-matching-routing.png" title="Matching Routing Wizard">
-    <img src="/images/documentation/features/wizard-matching-routing-thumb.png"/>
+    <img src="/images/documentation/features/wizard-matching-routing-thumb.png" style="display:block;margin: 0 auto;" />
 </a>
 ++++
 In the same way that the previous Wizard, Kiali will create a pair of Istio resources mapping the routing rules defined into the generated VirtualService.
@@ -385,7 +385,7 @@ This wizard helps user to stop partially or totally traffic for a service. It al
 When traffic is suspended for all workloads, Istio will return an error code to any Service request.
 ++++
 <a class="image-popup-fit-height" href="/images/documentation/features/wizard-suspend-traffic.png" title="Suspend Traffic Wizard">
-    <img src="/images/documentation/features/wizard-suspend-traffic-thumb.png"/>
+    <img src="/images/documentation/features/wizard-suspend-traffic-thumb.png" style="display:block;margin: 0 auto;" />
 </a>
 ++++
 When there is traffic for some workload, the wizard will map a weighted rule; when there is not traffic, an abort rule will be coded in the pair of Istio resources VirtualService and DestinationRule generated.
@@ -394,7 +394,7 @@ When there is traffic for some workload, the wizard will map a weighted rule; wh
 All previous wizards have an "advanced options" section where user can define specific configuration for TLS and LoadBalancing.
 ++++
 <a class="image-popup-fit-height" href="/images/documentation/features/wizard-advanced-options.png" title="Advanced options section">
-    <img src="/images/documentation/features/wizard-advanced-options-thumb.png"/>
+    <img src="/images/documentation/features/wizard-advanced-options-thumb.png" style="display:block;margin: 0 auto;" />
 </a>
 ++++
 When mTLS is enabled by default in the global cluster or namespace this option is already preselected.
