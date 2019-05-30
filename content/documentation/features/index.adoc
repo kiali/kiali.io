@@ -192,7 +192,7 @@ As they are defined as plain _yaml_ or _json_ files, it's a perfect fit for keep
 Check out the link:/documentation/runtimes-monitoring/[documentation page, window=_blank] to learn more about it.
 ++++
 <a class="image-popup-fit-height" href="/images/documentation/features/runtimes_monitoring.png" title="Runtimes Dashboards">
-    <img src="/images/documentation/features/runtimes_monitoring.png"/>
+    <img src="/images/documentation/features/runtimes_monitoring_thumb.png"/>
 </a>
 ++++
 
@@ -346,7 +346,7 @@ This section lists all the validations that Kiali performs on all Istio configur
 Kiali provides different actions to create, update and delete Istio configuration driven by Wizards. These are located in the *Actions* menu on the Service Details page.
 ++++
 <a class="image-popup-fit-height" href="/images/documentation/features/service-istio-actions.png" title="Service Details Actions">
-    <img src="/images/documentation/features/service-istio-actions.png"/>
+    <img src="/images/documentation/features/service-istio-actions-thumb.png"/>
 </a>
 ++++
 {nbsp} +
@@ -358,7 +358,7 @@ Check https://github.com/kiali/kiali/blob/master/operator/deploy/kiali/kiali_cr.
 This wizard allows to select the percentage of traffic that will be routed to a specific Workload.
 ++++
 <a class="image-popup-fit-height" href="/images/documentation/features/wizard-weighted-routing.png" title="Weighted Routing Wizard">
-    <img src="/images/documentation/features/wizard-weighted-routing.png"/>
+    <img src="/images/documentation/features/wizard-weighted-routing-thumb.png"/>
 </a>
 ++++
 Kiali will create a pair of Istio resources (VirtualService and DestinationRule) with a single routing rule using the selected weights for the destination workloads.
@@ -374,7 +374,7 @@ The Matching Routing Wizard allows to create multiple routing rules.
 Istio applies routing rules in order, meaning that first rule that matches an HTTP request, it is responsible to perform the routing. The Matching Routing Wizard allows to change order of rules.
 ++++
 <a class="image-popup-fit-height" href="/images/documentation/features/wizard-matching-routing.png" title="Matching Routing Wizard">
-    <img src="/images/documentation/features/wizard-matching-routing.png"/>
+    <img src="/images/documentation/features/wizard-matching-routing-thumb.png"/>
 </a>
 ++++
 In the same way that the previous Wizard, Kiali will create a pair of Istio resources mapping the routing rules defined into the generated VirtualService.
@@ -385,7 +385,7 @@ This wizard helps user to stop partially or totally traffic for a service. It al
 When traffic is suspended for all workloads, Istio will return an error code to any Service request.
 ++++
 <a class="image-popup-fit-height" href="/images/documentation/features/wizard-suspend-traffic.png" title="Suspend Traffic Wizard">
-    <img src="/images/documentation/features/wizard-suspend-traffic.png"/>
+    <img src="/images/documentation/features/wizard-suspend-traffic-thumb.png"/>
 </a>
 ++++
 When there is traffic for some workload, the wizard will map a weighted rule; when there is not traffic, an abort rule will be coded in the pair of Istio resources VirtualService and DestinationRule generated.
@@ -394,7 +394,7 @@ When there is traffic for some workload, the wizard will map a weighted rule; wh
 All previous wizards have an "advanced options" section where user can define specific configuration for TLS and LoadBalancing.
 ++++
 <a class="image-popup-fit-height" href="/images/documentation/features/wizard-advanced-options.png" title="Advanced options section">
-    <img src="/images/documentation/features/wizard-advanced-options.png"/>
+    <img src="/images/documentation/features/wizard-advanced-options-thumb.png"/>
 </a>
 ++++
 When mTLS is enabled by default in the global cluster or namespace this option is already preselected.
