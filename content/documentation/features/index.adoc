@@ -13,8 +13,7 @@ menu:
 ---
 
 :linkattrs:
-:sectnums:
-:toc: left
+:toc: macro
 :toc-title: Kiali Features
 :toclevels: 4
 :keywords: Kiali Features
@@ -29,6 +28,7 @@ Kiali works with Istio in OpenShift or Kubernetes. It visualizes the service mes
 
 icon:lightbulb[size=2x] {nbsp}{nbsp}{nbsp}{nbsp} Kiali also includes Jaeger Tracing to provide distributed tracing out of the box.
 
+toc::[]
 
 == Observability Features
 
