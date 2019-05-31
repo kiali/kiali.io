@@ -1,21 +1,42 @@
 {{ partial "header.html" . }}
 
 <section id="slider" class="slider-element bg-angle">
-
   <div class="vertical-middle ignore-header dark">
     <div class="container">
       <div class="row justify-content-between align-items-center">
         <div class="col-md-5">
           <div class="slider-title">
-            <h1 class="text-rotater mb-3" data-separator="," data-rotate="fadeIn" data-speed="3500">Service mesh observability</h1>
+            <h1 class="text-rotater mb-3" data-separator="," data-rotate="fadeIn" data-speed="3500">
+              Service mesh observability and configuration
+            </h1>
             <p><i>Kiali</i> is originated from the greek word κιάλι meaning <i>monocular</i> or <i>spyglass</i>.</p>
-            <p>Kiali project provides answers to the questions:<br>What microservices are part of my Istio service mesh and how are they connected?</p>
-	    <p><span><i><a style="color:white" href="https://youtu.be/9CQ0PMiOGhg?t=371">"This is the kind of tool that you really need"</a></i></span><br/><span style="float:right">-- David Gageot, Google</span></p>
+            <p>
+              Kiali project provides answers to the questions:<br />What microservices are part of my Istio service
+              mesh? How are they connected? How are they performing?
+            </p>
+            <p>
+              <span
+                ><i
+                  ><a style="color:white" href="https://youtu.be/9CQ0PMiOGhg?t=371"
+                    >"This is the kind of tool that you really need"</a
+                  ></i
+                ></span
+              ><br /><span style="float:right">-- David Gageot, Google</span>
+            </p>
           </div>
-          <a href="/documentation/getting-started" class="button">Get started <i class="icon-line-arrow-right t600"></i></a>
+          <a href="/documentation/getting-started" class="button"
+            >Get started <i class="icon-line-arrow-right t600"></i
+          ></a>
         </div>
-        <div class="col-md-5 d-md-block">
-          <img src="/images/documentation/features/graph-overview.png" height="280px" width="530px">
+        <div class="col_half topmargin-sm col_last" style="vertical-align: center">
+          <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+            <iframe
+              src="//www.youtube.com/embed/mbS0UReSWyY"
+              style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;"
+              allowfullscreen
+              title="Kiali Overview">
+            </iframe>
+          </div>
         </div>
       </div>
     </div>
@@ -25,60 +46,42 @@
 <section id="content">
   <div class="content-wrap nopadding">
     <div class="container clearfix">
-          <div class="features-bottom-box">
-              <div id="features-list">
-               <div id="features-title">
-                  <h2>Features</h2>
-                  <p>A growing set of features</p>
-                </div>
-                <div id="graph-feature" class="imgContainer" onclick="location.href='/documentation/features/#_graph'">
-                    <img src="images/documentation/features/graph.svg"/>
-                    <p>Topology</p>
-                </div>
-                <div id="health-feature" class="imgContainer" onclick="location.href='/documentation/features/#_graph_health'">
-                    <img src="images/documentation/features/services.svg"/>
-                    <p>Health <br>computation</p>
-                </div>
-                <div class="imgContainer" onclick="location.href='/documentation/features/#_detail_metrics'">
-                    <img src="images/documentation/features/metrics.svg"/>
-                    <p>Metrics</p>
-                </div>
-                <div class="imgContainer" onclick="location.href='/documentation/features/#_istio_configuration'">
-                    <img src="images/documentation/features/info.svg"/>
-                    <p>Configuration <br>validation</p>
-                </div>
-                <div class="imgContainer" onclick="location.href='/documentation/features/#_distributed_tracing'">
-                    <img src="images/documentation/features/tracing.svg"/>
-                    <p>Distributed <br>tracing</p>
-                </div>
-            </div>
+      <div class="features-bottom-box">
+        <div id="features-list">
+          <div id="features-title">
+            <h2>Features</h2>
+            <p>A growing set of features</p>
           </div>
-    </div>
-
-      <div class="section nomargin noborder" style="padding: 80px 0;">
-        <div class="container center clearfix">
-            <div class="container clearfix">
-              <div id="description" class="col_half nobottommargin">
-                <div class="heading-block topmargin-sm nobottommargin">
-                  <h2>{{ .Title }}</h2>
-                  <span>{{ .Params.subTitle }}</span>
-                </div>
-                <p>A Microservice Architecture breaks up the monolith into many smaller pieces that are composed together. Patterns to secure the communication between services like fault tolerance (via timeout, retry, circuit breaking, etc.) have come up
-                  as well as distributed tracing to be able to see where calls are going. A service mesh can now provide these services on a platform level and frees the application writers from those tasks. Routing decisions are done at the mesh level.
-                  Kiali works with Istio to visualise the service mesh topology, features like circuit breakers or request rates. Kiali also includes Jaeger Tracing to provide distributed tracing out of the box.</p>
-                <a href="/documentation/getting-started" class="button">Get started <i class="icon-line-arrow-right t600"></i></a>
-              </div>
-              <div class="col_half topmargin-sm col_last" style="vertical-align: center">
-                <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-                  <iframe src="https://player.vimeo.com/video/335512121" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="Kiali Overview"></iframe>
-                </div>
-              </div>
-            </div>
+          <div id="graph-feature" class="imgContainer" onclick="location.href='/documentation/features/#_graph'">
+            <img src="images/documentation/features/graph.svg" />
+            <p>Topology</p>
+          </div>
+          <div
+            id="health-feature"
+            class="imgContainer"
+            onclick="location.href='/documentation/features/#_graph_health'"
+          >
+            <img src="images/documentation/features/services.svg" />
+            <p>Health <br />computation</p>
+          </div>
+          <div class="imgContainer" onclick="location.href='/documentation/features/#_detail_metrics'">
+            <img src="images/documentation/features/metrics.svg" />
+            <p>Metrics</p>
+          </div>
+          <div class="imgContainer" onclick="location.href='/documentation/features/#_istio_configuration'">
+            <img src="images/documentation/features/info.svg" />
+            <p>Configuration <br />validation</p>
+          </div>
+          <div class="imgContainer" onclick="location.href='/documentation/features/#_distributed_tracing'">
+            <img src="images/documentation/features/tracing.svg" />
+            <p>Distributed <br />tracing</p>
+          </div>
         </div>
       </div>
-
+    </div>
   </div>
 </section>
 <!-- #content end -->
 
 {{ partial "footer.html" . }}
+
