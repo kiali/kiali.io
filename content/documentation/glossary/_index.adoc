@@ -3,5 +3,5 @@ title: "Glossary"
 date: 2018-06-20T19:04:38+02:00
 draft: false
 type: "documentation/glossary"
-weight: 8
+weight: 9
 ---

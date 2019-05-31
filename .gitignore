@@ -6,7 +6,7 @@ Gemfile.lock
 .idea/
 
 # Autogenerate by build
-content/api
+content/documentation/developer-api
 
 # Emacs
 *~
