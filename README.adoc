@@ -95,12 +95,6 @@ Some files may not be supported for live reload. If you are not automatically se
 ├── README.adoc (This file)
 ```
 
-==  Add a new feature to be listed
-`hugo new features/my-feature.adoc`
-
-In the header, fill-in either the `youTubeID` or `image`, the template will use the YouTube ID if any and ignore `image`. The `youTubeId` looks like `NcxOapR7D0I`.
-If you have an image rather than an YouTube video, add the image in: static/images/features (use the same name as the AsciiDoc file) and use: `features/my-feature.png` as the value for the `image` header
-
 ==  To generate the Swagger documentation
 Run the following:
 `sh scripts/build-swagger.sh`
