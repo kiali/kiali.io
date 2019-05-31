@@ -81,9 +81,8 @@ Some files may not be supported for live reload. If you are not automatically se
 ```
 ├── [archetypes]- Directory where you define the content, tags, categories, etc.
 ├── [content] - Directory that contains the content of the site.
-│   ├── [api]
 │   ├── [contribute]
-│   ├── [features]
+│   ├── [documentation]
 ├── [data] - Directory that contains site data such as localization configuration.
 ├── [layouts] - Directory that contains Go HTML/template library used to template and format the site.
 ├── [public] - (Doesn't exist until generated) Directory that contains the generated content for the site.  Should be part of your git.ignore file.
