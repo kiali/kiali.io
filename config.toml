@@ -59,8 +59,8 @@ theme = "canvas"
       parent="documentation"
   [[menu.main]]
       identifier = "swagger"
-      name = "API"
-      url = "/documentation/api"
+      name = "Developer API"
+      url = "/documentation/developer-api"
       weight = 8
       parent="documentation"
   [[menu.main]]
