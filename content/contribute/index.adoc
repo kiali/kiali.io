@@ -38,4 +38,4 @@ link:https://groups.google.com/forum/#!forum/kiali-dev[Kiali-Dev] Google Group a
 
 link:https://github.com/kiali[Kiali Sources on GitHub] and link:https://github.com/kiali/kiali/blob/master/README.adoc[detailed instructions for building and deploying Kiali] (includes notes for running on plain Kubernetes)
 
-link:irc://irc.freenode.net/#kiali[Kiali on Irc]
+link:https://webchat.freenode.net/?channels=%23kiali[Kiali on Irc]
