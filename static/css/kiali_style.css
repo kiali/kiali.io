@@ -479,11 +479,12 @@ div.kiali-video {
   background-color:rgba(0, 148, 222, .9);
   color: #ffffff;
   margin-top: -160px;
+  padding: 10px;
   height:100px;
   position: relative;
   opacity: 0.9;
   font-family:Varela round;
-  font-size:24px;
+  font-size:20px;
 }
 
 .blog__intro {
