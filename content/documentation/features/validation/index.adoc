@@ -575,9 +575,11 @@ Unable to find all the defined services
 
 === Description
 
+Services can be listed with an exact match, prefix match as well as suffix match. Using "*" refers to all the services in this namespace. This error indicates the services list is pointing to a service that can not be found from this namespace.
 
 === Resolution
 
+Deploy the missing services or fix the services list to point to correct services.
 
 === Severity
 
@@ -587,12 +589,12 @@ Error
 
 [source, yaml]
 ----
-<TODO REQUIRES EXAMPLE>
 ----
 
 === See Also
 
 https://github.com/kiali/kiali/blob/master/business/checkers/authorization/service_checker.go[Validator source code, window="_blank"]
+https://istio.io/docs/reference/config/authorization/istio.rbac.v1alpha1/#AccessRule[Istio documentation, window="_blank"]
 
 '''
 
@@ -602,7 +604,11 @@ ServiceRole can only point to current namespace
 
 === Description
 
+Services can be listed with an exact match, prefix match as well as suffix match. Using "*" refers to all the services in this namespace. Although FQDN can be used, the namespace of the services must be the same as ServiceRole's deployment. 
+
 === Resolution
+
+If the services in question are located in another namespace, deploy this ServiceRole to that namespace. Or deploy the services to this namespace.
 
 === Severity
 
@@ -617,6 +623,7 @@ Error
 === See Also
 
 https://github.com/kiali/kiali/blob/master/business/checkers/authorization/service_checker.go[Validator source code, window="_blank"]
+https://istio.io/docs/reference/config/authorization/istio.rbac.v1alpha1/#AccessRule[Istio documentation, window="_blank"]
 
 '''
 
@@ -626,7 +633,11 @@ ServiceRole does not exists in this namespace
 
 === Description
 
+ServiceRoleBinding assigns a ServiceRole to subjects. As such, it must refer to a ServiceRole object and this object can only reside in the same namespace (cross-namespace refers are not valid).
+
 === Resolution
+
+Deploy the missing ServiceRole to the same namespace.
 
 === Severity
 
@@ -640,7 +651,8 @@ Error
 
 === See Also
 
-https://github.com/kiali/kiali/blob/master/business/checkers/authorization/service_checker.go[Validator source code, window="_blank"]
+https://github.com/kiali/kiali/blob/master/business/checkers/authorization/service_binding_checker.go[Validator source code, window="_blank"]
+https://istio.io/docs/reference/config/authorization/istio.rbac.v1alpha1/#ServiceRoleBinding[Istio documentation, window="_blank"]
 
 [#generic]
 
