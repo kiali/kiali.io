@@ -2,7 +2,7 @@
 title: "Validation"
 date: 2019-02-26T14:53:00+02:00
 draft: false
-type: "documentation/overview"
+type: "features/validation"
 weight: 1
 ---
 
