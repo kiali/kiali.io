@@ -18,8 +18,6 @@ toc::[]
 [#gateways]
 == Gateways
 
-<todo some sort of list/table structure?>
-
 === Error message
 
 More than one Gateway for the same host port combination
@@ -52,19 +50,21 @@ https://istio.io/docs/reference/config/istio.networking.v1alpha3/#Gateway[Istio 
 
 === Error message
 
-Port name must follow <protocol>[-suffix] form
+No matching workload found for gateway selector in this namespace
 
 === Description
 
-Istio requires the service ports to follow the naming form of 'protocol-suffix' where the '-suffix' part is optional. If the naming does not match this form (or is undefined), Istio treats all the traffic TCP instead of the defined protocol in the definition. Dash is a required character between protocol and suffix. For example, 'http2foo' is not valid, while 'http2-foo' is (for http2 protocol).
+A label selector to match the workload to which this gateway should be applied to. This validation will only check the current namespace for matching workloads as this is recommended (and potentially in the future required) by the Istio. Excluded from this check are the default "istio-ingressgateway" and "istio-egressgateway" workloads which Istio ships with.
+
+Although your traffic might be correctly routed to a workload in other namespace, this is not a guaranteed behavior and thus a warning is flagged in such cases also.
 
 === Resolution
 
-Rename the service port name field to follow the form and the traffic will flow correctly. 
+Deploy the missing workload or fix the selector to target a correct location. 
 
 === Severity
 
-Error
+Warning
 
 === Example
 
@@ -75,8 +75,8 @@ Error
 
 === See Also
 
-https://github.com/kiali/kiali/blob/master/business/checkers/gateways/port_checker.go[Validator source code, window="_blank"]
-https://github.com/istio/istio.io/blob/master/content/help/faq/traffic-management/naming-port-convention.md[Istio documentation port naming convention, window="_blank"]
+https://github.com/kiali/kiali/blob/master/business/checkers/gateways/selector_checker.go[Validator source code, window="_blank"]
+https://istio.io/docs/reference/config/networking/v1alpha3/gateway/#Gateway[Istio documentation for gateways, window="_blank"]
 
 [#destinationrules]
 == Destination rules
@@ -118,7 +118,7 @@ https://istio.io/help/ops/traffic-management/deploy-guidelines/#multiple-virtual
 '''
 === Error message
 
-This host has no matching workloads
+This host has no matching entry in the service registry (service, workload or service entries)
 
 === Description
 
@@ -201,13 +201,9 @@ Error
 
 [source, yaml]
 ----
-include::/files/validation_examples/004.yaml
 ----
 
 === See Also
-
-https://github.com/kiali/kiali/blob/master/business/checkers/destinationrules/meshwide_mtls_checker.go[Validator source code, window="_blank"]
-https://istio.io/docs/reference/config/istio.networking.v1alpha3/#DestinationRule[Destination rule documentation, window="_blank"]
 
 
 '''
@@ -229,14 +225,80 @@ Error
 
 [source, yaml]
 ----
-include::/files/validation_examples/004.yaml
 ----
 
 === See Also
 
-https://github.com/kiali/kiali/blob/master/business/checkers/destinationrules/meshwide_mtls_checker.go[Validator source code, window="_blank"]
-https://istio.io/docs/reference/config/istio.networking.v1alpha3/#DestinationRule[Destination rule documentation, window="_blank"]
+'''
+=== Error message
 
+Policy enabling namespace-wide mTLS is missing
+
+=== Description
+
+
+=== Resolution
+
+
+=== Severity
+
+Error
+
+=== Example
+
+[source, yaml]
+----
+----
+
+=== See Also
+
+
+'''
+=== Error message
+
+Policy with TLS strict mode found, it should be permissive
+
+=== Description
+
+
+=== Resolution
+
+
+=== Severity
+
+Error
+
+=== Example
+
+[source, yaml]
+----
+----
+
+=== See Also
+
+
+'''
+=== Error message
+
+MeshPolicy enabling mTLS found, permissive policy is needed
+
+=== Description
+
+
+=== Resolution
+
+
+=== Severity
+
+Error
+
+=== Example
+
+[source, yaml]
+----
+----
+
+=== See Also
 
 
 '''
@@ -414,9 +476,10 @@ include::/files/validation_examples/104.yaml
 
 https://istio.io/help/ops/traffic-management/deploy-guidelines/#multiple-virtual-services-and-destination-rules-for-the-same-host[Istio documention Multiple virtual services for the same host, window="_blank"]
 
+'''
 
-[#serviceentries]
-== ServiceEntries
+[#services]
+== Services
 
 === Error message
 
@@ -443,8 +506,36 @@ Error
 
 === See Also
 
-https://github.com/kiali/kiali/blob/master/business/checkers/serviceentries/port_checker.go[Validator source code, window="_blank"]
+https://github.com/kiali/kiali/blob/master/business/checkers/services/port_mapping_checker.go[Validator source code, window="_blank"]
 https://github.com/istio/istio.io/blob/master/content/help/faq/traffic-management/naming-port-convention.md[Istio documentation port naming convention, window="_blank"]
+
+'''
+
+=== Error message
+
+Service port and deployment port do not match
+
+=== Description
+
+Service definition has a combination of labels and port definitions that are not matching to any workloads. This means the deployment will be unsuccessful and no traffic can flow between these two resources.
+
+=== Resolution
+
+Fix the port definitions in the workload or in the service definition to ensure they match.
+
+=== Severity
+
+Error
+
+=== Example
+
+[source, yaml]
+----
+----
+
+=== See Also
+
+https://github.com/kiali/kiali/blob/master/business/checkers/services/port_mapping_checker.go[Validator source code, window="_blank"]
 
 
 [#meshpolicies]
@@ -474,3 +565,92 @@ include::/files/validation_examples/401.yaml
 === See Also
 
 https://github.com/kiali/kiali/tree/master/business/checkers/mesh_policies_checker.go[Validator source code, window="_blank"]
+
+[#serviceroles]
+== ServiceRoles and ServiceRoleBindings
+
+=== Error message
+
+Unable to find all the defined services
+
+=== Description
+
+
+=== Resolution
+
+
+=== Severity
+
+Error
+
+=== Example
+
+[source, yaml]
+----
+<TODO REQUIRES EXAMPLE>
+----
+
+=== See Also
+
+https://github.com/kiali/kiali/blob/master/business/checkers/authorization/service_checker.go[Validator source code, window="_blank"]
+
+'''
+
+=== Error message
+
+ServiceRole can only point to current namespace
+
+=== Description
+
+=== Resolution
+
+=== Severity
+
+Error
+
+=== Example
+
+[source, yaml]
+----
+----
+
+=== See Also
+
+https://github.com/kiali/kiali/blob/master/business/checkers/authorization/service_checker.go[Validator source code, window="_blank"]
+
+'''
+
+=== Error message
+
+ServiceRole does not exists in this namespace
+
+=== Description
+
+=== Resolution
+
+=== Severity
+
+Error
+
+=== Example
+
+[source, yaml]
+----
+----
+
+=== See Also
+
+https://github.com/kiali/kiali/blob/master/business/checkers/authorization/service_checker.go[Validator source code, window="_blank"]
+
+[#generic]
+
+== Unknown
+
+=== Error message
+
+Unable to verify the validity, cross-namespace validation is not supported for this field
+
+=== Description
+
+In certain cases, Kiali is unable to validate the field since it spans another namespace to which the validator is not capable of looking at. In such cases, Kiali will mark this field with a grey icon indicating that the fields correctness could not be verified. This does not necessarily mean there is an error, but that the user should be careful and do the validation manually.
+
