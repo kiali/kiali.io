@@ -405,17 +405,17 @@ The following article https://medium.com/kialiproject/kiali-observability-in-act
 == Useful resources
 
 .Kiali
-* https://github.com/kiali/kiali/blob/master/README.adoc[Kiali Readme]
-* https://github.com/kiali/kiali-ui/blob/master/README.adoc[Kiali-ui Readme]
-* https://github.com/kiali/kiali-test-mesh[Kiali-test-mesh]
+* https://github.com/kiali/kiali/blob/master/README.adoc[Kiali Readme, window=_blank]
+* https://github.com/kiali/kiali-ui/blob/master/README.adoc[Kiali-ui Readme, window=_blank]
+* https://github.com/kiali/kiali-test-mesh[Kiali-test-mesh, window=_blank]
 
 .Istio
-* https://istio.io/[Istio]
- - https://istio.io/docs/concepts/what-is-istio/[What is Istio?]
- - https://istio.io/docs/concepts/traffic-management/[Traffic Management]
- - https://istio.io/docs/examples/[Examples]
+* https://istio.io/[Istio, window=_blank]
+ - https://istio.io/docs/concepts/what-is-istio/[What is Istio?, window=_blank]
+ - https://istio.io/docs/concepts/traffic-management/[Traffic Management, window=_blank]
+ - https://istio.io/docs/examples/[Examples, window=_blank]
 
 .Jaeger
-* https://www.jaegertracing.io/[Jaeger]
+* https://www.jaegertracing.io/[Jaeger, window=_blank]
 
 
