@@ -1,0 +1,53 @@
+{{- $versions      := .Site.Params.versions }}
+{{- $latest        := .Site.Params.latest }}
+{{- $version       := index (split .File.Path "/") 1 }}
+{{- $isLatest      := eq $version $latest }}
+{{- $isNextRelease := eq $version "next-release" }}
+{{- $latestUrl     := .URL | replaceRE $version $latest }}
+
+{{ if in .Permalink "/docs/" }}
+<div class="reset-this container clearfix tags has-addons" style="margin-top:20px">
+    <span class="tag is-medium" style="align-items: center;background-color: #f5f5f5;border-radius: 4px;
+    height: 2em;
+    justify-content: center;
+    line-height: 1.5;
+    padding-left: 0.75em;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;">
+      Version&nbsp;&nbsp;<strong>{{ $version }}</strong>
+    </span>
+    {{- if $isLatest }}
+    <span class="tag is-medium" style="background-color: #23d160;color: #fff;
+    height: 2em;
+    justify-content: center;
+    line-height: 1.5;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    padding-right: 0.75em;
+    margin-left: -10px;
+    ">Latest</span>
+    {{- else if $isNextRelease }}
+    <a class="tag is-medium is-info" style="
+    background-color: #209cee;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    color: #fff;
+    margin-left: -10px;
+    ">
+        Preview
+    </a>
+    {{- else }}
+    <a class="tag is-medium is-warning" style="background-color: #ffdd57;color: rgba(0,0,0,0.7);
+    height: 2em;
+    justify-content: center;
+    line-height: 1.5;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    padding-right: 0.75em;
+    margin-left: -10px;
+    " href="{{ $latestUrl }}">
+        Click here for the latest version
+    </a>
+    {{- end }}
+</div>
+{{- end}}

@@ -7,9 +7,6 @@ date: 2019-03-20T09:04:38+02:00
 draft: false
 type: "getting-started"
 weight: 3
-menu:
-  main:
-    weight: 20
 ---
 
 :toc: macro

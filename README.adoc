@@ -82,7 +82,8 @@ Some files may not be supported for live reload. If you are not automatically se
 ├── [archetypes]- Directory where you define the content, tags, categories, etc.
 ├── [content] - Directory that contains the content of the site.
 │   ├── [contribute]
-│   ├── [documentation]
+│   ├── [docs]
+│   │   ├──[0.XX]
 ├── [data] - Directory that contains site data such as localization configuration.
 ├── [layouts] - Directory that contains Go HTML/template library used to template and format the site.
 ├── [public] - (Doesn't exist until generated) Directory that contains the generated content for the site.  Should be part of your git.ignore file.
@@ -94,6 +95,16 @@ Some files may not be supported for live reload. If you are not automatically se
 ├── config.toml - Main configuration file, where you define the web site title, URL, language, etc.
 ├── README.adoc (This file)
 ```
+
+== Publishing new Kiali version
+
+Each Kiali version is documented in a separate directory e.g. [content/docs/0.21/](./content/docs/0.21/). A special directory [content/docs/next-release/](./content/docs/next-release/) is reserved for the changes to be published as the next version. If you are adding documentation for features that are not yet released in the main Jaeger repository, add your changes to the `next-release` directory. If you're adding documentation for already released features, you may need to make the same change twice, i.e. in the most recent release (e.g. `1.8`) and in the `next-release` directories.
+
+Before creating a new release, make sure all outstanding PRs for that version are merged to `next-release` directory.
+
+Then create a release renaming the next-release directory to specific version and duplicate it and rename to next-release.
+
+In addition you need to change in the script [scripts/build-swagger.sh](./scripts/build-swagger.sh) the version to the latest one.
 
 ==  To generate the Swagger documentation
 Run the following:

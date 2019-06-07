@@ -572,3 +572,52 @@ div.kiali-video {
 .faq > ol > li {
   font-size: 1.8em;
 }
+
+/* Docs Version*/
+.tags {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.tags.has-addons .tag:not(:last-child) {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+
+tags.has-addons .tag {
+  margin-right: 0;
+}
+
+.tags .tag:not(:last-child) {
+  margin-right: 0.5rem;
+}
+
+.tag:not(body).is-medium {
+  font-size: 1rem;
+}
+
+.tags .tag {
+  margin-bottom: 0.5rem;
+}
+
+.tag:not(body) {
+  align-items: center;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  color: #4a4a4a;
+  display: inline-flex;
+  font-size: .75rem;
+  height: 2em;
+  justify-content: center;
+  line-height: 1.5;
+  padding-left: 0.75em;
+  padding-right: 0.75em;
+  white-space: nowrap;
+}
+
+.tag .is-warning {
+  background-color: #ffdd57;
+  color: rgba(0,0,0,0.7);
+}

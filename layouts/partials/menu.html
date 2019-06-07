@@ -1,12 +1,67 @@
-{{ range . }}
+{{- $menuPages     := .Site.Menus.docs }}
+{{- $versions      := .Site.Params.versions }}
+{{- $latest        := .Site.Params.latest }}
+{{- $docs          := where .Site.Pages "Section" "docs" }}
+{{- $isDocsPage    := eq .Section "docs" }}
+{{- $preview       := getenv "HUGO_PREVIEW" }}
+{{- $isPreview     := eq $preview "true" }}
+
 <li>
-    <a href="{{ .URL }}">
-        <div>{{ .Name }}</div>
+    <a href="/docs/{{$latest}}/features">
+        <div>Features</div>
     </a>
-    {{ if .HasChildren }}
-        <ul class="sub-menu with-arrows">
-          {{ partial "menu.html" .Children }}
-        </ul>
-    {{ end }}
 </li>
-{{ end }}
+
+<li>
+    <a href="/docs/{{$latest}}/getting-started">
+        <div>Getting Started</div>
+    </a>
+</li>
+
+<li>
+    <a href="/contribute">
+        <div>Contribute</div>
+    </a>
+</li>
+
+<li>
+    <a>
+        <div>Documentation</div>
+    </a>
+    <ul class="sub-menu with-arrows">
+        {{- range $docs }}
+        {{- $docVersion := index (split .File.Path "/") 1 }}
+        {{- if and (eq $docVersion $latest) (not .Params.hasparent) }}
+        <li>
+            <a href="{{ .RelPermalink }}">
+                <div>{{ .Title }}</div>
+            </a>
+        </li>
+        {{- end }}
+        {{- end }}
+    </ul>
+</li>
+
+{{- if $isDocsPage }}
+<li>
+    <a>
+        <div>Versions</div>
+    </a>
+    <ul class="sub-menu with-arrows">
+        {{- range $versions }}
+        {{- $version := . }}
+        {{- $isLatest := eq $version $latest }}
+        <li>
+            <a href="/docs/{{ $version }}">
+                <div>{{ $version }}{{ if $isLatest }}&nbsp;&nbsp;(<strong>latest</strong>){{ end }}</div>
+            </a>
+        </li>
+        {{- end }}
+        {{- if $isPreview }}
+        <a class="navbar-item" href="/docs/next-release">
+            next-release&nbsp;&nbsp;(preview)
+        </a>
+        {{- end }}
+    </ul>
+</li>
+{{- end }}
