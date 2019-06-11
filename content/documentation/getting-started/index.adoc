@@ -67,7 +67,7 @@ If you prefer to use the latest Kiali version then do not install Kiali during t
 
 The Kiali Operator is an implementation of a link:https://coreos.com/operators/[Kubernetes Operator]. It provides a method of packaging, deploying, and managing Kiali.
 
-To install the Kiali Operator (and, by default, the Kiali CR), run the install script via this command:
+To install the Kiali Operator and, by default, the Kiali CR (custom Resource), run the install script via this command:
 
 [source,bash]
 ----
@@ -76,16 +76,17 @@ bash <(curl -L https://git.io/getLatestKialiOperator)
 
 This will pull the latest version of the Kiali Operator and Kiali itself, and install them using the default options. If Kiali was already installed, you will be prompted to remove the older version.
 
-icon:lightbulb[size=1x]{nbsp} You can configure the Kiali Operator install script by setting environment variables when you run it. For example, if you do not want the install script to install a Kiali custom resource (and thus avoid having the Kiali Operator install Kiali itself), set the OPERATOR_INSTALL_KIALI environment variable to "false" and then run the script. Read the comments at the top of the link:https://github.com/kiali/kiali/blob/master/operator/deploy/deploy-kiali-operator.sh[Kiali Operator install script] for details on what custom configuration settings are available to you.
+icon:lightbulb[size=1x]{nbsp} Environment variables or command-line options affect the Kiali Operator install script.  For example, if you do not want the script to install a Kiali CR (and thus avoid having the Kiali Operator install Kiali itself), set the OPERATOR_INSTALL_KIALI environment variable to "false" and then run the script.  Or run the script with "-oik=false" Read the comments at the top of the link:https://github.com/kiali/kiali/blob/master/operator/deploy/deploy-kiali-operator.sh[Kiali Operator install script] for details on what custom configuration settings are available.  Alternatively, use the script's "--help" command line option for help documentation.
 
 icon:bullhorn[size=1x]{nbsp} The install script requires `envsubst` installed and in your PATH; you can get it via the GNU `gettext` package.
 
-During the installation, you will be prompted for the authentication strategy you want to use among `login`, `anonymous` and `openshift`.
-See the link:#_login_options[Login Options] section below for more information.
+During the installation, you will be prompted for the authentication strategy you want to use among `login`, `anonymous` and `openshift`. See the link:#_login_options[Login Options] section below for more information.
 
 === Configure Kiali
 
-The Kiali Operator runs inside the `kiali-operator` namespace and listens for a Kiali CR (custom resource) creation or changes. When it sees one created, it will install Kiali using the settings it finds in the CR object. To see all the different settings you can configure in a Kiali CR, see link:https://github.com/kiali/kiali/blob/master/operator/deploy/kiali/kiali_cr.yaml[this fully documented example Kiali CR yaml file].
+The Kiali Operator runs inside the `kiali-operator` namespace and listens for a Kiali CR (custom resource) creation or change. On creation it will install Kiali using the settings it finds in the CR object. To see all the different settings you can configure in a Kiali CR, see link:https://github.com/kiali/kiali/blob/master/operator/deploy/kiali/kiali_cr.yaml[this fully documented example Kiali CR yaml file].
+
+icon:lightbulb[size=1x]{nbsp} It is important to understand the `deployment:accessible_namespaces` setting in the CR.  See link:#_accessible_namespaces[Accessible Namespaces] for more information.
 
 To edit from a terminal, run:
 
@@ -223,6 +224,50 @@ To remove the 'kiali' role from the user 'developer' in the 'myproject' namespac
 ----
 oc adm policy remove-role-from-user kiali developer -n myproject
 ----
+
+=== Namespace Management
+
+==== Accessible Namespaces
+
+The Kiali custom resource (CR) tells the Kiali Operator which namespaces are accessible to Kiali. It is specified in the CR via the `accessible_namespaces` setting under the main `deployment` section.
+
+The specified namespaces are those that have service mesh components to be observed by Kiali.  Additionally, the namespace to which Kiali is installed must be accessible (typically the same namespace as Istio).  Each list entry can be a regex matched against all namespaces the operator can see.  If not set the default makes all namespaces accessible except for some internal namespaces that should typically be ignored.
+
+As an example, if Kiali is to be installed in the istio-system namespace, and is expected to monitor all namespaces prefixed with `mycorp_` the setting would be:
+
+[source,yaml]
+----
+deployment:
+  accessible_namespaces:
+  - istio-system
+  - mycorp_.*
+----
+
+icon:lightbulb[size=1x]{nbsp} If `accessible_namespaces` has an entry with the special value of `+++**+++` (two asterisks), it denotes that Kiali be given access to all namespaces via a single cluster role (if using this special value of `+++**+++`, you are required to have already granted the operator permissions to create cluster roles and cluster role bindings). It is not recommended for production but the following command will create both the Kiali operator and the Kiali CR, configured for full cluster access to current and new namespaces:
+[source,bash]
+----
+bash <(curl -L https://git.io/getLatestKialiOperator) -an '**'
+----
+
+
+==== Excluded Namespaces
+
+The Kiali custom resource (CR) tells the Kiali Operator which accessible namespaces should be excluded from the list of namespaces provided by the API and UI. This can be useful if wildcards are used when specifying link:#_accessible_namespaces[Accessible Namespaces].  This setting has no effect on namespace accessibility.  It is only a filter, not security-related.
+
+For example, if my accessible_namespaces include "mycorp_.*" but I don't want to see test namespaces, I could add to the default entries:
+
+[source,yaml]
+----
+namespaces:
+  exclude:
+    - istio-operator
+    - kiali-operator
+    - ibm.*
+    - kube.*
+    - openshift.*
+    - mycorp_test.*
+----
+
 
 === Reducing Permissions in OpenShift
 
