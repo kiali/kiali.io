@@ -90,7 +90,7 @@ Like the Default Installation but Kiali will be able to access existing namespac
 
 [source,bash]
 ----
-bash <(curl -L https://git.io/getLatestKialiOperator) --accessible-namespaces `+++**+++`
+bash <(curl -L https://git.io/getLatestKialiOperator) --accessible-namespaces '**'
 ----
 
 
