@@ -154,7 +154,7 @@ To uninstall the Kiali Operator, simply remove the `kiali-operator` namespace al
 
 [source,bash]
 ----
-oc delete namespace -n kiali-operator
+oc delete namespace kiali-operator
 ----
 
 == Additional Notes
