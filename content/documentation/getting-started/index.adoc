@@ -210,7 +210,7 @@ bash <(curl -L https://git.io/getLatestKialiOperator) --uninstall-mode true
 
 === Known Problem: Uninstall Hangs
 
-In Kiali < 0.21 and Kubernetes versions < 0.14 there is an operator-sdk bug that can hang uninstall.  This can happen when uninstalling Kiali via the Kiali Operator, or occasionally when trying to delete the namespace in which Kiali is installed.  This is because the Kiali Operator failed to successfully run its finalizer. If you get into this hung state the following command may resolve the problem:
+In Kiali < 0.22 using Kubernetes versions < 0.14 (Openshift version 3), there is an operator-sdk bug that can hang uninstall.  This can happen when uninstalling Kiali via the Kiali Operator, or occasionally when trying to delete the namespace in which Kiali is installed.  This is due to a kubernetes bug detecting finalizer completion. If you get into this hung state the following command may resolve the problem:
 
 icon:lightbulb[size=1x]{nbsp} If you installed the Kiali CR in a different namespace, replace "kiali-operator" in the command with the namespace in which the Kiali CR is located.
 
