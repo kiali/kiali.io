@@ -101,7 +101,7 @@ bash <(curl -L https://git.io/getLatestKialiOperator) --accessible-namespaces '*
 
 ==== Operator-Only Install
 
-This option installs only the Kiali Operator.  This option is good when you know there will be a customized Kiali CR.
+This option installs only the Kiali Operator. This option is good when you plan to customize the Kiali CR.
 
 Run the install script via this command (replacing the CR filename as needed):
 
