@@ -114,7 +114,7 @@ Run the install script via this command (replacing the CR filename as needed):
 
 [source,bash]
 ----
-bash <(curl -L https://git.io/getLatestKialiOperator) --kiali-cr my-kiali-cr.yaml
+bash <(curl -L https://git.io/getLatestKialiOperator) --operator-install-kiali false
 ----
 
 When the Kiali Operator is installed go to link:#_create_or_edit_the_kiali_cr[Create or Edit the Kiali CR] for the customized Kiali installation.
