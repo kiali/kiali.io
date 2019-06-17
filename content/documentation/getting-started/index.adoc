@@ -18,7 +18,8 @@ menu:
 :icons: font
 :imagesdir: /images/gettingstarted/
 
-icon:bullhorn[size=1x]{nbsp} Kiali Compatibility
+== Compatibility
+
 [cols="10%,10%,10%,70%",options="header"]
 |===
 |Istio
