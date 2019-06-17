@@ -63,19 +63,19 @@ oc login -u system:admin
 
 icon:lightbulb[size=1x]{nbsp} Both Istio and Maistra include Kiali distributions.
 
-If you prefer to use the latest Kiali version then choose not to install Kiali during the Istio or Maistra installation procedure. Complete the Istio or Maistra installation and then link:#_install_kiali_latest[Install Kiali Latest].
+If you prefer to use the latest Kiali version, you should choose not to install Kiali during the Istio or Maistra installation procedure. Complete the Istio or Maistra installation and then link:#_install_kiali_latest[Install Kiali Latest].
 
 To install Kiali as part of the Istio installation just follow the link:https://istio.io/docs/setup/[Istio Setup docs].  If you are running on OpenShift and prefer Maistra, see link:https://maistra.io/docs/getting_started/install/[Maistra Setup docs].  You may then continue to link:#_open_the_ui[Open the UI].
 
 
 === Upgrade the Istio or Maistra Version of Kiali
 
-The version of Kiali packaged with Istio or Maistra may not contain the most recent features and fixes. To upgrade to the latest version of Kiali first link:#_wipe_kiali[Wipe Kiali] and then proceed to link:#_install_kiali_latest[Install Kiali Latest].
+The version of Kiali packaged with Istio or Maistra may not contain the most recent features and fixes. To upgrade to the latest version of Kiali first link:#_uninstall_kiali_operator_and_kiali[Uninstall Kiali Operator and Kiali] and then proceed to link:#_install_kiali_latest[Install Kiali Latest].
 
 
 == Install Kiali Latest
 
-Installing the latest version of Kiali is done using the Kiali Operator. The Kiali Operator is a link:https://coreos.com/operators/[Kubernetes Operator]. The Kiali Operator watches the Kiali CR (Custom Resource, yaml that holds the Kiali configuration).  When you modify the Kiali CR, the operator installs, updates, or uninstalls Kiali as needed.  The Kiali Operator manages your Kiali installation.
+Installing the latest version of Kiali is done using the Kiali Operator. The Kiali Operator is a link:https://coreos.com/operators/[Kubernetes Operator]. The Kiali Operator  manages your Kiali installation. The Kiali Operator watches the Kiali CR (Custom Resource, yaml that holds the Kiali configuration).  When you modify the Kiali CR, the operator installs, updates, or uninstalls Kiali as needed.
 
 Below are three options for installing the Kiali Operator. If replacing an existing Kiali Operator you will be prompted for confirmation. Depending on the installation option the operator may then install Kiali. If replacing an existing Kiali you will be prompted for confirmation. For new Kiali installations you will be prompted for the authentication strategy. See link:#_login_options[Login Options] for more on the `login`, `anonymous` and `openshift` authentication strategies.  Depending on the chosen strategy the installation may prompt for additional information.
 
@@ -147,7 +147,7 @@ To install Kiali create the Kiali CR using the local file. To create the Kiali C
 oc apply -f my-kiali-cr.yaml -n kiali-operator
 ----
 
-To update Kiali edit and save the existing the Kiali CR.  To edit the Kiali CR run the command (note: the default Kiali CR name is `kiali`):
+To update Kiali, edit and save the existing the Kiali CR.  To edit the Kiali CR run the command (note: the default Kiali CR name is `kiali`):
 
 [source,bash]
 ----
@@ -159,7 +159,7 @@ oc edit kiali <Kiali CR name> -n kiali-operator
 
 === Uninstall Kiali Only
 
-To uninstall Kiali is simple - just delete the Kiali CR. To trigger the Kiali Operator to uninstall Kiali run the command (note: the default Kiali CR name is `kiali`):
+To remove Kiali is simple - just delete the Kiali CR. To trigger the Kiali Operator to uninstall Kiali run the command (note: the default Kiali CR name is `kiali`):
 
 [source,bash]
 ----
@@ -168,7 +168,7 @@ oc delete kiali <Kiali CR name> -n kiali-operator
 
 At this point, you have no Kiali installed, but you still have the Kiali Operator running. You could create another Kiali CR (with potentially different configuration settings) to install a new Kiali instance.
 
-=== Wipe Kiali
+=== Uninstall Kiali Operator and Kiali
 
 To uninstall *everything* related to Kiali (Kiali Operator, Kiali, etc) run the command:
 
