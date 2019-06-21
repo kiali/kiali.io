@@ -1,16 +1,17 @@
 ---
-title: "Validation"
+title: "Validations"
 date: 2019-02-26T14:53:00+02:00
 draft: false
 type: "features/validation"
 weight: 1
 ---
 
-= Validation
 :sectnums:
+:linkattrs:
 :toc: left
+:toclevels: 1
 toc::[]
-:toc-title: Validation
+:toc-title: List of validations
 :keywords: Kiali Documentation
 :icons: font
 :imagesdir: /images/documentation/overview/
@@ -24,11 +25,11 @@ More than one Gateway for the same host port combination
 
 === Description
 
-Gateway creates a proxy that will forward the inbound traffic for the exposed ports. If two different gateways expose the same ports for the same host, this creates ambiquity inside Istio as either of these gateways could handle the traffic. This is most likely a configuration error. This check is done across all namespaces the user has access to. 
+Gateway creates a proxy that will forward the inbound traffic for the exposed ports. If two different gateways expose the same ports for the same host, this creates ambiquity inside Istio as either of these gateways could handle the traffic. This is most likely a configuration error. This check is done across all namespaces the user has access to.
 
 === Resolution
 
-Remove the duplicate gateway entries or merge the two gateway definitions into a single one. 
+Remove the duplicate gateway entries or merge the two gateway definitions into a single one.
 
 === Severity
 
@@ -38,13 +39,14 @@ Warning
 
 [source, yaml]
 ----
-include::/files/validation_examples/201.yaml
+include::/public/files/validation_examples/201.yaml[]
 ----
 
 === See Also
 
-https://github.com/kiali/kiali/tree/master/business/checkers/gateways/multi_match_checker.go[Validator source code, window="_blank"]
-https://istio.io/docs/reference/config/istio.networking.v1alpha3/#Gateway[Istio Gateway documentation, window="_blank"]
+https://github.com/kiali/kiali/tree/master/business/checkers/gateways/multi_match_checker.go[Validator source code, window=_blank]
+-
+https://istio.io/docs/reference/config/istio.networking.v1alpha3/#Gateway[Istio Gateway documentation, window=_blank]
 
 '''
 
@@ -60,7 +62,7 @@ Although your traffic might be correctly routed to a workload in other namespace
 
 === Resolution
 
-Deploy the missing workload or fix the selector to target a correct location. 
+Deploy the missing workload or fix the selector to target a correct location.
 
 === Severity
 
@@ -76,6 +78,7 @@ Warning
 === See Also
 
 https://github.com/kiali/kiali/blob/master/business/checkers/gateways/selector_checker.go[Validator source code, window="_blank"]
+-
 https://istio.io/docs/reference/config/networking/v1alpha3/gateway/#Gateway[Istio documentation for gateways, window="_blank"]
 
 [#destinationrules]
@@ -105,14 +108,17 @@ Warning
 
 [source, yaml]
 ----
-include::/files/validation_examples/001.yaml
+include::/public/files/validation_examples/001.yaml[]
 ----
 
 === See Also
 
 https://github.com/kiali/kiali/tree/master/business/checkers/destination_rules/multi_match_checker.go[Validator source code, window="_blank"]
+-
 https://istio.io/docs/reference/config/istio.networking.v1alpha3/#DestinationRule[Destination rule documentation, window="_blank"]
+-
 https://github.com/istio/istio/blob/0e9cecab053aab744a7c3a731aacb07fd794d5f9/pilot/pkg/model/push_context.go#L879[Istio source code for merging, window="_blank"]
+-
 https://istio.io/help/ops/traffic-management/deploy-guidelines/#multiple-virtual-services-and-destination-rules-for-the-same-host[Istio documentation: Multiple virtual services and destination rules for the same host, window="_blank"]
 
 '''
@@ -138,12 +144,13 @@ Error
 
 [source, yaml]
 ----
-include::/files/validation_examples/002.yaml
+include::/public/files/validation_examples/002.yaml[]
 ----
 
 === See Also
 
 https://github.com/kiali/kiali/tree/master/business/checkers/destination_rules/no_host_checker.go[Validator source code, window="_blank"]
+-
 https://istio.io/docs/reference/config/istio.networking.v1alpha3/#DestinationRule[Destination rule documentation, window="_blank"]
 
 '''
@@ -174,12 +181,13 @@ Error
 
 [source, yaml]
 ----
-include::/files/validation_examples/003.yaml
+include::/public/files/validation_examples/003.yaml[]
 ----
 
 === See Also
 
 https://github.com/kiali/kiali/tree/master/business/checkers/destination_rules/no_host_checker.go[Validator source code, window="_blank"]
+-
 https://istio.io/docs/reference/config/istio.networking.v1alpha3/#DestinationRule[Destination rule documentation, window="_blank"]
 
 '''
@@ -328,12 +336,13 @@ Error
 
 [source, yaml]
 ----
-include::/files/validation_examples/102.yaml
+include::/public/files/validation_examples/102.yaml[]
 ----
 
 === See Also
 
 https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/no_host_checker.go[Validator source code, window="_blank"]
+-
 https://istio.io/docs/reference/config/istio.networking.v1alpha3/#Destination[Destination documentation, window="_blank"]
 
 '''
@@ -358,7 +367,7 @@ Error
 
 [source, yaml]
 ----
-include::/files/validation_examples/101.yaml
+include::/public/files/validation_examples/101.yaml[]
 ----
 
 === See Also
@@ -385,7 +394,7 @@ Error
 
 [source, yaml]
 ----
-include::/files/validation_examples/105.yaml
+include::/public/files/validation_examples/105.yaml[]
 ----
 
 === See Also
@@ -412,12 +421,13 @@ Error
 
 [source, yaml]
 ----
-include::/files/validation_examples/103.yaml
+include::/public/files/validation_examples/103.yaml[]
 ----
 
 === See Also
 
 https://github.com/istio/istio/blob/0e9cecab053aab744a7c3a731aacb07fd794d5f9/pilot/pkg/model/validation.go#L1628[Istio validation for route types, window="_blank"]
+-
 https://github.com/kiali/kiali/blob/master/business/checkers/virtual_services/no_host_checker.go[Validator source code, window="_blank"]
 
 '''
@@ -442,7 +452,7 @@ Warning
 
 [source, yaml]
 ----
-include::/files/validation_examples/104.yaml
+include::/public/files/validation_examples/104.yaml[]
 ----
 
 === See Also
@@ -469,7 +479,7 @@ Error
 
 [source, yaml]
 ----
-include::/files/validation_examples/104.yaml
+include::/public/files/validation_examples/104.yaml[]
 ----
 
 === See Also
@@ -507,6 +517,7 @@ Error
 === See Also
 
 https://github.com/kiali/kiali/blob/master/business/checkers/services/port_mapping_checker.go[Validator source code, window="_blank"]
+-
 https://github.com/istio/istio.io/blob/master/content/help/faq/traffic-management/naming-port-convention.md[Istio documentation port naming convention, window="_blank"]
 
 '''
@@ -559,7 +570,7 @@ Error
 
 [source, yaml]
 ----
-include::/files/validation_examples/401.yaml
+include::/public/files/validation_examples/401.yaml[]
 ----
 
 === See Also
