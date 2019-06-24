@@ -6,5 +6,5 @@ type: "documentation/glossary"
 weight: 9
 children:
 - title: Concepts
-  url: glossaty/concepts
+  url: glossary/concepts
 ---

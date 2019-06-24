@@ -2,7 +2,7 @@
 title: "Networking"
 date: 2018-06-20T19:04:38+02:00
 draft: false
-type: "documentation/glossary"
+type: "docs/glossary"
 hasparent: true
 ---
 
