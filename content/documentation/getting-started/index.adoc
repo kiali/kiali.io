@@ -2,6 +2,7 @@
 title: "Getting started"
 aliases:
 - /gettingstarted/
+- /prerequisites/
 date: 2019-03-20T09:04:38+02:00
 draft: false
 type: "getting-started"
@@ -13,7 +14,7 @@ menu:
 
 :toc: macro
 :toclevels: 4
-:toc-title: Kiali Getting Started
+:toc-title: Table of Contents
 :keywords: Kiali Getting Started
 :icons: font
 :imagesdir: /images/gettingstarted/
@@ -35,16 +36,34 @@ menu:
 |1.0.5+
 |0.1+
 |0.16
-| Older Kiali versions may work but are not supported
+| Istio 1.0 is EOL and not recommended.
 |===
 
 toc::[]
 
 icon:lightbulb[size=1x]{nbsp}For several commands listed on this page, the OpenShift CLI command `oc` is used to interact with the cluster environment. If you are on Kubernetes, simply replace `oc` with `kubectl` unless otherwise noted.
 
-== Installation
 
-See link:/documentation/prerequisites[Prerequisites] for Kiali environment requirements.
+== Prerequisites
+
+=== Browser Requirements
+
+Kiali requires a modern web browser to be able to function properly and supports the last two versions of Chrome, Edge, Firefox or Safari.
+
+
+=== Hardware Requirements
+
+Any machine capable of running link:https://www.openshift.com/[Red Hat Openshift]/link:https://okd.io[OKD] should also be able to run Kiali. For production environments this usually means:
+
+* For masters: 16GB RAM, 4vCPUs, 40GB of hard disk space.
+* For nodes: 8GB RAM, 1vCPU, 16GB of hard disk space.
+
+For development the requirements are a lower, so 8GB of ram is usually ok, depending on how demanding your applications are, and how many services you're planning on running at the same time on your machine.  Of course, your situation may vary, so plan accordingly.  Keep in mind that Kiali is not especially demanding of your machine resources and, as an isolated part of your environment, should not affect your applications throughput or latency.
+
+For more, see the link:https://docs.okd.io/latest/install/prerequisites.html[OKD prerequistes].
+
+
+== Installation
 
 Kiali can be installed in an OpenShift or Kubernetes cluster environment. For OpenShift only, a minimal preparation is necessary.  
 
@@ -55,7 +74,7 @@ If you are installing on OpenShift, you need to grant the `cluster-admin` role t
 
 [source,bash]
 ----
-oc login -u system:admin
+  oc login -u system:admin
 ----
 
 
@@ -79,7 +98,7 @@ Installing the latest version of Kiali is done using the Kiali Operator. The Kia
 
 Below are three options for installing the Kiali Operator. If replacing an existing Kiali Operator you will be prompted for confirmation. Depending on the installation option the operator may then install Kiali. If replacing an existing Kiali you will be prompted for confirmation. For new Kiali installations you will be prompted for the authentication strategy. See link:#_login_options[Login Options] for more on the `login`, `anonymous` and `openshift` authentication strategies.  Depending on the chosen strategy the installation may prompt for additional information.
 
-icon:bullhorn[size=1x]{nbsp} It is only necessary to install the Kiali Operator one time.  After the operator is installed you need only create or edit the Kiali CR (see link:#_create_or_edit_the_kiali_cr[Create or Edit the Kiali CR]). There is no need to again perform one of the bash installations below.
+icon:bullhorn[size=1x]{nbsp} It is only necessary to install the Kiali Operator one time.  After the operator is installed you need only create or edit the Kiali CR (see link:#_create_or_edit_the_kiali_cr[Create or Edit the Kiali CR]). The Kiali config map will be managed by the Kiali Operator and should *not* be manually edited. There is no need to again perform one of the bash installations below.
 
 
 === Quick Install
@@ -90,7 +109,7 @@ When the Kiali CR is created it triggers the operator to then install Kiali. Kia
 
 [source,bash]
 ----
-bash <(curl -L https://git.io/getLatestKialiOperator)
+  bash <(curl -L https://git.io/getLatestKialiOperator)
 ----
 
 
@@ -102,7 +121,7 @@ When the Kiali CR is created it triggers the operator to then install Kiali. Run
 
 [source,bash]
 ----
-bash <(curl -L https://git.io/getLatestKialiOperator) --accessible-namespaces '**'
+  bash <(curl -L https://git.io/getLatestKialiOperator) --accessible-namespaces '**'
 ----
 
 
@@ -114,7 +133,7 @@ Run the install script via this command (replacing the CR filename as needed):
 
 [source,bash]
 ----
-bash <(curl -L https://git.io/getLatestKialiOperator) --operator-install-kiali false
+  bash <(curl -L https://git.io/getLatestKialiOperator) --operator-install-kiali false
 ----
 
 When the Kiali Operator is installed go to link:#_create_or_edit_the_kiali_cr[Create or Edit the Kiali CR] for the customized Kiali installation.
@@ -126,7 +145,7 @@ It is not usually necessary to explicitly execute the link:https://github.com/ki
 
 [source,bash]
 ----
-bash <(curl -L https://git.io/getLatestKialiOperator) --help
+  bash <(curl -L https://git.io/getLatestKialiOperator) --help
 ----
 
 icon:bullhorn[size=1x]{nbsp} The install script requires `envsubst` installed and in your PATH; you can get it via the GNU `gettext` package.
@@ -140,18 +159,20 @@ To create an initial Kiali CR file it is recommended to copy the fully documente
 
 icon:lightbulb[size=1x]{nbsp} It is important to understand the `deployment:accessible_namespaces` setting in the CR.  See link:#_accessible_namespaces[Accessible Namespaces] for more information.
 
+icon:bullhorn[size=1x]{nbsp} The Kiali config map will be managed by the Kiali Operator and should *not* be manually edited.
+
 To install Kiali create the Kiali CR using the local file. To create the Kiali CR run the command:
 
 [source,bash]
 ----
-oc apply -f my-kiali-cr.yaml -n kiali-operator
+  oc apply -f my-kiali-cr.yaml -n kiali-operator
 ----
 
 To update Kiali, edit and save the existing the Kiali CR.  To edit the Kiali CR run the command (note: the default Kiali CR name is `kiali`):
 
 [source,bash]
 ----
-oc edit kiali <Kiali CR name> -n kiali-operator
+  oc edit kiali <Kiali CR name> -n kiali-operator
 ----
 
 
@@ -163,7 +184,7 @@ To remove Kiali is simple - just delete the Kiali CR. To trigger the Kiali Opera
 
 [source,bash]
 ----
-oc delete kiali <Kiali CR name> -n kiali-operator
+  oc delete kiali <Kiali CR name> -n kiali-operator
 ----
 
 At this point, you have no Kiali installed, but you still have the Kiali Operator running. You could create another Kiali CR (with potentially different configuration settings) to install a new Kiali instance.
@@ -174,7 +195,7 @@ To uninstall *everything* related to Kiali (Kiali Operator, Kiali, etc) run the 
 
 [source,bash]
 ----
-bash <(curl -L https://git.io/getLatestKialiOperator) --uninstall-mode true
+  bash <(curl -L https://git.io/getLatestKialiOperator) --uninstall-mode true
 ----
 
 
@@ -186,7 +207,7 @@ icon:lightbulb[size=1x]{nbsp} If you installed the Kiali CR in a different names
 
 [source,bash]
 ----
-oc patch kiali kiali -n kiali-operator -p '{"metadata":{"finalizers": []}}' --type=merge
+  oc patch kiali kiali -n kiali-operator -p '{"metadata":{"finalizers": []}}' --type=merge
 ----
 
 
@@ -211,7 +232,7 @@ You can also use the `oc` command to determine the base URL:
 
 [source,bash]
 ----
-oc get route -n istio-system -l app=kiali
+  oc get route -n istio-system -l app=kiali
 ----
 
 
@@ -223,7 +244,7 @@ Alternatively you can setup port forwarding to your local machine:
 
 [source,bash]
 ----
-kubectl port-forward svc/kiali 20001:20001 -n istio-system
+  kubectl port-forward svc/kiali 20001:20001 -n istio-system
 ----
 
 Then the URL is `https://localhost:20001/kiali`.
@@ -264,7 +285,7 @@ If `login` strategy is selected during the installation, a secret containing Kia
 icon:bullhorn[size=1x]{nbsp} If you told the install script to not create a Kiali CR (and thus not have Kiali installed yet) via the OPERATOR_INSTALL_KIALI=false environment variable, you are responsible for creating this secret if you wish to install Kiali with the authentication strategy of "login". A secret is not required if your authentication strategy is not "login". The following command is a simple way to create a secret for Kiali whose username is "admin" and passphrase is "admin":
 [source,bash]
 ----
-oc create secret generic kiali -n istio-system --from-literal "username=admin" --from-literal "passphrase=admin"
+  oc create secret generic kiali -n istio-system --from-literal "username=admin" --from-literal "passphrase=admin"
 ----
 
 For the `login` and `anonymous` login options, the content displayed in Kiali is based on the permissions of the Kiali service account. On Kubernetes, the Kiali service account has cluster wide access and will be able to display everything in the cluster. By default, in OpenShift the service account will also have access to everything in the cluster but this can be customized by following the link:#_reducing_permissions_in_openshift[instructions below].
@@ -288,14 +309,14 @@ For instance, to grant the user 'developer' access to the 'myproject' namespace,
 
 [source,bash]
 ----
-oc adm policy add-role-to-user kiali developer -n myproject
+  oc adm policy add-role-to-user kiali developer -n myproject
 ----
 
 To remove the 'kiali' role from the user 'developer' in the 'myproject' namespace you can run the following command:
 
 [source,bash]
 ----
-oc adm policy remove-role-from-user kiali developer -n myproject
+  oc adm policy remove-role-from-user kiali developer -n myproject
 ----
 
 === Namespace Management
@@ -318,12 +339,14 @@ deployment:
 
 icon:lightbulb[size=1x]{nbsp} If `accessible_namespaces` has an entry with the special value of `+++**+++` (two asterisks), it denotes that Kiali be given access to all namespaces via a single cluster role (if using this special value of `+++**+++`, you are required to have already granted the operator permissions to create cluster roles and cluster role bindings). It is not recommended for production but the following command will create both the Kiali operator and the Kiali CR, configured for full cluster access to current and new namespaces:
 
-icon:bullhorn[size=1x]{nbsp} If the operator was originally installed with --accessible_namespaces not set to `+++**+++`, you cannot later edit the Kiali CR and change accessible_namespaces to `+++**+++`. You must use the bash command below to reinstall the operator so that it can be granted the additional permissions required.
+icon:bullhorn[size=1x]{nbsp} If the operator was not originally installed with --accessible_namespaces set to `+++**+++`, you cannot later edit the Kiali CR and change accessible_namespaces to `+++**+++`. You must use the bash command below to reinstall the operator so that it can be granted the additional permissions required.
 
 [source,bash]
 ----
-bash <(curl -L https://git.io/getLatestKialiOperator) -an '**'
+  bash <(curl -L https://git.io/getLatestKialiOperator) -an '**'
 ----
+
+Maistra supports multi-tenancy and the `accessible_namespaces` extends that feature to Kiali. However, explicit naming of accessible namespaces can benefit non-Maistra installations as well, with it Kiali does not need cluster roles and the Kiali Operator does not need permissions to create cluster roles.
 
 
 ==== Excluded Namespaces
@@ -357,14 +380,14 @@ The first thing you will need to do is to remove the cluster-wide permissions th
 
 [source,bash]
 ----
-oc delete clusterrolebindings kiali
+  oc delete clusterrolebindings kiali
 ----
 
 Then you will need to grant the `kiali` role in the namespace of your choosing:
 
 [source,bash]
 ----
-oc adm policy add-role-to-user kiali system:serviceaccount:istio-system:kiali-service-account -n ${NAMESPACE}
+  oc adm policy add-role-to-user kiali system:serviceaccount:istio-system:kiali-service-account -n ${NAMESPACE}
 ----
 
 You can alternatively tell the Kiali Operator to install Kiali in "view only" mode (this does work for either OpenShift or Kubernetes). You do this by setting the `view_only_mode` to `true` in the Kiali CR:

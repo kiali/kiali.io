@@ -23,52 +23,46 @@ theme = "canvas"
       weight = 1
       parent="documentation"
   [[menu.main]]
-      identifier = "doc_prerequisites"
-      name = "Prerequisites"
-      url = "/documentation/prerequisites"
-      weight = 2
-      parent="documentation"
-  [[menu.main]]
       identifier = "doc_gettingstarted"
       name = "Getting Started"
       url = "/documentation/getting-started"
-      weight = 3
+      weight = 2
       parent="documentation"
   [[menu.main]]
       identifier = "architecture"
       name = "Architecture"
       url = "/documentation/architecture"
-      weight = 4
+      weight = 3
       parent="documentation"
   [[menu.main]]
       identifier = "runtimes"
       name = "Runtimes Monitoring"
       url = "/documentation/runtimes-monitoring"
-      weight = 5
+      weight = 4
       parent="documentation"
   [[menu.main]]
       identifier = "tracing"
       name = "Distributed Tracing"
       url = "/documentation/distributed-tracing"
-      weight = 6
+      weight = 5
       parent="documentation"
   [[menu.main]]
       identifier = "known-issues"
       name = "Known issues"
       url = "/documentation/known-issues"
-      weight = 7
+      weight = 6
       parent="documentation"
   [[menu.main]]
       identifier = "swagger"
       name = "Developer API"
       url = "/documentation/developer-api"
-      weight = 8
+      weight = 7
       parent="documentation"
   [[menu.main]]
       identifier = "doc_glossary"
       name = "Glossary"
       url = "/documentation/glossary"
-      weight = 9
+      weight = 8
       parent="documentation"
       [[menu.main]]
          identifier = "concepts"
