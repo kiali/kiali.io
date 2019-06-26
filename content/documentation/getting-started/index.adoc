@@ -346,7 +346,7 @@ icon:bullhorn[size=1x]{nbsp} If the operator was not originally installed with -
   bash <(curl -L https://git.io/getLatestKialiOperator) -an '**'
 ----
 
-Maistra supports multi-tenancy and the `accessible_namespaces` extends that feature to Kiali. However, explicit naming of accessible namespaces can benefit non-Maistra installations as well, with it Kiali does not need cluster roles and the Kiali Operator does not need super-create-cluster-roles-permission.
+Maistra supports multi-tenancy and the `accessible_namespaces` extends that feature to Kiali. However, explicit naming of accessible namespaces can benefit non-Maistra installations as well, with it Kiali does not need cluster roles and the Kiali Operator does not need permissions to create cluster roles.
 
 
 ==== Excluded Namespaces
