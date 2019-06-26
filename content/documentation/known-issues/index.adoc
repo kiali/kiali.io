@@ -27,7 +27,7 @@ icon:lightbulb[size=2x] {nbsp}{nbsp}{nbsp}{nbsp} In general, we use the GitHub t
 
 No version of Internet Explorer is supported with Kiali. Users may experience some https://github.com/kiali/kiali/issues/507[issues] when using Kiali through this browser.
 
-In order to have the best experience with Kiali you will need to update to use a link:../prerequisites/#_browser_requirements[supported browser].
+In order to have the best experience with Kiali you will need to update to use a link:../getting-started/#_browser_requirements[supported browser].
 
 == Graph badly laid out
 
