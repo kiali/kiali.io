@@ -60,12 +60,12 @@ Any machine capable of running link:https://www.openshift.com/[Red Hat Openshift
 
 For development the requirements are a lower, so 8GB of ram is usually ok, depending on how demanding your applications are, and how many services you're planning on running at the same time on your machine.  Of course, your situation may vary, so plan accordingly.  Keep in mind that Kiali is not especially demanding of your machine resources and, as an isolated part of your environment, should not affect your applications throughput or latency.
 
-For more, see the link:https://docs.okd.io/latest/install/prerequisites.html[OKD prerequistes].
+For more, see the link:https://docs.okd.io/latest/install/prerequisites.html[OKD prerequisites].
 
 
 == Installation
 
-Kiali can be installed in an OpenShift or Kubernetes cluster environment. For OpenShift only, a minimal preparation is necessary.  
+Kiali can be installed in an OpenShift or Kubernetes cluster environment. For OpenShift only, a minimal preparation is necessary.
 
 
 === OpenShift Preparation
@@ -153,7 +153,7 @@ icon:bullhorn[size=1x]{nbsp} The install script requires `envsubst` installed an
 
 === Create or Edit the Kiali CR
 
-The Kiali Operator watches the Kiali CR (Custom Resource).  Create, update, or removal of the Kiali CR will trigger the Kiali Operator to install, update, or remove Kiali. This assumes the Kiali Operator has already been installed.  See link:#_advanced_install_operator_only[Advanced Install (Operator-Only)] if you need to install the Kiali Operator. 
+The Kiali Operator watches the Kiali CR (Custom Resource).  Create, update, or removal of the Kiali CR will trigger the Kiali Operator to install, update, or remove Kiali. This assumes the Kiali Operator has already been installed.  See link:#_advanced_install_operator_only[Advanced Install (Operator-Only)] if you need to install the Kiali Operator.
 
 To create an initial Kiali CR file it is recommended to copy the fully documented link:https://github.com/kiali/kiali/blob/master/operator/deploy/kiali/kiali_cr.yaml[example Kiali CR yaml file].  Edit the file, being careful to maintain proper formatting, and save it to a local file (e.g. my-kiali-cr.yaml).
 
@@ -274,7 +274,7 @@ Kiali supports three different login options.
 
 *login*: This option allows a user to login into Kiali using a username and password. This is the default option if using Kubernetes.
 
-*anonymous*: This option removes any login requirement. A user will not be presented the login page and will automatically have access to Kiali without having to present any credentials. 
+*anonymous*: This option removes any login requirement. A user will not be presented the login page and will automatically have access to Kiali without having to present any credentials.
 
 *openshift*: If you have deployed Kiali on OpenShift you can use this option (this is the default option if using OpenShift). With this option users will log into Kiali using the OpenShift OAuth login. What users can access in Kiali will now be based on their user roles in OpenShift using the kubernetes RBAC.
 
@@ -290,7 +290,7 @@ icon:bullhorn[size=1x]{nbsp} If you told the install script to not create a Kial
 
 For the `login` and `anonymous` login options, the content displayed in Kiali is based on the permissions of the Kiali service account. On Kubernetes, the Kiali service account has cluster wide access and will be able to display everything in the cluster. By default, in OpenShift the service account will also have access to everything in the cluster but this can be customized by following the link:#_reducing_permissions_in_openshift[instructions below].
 
-For the `openshift` login option, the content displayed in Kiali is based on the permissions of the user who logged in via the OpenShift OAuth login page. This means that individual users will be shown different content based on their roles within OpenShift. See the link:#openshift_user_permissions[section] below for how to grant or remove a user's access to specific namespaces. 
+For the `openshift` login option, the content displayed in Kiali is based on the permissions of the user who logged in via the OpenShift OAuth login page. This means that individual users will be shown different content based on their roles within OpenShift. See the link:#openshift_user_permissions[section] below for how to grant or remove a user's access to specific namespaces.
 
 The login option can be specified in the Kiali CR when installing Kiali. For instance, to use the `openshift` login option, the Kiali CR should contain the following in the `auth` section:
 
@@ -400,4 +400,3 @@ deployment:
 ----
 
 This allows Kiali to read service mesh resources found in the cluster, but it does not allow Kiali to add, modify, or delete them.
-
