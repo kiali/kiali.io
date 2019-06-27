@@ -544,3 +544,21 @@ div.kiali-video {
 .arrow_disabled{
   opacity: 0.3;
 }
+
+.faq .question {
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.faq .answer {
+  margin-left: 2.5em;
+  margin-bottom: 20px;
+}
+
+.faq .answer p {
+  margin-bottom: 10px;
+}
+
+.faq li {
+  font-size: 1.8em;
+}

@@ -1,0 +1,36 @@
+---
+title: Why are there many unknown nodes in the graph?
+weight: 30
+---
+
+In some situations you can see a lot of connections from an "Unknown" node to your services in the graph, because some software external to your mesh might be periodically pinging or fetching data. This is typically the case when you setup Kubernetes liveness probes, or have some application metrics pushed or exposed to a monitoring system such as Prometheus. Perhaps you wouldn't like to see these connections because they make the graph harder to read.
+
+From the Graph page, you can filter them out by typing `node = unknown` in the _Graph Hide_ input box.
+
+.Hide the Unknown node
+    image::graph-hide.png[Graph Hide]
+{nbsp} +
+
+For a more definitive solution, there are several ways to prevent Istio from gathering this kind of telemetry.
+
+The first is to have these endpoints (like `/health` or `/metrics`) exposed on a different port and server than your main application, and to _not_ declare this port in your _Pod_'s container definition as _containerPort_. This way, the requests will be completely ignored by the Istio proxy, as mentioned in link:https://istio.io/docs/tasks/traffic-management/app-health-check/#liveness-and-readiness-probes-with-http-request-option[Istio documentation] (at the bottom of that page).
+
+The second way is to modify Istio's Prometheus rule to explicitly exclude some requests based on the User Agent. This is the `Rule` resource named `promhttp` located in `istio-system`. To edit it:
+
+```bash
+kubectl edit rule promhttp -n istio-system
+```
+
+or for OpenShift:
+
+```bash
+oc edit rule promhttp -n istio-system
+```
+
+Then locate the `match` field under `spec` section. Change it to filter out, for instance, the Kubernetes probes:
+
+```yaml
+match: (context.protocol == "http" || context.protocol == "grpc") && (match((request.useragent | "-"), "kube-probe*") == false)
+```
+
+Note that, starting from Istio 1.1, link:https://github.com/istio/istio/pull/10480[Kubernetes probes will be filtered out] in that way by default. But you may still want to do something equivalent with other User Agents.

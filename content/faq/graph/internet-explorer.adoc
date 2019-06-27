@@ -1,0 +1,9 @@
+---
+title: Kiali supports Internet Explorer?
+weight: 10
+---
+:icons: font
+
+No version of Internet Explorer is supported with Kiali. Users may experience some https://github.com/kiali/kiali/issues/507[issues] when using Kiali through this browser.
+
+icon:info[size=2x] {nbsp}{nbsp}{nbsp}{nbsp}In order to have the best experience with Kiali you will need to update to use a link:../getting-started/#_browser_requirements[supported browser].

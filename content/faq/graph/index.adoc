@@ -1,0 +1,22 @@
+---
+title: "Graph"
+aliases:
+- /features/
+- /documentation/overview/
+date: 2018-06-20T19:04:38+02:00
+draft: false
+type: "known-issues"
+weight: 1
+layout: faq
+---
+
+:icons: font
+:imagesdir: /images/faq/
+
+This section describes some known issues in Kiali that may not be fixed in the very short term, and lead to limitations in a restricted number of corner cases. Hopefully, you wouldn't even notice them.
+
+If you are hitting a limitation, regardless if it's listed here or not, do not hesitate to use the https://github.com/kiali/kiali/issues[GitHub issue tracker]. You can simply _vote_ (using emojis) for any existing bug or feature request, this will help us to understand the most demanded enhancements, or you can create a new ticket. For existing JIRA tickets, use the _vote_ link or add a comment describing your expectation or scenario.
+
+The whole list of JIRA tickets can be found https://issues.jboss.org/projects/KIALI/issues/[here].
+
+icon:lightbulb[size=2x] {nbsp}{nbsp}{nbsp}{nbsp} In general, we use the GitHub tracker for issues raised by the community, and JIRA for issues raised by the core engineering team. Both are publicly accessible.

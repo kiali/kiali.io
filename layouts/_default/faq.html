@@ -1,0 +1,59 @@
+{{ partial "header.html" . }}
+
+{{ $questions := .Resources.ByType "page" }}
+{{ $sorted_questions := sort $questions ".Params.weight" }}
+
+
+<!-- Page Title
+		============================================= -->
+<section id="page-title">
+
+    <div class="container clearfix">
+        <h1>{{ .Page.Title }} FAQ</h1>
+    </div>
+
+</section><!-- #page-title end -->
+
+<!-- Content
+		============================================= -->
+<section id="content">
+
+    <div class="content-wrap">
+
+        <div class="container clearfix">
+
+            {{ .Content }}
+
+            <nav class="toc-inlined toc-forced">
+                <hr/>
+                <div class="directory" role="directory">
+                    <nav id="InlineTableOfContents">
+                        <ol>
+                            {{ range $q := $sorted_questions }}
+                                <li role="none" aria-label="{{ $q.Title }}"><a href="#{{ $q.File.BaseFileName | urlize }}">{{ $q.Title }}</a></li>
+                            {{ end }}
+                        </ol>
+                    </nav>
+                </div>
+                <hr/>
+            </nav>
+
+            <div class="faq">
+                <ol>
+                    {{ range $q := $sorted_questions }}
+                        <li>
+                        <h3 id="{{ $q.File.BaseFileName | urlize }}" class="question">{{ $q.Title }}</h3>
+                        <div class="answer">
+                            {{ $q.Content }}
+                        </div>
+                        </li>
+                    {{ end }}
+                </ol>
+            </div>
+        </div>
+
+    </div>
+
+</section><!-- #content end -->
+
+{{ partial "footer.html" . }}
