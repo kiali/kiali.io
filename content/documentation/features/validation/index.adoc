@@ -39,7 +39,7 @@ Warning
 
 [source, yaml]
 ----
-include::/public/files/validation_examples/201.yaml[]
+include::/data/files/validation_examples/201.yaml[]
 ----
 
 === See Also
@@ -108,7 +108,7 @@ Warning
 
 [source, yaml]
 ----
-include::/public/files/validation_examples/001.yaml[]
+include::/data/files/validation_examples/001.yaml[]
 ----
 
 === See Also
@@ -144,7 +144,7 @@ Error
 
 [source, yaml]
 ----
-include::/public/files/validation_examples/002.yaml[]
+include::/data/files/validation_examples/002.yaml[]
 ----
 
 === See Also
@@ -181,7 +181,7 @@ Error
 
 [source, yaml]
 ----
-include::/public/files/validation_examples/003.yaml[]
+include::/data/files/validation_examples/003.yaml[]
 ----
 
 === See Also
@@ -196,10 +196,11 @@ https://istio.io/docs/reference/config/istio.networking.v1alpha3/#DestinationRul
 MeshPolicy enabling mTLS is missing
 
 === Description
-
+Istio has the ability to define mTLS communications at mesh level. In order to do that, Istio needs one DestinationRule and one MeshPolicy. The DestinationRule configures all the clients of the mesh to use mTLS protocol on their connections. The MeshPolicy defines what authentication methods can be accepted on the workload(s) of the whole mesh.
+If the MeshPolicy is not found or doesn't exist and the mesh-wide DestinationRule is on STRICT mode, all the communication will return 500 errors.
 
 === Resolution
-
+Add a MeshPolicy named as default without specifying targets but setting peers mtls mode to STRICT or PERMISSIVE.
 
 === Severity
 
@@ -209,10 +210,14 @@ Error
 
 [source, yaml]
 ----
+include::/data/files/validation_examples/004.yaml[]
 ----
 
 === See Also
 
+https://github.com/kiali/kiali/tree/master/business/checkers/destinationrules/meshwide_mtls_checker.go[Validator source code, window="_blank"]
+-
+https://istio.io/docs/tasks/security/authn-policy/#globally-enabling-istio-mutual-tls[Globally enabling Istio mutual TLS, window="_blank"]
 
 '''
 === Error message
@@ -227,15 +232,18 @@ mTLS settings of a non-local Destination Rule are overridden
 
 === Severity
 
-Error
+Warning
 
 === Example
 
 [source, yaml]
 ----
+include::/data/files/validation_examples/005.yaml[]
 ----
 
 === See Also
+
+https://github.com/kiali/kiali/tree/master/business/checkers/destinationrules/traffic_policy_checker.go[Validator source code, window="_blank"]
 
 '''
 === Error message
@@ -243,10 +251,12 @@ Error
 Policy enabling namespace-wide mTLS is missing
 
 === Description
-
+Istio has the ability to define mTLS communications at namespace level. In order to do that, Istio needs both a DestinationRule and a Policy targetting all the clients/workloads of the specific namespace. The Policy will allow mTLS authentication method for all the workloads within a namespace. The DestinationRule will define all the clients within the namespace to start communications in mTLS mode.
+If the Policy is not found and the DestinationRule is on STRICT mode in that namespace, all the communications within that namespace will return 500 errors.
 
 === Resolution
-
+A Policy enabling mTLS method is needed for the workloads in the namespace. Otherwise all the clients will start mTLS connections that those workloads won't be ready to manage.
+Add a Policy named as default without specifying targets but setting peers mTLS mode to STRICT or PERMISSIVE in the same namespace as the DestinationRule.
 
 === Severity
 
@@ -256,10 +266,13 @@ Error
 
 [source, yaml]
 ----
+include::/data/files/validation_examples/006.yaml[]
 ----
 
 === See Also
-
+https://github.com/kiali/kiali/tree/master/business/checkers/destinationrules/namespaceswide_mtls_checker.go[Validator source code, window="_blank"]
+-
+https://istio.io/docs/tasks/security/authn-policy/#enable-mutual-tls-per-namespace-or-service[Enabling Istio mutual TLS per namespace, window="_blank"]
 
 '''
 === Error message
@@ -280,10 +293,14 @@ Error
 
 [source, yaml]
 ----
+include::/data/files/validation_examples/007.yaml[]
 ----
 
 === See Also
 
+https://github.com/kiali/kiali/tree/master/business/checkers/destinationrules/disabled_namespacewide_mtls_checker.go[Validator source code, window="_blank"]
+-
+https://istio.io/docs/tasks/security/authn-policy/#enable-mutual-tls-per-namespace-or-service[Enabling Istio mutual TLS per namespace, window="_blank"]
 
 '''
 === Error message
@@ -304,10 +321,14 @@ Error
 
 [source, yaml]
 ----
+include::/data/files/validation_examples/008.yaml[]
 ----
 
 === See Also
 
+https://github.com/kiali/kiali/tree/master/business/checkers/destinationrules/disabled_namespacewide_mtls_checker.go[Validator source code, window="_blank"]
+-
+https://istio.io/docs/tasks/security/authn-policy/#globally-enabling-istio-mutual-tls[Globally enabling Istio mutual TLS, window="_blank"]
 
 '''
 
@@ -336,7 +357,7 @@ Error
 
 [source, yaml]
 ----
-include::/public/files/validation_examples/102.yaml[]
+include::/data/files/validation_examples/102.yaml[]
 ----
 
 === See Also
@@ -367,7 +388,7 @@ Error
 
 [source, yaml]
 ----
-include::/public/files/validation_examples/101.yaml[]
+include::/data/files/validation_examples/101.yaml[]
 ----
 
 === See Also
@@ -394,7 +415,7 @@ Error
 
 [source, yaml]
 ----
-include::/public/files/validation_examples/105.yaml[]
+include::/data/files/validation_examples/105.yaml[]
 ----
 
 === See Also
@@ -421,7 +442,7 @@ Error
 
 [source, yaml]
 ----
-include::/public/files/validation_examples/103.yaml[]
+include::/data/files/validation_examples/103.yaml[]
 ----
 
 === See Also
@@ -452,7 +473,7 @@ Warning
 
 [source, yaml]
 ----
-include::/public/files/validation_examples/104.yaml[]
+include::/data/files/validation_examples/104.yaml[]
 ----
 
 === See Also
@@ -479,7 +500,7 @@ Error
 
 [source, yaml]
 ----
-include::/public/files/validation_examples/104.yaml[]
+include::/data/files/validation_examples/104.yaml[]
 ----
 
 === See Also
@@ -570,7 +591,7 @@ Error
 
 [source, yaml]
 ----
-include::/public/files/validation_examples/401.yaml[]
+include::/data/files/validation_examples/401.yaml[]
 ----
 
 === See Also
