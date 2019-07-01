@@ -547,7 +547,7 @@ div.kiali-video {
 
 .faq .question {
   font-weight: 400;
-  text-transform: uppercase;
+  /*text-transform: uppercase;*/
 }
 
 .faq .answer {
@@ -559,6 +559,10 @@ div.kiali-video {
   margin-bottom: 10px;
 }
 
-.faq li {
+.faq .answer li > p {
+  margin-bottom: 0;
+}
+
+.faq > ol > li {
   font-size: 1.8em;
 }

@@ -1,7 +1,7 @@
 ---
 title: FAQ
 description: Frequently Asked Questions about Kiali.
-weight: 1
+weight: 6
 layout: faq-landing
 aliases:
   - /documentation/known-issues/

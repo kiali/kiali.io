@@ -1,7 +1,0 @@
----
-title: What does the word "Kiali" mean?
-weight: 50
----
-:icons: font
-
-κιάλι (Kiali) is the greek word for "monocular" or spyglass.

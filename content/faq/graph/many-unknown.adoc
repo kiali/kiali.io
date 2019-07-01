@@ -2,13 +2,17 @@
 title: Why are there many unknown nodes in the graph?
 weight: 30
 ---
+:imagesdir: /images/faq/graph/
+
 
 In some situations you can see a lot of connections from an "Unknown" node to your services in the graph, because some software external to your mesh might be periodically pinging or fetching data. This is typically the case when you setup Kubernetes liveness probes, or have some application metrics pushed or exposed to a monitoring system such as Prometheus. Perhaps you wouldn't like to see these connections because they make the graph harder to read.
 
 From the Graph page, you can filter them out by typing `node = unknown` in the _Graph Hide_ input box.
 
+
 .Hide the Unknown node
-    image::graph-hide.png[Graph Hide]
+image::graph-hide.png[Graph Hide]
+
 {nbsp} +
 
 For a more definitive solution, there are several ways to prevent Istio from gathering this kind of telemetry.

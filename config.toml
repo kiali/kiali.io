@@ -46,6 +46,12 @@ theme = "canvas"
       weight = 5
       parent="documentation"
   [[menu.main]]
+      identifier = "faq"
+      name = "FAQ"
+      url = "/faq"
+      weight = 6
+      parent = "documentation"
+  [[menu.main]]
       identifier = "swagger"
       name = "Developer API"
       url = "/documentation/developer-api"
@@ -75,8 +81,3 @@ theme = "canvas"
          url = "/documentation/glossary/networking"
          weight = 3
          parent="doc_glossary"
-  [[menu.main]]
-      identifier = "faq"
-      name = "FAQ"
-      url = "/faq"
-      weight = 40

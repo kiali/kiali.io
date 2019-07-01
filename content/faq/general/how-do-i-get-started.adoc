@@ -1,8 +1,0 @@
----
-title: How do i get started using Kiali?
-weight: 10
----
-:icons: font
-
-We recommend following our link:/documentation/getting-started/[Getting Started] section which provides
-information on the instalation and configuration of Kiali.

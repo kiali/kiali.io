@@ -1,5 +1,5 @@
 ---
-title: Kiali supports Internet Explorer?
+title: Does Kiali support Internet Explorer?
 weight: 10
 ---
 :icons: font
