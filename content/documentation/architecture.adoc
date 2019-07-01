@@ -21,7 +21,7 @@ image::architecture.png[Kiali architecture]
 == Kiali back-end
 
 The back-end is the application that runs in the container application platform.
-It's written in http://golang.org/[Go]. The code can be found at
+It's written in https://golang.org/[Go]. The code can be found at
 https://github.com/kiali/kiali[kiali/kiali GitHub repository].
 
 This is the component that communicates with Istio parts, retrieves and
@@ -80,7 +80,7 @@ Kiali uses the API of the container application platform (cluster API) in order
 to fetch and resolve service mesh configurations.
 
 Container application platforms where Kiali is known to work are
-http://www.okd.io/[OKD] and http://kubernetes.io/[Kubernetes]. Kiali shoud also
+https://www.okd.io/[OKD] and https://kubernetes.io/[Kubernetes]. Kiali shoud also
 work on the derivatives of these platforms. If you want to learn the cluster
 API, check the https://docs.okd.io/latest/rest_api/index.html[OKD REST API
 reference] and the

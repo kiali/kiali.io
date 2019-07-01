@@ -25,7 +25,7 @@ Also make sure to check out the link:https://github.com/kiali/kiali/blob/master/
 
 == Reporting issues and feature requests
 
-The Kiali team uses link:http://issues.jboss.org/browse/KIALI[JIRA at JBoss.org] as its preferred tracker.
+The Kiali team uses link:https://issues.jboss.org/browse/KIALI[JIRA at JBoss.org] as its preferred tracker.
 Please use it to report issues and create new feature requests (select issue type 'Bug' for bugs and 'Story' for enhancement requests).
 
 Alternatively you can also use the link:https://github.com/kiali/kiali/issues[GitHub tracker] for this purpose.

@@ -103,7 +103,7 @@ So Kiali didn't find the tracing service. Kiali tries to search for the tracing 
 
 === I can't see the embedded feature, there is a link to a new tab.
 
-Check the about modal like the link:http://localhost:1313/documentation/tracing/#_i_can_t_see_the_link_to_tracing_or_traces_tab_in_service_details[step 3.1] if you have the same protocol link:https://en.wikipedia.org/wiki/HTTPS[HTPPS, window="_blank"] or link:https://en.wikipedia.org/wiki/HTTP[HTTP, window="_blank"].
+Check the about modal like the link:#_i_can_t_see_the_link_to_tracing_or_traces_tab_in_service_details[step 3.1] if you have the same protocol link:https://en.wikipedia.org/wiki/HTTPS[HTTPS, window="_blank"] or link:https://en.wikipedia.org/wiki/HTTP[HTTP, window="_blank"].
 
 
 === I see an error message in embedded feature "might be temporarily down ..."

@@ -16,6 +16,9 @@
 	<link rel="stylesheet" href="/css/responsive.css" type="text/css" />
 
 	<meta name='viewport' content='initial-scale=1, viewport-fit=cover'>
+	<META HTTP-EQUIV='X-Frame-Options' CONTENT="DENY">
+	<META HTTP-EQUIV='X-XSS-Protection' CONTENT="1; mode=block">
+	<META HTTP-EQUIV='X-Content-Type-Options' CONTENT="nosniff">
 
 	<link rel="stylesheet" href="/css/colors.php?color=44aaac" type="text/css" />
 
@@ -29,13 +32,7 @@
 
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-130444728-1"></script>
-	<script>
-	  window.dataLayer = window.dataLayer || [];
-	  function gtag(){dataLayer.push(arguments);}
-	  gtag('js', new Date());
-
-	  gtag('config', 'UA-130444728-1');
-	</script>
+	<script src="/scripts/goa.js" type="text/javascript"></script>
 </head>
 
 <body class="stretched no-transition">
