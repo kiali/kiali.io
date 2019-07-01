@@ -163,7 +163,7 @@ This subset’s labels are not found in any matching host
 
 Istio applies traffic rules for services after the routing has happened. These can include different settings such as connection pooling, circuit breakers, load balancing, detection, etc. Istio can define the same rules for all services under a host or different rules for different versions of the service. The host must a service that is defined in the platform's service registry or as a ServiceEntry. Short names are extended to include '.namespace.cluster' using the namespace of the destination rule, not the service itself. FQDN is evaluated as is. It is recommended to use the FQDN to prevent any confusion.
 
-Subsets can override the global settings defined in the DR for a host. 
+Subsets can override the global settings defined in the DR for a host.
 
 If the host is not found, Istio will ignore the defined rules.
 
@@ -196,11 +196,11 @@ https://istio.io/docs/reference/config/istio.networking.v1alpha3/#DestinationRul
 MeshPolicy enabling mTLS is missing
 
 === Description
-Istio has the ability to define mTLS communications at mesh level. In order to do that, Istio needs one DestinationRule and one MeshPolicy. The DestinationRule configures all the clients of the mesh to use mTLS protocol on their connections. The MeshPolicy defines what authentication methods can be accepted on the workload(s) of the whole mesh.
-If the MeshPolicy is not found or doesn't exist and the mesh-wide DestinationRule is on STRICT mode, all the communication will return 500 errors.
+Istio has the ability to define mTLS communications at mesh level. In order to do that, Istio needs one DestinationRule and one MeshPolicy. The DestinationRule configures all the clients of the mesh to use mTLS protocol on their connections. The MeshPolicy defines what authentication methods can be accepted on the workload of the whole mesh.
+If the MeshPolicy is not found or doesn't exist and the mesh-wide DestinationRule is on ISTIO_MUTUAL mode, all the communication will return 500 errors.
 
 === Resolution
-Add a MeshPolicy named as default without specifying targets but setting peers mtls mode to STRICT or PERMISSIVE.
+Add a MeshPolicy named as default without specifying targets but setting peers mtls mode to STRICT or PERMISSIVE. The MeshPolicy should be like /data/files/validation_examples/401.yaml[].
 
 === Severity
 
@@ -522,7 +522,7 @@ Istio requires the service ports to follow the naming form of 'protocol-suffix' 
 
 === Resolution
 
-Rename the service port name field to follow the form and the traffic will flow correctly. 
+Rename the service port name field to follow the form and the traffic will flow correctly.
 
 === Severity
 
@@ -532,7 +532,7 @@ Error
 
 [source, yaml]
 ----
-<TODO REQUIRES EXAMPLE>
+include::/data/files/validation_examples/701.yaml[]
 ----
 
 === See Also
@@ -563,6 +563,7 @@ Error
 
 [source, yaml]
 ----
+include::/data/files/validation_examples/702.yaml[]
 ----
 
 === See Also
@@ -578,10 +579,11 @@ https://github.com/kiali/kiali/blob/master/business/checkers/services/port_mappi
 Mesh-wide Destination Rule enabling mTLS is missing
 
 === Description
-
+Istio has the ability to define mTLS communications at mesh level. In order to do that, Istio needs one DestinationRule and one MeshPolicy. The DestinationRule configures all the clients of the mesh to use mTLS protocol on their connections. The MeshPolicy defines what authentication methods can be accepted on the workload of the whole mesh.
+If the DestinationRule is not found or doesn't exist and the MeshPolicy is on STRICT mode, all the communication will return 500 errors.
 
 === Resolution
-
+Add a DestinationRule named as default with "*.cluster" host and ISTIO_MUTUAL as tls trafficPolicy mode. The DestinationRule should be like link:/data/files/validation_examples/004.yaml[this, window="_blank"].
 
 === Severity
 
@@ -596,7 +598,9 @@ include::/data/files/validation_examples/401.yaml[]
 
 === See Also
 
-https://github.com/kiali/kiali/tree/master/business/checkers/mesh_policies_checker.go[Validator source code, window="_blank"]
+https://github.com/kiali/kiali/tree/master/business/checkers/meshpolicies/mesh_mtls_checker.go[Validator source code, window="_blank"]
+-
+https://istio.io/docs/tasks/security/authn-policy/#globally-enabling-istio-mutual-tls[Globally enabling Istio mutual TLS, window="_blank"]
 
 [#serviceroles]
 == ServiceRoles and ServiceRoleBindings
@@ -621,11 +625,13 @@ Error
 
 [source, yaml]
 ----
+include::/data/files/validation_examples/501.yaml[]
 ----
 
 === See Also
 
 https://github.com/kiali/kiali/blob/master/business/checkers/authorization/service_checker.go[Validator source code, window="_blank"]
+-
 https://istio.io/docs/reference/config/authorization/istio.rbac.v1alpha1/#AccessRule[Istio documentation, window="_blank"]
 
 '''
@@ -636,7 +642,7 @@ ServiceRole can only point to current namespace
 
 === Description
 
-Services can be listed with an exact match, prefix match as well as suffix match. Using "*" refers to all the services in this namespace. Although FQDN can be used, the namespace of the services must be the same as ServiceRole's deployment. 
+Services can be listed with an exact match, prefix match as well as suffix match. Using "*" refers to all the services in this namespace. Although FQDN can be used, the namespace of the services must be the same as ServiceRole's deployment.
 
 === Resolution
 
@@ -650,11 +656,13 @@ Error
 
 [source, yaml]
 ----
+include::/data/files/validation_examples/502.yaml[]
 ----
 
 === See Also
 
 https://github.com/kiali/kiali/blob/master/business/checkers/authorization/service_checker.go[Validator source code, window="_blank"]
+-
 https://istio.io/docs/reference/config/authorization/istio.rbac.v1alpha1/#AccessRule[Istio documentation, window="_blank"]
 
 '''
@@ -679,11 +687,13 @@ Error
 
 [source, yaml]
 ----
+include::/data/files/validation_examples/601.yaml[]
 ----
 
 === See Also
 
 https://github.com/kiali/kiali/blob/master/business/checkers/authorization/service_binding_checker.go[Validator source code, window="_blank"]
+-
 https://istio.io/docs/reference/config/authorization/istio.rbac.v1alpha1/#ServiceRoleBinding[Istio documentation, window="_blank"]
 
 [#generic]
