@@ -544,3 +544,12 @@ div.kiali-video {
 .arrow_disabled{
   opacity: 0.3;
 }
+
+.white_text a {
+	color: #DDDDFF;
+}
+
+.float_right {
+	float:right;
+}
+
