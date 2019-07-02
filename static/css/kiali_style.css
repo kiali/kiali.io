@@ -409,6 +409,8 @@ div.kiali-video {
 /* Last articles in medium */
 
 .blog {
+  margin-left: auto;
+  margin-right: auto;
   width: 1120px;
 }
 
