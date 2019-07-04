@@ -25,7 +25,7 @@ More than one Gateway for the same host port combination
 
 === Description
 
-Gateway creates a proxy that will forward the inbound traffic for the exposed ports. If two different gateways expose the same ports for the same host, this creates ambiquity inside Istio as either of these gateways could handle the traffic. This is most likely a configuration error. This check is done across all namespaces the user has access to.
+Gateway creates a proxy that will forward the inbound traffic for the exposed ports. If two different gateways expose the same ports for the same host, this creates ambiguity inside Istio as either of these gateways could handle the traffic. This is most likely a configuration error. This check is done across all namespaces the user has access to.
 
 === Resolution
 
@@ -254,7 +254,7 @@ https://github.com/kiali/kiali/tree/master/business/checkers/destinationrules/tr
 Policy enabling namespace-wide mTLS is missing
 
 === Description
-Istio has the ability to define mTLS communications at namespace level. In order to do that, Istio needs both a DestinationRule and a Policy targetting all the clients/workloads of the specific namespace. The Policy will allow mTLS authentication method for all the workloads within a namespace. The DestinationRule will define all the clients within the namespace to start communications in mTLS mode.
+Istio has the ability to define mTLS communications at namespace level. In order to do that, Istio needs both a DestinationRule and a Policy targeting all the clients/workloads of the specific namespace. The Policy will allow mTLS authentication method for all the workloads within a namespace. The DestinationRule will define all the clients within the namespace to start communications in mTLS mode.
 If the Policy is not found and the DestinationRule is on STRICT mode in that namespace, all the communications within that namespace will return 500 errors.
 
 === Resolution
@@ -407,10 +407,12 @@ https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/no
 Subset not found
 
 === Description
+VirtualService will route matching requests to a service inside your mesh. Routing can also match a subset of traffic to a certain version of it for example. The subsets referred in a VirtualService have to be defined in one DestinationRule.
 
+If one route in the VirtualService points to a subset that doesn't exist Istio won't be able to send traffic to a service.
 
 === Resolution
-
+Fix the routes that points to a non existing subsets. It might be fixing a typo in the subset's name or defining the missing subset in a DestinationRule.
 
 === Severity
 
@@ -464,42 +466,15 @@ More than one Virtual Service for same host
 
 === Description
 
-
+A VirtualService defines a set of traffic routing rules to apply when a host is addressed. Each routing rule defines matching criteria for traffic of a specific protocol. If the traffic is matched, then it is sent to a named destination service (or subset/version of it) defined in the registry.
 
 === Resolution
 
-This is valid configuration only if VirtualService is bound to a gateway, sidecars do not accept this behavior. There are several caveats when using this method and defining the same parts in multiple Virtual Service definitions is not recommended. While Istio will merge the configuration, it does not guarantee any ordering for cross-resource merging and only the first seen configuration is applied (rest ignored). As recommended, each VS definition shold have a 'catch-all' situation, but this can only be defined in a definition affecting the same host.
+This is valid configuration only if VirtualService is bound to a gateway, sidecars do not accept this behavior. There are several caveats when using this method and defining the same parts in multiple Virtual Service definitions is not recommended. While Istio will merge the configuration, it does not guarantee any ordering for cross-resource merging and only the first seen configuration is applied (rest ignored). As recommended, each VS definition should have a 'catch-all' situation, but this can only be defined in a definition affecting the same host.
 
 === Severity
 
 Warning
-
-=== Example
-
-[source, yaml]
-----
-include::/data/files/validation_examples/104.yaml[]
-----
-
-=== See Also
-
-https://istio.io/help/ops/traffic-management/deploy-guidelines/#multiple-virtual-services-and-destination-rules-for-the-same-host[Istio documention Multiple virtual services for the same host, window="_blank"]
-
-'''
-
-=== Error message
-
-Destination field is mandatory
-
-=== Description
-
-
-
-=== Resolution
-
-=== Severity
-
-Error
 
 === Example
 
