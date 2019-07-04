@@ -80,7 +80,7 @@ image::about_menu.png[About menu]
 
 image::about.png[About modal]
 
-
+{empty} +
 
 === I have no Tracing URL in the about modal.
 
@@ -100,7 +100,6 @@ So Kiali didn't find the tracing service. Kiali tries to search for the tracing 
 #      url: ""
 ```
 
-
 === I can't see the embedded feature, there is a link to a new tab.
 
 Check the about modal like the link:http://localhost:1313/documentation/tracing/#_i_can_t_see_the_link_to_tracing_or_traces_tab_in_service_details[step 3.1] if you have the same protocol link:https://en.wikipedia.org/wiki/HTTPS[HTPPS, window="_blank"] or link:https://en.wikipedia.org/wiki/HTTP[HTTP, window="_blank"].
@@ -113,3 +112,16 @@ If you are working in a development environment, you can see an error as the ima
 image::certificateErr.png[Certificate Error]
 
 This is because your certificate is not valid, so you need to accept the certificate, open the tracing service in a new tab and accept it, after that you need to refresh the Kiali website.
+
+=== I see the following informative message: "Could not fetch Jaeger info. Turning off Jaeger integration"
+
+image::jaeger_disabled.png[Jaeger Integration Disabled]
+
+Although Kiali discovered the Jaeger URL the signed up user doesn't have access to the Jaeger query endpoint. Accessing to the discovered URL (shown in the "About" modal) shouldn't be working. Once the endpoint will be accessible by the signed up user, the Jaeger integration will be enabled in Kiali.
+
+=== I see the following informative message: "certificate signed by unknown authority"
+
+image::untrusted_certificate.png[Unstrusted certificate]
+
+In order to Kiali enable Jaeger integration, Kiali needs to check the availability of the discovered URL. If that URL uses TLS and the certificate is signed by an untrusted authority, then Kiali can't establish connection with it for security purposes.
+However there is a workaround for that. Kiali can be configured to skip the authority verification through the flag: insecure_skip_verify. Change its value to true in the link:https://github.com/kiali/kiali/blob/master/operator/deploy/kiali/kiali_cr.yaml#L262[Kiali CR,window="_blank"].
