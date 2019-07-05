@@ -29,7 +29,7 @@ Remove the duplicate gateway entries or merge the two gateway definitions into a
 
 ==== Severity
 
-Warning
+icon:exclamation-triangle[] Warning
 
 ==== Example
 
@@ -58,7 +58,7 @@ Deploy the missing workload or fix the selector to target a correct location.
 
 ==== Severity
 
-Warning
+icon:exclamation-triangle[] Warning
 
 ==== Example
 
@@ -90,7 +90,7 @@ Either merge the settings to a single Destination Rule or split the subsets in s
 
 ==== Severity
 
-Warning
+icon:exclamation-triangle[] Warning
 
 ==== Example
 
@@ -123,7 +123,7 @@ Correct the host to point to a correct service (in this namespace or with FQDN t
 
 ==== Severity
 
-Error
+icon:times-circle[] Error
 
 ==== Example
 
@@ -156,7 +156,7 @@ Also, verify that the labels are correctly matching a workload with the intended
 
 ==== Severity
 
-Error
+icon:times-circle[] Error
 
 ==== Example
 
@@ -182,7 +182,7 @@ Add a MeshPolicy named as default without specifying targets but setting peers m
 
 ==== Severity
 
-Error
+icon:times-circle[] Error
 
 ==== Example
 
@@ -209,7 +209,7 @@ Merging the TLS settings to one of the DestinationRules is the only way to fix t
 
 ==== Severity
 
-Warning
+icon:exclamation-triangle[] Warning
 
 ==== Example
 
@@ -234,7 +234,7 @@ Add a Policy named as default without specifying targets but setting peers mTLS 
 
 ==== Severity
 
-Error
+icon:times-circle[] Error
 
 ==== Example
 
@@ -258,7 +258,7 @@ Kiali has found that there is a DestinationRule sending traffic without mTLS aut
 
 ==== Severity
 
-Error
+icon:times-circle[] Error
 
 ==== Example
 
@@ -285,7 +285,7 @@ There are two ways to fix this situation. You can either change the MeshPolicy t
 
 ==== Severity
 
-Error
+icon:times-circle[] Error
 
 ==== Example
 
@@ -317,7 +317,7 @@ Correct the host to point to a correct service (in this namespace or with FQDN t
 
 ==== Severity
 
-Error
+icon:times-circle[] Error
 
 ==== Example
 
@@ -344,7 +344,7 @@ Fix the possible gateway field to target all necessary gateways or remove the fi
 
 ==== Severity
 
-Error
+icon:times-circle[] Error
 
 ==== Example
 
@@ -370,7 +370,7 @@ Fix the routes that points to a non existing subsets. It might be fixing a typo 
 
 ==== Severity
 
-Error
+icon:times-circle[] Error
 
 ==== Example
 
@@ -393,7 +393,7 @@ This appears to be a configuration error. Fix the definition.
 
 ==== Severity
 
-Error
+icon:times-circle[] Error
 
 ==== Example
 
@@ -420,7 +420,7 @@ This is valid configuration only if VirtualService is bound to a gateway, sideca
 
 ==== Severity
 
-Warning
+icon:exclamation-triangle[] Warning
 
 ==== Example
 
@@ -448,7 +448,7 @@ Rename the service port name field to follow the form and the traffic will flow 
 
 ==== Severity
 
-Error
+icon:times-circle[] Error
 
 ==== Example
 
@@ -475,7 +475,7 @@ Fix the port definitions in the workload or in the service definition to ensure 
 
 ==== Severity
 
-Error
+icon:times-circle[] Error
 
 ==== Example
 
@@ -502,7 +502,7 @@ Add a DestinationRule named as default with "*.cluster" host and ISTIO_MUTUAL as
 
 ==== Severity
 
-Error
+icon:times-circle[] Error
 
 ==== Example
 
@@ -530,7 +530,7 @@ Deploy the missing services or fix the services list to point to correct service
 
 ==== Severity
 
-Error
+icon:times-circle[] Error
 
 ==== Example
 
@@ -557,7 +557,7 @@ If the services in question are located in another namespace, deploy this Servic
 
 ==== Severity
 
-Error
+icon:times-circle[] Error
 
 ==== Example
 
@@ -584,7 +584,7 @@ Deploy the missing ServiceRole to the same namespace.
 
 ==== Severity
 
-Error
+icon:times-circle[] Error
 
 ==== Example
 
