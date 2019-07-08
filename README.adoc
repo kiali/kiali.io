@@ -5,7 +5,7 @@ toc::[]
 = Kiali.io
 This repository contains the source code for https://kiali.io website.
 
-The website is written in link:https://asciidoctor.org/docs/asciidoc-syntax-quick-reference/[AsciiDoc], generated using [Hugo](https://gohugo.io/), and hosted on GitHub.
+The website is written in link:https://asciidoctor.org/docs/asciidoc-syntax-quick-reference/[AsciiDoc], generated using link:https://gohugo.io/[Hugo], and hosted on GitHub.
 
 == Requirements
 
