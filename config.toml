@@ -21,6 +21,12 @@ theme = "canvas"
       url = "/documentation/features"
       weight = 1
       parent="documentation"
+      [[menu.main]]
+         identifier = "doc_validation"
+         name = "Validation"
+         url = "/documentation/features/validation"
+         weight = 1
+         parent="doc_features"
   [[menu.main]]
       identifier = "doc_gettingstarted"
       name = "Getting Started"
