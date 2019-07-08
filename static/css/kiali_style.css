@@ -380,6 +380,10 @@ code {
   list-style: none;
 }
 
+.sectlevel2 {
+  margin-left: 15px;
+}
+
 div.kiali-video {
   height: 100vh;
   visibility: visible;
