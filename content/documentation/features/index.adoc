@@ -222,7 +222,7 @@ Kiali performs a set of validations to the most common Istio Objects (Destinatio
 
 Galley validation are mostly syntactic validations based on the object syntax analysis of Istio Objects while Kiali validations are mostly semantic validations between different Istio Objects. Kiali validations are based on the runtime status of your service mesh, Galley validations are static ones and doesn't take into account what is configured in the mesh.
 
-Check the complete link:/documentation/features/validation/[list of validations] for further information.
+Check the complete link:/documentation/validations/[list of validations] for further information.
 
 === Istio Wizards
 Kiali provides different actions to create, update and delete Istio configuration driven by Wizards. These are located in the *Actions* menu on the Service Details page.
