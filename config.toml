@@ -1,6 +1,6 @@
 languageCode = "en-us"
 title = "Kiali"
-theme = "canvas"
+theme = "kiali"
 
 [params]
     custom_css = [

@@ -1,0 +1,15 @@
+<ul>
+  {{ range . }}
+  <li>
+    <a href="{{ .URL }}">
+      <div>{{ .Name }}</div>
+    </a>
+    <!--
+    {{ if .HasChildren }}
+      {{ partial "masthead_nav.html" .Children }}
+    {{ end }}
+    -->
+  </li>
+  {{ end }}
+</ul>
+
