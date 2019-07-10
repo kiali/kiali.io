@@ -491,7 +491,7 @@ https://github.com/istio/istio.io/blob/master/content/help/faq/traffic-managemen
 === Service port and deployment port do not match
 :numbered!:
 
-Service definition has a combination of labels and port definitions that are not matching to any workloads. This means the deployment will be unsuccessful and no traffic can flow between these two resources.
+Service definition has a combination of labels and port definitions that are not matching to any workloads. This means the deployment will be unsuccessful and no traffic can flow between these two resources. The port is read from the Service 'TargetPort' definition first and if undefined, the 'Port' field is used as Kubernetes defaults the 'TargetPort' to 'Port'. If the 'TargetPort' is using a integer, the port numbers are compared and if the 'TargetPort' is a string, the deployment's portName is used for comparison.
 
 ==== Resolution
 
@@ -503,14 +503,24 @@ icon:times-circle[] Error
 
 ==== Example
 
+Invalid example with port definitions unmatched:
+
 [source, yaml]
 ----
 include::/data/files/validation_examples/702.yaml[]
 ----
 
+Valid example using targetPort definition matching:
+
+[source, yaml]
+----
+include::/data/files/validation_examples/703.yaml[]
+----
+
 ==== See Also
 
-https://github.com/kiali/kiali/blob/master/business/checkers/services/port_mapping_checker.go[Validator source code, window="_blank"]
+https://github.com/kiali/kiali/blob/master/business/checkers/services/port_mapping_checker.go[Validator source code, window="_blank"] +
+https://kubernetes.io/docs/concepts/services-networking/service/#defining-a-service[Kubernetes services, window="_blank"]
 
 
 [#meshpolicies]
