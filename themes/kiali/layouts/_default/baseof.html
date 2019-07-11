@@ -19,6 +19,10 @@
 
   {{ block "head_extra" . }}
   {{ end }}
+
+  <!-- This script with a single space fixes a Chrome bug about transitions.
+    See https://stackoverflow.com/a/42969608 -->
+  <script> </script>
 </head>
 
 {{ block "body_tag" . }}
