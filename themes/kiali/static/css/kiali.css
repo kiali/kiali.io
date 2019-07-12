@@ -73,6 +73,7 @@ main article h6 {
   margin-top: 1.5em;
 }
 
+main article h1,
 main article h2 {
   border-bottom: 1px solid var(--kiali-card-border-color);
 

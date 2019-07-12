@@ -1,0 +1,26 @@
+{{ define "content"  }}
+<main>
+  <h1>{{ .Name }}</h1>
+
+  <article>
+    {{ .Content }}
+
+    <h1>Index</h1>
+
+    <ol>
+      {{ range $index, $element := .Data.Pages.ByWeight }}
+      <li>
+        <a href="/documentation/{{ urlize .Name }}">{{ .Name }}</a>
+      </li>
+      {{ end }}
+      <li>
+        <a href="/faq">FAQ</a>
+      </li>
+      <li>
+        <a href="/documentation/glossary">Glossary</a>
+      </li>
+    </ol>
+  </article>
+</main>
+{{ end }}
+
