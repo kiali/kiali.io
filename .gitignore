@@ -11,3 +11,6 @@ content/documentation/developer-api/index.html
 # Emacs
 *~
 \#*\#
+
+# Vim
+*.swp

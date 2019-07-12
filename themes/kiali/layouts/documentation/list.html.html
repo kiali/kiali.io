@@ -1,8 +1,10 @@
 {{ define "content"  }}
-<main>
-  <h1>{{ .Name }}</h1>
+<article>
+  <header>
+    <h1>{{ .Name }}</h1>
+  </header>
 
-  <article>
+  <main>
     {{ .Content }}
 
     <h1>Index</h1>
@@ -20,7 +22,7 @@
         <a href="/documentation/glossary">Glossary</a>
       </li>
     </ol>
-  </article>
-</main>
+  </main>
+</article>
 {{ end }}
 

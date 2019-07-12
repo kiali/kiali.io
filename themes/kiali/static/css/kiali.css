@@ -36,7 +36,9 @@ a, a:hover {
 }
 
 /* Styles for top-level sections */
-main > section, main > article, footer {
+main > section,
+article > main,
+footer {
   padding-left: var(--kiali-yellow-spacing);
   padding-right: var(--kiali-yellow-spacing);
 
@@ -48,7 +50,7 @@ main > :first-child {
   margin-top: 0;
 }
 
-main > h1 {
+article header:first-child {
   background-color: var(--kiali-secondary-bg-color);
   padding: 1.5em calc(var(--kiali-yellow-spacing)/2);
 
@@ -63,18 +65,18 @@ section > h1 {
 }
 
 /* Headers of the content */
-main article h1,
-main article h2,
-main article h3,
-main article h4,
-main article h5,
-main article h6 {
+article main h1,
+article main h2,
+article main h3,
+article main h4,
+article main h5,
+article main h6 {
   color: var(--kiali-font-color-secondary);
   margin-top: 1.5em;
 }
 
-main article h1,
-main article h2 {
+article main h1,
+article main h2 {
   border-bottom: 1px solid var(--kiali-card-border-color);
 
   padding-bottom: 0.5em;
@@ -82,7 +84,7 @@ main article h2 {
   margin-left: -1em;
 }
 
-/* Styles for custom/specific objects */
+/* Links as buttons */
 p.buttons {
   margin-top: var(--kiali-blue-spacing);
 }
@@ -104,6 +106,19 @@ a.button.secondary {
   border-color: var(--kiali-font-color-secondary);
   border-style: solid;
   border-width: 1px;
+}
+
+/* Breadcrumbs */
+article header nav ul {
+  padding: 0;
+  margin-left: -1em;
+  list-style: none;
+}
+article header nav ul li {
+  display: inline;
+}
+article header nav ul li:after {
+  content: "\00a0\00bb";
 }
 
 /* Masthead */

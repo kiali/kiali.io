@@ -1,9 +1,30 @@
-{{ define "content"  }}
-  <main>
-    <h1>{{ .Page.Title }}</h1>
+{{ define "breadcrumbnav" }}
+  {{ if .Parent }}
+    {{ template "breadcrumbnav" .Parent  }}
+  {{ else if not .IsHome }}
+    {{ template "breadcrumbnav" .Site.Home  }}
+  {{ end }}
 
-    <article>
+  {{ if .IsHome }}
+    <li><a href="{{ .Permalink }}" class="fas fa-home"></a></li>
+  {{ else }}
+    <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+  {{ end }}
+{{ end }}
+
+{{ define "content"  }}
+  <article>
+    <header>
+      <nav>
+        <ul>
+          {{ template "breadcrumbnav" .Parent }}
+        </ul>
+      </nav>
+      <h1>{{ .Page.Title }}</h1>
+    </header>
+
+    <main>
       {{ .Content }}
-    </article>
-  </main>
+    </main>
+  </article>
 {{ end }}
