@@ -36,7 +36,7 @@ a, a:hover {
 }
 
 /* Styles for top-level sections */
-body > section, footer {
+main > section, main > article, footer {
   padding-left: var(--kiali-yellow-spacing);
   padding-right: var(--kiali-yellow-spacing);
 
@@ -44,8 +44,15 @@ body > section, footer {
   margin-bottom: var(--kiali-orange-spacing);
 }
 
-body > header + section {
+main > :first-child {
   margin-top: 0;
+}
+
+main > h1 {
+  background-color: var(--kiali-secondary-bg-color);
+  padding: 1.5em calc(var(--kiali-yellow-spacing)/2);
+
+  border-bottom: 1px solid var(--kiali-card-border-color);
 }
 
 section > h1 {
@@ -53,6 +60,25 @@ section > h1 {
   font-weight: 500;
 
   margin-bottom: var(--kiali-red-spacing);
+}
+
+/* Headers of the content */
+main article h1,
+main article h2,
+main article h3,
+main article h4,
+main article h5,
+main article h6 {
+  color: var(--kiali-font-color-secondary);
+  margin-top: 1.5em;
+}
+
+main article h2 {
+  border-bottom: 1px solid var(--kiali-card-border-color);
+
+  padding-bottom: 0.5em;
+  margin-bottom: var(--kiali-red-spacing);
+  margin-left: -1em;
 }
 
 /* Styles for custom/specific objects */
