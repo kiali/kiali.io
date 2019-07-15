@@ -1,11 +1,6 @@
 {{ define "content"  }}
 <article>
   <header>
-      <nav>
-        <ul>
-          {{ partial "breadcrumb" . }}
-        </ul>
-      </nav>
     <h1>{{ .Name }}</h1>
   </header>
 
@@ -16,7 +11,7 @@
 
     <ol>
       {{ $pagesOfSection := (where .Site.Pages.ByWeight "Section" .Section) }}
-      {{ $childPages := (where $pagesOfSection "Parent.File.Path" .File.Path) }}
+      {{ $childPages := (where (where $pagesOfSection "Parent" "!=" nil) "Parent.File.Path" .File.Path) }}
       {{ range $childPages }}
       <li>
         <a href="{{ .Permalink }}">{{ .Name }}</a>
