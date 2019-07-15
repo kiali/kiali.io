@@ -377,7 +377,7 @@ namespaces:
   label_selector: kiali-enabled=true
 ----
 
-For furthr information how the `label_selector` interacts with `deployment.accessible_namespaces` read the https://github.com/kiali/kiali/blob/v1.1.0/operator/deploy/kiali/kiali_cr.yaml#L44-L53[technical documentation].
+For further information how the `label_selector` interacts with `deployment.accessible_namespaces` read the https://github.com/kiali/kiali/blob/v1.1.0/operator/deploy/kiali/kiali_cr.yaml#L44-L53[technical documentation].
 
 === Reducing Permissions in OpenShift
 
