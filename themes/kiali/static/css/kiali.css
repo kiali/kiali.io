@@ -10,7 +10,7 @@
   --kiali-yellow-spacing: 128px;
 
   --kiali-font-family: 'Poppins', sans-serif;
-  --kiali-font-size: 18pt;
+  --kiali-font-size: 18px;
   --kiali-font-color: #030303;
   --kiali-font-color-secondary: #006eb3;
 
@@ -58,7 +58,7 @@ article header:first-child {
 }
 
 section > h1 {
-  font-size: 22pt;
+  font-size: 22px;
   font-weight: 500;
 
   margin-bottom: var(--kiali-red-spacing);
@@ -92,7 +92,7 @@ p.buttons {
 a.button {
   color: white;
   background-color: var(--kiali-font-color-secondary);
-  line-height: 25pt;
+  line-height: 25px;
 
   padding: 8px 12px;
   border-radius: 5px;
@@ -138,22 +138,23 @@ body > header img {
 }
 
 /* Masthead::Navigation top level and childs */
+body > header a:hover,
+body > header a:active,
+body > header a:focus {
+  text-decoration: none;
+}
+
 body > header nav ul {
   position: relative;
 
   list-style: none;
-  font-size: 22pt;
+  font-size: 22px;
 }
 
 body > header nav li {
   display: list-item;
   float: left;
   margin-left: var(--kiali-red-spacing);
-}
-
-body > header nav li:hover,
-body > header nav li:focus-within {
-  text-decoration: underline;
 }
 
 /* Masthead::Navigation level > 1 */
@@ -193,7 +194,7 @@ body > header nav li li {
 body > header nav li li:hover,
 body > header nav li li:focus-within,
 body > header nav li li:focus {
-  background-color: Gainsboro;
+  background-color: var(--kiali-card-border-color);
   padding-left: 1em;
   padding-right: 0.4em;
 }
@@ -226,7 +227,7 @@ body > footer {
 }
 
 #footer-mail-lists {
-  font-size: 14pt;
+  font-size: 14px;
   margin: var(--kiali-pink-spacing) 0 var(--kiali-red-spacing) 0;
 }
 
@@ -235,7 +236,7 @@ body > footer {
 }
 
 #footer-copyrights, #footer-copyrights a {
-  font-size: 12pt;
+  font-size: 12px;
   color: var(--kiali-font-color);
 }
 

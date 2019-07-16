@@ -10,9 +10,9 @@ section#hero {
 }
 
 section#hero h1 {
-  font-size: 32pt;
+  font-size: 32px;
   font-weight: 300;
-  line-height: 45pt;
+  line-height: 45px;
   color: #013144;
 
   margin: 0 0 var(--kiali-blue-spacing) 0;
@@ -89,10 +89,10 @@ section#blog-latest div#blog-blocks {
 
 section#blog-latest div#blog-blocks > div {
   display: inline-block;
-  font-size: 38pt;
+  font-size: 38px;
   width: 322px;
 
-  line-height: 28pt;
+  line-height: 28px;
   background-color: white;
   border: 1px solid var(--kiali-card-border-color);
   border-radius: 5px;
@@ -125,7 +125,7 @@ section#blog-latest div#blog-blocks > div header {
 }
 
 section#blog-latest div#blog-blocks > div header div:first-child {
-  font-size: 15pt;
+  font-size: 15px;
 }
 
 section#blog-latest div#blog-blocks > div header div:last-child {
@@ -134,13 +134,13 @@ section#blog-latest div#blog-blocks > div header div:last-child {
 }
 
 section#blog-latest div#blog-blocks > div h1 {
-  font-size: 18pt;
+  font-size: 18px;
   font-weight: normal;
   padding-bottom: var (--kiali-blue-spacing);  
 }
 
 section#blog-latest div#blog-blocks > div p {
-  font-size: 18pt;
+  font-size: 18px;
   font-weight: 300;
 }
 
