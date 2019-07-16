@@ -17,6 +17,15 @@
 
   <link rel="stylesheet" href="{{ "css/kiali.css" | relURL }}" />
 
+  <!--
+    Syntax hightlighting: https://highlightjs.org/download/
+    Languages pack: CSS, HTTP, JavaScript, Bash, Makefile, Diff, JSON, HTML/XML, Java, Properties,
+      Shell Session, AsciiDoc, Dockerfile, Typescript, YAML, plaintext.
+  -->
+  <link rel="stylesheet" href="{{ "css/highlight.css" | relURL }}">
+  <script src="{{ "js/highlight.pack.js" | relURL }}"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
   {{ block "head_extra" . }}
   {{ end }}
 
