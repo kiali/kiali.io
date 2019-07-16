@@ -108,6 +108,25 @@ a.button.secondary {
   border-width: 1px;
 }
 
+/* Tables */
+table {
+  border-bottom: 2px solid var(--kiali-card-border-color);
+  margin: 1em 0;
+}
+table thead tr {
+  background-color: var(--kiali-secondary-bg-color);
+  border-bottom: 2px solid var(--kiali-card-border-color);
+}
+
+table td,
+table th {
+  padding: 0.5em;
+}
+
+table td p {
+  margin: 0
+}
+
 /* Breadcrumbs */
 article header nav ul {
   padding: 0;
