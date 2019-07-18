@@ -299,6 +299,32 @@ The login option can be specified in the Kiali CR when installing Kiali. For ins
 auth:
   strategy: openshift
 ----
+*ldap*: This option allows you to set the authentication strategy so that the user is validated using the LDAP server then an authentication token is generated. A sample configuration for LDAP is given below
+----
+strategy: ldap
+ldap:
+	# AD IP host and port
+	ldap_host: example.com
+	ldap_port: 123
+	ldap_use_ssl: false
+	ldap_insecure_skip_verify: true
+	ldap_user_filter: (cn=%s)
+	ldap_group_filter: (cn=%s)
+	ldap_attributes: ['memberOf', 'cn', 'mail']
+	ldap_base: DC=example,DC=com
+	ldap_bind_dn: CN={USERID},OU=xyz,OU=Users,OU=Accounts,DC=example,DC=com
+	ldap_search_filter: (&(name={USERID}))
+	# Time for token expiration
+	ldap_token_expiration_min: 1440
+	# This can be used to filter the user roles
+	ldap_role_filter: .*xyz.*
+----
+
+The mandatory  configurations are:
+----
+ldap_host, ldap_port, ldap_base, ldap_bind_dn
+----
+
 
 [#openshift_user_permissions]
 ==== OpenShift User Permissions
