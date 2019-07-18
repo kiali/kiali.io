@@ -301,8 +301,9 @@ auth:
 ----
 *ldap*: This option allows you to set the authentication strategy so that the user is validated using the LDAP server, then an authentication token is generated. A sample configuration for LDAP is given below
 ----
-strategy: ldap
-ldap:
+auth:
+  strategy: ldap
+  ldap:
 	# AD IP host and port
 	ldap_host: example.com
 	ldap_port: 123
