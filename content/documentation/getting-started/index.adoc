@@ -300,6 +300,61 @@ The login option can be specified in the Kiali CR when installing Kiali. For ins
 auth:
   strategy: openshift
 ----
+*ldap*: This option allows you to set the authentication strategy so that the user is validated using the LDAP server, then an authentication token is generated. A sample configuration for LDAP is given below
+----
+auth:
+  strategy: ldap
+  ldap:
+    ldap_host: example.com
+    ldap_port: 123
+    ldap_use_ssl: false
+    ldap_insecure_skip_verify: true
+    ldap_user_filter: (cn=%s)
+    ldap_group_filter: (cn=%s)
+    ldap_base: DC=example,DC=com
+    ldap_bind_dn: CN={USERID},OU=xyz,OU=Users,OU=Accounts,DC=example,DC=com
+    ldap_search_filter: (&(name={USERID}))
+    # This can be used to filter the user roles
+    ldap_role_filter: .*xyz.*
+	ldap_mail_id_key: mail
+    ldap_user_id_key: cn
+    ldap_member_of_key: memberOf
+----
+
+.Expanation for config parameters are given below
+
+* ldap_host: This parameter specifies the host IP of the LDAP server.
+* ldap_port: This parameter specifies the host port of the LDAP server.
+* ldap_use_ssl: is to enable the usage of SSL certificate in the LDAP request.
+* ldap_insecure_skip_verify: This parameter is to skip verification of the CA Directory.
+* ldap_role_filter: This configuration is used to filter the user roles based on the regular expression provided.
+* ldap_user_filter: This is used to search for the given user name. If the user name is part of Common Name(CN), the filter will be like `(cn=%s)`.
+* ldap_group_filter: This is used to get the groups of the user. If the group is part of Common Name(CN), the filter will be like `(cn=%s)`.
+* ldap_base: A base dn is the point from where a server will search for users. So I would try to simply use admin as a login name. If openca behaves like most ldap aware applications, this is what is going to happen : An ldap search for the user admin will be done by the server starting at the base dn ( dc=example,dc=com ).
+* ldap_bind_dn: An LDAP client transmits a BIND request to a server in order to change the authorization state of the client connection. When a client first connects to an LDAP directory server, the server sets the authorization state of the connection to unauthenticated.
+* ldap_search_filter: This is used to get the user details from LDAP. An example for this configuration is (&(name={USERID})).
+* ldap_mail_id_key: This configuration gives the attribute that is used to retrieve the mail id of the user from the LDAP server
+* ldap_user_id_key: This configuration gives the attribute that is used to retrieve the user id of the user from the LDAP server
+* ldap_member_of_key: This configuration gives the attribute that is used to retrieve the member groups of the user from the LDAP server
+
+The mandatory configurations are as follows.
+
+	ldap_host, ldap_port, ldap_base, ldap_bind_dn
+
+The application will not start if these parameters are not present.
+
+The keywords seen in the example are as follows.
+
+* CN = Common Name	
+* OU = Organizational Unit	
+* DC = Domain Component
+	
+These are all parts of the X.500 Directory Specification, which defines nodes in a LDAP directory. Each = pair is a search criteria. For example.
+----
+("CN=Dev-India,OU=Distribution Groups,DC=gp,DC=gl,DC=google,DC=com");
+----
+
+This query says, from the com Domain Component, find the google Domain Component, and then inside it the gl Domain Component and then inside it the gp Domain Component. In the gp Domain Component, find the Organizational Unit called Distribution Groups and then find the object that has a common name of Dev-India.
 
 The `ldap` login option requires additional settings in the `auth.ldap` section. For example:
 [source,yaml]
