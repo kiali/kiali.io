@@ -304,7 +304,7 @@ auth:
 auth:
   strategy: ldap
   ldap:
-    # AD IP host and port
+    # IP host and port of LDAP
     ldap_host: example.com
     ldap_port: 123
     ldap_use_ssl: false
