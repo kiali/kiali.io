@@ -341,9 +341,9 @@ The application will not start if these parameters are not present.
 
 The keywords seen in the example are as follows.
 
-*CN = Common Name	
-*OU = Organizational Unit	
-*DC = Domain Component
+* CN = Common Name	
+* OU = Organizational Unit	
+* DC = Domain Component
 	
 These are all parts of the X.500 Directory Specification, which defines nodes in a LDAP directory. Each = pair is a search criteria. For example.
 ----
