@@ -341,18 +341,15 @@ _ldap_bind_dn_: An LDAP client transmits a BIND request to a server in order to 
 _ldap_search_filter_: This is used to get the user details from LDAP. An example for this configuration is (&(name={USERID})).
 
 The mandatory configurations are as follows.
-----
-ldap_host, ldap_port, ldap_base, ldap_bind_dn
-----
+
+	ldap_host, ldap_port, ldap_base, ldap_bind_dn
 
 The application will not start if these parameters are not present.
 
 The keywords seen in the example are as follows.
 
-	-CN = Common Name
-	
-	-OU = Organizational Unit
-	
+	-CN = Common Name	
+	-OU = Organizational Unit	
 	-DC = Domain Component
 	
 These are all parts of the X.500 Directory Specification, which defines nodes in a LDAP directory. Each = pair is a search criteria. For example.
