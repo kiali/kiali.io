@@ -319,19 +319,19 @@ auth:
     ldap_role_filter: .*xyz.*
 ----
 
-Expanation for config parameters are given below
+.Expanation for config parameters are given below
 
-*ldap_host: This parameter specifies the host IP of the LDAP server.
-*ldap_port: This parameter specifies the host port of the LDAP server.
-*ldap_use_ssl: is to enable the usage of SSL certificate in the LDAP request.
-*ldap_insecure_skip_verify: This parameter is to skip verification of the CA Directory.
-*ldap_role_filter: This configuration is used to filter the user roles based on the regular expression provided.
-*ldap_user_filter: This is used to search for the given user name. If the user name is part of Common Name(CN). The filter will be like `(cn=%s)`.
-*ldap_group_filter: This is used to get the groups of the user. If the group is part of Common Name(CN). The filter will be like `(cn=%s)`.
-*ldap_attributes: These are the attributes that the search request pulls from the LDAP server. For example ['memberOf', 'cn', 'mail'].
-*ldap_base: A base dn is the point from where a server will search for users. So I would try to simply use admin as a login name. If openca behaves like most ldap aware applications, this is what is going to happen : An ldap search for the user admin will be done by the server starting at the base dn ( dc=example,dc=com ).
-*ldap_bind_dn: An LDAP client transmits a BIND request to a server in order to change the authorization state of the client connection. When a client first connects to an LDAP directory server, the server sets the authorization state of the connection to unauthenticated.
-*ldap_search_filter: This is used to get the user details from LDAP. An example for this configuration is (&(name={USERID})).
+* ldap_host: This parameter specifies the host IP of the LDAP server.
+* ldap_port: This parameter specifies the host port of the LDAP server.
+* ldap_use_ssl: is to enable the usage of SSL certificate in the LDAP request.
+* ldap_insecure_skip_verify: This parameter is to skip verification of the CA Directory.
+* ldap_role_filter: This configuration is used to filter the user roles based on the regular expression provided.
+* ldap_user_filter: This is used to search for the given user name. If the user name is part of Common Name(CN). The filter will be like `(cn=%s)`.
+* ldap_group_filter: This is used to get the groups of the user. If the group is part of Common Name(CN). The filter will be like `(cn=%s)`.
+* ldap_attributes: These are the attributes that the search request pulls from the LDAP server. For example ['memberOf', 'cn', 'mail'].
+* ldap_base: A base dn is the point from where a server will search for users. So I would try to simply use admin as a login name. If openca behaves like most ldap aware applications, this is what is going to happen : An ldap search for the user admin will be done by the server starting at the base dn ( dc=example,dc=com ).
+* ldap_bind_dn: An LDAP client transmits a BIND request to a server in order to change the authorization state of the client connection. When a client first connects to an LDAP directory server, the server sets the authorization state of the connection to unauthenticated.
+* ldap_search_filter: This is used to get the user details from LDAP. An example for this configuration is (&(name={USERID})).
 
 The mandatory configurations are as follows.
 
