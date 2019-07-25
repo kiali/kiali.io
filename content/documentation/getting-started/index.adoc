@@ -369,7 +369,11 @@ namespaces:
 
 ==== Namespace Selectors
 
-Kiali supports an optional label selector for namespaces which is used to fetch a subset of the available namespaces. The label selector is defined under the namespaces definition. The example below selects all namespaces that have a label `kiali-enabled: true`.
+Kiali supports an optional label selector for namespaces which is used to fetch a subset of the available namespaces.
+
+The label selector is defined under the namespaces definition.
+
+The example below selects all namespaces that have a label `kiali-enabled: true`:
 
 [source,yaml]
 ----
@@ -378,6 +382,23 @@ namespaces:
 ----
 
 For further information how the `label_selector` interacts with `deployment.accessible_namespaces` read the https://github.com/kiali/kiali/blob/v1.1.0/operator/deploy/kiali/kiali_cr.yaml#L44-L53[technical documentation].
+
+In order to label a namespace you can use following command, for more information see the :link:https://kubernetes.io/docs/concepts/overview/working-with-objects/labels[official documentation]
+
+[source,bash]
+----
+  kubectl label namespace xxx kiali-enabled=true
+----
+
+Note that when using multiple service meshes (i.e. multiple control planes) in the same cluster, you will want to set the label selector's value to a value unique to each mesh.
+
+This is so each mesh's Kiali instance will only select those namespaces within that mesh.
+
+For an example of using Kiali in this kind of soft multi-tenancy mode, see the [Maistra](https://github.com/Maistra/istio-operator) project.
+
+This is the reason why this `label_selector` will be defined by default to the value of `kiali.io/member-of: <istio_namespace>` if the `deployment.accessible_namespaces` is set to something other than the "all namespaces" value `['**']`.
+
+This allows you to have multiple control planes in the same cluster and have each control plane contain its own Kiali instance.
 
 === Reducing Permissions in OpenShift
 
