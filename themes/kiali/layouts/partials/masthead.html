@@ -3,6 +3,10 @@
       <a href="/"><img src="/img/kiali_logo_masthead.png" alt="Kiali Logo"></a>
     </div>
     <nav>
+      <!-- Checkbox is for sandwich menu in mobile screens -->
+      <input type="checkbox" id="main-nav-sandwich" />
+      <label class="main-nav-sandwich-icon" for="main-nav-sandwich"></label>
       {{ partial "masthead_nav.html" .Site.Menus.main }}
     </nav>
+    <div style="clear: both"></div>
   </header>

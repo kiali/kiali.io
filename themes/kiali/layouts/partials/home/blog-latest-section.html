@@ -3,10 +3,15 @@
   {{- $posts        := first $maxBlogPosts $json.items }}
 
   <section id="blog-latest">
-    <div id="go-to-blog-link"><a href="https://medium.com/kialiproject" target="_blank">Go to blog <span class="fas fa-external-link-alt" /></a></div>
     <h1>
       Latest in our blog
     </h1>
+    <div id="go-to-blog-link">
+      <a href="https://medium.com/kialiproject" target="_blank">
+        Go to blog
+        <span class="fas fa-external-link-alt" />
+      </a>
+    </div>
 
     <div id="blog-blocks">
       {{ range $posts }}

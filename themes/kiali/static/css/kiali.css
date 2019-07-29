@@ -17,6 +17,7 @@
 
   --kiali-secondary-bg-color: #fafafa;
   --kiali-card-border-color: #ededed;
+
 }
 
 /* Set top level styles */
@@ -25,7 +26,6 @@ body {
   font-size: var(--kiali-font-size);
   font-weight: normal;
   color: var(--kiali-font-color);
-
 }
 
 body p {
@@ -41,21 +41,6 @@ a:hover, a:active, a:focus {
   color: var(--kiali-link-hover-color);
 }
 
-/* Styles for top-level sections */
-main > section,
-article > main,
-footer {
-  padding-left: var(--kiali-yellow-spacing);
-  padding-right: var(--kiali-yellow-spacing);
-
-  margin-top: var(--kiali-orange-spacing);
-  margin-bottom: var(--kiali-orange-spacing);
-}
-
-main > :first-child {
-  margin-top: 0;
-}
-
 article header:first-child {
   background-color: var(--kiali-secondary-bg-color);
   padding: 1.5em calc(var(--kiali-yellow-spacing)/2);
@@ -67,7 +52,46 @@ section > h1 {
   font-size: 22px;
   font-weight: 500;
 
+  margin-bottom: var(--kiali-blue-spacing);
+}
+
+/* [Small screen] Styles for top-level sections */
+main > section,
+article > main,
+body > footer {
+  padding-left: var(--kiali-pink-spacing);
+  padding-right: var(--kiali-pink-spacing);
+
+  margin-top: var(--kiali-red-spacing);
   margin-bottom: var(--kiali-red-spacing);
+}
+
+main > :first-child {
+  margin-top: 0;
+}
+
+/* [Desktop] Styles for top-level sections */
+@media only screen and (min-width: 870px) {
+  main > section,
+  article > main,
+  body > footer {
+    padding-left: var(--kiali-yellow-spacing);
+    padding-right: var(--kiali-yellow-spacing);
+
+    margin-top: var(--kiali-orange-spacing);
+    margin-bottom: var(--kiali-orange-spacing);
+  }
+
+  main > :first-child {
+    margin-top: 0;
+  }
+
+  article header:first-child {
+  }
+
+  section > h1 {
+    margin-bottom: var(--kiali-red-spacing);
+  }
 }
 
 /* Headers of the content */
@@ -92,10 +116,18 @@ article main h2 {
 
 /* Links as buttons */
 p.buttons {
-  margin-top: var(--kiali-blue-spacing);
+  margin-top: var(--kiali-pink-spacing);
+}
+
+@media only screen and (min-width: 550px) {
+  p.buttons {
+    margin-top: var(--kiali-blue-spacing);
+  }
 }
 
 a.button {
+  display: inline-block;
+
   color: white;
   background-color: var(--kiali-font-color-secondary);
   line-height: 25px;
@@ -104,6 +136,7 @@ a.button {
   border-radius: 5px;
 
   margin-right: var(--kiali-dark-green-spacing);
+  white-space: nowrap;
 }
 
 a.button:hover, a.button:active, a.button:focus {
@@ -158,108 +191,221 @@ article header nav ul li:after {
   content: "\00a0\00bb";
 }
 
-/* Masthead */
+/* Masthead: small width (mobile) */
 body > header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  height: 111px;
-
   box-shadow: 0px 2px 3px 0px rgba(1,49,68,0.15);
-  padding: var(--kiali-red-spacing) var(--kiali-orange-spacing);
+  padding: var(--kiali-pink-spacing);
 }
 
 body > header img {
   height: 47px;
   width: 152px;
-}
-
-/* Masthead::Navigation only top level items */
-body > header > nav > ul > li {
-  padding: 40px var(--kiali-pink-spacing);
-  line-height: 31px;
-}
-
-body > header > nav > ul > li:hover,
-body > header > nav > ul > li:focus-within,
-body > header > nav > ul > li:focus {
-  background-color: var(--kiali-secondary-bg-color);
-}
-
-/* Masthead::Navigation top level and childs */
-body > header nav ul {
-  position: relative;
-
-  list-style: none;
-  font-size: 22px;
-}
-
-body > header nav li {
-  display: list-item;
   float: left;
 }
 
-body > header nav li:hover a,
-body > header nav li:focus-within a,
-body > header nav li:focus a {
-  color: var(--kiali-link-hover-color);
+/* Masthead::Navigation small width (mobile) */
+body > header > nav > .main-nav-sandwich-icon {
+  float: right;
+  margin: 0;
+
+  font-size: 1.5em;
+
+  user-select: none;
+  cursor: pointer;
 }
 
-/* Masthead::Navigation level > 1 */
-body > header nav li ul {
-  visibility: hidden;
+body > header > nav > .main-nav-sandwich-icon:after {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+
+  color: white;
+  content: '\2261';
+  line-height: 1em;
+  text-align: center;
+
+  background-color: var(--kiali-font-color-secondary);
+  border-radius: 50%;
+}
+
+body > header > nav > ul {
+  display: none;
+  clear: both;
+  padding-top: var(--kiali-pink-spacing);
+}
+
+body > header > nav > #main-nav-sandwich {
+  display: none;
+  clear: both;
+}
+
+body > header > nav > #main-nav-sandwich:checked ~ ul {
+  display: block;
+  position: relative;
+}
+
+body > header nav ul {
+  list-style: none;
+  font-size: 22px;
+  margin-bottom: 0;
+}
+
+body > header nav li {
+  line-height: 2em;
+}
+
+body > header nav ul li:before {
   position: absolute;
+  z-index: -1;
+  left: 0;
   right: 0;
 
-  padding: 0;
-  margin-top: 1em;
-  background-color: rgba(255, 255, 255, 0.8);
+  margin-left: -1em;
+  border-top: 1px solid var(--kiali-card-border-color);
 
-  border: 1px solid black;
-
-  opacity: 0;
-  transition: visibility 700ms, opacity 300ms linear 200ms;
+  content: '\0200B';
 }
 
-body > header nav li:hover > ul,
-body > header nav li:focus-within > ul,
-body > header nav li:focus > ul {
-  visibility: visible;
-  opacity: 1;
-}
-
-body > header nav li li {
-  float: none;
-  position: relative;
-
-  padding: 0.3em 0.7em;
-
-  transition: padding 500ms, background-color 500ms;
+body > header nav ul ul {
+  /* For small width/mobile screens. Only show top level nav items */
+  display: none;
 }
 
 
-body > header nav li li:hover,
-body > header nav li li:focus-within,
-body > header nav li li:focus {
-  background-color: var(--kiali-card-border-color);
-  padding-left: 1em;
-  padding-right: 0.4em;
-}
+/* Masthead [Desktop view] */
+@media only screen and (min-width: 1050px) {
+  body > header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 var(--kiali-orange-spacing);
+  }
+
+  body > header img {
+    margin: var(--kiali-red-spacing) 0;
+  }
+
+  body > header > nav .main-nav-sandwich-icon {
+    display: none;
+    line-height: 111px;
+  }
+
+  body > header > div:last-child {
+    display: none;
+  }
+
+  /* Masthead::Navigation only top level items */
+  body > header nav > ul {
+    display: block;
+    clear: none;
+    padding-top: 0;
+  }
+
+  body > header > nav > ul > li {
+    padding: 40px var(--kiali-pink-spacing);
+    line-height: 31px;
+  }
+
+  body > header > nav > ul > li:last-child {
+    padding-right: 0;
+  }
+
+  body > header > nav > ul > li {
+    padding: 40px var(--kiali-pink-spacing);
+    line-height: 31px;
+  }
+
+  body > header > nav > ul > li:hover,
+  body > header > nav > ul > li:focus-within,
+  body > header > nav > ul > li:focus {
+    background-color: var(--kiali-secondary-bg-color);
+  }
+
+  /* Masthead::Navigation top level and childs */
+  body > header nav ul {
+    position: relative;
+  }
+
+  body > header nav li {
+    display: list-item;
+    float: left;
+  }
+
+  body > header nav ul li:before {
+    display: none;
+  }
+
+  body > header nav ul {
+    position: relative;
+
+    list-style: none;
+    font-size: 22px;
+  }
+
+  body > header nav li {
+    display: list-item;
+    float: left;
+  }
+
+  body > header nav li:hover a,
+  body > header nav li:focus-within a,
+  body > header nav li:focus a {
+    color: var(--kiali-link-hover-color);
+  }
+
+  /* Masthead::Navigation level > 1 */
+  body > header nav li ul {
+    display: block;
+    visibility: hidden;
+    position: absolute;
+    right: 0;
+
+    padding: 0;
+    margin-top: 1em;
+    background-color: rgba(255, 255, 255, 0.8);
+
+    border: 1px solid black;
+
+    opacity: 0;
+    transition: visibility 700ms, opacity 300ms linear 200ms;
+  }
+
+  body > header nav li:hover > ul,
+  body > header nav li:focus-within > ul,
+  body > header nav li:focus > ul {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  body > header nav li li {
+    float: none;
+    position: relative;
+
+    padding: 0.3em 0.7em;
+
+    transition: padding 500ms, background-color 500ms;
+  }
+
+
+  body > header nav li li:hover,
+  body > header nav li li:focus-within,
+  body > header nav li li:focus {
+    background-color: var(--kiali-card-border-color);
+    padding-left: 1em;
+    padding-right: 0.4em;
+  }
 
 /* Masthead::Navigation level > 2*/
-body > header nav ul ul ul {
-  right: calc(100% + 1em) !important;
-  top: 0;
-  padding-top: 0;
-  margin-top: 0;
+  body > header nav ul ul ul {
+    right: calc(100% + 1em) !important;
+    top: 0;
+    padding-top: 0;
+    margin-top: 0;
+  }
 }
 
 /* Mastfoot */
-body > footer {
-  margin: var(--kiali-orange-spacing) 0;
-}
-
 #footer-social-icons a {
   display: inline-block;
   text-align: center;
@@ -275,7 +421,13 @@ body > footer {
 
 #footer-mail-lists {
   font-size: 14px;
-  margin: var(--kiali-pink-spacing) 0 var(--kiali-red-spacing) 0;
+  margin: var(--kiali-pink-spacing) 0 var(--kiali-blue-spacing) 0;
+}
+
+@media only screen and (min-width: 550px) {
+  #footer-mail-lists {
+    margin-bottom: var(--kiali-red-spacing);
+  }
 }
 
 #footer-mail-lists a {

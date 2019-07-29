@@ -5,8 +5,8 @@ section#hero {
   background-repeat: no-repeat;
   background-size: cover;
 
-  padding-top: var(--kiali-bright-green-spacing);
-  padding-bottom: var(--kiali-bright-green-spacing);
+  padding-top: var(--kiali-red-spacing);
+  padding-bottom: var(--kiali-red-spacing);
 }
 
 section#hero h1 {
@@ -26,6 +26,34 @@ section#hero strong {
 section#hero p#hero-quote {
   margin-top: var(--kiali-red-spacing);
 }
+
+section#hero p.buttons a.button {
+  display: block;
+  margin-bottom: var(--kiali-dark-green-spacing);
+}
+
+section#hero p.buttons a.button:last-child {
+  margin-bottom: 0;
+}
+
+section#hero p.buttons {
+  margin-top: var(--kiali-blue-spacing);
+}
+
+@media only screen and (min-width: 850px) {
+  section#hero {
+    padding-top: var(--kiali-bright-green-spacing);
+    padding-bottom: var(--kiali-bright-green-spacing);
+  }
+}
+
+@media only screen and (min-width: 430px) {
+  section#hero p.buttons a.button {
+    display: inline-block;
+    margin-bottom: 0;
+  }
+}
+
 
 /* No "About" block styles */
 
@@ -48,8 +76,14 @@ div#features-blocks div {
 
   text-align: center;
 
-  margin-right: var(--kiali-pink-spacing);
-  margin-bottom: var(--kiali-blue-spacing);
+  margin-bottom: var(--kiali-pink-spacing);
+}
+
+@media only screen and (min-width: 550px) {
+  div#features-blocks div {
+    margin-right: var(--kiali-pink-spacing);
+    margin-bottom: var(--kiali-blue-spacing);
+  }
 }
 
 div#features-blocks img {
@@ -81,29 +115,33 @@ div#features-blocks div.more-coming p {
 
 /* "Latest blog" block styles */
 #go-to-blog-link {
-  float: right;
+  margin: var(--kiali-blue-spacing) 0;
 }
 
 section#blog-latest {
   background-color: var(--kiali-secondary-bg-color);
-
-  padding-top: var(--kiali-orange-spacing);
-  padding-bottom: var(--kiali-orange-spacing);
+  padding: var(--kiali-red-spacing) var(--kiali-pink-spacing); 
 }
 
 section#blog-latest div#blog-blocks {
-  white-space: nowrap;
-  overflow: auto;
+  clear: both;
+}
+
+section#blog-latest div#blog-blocks > a {
+  display: block;
+  margin-bottom: var(--kiali-pink-spacing);
+}
+
+section#blog-latest div#blog-blocks > a:last-child {
+  margin-bottom: 0;
 }
 
 section#blog-latest div#blog-blocks > a > div {
   color: var(--kiali-font-color);
-}
+  white-space: nowrap;
 
-section#blog-latest div#blog-blocks > a > div {
-  display: inline-block;
+  display: block;
   font-size: 38px;
-  width: 322px;
 
   line-height: 28px;
   background-color: white;
@@ -112,8 +150,6 @@ section#blog-latest div#blog-blocks > a > div {
   box-shadow: 2px 2px 2px 0px rgba(245,245,245,1);
 
   overflow: hidden;
-
-  margin-right: var(--kiali-pink-spacing);
 }
 
 section#blog-latest div#blog-blocks > a > div:hover {
@@ -124,7 +160,6 @@ section#blog-latest div#blog-blocks p, section#blog-latest div#blog-blocks h1 {
   text-overflow: ellipsis;
   overflow: hidden;
 }
-
 
 section#blog-latest div#blog-blocks > a > div > * {
   margin: var(--kiali-pink-spacing);
@@ -163,5 +198,38 @@ section#blog-latest div#blog-blocks > a > div h1 {
 section#blog-latest div#blog-blocks > a > div p {
   font-size: 18px;
   font-weight: 300;
+}
+
+@media only screen and (min-width: 1000px) {
+  section#blog-latest div#blog-blocks > a {
+    display: inline;
+    margin-bottom: 0;
+  }
+
+  section#blog-latest div#blog-blocks > a > div {
+    display: inline-block;
+    width: 322px;
+    margin-right: var(--kiali-pink-spacing);
+  }
+}
+
+@media only screen and (min-width: 870px) {
+  section#blog-latest {
+    padding: var(--kiali-orange-spacing) var(--kiali-yellow-spacing); 
+  }
+
+  section#blog-latest > h1 {
+    float: left;
+  }
+
+  #go-to-blog-link {
+    text-align: right;
+    margin: 0;
+  }
+
+  section#blog-latest div#blog-blocks {
+    white-space: nowrap;
+    overflow: auto;
+  }
 }
 
