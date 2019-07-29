@@ -3,26 +3,31 @@
   {{- $posts        := first $maxBlogPosts $json.items }}
 
   <section id="blog-latest">
-    <h1>Latest in our blog</h1>
+    <div id="go-to-blog-link"><a href="https://medium.com/kialiproject" target="_blank">Go to blog <span class="fas fa-external-link-alt" /></a></div>
+    <h1>
+      Latest in our blog
+    </h1>
 
     <div id="blog-blocks">
       {{ range $posts }}
         {{ $link    := .link }}
         {{ $img     := .thumbnail }}
         {{ $title   := .title }}
-        {{ $author  := .author  | truncate 10 }}
+        {{ $author  := .author }}
         {{ $dateRaw := .pubDate }}
         {{ $date    := dateFormat "January 2, 2006" $dateRaw }}
         {{ $summary := .content | plainify | truncate 150 }}
 
-        <div>
-          <header>
-            <div>{{ $date }}</div>
-            <div><span class="fas fa-book" /></div>
-          </header>
-          <h1>{{ $title }}</h2>
-          <p>{{ $author }}</p>
-        </div>
+        <a href="{{ $link }}" title="{{ $title }}" target="_blank">
+          <div>
+            <header>
+              <div>{{ $date }}</div>
+              <div><span class="fas fa-book" /></div>
+            </header>
+            <h1>{{ $title }}</h2>
+            <p>{{ $author }}</p>
+          </div>
+        </a>
       {{ end }}
     </div>
   </section>

@@ -13,6 +13,7 @@
   --kiali-font-size: 18px;
   --kiali-font-color: #030303;
   --kiali-font-color-secondary: #006eb3;
+  --kiali-link-hover-color: #00558a;
 
   --kiali-secondary-bg-color: #fafafa;
   --kiali-card-border-color: #ededed;
@@ -31,8 +32,13 @@ body p {
   line-height: 1.56;
 }
 
-a, a:hover {
+a, a:hover, a:active, a:focus {
   color: var(--kiali-font-color-secondary);
+  text-decoration: none;
+}
+
+a:hover, a:active, a:focus {
+  color: var(--kiali-link-hover-color);
 }
 
 /* Styles for top-level sections */
@@ -100,12 +106,24 @@ a.button {
   margin-right: var(--kiali-dark-green-spacing);
 }
 
+a.button:hover, a.button:active, a.button:focus {
+  background-color: var(--kiali-link-hover-color);
+}
+
 a.button.secondary {
   color: var(--kiali-font-color-secondary);
   background-color: white;
   border-color: var(--kiali-font-color-secondary);
   border-style: solid;
   border-width: 1px;
+}
+
+a.button.secondary:hover,
+a.button.secondary:active,
+a.button.secondary:focus {
+  color: var(--kiali-link-hover-color);
+  border-color: var(--kiali-link-hover-color);
+  border-width: 2px;
 }
 
 /* Tables */
@@ -153,16 +171,23 @@ body > header {
 }
 
 body > header img {
-  height: 48px;
+  height: 47px;
+  width: 152px;
+}
+
+/* Masthead::Navigation only top level items */
+body > header > nav > ul > li {
+  padding: 40px var(--kiali-pink-spacing);
+  line-height: 31px;
+}
+
+body > header > nav > ul > li:hover,
+body > header > nav > ul > li:focus-within,
+body > header > nav > ul > li:focus {
+  background-color: var(--kiali-secondary-bg-color);
 }
 
 /* Masthead::Navigation top level and childs */
-body > header a:hover,
-body > header a:active,
-body > header a:focus {
-  text-decoration: none;
-}
-
 body > header nav ul {
   position: relative;
 
@@ -173,7 +198,12 @@ body > header nav ul {
 body > header nav li {
   display: list-item;
   float: left;
-  margin-left: var(--kiali-red-spacing);
+}
+
+body > header nav li:hover a,
+body > header nav li:focus-within a,
+body > header nav li:focus a {
+  color: var(--kiali-link-hover-color);
 }
 
 /* Masthead::Navigation level > 1 */
@@ -203,7 +233,6 @@ body > header nav li li {
   float: none;
   position: relative;
 
-  margin: 0;
   padding: 0.3em 0.7em;
 
   transition: padding 500ms, background-color 500ms;
@@ -234,7 +263,6 @@ body > footer {
 #footer-social-icons a {
   display: inline-block;
   text-align: center;
-  text-decoration: none;
 
   height: 32px;
   width: 32px;

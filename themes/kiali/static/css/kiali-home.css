@@ -37,8 +37,8 @@ div#features-blocks {
 }
 
 div#features-blocks div {
-  height: 240px;
-  width: 345px;
+  height: 210px;
+  width: 290px;
 
   padding: var(--kiali-pink-spacing);
   background-color: var(--kiali-secondary-bg-color);
@@ -64,6 +64,7 @@ div#features-blocks p {
 
 div#features-blocks h2 {
   font-size: var(--kiali-font-size);
+  font-weight: 400;
 }
 
 div#features-blocks div.more-coming {
@@ -74,7 +75,15 @@ div#features-blocks div.more-coming h2 {
   padding-top: var(--kiali-pink-spacing);
 }
 
+div#features-blocks div.more-coming p {
+  margin: 0;
+}
+
 /* "Latest blog" block styles */
+#go-to-blog-link {
+  float: right;
+}
+
 section#blog-latest {
   background-color: var(--kiali-secondary-bg-color);
 
@@ -87,7 +96,11 @@ section#blog-latest div#blog-blocks {
   overflow: auto;
 }
 
-section#blog-latest div#blog-blocks > div {
+section#blog-latest div#blog-blocks > a > div {
+  color: var(--kiali-font-color);
+}
+
+section#blog-latest div#blog-blocks > a > div {
   display: inline-block;
   font-size: 38px;
   width: 322px;
@@ -103,17 +116,21 @@ section#blog-latest div#blog-blocks > div {
   margin-right: var(--kiali-pink-spacing);
 }
 
+section#blog-latest div#blog-blocks > a > div:hover {
+  border-color: var(--kiali-link-hover-color);
+}
+
 section#blog-latest div#blog-blocks p, section#blog-latest div#blog-blocks h1 {
   text-overflow: ellipsis;
   overflow: hidden;
 }
 
 
-section#blog-latest div#blog-blocks > div > * {
+section#blog-latest div#blog-blocks > a > div > * {
   margin: var(--kiali-pink-spacing);
 }
 
-section#blog-latest div#blog-blocks > div header {
+section#blog-latest div#blog-blocks > a > div header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -124,22 +141,26 @@ section#blog-latest div#blog-blocks > div header {
   border-bottom-width: 1px;
 }
 
-section#blog-latest div#blog-blocks > div header div:first-child {
+section#blog-latest div#blog-blocks > a > div:hover header {
+  border-color: var(--kiali-link-hover-color);
+}
+
+section#blog-latest div#blog-blocks > a >div header div:first-child {
   font-size: 15px;
 }
 
-section#blog-latest div#blog-blocks > div header div:last-child {
+section#blog-latest div#blog-blocks > a > div header div:last-child {
   font-size: 14px;
   color: var(--kiali-font-color-secondary);
 }
 
-section#blog-latest div#blog-blocks > div h1 {
+section#blog-latest div#blog-blocks > a > div h1 {
   font-size: 18px;
   font-weight: normal;
   padding-bottom: var (--kiali-blue-spacing);  
 }
 
-section#blog-latest div#blog-blocks > div p {
+section#blog-latest div#blog-blocks > a > div p {
   font-size: 18px;
   font-weight: 300;
 }
