@@ -41,11 +41,24 @@ a:hover, a:active, a:focus {
   color: var(--kiali-link-hover-color);
 }
 
+img {
+  max-width: 100%;
+}
+
+video {
+  max-width: 100%;
+}
+
 article header:first-child {
   background-color: var(--kiali-secondary-bg-color);
-  padding: 1.5em calc(var(--kiali-yellow-spacing)/2);
+  padding: var(--kiali-pink-spacing);
 
   border-bottom: 1px solid var(--kiali-card-border-color);
+}
+
+article header:first-child nav {
+  /* No breadcrumb on mobile */
+  display: none;
 }
 
 section > h1 {
@@ -53,6 +66,19 @@ section > h1 {
   font-weight: 500;
 
   margin-bottom: var(--kiali-blue-spacing);
+}
+
+@media only screen and (min-width: 870px) {
+  article header:first-child {
+    background-color: var(--kiali-secondary-bg-color);
+    padding: 1.5em calc(var(--kiali-yellow-spacing)/2);
+
+    border-bottom: 1px solid var(--kiali-card-border-color);
+  }
+
+  article header:first-child nav {
+    display: block;
+  }
 }
 
 /* [Small screen] Styles for top-level sections */
@@ -68,6 +94,11 @@ body > footer {
 
 main > :first-child {
   margin-top: 0;
+}
+
+#toc {
+  /* Don't show TOC on mobile */
+  display: none;
 }
 
 /* [Desktop] Styles for top-level sections */
@@ -92,6 +123,10 @@ main > :first-child {
   section > h1 {
     margin-bottom: var(--kiali-red-spacing);
   }
+
+  #toc {
+    display: block;
+  }
 }
 
 /* Headers of the content */
@@ -111,7 +146,13 @@ article main h2 {
 
   padding-bottom: 0.5em;
   margin-bottom: var(--kiali-red-spacing);
-  margin-left: -1em;
+}
+
+@media only screen and (min-width: 870px) {
+  article main h1,
+  article main h2 {
+    margin-left: -1em;
+  }
 }
 
 /* Links as buttons */
