@@ -20,6 +20,16 @@
 
 }
 
+/* Responsive main navigation::Fix for Android
+ * See https://css-tricks.com/responsive-menu-concepts/#article-header-id-10 */
+body { 
+  -webkit-animation: bugfix infinite 1s; 
+}
+@-webkit-keyframes bugfix { 
+  from { padding: 0; } 
+  to { padding: 0; } 
+}
+
 /* Set top level styles */
 body {
   font-family: var(--kiali-font-family);

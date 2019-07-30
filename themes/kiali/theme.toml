@@ -2,20 +2,15 @@
 # See https://github.com/gohugoio/hugoThemes#themetoml for an example
 
 name = "Kiali"
-license = "MIT"
-licenselink = "https://github.com/yourname/yourtheme/blob/master/LICENSE.md"
-description = ""
-homepage = "http://example.com/"
-tags = []
+license = "Apache-2.0"
+licenselink = "https://github.com/kiali/kiali.io/blob/master/LICENSE"
+description = "Theme for the Kiali Project website"
+homepage = "https://github.com/kiali/kiali.io"
+tags = ["kiali"]
 features = []
 min_version = "0.37.1"
 
 [author]
-  name = ""
-  homepage = ""
+  name = "Mary Shakshober"
+  homepage = "https://github.com/maryshak1996"
 
-# If porting an existing theme
-[original]
-  name = ""
-  homepage = ""
-  repo = ""
