@@ -26,6 +26,74 @@
   <script src="{{ "js/highlight.pack.js" | relURL }}"></script>
   <script>hljs.initHighlightingOnLoad();</script>
 
+  <!-- Magnific popup. To enlarge images -->
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
+    crossorigin="anonymous"></script>  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css"
+    integrity="sha256-PZLhE6wwMbg4AB3d35ZdBF9HD/dI/y4RazA3iRDurss=" crossorigin="anonymous" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"
+    integrity="sha256-P93G0oq6PBPWTP1IR8Mz/0jHHUpaWL0aBJTKauisG7Q=" crossorigin="anonymous"></script>
+  <script>
+    $(document).ready(function() {
+      function containerForVideo(element) {	
+        return $(`	
+          <div class="mfp-image-holder kiali-video">	
+            <figure>	
+              <video class="mfp-img" loop="loop" autoplay="autoplay">	
+                <source src="${$(element).attr('href')}"/>	
+              </video>	
+              <figcaption>	
+                <div class="mfp-bottom-bar kiali-video-caption">	
+                  <div class="mfp-title">${$(element).attr('title')}</div>	
+                </div>	
+              </figcaption>	
+            </figure>	
+          </div>`);	
+      }
+
+      $('a.image-popup-fit-height').magnificPopup({	
+        type: 'image',	
+        closeOnContentClick: true,	
+        image: {	
+          verticalFit: true	
+        },	
+        zoom: {	
+          enabled: true,	
+          duration: 300,	
+          easing: 'ease-in-out',	
+        }	
+      });
+
+      $.each($('.video-popup'), function(_, element) {	
+        const href = $(element).attr('href');	
+        $(element).magnificPopup({	
+          items: {	
+            type: 'inline',	
+            src: containerForVideo(element)	
+          },	
+          closeBtnInside:true,	
+          closeOnContentClick: true,	
+          callbacks: {	
+            open: function() {	
+              $(this.content).find('video')[0].play();	
+            }	
+          }	
+        })	
+      });
+    });
+  </script>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-130444728-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-130444728-1');
+  </script>
+
   {{ block "head_extra" . }}
   {{ end }}
 
