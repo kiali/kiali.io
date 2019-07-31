@@ -9,9 +9,9 @@ theme = "canvas"
     ]
     maxBlogPosts   = 10
 
-    latest = "0.21"
-    binariesLatest = "0.21.0"
-    versions = ["0.21"]
+    latest = "1.0"
+    binariesLatest = "1.0"
+    versions = ["1.0"]
 
 [menu]
   [[menu.main]]
