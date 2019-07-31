@@ -381,7 +381,7 @@ namespaces:
   label_selector: kiali-enabled=true
 ----
 
-For further information how the `label_selector` interacts with `deployment.accessible_namespaces` read the https://github.com/kiali/kiali/blob/v1.1.0/operator/deploy/kiali/kiali_cr.yaml#L44-L53[technical documentation].
+For further information on how the `label_selector` interacts with `deployment.accessible_namespaces` read the https://github.com/kiali/kiali/blob/master/operator/deploy/kiali/kiali_cr.yaml[technical documentation].
 
 In order to label a namespace you can use following command, for more information see the :link:https://kubernetes.io/docs/concepts/overview/working-with-objects/labels[official documentation]
 
