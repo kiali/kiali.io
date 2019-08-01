@@ -64,6 +64,14 @@ div#features-blocks {
   justify-content: center;
 }
 
+div#features-blocks a div {
+  color: var(--kiali-font-color);
+}
+
+div#features-blocks a:hover div {
+  border-color: var(--kiali-link-hover-color);
+}
+
 div#features-blocks div {
   height: 210px;
   width: 290px;

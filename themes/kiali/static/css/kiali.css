@@ -208,6 +208,8 @@ a.button.secondary:focus {
   color: var(--kiali-link-hover-color);
   border-color: var(--kiali-link-hover-color);
   border-width: 2px;
+
+  padding: 7px 11px;
 }
 
 /* Tables */
@@ -404,7 +406,6 @@ body > header nav ul ul {
   body > header nav li:focus a {
     color: var(--kiali-link-hover-color);
   }
-
   /* Masthead::Navigation level > 1 */
   body > header nav li ul {
     display: block;
