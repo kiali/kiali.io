@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <link rel="icon" type="image/png" href="{{ "img/favicon.png" | relURL }}"/>
+  <title>{{ block "title" . }}{{ .Site.Title }}: Service mesh observability and configuration{{ end }}</title>
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/fontawesome.min.css"
+    integrity="sha256-AaQqnjfGDRZd/lUp0Dvy7URGOyRsh8g9JdWUkyYxNfI=" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/brands.min.css" 
+    integrity="sha256-u8123o+sLy8uk0Du9H0Ub+KinAoHanzGsBqDkWHY1f8=" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/solid.min.css"
+    integrity="sha256-3FfMfpeajSEpxWZTFowWZPTv7k3GEu7w4rQv49EWsEY=" crossorigin="anonymous" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="stylesheet" href="{{ "css/kiali.css" | relURL }}" />
+
+  <!--
+    Syntax hightlighting: https://highlightjs.org/download/
+    Languages pack: CSS, HTTP, JavaScript, Bash, Makefile, Diff, JSON, HTML/XML, Java, Properties,
+      Shell Session, AsciiDoc, Dockerfile, Typescript, YAML, plaintext.
+  -->
+  <link rel="stylesheet" href="{{ "css/highlight.css" | relURL }}">
+  <script src="{{ "js/highlight.pack.js" | relURL }}" type="text/javascript"></script>
+  <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+  <!-- Magnific popup. To enlarge images -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css"
+    integrity="sha256-PZLhE6wwMbg4AB3d35ZdBF9HD/dI/y4RazA3iRDurss=" crossorigin="anonymous" />
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous" type="text/javascript"></script>  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"
+    integrity="sha256-P93G0oq6PBPWTP1IR8Mz/0jHHUpaWL0aBJTKauisG7Q=" crossorigin="anonymous" type="text/javascript"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      function containerForVideo(element) {	
+        return $(`	
+          <div class="mfp-image-holder kiali-video">	
+            <figure>	
+              <video class="mfp-img" loop="loop" autoplay="autoplay">	
+                <source src="${$(element).attr('href')}"/>	
+              </video>	
+              <figcaption>	
+                <div class="mfp-bottom-bar kiali-video-caption">	
+                  <div class="mfp-title">${$(element).attr('title')}</div>	
+                </div>	
+              </figcaption>	
+            </figure>	
+          </div>`);	
+      }
+
+      $('a.image-popup-fit-height').magnificPopup({	
+        type: 'image',	
+        closeOnContentClick: true,	
+        image: {	
+          verticalFit: true	
+        },	
+        zoom: {	
+          enabled: true,	
+          duration: 300,	
+          easing: 'ease-in-out',	
+        }	
+      });
+
+      $.each($('.video-popup'), function(_, element) {	
+        const href = $(element).attr('href');	
+        $(element).magnificPopup({	
+          items: {	
+            type: 'inline',	
+            src: containerForVideo(element)	
+          },	
+          closeBtnInside:true,	
+          closeOnContentClick: true,	
+          callbacks: {	
+            open: function() {	
+              $(this.content).find('video')[0].play();	
+            }	
+          }	
+        })	
+      });
+    });
+  </script>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-130444728-1" type="text/javascript"></script>
+  <script type="text/javascript">
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-130444728-1');
+  </script>
+
+  {{ block "head_extra" . }}
+  {{ end }}
+
+  <!-- This script with a single space fixes a Chrome bug about transitions.
+    See https://stackoverflow.com/a/42969608 -->
+  <script type="text/javascript"> </script>
+</head>
+
+{{ block "body_tag" . }}
+<body>
+{{ end }}
+  {{- block "masthead" . }}
+    {{- partial "masthead.html" . }}
+  {{- end }}
+
+  {{ block "content" . }}
+  {{ end }}
+
+  {{ block "mastfoot" . }}
+    {{ partial "mastfoot.html" . }}
+  {{ end }}
+</body>
+</html>

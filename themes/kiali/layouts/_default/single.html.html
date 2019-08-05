@@ -1,0 +1,16 @@
+{{ define "content"  }}
+  <article>
+    <header>
+      <nav>
+        <ul>
+          {{ partial "breadcrumb" . }}
+        </ul>
+      </nav>
+      <h1>{{ .Page.Title }}</h1>
+    </header>
+
+    <main>
+      {{ .Content }}
+    </main>
+  </article>
+{{ end }}

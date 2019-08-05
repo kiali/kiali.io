@@ -1,0 +1,24 @@
+{{ define "content"  }}
+<article>
+  <header>
+    <h1>{{ .Name }}</h1>
+  </header>
+
+  <main>
+    {{ .Content }}
+
+    <h1>Index</h1>
+
+    <ol>
+      {{ $pagesOfSection := (where .Site.Pages.ByWeight "Section" .Section) }}
+      {{ $childPages := (where (where $pagesOfSection "Parent" "!=" nil) "Parent.File.Path" .File.Path) }}
+      {{ range $childPages }}
+      <li>
+        <a href="{{ .Permalink }}">{{ .Name }}</a>
+      </li>
+      {{ end }}
+    </ol>
+  </main>
+</article>
+{{ end }}
+

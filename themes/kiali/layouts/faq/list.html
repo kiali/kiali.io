@@ -1,0 +1,27 @@
+{{ define "content" }}
+<article>
+  <header>
+    <nav>
+      <ul>
+        {{ partial "breadcrumb" . }}
+      </ul>
+    </nav>
+    <h1>{{ .Page.Title }}</h1>
+  </header>
+  <main>
+    {{ .Content }}
+
+    {{ range .Data.Pages.ByWeight }}
+      <h2><a href="{{ .Permalink }}">{{ .LinkTitle }}</a></h2>
+      <ul>
+        {{ $questions := .Resources.ByType "page" }}
+        {{ $sorted_questions := sort $questions ".Params.weight" }}
+        {{ $url := .Permalink }}
+        {{ range $sorted_questions }}
+          <li role="none"><a href="{{ $url }}#{{ .File.BaseFileName | urlize }}">{{ .Title }}</a></li>
+        {{ end }}
+      </ul>
+    {{ end }}
+  </main>
+</article>
+{{ end }}

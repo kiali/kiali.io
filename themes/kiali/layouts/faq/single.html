@@ -1,0 +1,38 @@
+{{ define "content" }}
+  {{ $questions := .Resources.ByType "page" }}
+  {{ $sorted_questions := sort $questions ".Params.weight" }}
+
+  <article>
+    <header>
+      <nav>
+        <ul>
+          {{ partial "breadcrumb" . }}
+        </ul>
+      </nav>
+      <h1>{{ .Page.Title }} FAQ</h1>
+    </header>
+
+    <main>
+      {{ .Content }}
+
+      <nav class="toc-inlined toc-forced">
+        <hr/>
+        <div class="directory" role="directory">
+          <nav id="InlineTableOfContents">
+            <ol>
+              {{ range $q := $sorted_questions }}
+              <li role="none" aria-label="{{ $q.Title }}"><a href="#{{ $q.File.BaseFileName | urlize }}">{{ $q.Title }}</a></li>
+              {{ end }}
+            </ol>
+          </nav>
+        </div>
+        <hr/>
+      </nav>
+
+      {{ range $q := $sorted_questions }}
+        <h2 id="{{ $q.File.BaseFileName | urlize }}" class="question">{{ $q.Title }}</h2>
+        {{ $q.Content }}
+      {{ end }}
+    </main>
+  </article>
+{{ end }}

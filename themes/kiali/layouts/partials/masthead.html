@@ -1,0 +1,17 @@
+  <header>
+    <div>
+      <div>
+        <a href="/"><img src="/img/kiali_logo_masthead.png" alt="Kiali Logo"></a>
+      </div>
+      <nav>
+        <!-- Checkbox is for sandwich menu in mobile screens
+          The empty on click is a fix for iOS.
+          See: https://css-tricks.com/responsive-menu-concepts/#article-header-id-10 -->
+        <input type="checkbox" id="main-nav-sandwich" />
+        <label class="main-nav-sandwich-icon" for="main-nav-sandwich" onclick></label>
+        {{ partial "masthead_nav.html" .Site.Menus.main }}
+      </nav>
+      <div style="clear: both"></div>
+    </div>
+    <div id="masthead-shadow"></div>
+  </header>

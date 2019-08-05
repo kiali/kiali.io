@@ -1,0 +1,529 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap');
+
+:root {
+  --kiali-dark-green-spacing: 8px;
+  --kiali-blue-spacing: 24px;
+  --kiali-bright-green-spacing: 80px;
+  --kiali-orange-spacing: 48px;
+  --kiali-pink-spacing: 16px;
+  --kiali-red-spacing: 32px;
+  --kiali-yellow-spacing: 128px;
+
+  --kiali-font-family: 'Poppins', sans-serif;
+  --kiali-font-size: 18px;
+  --kiali-font-color: #030303;
+  --kiali-font-color-secondary: #006eb3;
+  --kiali-link-hover-color: #00558a;
+
+  --kiali-secondary-bg-color: #fafafa;
+  --kiali-card-border-color: #ededed;
+
+}
+
+/* Responsive main navigation::Fix for Android
+ * See https://css-tricks.com/responsive-menu-concepts/#article-header-id-10 */
+body { 
+  -webkit-animation: bugfix infinite 1s; 
+}
+@-webkit-keyframes bugfix { 
+  from { padding: 0; } 
+  to { padding: 0; } 
+}
+
+/* Set top level styles */
+body {
+  font-family: var(--kiali-font-family);
+  font-size: var(--kiali-font-size);
+  font-weight: normal;
+  color: var(--kiali-font-color);
+}
+
+body p {
+  line-height: 1.56;
+}
+
+a, a:hover, a:active, a:focus {
+  color: var(--kiali-font-color-secondary);
+  text-decoration: none;
+}
+
+a:hover, a:active, a:focus {
+  color: var(--kiali-link-hover-color);
+}
+
+img {
+  max-width: 100%;
+}
+
+video {
+  max-width: 100%;
+}
+
+article header:first-child {
+  background-color: var(--kiali-secondary-bg-color);
+  padding: var(--kiali-pink-spacing);
+
+  border-bottom: 1px solid var(--kiali-card-border-color);
+}
+
+article header:first-child nav {
+  /* No breadcrumb on mobile */
+  display: none;
+}
+
+section > h1 {
+  font-size: 22px;
+  font-weight: 500;
+
+  margin-bottom: var(--kiali-blue-spacing);
+}
+
+@media only screen and (min-width: 870px) {
+  article header:first-child {
+    background-color: var(--kiali-secondary-bg-color);
+    padding: 1.5em calc(var(--kiali-yellow-spacing)/2);
+
+    border-bottom: 1px solid var(--kiali-card-border-color);
+  }
+
+  article header:first-child nav {
+    display: block;
+  }
+}
+
+/* [Small screen] Styles for top-level sections */
+main > section,
+article > main,
+body > footer {
+  padding-left: var(--kiali-pink-spacing);
+  padding-right: var(--kiali-pink-spacing);
+
+  margin-top: var(--kiali-red-spacing);
+  margin-bottom: var(--kiali-red-spacing);
+}
+
+main > :first-child {
+  margin-top: 0;
+}
+
+#toc {
+  /* Don't show TOC on mobile */
+  display: none;
+}
+
+/* [Desktop] Styles for top-level sections */
+@media only screen and (min-width: 870px) {
+  main > section,
+  article > main,
+  body > footer {
+    padding-left: var(--kiali-yellow-spacing);
+    padding-right: var(--kiali-yellow-spacing);
+
+    margin-top: var(--kiali-orange-spacing);
+    margin-bottom: var(--kiali-orange-spacing);
+  }
+
+  main > :first-child {
+    margin-top: 0;
+  }
+
+  article header:first-child {
+  }
+
+  section > h1 {
+    margin-bottom: var(--kiali-red-spacing);
+  }
+
+  #toc {
+    display: block;
+  }
+}
+
+@media only screen and (min-width: 1500px) {
+  main > section,
+  article > main,
+  body > footer {
+    padding-left: 15%;
+    padding-right: 15%;
+  }
+}
+
+/* Headers of the content */
+article main h1,
+article main h2,
+article main h3,
+article main h4,
+article main h5,
+article main h6 {
+  color: var(--kiali-font-color-secondary);
+  margin-top: 1.5em;
+}
+
+article main h1,
+article main h2 {
+  border-bottom: 1px solid var(--kiali-card-border-color);
+
+  padding-bottom: 0.5em;
+  margin-bottom: var(--kiali-red-spacing);
+}
+
+@media only screen and (min-width: 870px) {
+  article main h1,
+  article main h2 {
+    margin-left: -1em;
+  }
+}
+
+/* Links as buttons */
+p.buttons {
+  margin-top: var(--kiali-pink-spacing);
+}
+
+@media only screen and (min-width: 550px) {
+  p.buttons {
+    margin-top: var(--kiali-blue-spacing);
+  }
+}
+
+a.button {
+  display: inline-block;
+
+  color: white;
+  background-color: var(--kiali-font-color-secondary);
+  line-height: 25px;
+
+  padding: 8px 12px;
+  border-radius: 5px;
+
+  margin-right: var(--kiali-dark-green-spacing);
+  white-space: nowrap;
+}
+
+a.button:hover, a.button:active, a.button:focus {
+  background-color: var(--kiali-link-hover-color);
+}
+
+a.button.secondary {
+  color: var(--kiali-font-color-secondary);
+  background-color: white;
+  border-color: var(--kiali-font-color-secondary);
+  border-style: solid;
+  border-width: 1px;
+}
+
+a.button.secondary:hover,
+a.button.secondary:active,
+a.button.secondary:focus {
+  color: var(--kiali-link-hover-color);
+  border-color: var(--kiali-link-hover-color);
+  border-width: 2px;
+
+  padding: 7px 11px;
+}
+
+/* Tables */
+table {
+  border-bottom: 2px solid var(--kiali-card-border-color);
+  margin: 1em 0;
+}
+table thead tr {
+  background-color: var(--kiali-secondary-bg-color);
+  border-bottom: 2px solid var(--kiali-card-border-color);
+}
+
+table td,
+table th {
+  padding: 0.5em;
+}
+
+table td p {
+  margin: 0
+}
+
+/* Breadcrumbs */
+article header nav ul {
+  padding: 0;
+  margin-left: -1em;
+  list-style: none;
+}
+article header nav ul li {
+  display: inline;
+}
+article header nav ul li:after {
+  content: "\00a0\00bb";
+}
+
+/* Masthead: small width (mobile) */
+body > header > div:first-child {
+  padding: var(--kiali-pink-spacing);
+}
+
+body > header img {
+  height: 47px;
+  width: 152px;
+  float: left;
+}
+
+body > header #masthead-shadow {
+  box-shadow: 0px 2px 3px 0px rgba(1,49,68,0.15);
+  position: absolute;
+  height: 5px;
+  width: 100%;
+  margin-top: -5px;
+}
+
+/* Masthead::Navigation small width (mobile) */
+body > header nav > .main-nav-sandwich-icon {
+  float: right;
+  margin: 0;
+
+  font-size: 1.5em;
+
+  user-select: none;
+  cursor: pointer;
+}
+
+body > header nav > .main-nav-sandwich-icon:after {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+
+  color: white;
+  content: '\2261';
+  line-height: 1em;
+  text-align: center;
+
+  background-color: var(--kiali-font-color-secondary);
+  border-radius: 50%;
+}
+
+body > header nav > ul {
+  display: none;
+  clear: both;
+  padding-top: var(--kiali-pink-spacing);
+}
+
+body > header nav > #main-nav-sandwich {
+  display: none;
+  clear: both;
+}
+
+body > header nav > #main-nav-sandwich:checked ~ ul {
+  display: block;
+  position: relative;
+}
+
+body > header nav ul {
+  list-style: none;
+  font-size: 22px;
+  margin-bottom: 0;
+}
+
+body > header nav li {
+  line-height: 2em;
+}
+
+body > header nav ul li:before {
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  right: 0;
+
+  margin-left: -1em;
+  border-top: 1px solid var(--kiali-card-border-color);
+
+  content: '\0200B';
+}
+
+body > header nav ul ul {
+  /* For small width/mobile screens. Only show top level nav items */
+  display: none;
+}
+
+
+/* Masthead [Desktop view] */
+@media only screen and (min-width: 1050px) {
+  body > header > div:first-child {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 var(--kiali-orange-spacing);
+  }
+
+  body > header img {
+    margin: var(--kiali-red-spacing) 0;
+  }
+
+  body > header nav .main-nav-sandwich-icon {
+    display: none;
+    line-height: 111px;
+  }
+
+  body > header > div > div:last-child {
+    display: none;
+  }
+
+  /* Masthead::Navigation only top level items */
+  body > header nav > ul {
+    display: block;
+    clear: none;
+    padding-top: 0;
+  }
+
+  body > header nav > ul > li {
+    padding: 40px var(--kiali-pink-spacing);
+    line-height: 31px;
+  }
+
+  body > header nav > ul > li:last-child {
+    padding-right: 0;
+  }
+
+  body > header nav > ul > li {
+    padding: 40px var(--kiali-pink-spacing);
+    line-height: 31px;
+  }
+
+  body > header nav > ul > li:hover,
+  body > header nav > ul > li:focus-within,
+  body > header nav > ul > li:focus {
+    background-color: var(--kiali-secondary-bg-color);
+  }
+
+  /* Masthead::Navigation top level and childs */
+  body > header nav ul {
+    position: relative;
+  }
+
+  body > header nav li {
+    display: list-item;
+    float: left;
+  }
+
+  body > header nav ul li:before {
+    display: none;
+  }
+
+  body > header nav ul {
+    position: relative;
+
+    list-style: none;
+    font-size: 22px;
+  }
+
+  body > header nav li {
+    display: list-item;
+    float: left;
+  }
+
+  body > header nav li:hover a,
+  body > header nav li:focus-within a,
+  body > header nav li:focus a {
+    color: var(--kiali-link-hover-color);
+  }
+  /* Masthead::Navigation level > 1 */
+  body > header nav li ul {
+    display: block;
+    visibility: hidden;
+    position: absolute;
+    right: 0;
+    z-index: 100;
+
+    padding: 0;
+    margin-top: 1em;
+    background-color: rgba(255, 255, 255, 0.8);
+
+    border: 1px solid black;
+
+    opacity: 0;
+    transition: visibility 700ms, opacity 300ms linear 200ms;
+  }
+
+  body > header nav li:hover > ul,
+  body > header nav li:focus-within > ul,
+  body > header nav li:focus > ul {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  body > header nav li li {
+    float: none;
+    position: relative;
+
+    padding: 0.3em 0.7em;
+
+    transition: padding 500ms, background-color 500ms;
+  }
+
+
+  body > header nav li li:hover,
+  body > header nav li li:focus-within,
+  body > header nav li li:focus {
+    background-color: var(--kiali-card-border-color);
+    padding-left: 1em;
+    padding-right: 0.4em;
+  }
+
+/* Masthead::Navigation level > 2*/
+  body > header nav ul ul ul {
+    right: calc(100% + 1em) !important;
+    top: 0;
+    padding-top: 0;
+    margin-top: 0;
+  }
+}
+
+/* Mastfoot */
+#footer-social-icons a {
+  display: inline-block;
+  text-align: center;
+
+  height: 32px;
+  width: 32px;
+  line-height: 32px;
+  background-color: #d7f7ff;
+  border-radius: 50%;
+
+  margin-right: var(--kiali-dark-green-spacing);
+}
+
+#footer-mail-lists {
+  font-size: 14px;
+  margin: var(--kiali-pink-spacing) 0 var(--kiali-blue-spacing) 0;
+}
+
+@media only screen and (min-width: 550px) {
+  #footer-mail-lists {
+    margin-bottom: var(--kiali-red-spacing);
+  }
+}
+
+#footer-mail-lists a {
+  padding-right: var(--kiali-blue-spacing);
+}
+
+#footer-copyrights, #footer-copyrights a {
+  font-size: 12px;
+  color: var(--kiali-font-color);
+}
+
+/* Magnific Popup */
+div.kiali-video {
+  height: 100vh;
+  visibility: visible;
+}
+
+.kiali-video .mfp-title {
+  text-align: center;
+  padding: 0;
+}
+
+.kiali-video video {
+  height: calc(100vh - 80px);
+  width: 100vw;
+  margin-top: 44px;
+  margin-bottom: 40px;
+  margin-left: auto;
+  margin-right: auto;
+}

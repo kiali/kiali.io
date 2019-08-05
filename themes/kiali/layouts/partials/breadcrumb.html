@@ -1,0 +1,14 @@
+{{ define "breadcrumbnav" }}
+  {{ if .Parent }}
+    {{ template "breadcrumbnav" .Parent  }}
+  {{ else if not .IsHome }}
+    {{ template "breadcrumbnav" .Site.Home  }}
+  {{ end }}
+
+  {{ if .IsHome }}
+    <li><a href="{{ .Permalink }}" class="fas fa-home"></a></li>
+  {{ else }}
+    <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+  {{ end }}
+{{ end }}
+{{ template "breadcrumbnav" .Parent }}
