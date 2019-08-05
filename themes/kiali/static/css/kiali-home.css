@@ -55,7 +55,10 @@ section#hero p.buttons {
 }
 
 
-/* No "About" block styles */
+/* "About" block styles */
+#intro-video {
+  text-align: center;
+}
 
 /* Features block styles */
 div#features-blocks {
