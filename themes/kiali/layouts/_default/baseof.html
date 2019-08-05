@@ -80,6 +80,27 @@
           }	
         })	
       });
+
+      const formSearchBox = $('.search-box').children('form');
+
+      formSearchBox.submit(function(event) {
+        event.preventDefault();
+        const searchInput = $(event.target).children('input[type=text]');
+        const href = $(event.target).attr('action');
+        const query = `site:www.kiali.io ${searchInput.val()}`;
+        window.open(`${href}?${searchInput.attr('name')}=${encodeURIComponent(query)}`, '_self');
+      });
+      formSearchBox.mousedown(function(event) {
+        if ($(event.target).attr('type') === 'submit') {
+          const input = $(event.currentTarget).children('input[type=text]');
+          if (input.val().trim() != "") {
+            // avoids closing the search if clicking the submit button with no-empty search
+            // This will in turn pass the "click" event to the submit button
+            event.preventDefault();
+          }
+        }
+      });
+
     });
   </script>
 
