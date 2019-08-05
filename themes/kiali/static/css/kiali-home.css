@@ -56,8 +56,8 @@ section#hero p.buttons {
 
 
 /* "About" block styles */
-#intro-video {
-  text-align: center;
+#intro-video iframe {
+  max-width: 100%;
 }
 
 /* Features block styles */
@@ -244,3 +244,9 @@ section#blog-latest div#blog-blocks > a > div p {
   }
 }
 
+@media only screen and (min-width: 870px) {
+  section#blog-latest {
+    padding-left: 15%;
+    padding-right: 15%;
+  }
+}
