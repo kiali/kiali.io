@@ -225,7 +225,7 @@ If on OpenShift, you can easily find the URL to access Kiali by going to the Ope
 image::os-console.png[OpenShift console]
 {nbsp} +
 
-In this case, the Kiali URL is `http://kiali-istio-system.192.168.64.13.nip.io`. In your case this will be a different IP.
+In this case, the Kiali URL is `https://kiali-istio-system.192.168.64.13.nip.io`. In your case this will be a different IP.
 
 You can also use the `oc` command to determine the base URL:
 
