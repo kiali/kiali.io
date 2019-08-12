@@ -52,7 +52,7 @@ Kiali requires a modern web browser to be able to function properly and supports
 
 === Hardware Requirements
 
-Any machine capable of running link:https://www.openshift.com/[Red Hat Openshift]/link:https://okd.io[OKD] should also be able to run Kiali. For production environments this usually means:
+Any machine capable of running link:https://www.openshift.com/[Red Hat OpenShift]/link:https://okd.io[OKD] should also be able to run Kiali. For production environments this usually means:
 
 * For masters: 16GB RAM, 4vCPUs, 40GB of hard disk space.
 * For nodes: 8GB RAM, 1vCPU, 16GB of hard disk space.
@@ -200,7 +200,7 @@ To uninstall *everything* related to Kiali (Kiali Operator, Kiali, etc) run the 
 
 ==== Known Problem: Uninstall Hangs
 
-In Kiali < 0.22 using Kubernetes versions < 0.14 (Openshift version 3), there is an operator-sdk bug that can hang uninstall.  This can happen when uninstalling Kiali via the Kiali Operator, or occasionally when trying to delete the namespace in which Kiali is installed.  This is due to a kubernetes bug detecting finalizer completion. If you get into this hung state the following command may resolve the problem:
+In Kiali < 0.22 using Kubernetes versions < 0.14 (OpenShift version 3), there is an operator-sdk bug that can hang uninstall.  This can happen when uninstalling Kiali via the Kiali Operator, or occasionally when trying to delete the namespace in which Kiali is installed.  This is due to a kubernetes bug detecting finalizer completion. If you get into this hung state the following command may resolve the problem:
 
 icon:lightbulb[size=1x]{nbsp} If you installed the Kiali CR in a different namespace (via -own, --operator-watch-namespace), replace "kiali-operator" in the command with the namespace in which the Kiali CR is located.
 
