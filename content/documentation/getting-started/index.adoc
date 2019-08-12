@@ -324,7 +324,7 @@ To remove the 'kiali' role from the user 'developer' in the 'myproject' namespac
 
 The Kiali custom resource (CR) tells the Kiali Operator which namespaces are accessible to Kiali. It is specified in the CR via the `accessible_namespaces` setting under the main `deployment` section.
 
-The specified namespaces are those that have service mesh components to be observed by Kiali.  Additionally, the namespace to which Kiali is installed must be accessible (typically the same namespace as Istio).  Each list entry can be a regex matched against all namespaces the operator can see.  If not set the default makes all namespaces accessible except for some internal namespaces that should typically be ignored.
+The specified namespaces are those that have service mesh components to be observed by Kiali. Additionally, the namespace to which Kiali is installed must be accessible (typically the same namespace as Istio).  Each list entry can be a regex matched against all namespaces the operator can see.  If not set the default makes all namespaces accessible except for some internal namespaces that should typically be ignored.
 
 As an example, if Kiali is to be installed in the istio-system namespace, and is expected to monitor all namespaces prefixed with `mycorp_` the setting would be:
 
@@ -366,6 +366,38 @@ namespaces:
     - mycorp_test.*
 ----
 
+==== Namespace Selectors
+
+Kiali supports an optional label selector for namespaces which is used to fetch a subset of the available namespaces.
+
+The label selector is defined under the namespaces definition.
+
+The example below selects all namespaces that have a label `kiali-enabled: true`:
+
+[source,yaml]
+----
+namespaces:
+  label_selector: kiali-enabled=true
+----
+
+For further information on how the `label_selector` interacts with `deployment.accessible_namespaces` read the https://github.com/kiali/kiali/blob/master/operator/deploy/kiali/kiali_cr.yaml[technical documentation].
+
+In order to label a namespace you can use following command, for more information see the :link:https://kubernetes.io/docs/concepts/overview/working-with-objects/labels[official documentation]
+
+[source,bash]
+----
+  kubectl label namespace xxx kiali-enabled=true
+----
+
+Note that when using multiple service meshes (i.e. multiple control planes) in the same cluster, you will want to set the label selector's value to a value unique to each mesh.
+
+This is so each mesh's Kiali instance will only select those namespaces within that mesh.
+
+For an example of using Kiali in this kind of soft multi-tenancy mode, see the [Maistra](https://github.com/Maistra/istio-operator) project.
+
+This is the reason why this `label_selector` will be defined by default to the value of `kiali.io/member-of: <istio_namespace>` if the `deployment.accessible_namespaces` is set to something other than the "all namespaces" value `['**']`.
+
+This allows you to have multiple control planes in the same cluster and have each control plane contain its own Kiali instance.
 
 === Reducing Permissions in OpenShift
 
