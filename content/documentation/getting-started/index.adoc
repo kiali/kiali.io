@@ -301,18 +301,54 @@ auth:
   strategy: openshift
 ----
 
+==== LDAP
+
 The `ldap` login option requires additional settings in the `auth.ldap` section. For example:
+
 [source,yaml]
 ----
 auth:
   strategy: ldap
   ldap:
     ldap_base: "DC=example,DC=com"
-    ldap_bind_dn: "CN={USERID},OU=Users,DC=example,DC=com"
+    ldap_bind_dn: "CN={USERID},OU=xyz,OU=Users,OU=Accounts,DC=example,DC=com"
+    ldap_group_filter: "(cn=%s)"
     ldap_host: "ldap-service.ldap-namespace"
-    ldap_port: 389
+    ldap_insecure_skip_verify: true
+    ldap_mail_id_key: "mail"
+    ldap_member_of_key: "memberOf"
+    ldap_port: 123
+    ldap_role_filter: ".*xyz.*"
+    ldap_search_filter: "(&(name={USERID}))"
     ldap_use_ssl: false
+    ldap_user_filter: "(cn=%s)"
+    ldap_user_id_key: "cn"
 ----
+
+An expanation for those LDAP configuration settings are given below:
+
+* `ldap_base`: The starting point from where Kiali will search for users.
+* `ldap_bind_dn`: The template used to try to authenticate a user. There must be a user ID to match this template in order to be able to log into Kiali.
+* `ldap_group_filter`: This is used to get the groups of the user. If the group is part of Common Name(CN), the filter will be something like `(cn=%s)`.
+* `ldap_host`: The host IP of the LDAP server.
+* `ldap_insecure_skip_verify`: If true, Kiali will not attempt to verify the LDAP server's certificate when using SSL.
+* `ldap_mail_id_key`: The attribute that is used to retrieve the mail id of the user from the LDAP server.
+* `ldap_member_of_key`: The attribute that is used to retrieve the member groups of the user from the LDAP server.
+* `ldap_port`: The port that the LDAP server is listening to.
+* `ldap_role_filter`: Used to filter the user roles based on the regular expression provided.
+* `ldap_search_filter`: Used to get the user details from LDAP.
+* `ldap_use_ssl`: When true, Kiali will send requests to the LDAP server using the secure SSL protocol.
+* `ldap_user_filter`: Used to search for the given user name.
+* `ldap_user_id_key`: The attribute that is used to retrieve the user ID of the user from the LDAP server.
+
+The configuration settings that are required to be set in order to use the LDAP authentication strategy are:
+
+* ldap_base
+* ldap_bind_dn
+* ldap_host
+* ldap_port
+
+Kiali will not start if those settings are not present.
 
 [#openshift_user_permissions]
 ==== OpenShift User Permissions
