@@ -174,6 +174,11 @@ To update Kiali, edit and save the existing the Kiali CR.  To edit the Kiali CR 
   oc edit kiali <Kiali CR name> -n kiali-operator
 ----
 
+=== Open the UI
+
+Once Istio, Maistra or the Kiali Operator has installed Kiali, and the Kiali pod has successfully started, you can access the UI. Please, check the link:{{< ref "/faq/general#how-do-i-access-kiai" >}}[FAQ: How do I access Kiali UI?]
+
+icon:bullhorn[size=1x]{nbsp} The credentials you use on the login screen depend on the authentication strategy that was configured for Kiali. See link:#_login_options[Login Options] for more details.
 
 == Uninstall
 
@@ -208,47 +213,6 @@ icon:lightbulb[size=1x]{nbsp} If you installed the Kiali CR in a different names
 ----
   oc patch kiali kiali -n kiali-operator -p '{"metadata":{"finalizers": []}}' --type=merge
 ----
-
-
-=== Open the UI
-
-Once Istio, Maistra or the Kiali Operator has installed Kiali, and the Kiali pod has successfully started, you can access the UI.
-
-icon:bullhorn[size=1x]{nbsp} The credentials you use on the login screen depend on the authentication strategy that was configured for Kiali. See link:#_login_options[Login Options] for more details.
-
-
-==== On OpenShift
-
-If on OpenShift, you can easily find the URL to access Kiali by going to the OpenShift Console and navigating to the `istio-system` project's Overview page:
-
-[#img-openshift]
-image::os-console.png[OpenShift console]
-{nbsp} +
-
-In this case, the Kiali URL is `https://kiali-istio-system.192.168.64.13.nip.io`. In your case this will be a different IP.
-
-You can also use the `oc` command to determine the base URL:
-
-[source,bash]
-----
-  oc get route -n istio-system -l app=kiali
-----
-
-
-==== On Kubernetes
-
-If on Kubernetes, access Kiali over the Ingress URL. By default, Kiali web root is under `/kiali`.
-
-Alternatively you can setup port forwarding to your local machine:
-
-[source,bash]
-----
-  kubectl port-forward svc/kiali 20001:20001 -n istio-system
-----
-
-Then the URL is `https://localhost:20001/kiali`.
-
-
 
 == Additional Notes
 
