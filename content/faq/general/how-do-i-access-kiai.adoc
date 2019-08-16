@@ -1,5 +1,5 @@
 ---
-title: How do I access Kiali?
+title: How do I access Kiali UI?
 weight: 10
 ---
 :icons: font
@@ -18,14 +18,25 @@ xdg-open https://$(oc get routes -n istio-system kiali -o jsonpath='{.spec.host}
 
 *If you are using Kubernetes*, installation exposes Kiali through an
 link:https://github.com/kiali/kiali/blob/master/operator/roles/kiali-deploy/templates/kubernetes/ingress.yaml[Ingress
-rule]. Find out your Ingress domain name and use it to access Kiali by visiting
-this URL in your web browser: `https://_your_ingress_domain_/kiali`.
+rule]. Find out your Ingress IP or domain name and use it to access Kiali by
+visiting this URL in your web browser:
+`https://_your_ingress_ip_or_domain_/kiali`.
 
-If that URL does not work, unfortunately, it depends on how and where you had
-setup your cluster. There are several Ingress controllers available and some
-cloud providers have their own controller. Please, check the documentation of
-your cloud provider. You may need to customize the pre-installed Ingress rule
-to make it work correctly.
+To find your Ingress IP or domain name, as per
+link:https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/#create-an-ingress-resource[the
+Kubernetes documentation], try the following command (doesn't work if using
+Minikube):
+
+[source, bash]
+----
+kubectl get ingress kiali -n istio-system -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
+----
+
+If it doesn't work, unfortunately, it depends on how and where you had setup
+your cluster. There are several Ingress controllers available and some cloud
+providers have their own controller or preferred exposure method. Please, check
+the documentation of your cloud provider. You may need to customize the
+pre-installed Ingress rule, or to expose Kiali using a different method.
 
 *If you are using Minikube* and you have
 link:https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/#enable-the-ingress-controller[enabled
