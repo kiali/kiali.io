@@ -1,0 +1,42 @@
+---
+title: Why does my edge summary "Hosts" tab say "no hosts configured"?
+weight: 80
+---
+:icons: font
+
+When clicking an edge in the Kiali Graph the summary panel shows three tabs: `Traffic`, `Flags`, and `Hosts`.
+The `Hosts` tab lists the requested host services for the edge, by response code.  This information can be
+very valuable when investigating request failures, especially for external services. But the `request.host`
+information is not provided by Istio telemetry by default. To populate this tab you must configure
+Istio to supply the optional information.  Making the configuration change may vary depending on the Istio
+version. For Istio 1.3 installed with Helm templates, it can be done like this:
+
+First, edit install/kubernetes/helm/istio/charts/mixer/templates/config.yaml
+
+To instance `requestcount` add dimension:
+
+----
+  request_host: request.host | "unknown"
+----
+
+To handler `prometheus` add label_name:
+
+----
+  - request_host
+----
+
+Second, re-process the Helm templates, something like:
+
+```
+> istiooc project istio-system
+> helm template install/kubernetes/helm/istio | istiooc apply -f -
+```
+
+The change should take effect in a couple of minutes. Once configured Prometheus should begin
+to include it in the istio_request_count time-series, and Kiali should start populating the `Hosts`
+tab for edge summaries.
+
+Note that this change may increase the number of time-series but typically not in a way that
+negatively affects the Prometheus installation.
+
+
