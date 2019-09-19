@@ -81,7 +81,7 @@ https://istio.io/docs/reference/config/networking/v1alpha3/gateway/#Gateway[Isti
 === More than one Destination Rule for the same host subset combination
 :numbered!:
 
-Istio applies traffic rules for services after the routing has happened. These can include different settings such as connection pooling, circuit breakers, load balancing, detection, etc. Istio can define the same rules for all services under a host or different rules for different versions of the service. 
+Istio applies traffic rules for services after the routing has happened. These can include different settings such as connection pooling, circuit breakers, load balancing, detection, etc. Istio can define the same rules for all services under a host or different rules for different versions of the service.
 
 This validation warning could be a result of duplicate definition of the same subsets as well as from rules that apply to all subsets. Also, a combination of one DR (Destination Rule) applying to all subsets and another defining behavior for only some subsets will trigger this validation warning.
 
@@ -452,7 +452,8 @@ include::/data/files/validation_examples/104.yaml[]
 
 ==== See Also
 
-https://istio.io/help/ops/traffic-management/deploy-guidelines/#multiple-virtual-services-and-destination-rules-for-the-same-host[Istio documention Multiple virtual services for the same host, window="_blank"]
+https://istio.io/help/ops/traffic-management/deploy-guidelines/#multiple-virtual-services-and-destination-rules-for-the-same-host[Istio documention Multiple virtual services for the same host, window="_blank"] +
+https://github.com/kiali/kiali/blob/master/business/checkers/virtual_services/single_host_checker.go[Validator source code, window="_blank"]
 
 '''
 
