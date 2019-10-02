@@ -272,6 +272,10 @@ body > header #masthead-shadow {
   margin-top: -5px;
 }
 
+body > header nav {
+  min-height: 47px;
+}
+
 /* Masthead::Navigation small width (mobile) */
 body > header nav > .main-nav-sandwich-icon {
   float: right;
@@ -340,15 +344,75 @@ body > header nav ul ul {
   display: none;
 }
 
+body > header div.search-container {
+  margin-top: var(--kiali-pink-spacing);
+  position: relative;
+}
+
+body > header div.search-container input {
+  padding-left: 46px;
+  padding-right: 36px;
+  border: none;
+  border-bottom: 1px solid #006eb3;
+  color: #006eb3;
+  background-color: #ffffff;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 300;
+  font-size: 18px;
+  height: 47px;
+  width: 100%;
+}
+
+body > header div.search-container input::placeholder {
+  color: #006eb3;
+}
+
+body > header div.search-container input:hover {
+  color: #00558a;
+  border-bottom: 1px solid #00558a;
+}
+
+body > header div.search-container input:focus {
+  border: 3px solid #00558a;
+  color: #030303;
+  padding-left: 43px;
+  padding-right: 33px;
+}
+
+body > header div.search-container i.search-icon {
+  position: absolute;
+  left: 16px;
+  top: 14px;
+  color: #006eb3;
+  font-size: 18px;
+  pointer-events: none;
+}
+
+body > header div.search-container i.close-icon {
+  display:none;
+}
+
+body > header div.search-container input:valid ~ i.close-icon {
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  font-size: 15px;
+  display:inline-block;
+  cursor: pointer;
+}
 
 /* Masthead [Desktop view] */
 @media only screen and (min-width: 1050px) {
   body > header > div:first-child {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
 
-    padding: 0 var(--kiali-orange-spacing);
+    padding: 0 var(--kiali-pink-spacing);
+  }
+
+  body > header > div:first-child > div:first-child {
+    margin-right: auto;
   }
 
   body > header img {
@@ -472,6 +536,34 @@ body > header nav ul ul {
     padding-top: 0;
     margin-top: 0;
   }
+
+  body > header div.search-container {
+    margin-left: 48px;
+    margin-top: 0;
+  }
+
+  body > header div.search-container input {
+    width: 200px;
+  }
+}
+
+@media only screen and (min-width: 1350px) {
+  body > header div.search-container input {
+    width: 300px;
+  }
+}
+
+@media only screen and (min-width: 1500px) {
+  body > header > div:first-child {
+    padding: 0 var(--kiali-orange-spacing)
+  }
+
+}
+
+@media only screen and (min-width: 1900px) {
+  body > header > div:first-child {
+    padding: 0 var(--kiali-yellow-spacing)
+  }
 }
 
 /* Mastfoot */
@@ -522,8 +614,5 @@ div.kiali-video {
 .kiali-video video {
   height: calc(100vh - 80px);
   width: 100vw;
-  margin-top: 44px;
-  margin-bottom: 40px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 44px auto 40px;
 }

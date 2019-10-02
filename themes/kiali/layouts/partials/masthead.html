@@ -11,6 +11,13 @@
         <label class="main-nav-sandwich-icon" for="main-nav-sandwich" onclick></label>
         {{ partial "masthead_nav.html" .Site.Menus.main }}
       </nav>
+        <div class="search-container">
+            <form action="https://google.com/search" autocomplete="on">
+                <input name="q" type="text" required placeholder="Search"/>
+                <i class="fas fa-search search-icon"></i>
+                <i class="fas fa-times-circle close-icon"></i>
+            </form>
+        </div>
       <div style="clear: both"></div>
     </div>
     <div id="masthead-shadow"></div>
