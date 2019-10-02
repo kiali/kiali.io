@@ -374,7 +374,6 @@ body > header div.search-container input:hover {
 
 body > header div.search-container input:focus {
   border: 3px solid #00558a;
-  color: #030303;
   padding-left: 43px;
   padding-right: 33px;
 }
@@ -399,6 +398,15 @@ body > header div.search-container input:valid ~ i.close-icon {
   font-size: 15px;
   display:inline-block;
   cursor: pointer;
+  color: #006eb3;
+}
+
+body > header div.search-container input:valid {
+  color: #030303;
+}
+
+body > header div.search-container input:valid ~ i.search-icon {
+  color: #030303;
 }
 
 /* Masthead [Desktop view] */
