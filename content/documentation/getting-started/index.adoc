@@ -83,7 +83,7 @@ icon:lightbulb[size=1x]{nbsp} Both Istio and Maistra include Kiali distributions
 
 If you prefer to use the latest Kiali version, you should choose not to install Kiali during the Istio or Maistra installation procedure. Complete the Istio or Maistra installation and then link:#_install_kiali_latest[Install Kiali Latest].
 
-To install Kiali as part of the Istio installation just follow the link:https://istio.io/docs/setup/[Istio Setup docs].  If you are running on OpenShift and prefer Maistra, see link:https://maistra.io/docs/getting_started/install/[Maistra Setup docs].  You may then continue to link:#_open_the_ui[Open the UI].
+To install Kiali as part of the Istio installation just follow the link:https://istio.io/docs/setup/[Istio Setup docs].  If you are running on OpenShift and prefer Maistra, see link:https://maistra.io/docs/installation/[Maistra Setup docs].  You may then continue to link:#_open_the_ui[Open the UI].
 
 
 === Upgrade the Istio or Maistra Version of Kiali
