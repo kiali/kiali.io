@@ -22,7 +22,7 @@ menu:
 
 == Overview
 
-Kiali helps you define, validate, and observe the connections of your microservices in an Istio service mesh.
+Kiali helps you define, validate, and observe the connections and microservices of your Istio service mesh.
 
 Kiali works with Istio in OpenShift or Kubernetes. It visualizes the service mesh topology and provides visibility into features like request routing, circuit breakers, request rates, latency and more. Kiali offers insights about the mesh components at different levels, from abstract applications to services and workloads.
 
@@ -32,11 +32,11 @@ toc::[]
 
 == Observability Features
 
-The following obeservability features help you ensure your mesh is healthy or to quickly identify problem areas in operation. It combines topology, telemetry, traces, logs, events and definitions in a holistic view of your system.
+The following observability features help you ensure your mesh is healthy or to quickly identify problem areas in operation. It combines topology, telemetry, traces, logs, events and definitions in a holistic view of your system.
 
 
 === Graph
-The graph provides a powerful way to visualize the topology of your service mesh. It shows you which services communicate with each other and the traffic rates and latencies between them, which helps you visually identify problem areas ane quickly pinpoint issues. Kiali provides graphs that show a high-level view of service interactions, a low level view of pods, or a logical view of applications.
+The graph provides a powerful way to visualize the topology of your service mesh. It shows you which services communicate with each other and the traffic rates and latencies between them, which helps you visually identify problem areas and quickly pinpoint issues. Kiali provides graphs that show a high-level view of service interactions, a low level view of workloads, or a logical view of applications.
 
 The graph also shows which services are configured with virtual services and circuit breakers. It identifies security issues by identifying traffic not configured as expected. You can observe the traffic flow between components by watching the animation or viewing the metrics.
 
@@ -109,7 +109,7 @@ TCP traffic is represented by offset circles where the speed of the circles indi
 ==== Graph: Graph Types
 Kiali offers four different graph renderings of the mesh telemetry. Each graph type provides a different view of the traffic.
 
-* The **workload** graph provides the a detailed view of communication between workloads and pods.
+* The **workload** graph provides the a detailed view of communication between workloads.
 
 * The **app** graph aggregates the workloads with the same app labeling, which provides a more logical view.
 
@@ -243,7 +243,7 @@ With this wizard, you can select the percentage of traffic that is routed to a s
     <img src="/images/documentation/features/wizard-weighted-routing-thumb.png" style="display:block;margin: 0 auto;" />
 </a>
 ++++
-Kiali creates a pair of Istio resources,V irtualService and DestinationRule, with a single routing rule using the selected weights for the destination workloads.
+Kiali creates a pair of Istio resources, VirtualService and DestinationRule, with a single routing rule using the selected weights for the destination workloads.
 
 ==== Matching Routing Wizard
 The Matching Routing Wizard allows to create multiple routing rules.
@@ -259,10 +259,10 @@ Istio applies routing rules in order, meaning that first rule that matches an HT
     <img src="/images/documentation/features/wizard-matching-routing-thumb.png" style="display:block;margin: 0 auto;" />
 </a>
 ++++
-In the same way that the previous wizard, Kiali creates a pair of Istio resources mapping the routing rules defined into the generated VirtualService.
+In the same way as the previous wizard, Kiali creates a pair of Istio resources mapping the routing rules defined into the generated VirtualService.
 
 ==== Suspend Traffic Wizard
-This wizard helps user to stop partially or totally traffic for a service. You can define which workloads receive traffic.
+This wizard helps user to partially or totally stop traffic for a service. You can define which workloads receive traffic.
 
 When traffic is suspended for all workloads, Istio returns an error code to any service request.
 ++++

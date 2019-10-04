@@ -57,7 +57,7 @@ Any machine capable of running link:https://www.openshift.com/[Red Hat OpenShift
 * For masters: 16GB RAM, 4vCPUs, 40GB of hard disk space.
 * For nodes: 8GB RAM, 1vCPU, 16GB of hard disk space.
 
-For development the requirements are a lower, so 8GB of ram is usually ok, depending on how demanding your applications are, and how many services you're planning on running at the same time on your machine. Of course, your situation may vary, so plan accordingly. Keep in mind that Kiali is not especially demanding of your machine resources and, as an isolated part of your environment, should not affect your applications throughput or latency.
+For development the requirements are lower, so 8GB of ram is usually ok, depending on how demanding your applications are, and how many services you're planning on running at the same time on your machine. Of course, your situation may vary, so plan accordingly. Keep in mind that Kiali is not especially demanding of your machine resources and, as an isolated part of your environment, should not affect your applications throughput or latency.
 
 For more, see the link:https://docs.okd.io/latest/install/prerequisites.html[OKD prerequisites].
 
@@ -235,17 +235,17 @@ The above is the default when Kiali is installed on Kubernetes - so to access th
 
 Kiali supports several different login options.
 
-*login*: This option allows a user to log in into Kiali using a user name and password. This is the default option if using Kubernetes.
+*login*: This option allows a user to log in into Kiali using a username and password. This is the default option if using Kubernetes.
 
 *anonymous*: This option removes any login requirement. A user will not be presented the login page and will automatically have access to Kiali without having to present any credentials.
 
-*ldap*: This option allows a user to login into Kiali using a username and password that is authenticated via a backend LDAP server. This option requires that you configure additional settings in the Kiali CR under `auth.ldap` - see below for an example. If you want to use this option, you cannot use the operator deploy script to configure Kiali for you - you must create the Kiali CR and either pass it to the deploy script via `--kiali-cr` or do not have the script deploy a Kiali CR (`--operator-install-kiali=false`) but instead deploy the Kiali CR directly into your cluster yourself.
+*ldap*: This option allows a user to login into Kiali using a username and passphrase that is authenticated via a backend LDAP server. This option requires that you configure additional settings in the Kiali CR under `auth.ldap` - see below for an example. If you want to use this option, you cannot use the operator deploy script to configure Kiali for you - you must create the Kiali CR and either pass it to the deploy script via `--kiali-cr` or do not have the script deploy a Kiali CR (`--operator-install-kiali=false`) but instead deploy the Kiali CR directly into your cluster yourself.
 
 *openshift*: If you have deployed Kiali on OpenShift you can use this option (this is the default option if you're using OpenShift). With this option, users log in to Kiali with the OpenShift OAuth login. What users can access in Kiali will now be based on their user roles in OpenShift using the Kubernetes RBAC.
 
 icon:bullhorn[size=1x]{nbsp} Using the *anonymous* option will leave Kiali unsecured. Anyone who can access the console will have full access to Kiali. If you are using this option you will need to make sure that it is only available on a trusted network and that only trusted users can access it.
 
-If `login` strategy is selected during the installation, a secret containing Kiali login credentials is required to be deployed along with Kiali. In this case, the install script will prompt you to enter a user name and password for the credentials that you want users to enter in order to log in successfully to Kiali. The install script will store those credentials in a secret that is deployed in the same namespace where Kiali is installed.
+If `login` strategy is selected during the installation, a secret containing Kiali login credentials is required to be deployed along with Kiali. In this case, the install script will prompt you to enter a username and passphrase for the credentials that you want users to enter in order to log in successfully to Kiali. The install script will store those credentials in a secret that is deployed in the same namespace where Kiali is installed.
 
 icon:bullhorn[size=1x]{nbsp} If you configured the install script not to install a Kiali CR (and thus not have Kiali installed yet) via the `operator-install-kiali=false` option, you are responsible for creating this secret if you wish to install Kiali with the authentication strategy of "login". A secret is not required if your authentication strategy is not "login". The following command is a simple way to create a secret for Kiali whose user name is "admin" and password is "admin":
 [source,bash]
