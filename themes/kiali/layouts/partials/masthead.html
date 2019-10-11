@@ -12,8 +12,8 @@
         {{ partial "masthead_nav.html" .Site.Menus.main }}
       </nav>
         <div class="search-container">
-            <form action="https://google.com/search" autocomplete="on">
-                <input name="q" type="text" required placeholder="Search"/>
+            <form novalidate action="https://google.com/search" autocomplete="on">
+                <input name="q" type="text" required title="Google this site..." placeholder="Search"/>
                 <i class="fas fa-search search-icon"></i>
                 <i class="fas fa-times-circle close-icon"></i>
             </form>
