@@ -154,11 +154,11 @@ icon:bullhorn[size=1x]{nbsp} The install script requires `envsubst` installed an
 
 The Kiali Operator watches the Kiali CR (Custom Resource). Create, update, or removal of the Kiali CR will trigger the Kiali Operator to install, update, or remove Kiali. This assumes the Kiali Operator has already been installed. See link:#_advanced_install_operator_only[Advanced Install (Operator-Only)] if you need to install the Kiali Operator.
 
-To create an initial Kiali CR file it is recommended to copy the fully documented link:https://github.com/kiali/kiali/blob/master/operator/deploy/kiali/kiali_cr.yaml[example Kiali CR YAML file]. Edit the file, being careful to maintain proper formatting, and save it to a local file such asm `my-kiali-cr.yaml`.
+To create an initial Kiali CR file it is recommended to copy the fully documented link:https://github.com/kiali/kiali/blob/master/operator/deploy/kiali/kiali_cr.yaml[example Kiali CR YAML file]. Edit the file, being careful to maintain proper formatting, and save it to a local file such as `my-kiali-cr.yaml`.
 
 icon:lightbulb[size=1x]{nbsp} It is important to understand the `deployment:accessible_namespaces` setting in the CR. See link:#_accessible_namespaces[Accessible Namespaces] for more information.
 
-icon:bullhorn[size=1x]{nbsp} The Kiali config map will be managed by the Kiali Operator and should not be manually edited.
+icon:bullhorn[size=1x]{nbsp} The Kiali config map will be managed by the Kiali Operator and should *not* be manually edited.
 
 To install Kiali create the Kiali CR using the local file. To create the Kiali CR run the command:
 
@@ -250,7 +250,7 @@ If `login` strategy is selected during the installation, a secret containing Kia
 icon:bullhorn[size=1x]{nbsp} If you configured the install script not to install a Kiali CR (and thus not have Kiali installed yet) via the `operator-install-kiali=false` option, you are responsible for creating this secret if you wish to install Kiali with the authentication strategy of "login". A secret is not required if your authentication strategy is not "login". The following command is a simple way to create a secret for Kiali whose user name is "admin" and password is "admin":
 [source,bash]
 ----
-  oc create secret generic kiali -n istio-system --from-literal "username=admin" --from-literal "password=admin"
+  oc create secret generic kiali -n istio-system --from-literal "username=admin" --from-literal "passphrase=admin"
 ----
 
 For the `login`, `anonymous`, and `ldap` login options, the content displayed in Kiali is based on the permissions of the Kiali service account. On Kubernetes, the Kiali service account has cluster wide access and will be able to display everything in the cluster. By default, in OpenShift the service account will also have access to everything in the cluster but this can be customized by following the link:#_reducing_permissions_in_openshift[instructions below].

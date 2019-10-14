@@ -17,7 +17,7 @@ toc::[]
 :icons: font
 :imagesdir: /images/documentation/runtimes-monitoring/
 
-Kiali can display custom dashboards to monitor application metrics. They are available for applications and workloads.
+Kiali can display custom dashboards to monitor application metrics. They are available for Applications and Workloads.
 
 icon:bullhorn[size=2x]{nbsp} To display custom dashboards, you must set the _app_ and _version_ labels on your pods. These labels are necessary for Kiali to identify which application and workload the metrics originate from.
 
