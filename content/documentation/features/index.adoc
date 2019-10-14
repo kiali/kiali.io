@@ -24,7 +24,7 @@ menu:
 
 Kiali helps you define, validate, and observe the connections and microservices of your Istio service mesh.
 
-Kiali works with Istio in OpenShift or Kubernetes. It visualizes the service mesh topology and provides visibility into features like request routing, circuit breakers, request rates, latency and more. Kiali offers insights about the mesh components at different levels, from abstract applications to services and workloads.
+Kiali works with Istio in OpenShift or Kubernetes. It visualizes the service mesh topology and provides visibility into features like request routing, circuit breakers, request rates, latency and more. Kiali offers insights about the mesh components at different levels, from abstract Applications to Services and Workloads.
 
 icon:lightbulb[size=2x] {nbsp}{nbsp}{nbsp}{nbsp} Kiali also includes Jaeger Tracing to provide distributed tracing by default.
 
@@ -170,7 +170,7 @@ Kiali performs several validations on workload configuration:
 
 * Are Istio sidecars deployed?
 
-* Are proper app and version labels assigned?
+* Are proper *app* and *version* labels assigned?
 
 Workload detail shows you the services for which the workload is handling requests, and the pods backing the workload.
 
