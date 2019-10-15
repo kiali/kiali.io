@@ -10,7 +10,7 @@ weight: 4
 
 Kiali is composed of two components: a back-end application running in the
 container application platform, and a user-facing front-end application.
-Moreover, Kiali depends on external services and components provided by the
+Kiali depends on external services and components provided by the
 container application platform and Istio.
 
 The following diagram illustrates the components involved in Kiali and its
@@ -28,8 +28,8 @@ This is the component that communicates with Istio parts, retrieves and
 processes data, and exposes this data to the front-end.
 
 The back-end doesn't need storage. When running the back-end locally, all
-configurations are set in files and environment variables (including the user
-and password used for authentication). When deploying the back-end to a cluster
+configurations are set in files and environment variables, including the user name
+and password used for authentication. When deploying the back-end to a cluster
 using the docker images, configmaps and secrets are used to set the
 configurations.
 
@@ -43,13 +43,13 @@ In a standard deployment, the back-end serves the front-end. Then, the front-end
 queries the Kiali back-end in order to get data and present it to the user. 
 
 Since, currently, there are no options for personalizations, it's mainly
-stateless. Some data may be persisted - like session credentials -, but this
+stateless. Some data may be persisted, such as session credentials, but this
 data is stored in the browser and won't be available in other browsers nor
 other devices.
 
 == Istio
 
-Istio is a Kiali requirement. It's the component that provides and controls the
+Istio is a Kiali requirement. It provides and controls the
 service mesh. Although Kiali and Istio can be installed separately, Kiali
 depends on Istio and won't work if it's not present.
 
@@ -66,13 +66,13 @@ problems, etc.
 
 Kiali communicates directly with Prometheus and assumes the data schema used by
 Istio Telemetery. It's a hard dependency for Kiali, and most of it's
-features will not work without it.
+features do not work without it.
 
 Currently, Kiali relies on
 https://istio.io/docs/reference/config/policy-and-telemetry/metrics/[Istio's
 default metrics] set. Make sure that these default metrics are always in place.
-Custom metrics are not supported by Kiali. Should you need custom metrics or a
-variant of the default ones, create new Istio metrics using custom names.
+Custom metrics are not supported by Kiali. If you need custom metrics or a
+variant of the default ones, create new Istio metrics with custom names.
 
 == Cluster API
 
@@ -86,12 +86,12 @@ API, check the https://docs.okd.io/latest/rest_api/index.html[OKD REST API
 reference] and the
 https://kubernetes.io/docs/reference/kubernetes-api/[Kubernetes API reference].
 
-Kiali queries the cluster API to retrieve, for example, definitions for:
+Kiali queries the cluster API to retrieve, for example, definitions for 
 namespaces, services, deployments, pods, and other entities. Kiali also makes
 queries to resolve relationships between the different cluster entities.
 
-The cluster API is also queried to retrieve Istio configurations like: virtual
-services, destination rules, route rules, gateways, quotas, etc.
+The cluster API is also queried to retrieve Istio configurations like virtual
+services, destination rules, route rules, gateways, and quotas.
 
 == Jaeger
 

@@ -19,7 +19,7 @@ toc::[]
 
 Kiali can display custom dashboards to monitor application metrics. They are available for Applications and Workloads.
 
-icon:bullhorn[size=2x]{nbsp} In order to display custom dashboards, you must set the _app_ and _version_ labels on your pods. These labels are necessary for Kiali to identify which application and workload the metrics originate from.
+icon:bullhorn[size=2x]{nbsp} To display custom dashboards, you must set the _app_ and _version_ labels on your pods. These labels are necessary for Kiali to identify which application and workload the metrics originate from.
 
 == Prometheus Configuration
 
@@ -29,14 +29,14 @@ If you are using the default Istio installation, your Prometheus instance should
 
 But if you want to use another Prometheus instance, please refer to link:https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kubernetes_sd_config[Prometheus documentation] to setup `kubernetes_sd_config` for pods. As a reference, link:https://github.com/istio/istio/blob/907aa731c3f76ad21faac98614751e8ab3531893/install/kubernetes/helm/istio/charts/prometheus/templates/configmap.yaml#L229[here is] how it is configured in Istio.
 
-It is important to preserve label mapping, so that Kiali can filter on _app_ and _version_. This is done with this config:
+It is important to preserve label mapping, so that Kiali can filter on _app_ and _version_, which is done with this configuration:
 
 ```yaml
       - action: labelmap
         regex: __meta_kubernetes_pod_label_(.+)
 ```
 
-Additionally, you have to tell Kiali the URL of that Prometheus server: either by setting the environment variable `PROMETHEUS_CUSTOM_METRICS_URL` or by modifying the Kiali _ConfigMap_ or _Kiali CR_:
+Additionally, you must tell Kiali the URL of that Prometheus server either by setting the environment variable `PROMETHEUS_CUSTOM_METRICS_URL` or by modifying the Kiali _ConfigMap_ or _Kiali CR_.
 
 ```yaml
 # ...
@@ -51,7 +51,7 @@ Make sure that Kiali pod can reach this URL.
 [#pods-annotations]
 == Pods Annotations and Auto-discovery
 
-Application pods must be annotated for the Prometheus scraper. For instance, within a _Deployment_ definition:
+Application pods must be annotated for the Prometheus scraper, for example, within a _Deployment_ definition:
 
 ```yaml
 spec:
@@ -71,7 +71,7 @@ spec:
 
 Kiali will try to discover automatically dashboards that are relevant for a given Application or Workload. To do so, it reads their metrics and try to match them with the `discoverOn` field defined on dashboards.
 
-But if, for whatever reason, you cannot (or don't want to) rely on automatic discovery, you can explicitly annotate the pods to associate them with Kiali dashboards:
+But if you can't rely on automatic discovery, you can explicitly annotate the pods to associate them with Kiali dashboards.
 
 ```yaml
 spec:

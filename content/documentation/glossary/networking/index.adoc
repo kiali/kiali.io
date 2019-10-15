@@ -35,7 +35,7 @@ For more information see the <<Gateway>> definition in the link:https://istio.io
 
 == Inbound Metrics
 
-Metrics on requests received by a given  <<Workload>>, <<Service>> or <<Application>>.
+Metrics on requests received by a given <<Workload>>, <<Service>> or <<Application>>.
 
 == Outbound Metrics
 

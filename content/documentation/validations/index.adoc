@@ -21,7 +21,7 @@ toc::[]
 
 === More than one Gateway for the same host port combination
 
-Gateway creates a proxy that will forward the inbound traffic for the exposed ports. If two different gateways expose the same ports for the same host, this creates ambiguity inside Istio as either of these gateways could handle the traffic. This is most likely a configuration error. This check is done across all namespaces the user has access to.
+Gateway creates a proxy that forwards the inbound traffic for the exposed ports. If two different gateways expose the same ports for the same host, this creates ambiguity inside Istio as either of these gateways could handle the traffic. This is most likely a configuration error. This check is done across all namespaces the user has access to.
 
 :numbered!:
 ==== Resolution
@@ -50,7 +50,7 @@ https://istio.io/docs/reference/config/istio.networking.v1alpha3/#Gateway[Istio 
 === No matching workload found for gateway selector in this namespace
 :numbered!:
 
-A label selector to match the workload to which this gateway should be applied to. This validation will only check the current namespace for matching workloads as this is recommended (and potentially in the future required) by the Istio. Excluded from this check are the default "istio-ingressgateway" and "istio-egressgateway" workloads which Istio ships with.
+This validation checks the current namespace for matching workloads as this is recommended, and potentially in the future required, by the Istio. Excluded from this check are the default "istio-ingressgateway" and "istio-egressgateway" workloads which are included in Istio by default.
 
 Although your traffic might be correctly routed to a workload in other namespace, this is not a guaranteed behavior and thus a warning is flagged in such cases also.
 
@@ -81,15 +81,15 @@ https://istio.io/docs/reference/config/networking/v1alpha3/gateway/#Gateway[Isti
 === More than one Destination Rule for the same host subset combination
 :numbered!:
 
-Istio applies traffic rules for services after the routing has happened. These can include different settings such as connection pooling, circuit breakers, load balancing, detection, etc. Istio can define the same rules for all services under a host or different rules for different versions of the service.
+Istio applies traffic rules for services after the routing has happened. These can include different settings such as connection pooling, circuit breakers, load balancing, and detection. Istio can define the same rules for all services under a host or different rules for different versions of the service.
 
-This validation warning could be a result of duplicate definition of the same subsets as well as from rules that apply to all subsets. Also, a combination of one DR (Destination Rule) applying to all subsets and another defining behavior for only some subsets will trigger this validation warning.
+This validation warning could be a result of duplicate definition of the same subsets as well as from rules that apply to all subsets. Also, a combination of one Destination Rule (DR) applying to all subsets and another defining behavior for only some subsets triggers this validation warning.
 
-Istio will silently ignore the duplicate subsets and merge these destination rules without letting the user know. Only the first seen rule (by Istio) per subset is used and information from multiple definitions is not merged. While the routing *might* work correctly, this is most likely a configuration error. It may lead to a undesired behavior if one of the offending rules is removed or modified and that is probably not the intention of the deployer of this service. Also, if the two offending destination rules have different policies for traffic routing the wrong one might be used.
+Istio silently ignores the duplicate subsets and merge these destination rules without letting the user know. Only the first seen rule (by Istio) per subset is used and information from multiple definitions is not merged. While the routing might work correctly, this is most likely a configuration error. It may lead to a undesired behavior if one of the offending rules is removed or modified and that is probably not the intention of the deployer of this service. Also, if the two offending destination rules have different policies for traffic routing the wrong one might be used.
 
 ==== Resolution
 
-Either merge the settings to a single Destination Rule or split the subsets in such a way that they do not interleave. This ensures that the routing behavior stays consistent.
+Either merge the settings to a single DR or split the subsets in such a way that they do not interleave. This ensures that the routing behavior stays consistent.
 
 ==== Severity
 
@@ -115,13 +115,13 @@ https://istio.io/help/ops/traffic-management/deploy-guidelines/#multiple-virtual
 === This host has no matching entry in the service registry (service, workload or service entries)
 :numbered!:
 
-Istio applies traffic rules for services after the routing has happened. These can include different settings such as connection pooling, circuit breakers, load balancing, detection, etc. Istio can define the same rules for all services under a host or different rules for different versions of the service. The host must a service that is defined in the platform's service registry or as a ServiceEntry. Short names are extended to include '.namespace.cluster' using the namespace of the destination rule, not the service itself. FQDN is evaluated as is. It is recommended to use the FQDN to prevent any confusion.
+Istio applies traffic rules for services after the routing has happened. These can include different settings such as connection pooling, circuit breakers, load balancing, and detection. Istio can define the same rules for all services under a host or different rules for different versions of the service. The host must a service that is defined in the platform's service registry or as a ServiceEntry. Short names are extended to include '.namespace.cluster' using the namespace of the destination rule, not the service itself. FQDN is evaluated as is. It is recommended to use the FQDN to prevent any confusion.
 
-If the host is not found, Istio will ignore the defined rules.
+If the host is not found, Istio ignores the defined rules.
 
 ==== Resolution
 
-Correct the host to point to a correct service (in this namespace or with FQDN to other namespaces) or deploy the missing service to the mesh.
+Correct the host to point to a correct service, in this namespace or with FQDN to other namespaces, or deploy the missing service to the mesh.
 
 ==== Severity
 
@@ -145,15 +145,15 @@ https://istio.io/docs/reference/config/istio.networking.v1alpha3/#DestinationRul
 === This subset’s labels are not found in any matching host
 :numbered!:
 
-Istio applies traffic rules for services after the routing has happened. These can include different settings such as connection pooling, circuit breakers, load balancing, detection, etc. Istio can define the same rules for all services under a host or different rules for different versions of the service. The host must a service that is defined in the platform's service registry or as a ServiceEntry. Short names are extended to include '.namespace.cluster' using the namespace of the destination rule, not the service itself. FQDN is evaluated as is. It is recommended to use the FQDN to prevent any confusion.
+Istio applies traffic rules for services after the routing has happened. These can include different settings such as connection pooling, circuit breakers, load balancing, and detection. Istio can define the same rules for all services under a host or different rules for different versions of the service. The host must a service that is defined in the platform's service registry or as a ServiceEntry. Short names are extended to include '.namespace.cluster' using the namespace of the destination rule, not the service itself. FQDN is evaluated as is. It is recommended to use the FQDN to prevent any confusion.
 
 Subsets can override the global settings defined in the DR for a host.
 
-If the host is not found, Istio will ignore the defined rules.
+If the host is not found, Istio ignores the defined rules.
 
 ==== Resolution
 
-Correct the host to point to a correct service (in this namespace or with FQDN to other namespaces) or deploy the missing service to the mesh. If the hostname is equal to the one used otherwise in the DR, consider removing the duplicate host resolution.
+Correct the host to point to a correct service, in this namespace or with FQDN to other namespaces, or deploy the missing service to the mesh. If the hostname is equal to the one used otherwise in the DR, consider removing the duplicate host resolution.
 
 Also, verify that the labels are correctly matching a workload with the intended service.
 
@@ -180,7 +180,7 @@ https://istio.io/docs/reference/config/istio.networking.v1alpha3/#DestinationRul
 :numbered!:
 
 Istio has the ability to define mTLS communications at mesh level. In order to do that, Istio needs one DestinationRule and one MeshPolicy. The DestinationRule configures all the clients of the mesh to use mTLS protocol on their connections. The MeshPolicy defines what authentication methods can be accepted on the workload of the whole mesh.
-If the MeshPolicy is not found or doesn't exist and the mesh-wide DestinationRule is on ISTIO_MUTUAL mode, all the communication will return 500 errors.
+If the MeshPolicy is not found or doesn't exist and the mesh-wide DestinationRule is on ISTIO_MUTUAL mode, all the communication returns 500 errors.
 
 ==== Resolution
 Add a MeshPolicy named as default without specifying targets but setting peers mtls mode to STRICT or PERMISSIVE. The MeshPolicy should be like link:/data/files/validation_examples/401.yaml[this, window="_blank"].
@@ -207,7 +207,7 @@ https://istio.io/docs/tasks/security/authn-policy/#globally-enabling-istio-mutua
 === mTLS settings of a non-local Destination Rule are overridden
 :numbered!:
 
-Istio allows you to define DestinationRule at three different levels: mesh, namespace and service level. A mesh may have multiple DestinationRules. In case of having two DestinationRules on the first one is at a lower level than the second one, the first one overrides the TLS values of the second one.
+Istio allows you to define DestinationRule at three different levels: mesh, namespace and service level. A mesh may have multiple DRs. In case of having two DestinationRules on the first one is at a lower level than the second one, the first one overrides the TLS values of the second one.
 
 ==== Resolution
 
@@ -235,11 +235,11 @@ https://github.com/kiali/kiali/tree/master/business/checkers/destinationrules/tr
 === Policy enabling namespace-wide mTLS is missing
 :numbered!:
 
-Istio has the ability to define mTLS communications at namespace level. In order to do that, Istio needs both a DestinationRule and a Policy targeting all the clients/workloads of the specific namespace. The Policy will allow mTLS authentication method for all the workloads within a namespace. The DestinationRule will define all the clients within the namespace to start communications in mTLS mode.
-If the Policy is not found and the DestinationRule is on STRICT mode in that namespace, all the communications within that namespace will return 500 errors.
+Istio has the ability to define mTLS communications at namespace level. In order to do that, Istio needs both a DestinationRule and a Policy targeting all the clients/workloads of the specific namespace. The policy allows mTLS authentication method for all the workloads within a namespace. The DestinationRule defines all the clients within the namespace to start communications in mTLS mode.
+If the Policy is not found and the DestinationRule is on STRICT mode in that namespace, all the communications within that namespace returns 500 errors.
 
 ==== Resolution
-A Policy enabling mTLS method is needed for the workloads in the namespace. Otherwise all the clients will start mTLS connections that those workloads won't be ready to manage.
+A Policy enabling mTLS method is needed for the workloads in the namespace. Otherwise all the clients start mTLS connections that those workloads won't be ready to manage.
 Add a Policy named as default without specifying targets but setting peers mTLS mode to STRICT or PERMISSIVE in the same namespace as the DestinationRule.
 
 ==== Severity
@@ -263,7 +263,7 @@ https://istio.io/docs/tasks/security/authn-policy/#enable-mutual-tls-per-namespa
 === Policy with TLS strict mode found, it should be permissive
 :numbered!:
 
-Istio needs both a DestinationRule and Policy to enable mTLS communications. The Policy will configure the authentication method accepted for all the targeted workloads. The DestinationRule will define which is the authentication method that the clients of specific workloads has to start communications with.
+Istio needs both a DestinationRule and Policy to enable mTLS communications. The policy configures the authentication method accepted for all the targeted workloads. The DestinationRule defines which is the authentication method that the clients of specific workloads has to start communications with.
 
 ==== Resolution
 Kiali has found that there is a DestinationRule sending traffic without mTLS authentication method. There are two different ways to fix this situation. You can either change the Policy applying to PERMISSIVE mode or change the DestinationRule to start communications using mTLS.
@@ -290,7 +290,7 @@ https://istio.io/docs/tasks/security/authn-policy/#enable-mutual-tls-per-namespa
 === MeshPolicy enabling mTLS found, permissive policy is needed
 :numbered!:
 
-Istio needs both a DestinationRule and Policy to enable mTLS communications. The Policy will configure the authentication method accepted for all the targeted workloads. The DestinationRule will define which is the authentication method that the clients of specific workloads has to start communications with.
+Istio needs both a DestinationRule and Policy to enable mTLS communications. The policy configures the authentication method accepted for all the targeted workloads. The DestinationRule defines which is the authentication method that the clients of specific workloads has to start communications with.
 
 Kiali found a DestinationRule starting communications without TLS but there was a MeshPolicy allowing services to accept only requests in mTLS.
 
@@ -322,9 +322,9 @@ https://istio.io/docs/tasks/security/authn-policy/#globally-enabling-istio-mutua
 === DestinationWeight on route doesn't have a valid service (host not found)
 :numbered!:
 
-VirtualService will route matching requests to a service inside your mesh. Routing can also match a subset of traffic to a certain version of it for example. Any service inside the mesh must be targeted by its name, the IP address are only allowed for hosts defined through a Gateway. Host must be in a short name or FQDN format. Short name will evaluate to VS' namespace, regardless of where the actual service might be placed.
+VirtualService routes matching requests to a service inside your mesh. Routing can also match a subset of traffic to a certain version of it for example. Any service inside the mesh must be targeted by its name, the IP address are only allowed for hosts defined through a Gateway. Host must be in a short name or FQDN format. Short name will evaluate to VS' namespace, regardless of where the actual service might be placed.
 
-If the host is not found, Istio will ignore the defined rules. However, if a subset with a Destination Rule is not found it will affect all the subsets and all the routings. As such, care must be taken that the Destination rule is available before deploying the Virtual Service.
+If the host is not found, Istio ignores the defined rules. However, if a subset with a Destination Rule is not found it affects all the subsets and all the routings. As such, care must be taken that the Destination rule is available before deploying the Virtual Service.
 
 ==== Resolution
 
@@ -352,7 +352,7 @@ https://istio.io/docs/reference/config/istio.networking.v1alpha3/#Destination[De
 === VirtualService is pointing to a non-existent gateway
 :numbered!:
 
-By default, VirtualService routes will apply to sidecars inside the mesh. The gateway field allows to override that default and if anything is defined, the VS will only apply to those selected. 'mesh' is a reserved gateway name and means all the sidecars in the mesh. If one wishes to apply the VS to gateways as well as the sidecars, the 'mesh' keyword must be used as one of the gateways. Incorrect gateways will mean that the VS is not applied correctly.
+By default, VirtualService routes apply to sidecars inside the mesh. The gateway field allows to override that default and if anything is defined, the VS applies to those selected. 'mesh' is a reserved gateway name and means all the sidecars in the mesh. If one wishes to apply the VS to gateways as well as the sidecars, the 'mesh' keyword must be used as one of the gateways. Incorrect gateways mean that the VS is not applied correctly.
 
 ==== Resolution
 
@@ -379,7 +379,7 @@ https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/no
 === Subset not found
 :numbered!:
 
-VirtualService will route matching requests to a service inside your mesh. Routing can also match a subset of traffic to a certain version of it for example. The subsets referred in a VirtualService have to be defined in one DestinationRule.
+VirtualService routes matching requests to a service inside your mesh. Routing can also match a subset of traffic to a certain version of it for example. The subsets referred in a VirtualService have to be defined in one DestinationRule.
 
 If one route in the VirtualService points to a subset that doesn't exist Istio won't be able to send traffic to a service.
 
@@ -468,7 +468,7 @@ Istio requires the service ports to follow the naming form of 'protocol-suffix' 
 
 ==== Resolution
 
-Rename the service port name field to follow the form and the traffic will flow correctly.
+Rename the service port name field to follow the form and the traffic flows correctly.
 
 ==== Severity
 
@@ -532,7 +532,7 @@ https://kubernetes.io/docs/concepts/services-networking/service/#defining-a-serv
 :numbered!:
 
 Istio has the ability to define mTLS communications at mesh level. In order to do that, Istio needs one DestinationRule and one MeshPolicy. The DestinationRule configures all the clients of the mesh to use mTLS protocol on their connections. The MeshPolicy defines what authentication methods can be accepted on the workload of the whole mesh.
-If the DestinationRule is not found or doesn't exist and the MeshPolicy is on STRICT mode, all the communication will return 500 errors.
+If the DestinationRule is not found or doesn't exist and the MeshPolicy is on STRICT mode, all the communication returns 500 errors.
 
 ==== Resolution
 Add a DestinationRule named as default with "*.cluster" host and ISTIO_MUTUAL as tls trafficPolicy mode. The DestinationRule should be like link:/data/files/validation_examples/004.yaml[this, window="_blank"].
@@ -592,7 +592,7 @@ Services can be listed with an exact match, prefix match as well as suffix match
 
 ==== Resolution
 
-If the services in question are located in another namespace, deploy this ServiceRole to that namespace. Or deploy the services to this namespace.
+If the services in question are located in another namespace, deploy this ServiceRole to that namespace, or deploy the services to this namespace.
 
 ==== Severity
 
@@ -616,7 +616,7 @@ https://istio.io/docs/reference/config/authorization/istio.rbac.v1alpha1/#Access
 === ServiceRole does not exists in this namespace
 :numbered!:
 
-ServiceRoleBinding assigns a ServiceRole to subjects. As such, it must refer to a ServiceRole object and this object can only reside in the same namespace (cross-namespace refers are not valid).
+ServiceRoleBinding assigns a ServiceRole to subjects. As such, it must refer to a ServiceRole object and this object can only reside in the same namespace. Cross-namespace refers are not valid.
 
 ==== Resolution
 

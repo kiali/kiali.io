@@ -17,9 +17,9 @@ toc::[]
 :icons: font
 :imagesdir: /images/documentation/tracing/
 
-Kiali shows tracing of your applications. We currently support Jaeger from the version 1.9 (link:https://www.jaegertracing.io/docs/1.12/frontend-ui/#embedded-mode[Read docs, window="_blank"]).
+Kiali shows tracing of your applications. We currently support Jaeger version 1.9 and newer (link:https://www.jaegertracing.io/docs/1.12/frontend-ui/#embedded-mode[Read docs, window="_blank"]).
 
-icon:bullhorn[size=2x]{nbsp} In order to have the Jaeger embedded feature, you must have the same protocol in Kiali and Tracing service. These are necessary for Kiali to embed Jaeger.
+icon:bullhorn[size=2x]{nbsp} To embed Jaeger, you must have the same protocol in Kiali and Tracing service.
 
 == Kiali and Tracing Service have the same protocol
 
@@ -50,7 +50,7 @@ The service selector has the list of services of the selected namespaces organiz
 image::service.png[Service Selector Tracing View]
 
 
-For an advanced search of traces we can expand the "Show advanced options"
+For an advanced search of traces we can expand the "Show advanced options."
 
 image::full_form.png[Full form Tracing View]
 
