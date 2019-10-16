@@ -82,14 +82,7 @@
       });
 
       // Search input
-      const searchForm = $('body > header div.search-container form');
-      searchForm.submit(function(event) {
-        event.preventDefault();
-        const searchInput = $(event.target).children('input[type=text]');
-        const href = $(event.target).attr('action');
-        const query = `site:www.kiali.io ${searchInput.val()}`;
-        window.open(`${href}?${searchInput.attr('name')}=${encodeURIComponent(query)}`, '_self');
-      });
+      const searchForm = $('body > header div.search-container form ');
 
       searchForm.children('.close-icon').click(function(event) {
         event.preventDefault();

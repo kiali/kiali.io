@@ -12,7 +12,8 @@
         {{ partial "masthead_nav.html" .Site.Menus.main }}
       </nav>
         <div class="search-container">
-            <form novalidate action="https://google.com/search" autocomplete="on">
+            <form novalidate method="GET" action="https://cse.google.com/cse" autocomplete="on">
+                <input type="hidden" name="cx" value="015704640858869259522:6stg794nppg"/>
                 <input name="q" type="text" required title="Google this site..." placeholder="Search"/>
                 <i class="fas fa-search search-icon"></i>
                 <i class="fas fa-times-circle close-icon"></i>
