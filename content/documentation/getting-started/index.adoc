@@ -18,36 +18,34 @@ menu:
 :icons: font
 :imagesdir: /images/gettingstarted/
 
-== Compatibility
-
-[cols="10%,10%,10%,70%",options="header"]
-|===
-|Istio
-|Maistra
-|Kiali
-|Notes
-
-|1.1+
-|0.7+
-|0.17+
-|Kiali 0.17+ requires istio 1.1+
-
-|1.0.5+
-|0.1+
-|0.16
-| Istio 1.0 is EOL and not recommended.
-|===
-
 toc::[]
-
-icon:lightbulb[size=1x]{nbsp}For several commands listed on this page, the OpenShift CLI command `oc` is used to interact with the cluster environment. If you are on Kubernetes, simply replace `oc` with `kubectl` unless otherwise noted.
-
 
 == Prerequisites
 
-=== Browser Requirements
+=== Kiali Version Requirements
 
-Kiali requires a modern web browser and supports the last two versions of Chrome, Edge, Firefox or Safari.
+Kiali requires a supported version of Istio. link:https://istio.io/news/[The Istio news page] posts end-of-support (EOL) dates. Supported Kiali versions include only the Kiali version bundled with Istio, or newer. Specific compabitibility notes are below.
+
+==== Compatibility
+
+[cols="15%,15%,70%",options="header"]
+|===
+|Istio
+|Kiali
+|Notes
+
+|1.3.*
+|any
+|Kiali will not function properly using the experimental "mixer-less" telemetry.
+
+|===
+
+icon:lightbulb[size=1x]{nbsp}If you are running Red Hat OpenShift Service Mesh (RHOSSM) then you should only use the bundled versions of Istio (Maistra) and Kiali.
+
+
+=== Browser Version Requirements
+
+Kiali requires a modern web browser and supports the last two versions of Chrome, Firefox, Safari or Edge.
 
 
 === Hardware Requirements
@@ -65,6 +63,8 @@ For more, see the link:https://docs.okd.io/latest/install/prerequisites.html[OKD
 == Installation
 
 Kiali can be installed in an OpenShift or Kubernetes cluster environment. For OpenShift only, a minimal preparation is necessary.
+
+icon:lightbulb[size=1x]{nbsp}For several commands listed on this page, the OpenShift CLI command `oc` is used to interact with the cluster environment. If you are on Kubernetes, simply replace `oc` with `kubectl` unless otherwise noted.
 
 
 === OpenShift Preparation
