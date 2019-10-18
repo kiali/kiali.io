@@ -23,19 +23,24 @@ The source for this website is hosted at https://github.com/kiali/kiali.io
 Please have a look at the README files in the repositories as well as the CONTRIBUTING.md ones.
 Also make sure to check out the link:https://github.com/kiali/kiali/blob/master/CODE_OF_CONDUCT.md[Kiali code of conduct].
 
-== Reporting issues and feature requests
+== Reporting issues and requesting features
 
-The Kiali team uses link:http://issues.jboss.org/browse/KIALI[JIRA at JBoss.org] as its preferred tracker.
-Please use it to report issues and create new feature requests (select issue type 'Bug' for bugs and 'Story' for enhancement requests).
+The Kiali team uses link:https://github.com/kiali/kiali[kiali/kiali GitHub repository] as its centralized tracker.
+Please use it to link:https://github.com/kiali/kiali/issues[report issues and request features]. When creating issues, please add the _bug_ or the _enhancement_ label as appropriate.
 
-Alternatively you can also use the link:https://github.com/kiali/kiali/issues[GitHub tracker] for this purpose.
+Issue tracking is also enabled for other Kiali repositories, like link:https://github.com/kiali/kiali.io[kiali/kiali.io] for the web page, and link:https://github.com/kiali/k-charted[kiali/k-charted] for the dashboards and some charts. You can report issues on these repositories if you know the issue is specific to that component. When in doubt, simply use the link:https://github.com/kiali/kiali[kiali/kiali repository].
 
-== More...
+== Talk with us
 
-link:https://groups.google.com/forum/#!forum/kiali-users[Kiali-Users] Google Group about using Kiali
+Kiali team has three preferred channels of contact:
 
-link:https://groups.google.com/forum/#!forum/kiali-dev[Kiali-Dev] Google Group about developing Kiali
+* The link:https://groups.google.com/forum/#!forum/kiali-users[kiali-users Google Group], for end-user usage of Kiali. It's the preferred place to ask questions or expose problems you are having. Please, don't open GitHub issues for questions.
+* The link:https://groups.google.com/forum/#!forum/kiali-dev[kiali-dev Google Group], for Kiali development. It's where discussions about Kiali contributions take place.
+* The link:https://webchat.freenode.net/?channels=%23kiali[#kiali IRC channel at Freenode]. Wanna chat? Join us! This is where the Kiali team meets for more direct interaction.
 
-link:https://github.com/kiali[Kiali Sources on GitHub] and link:https://github.com/kiali/kiali/blob/master/README.adoc[detailed instructions for building and deploying Kiali] (includes notes for running on plain Kubernetes)
+Since Kiali is observability for Istio, you can also make contact through these Istio channels:
 
-link:https://webchat.freenode.net/?channels=%23kiali[Kiali on Irc]
+* link:https://discuss.istio.io/c/policies-and-telemetry/kiali[Istio's Discuss], where there is a dedicated Kiali _topic_.
+* link:https://istio.slack.com/[Istio's Slack] where there is a dedicated _#kiali_ channel. Learn how to join Istio's Slack by visiting the _link:https://istio.io/about/community/join/[Getting Involved_ page of Istio's web site].
+
+Istio's channels are alternative points of contact and we check them less often that the preferred channels.
