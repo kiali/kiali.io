@@ -36,7 +36,7 @@ It is important to preserve label mapping, so that Kiali can filter on _app_ and
         regex: __meta_kubernetes_pod_label_(.+)
 ```
 
-Additionally, you must tell Kiali the URL of that Prometheus server either by setting the environment variable `PROMETHEUS_CUSTOM_METRICS_URL` or by modifying the Kiali _ConfigMap_ or _Kiali CR_.
+Additionally, you must configure the Prometheus server URL in the _Kiali CR_:
 
 ```yaml
 # ...
