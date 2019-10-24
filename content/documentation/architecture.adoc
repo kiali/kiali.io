@@ -27,11 +27,12 @@ https://github.com/kiali/kiali[kiali/kiali GitHub repository].
 This is the component that communicates with Istio parts, retrieves and
 processes data, and exposes this data to the front-end.
 
-The back-end doesn't need storage. When running the back-end locally, all
-configurations are set in files and environment variables, including the user name
+The back-end doesn't need storage. When running the back-end locally (which
+is for development purposes only), configurations are set in either a config
+file or environment variables, including the user name
 and password used for authentication. When deploying the back-end to a cluster
-using the docker images, configmaps and secrets are used to set the
-configurations.
+using the docker images (the typical production deployment model),
+a configmap and secrets are used to set the configurations.
 
 == Kiali front-end
 
