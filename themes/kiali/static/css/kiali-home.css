@@ -11,8 +11,8 @@ section#hero {
 
 section#hero h1 {
   font-size: 32px;
-  font-weight: 300;
-  line-height: 45px;
+  font-weight: 700;
+  line-height: 1.4em;
   color: #013144;
 
   margin: 0 0 var(--kiali-blue-spacing) 0;
@@ -40,13 +40,6 @@ section#hero p.buttons {
   margin-top: var(--kiali-blue-spacing);
 }
 
-@media only screen and (min-width: 850px) {
-  section#hero {
-    padding-top: var(--kiali-bright-green-spacing);
-    padding-bottom: var(--kiali-bright-green-spacing);
-  }
-}
-
 @media only screen and (min-width: 430px) {
   section#hero p.buttons a.button {
     display: inline-block;
@@ -54,8 +47,17 @@ section#hero p.buttons {
   }
 }
 
-
 /* "About" block styles */
+#about {
+  overflow: hidden;
+}
+
+#about-description {
+  max-width: 600px;
+}
+#intro-video {
+  float: right;
+}
 #intro-video iframe {
   max-width: 100%;
 }
@@ -76,16 +78,14 @@ div#features-blocks a:hover div {
 }
 
 div#features-blocks div {
-  height: 210px;
-  width: 290px;
+  height: 150px;
+  width: 420px;
 
   padding: var(--kiali-pink-spacing);
   background-color: var(--kiali-secondary-bg-color);
   border: 1px solid var(--kiali-card-border-color);
   border-radius: 5px;
-  box-shadow: 2px 2px 2px 0px rgba(245,245,245,1);
-
-  text-align: center;
+  box-shadow: 2px 2px 2px 0px rgba(245, 245, 245, 1);
 
   margin-bottom: var(--kiali-pink-spacing);
 }
@@ -100,6 +100,7 @@ div#features-blocks div {
 div#features-blocks img {
   height: 106px;
   padding-right: var(--kiali-pink-spacing);
+  float: left;
 }
 
 div#features-blocks p {
@@ -109,7 +110,8 @@ div#features-blocks p {
 
 div#features-blocks h2 {
   font-size: var(--kiali-font-size);
-  font-weight: 400;
+  font-weight: 700;
+  font-size: 24px;
 }
 
 div#features-blocks div.more-coming {
@@ -131,7 +133,7 @@ div#features-blocks div.more-coming p {
 
 section#blog-latest {
   background-color: var(--kiali-secondary-bg-color);
-  padding: var(--kiali-red-spacing) var(--kiali-pink-spacing); 
+  padding: var(--kiali-red-spacing) var(--kiali-pink-spacing);
 }
 
 section#blog-latest div#blog-blocks {
@@ -158,7 +160,7 @@ section#blog-latest div#blog-blocks > a > div {
   background-color: white;
   border: 1px solid var(--kiali-card-border-color);
   border-radius: 5px;
-  box-shadow: 2px 2px 2px 0px rgba(245,245,245,1);
+  box-shadow: 2px 2px 2px 0px rgba(245, 245, 245, 1);
 
   overflow: hidden;
 }
@@ -167,7 +169,8 @@ section#blog-latest div#blog-blocks > a > div:hover {
   border-color: var(--kiali-link-hover-color);
 }
 
-section#blog-latest div#blog-blocks p, section#blog-latest div#blog-blocks h1 {
+section#blog-latest div#blog-blocks p,
+section#blog-latest div#blog-blocks h1 {
   text-overflow: ellipsis;
   overflow: hidden;
 }
@@ -191,7 +194,7 @@ section#blog-latest div#blog-blocks > a > div:hover header {
   border-color: var(--kiali-link-hover-color);
 }
 
-section#blog-latest div#blog-blocks > a >div header div:first-child {
+section#blog-latest div#blog-blocks > a > div header div:first-child {
   font-size: 15px;
 }
 
@@ -203,12 +206,14 @@ section#blog-latest div#blog-blocks > a > div header div:last-child {
 section#blog-latest div#blog-blocks > a > div h1 {
   font-size: 18px;
   font-weight: normal;
-  padding-bottom: var (--kiali-blue-spacing);  
+  padding-bottom: var (--kiali-blue-spacing);
 }
 
 section#blog-latest div#blog-blocks > a > div p {
-  font-size: 18px;
-  font-weight: 300;
+  font-size: 14px;
+
+  color: var(--kiali-font-color-low-opacity);
+  text-align: right;
 }
 
 @media only screen and (min-width: 1000px) {
@@ -226,7 +231,7 @@ section#blog-latest div#blog-blocks > a > div p {
 
 @media only screen and (min-width: 870px) {
   section#blog-latest {
-    padding: var(--kiali-orange-spacing) var(--kiali-yellow-spacing); 
+    padding: var(--kiali-orange-spacing) var(--kiali-yellow-spacing);
   }
 
   section#blog-latest > h1 {
