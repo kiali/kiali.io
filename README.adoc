@@ -1,8 +1,12 @@
 :toc: macro
 :toc-title:
-toc::[]
 
 = Kiali.io
+
+https://app.netlify.com/sites/kiali/deploys[image:https://api.netlify.com/api/v1/badges/05b3eed1-6ea2-41a1-8b64-c76bda241be6/deploy-status[title="Netlify Status"]]
+
+toc::[]
+
 This repository contains the source code for https://kiali.io website.
 
 The website is written in link:https://asciidoctor.org/docs/asciidoc-syntax-quick-reference/[AsciiDoc], generated using link:https://gohugo.io/[Hugo], and hosted on GitHub.

@@ -617,6 +617,10 @@ body > header div.search-container input:valid ~ i.search-icon {
   color: var(--kiali-font-color);
 }
 
+#footer-netlify {
+  float: right;
+}
+
 /* Magnific Popup */
 div.kiali-video {
   height: 100vh;
