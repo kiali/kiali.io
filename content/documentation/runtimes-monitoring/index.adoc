@@ -103,6 +103,17 @@ As an example and for self-monitoring purpose Kiali itself link:https://github.c
 
 The pod annotation for Kiali is: `kiali.io/runtimes: go`
 
+
+=== Envoy
+
+Istio's Envoy sidecars supply link:https://www.envoyproxy.io/docs/envoy/latest/configuration/upstream/cluster_manager/cluster_stats[some internal metrics], that can be viewed in Kiali. They are different than the metrics reported by Istio Telemetry, which Kiali uses extensively. Some of Envoy's metrics may be redundant.
+
+Unlike the other Runtimes dashboards, there is no automatic discovery configured for Envoy. You must explicitly enable the Envoy dashboard with the pod annotation `kiali.io/runtimes: envoy`.
+
+Note that the enabled Envoy metrics can be tuned, as explained in the link:https://istio.io/docs/ops/telemetry/envoy-stats/[Istio documentation]: it's possible to get more metrics using the `statsInclusionPrefixes` annotation. Make sure you include `cluster_manager` and `listener_manager` as they are required.
+
+For example, `sidecar.istio.io/statsInclusionPrefixes: cluster_manager,listener_manager,listener` will add `listener` metrics for more inbound traffic information. You can then customize the Envoy dashboard of Kiali according to the collected metrics.
+
 === Node.js
 
 Contains metrics such as active handles, event loop lag, and heap usage. The expected metrics are provided by link:https://www.npmjs.com/package/prom-client[prom-client].
