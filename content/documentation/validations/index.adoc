@@ -489,7 +489,7 @@ https://github.com/istio/istio.io/blob/master/content/help/faq/traffic-managemen
 '''
 
 :numbered:
-=== Service port and deployment port do not match
+=== Deployment exposing same port as Service not found
 :numbered!:
 
 Service definition has a combination of labels and port definitions that are not matching to any workloads. This means the deployment will be unsuccessful and no traffic can flow between these two resources. The port is read from the Service 'TargetPort' definition first and if undefined, the 'Port' field is used as Kubernetes defaults the 'TargetPort' to 'Port'. If the 'TargetPort' is using a integer, the port numbers are compared and if the 'TargetPort' is a string, the deployment's portName is used for comparison.
@@ -500,7 +500,7 @@ Fix the port definitions in the workload or in the service definition to ensure 
 
 ==== Severity
 
-icon:times-circle[] Error
+icon:exclamation-triangle[] Warning
 
 ==== Example
 
