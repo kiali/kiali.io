@@ -12,6 +12,7 @@ menu:
     weight: 1
 ---
 
+:sectlinks:
 :linkattrs:
 :toc: macro
 :toc-title: Kiali Features

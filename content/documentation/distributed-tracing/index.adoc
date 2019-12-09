@@ -7,6 +7,7 @@ weight: 6
 ---
 
 :linkattrs:
+:sectlinks:
 
 = Tracing your application in Kiali
 :sectnums:

@@ -6,6 +6,7 @@ menu:
   main:
     weight: 30
 ---
+
 :sectlinks:
 
 == Kiali is Open Source

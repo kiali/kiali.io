@@ -5,6 +5,8 @@ draft: false
 weight: 4
 ---
 
+:sectlinks:
+
 = Kiali architecture
 :imagesdir: /images/documentation/architecture
 
