@@ -7,6 +7,8 @@ menu:
     weight: 30
 ---
 
+:sectlinks:
+
 == Kiali is Open Source
 
 Kiali is developed in the open under an https://www.apache.org/licenses/LICENSE-2.0.txt[Apache Software License version 2.0].

@@ -3,6 +3,7 @@ title: How can I get in touch?
 weight: 60
 ---
 :icons: font
+:sectlinks:
 
 * Follow our https://twitter.com/kialiproject[twitter] account.
 * Watch our videos using https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w[youtube].

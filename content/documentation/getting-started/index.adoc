@@ -17,6 +17,7 @@ menu:
 :keywords: Kiali Getting Started
 :icons: font
 :imagesdir: /images/gettingstarted/
+:sectlinks:
 
 toc::[]
 

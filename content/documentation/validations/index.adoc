@@ -7,6 +7,7 @@ weight: 1
 ---
 
 :sectnums:
+:sectlinks:
 :linkattrs:
 :toc: left
 :toclevels: 2

@@ -30,7 +30,11 @@
       </nav>
 
       {{ range $q := $sorted_questions }}
-        <h2 id="{{ $q.File.BaseFileName | urlize }}" class="question">{{ $q.Title }}</h2>
+        <h2 id="{{ $q.File.BaseFileName | urlize }}" class="question">
+          <a class="link" href="#{{ $q.File.BaseFileName | urlize }}">
+            {{ $q.Title }}
+          </a>
+        </h2>
         {{ $q.Content }}
       {{ end }}
     </main>
