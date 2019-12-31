@@ -22,12 +22,12 @@
 
 /* Responsive main navigation::Fix for Android
  * See https://css-tricks.com/responsive-menu-concepts/#article-header-id-10 */
-body { 
-  -webkit-animation: bugfix infinite 1s; 
+body {
+  -webkit-animation: bugfix infinite 1s;
 }
-@-webkit-keyframes bugfix { 
-  from { padding: 0; } 
-  to { padding: 0; } 
+@-webkit-keyframes bugfix {
+  from { padding: 0; }
+  to { padding: 0; }
 }
 
 /* Set top level styles */
@@ -613,8 +613,7 @@ body > header div.search-container input:valid ~ i.search-icon {
 }
 
 #footer-copyrights, #footer-copyrights a {
-  font-size: 12px;
-  color: var(--kiali-font-color);
+  font-size: 14px;
 }
 
 #footer-netlify {
