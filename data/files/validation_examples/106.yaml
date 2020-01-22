@@ -8,7 +8,6 @@ spec:
   http:
   - route:
     - destination:
-    - destination:
         host: reviews
-        subset: v2
+        subset: v1
       weight: 10

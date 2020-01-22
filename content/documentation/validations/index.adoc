@@ -458,6 +458,34 @@ https://github.com/kiali/kiali/blob/master/business/checkers/virtual_services/si
 
 '''
 
+:numbered:
+=== The weight is assumed to be 100 because there is only one route destination
+:numbered!:
+
+Istio assumes the weight to be 100 when there is only one https://istio.io/docs/reference/config/networking/virtual-service/#HTTPRouteDestination[HTTPRouteDestination] or https://istio.io/docs/reference/config/networking/virtual-service/#RouteDestination[RouteDestination]. The warning is present because there is one route with a weight less than 100.
+
+==== Resolution
+
+Either remove the weight field or you might want to add another RouteDestination with an specific weight.
+
+==== Severity
+
+icon:exclamation-triangle[] Warning
+
+==== Example
+
+[source, yaml]
+----
+include::/data/files/validation_examples/106.yaml[]
+----
+
+==== See Also
+https://istio.io/docs/reference/config/networking/virtual-service/#HTTPRouteDestination[Istio documentation about HTTP Route Destination struct, window="_blank"] +
+https://istio.io/docs/reference/config/networking/virtual-service/#RouteDestination[Istio documentation about Route Destination struct, window="_blank"] +
+https://github.com/kiali/kiali/blob/master/business/checkers/virtual_services/route_checker.go[Validator source code, window="_blank"]
+
+'''
+
 [#services]
 :numbered:
 == Services
