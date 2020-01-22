@@ -79,7 +79,8 @@ https://istio.io/docs/reference/config/networking/v1alpha3/gateway/#Gateway[Isti
 :numbered:
 == Destination rules
 
-=== More than one Destination Rule for the same host subset combination
+
+=== More than one DestinationRules for the same host subset combination
 :numbered!:
 
 Istio applies traffic rules for services after the routing has happened. These can include different settings such as connection pooling, circuit breakers, load balancing, and detection. Istio can define the same rules for all services under a host or different rules for different versions of the service.
@@ -564,7 +565,7 @@ Istio has the ability to define mTLS communications at mesh level. In order to d
 If the DestinationRule is not found or doesn't exist and the MeshPolicy is on STRICT mode, all the communication returns 500 errors.
 
 ==== Resolution
-Add a DestinationRule named as default with "*.cluster" host and ISTIO_MUTUAL as tls trafficPolicy mode. The DestinationRule should be like link:/data/files/validation_examples/004.yaml[this, window="_blank"].
+Add a DestinationRule named as default with "*.cluster" host and ISTIO_MUTUAL as tls trafficPolicy mode. The DestinationRule should be like link:https://github.com/kiali/kiali.io/blob/master/data/files/validation_examples/004.yaml[this, window="_blank"].
 
 ==== Severity
 

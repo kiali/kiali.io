@@ -6,9 +6,9 @@ spec:
   hosts:
   - details
   gateways:
-  - bookinfo-gateway
+  - non-existent-gateway
   http:
   - route:
     - destination:
         host: details
-        subset: v2
+        subset: v1
