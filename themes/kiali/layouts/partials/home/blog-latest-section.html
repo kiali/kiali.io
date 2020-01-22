@@ -1,8 +1,12 @@
   {{- $maxBlogPosts := .Site.Params.maxBlogPosts }}
-  {{- $json         := getJSON "https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/kialiproject" }}
+  {{/*expTimestamp: expire content every 1hour (6000s)*/}}
+  {{- $expTimestamp := div now.Unix 6000 }}
+  {{- $mediumURL    := printf "https://api.rss2json.com/v1/api.json?timestamp=%s&rss_url=https://medium.com/feed/kialiproject" $expTimestamp }}
+  {{- $json         := getJSON $mediumURL }}
   {{- $posts        := first $maxBlogPosts $json.items }}
+  {{- $latestPost   := index $json.items 1 }}
 
-  <section id="blog-latest">
+  <section id="blog-latest" data-lastpubat="{{ $latestPost.pubDate }}">
     <h1>
       Latest in our blog
     </h1>
