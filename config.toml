@@ -53,6 +53,12 @@ baseURL = "https://kiali.io"
       weight = 5
       parent="documentation"
   [[menu.main]]
+      identifier = "extensions"
+      name = "Extensions"
+      url = "/documentation/extensions"
+      weight = 6
+      parent="documentation"
+  [[menu.main]]
       identifier = "swagger"
       name = "Developer API"
       url = "/documentation/developer-api"
