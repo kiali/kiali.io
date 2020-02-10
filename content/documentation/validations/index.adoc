@@ -668,6 +668,36 @@ include::/data/files/validation_examples/601.yaml[]
 https://github.com/kiali/kiali/blob/master/business/checkers/authorization/service_binding_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/reference/config/authorization/istio.rbac.v1alpha1/#ServiceRoleBinding[Istio documentation, window="_blank"]
 
+[#authorizationpolicies]
+:numbered:
+== AuthorizationPolicy
+
+=== Namespace not found for this rule
+:numbered!:
+
+AuthorizationPolicy enables access control on workloads. Each policy effects only to a group of request. For instance, all requests started from a workload on a list of namespaces.
+The present validation points out those rules referencing a namespace that don't exist in the cluster.
+
+==== Resolution
+
+Either remove the namespace from the list, correct if there is any typo or create a new namespace.
+
+==== Severity
+
+icon:exclamation-triangle[] Warning
+
+==== Example
+
+[source, yaml]
+----
+include::/data/files/validation_examples/801.yaml[]
+----
+
+==== See Also
+
+https://github.com/kiali/kiali/blob/master/business/checkers/authorization/from_namespace_checker.go[Validator source code, window="_blank"] +
+https://istio.io/docs/reference/config/security/authorization-policy[Istio documentation, window="_blank"] +
+https://istio.io/docs/reference/config/security/authorization-policy/#Source[Definition of a source, window="_blank"]
 
 [#generic]
 
