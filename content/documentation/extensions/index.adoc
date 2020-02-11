@@ -91,7 +91,7 @@ image::handlers_go.png[Handlers package]
 
 Update new routes for the Extension handlers.
 
-image::handlers_go.png[Kiali Routes.go]
+image::routes_go.png[Kiali Routes.go]
 {nbsp}
 
 icon:lightbulb[size=1x]{nbsp}Update swagger doc for the new routes. Otherwise Kiali CI prevents merging code without proper documentation.
