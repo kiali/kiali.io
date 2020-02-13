@@ -697,6 +697,65 @@ include::/data/files/validation_examples/601.yaml[]
 https://github.com/kiali/kiali/blob/master/business/checkers/authorization/service_binding_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/reference/config/authorization/istio.rbac.v1alpha1/#ServiceRoleBinding[Istio documentation, window="_blank"]
 
+[#authorizationpolicies]
+:numbered:
+== AuthorizationPolicy
+
+=== Namespace not found for this rule
+:numbered!:
+
+AuthorizationPolicy enables access control on workloads. Each policy effects only to a group of request. For instance, all requests started from a workload on a list of namespaces.
+The present validation points out those rules referencing a namespace that don't exist in the cluster.
+
+==== Resolution
+
+Either remove the namespace from the list, correct if there is any typo or create a new namespace.
+
+==== Severity
+
+icon:exclamation-triangle[] Warning
+
+==== Example
+
+[source, yaml]
+----
+include::/data/files/validation_examples/801.yaml[]
+----
+
+==== See Also
+
+https://github.com/kiali/kiali/blob/master/business/checkers/authorization/from_namespace_checker.go[Validator source code, window="_blank"] +
+https://istio.io/docs/reference/config/security/authorization-policy[Istio documentation, window="_blank"] +
+https://istio.io/docs/reference/config/security/authorization-policy/#Source[Definition of a source, window="_blank"]
+
+'''
+
+:numbered:
+=== Only HTTP methods and fully-qualified gRPC names are allowed
+:numbered!:
+
+An AuthorizationPolicy has an Operation field where is defined the oprations allowed for a request. In the method field are listed all the allowed methods that request can have.
+This validations appears when a problem is found in there. The only methods accepted are: either HTTP valid methods or fully-qualified names of gRPC service in the form of "/package.service/method"
+
+==== Resolution
+
+Either change or remove the violating method. It has to be either a HTTP valid method or a fully-qualified names of a gRPC service in the form of "/package.service/method"
+
+==== Severity
+
+icon:exclamation-triangle[] Warning
+
+==== Example
+
+[source, yaml]
+----
+include::/data/files/validation_examples/802.yaml[]
+----
+
+==== See Also
+
+https://github.com/kiali/kiali/blob/master/business/checkers/authorization/service_binding_checker.go[Validator source code, window="_blank"] +
+https://istio.io/docs/reference/config/authorization/istio.rbac.v1alpha1/#ServiceRoleBinding[Istio documentation, window="_blank"]
 
 [#generic]
 
