@@ -701,6 +701,35 @@ https://istio.io/docs/reference/config/authorization/istio.rbac.v1alpha1/#Servic
 :numbered:
 == AuthorizationPolicy
 
+=== No matching workload found for authorization policy selector in this namespace
+:numbered!:
+
+The selector field decides where to apply the rules of the authorization policy. The validation appears when the labels specified don't match with any workload listed in the same namespace. Cross-namespace validations are not supported.
+
+==== Resolution
+
+Make sure you have at least a workload that its labels matches with the selector labels of the Authorization Policy.
+
+==== Severity
+
+icon:exclamation-triangle[] Warning
+
+==== Example
+
+[source, yaml]
+----
+include::/data/files/validation_examples/803.yaml[]
+----
+
+==== See Also
+
+https://github.com/kiali/kiali/blob/master/business/checkers/authorization/workload_selector_checker.go[Validator source code, window="_blank"] +
+https://istio.io/docs/reference/config/security/authorization-policy/#AuthorizationPolicy[Istio documentation, window="_blank"] +
+https://istio.io/docs/reference/config/security/authorization-policy/#istio-type-v1beta1-WorkloadSelector[WorkloadSelector documentation, window="_blank"]
+
+'''
+
+:numbered:
 === Namespace not found for this rule
 :numbered!:
 
@@ -724,7 +753,7 @@ include::/data/files/validation_examples/801.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/blob/master/business/checkers/authorization/from_namespace_checker.go[Validator source code, window="_blank"] +
+https://github.com/kiali/kiali/blob/master/business/checkers/authorization/namespace_method_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/reference/config/security/authorization-policy[Istio documentation, window="_blank"] +
 https://istio.io/docs/reference/config/security/authorization-policy/#Source[Definition of a source, window="_blank"]
 
