@@ -43,7 +43,7 @@ include::/data/files/validation_examples/201.yaml[]
 ==== See Also
 
 https://github.com/kiali/kiali/tree/master/business/checkers/gateways/multi_match_checker.go[Validator source code, window=_blank] +
-https://istio.io/docs/reference/config/istio.networking.v1alpha3/#Gateway[Istio Gateway documentation, window=_blank]
+https://istio.io/docs/reference/config/networking/gateway/[Istio Gateway documentation, window=_blank]
 
 '''
 
@@ -106,8 +106,8 @@ include::/data/files/validation_examples/001.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/master/business/checkers/destination_rules/multi_match_checker.go[Validator source code, window="_blank"] +
-https://istio.io/docs/reference/config/istio.networking.v1alpha3/#DestinationRule[Destination rule documentation, window="_blank"] +
+https://github.com/kiali/kiali/tree/master/business/checkers/destinationrules/multi_match_checker.go[Validator source code, window="_blank"] +
+https://istio.io/docs/reference/config/networking/destination-rule/#DestinationRule[Destination rule documentation, window="_blank"] +
 https://github.com/istio/istio/blob/0e9cecab053aab744a7c3a731aacb07fd794d5f9/pilot/pkg/model/push_context.go#L879[Istio source code for merging, window="_blank"] +
 https://istio.io/help/ops/traffic-management/deploy-guidelines/#multiple-virtual-services-and-destination-rules-for-the-same-host[Istio documentation: Multiple virtual services and destination rules for the same host, window="_blank"]
 
@@ -138,8 +138,8 @@ include::/data/files/validation_examples/002.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/master/business/checkers/destination_rules/no_host_checker.go[Validator source code, window="_blank"] +
-https://istio.io/docs/reference/config/istio.networking.v1alpha3/#DestinationRule[Destination rule documentation, window="_blank"]
+https://github.com/kiali/kiali/tree/master/business/checkers/destinationrules/no_dest_checker.go[Validator source code, window="_blank"] +
+https://istio.io/docs/reference/config/networking/destination-rule/#DestinationRule[Destination rule documentation, window="_blank"] +
 
 '''
 
@@ -172,8 +172,8 @@ include::/data/files/validation_examples/003.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/master/business/checkers/destination_rules/no_host_checker.go[Validator source code, window="_blank"] +
-https://istio.io/docs/reference/config/istio.networking.v1alpha3/#DestinationRule[Destination rule documentation, window="_blank"]
+https://github.com/kiali/kiali/tree/master/business/checkers/destinationrules/no_dest_checker.go[Validator source code, window="_blank"] +
+https://istio.io/docs/reference/config/networking/destination-rule/#DestinationRule[Destination rule documentation, window="_blank"] +
 
 '''
 
@@ -256,7 +256,7 @@ include::/data/files/validation_examples/006.yaml[]
 ----
 
 ==== See Also
-https://github.com/kiali/kiali/tree/master/business/checkers/destinationrules/namespaceswide_mtls_checker.go[Validator source code, window="_blank"] +
+https://github.com/kiali/kiali/blob/master/business/checkers/destinationrules/namespacewide_mtls_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/tasks/security/authn-policy/#enable-mutual-tls-per-namespace-or-service[Enabling Istio mutual TLS per namespace, window="_blank"]
 
 '''
@@ -346,7 +346,7 @@ include::/data/files/validation_examples/102.yaml[]
 ==== See Also
 
 https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/no_host_checker.go[Validator source code, window="_blank"] +
-https://istio.io/docs/reference/config/istio.networking.v1alpha3/#Destination[Destination documentation, window="_blank"]
+https://istio.io/docs/reference/config/networking/destination-rule/#DestinationRule[Destination rule documentation, window="_blank"] +
 
 '''
 
@@ -401,7 +401,7 @@ include::/data/files/validation_examples/105.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/subset_presence_checker.go[source code, window="_blank"]
+https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/subset_presence_checker.go[Validator source code, window="_blank"]
 
 :numbered:
 === VirtualService doesn't define any route protocol
@@ -543,7 +543,7 @@ include::/data/files/validation_examples/701.yaml[]
 ==== See Also
 
 https://github.com/kiali/kiali/blob/master/business/checkers/services/port_mapping_checker.go[Validator source code, window="_blank"] +
-https://github.com/istio/istio.io/blob/master/content/help/faq/traffic-management/naming-port-convention.md[Istio documentation port naming convention, window="_blank"]
+https://istio.io/docs/ops/deployment/requirements[Istio documentation port naming convention, window="_blank"]
 
 '''
 
