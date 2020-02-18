@@ -44,7 +44,7 @@ icon:bullhorn[size=2x]{nbsp} If you use the Kiali operator (recommended), this c
 
 === External URL
 
-Configuring an external URL for Jaeger will enable more links from Kiali to Jaeger UI. This URL needs to be accessible from the browser (it's used for links generation). Example:
+Configuring an external URL for Jaeger will enable links from Kiali to Jaeger UI. This URL needs to be accessible from the browser (it's used for links generation). Example:
 
 ```yaml
   external_services:
