@@ -57,7 +57,7 @@ Configuring an external URL for Jaeger will enable more links from Kiali to Jaeg
       url: 'http://my-jaeger-host'
 ```
 
-Once the url setting is set on the Kiali CR, Kiali will show...
+Once this URL is set, Kiali will show an additional item to the main menu:
 
 image::menu_external_link.png[Distributed Tracing View]
 
