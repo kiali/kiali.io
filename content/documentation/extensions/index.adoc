@@ -142,7 +142,7 @@ And add logic to enable the Extension in Kiali Menu and RenderPage component:
 image::enable_extension_menu.png[Enable Extension Menu]
 {nbsp}
 
-image::render_page.png[RenderPage Componet]
+image::render_page.png[RenderPage Component]
 {nbsp}
 
 === Augment Kiali Features
@@ -155,7 +155,6 @@ image::extension_call.png[Conditional Extension Call]
 
 Kiali is an active project and is constantly evolving.
 Adding a new Extension may trigger the need to refactor existing code in order to accommodate new use cases, or provide a more robust abstraction. Do not hesitate to contact a Kiali maintainer with your proposal! It will help to understand the scenario and how we can coordinate best to include your work.
-
 
 
 
