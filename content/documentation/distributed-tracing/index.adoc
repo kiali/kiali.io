@@ -41,7 +41,6 @@ icon:bullhorn[size=2x]{nbsp} If you use the Kiali operator (recommended), this c
 
 
 
-image::trace_view_jaeger.png[Trace View]
 
 === External URL
 
