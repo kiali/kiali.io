@@ -28,7 +28,7 @@ Kiali shows tracing of your applications. We currently support link:https://www.
 
 === In cluster URL
 
-In order to fetch data from Jaeger, Kiali needs to get an URL that can be resolved from inside the cluster, typically using Kubernetes DNS. This is the in_cluster_url configuration. For instance, for a Jaeger service named `tracing` within `istio-system` namespace, Kiali config would be:
+In order to fetch data from Jaeger, Kiali needs to get an URL that can be resolved from inside the cluster, typically using Kubernetes DNS. This is the `in_cluster_url` configuration. For instance, for a Jaeger service named `tracing` within `istio-system` namespace, Kiali config would be:
 
 ```yaml
   external_services:
