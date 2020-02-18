@@ -43,7 +43,7 @@ icon:bullhorn[size=2x]{nbsp} If you use the Kiali operator (recommended), this c
 
 image::trace_view_jaeger.png[Trace View]
 
-== External URL
+=== External URL
 
 Configuring an external URL for Jaeger will enable more links from Kiali to Jaeger UI. This URL needs to be accessible from the browser (it's used for links generation). Example:
 
