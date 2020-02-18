@@ -80,7 +80,7 @@ image::trace_view_jaeger.png[Trace View]
 
 == Tracing Toolbar
 
-Kiali has a toolbar to control this feature to facilitate the user experience with the tracing service. When we go to the tracing view we'll a form as the image below where we can select the traces interval, results limit, status code, errors, adjust time (expand results on time), last Xm traffic (Traces from last minutes) and refresh time.
+The tracing toolbar offers some control over the data to fetch, to facilitate the user experience. In the tracing view, as shown in the image below, it's possible to select the traces interval, results limit, status code, errors, adjust time (expand results on time), last Xm traffic (Traces from last minutes) and refresh interval.
 
 image::form.png[Form Tracing View]
 
