@@ -87,7 +87,7 @@ image::form.png[Form Tracing View]
 
 === Tracing Results
 
-When user select a trace kiali shows the information related to that trace like number of spans, spans grouped by operation name, duration, date...
+After selecting a trace, Kiali shows the information related to that trace like number of spans, spans grouped by operation name, duration, date...
 
 image::kiali_trace.png[Trace view]
 
