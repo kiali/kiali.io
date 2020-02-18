@@ -40,7 +40,6 @@ icon:bullhorn[size=2x]{nbsp} If you use the Kiali operator (recommended), this c
 
 
 
-We can interact with the jaeger UI with the external links, for example "View Trace in Tracing" goes to the Jaeger UI trace view.
 
 image::trace_view_jaeger.png[Trace View]
 
