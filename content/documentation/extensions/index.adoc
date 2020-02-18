@@ -137,9 +137,12 @@ Add Extension Menu Items and Routes:
 image::extension_menu.png[Extension Menu and Routes]
 {nbsp}
 
-And add logic to enable the Extension in Kiali Menu:
+And add logic to enable the Extension in Kiali Menu and RenderPage component:
 
 image::enable_extension_menu.png[Enable Extension Menu]
+{nbsp}
+
+image::render_page.png[RenderPage Componet]
 {nbsp}
 
 === Augment Kiali Features
