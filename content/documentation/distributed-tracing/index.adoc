@@ -20,7 +20,7 @@ toc::[]
 
 
 
-Kiali shows tracing of your applications. We currently support Jaeger version 1.9 and newer (link:https://www.jaegertracing.io[Read docs, window="_blank"]).
+Kiali shows tracing of your applications. We currently support link:https://www.jaegertracing.io[Jaeger, window="_blank"] version 1.9 and newer.
 
 In most cases, the traces integration in Kiali should be enabled by default without any specific configuration. Kiali will look for the `istio-tracing` service in namespace `istio-system`. However if your setup differs from this default, you would have to provide a specific configuration.
 
