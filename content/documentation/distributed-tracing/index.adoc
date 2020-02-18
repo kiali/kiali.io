@@ -39,7 +39,6 @@ In order to fetch data from Jaeger, Kiali needs to get an URL that can be resolv
 icon:bullhorn[size=2x]{nbsp} If you use the Kiali operator (recommended), this config can be set in the Kiali CR. But in most cases, the Kiali operator will set a valid default `in_cluster_url` so you wouldn't have to change anything. If you don't use the Kiali operator, this config can be set in Kiali config map.
 
 
-image::service_traces_tab.png[Service View]
 
 We can interact with the jaeger UI with the external links, for example "View Trace in Tracing" goes to the Jaeger UI trace view.
 
