@@ -102,6 +102,34 @@ https://istio.io/docs/reference/config/security/authorization-policy/#istio-type
 
 '''
 
+=== KIA0104 - This host has no matching entry in the service registry
+
+AuthorizationPolicy enables access control on workloads. Each policy effects only to a group of request going to a specific destination. For instance, allow all the request going to `details` host.
+
+The present validation points out those rules referencing a host that don't exist in the authorization policy namespace. Kiali considers services and service entries.
+Those hosts that refers to hosts outside of the object namespace will be presented with an unknow error.
+
+==== Resolution
+
+Either remove the host from the list, correct if there is any typo or deploy a new service or service entry.
+
+==== Severity
+
+icon:exclamation-triangle[] Error
+
+==== Example
+
+[source, yaml]
+----
+include::/data/files/validation_examples/804.yaml[]
+----
+
+==== See Also
+
+https://github.com/kiali/kiali/blob/master/business/checkers/authorization/no_host_checker.go[Validator source code, window="_blank"] +
+https://istio.io/docs/reference/config/security/authorization-policy[AuthorizationPolicy documentation, window="_blank"] +
+https://istio.io/docs/reference/config/security/authorization-policy/#Operation[Definition of the operations field, window="_blank"] +
+https://istio.io/docs/ops/deployment/requirements[Service association requirement, window="_blank"]
 
 [#destinationrules]
 == Destination rules

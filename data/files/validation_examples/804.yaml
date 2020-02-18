@@ -1,0 +1,37 @@
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+ name: httpbin
+ namespace: default
+spec:
+ selector:
+   matchLabels:
+     app: httpbin
+     version: v1
+ rules:
+ - from:
+   - source:
+       principals: ["cluster.local/ns/default/sa/sleep"]
+   - source:
+       namespaces:
+         - default
+   to:
+   - operation:
+       hosts:
+         - wrong # Error
+         - ratings
+         - details.default
+         - reviews.default.svc.cluster.local
+         - productpage.outside # Unknown
+         - google.com # Service Entry present. No error
+         - google.org # Service Entry not present, wrong domain. Error.
+       methods:
+         - "GET"
+         - "/package.service/method"
+       paths: ["/info*"]
+   - operation:
+       methods: ["POST"]
+       paths: ["/data"]
+   when:
+   - key: request.auth.claims[iss]
+     values: ["https://accounts.google.com"]
