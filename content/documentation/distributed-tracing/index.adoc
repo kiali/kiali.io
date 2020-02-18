@@ -19,7 +19,6 @@ toc::[]
 :imagesdir: /images/documentation/tracing/
 
 
-== Distributed Tracing
 
 Kiali shows tracing of your applications. We currently support Jaeger version 1.9 and newer (link:https://www.jaegertracing.io[Read docs, window="_blank"]).
 
@@ -87,4 +86,3 @@ image::kiali_trace.png[Trace view]
 In each span, tags and process are displayed.
 
 image::span_view.png[Span view]
-
