@@ -50,7 +50,7 @@ Configuring an external URL for Jaeger will enable links from Kiali to Jaeger UI
   external_services:
     tracing:
       in_cluster_url: 'http://tracing.istio-system/jaeger'
-      url: 'http://my-jaeger-host'
+      url: 'http://my-jaeger-host/jaeger'
 ```
 
 Once this URL is set, Kiali will show an additional item to the main menu:
