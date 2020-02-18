@@ -68,6 +68,16 @@ icon:bullhorn[size=2x]{nbsp} You may have `url` configured and not `in_cluster_u
 For advanced configuration on Jaeger integration, please refer to link:https://github.com/kiali/kiali/blob/c78f195fcbe214e56a918d616ed2f241be24c968/operator/deploy/kiali/kiali_cr.yaml#L433-L470[the Kiali CR description, window="_blank"]. It is relevant for config map as well, if you don't use the Kiali operator.
 
 
+== Tracing View
+
+The tracing view is accessible if the in-cluster URL is correctly configured. Each service page will show the Traces tab where a scatter plot is displayed with its related traces.
+
+image::service_traces_tab.png[Service View]
+
+Kiali allows interactions with Jaeger UI via external links: For example, "View Trace in Tracing" goes to the Jaeger UI trace view.
+
+image::trace_view_jaeger.png[Trace View]
+
 == Tracing Toolbar
 
 Kiali has a toolbar to control this feature to facilitate the user experience with the tracing service. When we go to the tracing view we'll a form as the image below where we can select the traces interval, results limit, status code, errors, adjust time (expand results on time), last Xm traffic (Traces from last minutes) and refresh time.
