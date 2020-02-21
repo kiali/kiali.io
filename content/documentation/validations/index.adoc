@@ -250,7 +250,6 @@ https://istio.io/docs/tasks/security/authn-policy/#globally-enabling-istio-mutua
 
 '''
 
-
 === KIA0206 - Policy enabling namespace-wide mTLS is missing
 
 Istio has the ability to define mTLS communications at namespace level. In order to do that, Istio needs both a DestinationRule and a Policy targeting all the clients/workloads of the specific namespace. The policy allows mTLS authentication method for all the workloads within a namespace. The DestinationRule defines all the clients within the namespace to start communications in mTLS mode.
@@ -328,6 +327,57 @@ https://github.com/kiali/kiali/tree/master/business/checkers/destinationrules/di
 https://istio.io/docs/tasks/security/authn-policy/#globally-enabling-istio-mutual-tls[Globally enabling Istio mutual TLS, window="_blank"]
 
 '''
+
+=== KIA0209 - ServiceMeshPolicy enabling mTLS is missing
+
+Maistra has the ability to define mTLS communications at mesh level. In order to do that, Istio needs one DestinationRule and one ServiceMeshPolicy. The DestinationRule configures all the clients of the mesh to use mTLS protocol on their connections. The ServiceMeshPolicy defines what authentication methods can be accepted on the workload of the whole mesh.
+If the ServiceMeshPolicy is not found or doesn't exist and the mesh-wide DestinationRule is on ISTIO_MUTUAL mode, all the communication returns 500 errors.
+
+==== Resolution
+Add a ServiceMeshPolicy named as default without specifying targets but setting peers mtls mode to STRICT or PERMISSIVE. The ServiceMeshPolicy should be like link:/data/files/validation_examples/401.yaml[this, window="_blank"].
+
+==== Severity
+
+icon:times-circle[] Error
+
+==== Example
+
+[source, yaml]
+----
+include::/data/files/validation_examples/004.yaml[]
+----
+
+==== See Also
+
+https://github.com/kiali/kiali/tree/master/business/checkers/destinationrules/meshwide_mtls_checker.go[Validator source code, window="_blank"] +
+https://maistra.io/docs/examples/mesh-wide_mtls[Globally enabling Istio mutual TLS, window="_blank"]
+
+'''
+
+=== KIA0210 - ServiceMeshPolicy enabling mTLS found, permissive policy is needed
+
+Maistra needs both a DestinationRule and Policy to enable mTLS communications. The policy configures the authentication method accepted for all the targeted workloads. The DestinationRule defines which is the authentication method that the clients of specific workloads has to start communications with.
+
+Kiali found a DestinationRule starting communications without TLS but there was a ServiceMeshPolicy allowing services to accept only requests in mTLS.
+
+==== Resolution
+There are two ways to fix this situation. You can either change the ServiceMeshPolicy to enable PERMISSIVE mode to all the workloads in the mesh or change the DestinatonRule to enable mTLS instead of disabling it (change the mode to ISTIO_MUTUAL).
+
+==== Severity
+
+icon:times-circle[] Error
+
+==== Example
+
+[source, yaml]
+----
+include::/data/files/validation_examples/009.yaml[]
+----
+
+==== See Also
+
+https://github.com/kiali/kiali/tree/master/business/checkers/destinationrules/disabled_namespacewide_mtls_checker.go[Validator source code, window="_blank"] +
+https://istio.io/docs/tasks/security/authn-policy/#globally-enabling-istio-mutual-tls[Globally enabling Istio mutual TLS, window="_blank"]
 
 [#gateways]
 == Gateways
@@ -411,6 +461,34 @@ include::/data/files/validation_examples/401.yaml[]
 https://github.com/kiali/kiali/tree/master/business/checkers/meshpolicies/mesh_mtls_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/tasks/security/authn-policy/#globally-enabling-istio-mutual-tls[Globally enabling Istio mutual TLS, window="_blank"]
 
+[#policies]
+== Policies
+
+=== KIA0501 - Destination Rule enabling namespace-wide mTLS is missing
+
+Istio has the ability to define mTLS communications at namespace level. In order to do that, Istio needs one DestinationRule and one Policy. The DestinationRule configures all the clients of the namespace to use mTLS protocol on their connections. The Policy defines what authentication methods can be accepted on a specific group of workloads. Policies without target field specified will target all the workloads within its namespace.
+If the DestinationRule is not found or doesn't exist in the namespace and the namespace-wide Policy is on STRICT mode, all the communication will return 500 errors.
+
+==== Resolution
+Add a DestinationRule with "*.namespace.svc.cluster.local" host and ISTIO_MUTUAL as tls trafficPolicy mode. The DestinationRule should be like link:https://github.com/kiali/kiali.io/blob/master/data/files/validation_examples/006.yaml[this, window="_blank"].
+
+==== Severity
+
+icon:times-circle[] Error
+
+==== Example
+
+[source, yaml]
+----
+include::/data/files/validation_examples/301.yaml[]
+----
+
+==== See Also
+
+https://github.com/kiali/kiali/tree/master/business/checkers/policies/namespace_mtls_checker.go[Validator source code, window="_blank"] +
+https://istio.io/docs/tasks/security/authentication/authn-policy/#enable-mutual-tls-per-namespace-or-service[Enabling Istio mutual TLS namespace-wide, window="_blank"]
+
+
 [#ports]
 == Ports
 
@@ -473,6 +551,34 @@ include::/data/files/validation_examples/703.yaml[]
 
 https://github.com/kiali/kiali/blob/master/business/checkers/services/port_mapping_checker.go[Validator source code, window="_blank"] +
 https://kubernetes.io/docs/concepts/services-networking/service/#defining-a-service[Kubernetes services, window="_blank"]
+
+[#servicemeshpolicies]
+== ServiceMesh Policies
+
+=== KIA0801 - Mesh-wide Destination Rule enabling mTLS is missing
+
+Maistra has the ability to define mTLS communications at mesh level. In order to do that, Maistra needs one DestinationRule and one ServiceMeshPolicy. The DestinationRule configures all the clients of the mesh to use mTLS protocol on their connections. The ServiceMeshPolicy defines what authentication methods can be accepted on the workload of the whole mesh.
+If the DestinationRule is not found or doesn't exist and the ServiceMeshPolicy is on STRICT mode, all the communication returns 500 errors.
+
+==== Resolution
+Add a DestinationRule named as default with "*.cluster" host and ISTIO_MUTUAL as tls trafficPolicy mode. The DestinationRule should be like link:https://github.com/kiali/kiali.io/blob/master/data/files/validation_examples/004.yaml[this, window="_blank"].
+
+==== Severity
+
+icon:times-circle[] Error
+
+==== Example
+
+[source, yaml]
+----
+include::/data/files/validation_examples/402.yaml[]
+----
+
+==== See Also
+
+https://github.com/kiali/kiali/tree/master/business/checkers/meshpolicies/mesh_mtls_checker.go[Validator source code, window="_blank"] +
+https://maistra.io/docs/examples/mesh-wide_mtls[Globally enabling Istio mutual TLS, window="_blank"]
+
 
 [#serviceroles]
 == ServiceRoles and ServiceRoleBindings

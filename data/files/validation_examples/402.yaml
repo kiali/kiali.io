@@ -1,0 +1,8 @@
+apiVersion: "maistra.io/v1"
+kind: "ServiceMeshPolicy"
+metadata:
+  name: default
+  namespace: control-plane-ns
+spec:
+  peers:
+  - mtls: {}
