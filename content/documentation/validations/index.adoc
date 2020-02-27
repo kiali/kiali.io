@@ -51,7 +51,7 @@ https://istio.io/docs/reference/config/security/authorization-policy/#Source[Def
 === KIA0102 - Only HTTP methods and fully-qualified gRPC names are allowed
 
 An AuthorizationPolicy has an Operation field where is defined the oprations allowed for a request. In the method field are listed all the allowed methods that request can have.
-This validations appears when a problem is found in there. The only methods accepted are: either HTTP valid methods or fully-qualified names of gRPC service in the form of "/package.service/method"
+This validation appears when a problem is found in there. The only methods accepted are: either HTTP valid methods or fully-qualified names of gRPC service in the form of "/package.service/method"
 
 ==== Resolution
 
@@ -331,7 +331,7 @@ https://istio.io/docs/tasks/security/authn-policy/#globally-enabling-istio-mutua
 === KIA0209 - ServiceMeshPolicy enabling mTLS is missing
 
 Maistra has the ability to define mTLS communications at mesh level. In order to do that, Istio needs one DestinationRule and one ServiceMeshPolicy. The DestinationRule configures all the clients of the mesh to use mTLS protocol on their connections. The ServiceMeshPolicy defines what authentication methods can be accepted on the workload of the whole mesh.
-If the ServiceMeshPolicy is not found or doesn't exist and the mesh-wide DestinationRule is on ISTIO_MUTUAL mode, all the communication returns 500 errors.
+If the ServiceMeshPolicy is not found at control plane namespace or doesn't exist and the mesh-wide DestinationRule is on ISTIO_MUTUAL mode, all the communication returns 500 errors.
 
 ==== Resolution
 Add a ServiceMeshPolicy named as default without specifying targets but setting peers mtls mode to STRICT or PERMISSIVE. The ServiceMeshPolicy should be like link:/data/files/validation_examples/401.yaml[this, window="_blank"].
