@@ -103,13 +103,14 @@ icon:bullhorn[size=1x]{nbsp} It is only necessary to install the Kiali Operator 
 
 === Quick Install
 
-This option installs the Kiali Operator and the Kiali CR with default options. This strategy is helpful when the namespaces to be monitored already exist.
+This option installs the Kiali Operator and the Kiali CR with default options. If you are running with an https://github.com/istio/istio/releases[upstream Istio release], you will probably want to pass in _--accessible_names="**"_ since that is the typical way Kiali is expected to run within an upstream Istio environment.
+
 
 When the Kiali CR is created it triggers the operator to then install Kiali. Kiali is able to access existing namespaces, but it required a CR update to access future namespaces. See link:#_namespace_management[Namespace Management] for more information. Run the install script via this command:
 
 [source,bash]
 ----
-  bash <(curl -L https://git.io/getLatestKialiOperator)
+  bash <(curl -L https://git.io/getLatestKialiOperator) --accessible-namespaces '**'
 ----
 
 
@@ -121,9 +122,10 @@ When the Kiali CR is created it triggers the operator to then install Kiali. Run
 
 [source,bash]
 ----
-  bash <(curl -L https://git.io/getLatestKialiOperator) --accessible-namespaces '**'
+  bash <(curl -L https://git.io/getLatestKialiOperator) --accessible-namespaces '**' -oiv latest -kiv latest
 ----
 
+icon:bullhorn[size=1x]{nbsp} The above options install the _latest_ operator and Kiali from stable master.
 
 === Advanced Install (Operator-Only)
 
