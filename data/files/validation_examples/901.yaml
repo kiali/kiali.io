@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Sidecar
+metadata:
+  name: notmatching
+  namespace: default
+spec:
+  workloadSelector:
+    labels:
+      app: WRONGLABEL # No workloads with this label
+  egress:
+  - port:
+      number: 3306
+      protocol: MYSQL
+      name: egressmysql
+    captureMode: NONE
+    bind: 127.0.0.1
+    hosts:
+    - "*/mysql.foo.com"
+

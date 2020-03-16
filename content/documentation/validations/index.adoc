@@ -687,10 +687,156 @@ include::/data/files/validation_examples/601.yaml[]
 https://github.com/kiali/kiali/blob/master/business/checkers/authorization/service_binding_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/reference/config/authorization/istio.rbac.v1alpha1/#ServiceRoleBinding[Istio documentation, window="_blank"]
 
+[#sidecars]
+== Sidecars
+
+=== KIA1001 - No matching workload found for the sidecar selector in this namespace
+
+The Sidecar resources are used for configuring the sidecar proxies in the service mesh. This resource is aimed to target either specific workloads, all workloads in a namespace or all the sidecars of the service mesh. Each Sidecar resource living in a namespace (except the one living in the control plane namespace) effects only to the workloads in the same namespace.
+
+This validation refers to the scenario where there aren't workloads matching the labels specified into the sidecar's `workloadSelector` field. Therefore, all the settings defined within the sidecar resource won't be applied to any workload in the mesh.
+
+==== Resolution
+
+The validation will be gone when there is at least one workload matching the labels set in the `workloadSelector` field. The workload must be in the same namespace of the sidecar resource.
+
+==== Severity
+
+icon:exclamation-triangle[] Warning
+
+==== Example
+
+[source, yaml]
+----
+include::/data/files/validation_examples/901.yaml[]
+----
+
+==== See Also
+
+https://github.com/kiali/kiali/tree/master/business/checkers/sidecars/workload_selector_checker.go[Validator source code, window="_blank"] +
+https://istio.io/docs/reference/config/networking/sidecar/[Sidecar documentation, window="_blank"] +
+
+'''
+
+=== KIA1002 - More than one selector-less Sidecar in the same namespace
+
+The Sidecar resources are used for configuring the sidecar proxies in the service mesh. This resource is aimed to target either specific workloads, all workloads in a namespace or all the sidecars of the service mesh. Each Sidecar resource living in a namespace (except the one living in the control plane namespace) effects only to the workloads in the same namespace.
+
+Selector-less sidecars are those sidecars that doesn't have the `workloadSelector` field and thus they are pointing to all workloads running in the same namespace.
+Therefore, this validation refers to the scenario where there are more than one sidecar targetting to all workloads of the namespace. According to Istio documentation the behavior of the mesh is undefined when this scenario is presented.
+
+==== Resolution
+
+Make sure that all that there is only one selector-less sidecar in the namespace. Three possible solutions are suggested: merging selector-less sidecars into one, adding selectors to existing selector-less sidecars or removing selector-less sidecars.
+
+==== Severity
+
+icon:times-circle[] Error
+
+==== Example
+
+[source, yaml]
+----
+include::/data/files/validation_examples/902.yaml[]
+----
+
+==== See Also
+
+https://github.com/kiali/kiali/tree/master/business/checkers/sidecars/multi_match_checker.go[Validator source code, window="_blank"] +
+https://istio.io/docs/reference/config/networking/sidecar/[Sidecar documentation, window="_blank"] +
+
+'''
+
+=== KIA1003 - Invalid host format. 'namespace/dnsName' format expected
+
+The Sidecar resources are used for configuring the sidecar proxies in the service mesh. IstioEgressListener specifies the properties of an outbound traffic listener on the sidecar proxy attached to a workload instance.
+
+In the host field, there is the list of hosts exposed to the workload. Each host in the list must have the `namespace/dnsName` format.
+
+
+==== Resolution
+
+Make sure the host has the `namespace/dnsName` format. See more info in the documentation link right below.
+
+==== Severity
+
+icon:times-circle[] Error
+
+==== Example
+
+[source, yaml]
+----
+include::/data/files/validation_examples/903.yaml[]
+----
+
+==== See Also
+
+https://github.com/kiali/kiali/tree/master/business/checkers/sidecars/egress_listener_checker.go[Validator source code, window="_blank"] +
+https://istio.io/docs/reference/config/networking/sidecar/#IstioEgressListener[Sidecar EgressListener documentation, window="_blank"] +
+
+'''
+
+=== KIA1004 - This host has no matching entry in the service registry
+
+The Sidecar resources are used for configuring the sidecar proxies in the service mesh. IstioEgressListener specifies the properties of an outbound traffic listener on the sidecar proxy attached to a workload instance.
+
+In the hosts field, there is the list of hosts exposed to the workload. Each host in the list have the `namespace/dnsName` format where both namespace and dnsName may have non-obvious values. `namespace` may be either `.`, `~`, `*` or an actual namespace name. `dnsName` has to be a FQDN representing a service, virtual service or a service entry. This FQDN may use the wildcard character.
+
+See more information about the syntax of both `namespace` and `dnsName` into https://istio.io/docs/reference/config/networking/sidecar/#IstioEgressListener[istio documentation].
+
+
+==== Resolution
+
+Make sure there is a service, virtual service or service entry matching with the host.
+
+==== Severity
+
+icon:exclamation-triangle[] Warning
+
+==== Example
+
+[source, yaml]
+----
+include::/data/files/validation_examples/904.yaml[]
+----
+
+==== See Also
+
+https://github.com/kiali/kiali/tree/master/business/checkers/sidecars/egress_listener_checker.go[Validator source code, window="_blank"] +
+https://istio.io/docs/reference/config/networking/sidecar/#IstioEgressListener[Sidecar EgressListener documentation, window="_blank"] +
+
+'''
+
+=== KIA1005 - More than one Sidecar applied to the same workload
+
+The Sidecar resources are used for configuring the sidecar proxies in the service mesh. The `workloadSelector` field is the set of labels that selects which workloads' sidecars this resource will be applied to.
+
+The behavior of the system is undefined if two or more Sidecar configurations with a workloadSelector select the same workload instance. It means that Istio undeterministicly applies one sidecar or another to a set of workloads. This scenario is very unlikely and it should be prevented.
+
+==== Resolution
+
+Make sure the labels for the sidecar are applying to a unique set of workloads. Ensure that other sidecars in the namespace are not targetting workloads targetted in this sidecar.
+
+==== Severity
+
+icon:times-circle[] Error
+
+==== Example
+
+[source, yaml]
+----
+include::/data/files/validation_examples/905.yaml[]
+----
+
+==== See Also
+
+https://github.com/kiali/kiali/tree/master/business/checkers/sidecars/multi_match_checker.go[Validator source code, window="_blank"] +
+https://istio.io/docs/reference/config/networking/sidecar[Sidecar documentation: first warning, window="_blank"] +
+
 [#virtualservices]
 == VirtualServices
 
-=== KIA1001 - DestinationWeight on route doesn't have a valid service (host not found)
+=== KIA1101 - DestinationWeight on route doesn't have a valid service (host not found)
 
 VirtualService routes matching requests to a service inside your mesh. Routing can also match a subset of traffic to a certain version of it for example. Any service inside the mesh must be targeted by its name, the IP address are only allowed for hosts defined through a Gateway. Host must be in a short name or FQDN format. Short name will evaluate to VS' namespace, regardless of where the actual service might be placed.
 
@@ -718,7 +864,7 @@ https://istio.io/docs/reference/config/networking/destination-rule/#DestinationR
 
 '''
 
-=== KIA1002 - VirtualService is pointing to a non-existent gateway
+=== KIA1102 - VirtualService is pointing to a non-existent gateway
 
 By default, VirtualService routes apply to sidecars inside the mesh. The gateway field allows to override that default and if anything is defined, the VS applies to those selected. 'mesh' is a reserved gateway name and means all the sidecars in the mesh. If one wishes to apply the VS to gateways as well as the sidecars, the 'mesh' keyword must be used as one of the gateways. Incorrect gateways mean that the VS is not applied correctly.
 
@@ -743,7 +889,7 @@ https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/no
 
 '''
 
-=== KIA1003 - VirtualService doesn't define any route protocol
+=== KIA1103 - VirtualService doesn't define any route protocol
 
 VirtualService is a defined set of rules for routing certain type of traffic to target destinations with rules. At least one, 'tcp', 'http' or 'tls' must be defined.
 
@@ -769,7 +915,7 @@ https://github.com/kiali/kiali/blob/master/business/checkers/virtual_services/no
 
 '''
 
-=== KIA1004 - The weight is assumed to be 100 because there is only one route destination
+=== KIA1104 - The weight is assumed to be 100 because there is only one route destination
 
 Istio assumes the weight to be 100 when there is only one https://istio.io/docs/reference/config/networking/virtual-service/#HTTPRouteDestination[HTTPRouteDestination] or https://istio.io/docs/reference/config/networking/virtual-service/#RouteDestination[RouteDestination]. The warning is present because there is one route with a weight less than 100.
 
@@ -796,7 +942,7 @@ https://github.com/kiali/kiali/blob/master/business/checkers/virtual_services/ro
 '''
 
 
-=== KIA1005 - This subset is already referenced in another route destination
+=== KIA1105 - This subset is already referenced in another route destination
 
 Istio allows you to apply rules over the traffic targetting to a specific service. In order to achieve that, it is necessary to add those rules into either _http_, _tcp_ or _tls_ fields in a VirtualService. In each field it is possible to specify rules for redirection or forwarding traffic. Those rules are the _RouteDestination_ and _HTTPRouteDestination_ structs. Each structs defines where the traffic is shifted to using the _subset_ field. +
 This warning message refers to the fact of referencing one subset more than one time within the same route. Galley, Istio module in charge of configuration validation, allows the subset duplicity. However, the mesh it might become broken when there are different duplicates. Also, the presented warning might help spoting a typo.
@@ -823,7 +969,7 @@ https://github.com/kiali/kiali/blob/master/business/checkers/virtual_services/ro
 
 '''
 
-=== KIA1006 - More than one Virtual Service for same host
+=== KIA1106 - More than one Virtual Service for same host
 
 A VirtualService defines a set of traffic routing rules to apply when a host is addressed. Each routing rule defines matching criteria for traffic of a specific protocol. If the traffic is matched, then it is sent to a named destination service (or subset/version of it) defined in the registry.
 
@@ -849,7 +995,7 @@ https://github.com/kiali/kiali/blob/master/business/checkers/virtual_services/si
 
 '''
 
-=== KIA1007 - Subset not found
+=== KIA1107 - Subset not found
 
 VirtualService routes matching requests to a service inside your mesh. Routing can also match a subset of traffic to a certain version of it for example. The subsets referred in a VirtualService have to be defined in one DestinationRule.
 
