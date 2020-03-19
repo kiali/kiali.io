@@ -722,7 +722,7 @@ https://istio.io/docs/reference/config/networking/sidecar/[Sidecar documentation
 
 The Sidecar resources are used for configuring the sidecar proxies in the service mesh. This resource is aimed to target either specific workloads, all workloads in a namespace or all the sidecars of the service mesh. Each Sidecar resource living in a namespace (except the one living in the control plane namespace) effects only to the workloads in the same namespace.
 
-Selector-less sidecars are those sidecars that doesn't have the `workloadSelector` field and thus they are pointing to all workloads running in the same namespace.
+Selector-less sidecars are those sidecars that don't have the `workloadSelector` field and thus they are pointing to all workloads running in the same namespace.
 Therefore, this validation refers to the scenario where there are more than one sidecar targetting to all workloads of the namespace. According to Istio documentation the behavior of the mesh is undefined when this scenario is presented.
 
 ==== Resolution
@@ -751,7 +751,7 @@ https://istio.io/docs/reference/config/networking/sidecar/[Sidecar documentation
 
 The Sidecar resources are used for configuring the sidecar proxies in the service mesh. IstioEgressListener specifies the properties of an outbound traffic listener on the sidecar proxy attached to a workload instance.
 
-In the host field, there is the list of hosts exposed to the workload. Each host in the list must have the `namespace/dnsName` format.
+The hosts list is the list of hosts that will be exposed to the workload. Each host in the list must have the `namespace/dnsName` format.
 
 
 ==== Resolution
