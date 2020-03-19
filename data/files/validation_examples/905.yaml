@@ -1,0 +1,38 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Sidecar
+metadata:
+  name: undeterministic-1
+  namespace: bookinfo
+spec:
+  workloadSelector:
+    labels:
+      version: reviews # Including all v1, v2 and v3 workloads
+  egress:
+  - port:
+      number: 3306
+      protocol: MYSQL
+      name: egressmysql
+    captureMode: NONE
+    bind: 127.0.0.1
+    hosts:
+    - "bookinfo/reviews.bookinfo.svc.cluster.local"
+    - "bookinfo/details.bookinfo.svc.cluster.local"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Sidecar
+metadata:
+  name: undeterministic-2
+  namespace: bookinfo
+spec:
+  workloadSelector:
+    labels:
+      version: v1 # It inclusdes reviews-v1. Same as previous sidecar
+  egress:
+  - port:
+      number: 3306
+      protocol: MYSQL
+      name: egressmysql
+    captureMode: NONE
+    bind: 127.0.0.1
+    hosts:
+    - "bookinfo/ratings.bookinfo.svc.cluster.local"

@@ -1,0 +1,29 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Sidecar
+metadata:
+  name: multimatch
+  namespace: default
+spec:
+  egress:
+  - port:
+      number: 3306
+      protocol: MYSQL
+      name: egressmysql
+    captureMode: NONE
+    bind: 127.0.0.1
+    hosts:
+    - "*/mysql.foo.com"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Sidecar
+metadata:
+  name: multimatch-repeat
+  namespace: default
+spec:
+  ingress:
+  - port:
+      number: 9080
+      protocol: HTTP
+      name: somename
+    defaultEndpoint: 127.0.0.1:8080
+    captureMode: NONE

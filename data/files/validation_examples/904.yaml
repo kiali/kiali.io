@@ -1,0 +1,22 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Sidecar
+metadata:
+  name: servicenotfound
+  namespace: bookinfo
+spec:
+  workloadSelector:
+    labels:
+      app: reviews
+  egress:
+  - port:
+      number: 3306
+      protocol: MYSQL
+      name: egressmysql
+    captureMode: NONE
+    bind: 127.0.0.1
+    hosts:
+    - "bookinfo/*.bookinfo.svc.cluster.local" # Bookinfo running into bookinfo ns
+    - "default/kiali.io" # Service entry present in the namespace
+    - "bookinfo/bogus.bookinfo.svc.cluster.local" # Bogus service into bookinfo doesn't exist
+    - "bogus-ns/reviews.bookinfo.svc.cluster.local" # Cross-namespace validation: unable to verify validity
+
