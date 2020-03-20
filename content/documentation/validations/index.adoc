@@ -833,6 +833,34 @@ include::/data/files/validation_examples/905.yaml[]
 https://github.com/kiali/kiali/tree/master/business/checkers/sidecars/multi_match_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/reference/config/networking/sidecar[Sidecar documentation: first warning, window="_blank"] +
 
+'''
+
+=== KIA1006 - Global default sidecar should not have workloadSelector
+
+The Sidecar resources are used for configuring the sidecar proxies in the service mesh. By default, all the sidecars are configured with the default sidecar instance specified in the control plane namespace (usually istio-system). In case there are sidecar resources in the namespaces where your applications are, this default sidecar resource won't be considered. The sidecar in your namespace will be applied.
+
+Having `workloadSelector` in your global default sidecar won't make any effect in the other sidecars living outside of the control plane namespace.
+
+==== Resolution
+
+Make sure you don't have the `workloadSelector` in this global sidecar resource. In case you need specific settings for specific workloads, move those settings to the sidecar resources in your application namespaces.
+
+==== Severity
+
+icon:exclamation-triangle[] Warning
+
+==== Example
+
+[source, yaml]
+----
+include::/data/files/validation_examples/906.yaml[]
+----
+
+==== See Also
+
+https://github.com/kiali/kiali/tree/master/business/checkers/sidecars/global_checker.go[Validator source code, window="_blank"] +
+https://istio.io/docs/reference/config/networking/sidecar[Sidecar documentation: second warning, window="_blank"] +
+
 [#virtualservices]
 == VirtualServices
 
