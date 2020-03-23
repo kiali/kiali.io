@@ -4,4 +4,22 @@ date: 2020-03-23T18:17:04-03:00
 draft: false
 ---
 
+:toc: left
+toc::[]
+:toc-title: All previous disclosures
+
 Disclosed security vulnerabilities and their mitigation.
+
+[cols="20%,15%,15%,50%",options="header"]
+|===
+|Disclosure
+|Date
+|Affected Releases
+|Related
+
+|link:/news/security-bulletins/KIALI-SECURITY-001[KIALI-SECURITY-001]
+|March 23, 2020
+|1.0 to 1.15.0
+|Some placeholder vulnerability.
+
+|===
