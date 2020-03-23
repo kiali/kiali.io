@@ -1,0 +1,22 @@
+---
+title: "Release Notes"
+date: 2020-03-23T18:17:04-03:00
+draft: false
+---
+
+Here you can find the release notes for each of the released versions.
+Those are only enumerations, for more in-depth information you can check
+our https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w[demo
+meetings] and https://medium.com/kialiproject[our blog].
+
+Please also note that not all changes are listed there, mostly only new
+features and breaking changes. If you think that a change should be
+listed here and is not, please get in touch.
+
+== Version 1.15.0
+
+* https://github.com/kiali/kiali/issues/976[Fixes edges for Kafka events]
+* https://github.com/kiali/kiali/issues/2276[Support canonical_service fields in Istio 1.5+ telemetry]
+* https://github.com/kiali/kiali/issues/1894[Validate against Telemetry v2 in Istio 1.5]
+* https://github.com/kiali/kiali/issues/2081[Add validations for AuthorizationPolicy objects]
+* https://github.com/kiali/kiali/issues/1383[Add a notification that object has been modified by someone else]
