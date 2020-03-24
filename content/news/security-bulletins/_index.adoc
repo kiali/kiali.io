@@ -1,0 +1,22 @@
+---
+title: "Security Bulletins"
+date: 2020-03-23T18:17:04-03:00
+draft: false
+hideIndex: true
+---
+
+Disclosed security vulnerabilities and their mitigation.
+
+[cols="20%,15%,15%,50%",options="header"]
+|===
+|Disclosure
+|Date
+|Affected Releases
+|Related
+
+|link:/news/security-bulletins/kiali-security-001[KIALI-SECURITY-001]
+|March 23, 2020
+|1.0 to 1.15.0
+|Some placeholder vulnerability.
+
+|===

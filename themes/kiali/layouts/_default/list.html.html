@@ -7,17 +7,19 @@
   <main>
     {{ .Content }}
 
-    <h1>Index</h1>
+    {{ if ne .Params.hideIndex true }}
+      <h1>Index</h1>
 
-    <ol>
-      {{ $pagesOfSection := (where .Site.Pages.ByWeight "Section" .Section) }}
-      {{ $childPages := (where (where $pagesOfSection "Parent" "!=" nil) "Parent.File.Path" .File.Path) }}
-      {{ range $childPages }}
-      <li>
-        <a href="{{ .Permalink }}">{{ .Name }}</a>
-      </li>
-      {{ end }}
-    </ol>
+      <ol>
+        {{ $pagesOfSection := (where .Site.Pages.ByWeight "Section" .Section) }}
+        {{ $childPages := (where (where $pagesOfSection "Parent" "!=" nil) "Parent.File.Path" .File.Path) }}
+        {{ range $childPages }}
+        <li>
+          <a href="{{ .Permalink }}">{{ .Name }}</a>
+        </li>
+        {{ end }}
+      </ol>
+    {{ end }}
   </main>
 </article>
 {{ end }}

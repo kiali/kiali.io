@@ -1,0 +1,11 @@
+---
+title: "News"
+date: 2020-03-23T18:17:04-03:00
+draft: false
+hideIndex: true
+---
+
+News about the Kiali project.
+
+* link:/news/security-bulletins[Security Bulletins]
+* link:/news/release-notes[Release Notes]
