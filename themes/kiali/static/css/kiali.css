@@ -504,7 +504,6 @@ body > header div.search-container input:valid ~ i.search-icon {
     display: block;
     visibility: hidden;
     position: absolute;
-    right: 0;
     z-index: 100;
 
     padding: 0;

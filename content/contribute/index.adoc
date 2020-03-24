@@ -2,9 +2,6 @@
 title: "Contribute"
 date: 2018-10-31T16:04:38+02:00
 draft: false
-menu:
-  main:
-    weight: 30
 ---
 
 :sectlinks:

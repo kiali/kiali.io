@@ -12,101 +12,116 @@ baseURL = "https://kiali.io"
 
 [menu]
   [[menu.main]]
-      identifier = "news"
-      name = "News"
-      url = "/news"
-      weight =  1
-  [[menu.main]]
-      identifier = "news_sec_adv"
-      name = "Security Bulletins"
-      url = "/news/security-bulletins"
-      weight =  1
-      parent = "news"
-  [[menu.main]]
-      identifier = "news_rel_notes"
-      name = "Release Notes"
-      url = "/news/release-notes"
-      weight =  2
-      parent = "news"
-  [[menu.main]]
-      identifier = "documentation"
-      name = "Documentation"
-      url = "/documentation"
-      weight =  30
-  [[menu.main]]
-      identifier = "doc_features"
+      identifier = "main_features"
       name = "Features"
       url = "/documentation/features"
       weight = 1
-      parent="documentation"
-      [[menu.main]]
-         identifier = "validation"
-         name = "Validation"
-         url = "/documentation/validations"
-         weight = 1
-         parent="doc_features"
   [[menu.main]]
-      identifier = "doc_gettingstarted"
+      identifier = "main_news"
+      name = "News"
+      url = "/news"
+      weight = 2
+      [[menu.main]]
+          identifier = "news_security"
+          name = "Security Bulletins"
+          url = "/news/security-bulletins"
+          weight = 1
+          parent = "main_news"
+      [[menu.main]]
+          identifier = "news_relnotes"
+          name = "Release Notes"
+          url = "/news/release-notes"
+          weight = 2
+          parent = "main_news"
+  [[menu.main]]
+      identifier = "main_gettingstarted"
       name = "Getting Started"
       url = "/documentation/getting-started"
-      weight = 2
-      parent="documentation"
-  [[menu.main]]
-      identifier = "architecture"
-      name = "Architecture"
-      url = "/documentation/architecture"
       weight = 3
-      parent="documentation"
   [[menu.main]]
-      identifier = "runtimes"
-      name = "Runtimes Monitoring"
-      url = "/documentation/runtimes-monitoring"
+      identifier = "main_contribute"
+      name = "Contribute"
+      url = "/contribute"
       weight = 4
-      parent="documentation"
   [[menu.main]]
-      identifier = "tracing"
-      name = "Distributed Tracing"
-      url = "/documentation/distributed-tracing"
+      identifier = "main_doc"
+      name = "Documentation"
+      url = "/documentation"
       weight = 5
-      parent="documentation"
-  [[menu.main]]
-      identifier = "extensions"
-      name = "Extensions"
-      url = "/documentation/extensions"
-      weight = 6
-      parent="documentation"
-  [[menu.main]]
-      identifier = "swagger"
-      name = "Developer API"
-      url = "/documentation/developer-api"
-      weight = 7
-      parent="documentation"
-  [[menu.main]]
-      identifier = "doc_glossary"
-      name = "Glossary"
-      url = "/documentation/glossary"
-      weight = 8
-      parent="documentation"
       [[menu.main]]
-         identifier = "concepts"
-         name = "Concepts"
-         url = "/documentation/glossary/concepts"
-         weight = 1
-         parent="doc_glossary"
+          identifier = "doc_features"
+          name = "Features"
+          url = "/documentation/features"
+          weight = 1
+          parent="main_doc"
+          [[menu.main]]
+             identifier = "validation"
+             name = "Validation"
+             url = "/documentation/validations"
+             weight = 1
+             parent="doc_features"
       [[menu.main]]
-         identifier = "observability"
-         name = "Observability"
-         url = "/documentation/glossary/observability"
-         weight = 2
-         parent="doc_glossary"
+          identifier = "doc_gettingstarted"
+          name = "Getting Started"
+          url = "/documentation/getting-started"
+          weight = 2
+          parent="main_doc"
       [[menu.main]]
-         identifier = "networking"
-         name = "Networking"
-         url = "/documentation/glossary/networking"
-         weight = 3
-         parent="doc_glossary"
+          identifier = "doc_architecture"
+          name = "Architecture"
+          url = "/documentation/architecture"
+          weight = 3
+          parent="main_doc"
+      [[menu.main]]
+          identifier = "doc_runtimes"
+          name = "Runtimes Monitoring"
+          url = "/documentation/runtimes-monitoring"
+          weight = 4
+          parent="main_doc"
+      [[menu.main]]
+          identifier = "doc_tracing"
+          name = "Distributed Tracing"
+          url = "/documentation/distributed-tracing"
+          weight = 5
+          parent="main_doc"
+      [[menu.main]]
+          identifier = "doc_extensions"
+          name = "Extensions"
+          url = "/documentation/extensions"
+          weight = 6
+          parent="main_doc"
+      [[menu.main]]
+          identifier = "doc_swagger"
+          name = "Developer API"
+          url = "/documentation/developer-api"
+          weight = 7
+          parent="main_doc"
+      [[menu.main]]
+          identifier = "doc_glossary"
+          name = "Glossary"
+          url = "/documentation/glossary"
+          weight = 8
+          parent="main_doc"
+          [[menu.main]]
+              identifier = "concepts"
+              name = "Concepts"
+              url = "/documentation/glossary/concepts"
+              weight = 1
+              parent="doc_glossary"
+          [[menu.main]]
+              identifier = "observability"
+              name = "Observability"
+              url = "/documentation/glossary/observability"
+              weight = 2
+              parent="doc_glossary"
+          [[menu.main]]
+              identifier = "networking"
+              name = "Networking"
+              url = "/documentation/glossary/networking"
+              weight = 3
+              parent="doc_glossary"
   [[menu.main]]
-      identifier = "faq"
+      identifier = "main_faq"
       name = "FAQ"
       url = "/faq"
-      weight = 40
+      weight = 6
