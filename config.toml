@@ -12,6 +12,23 @@ baseURL = "https://kiali.io"
 
 [menu]
   [[menu.main]]
+      identifier = "news"
+      name = "News"
+      url = "/news"
+      weight =  1
+  [[menu.main]]
+      identifier = "news_sec_adv"
+      name = "Security Bulletins"
+      url = "/news/security-bulletins"
+      weight =  1
+      parent = "news"
+  [[menu.main]]
+      identifier = "news_rel_notes"
+      name = "Release Notes"
+      url = "/news/release-notes"
+      weight =  2
+      parent = "news"
+  [[menu.main]]
       identifier = "documentation"
       name = "Documentation"
       url = "/documentation"
