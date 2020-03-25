@@ -1,34 +1,42 @@
 ---
-title: "KIALI-SECURITY-001 - Some placeholder vulnerability"
-date: 2020-03-23T18:17:04-03:00
+title: "KIALI-SECURITY-001 - Authentication bypass using forged credentials"
+date: 2020-03-24T11:00:00-06:00
 draft: false
-description: "Foo Bar"
 ---
 
-* **Disclosure date**: March 23, 2020
+* **Disclosure date**: March 25, 2020
 * **Affected Releases**: 1.0 to 1.15.0
-* **Impact Score**: 1.0
-* **Related**: Some placeholder vulnerability.
+* **Impact Score**: link:https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:H/A:H&version=3.1[9.4 - AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:H/A:H]
 
-Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-when an unknown printer took a galley of type and scrambled it to make a type
-specimen book. It has survived not only five centuries, but also the leap into
-electronic typesetting, remaining essentially unchanged. It was popularised in
-the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
-and more recently with desktop publishing software like Aldus PageMaker
-including versions of Lorem Ipsum.
+A vulnerability was found in Kiali allowing an attacker to bypass the
+authentication mechanism. Currently, Kiali has four authentication mechanisms:
+_login, token, openshift_ and _ldap_. All are vulnerable.
 
-== Detection
+The vulnerability would let an attacker to build forged credentials and use
+them to gain unauthorized access to Kiali.
 
-Run command:
-
-[source,bash]
-----
-kubectl apply -f patch-example
-----
+These vulnerabilities are filed as CVE-2020-1764 and CVE-2020-1762.
 
 == Mitigation
 
-Update to the new version.
+* Update to Kiali 1.15.1 or later.
+
+Alternatively, link:https://github.com/kiali/kiali/blob/a660a80b2add1fd2fcfb5662c63824ca1dff95b9/operator/deploy/kiali/kiali_cr.yaml#L602-L608[set a secure signing key] when deploying Kiali. If you installed via Kiali operator, you could use the following bash script:
+
+[source,bash]
+----
+SIGN_KEY=$(chars=abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890; for i in {1..20}; do echo -n "${chars:RANDOM%${#chars}:1}"; done; echo)
+kubectl get kiali -n $(kubectl get kiali --all-namespaces --no-headers -o custom-columns=NS:.metadata.namespace) -o yaml | sed "s/spec:/spec:\n    login_token:\n      signing_key: $SIGN_KEY/" | kubectl apply -f -
+----
+
+If you installed via Istio helm charts or `istioctl` command, you could use the following bash script:
+
+
+[source,bash]
+----
+KIALI_INSTALL_NAMESPACE=istio-system
+SIGN_KEY=$(chars=abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890; for i in {1..20}; do echo -n "${chars:RANDOM%${#chars}:1}"; done; echo)
+kubectl get cm kiali -n $KIALI_INSTALL_NAMESPACE -o yaml | sed "s/server:/login_token:\\\n  signing_key: $SIGN_KEY\\\nserver:/" | kubectl apply -f -
+kubectl delete pod -l app=kiali -n $KIALI_INSTALL_NAMESPACE
+----
 
