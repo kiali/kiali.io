@@ -15,8 +15,8 @@ Disclosed security vulnerabilities and their mitigation.
 |Related
 
 |link:/news/security-bulletins/kiali-security-001[KIALI-SECURITY-001]
-|March 23, 2020
+|March 25, 2020
 |1.0 to 1.15.0
-|Some placeholder vulnerability.
+|Authentication bypass using forged credentials.
 
 |===
