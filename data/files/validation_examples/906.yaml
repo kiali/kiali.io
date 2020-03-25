@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Sidecar
+metadata:
+  name: default
+  namespace: istio-system
+spec:
+  workloadSelector: # Default sidecar can't have labels
+    labels:
+      version: v1
+  egress:
+  - port:
+      number: 3306
+      protocol: MYSQL
+      name: egressmysql
+    captureMode: NONE
+    bind: 127.0.0.1
+    hosts:
+    - "bookinfo/reviews.bookinfo.svc.cluster.local"
+    - "bookinfo/details.bookinfo.svc.cluster.local"
