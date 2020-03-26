@@ -12,12 +12,12 @@ A vulnerability was found in Kiali allowing an attacker to bypass the
 authentication mechanism. Currently, Kiali has four authentication mechanisms:
 _login, token, openshift_ and _ldap_. All are vulnerable.
 
-The vulnerability lets an attacker to build forged credentials and use them to
+The vulnerability lets an attacker build forged credentials and use them to
 gain unauthorized access to Kiali.
 
-Additionaly, it was found that Kiali credentials aren't being validated
+Additionally, it was found that Kiali credentials were not being validated
 properly. Depending on the authentication mechanism configured in Kiali, this
-may facilitate unauthorized access into Kiali with forged and/or invalid
+could facilitate unauthorized access into Kiali with forged and/or invalid
 credentials.
 
 These vulnerabilities are filed as
