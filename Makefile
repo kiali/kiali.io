@@ -1,4 +1,5 @@
 HUGO_VERSION ?= 0.53
+CONTAINER_RUNTIME ?= docker
 
 install: checkDep
 	@echo Installing AsciiDoctor
@@ -20,10 +21,12 @@ build:
 
 # Targets used to build and use the Hugo+Asciidoctor docker image
 
+.PHONY: hugo-docker
 hugo-docker:
-	docker build --build-arg HUGO_VERSION=${HUGO_VERSION} -t kiali/hugo:${HUGO_VERSION} hugo
+	${CONTAINER_RUNTIME} build --build-arg HUGO_VERSION=${HUGO_VERSION} -t kiali/hugo:${HUGO_VERSION} hugo
 
-hugo-serve:
+.PHONY: hugo-serve
+hugo-serve: hugo-docker
 	@mkdir -p ./resources/_gen/images && mkdir -p ./resources/_gen/assets
-	@docker run -t -i --sig-proxy=true --rm --mount type=bind,src=$(shell pwd),dst=/site -w /site -p 1313:1313 kiali/hugo:${HUGO_VERSION} /hugo serve --baseURL "http://localhost:1313/" --bind 0.0.0.0 --disableFastRender
+	@${CONTAINER_RUNTIME} run -t -i --sig-proxy=true --rm --mount type=bind,src=$(shell pwd),dst=/site -w /site -p 1313:1313 kiali/hugo:${HUGO_VERSION} /hugo serve --baseURL "http://localhost:1313/" --bind 0.0.0.0 --disableFastRender
 	@rm -rf ./resources
