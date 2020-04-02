@@ -40,6 +40,23 @@ section#hero p.buttons {
   margin-top: var(--kiali-blue-spacing);
 }
 
+.go-to-videos-link a {
+  float:right;
+  font-size: 18px
+}
+
+.embed-video-links {
+ // nothing yet
+}
+
+.video-iframe-links {
+  width:336px;
+  height:188px;
+  frameborder:0;
+  allow: "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture";
+  allowfullscreen: true;
+}
+
 @media only screen and (min-width: 850px) {
   section#hero {
     padding-top: var(--kiali-bright-green-spacing);
@@ -203,7 +220,7 @@ section#blog-latest div#blog-blocks > a > div header div:last-child {
 section#blog-latest div#blog-blocks > a > div h1 {
   font-size: 18px;
   font-weight: normal;
-  padding-bottom: var (--kiali-blue-spacing);  
+  padding-bottom: var(--kiali-blue-spacing);
 }
 
 section#blog-latest div#blog-blocks > a > div p {
@@ -234,6 +251,11 @@ section#blog-latest div#blog-blocks > a > div p {
   }
 
   #go-to-blog-link {
+    text-align: right;
+    margin: 0;
+  }
+
+  #go-to-videos-link {
     text-align: right;
     margin: 0;
   }
