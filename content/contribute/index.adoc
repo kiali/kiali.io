@@ -5,6 +5,7 @@ draft: false
 ---
 
 :sectlinks:
+:icons: font
 
 == Kiali is Open Source
 
@@ -23,6 +24,8 @@ Please have a look at the README files in the repositories as well as the CONTRI
 Also make sure to check out the link:https://github.com/kiali/kiali/blob/master/CODE_OF_CONDUCT.md[Kiali code of conduct].
 
 == Reporting issues and requesting features
+
+icon:exclamation-triangle[]{nbsp} Security issues should not be reported in a public way.  To report security issue please follow the steps described in the link:https://github.com/kiali/kiali/blob/master/SECURITY.md[Kiali Security Policy].
 
 The Kiali team uses link:https://github.com/kiali/kiali[kiali/kiali GitHub repository] as its centralized tracker.
 Please use it to link:https://github.com/kiali/kiali/issues[report issues and request features]. When creating issues, please add the _bug_ or the _enhancement_ label as appropriate.
