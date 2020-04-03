@@ -1,6 +1,8 @@
 output
 public
 Gemfile.lock
+.bundle
+vendor
 
 # IntelliJ
 .idea/
