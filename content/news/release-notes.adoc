@@ -47,6 +47,17 @@ Kiali 1.15 is installed with:
 
 '''
 
+=== 1.15.2
+_Fix Release: April 13, 2020_
+
+Fixes:
+
+* https://github.com/kiali/kiali/issues/2622[Graph fails to show up with "Failed ID gen"]
+* https://github.com/kiali/kiali/issues/2549[Graph Error when enabling Response time edges]
+* https://github.com/kiali/kiali/issues/2548[Missing ServiceEntries in Graph]
+
+'''
+
 === 1.15.1
 _Security Release: March 25, 2020_
 
