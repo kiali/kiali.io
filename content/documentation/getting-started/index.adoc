@@ -106,7 +106,7 @@ When the Kiali CR is created it triggers the operator to then install Kiali. Kia
 
 [source,bash]
 ----
-  bash <(curl -L https://git.io/getLatestKialiOperator) --accessible-namespaces '**'
+  bash <(curl -L https://kiali.io/getLatestKialiOperator) --accessible-namespaces '**'
 ----
 
 
@@ -118,7 +118,7 @@ When the Kiali CR is created it triggers the operator to then install Kiali. Run
 
 [source,bash]
 ----
-  bash <(curl -L https://git.io/getLatestKialiOperator) --accessible-namespaces '**' -oiv latest -kiv latest
+  bash <(curl -L https://kiali.io/getLatestKialiOperator) --accessible-namespaces '**' -oiv latest -kiv latest
 ----
 
 icon:bullhorn[size=1x]{nbsp} The above options install the _latest_ operator and Kiali from stable master.
@@ -131,7 +131,7 @@ Run the install script via this command (replacing the CR filename as needed):
 
 [source,bash]
 ----
-  bash <(curl -L https://git.io/getLatestKialiOperator) --operator-install-kiali false
+  bash <(curl -L https://kiali.io/getLatestKialiOperator) --operator-install-kiali false
 ----
 
 When the Kiali Operator is installed go to link:#_create_or_edit_the_kiali_cr[Create or Edit the Kiali CR] for the customized Kiali installation.
@@ -143,7 +143,7 @@ It is not usually necessary to explicitly execute the link:https://github.com/ki
 
 [source,bash]
 ----
-  bash <(curl -L https://git.io/getLatestKialiOperator) --help
+  bash <(curl -L https://kiali.io/getLatestKialiOperator) --help
 ----
 
 icon:bullhorn[size=1x]{nbsp} The install script requires `envsubst` installed and in your PATH; you can get it via the GNU `gettext` package.
@@ -198,7 +198,7 @@ To uninstall *everything* related to Kiali (Kiali Operator, Kiali, etc) run the 
 
 [source,bash]
 ----
-  bash <(curl -L https://git.io/getLatestKialiOperator) --uninstall-mode true
+  bash <(curl -L https://kiali.io/getLatestKialiOperator) --uninstall-mode true
 ----
 
 
@@ -360,7 +360,7 @@ icon:bullhorn[size=1x]{nbsp} If the operator was not originally installed with -
 
 [source,bash]
 ----
-  bash <(curl -L https://git.io/getLatestKialiOperator) -an '**'
+  bash <(curl -L https://kiali.io/getLatestKialiOperator) -an '**'
 ----
 
 Maistra supports multi-tenancy and the `accessible_namespaces` extends that feature to Kiali. However, explicit naming of accessible namespaces can benefit non-Maistra installations as well, with it Kiali does not need cluster roles and the Kiali Operator does not need permissions to create cluster roles.
