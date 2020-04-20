@@ -231,7 +231,7 @@ Kiali provides different actions to create, update and delete Istio configuratio
 {nbsp} +
 These actions are enabled by default. +
 Kiali can also be installed in *view only* mode to restrict any write operation on Istio configuration. +
-Check https://github.com/kiali/kiali/blob/master/operator/deploy/kiali/kiali_cr.yaml#L134[Kiali Operator CR, window=_blank] to get more details about how to configure this option.
+Check https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml[Kiali Operator CR, window=_blank] to get more details about how to configure this option.
 
 ==== Weighted Routing Wizard
 With this wizard, you can select the percentage of traffic that is routed to a specific workload.

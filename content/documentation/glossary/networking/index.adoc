@@ -20,8 +20,7 @@ For more information see the <<Destination>> definition in the link:https://isti
 
 === Destination Rule
 
-For more information see the <<Destination Rule>> definition in the link:https://istio.io/docs/reference/config/istio.networking.v1alpha3/#DestinationRule[Istio Destination Rule Documentation].
-
+For more information see the <<Destination Rule>> definition in the link:https://istio.io/docs/reference/config/networking/destination-rule[Istio Destination Rule Documentation].
 
 == Endpoint
 
@@ -33,19 +32,19 @@ It's the percentage of errors in the traffic to a specific object for a <<Rate I
 
 == Gateway
 
-For more information see the <<Gateway>> definition in the link:https://istio.io/docs/reference/config/istio.networking.v1alpha3/#Gateway[Istio Gateway Documentation].
+For more information see the Gateway definition in the link:https://istio.io/docs/reference/config/networking/gateway[Istio Gateway Documentation].
 
 == Inbound Metrics
 
-Metrics on requests received by a given <<Workload>>, <<Service>> or <<Application>>.
+Metrics on requests received by a given Workload, Service or Application.
 
 == Outbound Metrics
 
-Metrics on requests emitted by a given <<Workload>> or <<Application>>.
+Metrics on requests emitted by a given Workload or Application.
 
 == Port
 
-For more information see the <<Port>> definition in link:https://istio.io/docs/reference/config/istio.networking.v1alpha3/#Port[Istio Port Documentation].
+For more information see the <<Port>> definition in link:https://istio.io/docs/reference/config/networking/gateway#Port[Istio Port Documentation].
 
 == Rate Interval
 
@@ -61,4 +60,4 @@ For more information see the <<Source>> definition in the link:https://istio.io/
 
 == Subset
 
-For more information see the <<Subset>> definition in the link:https://istio.io/docs/reference/config/istio.networking.v1alpha3/#Subset[Istio Subset Documentation].
+For more information see the <<Subset>> definition in the link:https://istio.io/docs/reference/config/networking/destination-rule/#Subset[Istio Subset Documentation].

@@ -17,12 +17,12 @@ toc::[]
 
 == Citadel
 
-For more information see the <<Citadel>> definition in link:https://istio.io/docs/concepts/what-is-istio/#citadel[Istio Citadel Documentation].
+For more information see the Citadel definition in link:https://istio.io/docs/ops/deployment/architecture/#citadel[Istio Citadel Documentation].
 
 == Envoy
 
 A proxy that Istio starts for each pod in the service mesh.
-For more information see the <<Envoy>> definition in link:https://istio.io/docs/concepts/what-is-istio/#envoy[Istio Envoy Documentation].
+For more information see the Envoy definition in link:https://istio.io/docs/ops/deployment/architecture/#envoy[Istio Pilot Documentation].
 
 === Envoy Health
 
@@ -30,12 +30,11 @@ A health check performed by Envoy proxies, for inbound and outbound traffic: see
 
 == Mixer
 
-For more information see the <<Mixer>> definition in link:https://istio.io/docs/concepts/what-is-istio/#mixer[Istio Mixer Documentation].
+The deprecated entity used for Istio telemetry.
 
 == Pilot
 
-For more information see the <<Pilot>> definition in link:https://istio.io/docs/concepts/what-is-istio/#pilot[Istio Pilot Documentation].
-
+For more information see the Pilot definition in link:https://istio.io/docs/ops/deployment/architecture/#pilot[Istio Pilot Documentation].
 
 [#img-homepage]
 .Kiali Graph

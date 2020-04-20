@@ -61,8 +61,7 @@ icon:bullhorn[size=2x]{nbsp} You may have `url` configured and not `in_cluster_u
 
 === Other configuration
 
-For advanced configuration on Jaeger integration, please refer to link:https://github.com/kiali/kiali/blob/c78f195fcbe214e56a918d616ed2f241be24c968/operator/deploy/kiali/kiali_cr.yaml#L433-L470[the Kiali CR description, window="_blank"]. It is relevant for config map as well, if you don't use the Kiali operator.
-
+For advanced configuration on Jaeger integration, please refer to link:https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml[the Kiali CR 'external_services.tracing' section, window="_blank"]. It is relevant for config map as well, if you don't use the Kiali operator.
 
 == Tracing View
 
