@@ -1,0 +1,26 @@
+dist: xenial
+os: linux
+
+language: ruby
+
+env:
+  - HUGO_VERSION=0.53
+
+before_install:
+  - uname -a
+  - mkdir output
+  - curl -L https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_Linux-64bit.tar.gz | tar zxvf - -C ./output hugo
+  - output/hugo version
+  - gem install html-proofer
+  - htmlproofer --version
+
+  # In case we want to use this htmltest tool, this is how you install it.
+  #- curl https://htmltest.wjdp.uk | bash -s -- -b ./output
+  #- ./output/htmltest --version
+  # To run it, in the script: section, do this:
+  #- output/htmltest .
+
+script:
+  - PATH="./output:${PATH}" make install build
+  - cd public
+  - htmlproofer --assume-extension --check-external-hash --empty_alt_ignore --url-ignore "#" .
