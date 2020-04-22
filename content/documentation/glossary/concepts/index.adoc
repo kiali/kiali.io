@@ -29,7 +29,7 @@ A deployment is a replication controller based on a user defined template called
 
 === Istio object/configuration Type
 
-This is the type specified in the <<Istio Config>>. This could be any of the following types: <<Gateway>>, <<VirtualService>>, <<DestinationRule>>, <<ServiceEntry>>, <<Rule>>, <<QuotaSpec>> or <<QuotaSpecBinding>>.
+This is the type specified in the Istio Config. This could be any of the following types: Gateway, <<VirtualService>>, DestinationRule, ServiceEntry, Rule, Quota or <<QuotaSpecBinding>>.
 
 == Istio Sidecar
 
@@ -78,11 +78,11 @@ A <<Service>> is an abstraction which defines a logical set of Pods and a policy
 
 === Service Entry
 
-For more information see the <<Service Entry>> definition in link:https://istio.io/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry[Istio Service Entry Documentation].
+For more information see the <<Service Entry>> definition in link:https://istio.io/docs/reference/config/networking/service-entry[Istio Service Entry Documentation].
 
 == VirtualService
 
-For more information see the <<VirtualService>> definition in link:https://istio.io/docs/reference/config/istio.networking.v1alpha3/#VirtualService[Istio VirtualService Documentation].
+For more information see the <<VirtualService>> definition in link:https://istio.io/docs/reference/config/networking/virtual-service[Istio VirtualService Documentation].
 
 == Workload
 

@@ -17,7 +17,7 @@ xdg-open https://$(oc get routes -n istio-system kiali -o jsonpath='{.spec.host}
 ----
 
 *If you are using Kubernetes*, installation exposes Kiali through an
-link:https://github.com/kiali/kiali/blob/master/operator/roles/kiali-deploy/templates/kubernetes/ingress.yaml[Ingress
+link:https://github.com/kiali/kiali-operator/blob/master/roles/default/kiali-deploy/templates/kubernetes/ingress.yaml[Ingress
 rule]. Find out your Ingress IP or domain name and use it to access Kiali by
 visiting this URL in your web browser:
 `https://_your_ingress_ip_or_domain_/kiali`.
