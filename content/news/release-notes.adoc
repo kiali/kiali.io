@@ -15,9 +15,31 @@ For additional information check our https://www.youtube.com/channel/UCcm2NzDN_U
 
 toc::[]
 
-== 1.16
+== 1.17.0
+_Sprint Release: April 24, 2020_
 
-=== 1.16.0
+Features:
+
+* https://github.com/kiali/kiali/issues/2653[create new kiali/kiali-operator github repo]
+* https://github.com/kiali/kiali/issues/2628[Add refresh control in list pages]
+* https://github.com/kiali/kiali/issues/2620[Move graph type selection and graph tour icon to graph secondary masthead]
+* https://github.com/kiali/kiali/issues/2615[Stop publishing Kiali to DockerHub]
+* https://github.com/kiali/kiali/issues/2547[Show labels in Kiali Lists and Overview]
+* https://github.com/kiali/kiali/issues/2203[Enhance logging UI to show multiple container logs in split screen]
+* https://github.com/kiali/kiali/issues/2041[User Interface to apply authorization policy of Istio]
+
+Fixes:
+
+* https://github.com/kiali/kiali/issues/2686[Overview page - Tooltip without text when no labels found]
+* https://github.com/kiali/kiali/issues/2681[Traces - View In Tracing link is broken]
+* https://github.com/kiali/kiali/issues/2669[Kiali fails if Telemetry V1 is used with Istio 1.5+]
+* https://github.com/kiali/kiali/issues/2656[Graph Hide can crash on graph refresh]
+* https://github.com/kiali/kiali/issues/2650[Service list - Filter by Label fails to load]
+* https://github.com/kiali/kiali/issues/2631[Sort by "details" in workload list]
+* https://github.com/kiali/kiali/issues/2622[Graph fails to show up with "Failed ID gen"]
+
+
+== 1.16.0
 _Sprint Release: April 03, 2020_
 
 Features:
