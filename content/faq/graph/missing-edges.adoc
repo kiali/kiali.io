@@ -4,10 +4,6 @@ weight: 40
 ---
 :icons: font
 
-Kiali just shows the telemetry in Prometheus and if you don't see what you expect it probably means that it has not been reported in
-Prometheus.  Which means ususally that 1) the requests are not actually sent, 2) sidecars are missing,
-3) requests are leaving the mesh and are not configured for telemetry
-
 Kiali builds the graph from Istio's telemetry.
 If you don't see what you expect it probably means that it has not been reported in Prometheus.
 This usually means that:
@@ -15,6 +11,8 @@ This usually means that:
 1- The requests are not actually sent.
 
 2- Sidecars are missing.
+
+3- Requests are leaving the mesh and are not configured for telemetry.
 
 For example, If you don't see traffic going from node A to node B, but you are sure there is traffic, the first thing
 you should be doing is checking the telemetry by
