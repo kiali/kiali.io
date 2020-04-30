@@ -1,5 +1,5 @@
 ---
-title: "Runtimes Monitoring"
+title: "Custom Dashboards"
 date: 2019-03-06T13:55:38+02:00
 draft: false
 type: "documentation"
@@ -9,35 +9,39 @@ weight: 5
 :linkattrs:
 :sectlinks:
 
-= Monitoring your application runtimes
+= Monitoring with custom dashboards
 :sectnums:
 :toc: left
 toc::[]
-:toc-title: Runtimes Monitoring
-:keywords: Kiali Documentation Runtimes Monitoring
+:toc-title: Custom Dashboards
+:keywords: Kiali Documentation Runtimes Monitoring Custom Dashboards
 :icons: font
 :imagesdir: /images/documentation/runtimes-monitoring/
 
 Kiali can display custom dashboards to monitor application metrics. They are available for Applications and Workloads.
 
-icon:bullhorn[size=2x]{nbsp} To display custom dashboards, you must set the _app_ and _version_ labels on your pods. These labels are necessary for Kiali to identify which application and workload the metrics originate from.
+icon:bullhorn[size=2x]{nbsp} To display custom dashboards, Kiali expects some Kubernetes labels to be set on your pods: the _app_ label to identify the application, and the _version_ label, combined with _app_, to identify a workload (their names can be link:https://github.com/kiali/kiali-operator/blob/96a7837ae173b93164432187a047c2f6810ea717/deploy/kiali/kiali_cr.yaml#L533-L542[configured]). These labels are necessary for Kiali to identify the sources of the metrics.
 
 == Prometheus Configuration
 
-Kiali runtimes monitoring feature works exclusively with Prometheus, so it must be configured correctly to pull your application metrics.
+Kiali custom dashboards work exclusively with Prometheus, so it must be configured correctly to pull your application metrics.
 
 If you are using the default Istio installation, your Prometheus instance should already be configured as shown below and you can skip to the next section.
 
 But if you want to use another Prometheus instance, please refer to link:https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kubernetes_sd_config[Prometheus documentation] to setup `kubernetes_sd_config` for pods. As a reference, link:https://github.com/istio/istio/blob/907aa731c3f76ad21faac98614751e8ab3531893/install/kubernetes/helm/istio/charts/prometheus/templates/configmap.yaml#L229[here is] how it is configured in Istio.
 
-It is important to preserve label mapping, so that Kiali can filter on _app_ and _version_, which is done with this configuration:
+It is important to preserve label mapping, so that Kiali can filter by _app_ and _version_, and to have the _namespace_ label. See the `relabel_configs` that would allow this:
 
 ```yaml
+      relabel_configs:
       - action: labelmap
         regex: __meta_kubernetes_pod_label_(.+)
+      - source_labels: [__meta_kubernetes_namespace]
+        action: replace
+        target_label: namespace
 ```
 
-Additionally, you must configure the Prometheus server URL in the _Kiali CR_:
+Additionally, you must configure the Prometheus server URL: from the _Kiali CR_ when using the Kiali operator, or _ConfigMap_ otherwise.
 
 ```yaml
 # ...
@@ -80,10 +84,10 @@ spec:
     metadata:
       annotations:
         # (prometheus annotations...)
-        kiali.io/runtimes: vertx-server
+        kiali.io/dashboards: vertx-server
 ```
 
-_kiali.io/runtimes_ is a coma-separated list of runtimes / dashboards that Kiali will look for
+_kiali.io/dashboards_ is a comma-separated list of dashboards that Kiali will look for. It must match the name of the custom resource.
 
 == Default dashboards
 
@@ -102,14 +106,14 @@ Example to expose default Go metrics:
 
 As an example and for self-monitoring purpose Kiali itself link:https://github.com/kiali/kiali/blob/055b593e52ebf8a0eb00372bca71fbef94230f0f/server/metrics_server.go[exposes Go metrics].
 
-The pod annotation for Kiali is: `kiali.io/runtimes: go`
+The pod annotation for Kiali is: `kiali.io/dashboards: go`
 
 
 === Envoy
 
 Istio's Envoy sidecars supply link:https://www.envoyproxy.io/docs/envoy/latest/configuration/upstream/cluster_manager/cluster_stats[some internal metrics], that can be viewed in Kiali. They are different than the metrics reported by Istio Telemetry, which Kiali uses extensively. Some of Envoy's metrics may be redundant.
 
-Unlike the other Runtimes dashboards, there is no automatic discovery configured for Envoy. You must explicitly enable the Envoy dashboard with the pod annotation `kiali.io/runtimes: envoy`.
+Unlike the other custom dashboards, there is no automatic discovery configured for Envoy. You must explicitly enable the Envoy dashboard with the pod annotation `kiali.io/dashboards: envoy`.
 
 Note that the enabled Envoy metrics can be tuned, as explained in the link:https://istio.io/docs/ops/telemetry/envoy-stats/[Istio documentation]: it's possible to get more metrics using the `statsInclusionPrefixes` annotation. Make sure you include `cluster_manager` and `listener_manager` as they are required.
 
@@ -133,7 +137,7 @@ app.get('/metrics', (request, response) => {
 
 Full working example: https://github.com/jotak/bookinfo-runtimes/tree/master/ratings
 
-The pod annotation for Kiali is: `kiali.io/runtimes: nodejs`
+The pod annotation for Kiali is: `kiali.io/dashboards: nodejs`
 
 === Quarkus
 
@@ -146,7 +150,7 @@ Contains JVM-related, GC usage metrics. The expected metrics can be provided by 
     </dependency>
 ```
 
-The pod annotation for Kiali is: `kiali.io/runtimes: quarkus`
+The pod annotation for Kiali is: `kiali.io/dashboards: quarkus`
 
 === Spring Boot
 
@@ -169,7 +173,7 @@ Three dashboards are provided: one for JVM memory / threads, another for JVM buf
 
 Full working example: https://github.com/jotak/bookinfo-runtimes/tree/master/details
 
-The pod annotation for Kiali with the full list of dashboards is: `kiali.io/runtimes: springboot-jvm,springboot-jvm-pool,springboot-tomcat`
+The pod annotation for Kiali with the full list of dashboards is: `kiali.io/dashboards: springboot-jvm,springboot-jvm-pool,springboot-tomcat`
 
 By default, the metrics are exposed on path _/actuator/prometheus_, so it must be specified in the corresponding annotation: `prometheus.io/path: "/actuator/prometheus"`
 
@@ -186,7 +190,7 @@ Contains mostly JVM-related metrics such as loaded classes count, memory usage, 
 
 Full working example: https://github.com/jotak/bookinfo-runtimes/tree/master/productpage
 
-The pod annotation for Kiali is: `kiali.io/runtimes: thorntail`
+The pod annotation for Kiali is: `kiali.io/dashboards: thorntail`
 
 === Vert.x
 
@@ -217,11 +221,11 @@ Init example of Vert.x metrics, starting a dedicated server (other options are p
 
 Full working example: https://github.com/jotak/bookinfo-runtimes/tree/master/reviews
 
-The pod annotation for Kiali with the full list of dashboards is: `kiali.io/runtimes: vertx-client,vertx-server,vertx-eventbus,vertx-pool,vertx-jvm`
+The pod annotation for Kiali with the full list of dashboards is: `kiali.io/dashboards: vertx-client,vertx-server,vertx-eventbus,vertx-pool,vertx-jvm`
 
 == Create new dashboards
 
-The default dashboards described above are just examples of what we can have. It's pretty easy to create new dashboards.
+The default dashboards described above are just examples of what we can have. It's pretty easy to create new ones.
 
 When installing Kiali, a new CRD is installed in the system: _monitoringdashboard.monitoring.kiali.io_. It declares the resource kind _MonitoringDashboard_. Here's what this resource looks like:
 
@@ -239,7 +243,9 @@ spec:
       name: "Server response time"
       unit: "seconds"
       spans: 6
-      metricName: "vertx_http_server_responseTime_seconds"
+      metrics:
+      - metricName: "vertx_http_server_responseTime_seconds"
+        displayName: "Server response time"
       dataType: "histogram"
       aggregations:
       - label: "path"
@@ -253,13 +259,20 @@ spec:
       metricName: "vertx_http_server_connections"
       dataType: "raw"
   - include: "micrometer-1.1-jvm"
+  externalLinks:
+  - name: "My custom Grafana dashboard"
+    type: "grafana"
+    variables:
+      app: var-app
+      namespace: var-namespace
+      version: var-version
 ```
 
 The *name* field (from metadata) corresponds to what you can set in pods annotation link:#pods-annotations[`kiali.io/runtimes`].
 
 Spec fields definitions are:
 
-* *runtime*: name of the related runtime. It will be displayed on the corresponding Workload Details page. If omitted no name is displayed.
+* *runtime*: optional, name of the related runtime. It will be displayed on the corresponding Workload Details page. If omitted no name is displayed.
 * *title*: dashboard title, displayed as a tab in Application or Workloads Details
 * *discoverOn*: metric name to match for auto-discovery. If omitted, the dashboard won't be discovered automatically, but can still be used via pods annotation.
 * *items*: can be either *chart*, to define a new chart, or *include* to reference another dashboard
@@ -268,7 +281,10 @@ Spec fields definitions are:
 *** *chartType*: type of the chart, can be one of _line_ (default), _area_ or _bar_
 *** *unit*: unit for Y-axis. Free-text field to provide any unit suffix. It can eventually be scaled on display. See link:#units[specific section below].
 *** *spans*: number of "spans" taken by the chart, from 1 to 12, using link:https://www.w3schools.com/bootstrap4/bootstrap_grid_system.asp[bootstrap convention]
-*** *metricName*: the metric name in Prometheus
+*** _metricName (deprecated starting from Kiali 1.18)_: the metric name in Prometheus; this field is deprecated, use *metrics* instead.
+*** *metrics* (since Kiali 1.18): the list of metrics to display:
+**** *metricName*: the metric name in Prometheus
+**** *displayName*: name to display on chart
 *** *dataType*: type of data to be displayed in the chart. Can be one of _raw_, _rate_ or _histogram_. Raw data will be queried without transformation. Rate data will be queried using link:https://prometheus.io/docs/prometheus/latest/querying/functions/#rate[_promQL rate() function_]. And histogram with link:https://prometheus.io/docs/prometheus/latest/querying/functions/#histogram_quantile[_histogram_quantile() function_].
 *** *min* and *max*: domain for Y-values. When unset, charts implementations should usually automatically adapt the domain with the displayed data.
 *** *aggregator*: defines how the time-series are aggregated when several are returned for a given metric and label set. For example, if a Deployment creates a ReplicaSet of several Pods, you will have at least one time-series per Pod. Since Kiali shows the dashboards at the workload (ReplicaSet) level or at the application level, they will have to be aggregated. This field can be used to fix the aggregator, with values such as _sum_ or _avg_ (full list available link:https://prometheus.io/docs/prometheus/latest/querying/operators/#aggregation-operators[in Prometheus documentation]). However, if omitted the aggregator will default to _sum_ and can be changed from the dashboard UI.
@@ -277,7 +293,7 @@ Spec fields definitions are:
 **** *displayName*: Name to display in Kiali
 ** *include*: to include another dashboard, or a specific chart from another dashboard. Typically used to compose with generic dashboards such as the ones about _MicroProfile Metrics_ or _Micrometer_-based JVM metrics. To reference a full dashboard, set the name of that dashboard. To reference a specific chart of another dashboard, set the name of the dashboard followed by `$` and the name of the chart (ex: `include: "microprofile-1.1$Thread count"`).
 * *externalLinks*: a list of related external links (e.g. to Grafana dashboards)
-** *name*: link name to be displayed
+** *name*: name of the related dashboard in the external system (e.g. name of a Grafana dashboard)
 ** *type*: link type, currently only _grafana_ is allowed
 ** *variables*: a set of variables that can be injected in the URL. For instance, with something like _namespace: var-namespace_ and _app: var-app_, an URL to a Grafana dashboard that manages _namespace_ and _app_ variables would look like:
 _http://grafana-server:3000/d/xyz/my-grafana-dashboard?var-namespace=some-namespace&var-app=some-app_. The available variables in this context are *namespace*, *app* and *version*.

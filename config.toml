@@ -74,7 +74,7 @@ baseURL = "https://kiali.io"
           parent="main_doc"
       [[menu.main]]
           identifier = "doc_runtimes"
-          name = "Runtimes Monitoring"
+          name = "Custom Dashboards"
           url = "/documentation/runtimes-monitoring"
           weight = 4
           parent="main_doc"
