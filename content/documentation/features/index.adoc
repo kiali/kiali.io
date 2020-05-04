@@ -180,7 +180,7 @@ Workload detail also allows access to the pod logs, and provides detailed traffi
 
 {empty} +
 
-==== Detail: Runtimes Monitoring Dashboards
+==== Detail: Custom Dashboards
 Kiali comes with default dashboards for several runtimes, including Go, Node.js, Spring Boot, Thorntail, and Vert.x.
 
 These dashboards are simple Kubernetes resources, so you can use your favorite tool to create, modify or delete them.
