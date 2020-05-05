@@ -21,9 +21,9 @@ toc::[]
 
 === Kiali Version Requirements
 
-Kiali requires a supported version of Istio. link:https://istio.io/news/[The Istio news page] posts end-of-support (EOL) dates. Supported Kiali versions include only the Kiali version bundled with Istio, or newer. Specific compabitibility notes are below.
+Kiali requires a supported version of Istio. link:https://istio.io/news/[The Istio news page] posts end-of-support (EOL) dates. Supported Kiali versions include only the Kiali version bundled with Istio, or newer.
 
-==== Compatibility
+==== Version Compatibility
 
 [cols="15%,15%,70%",options="header"]
 |===
@@ -31,13 +31,21 @@ Kiali requires a supported version of Istio. link:https://istio.io/news/[The Ist
 |Kiali
 |Notes
 
-|1.3.*
-|any
-|Kiali will not function properly using the experimental "mixer-less" telemetry.
+| 1.5.1+
+| 1.15.2+
+| Avoid Istio v1.5.0 for security reasons.
+
+| 1.4.7+
+| 1.15.2+
+| Avoid Istio v1.4.0 - v1.4.6 for security reasons.
+
+| <= 1.3
+| n/a
+| Out of support, users should use Istio >= 1.4
 
 |===
 
-icon:lightbulb[size=1x]{nbsp}If you are running Red Hat OpenShift Service Mesh (RHOSSM) then you should only use the bundled versions of Istio (Maistra) and Kiali.
+icon:lightbulb[size=1x]{nbsp}If you are running Red Hat OpenShift Service Mesh (RH OSSM) then use only the bundled version of Kiali.
 
 
 === Browser Version Requirements
