@@ -49,7 +49,7 @@ create_kiali_io_tags() {
     if [ "${1}" = "-f" ]; then
       git tag "${version}" "${latest_commit_on_tag}" || echo "Version ${version} already exists"
     else
-      echo "git tag ${version} ${latest_commit_on_tag}"
+      echo "DRY_RUN: git tag ${version} ${latest_commit_on_tag}"
     fi
 
     pushd "${KIALI_REPO}" &>/dev/null || die "pushd failed."
