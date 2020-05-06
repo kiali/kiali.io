@@ -1,8 +1,9 @@
 #!/bin/bash
 
-# This script does the migration process necessary for documentation
-# versioning. It is to be removed after that initiative is done.
-
+# This script does the backfilling of tags for our legacy version, to be used
+# for the versioned documentation migration. It is kept here for archiving
+# purposes.
+#
 # Be careful running it as it creates tags on the current repo you're on.
 # Run with "-f" to disable dry run mode.
 
