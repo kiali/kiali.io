@@ -17,7 +17,14 @@ die() {
 
 # TODO: rename
 create_kiali_io_tags() {
+  # We need to get the latest tags from the repo so we don't overwrite them.
+  echo "Updating kiali.io to get the latest tags..."
+  git fetch --all --tags
+
   pushd "${KIALI_REPO}" &>/dev/null || die "pushd failed."
+
+  echo "Updating Kiali core repository to get the latest tags..."
+  git fetch --all --tags
 
   # - List all versions in semver order
   # - Remove old versions that were tagged incorrectly (like "0.2.0")
