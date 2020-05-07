@@ -1,0 +1,92 @@
+---
+title: "Distributed Tracing"
+date: 2019-05-23T11:20:21+02:00
+draft: false
+type: "documentation"
+weight: 6
+---
+
+:linkattrs:
+:sectlinks:
+
+= Tracing your application in Kiali
+:sectnums:
+:toc: left
+toc::[]
+:toc-title: Distributed Tracing
+:keywords: Kiali Documentation Distributed Tracing
+:icons: font
+:imagesdir: /images/documentation/tracing/
+
+
+
+Kiali shows tracing of your applications. We currently support link:https://www.jaegertracing.io[Jaeger, window="_blank"] version 1.9 and newer.
+
+
+
+== Configuration
+
+=== In cluster URL
+
+In order to fetch data from Jaeger, Kiali needs to get an URL that can be resolved from inside the cluster, typically using Kubernetes DNS. This is the `in_cluster_url` configuration. For instance, for a Jaeger service named `tracing` within `istio-system` namespace, Kiali config would be:
+
+```yaml
+  external_services:
+    tracing:
+      in_cluster_url: 'http://tracing.istio-system/jaeger'
+```
+
+icon:bullhorn[size=2x]{nbsp} If you use the Kiali operator (recommended), this config can be set in the Kiali CR. But in most cases, the Kiali operator will set a valid default `in_cluster_url` so you wouldn't have to change anything. If you don't use the Kiali operator, this config can be set in Kiali config map.
+
+
+
+
+
+=== External URL
+
+Configuring an external URL for Jaeger will enable links from Kiali to Jaeger UI. This URL needs to be accessible from the browser (it's used for links generation). Example:
+
+```yaml
+  external_services:
+    tracing:
+      in_cluster_url: 'http://tracing.istio-system/jaeger'
+      url: 'http://my-jaeger-host/jaeger'
+```
+
+Once this URL is set, Kiali will show an additional item to the main menu:
+
+image::menu_external_link.png[Distributed Tracing View]
+
+icon:bullhorn[size=2x]{nbsp} You may have `url` configured and not `in_cluster_url`, for instance, if Jaeger is not accessible from Kiali pod. In this situation, Kiali will not show its own traces chart but will display external links to the Jaeger UI instead.
+
+=== Other configuration
+
+For advanced configuration on Jaeger integration, please refer to link:https://github.com/kiali/kiali/blob/c78f195fcbe214e56a918d616ed2f241be24c968/operator/deploy/kiali/kiali_cr.yaml#L433-L470[the Kiali CR description, window="_blank"]. It is relevant for config map as well, if you don't use the Kiali operator.
+
+
+== Tracing View
+
+The tracing view is accessible if the in-cluster URL is correctly configured. Each service page will show the Traces tab where a scatter plot is displayed with its related traces.
+
+image::service_traces_tab.png[Service View]
+
+Kiali allows interactions with Jaeger UI via external links: For example, "View Trace in Tracing" goes to the Jaeger UI trace view.
+
+image::trace_view_jaeger.png[Trace View]
+
+== Tracing Toolbar
+
+The tracing toolbar offers some control over the data to fetch, to facilitate the user experience. In the tracing view, as shown in the image below, it's possible to select the traces interval, results limit, status code, errors, adjust time (expand results on time), last Xm traffic (Traces from last minutes) and refresh interval.
+
+image::form.png[Form Tracing View]
+
+
+=== Tracing Results
+
+After selecting a trace, Kiali shows the information related to that trace like number of spans, spans grouped by operation name, duration, date...
+
+image::kiali_trace.png[Trace view]
+
+In each span, tags and processes are displayed.
+
+image::span_view.png[Span view]
