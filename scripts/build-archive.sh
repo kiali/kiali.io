@@ -50,6 +50,9 @@ destination="content/documentation/archive"
 cp "${destination}/_index.adoc" "${tempdir}"
 rm -rf "${destination}/v*"
 
+info "Making sure we have all the latest tags..."
+git fetch --all --tags
+
 info "Running for versions: $(git tag --list | paste -sd "," -)"
 for tag in $(git tag --list); do
   info "Preparing documentation for version ${tag}"
