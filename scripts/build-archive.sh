@@ -65,7 +65,7 @@ generate() {
   # Patch menu items inside of documentation files, to avoid conflicts
   #find ${tempdir}/${tag} -type f -name "*.adoc" -exec awk -i inplace '/^menu:/{skip=2;next} skip>0{--skip;next} {print}' "{}" \;
   find ${tempdir}/${tag} -type f -name "*.adoc" -exec sed -i -e "s/  main:/  $(echo ${tag} | tr "." "-"):/" "{}" \;
-  sed -i "s/Documentation/${tag}/g" "${tempdir}/${tag}/_index.adoc"
+  sed -i "s/Documentation/${tag%.0}/g" "${tempdir}/${tag}/_index.adoc"
 
   ${GIT} checkout ${current_branch}
 }
