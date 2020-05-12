@@ -1,0 +1,69 @@
+---
+title: "Distributed Tracing"
+date: 2019-05-23T11:20:21+02:00
+draft: false
+type: "documentation"
+weight: 6
+---
+
+:linkattrs:
+
+= Tracing your application in Kiali
+:sectnums:
+:toc: left
+toc::[]
+:toc-title: Distributed Tracing
+:keywords: Kiali Documentation Distributed Tracing
+:icons: font
+:imagesdir: /images/documentation/tracing/
+
+Kiali shows tracing of your applications. We currently support Jaeger from the version 1.9 (link:https://www.jaegertracing.io/docs/1.12/frontend-ui/#embedded-mode[Read docs, window="_blank"]).
+
+icon:bullhorn[size=2x]{nbsp} In order to have the Jaeger embedded feature, you must have the same protocol in Kiali and Tracing service. These are necessary for Kiali to embed Jaeger.
+
+== Kiali and Tracing Service have the same protocol
+
+When Kiali and Tracing service have the same protocol, we'll have the embedded feature in the website.
+
+In the Distributed Tracing link in the menu we can see a full view for search the traces of our services.
+
+image::distributed_tracing_same_protocol.png[Distributed Tracing View]
+
+
+In each service we'll have a new tab to display the traces for the service. (If we have error traces this tab will display them)
+
+image::service_view.png[Service View]
+
+We can interact with this embedded feature like the Jaeger UI
+
+image::trace_view.png[Trace View]
+
+=== Tracing Toolbar
+
+Kiali have a toolbar to control this feature to facilitate the user experience with the tracing service. When we go to the tracing view we'll see a small form as the image below where we can select the service and the lookback(Traces from last minutes or hours).
+
+image::small_form.png[Smal Form Tracing View]
+
+
+The service selector has the list of services of the selected namespaces organized by namespace.
+
+image::service.png[Service Selector Tracing View]
+
+
+For an advanced search of traces we can expand the "Show advanced options"
+
+image::full_form.png[Full form Tracing View]
+
+
+* Tags: Empty by default, find the traces with these values. Example: `http.status_code=200`,error=true`
+* Limit results: 20 by default, number of traces results.
+* Span Configurations (More info about spans link:https://www.jaegertracing.io/docs/1.9/architecture/#span[here, window="_blank"])
+** Min Duration: Min duration for a span. Eg: 1.2s, 100ms, 500us
+** Max Duration: Max duration for a span. Eg: 1.2s, 100ms, 500us
+
+
+== Kiali and Tracing Service have not the same protocol
+
+In this case you'll have a link to open the service in a new tab in your browser in the menu of Kiali and in the view of a specific service.
+
+image::not_same_protocol.png[Not same protocol Kiali and Tracing]
