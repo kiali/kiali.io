@@ -10,7 +10,7 @@
     {{ if ne .Params.hideIndex true }}
       <h1>Index</h1>
 
-      <ol>
+      <ul>
         {{ $pagesOfSection := (where .Site.Pages.ByWeight "Section" .Section) }}
         {{ $childPages := (where (where $pagesOfSection "Parent" "!=" nil) "Parent.File.Path" .File.Path) }}
         {{ range $childPages }}
@@ -18,7 +18,7 @@
           <a href="{{ .Permalink }}">{{ .Name }}</a>
         </li>
         {{ end }}
-      </ol>
+      </ul>
     {{ end }}
   </main>
 </article>
