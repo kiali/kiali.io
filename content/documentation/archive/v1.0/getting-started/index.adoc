@@ -7,7 +7,7 @@ draft: false
 type: "getting-started"
 weight: 3
 menu:
-  v1-0-0:
+  v1-0:
     weight: 20
 ---
 

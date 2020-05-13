@@ -8,7 +8,7 @@ draft: false
 type: "features"
 weight: 1
 menu:
-  v1-12-0:
+  v1-12:
     weight: 1
 ---
 
