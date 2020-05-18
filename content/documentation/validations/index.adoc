@@ -1058,6 +1058,26 @@ include::/data/files/validation_examples/105.yaml[]
 
 https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/subset_presence_checker.go[Validator source code, window="_blank"]
 
+'''
+
+=== KIA1108 - Preferred nomenclature: <gateway namespace>/<gateway name>
+
+A virtual service may include a list of gateways which the defined routes should be applied to. Gateways in other namespaces may be referred to by <gateway namespace>/<gateway name>; specifying a gateway with no namespace qualifier is the same as specifying the VirtualService’s namespace.
+
+==== Resolution
+Move the nomenclature of the gateways into the supported Istio form: <gateway namespace>/<gateway name>
+
+==== Example
+
+[source, yaml]
+----
+include::/data/files/validation_examples/112.yaml[]
+----
+
+==== See Also
+
+https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/no_gateway_checker.go[Validator source code, window="_blank"]
+
 [#generic]
 
 == Unknown
