@@ -252,7 +252,7 @@ https://github.com/kiali/kiali/tree/master/business/checkers/destinationrules/tr
 
 '''
 
-=== KIA0205 - MeshPolicy enabling mTLS is missing
+=== KIA0205 - PeerAuthentication enabling mTLS at mesh level is missing
 
 Istio has the ability to define mTLS communications at mesh level. In order to do that, Istio needs one DestinationRule and one MeshPolicy. The DestinationRule configures all the clients of the mesh to use mTLS protocol on their connections. The MeshPolicy defines what authentication methods can be accepted on the workload of the whole mesh.
 If the MeshPolicy is not found or doesn't exist and the mesh-wide DestinationRule is on ISTIO_MUTUAL mode, all the communication returns 500 errors.
@@ -278,7 +278,7 @@ https://istio.io/docs/tasks/security/authn-policy/#globally-enabling-istio-mutua
 
 '''
 
-=== KIA0206 - Policy enabling namespace-wide mTLS is missing
+=== KIA0206 - PeerAuthentication enabling namespace-wide mTLS is missing
 
 Istio has the ability to define mTLS communications at namespace level. In order to do that, Istio needs both a DestinationRule and a Policy targeting all the clients/workloads of the specific namespace. The policy allows mTLS authentication method for all the workloads within a namespace. The DestinationRule defines all the clients within the namespace to start communications in mTLS mode.
 If the Policy is not found and the DestinationRule is on STRICT mode in that namespace, all the communications within that namespace returns 500 errors.
@@ -304,7 +304,7 @@ https://istio.io/docs/tasks/security/authn-policy/#enable-mutual-tls-per-namespa
 
 '''
 
-=== KIA0207 - Policy with TLS strict mode found, it should be permissive
+=== KIA0207 - PeerAuthentication with TLS strict mode found, it should be permissive
 
 Istio needs both a DestinationRule and Policy to enable mTLS communications. The policy configures the authentication method accepted for all the targeted workloads. The DestinationRule defines which is the authentication method that the clients of specific workloads has to start communications with.
 
@@ -329,7 +329,7 @@ https://istio.io/docs/tasks/security/authn-policy/#enable-mutual-tls-per-namespa
 
 '''
 
-=== KIA0208 - MeshPolicy enabling mTLS found, permissive policy is needed
+=== KIA0208 - PeerAuthentication enabling mTLS found, permissive policy is needed
 
 Istio needs both a DestinationRule and Policy to enable mTLS communications. The policy configures the authentication method accepted for all the targeted workloads. The DestinationRule defines which is the authentication method that the clients of specific workloads has to start communications with.
 
