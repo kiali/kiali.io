@@ -15,6 +15,64 @@ For additional information check our https://www.youtube.com/channel/UCcm2NzDN_U
 
 toc::[]
 
+== 1.18
+Kiali 1.18 is installed with:
+
+* Istio 1.6.0+
+
+=== 1.18.1
+_Sprint Release: May 15th, 2020_
+
+Features:
+
+* https://github.com/kiali/kiali/issues/1497[Create RBAC entities with wizards]
+* https://github.com/kiali/kiali/issues/2745[Allow running as non-root user with web root specified]
+* https://github.com/kiali/kiali/issues/2750[Update Istio 1.6 types in Kiali UI mapping]
+* https://github.com/kiali/kiali/issues/2744[Possible whitespace alignment issues on Details pages]
+* https://github.com/kiali/kiali/issues/2518[Test Kiali with best-practice prometheus guide]
+* https://github.com/kiali/kiali/issues/2728[Remove RBAC limitation from the token authentication]
+* https://github.com/kiali/kiali/issues/2700[Add Horizontal/Veritical Layout for Workload Logging]
+* https://github.com/kiali/kiali/issues/2748[Protect backend for networking and istioConfig API changes]
+* https://github.com/kiali/kiali/issues/2717[Update documentation for dashboards - multiple metrics]
+* https://github.com/kiali/kiali/issues/2716[Docs: rename "runtimes monitoring" to "custom dashboards"]
+* https://github.com/kiali/kiali/issues/2652[jenkins needs to build the operator releases from the new git repo]
+* https://github.com/kiali/kiali/issues/2667[Logging Tail Option]
+* https://github.com/kiali/kiali/issues/2049[Namespaces overview should differentiate idle from failure apps]
+* https://github.com/kiali/kiali/issues/2521[First (left) section title in entity details page needs some refinement]
+* https://github.com/kiali/kiali/issues/2634[Enhance baseline/candidate fields in Iter8 list page]
+* https://github.com/kiali/kiali/issues/1377[Check if Istio is deployed correctly in k8s]
+* https://github.com/kiali/kiali/issues/2702[Change info log level while fetching spans ]
+* https://github.com/kiali/kiali/issues/2221[Traces page: incremental refresh]
+* https://github.com/kiali/kiali/issues/1778[MonitoringDashboards: allow to display several metrics per chart]
+
+Fixes:
+
+* https://github.com/kiali/kiali/issues/2792[version endpoint check causing operator to fail with  Service Mesh 1.1]
+* https://github.com/kiali/kiali/issues/2602[travis should not report build status of forks]
+* https://github.com/kiali/kiali/issues/2763[get kiali and kiali operator metrics exposed properly]
+* https://github.com/kiali/kiali/issues/2779[kiali crashes due to go 1.14 - move to go 1.14.1]
+* https://github.com/kiali/kiali/issues/2772[Overview page: Services show more items in Istio 1.6]
+* https://github.com/kiali/kiali/issues/2773[Overview: Istio config validation inconsistency (Istio 1.6)]
+* https://github.com/kiali/kiali/issues/2670[Labels in Apps list are randomly changed after refresh]
+* https://github.com/kiali/kiali/issues/2559[Filters for different kind of labels are mixed up]
+* https://github.com/kiali/kiali/issues/2754[istio 1.6: change to version endpoint]
+* https://github.com/kiali/kiali/issues/2727[gracefully ignore missing Policy CRD]
+* https://github.com/kiali/kiali/issues/2726[Kiali Wizards don't maintain existing Gateways on Update operation]
+* https://github.com/kiali/kiali/issues/2706[Align styles in Health and Configuration Tooltips]
+* https://github.com/kiali/kiali/issues/2721[Graph summary sparklines not rendering]
+* https://github.com/kiali/kiali/issues/2705[Metrics page: spans overlay not updated with past time frames]
+* https://github.com/kiali/kiali/issues/2711[Issue updating ConfigMap from Kiali Operator]
+* https://github.com/kiali/kiali/issues/2648[Tabs below the fold on Services Details pages]
+* https://github.com/kiali/kiali/issues/2635[CSS difference between dev (yarn start) and prod builds]
+* https://github.com/kiali/kiali/issues/2616[Broken CSS styles in details pages]
+* https://github.com/kiali/kiali/issues/2673[Graph kebab menu selection errors]
+* https://github.com/kiali/kiali/issues/2693[Labels tooltip on overview displayed shifted for top right projects]
+* https://github.com/kiali/kiali/issues/2623[Links to Grafana should allow base URL with params]
+
+=== 1.18.0
+_not officially released_
+
+
 == 1.17.0
 _Sprint Release: April 24, 2020_
 
