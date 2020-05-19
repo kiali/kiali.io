@@ -1,4 +1,9 @@
-# An example to get the remaining rate limit using the Github GraphQL API.
+# Generates Simple Release Notes for Kiali given a release version and Sprint Project.
+#
+# It requires a github oauth token with public_repo and read:org scopes.
+#
+# usage: $ python relnotes <version: vX.Y.Z> <projectNumber: int> <githubOauthToken>
+#
 
 import re
 import requests
