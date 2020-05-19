@@ -1,14 +1,16 @@
 # An example to get the remaining rate limit using the Github GraphQL API.
 
+import re
 import requests
 import sys
 
-if len(sys.argv) != 3:
-    print 'usage: $ python relnotes <projectNumber> <gh oauth token>'
+if len(sys.argv) != 4:
+    print 'usage: $ python relnotes <version: vX.Y.Z> <projectNumber: int> <githubOauthToken>'
     exit
 
-projectNumber = sys.argv[1]
-headers = {"Authorization": "bearer " + sys.argv[2]}
+version = sys.argv[1]
+projectNumber = sys.argv[2]
+headers = {"Authorization": "bearer " + sys.argv[3]}
 
 # The GraphQL query as a multi-line string.       
 query = """
@@ -17,6 +19,7 @@ query = """
   {
     name
     project(number: $projectNumber) {
+      body
       name
       columns(last: 1) {
         nodes {
@@ -28,7 +31,7 @@ query = """
                   title
                   url
                   closedAt
-                  labels {
+                  labels(first: 10) {
                     nodes {
                       name
                     }
@@ -56,11 +59,31 @@ def run_query(query):
 result = run_query(query) # Execute the query
 project = result["data"]["organization"]["project"]
 projectName = project["name"]
-print("Project: {}".format(projectName))
+releaseDatePattern = re.compile('^.*Ends:\s*([^\n]*).*$', re.DOTALL)
+releaseDate = releaseDatePattern.match(project["body"])
+
+print("\nRelease Notes for {}, Project: {}".format(version, projectName))
+print("------------Clip Below This Line----------------")
+print("== {}".format(version))
+print(" Sprint Release: {}".format([releaseDate.group(1),"Unknown"][releaseDate is None]))
+
+print("\nFeatures:\n")
+
 for card in project["columns"]["nodes"][0]["cards"]["nodes"]:
     if card["content"]["__typename"] == "PullRequest":
         continue
     issue = card["content"]
-    print("Title: {}".format(issue["title"]))
-    print("URL: {}".format(issue["url"]))
+    labelNames = list(map((lambda x: x["name"]), issue["labels"]["nodes"]))
+    if not "bug" in labelNames:
+        print("* {}[{}]".format(issue["url"], issue["title"]))
+
+print("\nFixes:\n")
+
+for card in project["columns"]["nodes"][0]["cards"]["nodes"]:
+    if card["content"]["__typename"] == "PullRequest":
+        continue
+    issue = card["content"]
+    labelNames = list(map((lambda x: x["name"]), issue["labels"]["nodes"]))
+    if "bug" in labelNames:
+        print("* {}[{}]".format(issue["url"], issue["title"]))
 
