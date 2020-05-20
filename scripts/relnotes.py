@@ -1,6 +1,10 @@
 # Generates Simple Release Notes for Kiali given a release version and Sprint Project.
+# The output can then be clipped into kiali.io/content/news/release-notes.adoc as the
+# base for that version's release notes.
 #
-# It requires a github oauth token with public_repo and read:org scopes.
+# Requires:
+# - a github oauth token with public_repo and read:org scopes for kiali
+# - python (tested with 2.7.17)
 #
 # usage: $ python relnotes <version: vX.Y.Z> <projectNumber: int> <githubOauthToken>
 #
@@ -80,7 +84,8 @@ for card in project["columns"]["nodes"][0]["cards"]["nodes"]:
     issue = card["content"]
     labelNames = list(map((lambda x: x["name"]), issue["labels"]["nodes"]))
     if not "bug" in labelNames:
-        print("* {}[{}]".format(issue["url"], issue["title"]))
+        title = issue["title"].replace("[", "(").replace("]", ")")
+        print("* {}[{}]".format(issue["url"], title))
 
 print("\nFixes:\n")
 
@@ -90,5 +95,6 @@ for card in project["columns"]["nodes"][0]["cards"]["nodes"]:
     issue = card["content"]
     labelNames = list(map((lambda x: x["name"]), issue["labels"]["nodes"]))
     if "bug" in labelNames:
-        print("* {}[{}]".format(issue["url"], issue["title"]))
+        title = issue["title"].replace("[", "(").replace("]", ")")
+        print("* {}[{}]".format(issue["url"], title))
 
