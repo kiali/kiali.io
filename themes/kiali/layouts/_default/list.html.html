@@ -8,7 +8,7 @@
     {{ .Content }}
 
     {{ if ne .Params.hideIndex true }}
-      <h1>Index</h1>
+      <h1>{{ default "Index" .Params.indexTitle }}</h1>
 
       <ul>
         {{ $pagesOfSection := (where .Site.Pages.ByWeight "Section" .Section) }}

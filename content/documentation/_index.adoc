@@ -1,7 +1,17 @@
 ---
-title: "Archive"
+title: "Documentation"
 date: 2020-04-03T01:05:25-03:00
 draft: false
+indexTitle: "Documentation for Older Versions"
 ---
 
-Here you can find the documentation for older versions of Kiali.
+Here you can find all the documentation for Kiali. You can see
+the documentation for the latest released version link:/documentation/latest[here].
+
+Check the link:/documentation/latest/getting-started[Getting
+Started] section of the documentation to get up to speed. If you
+are thinking of contributing, check our
+link:https://github.com/kiali/kiali[Github repo]
+for more information on how to setup your own machine and
+contribute.
+

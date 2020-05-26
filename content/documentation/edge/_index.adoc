@@ -1,5 +1,5 @@
 ---
-title: "Documentation"
+title: "Edge"
 date: 2018-06-20T19:04:38+02:00
 draft: false
 type: "documentation"
