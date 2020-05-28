@@ -527,6 +527,95 @@ include::/data/files/validation_examples/301.yaml[]
 https://github.com/kiali/kiali/tree/master/business/checkers/policies/namespace_mtls_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/tasks/security/authentication/authn-policy/#enable-mutual-tls-per-namespace-or-workload[Enabling Istio mutual TLS namespace-wide, window="_blank"]
 
+'''
+
+=== KIA0502 - More than one selector-less PeerAuthentication in the same namespace
+
+PeerAuthentication objects are used to define the authentication methods that a set of workloads can accept: Mutual, Istio Mutual, Simple or Disabled. This rule might apply to one workload, multiple workloads, all the workloads in a namespace or all the workloads of the mesh. Both `selector` and `namespace` fields will determine this.
+
+This validation refers to the usage of the `selector`. Selector-less PeerAuthentications are those objects that don't have the `selector` field specified. Therefore, objects that apply to all the workloads of a namespace (or whole mesh if the namespace is the same as the control plane namespace).
+
+This validation warns you that you have two different PeerAuthentication living in the same namespace. This may leave an non-deterministic or unexpected behavior on the workloads of the namespace.
+
+==== Resolution
+
+The natural solution is to merge both PeerAuthentications. In case there are different behaviors you want to apply, consider to define the `selector` field targeting a specific set of workloads.
+
+==== Severity
+
+icon:exclamation-triangle[] Warning
+
+==== Example
+
+[source, yaml]
+----
+include::/data/files/validation_examples/302.yaml[]
+----
+
+==== See Also
+
+https://github.com/kiali/kiali/tree/master/business/checkers/common/multi_match_selector_checker.go[Validator source code, window="_blank"] +
+https://istio.io/docs/tasks/security/authentication/authn-policy/#enable-mutual-tls-per-namespace-or-workload[Enabling Istio mutual TLS namespace-wide, window="_blank"]
+https://istio.io/docs/reference/config/security/peer_authentication[PeerAuthentication reference, windor="_blank"]
+
+'''
+
+=== KIA0503 More than one PeerAuthentication applied to the same workload
+
+PeerAuthentication objects are used to define the authentication methods that a set of workloads can accept: Mutual, Istio Mutual, Simple or Disabled. This rule might apply to one workload, multiple workloads, all the workloads in a namespace or all the workloads of the mesh. Both `selector` and `namespace` fields will determine this.
+
+This validation refers to the usage of the `selector`. In this field are defined the labels of the workloads that this object will be applied to. It might be one or more workloads in the same namespace.
+
+This validation warns the scenario where there are two different PeerAuthentication applying to the same workload(s). This may leave an undeterministic or unexpected behavior on the workloads of the namespace.
+
+==== Resolution
+
+There isn't a standard solution for that. It is a good practice not to have multiple rules of the same kind applying to the same workloads. Otherwise you would end up having interferences between objects and having troubles when debugging.
+The first approach would be to merge both PeerAuthentication into one if possible. The second approach would be to reorganize the PeerAutentications in a way that each one only applies to a different set of workloads. Applying no change into the PeerAuthentication is also an option although not desiderable.
+
+==== Severity
+
+icon:exclamation-triangle[] Warning
+
+==== Example
+
+[source, yaml]
+----
+include::/data/files/validation_examples/303.yaml[]
+----
+
+==== See Also
+
+https://github.com/kiali/kiali/tree/master/business/checkers/common/workload_selector_checker.go[Validator source code, window="_blank"] +
+https://istio.io/docs/reference/config/security/peer_authentication[PeerAuthentication reference, windor="_blank"]
+
+'''
+
+=== KIA0504 No matching workload found for PeerAuthentication selector in this namespace
+
+PeerAuthentication objects are used to define the authentication methods that a set of workloads can accept: Mutual, Istio Mutual, Simple or Disabled. This rule might apply to one workload, multiple workloads, all the workloads in a namespace or all the workloads of the mesh. Both `selector` and `namespace` fields will determine this.
+
+This validation warns the scenario where there are not workloads matching with the `selector` labels. In other terms, this object doesn't have any implication into the mesh.
+
+==== Resolution
+
+There are three scenarios: either change the labels to match an existing workload (useful with typos), deploy a workload that match with those labels or safely remove this PeerAuthentication.
+
+==== Severity
+
+icon:exclamation-triangle[] Warning
+
+==== Example
+
+[source, yaml]
+----
+include::/data/files/validation_examples/303.yaml[]
+----
+
+==== See Also
+
+https://github.com/kiali/kiali/tree/master/business/checkers/common/workload_selector_checker.go[Validator source code, window="_blank"] +
+https://istio.io/docs/reference/config/security/peer_authentication[PeerAuthentication reference, windor="_blank"]
 
 [#ports]
 == Ports
