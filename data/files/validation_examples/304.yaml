@@ -1,0 +1,15 @@
+apiVersion: "security.istio.io/v1beta1"
+kind: "PeerAuthentication"
+metadata:
+  name: "nomatchingworkloads"
+  namespace: "bookinfo"
+spec:
+  selector:
+    matchLabels:
+      app: wrong-typo
+      version: v1
+  mtls:
+    mode: STRICT
+  portLevelMtls:
+    80:
+      mode: DISABLE
