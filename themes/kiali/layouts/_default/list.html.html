@@ -14,9 +14,11 @@
         {{ $pagesOfSection := (where .Site.Pages.ByWeight "Section" .Section) }}
         {{ $childPages := (where (where $pagesOfSection "Parent" "!=" nil) "Parent.File.Path" .File.Path) }}
         {{ range $childPages }}
-        <li>
-          <a href="{{ .Permalink }}">{{ .Name }}</a>
-        </li>
+          {{ if not (in .Permalink "/documentation/latest/") }}
+          <li>
+            <a href="{{ .Permalink }}">{{ .Name }}</a>
+          </li>
+          {{ end }}
         {{ end }}
       </ul>
     {{ end }}
