@@ -189,7 +189,7 @@ Kiali comes with default dashboards for several runtimes, including Go, Node.js,
 These dashboards are simple Kubernetes resources, so you can use your favorite tool to create, modify or delete them.
 As they are defined as plain _yaml_ or _json_ files, it's a perfect fit for keeping under source control like GIT, track changes, share, etc.
 
-Check out the link:/documentation/runtimes-monitoring/[documentation page, window=_blank] to learn more about it.
+Check out the link:/documentation/v1.1/runtimes-monitoring/[documentation page, window=_blank] to learn more about it.
 ++++
 <a class="image-popup-fit-height" href="/images/documentation/features/runtimes_monitoring.png" title="Runtimes Dashboards">
     <img src="/images/documentation/features/runtimes_monitoring_thumb.png" style="display:block;margin: 0 auto;" />

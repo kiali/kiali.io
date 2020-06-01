@@ -42,7 +42,7 @@ icon:lightbulb[size=1x]{nbsp}For several commands listed on this page, the OpenS
 
 == Installing Kiali
 
-Kiali can be installed in an OpenShift or Kubernetes cluster environment. For OpenShift only, a minimal preparation is necessary.  See link:/documentation/prerequisites[Prerequisites] for environment requirements.
+Kiali can be installed in an OpenShift or Kubernetes cluster environment. For OpenShift only, a minimal preparation is necessary.  See link:/documentation/v1.1/prerequisites[Prerequisites] for environment requirements.
 
 === OpenShift Preparation
 

@@ -189,7 +189,7 @@ Kiali comes with default dashboards for several runtimes, including Go, Node.js,
 These dashboards are simple Kubernetes resources, so you can use your favorite tool to create, modify or delete them.
 As they are defined as plain _yaml_ or _json_ files, it's a perfect fit for keeping under source control like GIT, track changes, share, etc.
 
-Check out the link:/documentation/runtimes-monitoring/[documentation page, window=_blank] to learn more about it.
+Check out the link:/documentation/v1.5/runtimes-monitoring/[documentation page, window=_blank] to learn more about it.
 ++++
 <a class="image-popup-fit-height" href="/images/documentation/features/runtimes_monitoring.png" title="Runtimes Dashboards">
     <img src="/images/documentation/features/runtimes_monitoring_thumb.png" style="display:block;margin: 0 auto;" />
@@ -222,7 +222,7 @@ Kiali performs a set of validations to the most common Istio Objects (Destinatio
 
 Galley validation are mostly syntactic validations based on the object syntax analysis of Istio Objects while Kiali validations are mostly semantic validations between different Istio Objects. Kiali validations are based on the runtime status of your service mesh, Galley validations are static ones and doesn't take into account what is configured in the mesh.
 
-Check the complete link:/documentation/validations/[list of validations] for further information.
+Check the complete link:/documentation/v1.5/validations/[list of validations] for further information.
 
 === Istio Wizards
 Kiali provides different actions to create, update and delete Istio configuration driven by Wizards. These are located in the *Actions* menu on the Service Details page.

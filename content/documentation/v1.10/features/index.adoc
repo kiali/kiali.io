@@ -189,7 +189,7 @@ Kiali comes with default dashboards for several runtimes, including Go, Node.js,
 These dashboards are simple Kubernetes resources, so you can use your favorite tool to create, modify or delete them.
 As they are defined as plain YAML or JSON files, so it's easy to keep them in source control like Git, track their changes, and share them.
 
-Check out the link:/documentation/runtimes-monitoring/[documentation page, window=_blank] to learn more about it.
+Check out the link:/documentation/v1.10/runtimes-monitoring/[documentation page, window=_blank] to learn more about it.
 ++++
 <a class="image-popup-fit-height" href="/images/documentation/features/runtimes_monitoring.png" title="Runtimes Dashboards">
     <img src="/images/documentation/features/runtimes_monitoring_thumb.png" style="display:block;margin: 0 auto;" />
@@ -222,7 +222,7 @@ Kiali performs a set of validations to the most common Istio Objects such as Des
 
 Galley validations are mostly syntactic validations based on the object syntax analysis of Istio objects while Kiali validations are mostly semantic validations between different Istio objects. Kiali validations are based on the runtime status of your service mesh, Galley validations are static ones and doesn't take into account what is configured in the mesh.
 
-Check the complete link:/documentation/validations/[list of validations] for further information.
+Check the complete link:/documentation/v1.10/validations/[list of validations] for further information.
 
 === Istio Wizards
 Kiali provides different actions to create, update and delete Istio configuration driven by wizards. These are located in the *Actions* menu on the Service Details page.
@@ -287,7 +287,7 @@ The following article https://medium.com/kialiproject/kiali-observability-in-act
 == Multi-cluster support
 Istio provides https://istio.io/docs/setup/install/multicluster/[installation instructions] for three different multi-cluster scenarios: replicated control planes, shared control plane with single-network, and shared control plane with multi-network.
 
-Currently, Kiali only works with Istio's replicated control planes scenario. You will need to install Kiali aside each Istio's control plane; i.e. you will need one Kiali instance per Istio's control plane you want to monitor. Install instructions for Kiali are the same as for the single cluster scenario, so following the link:/documentation/getting-started/[Getting started guide] is enough. Kiali will let you observe the mesh portion that is managed by the adjacent control plane.
+Currently, Kiali only works with Istio's replicated control planes scenario. You will need to install Kiali aside each Istio's control plane; i.e. you will need one Kiali instance per Istio's control plane you want to monitor. Install instructions for Kiali are the same as for the single cluster scenario, so following the link:/documentation/v1.10/getting-started/[Getting started guide] is enough. Kiali will let you observe the mesh portion that is managed by the adjacent control plane.
 
 The shared control plane scenarios are currently not supported by Kiali.
 
