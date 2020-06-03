@@ -244,7 +244,7 @@ Kiali supports several different login options.
 
 *openshift*: If you have deployed Kiali on OpenShift you can use this option (this is the default option if you're using OpenShift). With this option, users log in to Kiali with the OpenShift OAuth login. What users can access in Kiali will now be based on their user roles in OpenShift using the Kubernetes RBAC.
 
-*token*: This option allows a user to log in to Kiali using a Service Account token. This is similar to the link:https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/README.md#login-view[login view of Kubernetes Dashboard]. When using this option, the cluser RBAC will take effect and users can access only what is allowed to the Service Account.
+*token*: This option allows a user to log in to Kiali using a Service Account token. This is similar to the link:https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/README.md#login-view[login view of Kubernetes Dashboard]. When using this option, the cluster RBAC will take effect and users can access only what is allowed to the Service Account.
 
 icon:bullhorn[size=1x]{nbsp} Using the *anonymous* option will leave Kiali unsecured. Anyone who can access the console will have full access to Kiali. If you are using this option you will need to make sure that it is only available on a trusted network and that only trusted users can access it.
 
