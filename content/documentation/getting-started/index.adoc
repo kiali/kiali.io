@@ -244,9 +244,13 @@ Kiali supports several different login options.
 
 *login*: This option allows a user to log in to Kiali using a username and password. This is the default option if using Kubernetes.
 
+icon:bullhorn[size=2x]{nbsp} The _login_ strategy is deprecated and it will be removed in a following release. As an alternative, use the _token_ strategy, which provides similar authentication experience to the link:https://github.com/kubernetes/dashboard[Kubernetes Dashboard].
+
 *anonymous*: This option removes any login requirement. A user will not be presented the login page and will automatically have access to Kiali without having to present any credentials.
 
 *ldap*: This option allows a user to log in to Kiali using a username and passphrase that is authenticated via a backend LDAP server. This option requires that you configure additional settings in the Kiali CR under `auth.ldap` - see below for an example. If you want to use this option, you cannot use the operator deploy script to configure Kiali for you - you must create the Kiali CR and either pass it to the deploy script via `--kiali-cr` or do not have the script deploy a Kiali CR (`--operator-install-kiali=false`) but instead deploy the Kiali CR directly into your cluster yourself.
+
+icon:bullhorn[size=2x]{nbsp} The _ldap_ strategy is deprecated and it will be removed in a following release. As an alternative, use the _openid_ strategy and use an OpenID provider that supports LDAP integration.
 
 *openshift*: If you have deployed Kiali on OpenShift you can use this option (this is the default option if you're using OpenShift). With this option, users log in to Kiali with the OpenShift OAuth login. What users can access in Kiali will now be based on their user roles in OpenShift using the Kubernetes RBAC.
 
@@ -277,6 +281,8 @@ auth:
 ----
 
 ==== LDAP
+
+icon:bullhorn[size=2x]{nbsp} The _ldap_ strategy is deprecated and it will be removed in a following release. As an alternative, use the _openid_ strategy and use an OpenID provider that supports LDAP integration.
 
 The `ldap` login option requires additional settings in the `auth.ldap` section. For example:
 
