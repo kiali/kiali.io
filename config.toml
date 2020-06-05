@@ -49,6 +49,84 @@ relativeURLs = true
       name = "Documentation"
       url = "/documentation"
       weight = 5
+      [[menu.main]]
+          identifier = "doc_features"
+          name = "Features"
+          url = "/documentation/latest/features"
+          weight = 1
+          parent="main_doc"
+          [[menu.main]]
+             identifier = "validation"
+             name = "Validation"
+             url = "/documentation/latest/validations"
+             weight = 1
+             parent="doc_features"
+      [[menu.main]]
+          identifier = "doc_gettingstarted"
+          name = "Getting Started"
+          url = "/documentation/latest/getting-started"
+          weight = 2
+          parent="main_doc"
+      [[menu.main]]
+          identifier = "doc_architecture"
+          name = "Architecture"
+          url = "/documentation/latest/architecture"
+          weight = 3
+          parent="main_doc"
+      [[menu.main]]
+          identifier = "doc_runtimes"
+          name = "Custom Dashboards"
+          url = "/documentation/latest/runtimes-monitoring"
+          weight = 4
+          parent="main_doc"
+      [[menu.main]]
+          identifier = "doc_tracing"
+          name = "Distributed Tracing"
+          url = "/documentation/latest/distributed-tracing"
+          weight = 5
+          parent="main_doc"
+      [[menu.main]]
+          identifier = "doc_extensions"
+          name = "Extensions"
+          url = "/documentation/latest/extensions"
+          weight = 6
+          parent="main_doc"
+      [[menu.main]]
+          identifier = "doc_swagger"
+          name = "Developer API"
+          url = "/documentation/latest/developer-api"
+          weight = 7
+          parent="main_doc"
+      [[menu.main]]
+          identifier = "doc_glossary"
+          name = "Glossary"
+          url = "/documentation/latest/glossary"
+          weight = 8
+          parent="main_doc"
+          [[menu.main]]
+              identifier = "concepts"
+              name = "Concepts"
+              url = "/documentation/latest/glossary/concepts"
+              weight = 1
+              parent="doc_glossary"
+          [[menu.main]]
+              identifier = "observability"
+              name = "Observability"
+              url = "/documentation/latest/glossary/observability"
+              weight = 2
+              parent="doc_glossary"
+          [[menu.main]]
+              identifier = "networking"
+              name = "Networking"
+              url = "/documentation/latest/glossary/networking"
+              weight = 3
+              parent="doc_glossary"
+      [[menu.main]]
+          identifier = "doc_archive"
+          name = "Older Releases"
+          url = "/documentation"
+          weight = 9
+          parent="main_doc"
   [[menu.main]]
       identifier = "main_faq"
       name = "FAQ"

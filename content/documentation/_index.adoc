@@ -2,7 +2,7 @@
 title: "Documentation"
 date: 2020-04-03T01:05:25-03:00
 draft: false
-indexTitle: "Documentation for Older Versions"
+indexTitle: "Older Releases"
 ---
 
 Here you can find all the documentation for Kiali. You can see
