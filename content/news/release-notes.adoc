@@ -15,10 +15,59 @@ For additional information check our https://www.youtube.com/channel/UCcm2NzDN_U
 
 toc::[]
 
+== 1.19.0
+_Sprint Release: June 5th, 2020_
+
+Features:
+
+* https://github.com/kiali/kiali/issues/2233[Improve filtering capabilities of Overview and List pages]
+* https://github.com/kiali/kiali/issues/2226[Review Kiali with Istio 1.6+]
+* https://github.com/kiali/kiali/issues/2056[Support OAuth login (OpenID connect)]
+* https://github.com/kiali/kiali/issues/2086[Add validations for PeerAuthentication Istio Object]
+* https://github.com/kiali/kiali/issues/2849[get molecule tests to run on minikube]
+* https://github.com/kiali/kiali/issues/995[Feature request: Envoy Filter]
+* https://github.com/kiali/kiali/issues/2732[Improve separation of concerns in tracing / service details]
+* https://github.com/kiali/kiali/issues/2828[openshift console links in masthead should be more specific]
+* https://github.com/kiali/kiali/issues/2735[Labels filtering: click on labels to filter]
+* https://github.com/kiali/kiali/issues/2734[Labels filtering: "all of" / "any of" switch]
+* https://github.com/kiali/kiali/issues/2694[Create New AuthorizationPolicy - Couple of improvements]
+* https://github.com/kiali/kiali/issues/2797[ Add PeerAuthentication and RequestAuthentication into Create Istio Config]
+* https://github.com/kiali/kiali/issues/2778[Add Ability to Hide specific lines in the logs]
+* https://github.com/kiali/kiali/issues/2689[Kiali's brand repositioning ]
+* https://github.com/kiali/kiali/issues/2762[Creation fo New Istio config object is available with reduced privileges]
+* https://github.com/kiali/kiali/issues/2520[Support to PeerAuthentication resource]
+
+Fixes:
+
+* https://github.com/kiali/kiali/issues/2761[(istio 1.6) pilot service is gone - make sure we do not rely on it]
+* https://github.com/kiali/kiali/issues/2783[Deleted k8s services are persisted within the Graph UI]
+* https://github.com/kiali/kiali/issues/2720[Traces duplication on tooltip]
+* https://github.com/kiali/kiali/issues/2819[Namespace TLS status: enabled/disabled status shouldn't be used with Permissive PeerAuth]
+* https://github.com/kiali/kiali/issues/2685[Message center 'Show Details' notification text extends beyond notification box]
+* https://github.com/kiali/kiali/issues/2712[Link from traces to workload logs can be wrong]
+* https://github.com/kiali/kiali/issues/2698[VirtualService Validation Errors For Partially-Qualified Gateway Names]
+* https://github.com/kiali/kiali/issues/2765[Add ability to turn on/off specific log windows]
+* https://github.com/kiali/kiali/issues/2812[Istio 1.5 - Can't access to Policy/MeshPolicy details page]
+* https://github.com/kiali/kiali/issues/2787[in-graph security icons in mesh-wide mtls enabled: broken locks not shown in edges but shown in sidebar]
+* https://github.com/kiali/kiali/issues/2679[Spinner doesn't spin]
+* https://github.com/kiali/kiali/issues/2805[operator needs permission to avoid an error at startup]
+
 == 1.18
 Kiali 1.18 is installed with:
 
 * Istio 1.6.0+
+
+=== 1.18.2
+_Fix Release: June 03, 2020_
+
+Fixes:
+
+* https://github.com/kiali/kiali/pull/2853[Add EnvoyFilter,AttributeManifest,HttpApiSpec{Binding}]
+* https://github.com/kiali/kiali/pull/2821[Strict and permissive modes can enable/disable TLS status at ns-level]
+* https://github.com/kiali/kiali/pull/2814[Disabled Namespace validation: Expects PeerAuthn not to be STRICT]
+* https://github.com/kiali/kiali/pull/2813[Allow Policies and MeshPolicies still be displayed into Istio]
+* https://github.com/kiali/kiali-ui/pull/1787[Show broken locks into edges without mtls in mesh-wide mtls scenarios]
+* https://github.com/kiali/kiali-ui/pull/1794[Adjust CSS align on overview list view]
 
 === 1.18.1
 _Sprint Release: May 15th, 2020_
