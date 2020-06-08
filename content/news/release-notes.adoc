@@ -52,6 +52,12 @@ Fixes:
 * https://github.com/kiali/kiali/issues/2679[Spinner doesn't spin]
 * https://github.com/kiali/kiali/issues/2805[operator needs permission to avoid an error at startup]
 
+Notes:
+
+* With the introduction of the `openid` login option the following link:https://kiali.io/documentation/latest/getting-started/#_login_options[login options]
+are deprecated: `LDAP`, `login`.  They will be eligible for removal when Istio 1.6 goes out of support. Starting
+in Kiali 1.19.0 the default login option has changed from `login` to `token`.
+
 == 1.18
 Kiali 1.18 is installed with:
 
