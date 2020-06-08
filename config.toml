@@ -15,7 +15,7 @@ relativeURLs = true
   [[menu.main]]
       identifier = "main_features"
       name = "Features"
-      url = "/documentation/features"
+      url = "/documentation/latest/features"
       weight = 1
   [[menu.main]]
       identifier = "main_news"
@@ -37,7 +37,7 @@ relativeURLs = true
   [[menu.main]]
       identifier = "main_gettingstarted"
       name = "Getting Started"
-      url = "/documentation/getting-started"
+      url = "/documentation/latest/getting-started"
       weight = 3
   [[menu.main]]
       identifier = "main_contribute"
@@ -52,75 +52,81 @@ relativeURLs = true
       [[menu.main]]
           identifier = "doc_features"
           name = "Features"
-          url = "/documentation/features"
+          url = "/documentation/latest/features"
           weight = 1
           parent="main_doc"
           [[menu.main]]
              identifier = "validation"
              name = "Validation"
-             url = "/documentation/validations"
+             url = "/documentation/latest/validations"
              weight = 1
              parent="doc_features"
       [[menu.main]]
           identifier = "doc_gettingstarted"
           name = "Getting Started"
-          url = "/documentation/getting-started"
+          url = "/documentation/latest/getting-started"
           weight = 2
           parent="main_doc"
       [[menu.main]]
           identifier = "doc_architecture"
           name = "Architecture"
-          url = "/documentation/architecture"
+          url = "/documentation/latest/architecture"
           weight = 3
           parent="main_doc"
       [[menu.main]]
           identifier = "doc_runtimes"
           name = "Custom Dashboards"
-          url = "/documentation/runtimes-monitoring"
+          url = "/documentation/latest/runtimes-monitoring"
           weight = 4
           parent="main_doc"
       [[menu.main]]
           identifier = "doc_tracing"
           name = "Distributed Tracing"
-          url = "/documentation/distributed-tracing"
+          url = "/documentation/latest/distributed-tracing"
           weight = 5
           parent="main_doc"
       [[menu.main]]
           identifier = "doc_extensions"
           name = "Extensions"
-          url = "/documentation/extensions"
+          url = "/documentation/latest/extensions"
           weight = 6
           parent="main_doc"
       [[menu.main]]
           identifier = "doc_swagger"
           name = "Developer API"
-          url = "/documentation/developer-api"
+          url = "/documentation/latest/developer-api"
           weight = 7
           parent="main_doc"
       [[menu.main]]
           identifier = "doc_glossary"
           name = "Glossary"
-          url = "/documentation/glossary"
+          url = "/documentation/latest/glossary"
           weight = 8
           parent="main_doc"
           [[menu.main]]
               identifier = "concepts"
               name = "Concepts"
-              url = "/documentation/glossary/concepts"
+              url = "/documentation/latest/glossary/concepts"
               weight = 1
               parent="doc_glossary"
           [[menu.main]]
               identifier = "observability"
               name = "Observability"
-              url = "/documentation/glossary/observability"
+              url = "/documentation/latest/glossary/observability"
               weight = 2
               parent="doc_glossary"
           [[menu.main]]
               identifier = "networking"
               name = "Networking"
-              url = "/documentation/glossary/networking"
+              url = "/documentation/latest/glossary/networking"
               weight = 3
               parent="doc_glossary"
+      [[menu.main]]
+          identifier = "doc_archive"
+          name = "Older Releases"
+          url = "/documentation"
+          weight = 9
+          parent="main_doc"
   [[menu.main]]
       identifier = "main_faq"
       name = "FAQ"
