@@ -14,7 +14,7 @@ import requests
 import sys
 
 if len(sys.argv) != 4:
-    print 'usage: $ python relnotes <version: vX.Y.Z> <projectNumber: int> <githubOauthToken>'
+    print 'usage: $ python relnotes.py <version: vX.Y.Z> <projectNumber: int> <githubOauthToken>'
     exit
 
 version = sys.argv[1]
