@@ -1,3 +1,7 @@
+# Points to the next version that is going to be released,
+# it is changed automatically by the release scripts
+VERSION ?= v1.20.0
+
 HUGO_VERSION ?= 0.53
 CONTAINER_RUNTIME ?= docker
 
