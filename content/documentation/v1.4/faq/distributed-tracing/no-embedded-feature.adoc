@@ -1,0 +1,9 @@
+---
+title: I can't see the tracing features embedded, new tab open when browsing traces
+weight: 70
+---
+:icons: font
+:linkattrs:
+
+The Distributed Tracing item in the main menu opens a new tab when Kiali and Jaeger services are deployed under the same URI scheme (HTTP/HTTPS). In order to enable the integration, make both services run either under HTTP or HTTPS.
+To see which is the tracing URL Kiali uses, check the about modal like the link:#see-url-about-modal[FAQ 2].

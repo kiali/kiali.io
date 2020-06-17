@@ -1,0 +1,21 @@
+---
+title: Which formats does Kiali support for specifying hosts?
+weight: 70
+---
+:icons: font
+
+Istio highly recommends that you always use fully qualified domain names (FQDN) for hosts in DestinationRules. However, Istio does allow you to use other formats like short names (_details_ or _details.bookinfo_).
+Kiali only supports FQDN and simple service names as host formats: for example _details.bookinfo.svc.cluster.local_ or _details_. Validations using the _details.bookinfo_ format might not be accurate.
+
+
+In the following example it should show the validation of "More than one Destination Rule for the same host subset combination". Because of the usage of the short name _reviews.bookinfo_ Kiali won't show the warning message on both destination rules.
+
+[source, yaml]
+----
+include::/data/files/validation_examples/001-format-unsupported.yaml[]
+----
+
+See the recomendation Istio gives regarding https://istio.io/docs/reference/config/networking/destination-rule/#DestinationRule[host format^]:
+_"To avoid potential misconfigurations, it is recommended to always use fully qualified domain names over short names."_
+
+For best results with Kiali, you should use fully qualified domain names when specifying hosts.

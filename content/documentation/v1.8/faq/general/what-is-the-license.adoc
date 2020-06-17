@@ -1,0 +1,7 @@
+---
+title: What is the License?
+weight: 20
+---
+:icons: font
+
+Kiali uses the https://www.apache.org/licenses/LICENSE-2.0.html[Apache License 2.0].

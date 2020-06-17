@@ -1,0 +1,8 @@
+---
+title: Why does my workload graph show service nodes?
+weight: 70
+---
+:imagesdir: /images/faq/graph/
+
+
+Even when `Display Service Nodes` is disabled a workload graph can show service nodes. `Display Service Nodes` ensures that you will see the service nodes between two other nodes, providing an edge to the destination service node, and a subsequent edge to the node handling the request. This option injects service nodes where they previously would not be shown. But Kiali will always show a terminal service node when the request itself fails to be routed to a destination workload. This ensures the graph visualizes problem areas. This can happen in a workload or app graph. Of course in a service graph the `Display Service Nodes` option is simply ignored.

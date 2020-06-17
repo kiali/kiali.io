@@ -1,0 +1,11 @@
+---
+title: Kiali does not work - What do i do?
+weight: 40
+---
+:icons: font
+
+If you are hitting a problem, whether it is listed here or not, do not hesitate to use the
+https://github.com/kiali/kiali/issues[GitHub issue tracker].
+You can simply _vote_ (using emojis) for any existing bug or feature request, this will help us to understand the most
+demanded enhancements, or you can create a new ticket. For existing JIRA tickets, use the _vote_ link or add a comment
+describing your expectation or scenario.

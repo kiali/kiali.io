@@ -1,0 +1,13 @@
+---
+title: How can I get in touch?
+weight: 60
+---
+:icons: font
+
+* Follow our https://twitter.com/kialiproject[twitter] account.
+* Watch our videos using https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w[youtube].
+* Chat by joining our https://webchat.freenode.net/?channels=%23kiali[IRC] channel in freenode.
+* Post in our
+https://groups.google.com/forum/\#!forum/kiali-users[users] and
+https://groups.google.com/forum/#!forum/kiali-dev[developers] groups at google groups.
+* Report a bug or request a new feature using https://github.com/kiali/kiali/issues[github].
