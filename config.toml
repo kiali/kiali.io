@@ -130,5 +130,5 @@ relativeURLs = true
   [[menu.main]]
       identifier = "main_faq"
       name = "FAQ"
-      url = "/faq"
+      url = "/documentation/latest/faq"
       weight = 6

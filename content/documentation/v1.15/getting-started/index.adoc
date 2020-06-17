@@ -179,7 +179,7 @@ To update Kiali, edit and save the existing the Kiali CR. To edit the Kiali CR r
 
 === Open the UI
 
-Once Istio, Maistra or the Kiali Operator has installed Kiali, and the Kiali pod has successfully started, you can access the UI. Please, check the link:{{< ref "/faq/general#how-do-i-access-kiai" >}}[FAQ: How do I access Kiali UI?]
+Once Istio, Maistra or the Kiali Operator has installed Kiali, and the Kiali pod has successfully started, you can access the UI. Please, check the link:{{< ref "/documentation/v1.15/faq/general#how-do-i-access-kiai" >}}[FAQ: How do I access Kiali UI?]
 
 icon:bullhorn[size=1x]{nbsp} The credentials you use on the login screen depend on the authentication strategy that was configured for Kiali. See link:#_login_options[Login Options] for more details.
 
