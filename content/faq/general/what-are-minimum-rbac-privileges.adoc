@@ -4,14 +4,14 @@ weight: 55
 ---
 :icons: font
 
-When you are using an RBAC-enabled authentication strategy, to login
-successfully into Kiali users need the `get namespace` privilege in, at least,
-one namespace. Depending on the provided options in the Kiali operator CR, a
-`ClusterRole` named either `kiali` or `kiali-viewer` will be available which
-has the needed privilege and you can bind users to this role.
+The `get namespace` privilege is required for Kiali login when using an
+RBAC-enabled authentication strategy.  The user needs the privilege in at
+least one namespace.  The Kiali Operator CR will provide a `ClusterRole`
+named either `kiali` or `kiali-viewer`, depending on the provided options, 
+with the needed privilege.  Users can be bound to this role.
 
-If you prefer to use a customized `Role` or `ClusterRole`, make sure it has the
-following rule to allow a successfull login into Kiali:
+If using a customized `Role` or `ClusterRole` then the following
+rule is required for Kiali login:
 
 [source,yaml]
 ----
@@ -27,6 +27,5 @@ rules:
   - get
 ----
 
-You will need a broader set of privileges for Kiali to be useful, but when
-speaking solely about login, this is the required privilge to give access to
-Kiali.
+Although required for login, this privilege is not sufficient for Kiali
+to function well in general.
