@@ -74,7 +74,7 @@ releaseDate = releaseDatePattern.match(project["body"])
 print("\nRelease Notes for {}, Project: {}".format(version, projectName))
 print("------------Clip Below This Line----------------")
 print("== {}".format(version))
-print("_Sprint Release: {}_".format([releaseDate.group(1),"Unknown"][releaseDate is None]))
+print("Sprint Release: {}".format([releaseDate.group(1),"Unknown"][releaseDate is None]))
 
 print("\nFeatures:\n")
 
