@@ -15,8 +15,41 @@ For additional information check our https://www.youtube.com/channel/UCcm2NzDN_U
 
 toc::[]
 
+== 1.20.0
+Sprint Release: June 26th, 2020
+
+Features:
+
+* https://github.com/kiali/kiali/issues/2934[K-charted: move to eslint]
+* https://github.com/kiali/kiali/issues/2595[FAQ Entry for token authentication]
+* https://github.com/kiali/kiali/issues/2614[Outbound Metrics Tab looks strange]
+* https://github.com/kiali/kiali/issues/2790[Navigation to other detail pages using Graph Overview (mini-graph)]
+* https://github.com/kiali/kiali/issues/2891[Remove unnecessary "istio namespace" prom queries in graph generation]
+* https://github.com/kiali/kiali/issues/2785[(Maintenance) Filters "title" field should only be used for display, not logic]
+* https://github.com/kiali/kiali/issues/2882[molecule test for openid]
+* https://github.com/kiali/kiali/issues/2831[Add Show/highlight to Logging tab]
+* https://github.com/kiali/kiali/issues/2279[Update Kiali-ui libraries]
+* https://github.com/kiali/kiali/issues/2862[Deprecate login strategy for authentication]
+* https://github.com/kiali/kiali/issues/2863[Deprecate LDAP strategy for authentication]
+* https://github.com/kiali/kiali/issues/2864[Documentation for the OpenID login strategy]
+
+Fixes:
+
+* https://github.com/kiali/kiali/issues/2942[operator needs to clean up roles when deployment.namespace is default location]
+* https://github.com/kiali/kiali/issues/2925[OpenId authorization with Auth0]
+* https://github.com/kiali/kiali/issues/2941[cluster roles/bindings do not have associated namespaces, clean up delete code that specifies namespaces]
+* https://github.com/kiali/kiali/issues/2918[KIA1107 Subset not found - but it actually works]
+* https://github.com/kiali/kiali/issues/2198[(RS/Correlation) Query-time aggregation for traces and/or spans]
+* https://github.com/kiali/kiali/issues/2921[do not regenerate signing_key secret if we already created one]
+* https://github.com/kiali/kiali/issues/2904[Click on namespace labels crashes]
+* https://github.com/kiali/kiali/issues/2867[Idle status objects missing on Overview's Compact View]
+* https://github.com/kiali/kiali/issues/2816[Workload logs issue when toggling orientation multiple times]
+* https://github.com/kiali/kiali/issues/2829[Main graph json no longer in debug info]
+* https://github.com/kiali/kiali/issues/2865[Fix legacy Adapter/Templates in Kiali]
+* https://github.com/kiali/kiali/issues/2878[Hide Log lines - 2 issues there]
+
 == 1.19.0
-_Sprint Release: June 5th, 2020_
+Sprint Release: June 5th, 2020
 
 Features:
 
@@ -64,7 +97,7 @@ Kiali 1.18 is installed with:
 * Istio 1.6.0+
 
 === 1.18.2
-_Fix Release: June 03, 2020_
+Fix Release: June 03, 2020
 
 Fixes:
 
@@ -76,7 +109,7 @@ Fixes:
 * https://github.com/kiali/kiali-ui/pull/1794[Adjust CSS align on overview list view]
 
 === 1.18.1
-_Sprint Release: May 15th, 2020_
+Sprint Release: May 15th, 2020
 
 Features:
 
@@ -129,7 +162,7 @@ _not officially released_
 
 
 == 1.17.0
-_Sprint Release: April 24, 2020_
+Sprint Release: April 24, 2020
 
 Features:
 
@@ -153,7 +186,7 @@ Fixes:
 
 
 == 1.16.0
-_Sprint Release: April 03, 2020_
+Sprint Release: April 03, 2020
 
 Features:
 
@@ -183,7 +216,7 @@ Kiali 1.15 is installed with:
 '''
 
 === 1.15.2
-_Fix Release: April 13, 2020_
+Fix Release: April 13, 2020
 
 Fixes:
 
@@ -194,7 +227,7 @@ Fixes:
 '''
 
 === 1.15.1
-_Security Release: March 25, 2020_
+Security Release: March 25, 2020
 
 
 * https://kiali.io/news/security-bulletins/kiali-security-001/[Kiali-Security-001]
@@ -202,7 +235,7 @@ _Security Release: March 25, 2020_
 '''
 
 === 1.15.0
-_Sprint Release: March 17, 2020_
+Sprint Release: March 17, 2020
 
 * https://github.com/kiali/kiali/issues/976[Fixes edges for Kafka events]
 * https://github.com/kiali/kiali/issues/2276[Support canonical_service fields in Istio 1.5+ telemetry]
