@@ -560,7 +560,7 @@ https://istio.io/docs/reference/config/security/peer_authentication[PeerAuthenti
 
 '''
 
-=== KIA0503 More than one PeerAuthentication applied to the same workload
+=== KIA0503 - More than one PeerAuthentication applied to the same workload
 
 PeerAuthentication objects are used to define the authentication methods that a set of workloads can accept: Mutual, Istio Mutual, Simple or Disabled. This rule might apply to one workload, multiple workloads, all the workloads in a namespace or all the workloads of the mesh. Both `selector` and `namespace` fields will determine this.
 
@@ -591,7 +591,7 @@ https://istio.io/docs/reference/config/security/peer_authentication[PeerAuthenti
 
 '''
 
-=== KIA0504 No matching workload found for PeerAuthentication selector in this namespace
+=== KIA0504 - No matching workload found for PeerAuthentication selector in this namespace
 
 PeerAuthentication objects are used to define the authentication methods that a set of workloads can accept: Mutual, Istio Mutual, Simple or Disabled. This rule might apply to one workload, multiple workloads, all the workloads in a namespace or all the workloads of the mesh. Both `selector` and `namespace` fields will determine this.
 
@@ -609,12 +609,68 @@ icon:exclamation-triangle[] Warning
 
 [source, yaml]
 ----
-include::/data/files/validation_examples/303.yaml[]
+include::/data/files/validation_examples/304.yaml[]
 ----
 
 ==== See Also
 
 https://github.com/kiali/kiali/tree/master/business/checkers/common/workload_selector_checker.go[Validator source code, window="_blank"] +
+https://istio.io/docs/reference/config/security/peer_authentication[PeerAuthentication reference, windor="_blank"]
+
+'''
+
+=== KIA0505 - Destination Rule disabling namespace-wide mTLS is missing
+
+PeerAuthentication objects are used to define the authentication methods that a set of workloads can accept: Mutual, Istio Mutual, Simple or Disabled.
+
+This validation warns the scenario where there is one PeerAuthentication at namespace level with `DISABLE` mode but there is DestinationRule at namespace or mesh level enabling mTLS. With this scenario, all the traffic flowing between the services in that namespace will fail.
+
+==== Resolution
+
+You can either change the namespace/mesh-wide Destination Rule to `DISABLE` mode or change the current PeerAuthentication to allow mTLS (mode `STRICT` or `PERMISSIVE`).
+
+==== Severity
+
+icon:times-circle[] Error
+
+==== Example
+
+[source, yaml]
+----
+include::/data/files/validation_examples/305.yaml[]
+----
+
+==== See Also
+
+https://github.com/kiali/kiali/blob/master/business/checkers/peerauthentications/disabled_namespacewide_checker.go[Validator source code, window="_blank"] +
+https://istio.io/docs/reference/config/security/peer_authentication[PeerAuthentication reference, windor="_blank"]
+
+'''
+
+=== KIA0506 - Destination Rule disabling mesh-wide mTLS is missing
+
+PeerAuthentication objects are used to define the authentication methods that a set of workloads can accept: Mutual, Istio Mutual, Simple or Disabled.
+
+This validation warns the scenario where there is one PeerAuthentication at mesh level with `DISABLE` mode but there is DestinationRule at mesh level enabling mTLS. With this scenario, all the traffic flowing between the services in that namespace will fail.
+
+==== Resolution
+
+You can either change the mesh-wide Destination Rule to `DISABLE` mode or change the current PeerAuthentication to allow mTLS (mode `STRICT` or `PERMISSIVE`).
+
+==== Severity
+
+icon:times-circle[] Error
+
+==== Example
+
+[source, yaml]
+----
+include::/data/files/validation_examples/306.yaml[]
+----
+
+==== See Also
+
+https://github.com/kiali/kiali/blob/master/business/checkers/peerauthentications/disabled_meshwide_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/reference/config/security/peer_authentication[PeerAuthentication reference, windor="_blank"]
 
 [#ports]

@@ -230,6 +230,8 @@ https://istio.io/docs/reference/config/networking/destination-rule/#DestinationR
 
 Istio allows you to define DestinationRule at three different levels: mesh, namespace and service level. A mesh may have multiple DRs. In case of having two DestinationRules on the first one is at a lower level than the second one, the first one overrides the TLS values of the second one.
 
+This validation appears only when autoMtls is disabled.
+
 ==== Resolution
 
 This validation aims to warn Kiali users that they may be disabling/enabling mTLS from the higher DestinationRule.
@@ -252,13 +254,15 @@ https://github.com/kiali/kiali/tree/master/business/checkers/destinationrules/tr
 
 '''
 
-=== KIA0205 - MeshPolicy enabling mTLS is missing
+=== KIA0205 - PeerAuthentication enabling mTLS at mesh level is missing
 
-Istio has the ability to define mTLS communications at mesh level. In order to do that, Istio needs one DestinationRule and one MeshPolicy. The DestinationRule configures all the clients of the mesh to use mTLS protocol on their connections. The MeshPolicy defines what authentication methods can be accepted on the workload of the whole mesh.
-If the MeshPolicy is not found or doesn't exist and the mesh-wide DestinationRule is on ISTIO_MUTUAL mode, all the communication returns 500 errors.
+Istio has the ability to define mTLS communications at mesh level. In order to do that, Istio needs one DestinationRule and one PeerAuthentication. The DestinationRule configures all the clients of the mesh to use mTLS protocol on their connections. The PeerAuthentication defines what authentication methods that can be accepted on the workload of the whole mesh.
+If the PeerAuthentication is not found or doesn't exist and the mesh-wide DestinationRule is on ISTIO_MUTUAL mode, all the communication returns 500 errors.
+
+This validation appears only when autoMtls is disabled.
 
 ==== Resolution
-Add a MeshPolicy named as default without specifying targets but setting peers mtls mode to STRICT or PERMISSIVE. The MeshPolicy should be like link:/data/files/validation_examples/401.yaml[this, window="_blank"].
+Add a PeerAuthentication within the `istio-system` namespace without specifying targets but setting peers mtls mode to STRICT or PERMISSIVE. The PeerAuthentication should be like link:/data/files/validation_examples/401.yaml[this, window="_blank"].
 
 ==== Severity
 
@@ -278,14 +282,16 @@ https://istio.io/docs/tasks/security/authn-policy/#globally-enabling-istio-mutua
 
 '''
 
-=== KIA0206 - Policy enabling namespace-wide mTLS is missing
+=== KIA0206 - PeerAuthentication enabling namespace-wide mTLS is missing
 
-Istio has the ability to define mTLS communications at namespace level. In order to do that, Istio needs both a DestinationRule and a Policy targeting all the clients/workloads of the specific namespace. The policy allows mTLS authentication method for all the workloads within a namespace. The DestinationRule defines all the clients within the namespace to start communications in mTLS mode.
-If the Policy is not found and the DestinationRule is on STRICT mode in that namespace, all the communications within that namespace returns 500 errors.
+Istio has the ability to define mTLS communications at namespace level. In order to do that, Istio needs both a DestinationRule and a PeerAuthentication targeting all the clients/workloads of the specific namespace. The PeerAuthentication allows mTLS authentication method for all the workloads within a namespace. The DestinationRule defines all the clients within the namespace to start communications in mTLS mode.
+If the PeerAuthentication is not found and the DestinationRule is on STRICT mode in that namespace but there is the DestinationRule enabling mTLS, all the communications within that namespace returns 500 errors.
+
+This validation appears only when autoMtls is disabled.
 
 ==== Resolution
-A Policy enabling mTLS method is needed for the workloads in the namespace. Otherwise all the clients start mTLS connections that those workloads won't be ready to manage.
-Add a Policy named as default without specifying targets but setting peers mTLS mode to STRICT or PERMISSIVE in the same namespace as the DestinationRule.
+A PeerAuthentication enabling mTLS method is needed for the workloads in the namespace. Otherwise all the clients start mTLS connections that those workloads won't be ready to manage.
+Add a PeerAuthentication without specifying targets but setting mTLS mode to STRICT or PERMISSIVE in the same namespace as the DestinationRule.
 
 ==== Severity
 
@@ -304,12 +310,13 @@ https://istio.io/docs/tasks/security/authn-policy/#enable-mutual-tls-per-namespa
 
 '''
 
-=== KIA0207 - Policy with TLS strict mode found, it should be permissive
+=== KIA0207 - PeerAuthentication with TLS strict mode found, it should be permissive
 
-Istio needs both a DestinationRule and Policy to enable mTLS communications. The policy configures the authentication method accepted for all the targeted workloads. The DestinationRule defines which is the authentication method that the clients of specific workloads has to start communications with.
+Istio needs both a DestinationRule and PeerAuthentication to enable mTLS communications. The PeerAuthentication configures the authentication method accepted for all the targeted workloads. The DestinationRule defines which is the authentication method that the clients of specific workloads has to start communications with.
 
 ==== Resolution
-Kiali has found that there is a DestinationRule sending traffic without mTLS authentication method. There are two different ways to fix this situation. You can either change the Policy applying to PERMISSIVE mode or change the DestinationRule to start communications using mTLS.
+
+Kiali has found that there is a DestinationRule sending traffic without mTLS authentication method. There are two different ways to fix this situation. You can either change the PeerAuthentication applying to PERMISSIVE mode or change the DestinationRule to start communications using mTLS.
 
 ==== Severity
 
@@ -325,18 +332,18 @@ include::/data/files/validation_examples/007.yaml[]
 ==== See Also
 
 https://github.com/kiali/kiali/tree/master/business/checkers/destinationrules/disabled_namespacewide_mtls_checker.go[Validator source code, window="_blank"] +
-https://istio.io/docs/tasks/security/authn-policy/#enable-mutual-tls-per-namespace-or-workload[Enabling Istio mutual TLS per namespace, window="_blank"]
+https://istio.io/docs/tasks/security/authentication/authn-policy/#enable-mutual-tls-per-namespace-or-workload[Enabling Istio mutual TLS per namespace, window="_blank"]
 
 '''
 
-=== KIA0208 - MeshPolicy enabling mTLS found, permissive policy is needed
+=== KIA0208 - PeerAuthentication enabling mTLS found, permissive mode needed
 
-Istio needs both a DestinationRule and Policy to enable mTLS communications. The policy configures the authentication method accepted for all the targeted workloads. The DestinationRule defines which is the authentication method that the clients of specific workloads has to start communications with.
+Istio needs both a DestinationRule and PeerAuthentication to enable mTLS communications. The PeerAuthentication configures the authentication method accepted for all the targeted workloads. The DestinationRule defines which is the authentication method that the clients of specific workloads has to start communications with.
 
-Kiali found a DestinationRule starting communications without TLS but there was a MeshPolicy allowing services to accept only requests in mTLS.
+Kiali found a DestinationRule starting communications without TLS but there was a PeerAuthentication allowing all services in the mesh to accept *only* requests in mTLS.
 
 ==== Resolution
-There are two ways to fix this situation. You can either change the MeshPolicy to enable PERMISSIVE mode to all the workloads in the mesh or change the DestinatonRule to enable mTLS instead of disabling it (change the mode to ISTIO_MUTUAL).
+There are two ways to fix this situation. You can either change the PeerAuthentication to enable PERMISSIVE mode to all the workloads in the mesh or change the DestinatonRule to enable mTLS instead of disabling it (change the mode to ISTIO_MUTUAL).
 
 ==== Severity
 
@@ -352,7 +359,7 @@ include::/data/files/validation_examples/008.yaml[]
 ==== See Also
 
 https://github.com/kiali/kiali/tree/master/business/checkers/destinationrules/disabled_namespacewide_mtls_checker.go[Validator source code, window="_blank"] +
-https://istio.io/docs/tasks/security/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-mode[Globally enabling Istio mutual TLS, window="_blank"]
+https://istio.io/docs/tasks/security/authentication/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-model[Globally enabling Istio mutual TLS, window="_blank"]
 
 '''
 
@@ -467,11 +474,13 @@ https://istio.io/docs/reference/config/networking/v1alpha3/gateway/#Gateway[Isti
 
 === KIA0401 - Mesh-wide Destination Rule enabling mTLS is missing
 
-Istio has the ability to define mTLS communications at mesh level. In order to do that, Istio needs one DestinationRule and one MeshPolicy. The DestinationRule configures all the clients of the mesh to use mTLS protocol on their connections. The MeshPolicy defines what authentication methods can be accepted on the workload of the whole mesh.
-If the DestinationRule is not found or doesn't exist and the MeshPolicy is on STRICT mode, all the communication returns 500 errors.
+Istio has the ability to define mTLS communications at mesh level. In order to do that, Istio needs one DestinationRule and one PeerAuthentication. The DestinationRule configures all the clients of the mesh to use mTLS protocol on their connections. The PeerAuthentication defines what authentication methods can be accepted on the workload of the whole mesh.
+If the DestinationRule is not found or doesn't exist and the PeerAuthentication is on STRICT mode, all the communication returns 500 errors.
+
+This validation appears only when autoMtls is disabled.
 
 ==== Resolution
-Add a DestinationRule named as default with "*.cluster" host and ISTIO_MUTUAL as tls trafficPolicy mode. The DestinationRule should be like link:https://github.com/kiali/kiali.io/blob/master/data/files/validation_examples/004.yaml[this, window="_blank"].
+Add a DestinationRule with "*.cluster" host and ISTIO_MUTUAL as tls trafficPolicy mode. The DestinationRule should be like link:https://github.com/kiali/kiali.io/blob/master/data/files/validation_examples/004.yaml[this, window="_blank"].
 
 ==== Severity
 
@@ -489,13 +498,15 @@ include::/data/files/validation_examples/401.yaml[]
 https://github.com/kiali/kiali/tree/master/business/checkers/meshpolicies/mesh_mtls_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/tasks/security/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-mode[Globally enabling Istio mutual TLS, window="_blank"]
 
-[#policies]
-== Policies
+[#peerauthentication]
+== PeerAuthentication
 
 === KIA0501 - Destination Rule enabling namespace-wide mTLS is missing
 
-Istio has the ability to define mTLS communications at namespace level. In order to do that, Istio needs one DestinationRule and one Policy. The DestinationRule configures all the clients of the namespace to use mTLS protocol on their connections. The Policy defines what authentication methods can be accepted on a specific group of workloads. Policies without target field specified will target all the workloads within its namespace.
-If the DestinationRule is not found or doesn't exist in the namespace and the namespace-wide Policy is on STRICT mode, all the communication will return 500 errors.
+Istio has the ability to define mTLS communications at namespace level. In order to do that, Istio needs one DestinationRule and one PeerAuthentication. The DestinationRule configures all the clients of the namespace to use mTLS protocol on their connections. The PeerAuthentication defines what authentication methods can be accepted on a specific group of workloads. PeerAuthentications without target field specified will target all the workloads within its namespace.
+If the DestinationRule is not found or doesn't exist in the namespace and the namespace-wide PeerAuthentication is on STRICT mode, all the communication will return 500 errors.
+
+This validation appears only when autoMtls is disabled.
 
 ==== Resolution
 Add a DestinationRule with "*.namespace.svc.cluster.local" host and ISTIO_MUTUAL as tls trafficPolicy mode. The DestinationRule should be like link:https://github.com/kiali/kiali.io/blob/master/data/files/validation_examples/006.yaml[this, window="_blank"].
@@ -516,6 +527,151 @@ include::/data/files/validation_examples/301.yaml[]
 https://github.com/kiali/kiali/tree/master/business/checkers/policies/namespace_mtls_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/tasks/security/authentication/authn-policy/#enable-mutual-tls-per-namespace-or-workload[Enabling Istio mutual TLS namespace-wide, window="_blank"]
 
+'''
+
+=== KIA0502 - More than one selector-less PeerAuthentication in the same namespace
+
+PeerAuthentication objects are used to define the authentication methods that a set of workloads can accept: Mutual, Istio Mutual, Simple or Disabled. This rule might apply to one workload, multiple workloads, all the workloads in a namespace or all the workloads of the mesh. Both `selector` and `namespace` fields will determine this.
+
+This validation refers to the usage of the `selector`. Selector-less PeerAuthentications are those objects that don't have the `selector` field specified. Therefore, objects that apply to all the workloads of a namespace (or whole mesh if the namespace is the same as the control plane namespace).
+
+This validation warns you that you have two different PeerAuthentication living in the same namespace. This may leave an non-deterministic or unexpected behavior on the workloads of the namespace.
+
+==== Resolution
+
+The natural solution is to merge both PeerAuthentications. In case there are different behaviors you want to apply, consider to define the `selector` field targeting a specific set of workloads.
+
+==== Severity
+
+icon:exclamation-triangle[] Warning
+
+==== Example
+
+[source, yaml]
+----
+include::/data/files/validation_examples/302.yaml[]
+----
+
+==== See Also
+
+https://github.com/kiali/kiali/tree/master/business/checkers/common/multi_match_selector_checker.go[Validator source code, window="_blank"] +
+https://istio.io/docs/tasks/security/authentication/authn-policy/#enable-mutual-tls-per-namespace-or-workload[Enabling Istio mutual TLS namespace-wide, window="_blank"]
+https://istio.io/docs/reference/config/security/peer_authentication[PeerAuthentication reference, windor="_blank"]
+
+'''
+
+=== KIA0503 - More than one PeerAuthentication applied to the same workload
+
+PeerAuthentication objects are used to define the authentication methods that a set of workloads can accept: Mutual, Istio Mutual, Simple or Disabled. This rule might apply to one workload, multiple workloads, all the workloads in a namespace or all the workloads of the mesh. Both `selector` and `namespace` fields will determine this.
+
+This validation refers to the usage of the `selector`. In this field are defined the labels of the workloads that this object will be applied to. It might be one or more workloads in the same namespace.
+
+This validation warns the scenario where there are two different PeerAuthentication applying to the same workload(s). This may leave an undeterministic or unexpected behavior on the workloads of the namespace.
+
+==== Resolution
+
+There isn't a standard solution for that. It is a good practice not to have multiple rules of the same kind applying to the same workloads. Otherwise you would end up having interferences between objects and having troubles when debugging.
+The first approach would be to merge both PeerAuthentication into one if possible. The second approach would be to reorganize the PeerAutentications in a way that each one only applies to a different set of workloads. Applying no change into the PeerAuthentication is also an option although not desiderable.
+
+==== Severity
+
+icon:exclamation-triangle[] Warning
+
+==== Example
+
+[source, yaml]
+----
+include::/data/files/validation_examples/303.yaml[]
+----
+
+==== See Also
+
+https://github.com/kiali/kiali/tree/master/business/checkers/common/workload_selector_checker.go[Validator source code, window="_blank"] +
+https://istio.io/docs/reference/config/security/peer_authentication[PeerAuthentication reference, windor="_blank"]
+
+'''
+
+=== KIA0504 - No matching workload found for PeerAuthentication selector in this namespace
+
+PeerAuthentication objects are used to define the authentication methods that a set of workloads can accept: Mutual, Istio Mutual, Simple or Disabled. This rule might apply to one workload, multiple workloads, all the workloads in a namespace or all the workloads of the mesh. Both `selector` and `namespace` fields will determine this.
+
+This validation warns the scenario where there are not workloads matching with the `selector` labels. In other terms, this object doesn't have any implication into the mesh.
+
+==== Resolution
+
+There are three scenarios: either change the labels to match an existing workload (useful with typos), deploy a workload that match with those labels or safely remove this PeerAuthentication.
+
+==== Severity
+
+icon:exclamation-triangle[] Warning
+
+==== Example
+
+[source, yaml]
+----
+include::/data/files/validation_examples/304.yaml[]
+----
+
+==== See Also
+
+https://github.com/kiali/kiali/tree/master/business/checkers/common/workload_selector_checker.go[Validator source code, window="_blank"] +
+https://istio.io/docs/reference/config/security/peer_authentication[PeerAuthentication reference, windor="_blank"]
+
+'''
+
+=== KIA0505 - Destination Rule disabling namespace-wide mTLS is missing
+
+PeerAuthentication objects are used to define the authentication methods that a set of workloads can accept: Mutual, Istio Mutual, Simple or Disabled.
+
+This validation warns the scenario where there is one PeerAuthentication at namespace level with `DISABLE` mode but there is DestinationRule at namespace or mesh level enabling mTLS. With this scenario, all the traffic flowing between the services in that namespace will fail.
+
+==== Resolution
+
+You can either change the namespace/mesh-wide Destination Rule to `DISABLE` mode or change the current PeerAuthentication to allow mTLS (mode `STRICT` or `PERMISSIVE`).
+
+==== Severity
+
+icon:times-circle[] Error
+
+==== Example
+
+[source, yaml]
+----
+include::/data/files/validation_examples/305.yaml[]
+----
+
+==== See Also
+
+https://github.com/kiali/kiali/blob/master/business/checkers/peerauthentications/disabled_namespacewide_checker.go[Validator source code, window="_blank"] +
+https://istio.io/docs/reference/config/security/peer_authentication[PeerAuthentication reference, windor="_blank"]
+
+'''
+
+=== KIA0506 - Destination Rule disabling mesh-wide mTLS is missing
+
+PeerAuthentication objects are used to define the authentication methods that a set of workloads can accept: Mutual, Istio Mutual, Simple or Disabled.
+
+This validation warns the scenario where there is one PeerAuthentication at mesh level with `DISABLE` mode but there is DestinationRule at mesh level enabling mTLS. With this scenario, all the traffic flowing between the services in that namespace will fail.
+
+==== Resolution
+
+You can either change the mesh-wide Destination Rule to `DISABLE` mode or change the current PeerAuthentication to allow mTLS (mode `STRICT` or `PERMISSIVE`).
+
+==== Severity
+
+icon:times-circle[] Error
+
+==== Example
+
+[source, yaml]
+----
+include::/data/files/validation_examples/306.yaml[]
+----
+
+==== See Also
+
+https://github.com/kiali/kiali/blob/master/business/checkers/peerauthentications/disabled_meshwide_checker.go[Validator source code, window="_blank"] +
+https://istio.io/docs/reference/config/security/peer_authentication[PeerAuthentication reference, windor="_blank"]
 
 [#ports]
 == Ports
@@ -1046,6 +1202,26 @@ include::/data/files/validation_examples/105.yaml[]
 ==== See Also
 
 https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/subset_presence_checker.go[Validator source code, window="_blank"]
+
+'''
+
+=== KIA1108 - Preferred nomenclature: <gateway namespace>/<gateway name>
+
+A virtual service may include a list of gateways which the defined routes should be applied to. Gateways in other namespaces may be referred to by <gateway namespace>/<gateway name>; specifying a gateway with no namespace qualifier is the same as specifying the VirtualService’s namespace.
+
+==== Resolution
+Move the nomenclature of the gateways into the supported Istio form: <gateway namespace>/<gateway name>
+
+==== Example
+
+[source, yaml]
+----
+include::/data/files/validation_examples/112.yaml[]
+----
+
+==== See Also
+
+https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/no_gateway_checker.go[Validator source code, window="_blank"]
 
 [#generic]
 
