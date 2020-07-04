@@ -7,9 +7,6 @@ vendor
 # IntelliJ
 .idea/
 
-# Autogenerate by build
-content/documentation/*/developer-api/index.html
-
 # Emacs
 *~
 \#*\#
