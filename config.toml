@@ -94,7 +94,7 @@ relativeURLs = true
       [[menu.main]]
           identifier = "doc_swagger"
           name = "Developer API"
-          url = "/documentation/edge/developer-api"
+          url = "/documentation/latest/developer-api"
           weight = 7
           parent="main_doc"
       [[menu.main]]
