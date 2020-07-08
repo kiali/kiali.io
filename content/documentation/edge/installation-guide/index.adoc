@@ -1,8 +1,9 @@
 ---
-title: "Getting started"
+title: "Installation guide"
 aliases:
+- /installation-guide/
+- /getting-started/
 - /gettingstarted/
-- /prerequisites/
 date: 2019-03-20T09:04:38+02:00
 draft: false
 ---

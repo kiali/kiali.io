@@ -1,0 +1,72 @@
+---
+title: "Quick install"
+aliases:
+- /quick-install/
+date: 2019-03-20T09:04:38+02:00
+draft: false
+---
+
+:keywords: Kiali Quick Install
+:icons: font
+:imagesdir: /images/quickinstall/
+:sectlinks:
+
+This page is intended for users installing Kiali for the first time, not recomended for production environments. In case of custom installations, visit the link:{{< ref "/installation-guide" >}}[installation guide].
+
+== Install via `istioctl`
+
+Install Kiali via https://istio.io/latest/docs/setup/additional-setup/config-profiles/[Istio profiles]. The `demo` profile is designed to showcase Istio functionality with modest resource requirements. It installs both core and addons components such as Kiali, Jaeger, Grafana, Prometheus, Istio and Istio Ingress/Egress gateways.
+
+Once you have the `istioctl` in your PATH, execute the following:
+
+[source,bash]
+----
+istioctl install --set profile=demo \
+  --set "values.kiali.dashboard.jaegerURL=http://jaeger-query:16686" \
+  --set "values.kiali.dashboard.grafanaURL=http://grafana:3000"
+----
+
+icon:bullhorn[size=1x]{nbsp} In case you already installed the `demo` profile without `jaegerURL` or `grafanaURL` variables you can define them by modifying the `kiali` configmap placed in your control plane namespace. See how: link:{{< ref "/installation-guide#_create_or_edit_the_kiali_cr" >}}[here].
+
+=== Access to the UI
+
+The Istio client has an easy method to access to all its UIs. See how to use it to get access to Kiali UI:
+
+[source,bash]
+----
+istioctl dashboard kiali
+----
+
+icon:bullhorn[size=1x]{nbsp} The default credentials to log in are: `admin/admin`. It is highly recomendable to change them as soon as possible, see the link:{{< ref "/installation-guide#_login_options" >}}[Login Options]
+
+== Using Kiali Operator
+
+This option installs the Kiali Operator and the Kiali CR with default options. If you are running with an https://github.com/istio/istio/releases[upstream Istio release], you will probably want to pass in _--accessible_names="**"_ since that is the typical way Kiali is expected to run within an upstream Istio environment.
+
+
+When the Kiali CR is created it triggers the operator to then install Kiali. Kiali is able to access existing namespaces, but it required a CR update to access future namespaces. See link:{{< ref "/installation-guide#_namespace_management" >}}[Namespace Management] for more information. Run the install script via this command:
+
+[source,bash]
+----
+  bash <(curl -L https://kiali.io/getLatestKialiOperator) --accessible-namespaces '**'
+----
+
+=== Open the UI
+
+Once Istio, Maistra or the Kiali Operator has installed Kiali, and the Kiali pod has successfully started, you can access the UI. Please, check the link:{{< ref "/faq/general#how-do-i-access-kiai" >}}[FAQ: How do I access Kiali UI?]
+
+icon:bullhorn[size=1x]{nbsp} The credentials you use on the login screen depend on the authentication strategy that was configured for Kiali. See link:{{< ref "/installation-guide#_login_options" >}}[Login Options] for more details.
+
+== Running on OpenShift
+
+When Kiali runs on OpenShift it needs access to some OpenShift specific resources in order to function properly, which can be done using the following commands after Kiali has been installed:
+
+----
+$ oc patch clusterrole kiali -p '[{"op":"add", "path":"/rules/-", "value":{"apiGroups":["apps.openshift.io"], "resources":["deploymentconfigs"],"verbs": ["get", "list", "watch"]}}]' --type json
+$ oc patch clusterrole kiali -p '[{"op":"add", "path":"/rules/-", "value":{"apiGroups":["project.openshift.io"], "resources":["projects"],"verbs": ["get"]}}]' --type json
+$ oc patch clusterrole kiali -p '[{"op":"add", "path":"/rules/-", "value":{"apiGroups":["route.openshift.io"], "resources":["routes"],"verbs": ["get"]}}]' --type json
+----
+
+== More installation details
+
+Find more detailed information on the installation process in the link:{{< ref "/installation-guide" >}}[installation guide].
