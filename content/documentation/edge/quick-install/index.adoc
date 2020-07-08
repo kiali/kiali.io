@@ -15,7 +15,7 @@ icon:lightbulb[size=1x]{nbsp} This page is intended for users installing Kiali f
 
 == Install via `istioctl`
 
-Install Kiali via https://istio.io/latest/docs/setup/additional-setup/config-profiles/[Istio profiles]. The `demo` profile is designed to showcase Istio functionality with modest resource requirements. It installs both core and addons components such as Kiali, Jaeger, Grafana, Prometheus, Istio and Istio Ingress/Egress gateways.
+Install Kiali via https://istio.io/latest/docs/setup/additional-setup/config-profiles/[Istio profiles]. The `demo` profile is designed to showcase Istio functionality with modest resource requirements. It installs both core and add-on components such as Kiali, Jaeger, Grafana, Prometheus, Istio and Istio Ingress/Egress gateways.
 
 Once you have the `istioctl` in your PATH, execute the following:
 
@@ -26,22 +26,22 @@ istioctl install --set profile=demo \
   --set "values.kiali.dashboard.grafanaURL=http://grafana:3000"
 ----
 
-icon:bullhorn[size=1x]{nbsp} In case you already installed the `demo` profile without `jaegerURL` or `grafanaURL` variables you can define them by modifying the `kiali` configmap placed in your control plane namespace. See how: link:{{< ref "/installation-guide#_create_or_edit_the_kiali_cr" >}}[here].
+icon:bullhorn[size=1x]{nbsp} If you had previously installed the `demo` profile but without `jaegerURL` or `grafanaURL` variables, they can still be defined. Modify the `kiali` configmap found in your control plane namespace. See how: link:{{< ref "/installation-guide#_create_or_edit_the_kiali_cr" >}}[here].
 
 === Access to the UI
 
-The Istio client has an easy method to access to all its UIs. See how to use it to get access to Kiali UI:
+The Istio client has an easy method to access to all of its UIs. To get access to the Kiali UI:
 
 [source,bash]
 ----
 istioctl dashboard kiali
 ----
 
-icon:bullhorn[size=1x]{nbsp} The default credentials to log in are: `admin/admin`. It is highly recomendable to change them as soon as possible, see the link:{{< ref "/installation-guide#_login_options" >}}[Login Options]
+icon:bullhorn[size=1x]{nbsp} The default credentials to log in are: `admin/admin`. It is highly recommended to change them as soon as possible, see the link:{{< ref "/installation-guide#_login_options" >}}[Login Options]
 
 == Using Kiali Operator
 
-This option installs the Kiali Operator and the Kiali CR with default options. If you are running with an https://github.com/istio/istio/releases[upstream Istio release], you will probably want to pass in _--accessible_names="**"_ since that is the typical way Kiali is expected to run within an upstream Istio environment.
+This option installs the Kiali Operator and the Kiali CR with default options. If you are running with an https://github.com/istio/istio/releases[upstream Istio release], you will probably want to pass in _--accessible-namespaces="**"_ since that is the typical way Kiali is expected to run within an upstream Istio environment.
 
 
 When the Kiali CR is created it triggers the operator to then install Kiali. Kiali is able to access existing namespaces, but it required a CR update to access future namespaces. See link:{{< ref "/installation-guide#_namespace_management" >}}[Namespace Management] for more information. Run the install script via this command:
