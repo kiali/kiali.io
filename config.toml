@@ -35,9 +35,9 @@ relativeURLs = true
           weight = 2
           parent = "main_news"
   [[menu.main]]
-      identifier = "main_gettingstarted"
-      name = "Quick install"
-      url = "/documentation/latest/quick-install"
+      identifier = "main_quickstart"
+      name = "Quick start"
+      url = "/documentation/latest/quick-start"
       weight = 3
   [[menu.main]]
       identifier = "main_contribute"
