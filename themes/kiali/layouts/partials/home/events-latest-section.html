@@ -1,0 +1,43 @@
+  {{- $maxBlogPosts := .Site.Params.maxBlogPosts }}
+  {{- $expTimestamp := div now.Unix 6000 }}
+  {{- $formURL      := printf "https://docs.google.com/spreadsheets/d/e/2PACX-1vQEuJ1_zcsbU5f0wdsZ5ytwyV5h3Q9ufHdc4rqEGnqBvlBNANKqwYyV8YxXJ9qj2gxBzuSMc4zvao5R/pub?gid=0&single=true&output=csv&ts=%d" $expTimestamp }}
+  {{- $csv          := getCSV "," $formURL }}
+  {{- $events       := first $maxBlogPosts $csv }}
+  {{- $latestEvent := index $csv 1 }}
+
+  <section id="blog-latest" data-lastpubat="{{ index $latestEvent 0 }}">
+    <h1>
+      Events and talks
+    </h1>
+    <div id="go-to-blog-link">
+      <a href="https://bit.ly/3egKs58" target="_blank">
+        Contribute
+        <span class="fas fa-external-link-alt" />
+      </a>
+    </div>
+
+    <div id="blog-blocks">
+      {{ range $i, $r := $events }}
+        {{ if gt $i 0 }}
+          {{ $link    := index $r 7 }}
+          {{ $title   := index $r 1 }}
+          {{ $author  := index $r 4 }}
+          {{ $dateRaw := index $r 2 }}
+          {{ $date    := $dateRaw }}
+          {{ $summary := index $r 3 | plainify | truncate 150 }}
+
+          <a href="{{ $link }}" title="{{ $title }}" target="_blank">
+            <div>
+              <header>
+                <div>{{ $date }}</div>
+                <div><span class="fas fa-calendar" /></div>
+              </header>
+              <h1>{{ $title }}</h2>
+              <p>{{ $author }}</p>
+            </div>
+          </a>
+        {{ end }}
+      {{ end }}
+    </div>
+  </section>
+
