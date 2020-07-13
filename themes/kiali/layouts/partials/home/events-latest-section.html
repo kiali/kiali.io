@@ -1,5 +1,5 @@
   {{- $maxBlogPosts := .Site.Params.maxBlogPosts }}
-  {{- $expTimestamp := div now.Unix 6000 }}
+  {{- $expTimestamp := div now.Unix 600 }}
   {{- $formURL      := printf "https://docs.google.com/spreadsheets/d/e/2PACX-1vQEuJ1_zcsbU5f0wdsZ5ytwyV5h3Q9ufHdc4rqEGnqBvlBNANKqwYyV8YxXJ9qj2gxBzuSMc4zvao5R/pub?gid=0&single=true&output=csv&ts=%d" $expTimestamp }}
   {{- $csv          := getCSV "," $formURL }}
   {{- $events       := first $maxBlogPosts $csv }}
@@ -23,7 +23,7 @@
           {{ $title   := index $r 1 }}
           {{ $author  := index $r 4 }}
           {{ $dateRaw := index $r 2 }}
-          {{ $date    := $dateRaw }}
+          {{ $date    := dateFormat "January 2, 2006" $dateRaw }}
           {{ $summary := index $r 3 | plainify | truncate 150 }}
 
           <a href="{{ $link }}" title="{{ $title }}" target="_blank">
