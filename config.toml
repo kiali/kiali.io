@@ -63,7 +63,7 @@ relativeURLs = true
              parent="doc_features"
       [[menu.main]]
           identifier = "doc_installation_guide"
-          name = "Getting Started"
+          name = "Installation Guide"
           url = "/documentation/latest/installation-guide"
           weight = 2
           parent="main_doc"
