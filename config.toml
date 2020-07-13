@@ -35,9 +35,9 @@ relativeURLs = true
           weight = 2
           parent = "main_news"
   [[menu.main]]
-      identifier = "main_gettingstarted"
-      name = "Getting Started"
-      url = "/documentation/latest/getting-started"
+      identifier = "main_quickstart"
+      name = "Quick start"
+      url = "/documentation/latest/quick-start"
       weight = 3
   [[menu.main]]
       identifier = "main_contribute"
@@ -62,9 +62,9 @@ relativeURLs = true
              weight = 1
              parent="doc_features"
       [[menu.main]]
-          identifier = "doc_gettingstarted"
-          name = "Getting Started"
-          url = "/documentation/latest/getting-started"
+          identifier = "doc_installation_guide"
+          name = "Installation Guide"
+          url = "/documentation/latest/installation-guide"
           weight = 2
           parent="main_doc"
       [[menu.main]]
