@@ -2,7 +2,7 @@
 title: FAQ
 description: Frequently Asked Questions about Kiali.
 weight: 6
-layout: faq-landing
+type: faq
 icon: faq
 ---
 
