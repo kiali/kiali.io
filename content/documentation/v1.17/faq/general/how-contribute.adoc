@@ -1,0 +1,16 @@
+---
+title: How can I contribute?
+weight: 30
+---
+:icons: font
+:sectlinks:
+
+Contributions are highly welcome. We look forward to community feedback, additions, and bug reports.
+
+The code repositories are hosted on https://github.com/kiali[GitHub].
+Please see our https://github.com/kiali/kiali/blob/master/CONTRIBUTING.md[Contribution Guidelines] to learn how to contribute.
+
+In general, we use the https://github.com/kiali/kiali/issues[GitHub tracker] for issues raised by the community,
+and https://issues.jboss.org/projects/KIALI/issues/[JIRA] for issues raised by the core engineering team. Both are
+publicly accessible.
+

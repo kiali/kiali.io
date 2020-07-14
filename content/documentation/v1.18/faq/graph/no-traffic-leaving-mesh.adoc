@@ -1,0 +1,19 @@
+---
+title: Why can't I see traffic leaving the mesh?
+weight: 50
+---
+:icons: font
+
+See link:#missing-edges[Why do I have missing edges?], and additionally consider:
+
+3- Requests are not configured for telemetry.
+
+You need to create a ServiceEntry (or several) to allow the requests to be mapped correctly.
+
+There are a couple of bugs related to this, https://github.com/istio/istio/issues/15188[one] incorrectly maps traffic
+to other ServiceEntry while the https://github.com/istio/istio/issues/15038[other] is about not seeing a ServiceEntry
+even if is configured correctly.
+
+You can check this article on how to
+https://medium.com/kialiproject/visualizing-istio-external-traffic-with-kiali-9cba75b337f4[visualize your external
+traffic in Kiali] for more information.
