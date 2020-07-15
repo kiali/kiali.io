@@ -18,7 +18,9 @@
         {{ $sorted_questions := sort $questions ".Params.weight" }}
         {{ $url := .RelPermalink }}
         {{ range $sorted_questions }}
-          <li role="none"><a href="{{ $url }}#{{ .File.BaseFileName | urlize }}">{{ .Title }}</a></li>
+          <li role="none"><a name="{{ .File.BaseFileName }}" href="#{{ .File.BaseFileName | urlize }}">{{ .Title }}</a></li>
+
+          <p>{{ .Content }}</p>
         {{ end }}
       </ul>
     {{ end }}
