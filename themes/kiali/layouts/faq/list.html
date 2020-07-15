@@ -12,7 +12,7 @@
     {{ .Content }}
 
     {{ range .Data.Pages.ByWeight }}
-      <h2><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h2>
+      <h2>{{ .LinkTitle }}</h2>
       <ul>
         {{ $questions := .Resources.ByType "page" }}
         {{ $sorted_questions := sort $questions ".Params.weight" }}
