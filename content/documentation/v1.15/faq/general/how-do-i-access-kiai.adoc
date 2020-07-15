@@ -5,7 +5,7 @@ weight: 10
 :icons: font
 
 *_This assumes that you have used the
-link:{{< ref "/documentation/getting-started" >}}[Getting started instructions] to
+link:{{< ref "/documentation/v1.15/getting-started" >}}[Getting started instructions] to
 install Kiali._*
 
 *If you are using OpenShift*, installation exposes Kiali through a route. The
