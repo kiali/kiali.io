@@ -1,0 +1,307 @@
+---
+title: "Features"
+aliases:
+- /features/
+- /documentation/v1.20/overview/
+date: 2018-06-20T19:04:38+02:00
+draft: false
+type: "features"
+---
+
+:sectlinks:
+:linkattrs:
+:toc: macro
+:toc-title: Kiali Features
+:toclevels: 4
+:keywords: Kiali Features
+:icons: font
+:imagesdir: /images/documentation/features/
+
+== Overview
+
+Kiali helps you define, validate, and observe the connections and microservices of your Istio service mesh.
+
+Kiali works with Istio in OpenShift or Kubernetes. It visualizes the service mesh topology and provides visibility into features like request routing, circuit breakers, request rates, latency and more. Kiali offers insights about the mesh components at different levels, from abstract Applications to Services and Workloads.
+
+icon:lightbulb[size=2x] {nbsp}{nbsp}{nbsp}{nbsp} Kiali also includes Jaeger Tracing to provide distributed tracing by default.
+
+toc::[]
+
+== Observability Features
+
+The following observability features help you ensure your mesh is healthy or to quickly identify problem areas in operation. It combines topology, telemetry, traces, logs, events and definitions in a holistic view of your system.
+
+
+=== Graph
+The graph provides a powerful way to visualize the topology of your service mesh. It shows you which services communicate with each other and the traffic rates and latencies between them, which helps you visually identify problem areas and quickly pinpoint issues. Kiali provides graphs that show a high-level view of service interactions, a low level view of workloads, or a logical view of applications.
+
+The graph also shows which services are configured with virtual services and circuit breakers. It identifies security issues by identifying traffic not configured as expected. You can observe the traffic flow between components by watching the animation or viewing the metrics.
+
+You can configure the graph to show the namespaces and data that are important to you, and display it in the way that best meets your needs.
+++++
+<a class="image-popup-fit-height" href="/images/documentation/features/graph-overview.png" title="Visualize your service mesh topology">
+    <img src="/images/documentation/features/graph-overview-thumb.png" style="display:block;margin: 0 auto;" />
+</a>
+++++
+
+{empty} +
+
+==== Graph: Health
+Colors in the graph represent the health of your service mesh. A node colored red or orange might need attention. The color of an edge between components represents the health of the requests between those components. The node shape indicates the type of component such as services, workloads, or apps.
+
+The health of nodes and edges is refreshed automatically based on the user's preference. The graph can also be paused to examine a particular state.
+++++
+<a class="image-popup-fit-height" href="/images/documentation/features/graph-health.png" title="Visualize the health of your mesh">
+    <img src="/images/documentation/features/graph-health-thumb.png" style="display:block;margin: 0 auto;" />
+</a>
+++++
+
+{empty} +
+
+==== Graph: Drill-Down
+You can focus the app graph on just one component, whether it's a service, a workload, or an application. Kiali offers detail graphs for any component you choose.
+
+Double click on a graph node and you can see a detailed view centered on that component. It shows you only the incoming requests being served and the outgoing requests being made - all from the point-of-view of that component's telemetry.
+
+You can jump back to the main graph and continue where you left off.
+++++
+<a class="image-popup-fit-height" href="/images/documentation/features/graph-detailed.png" title="Focus your graph on a selected component">
+    <img src="/images/documentation/features/graph-detailed-thumb.png" style="display:block;margin: 0 auto;" />
+</a>
+++++
+
+{empty} +
+
+==== Graph: Side-Panel
+Want to get a quick summary of anything in the graph? Select any node with a single-click and the side panel provides a brief summary for that component. This includes:
+
+* **Charts** showing traffic and response times
+* **Health** details
+* **Links** to fully-detailed pages
+* **Response Code** breakdowns.
+
+Or, click the graph background and the side panel to view an overall summary for the entire graph.
+++++
+<a class="image-popup-fit-height" href="/images/documentation/features/graph-side-panel.png" title="Quick summary of a selected component">
+    <img src="/images/documentation/features/graph-side-panel-thumb.png" style="display:block;margin: 0 auto;" />
+</a>
+++++
+
+{empty} +
+
+==== Graph: Traffic Animation
+Kiali offers several display options for the graph, including traffic animation.
+
+For HTTP traffic, circles represent successful requests while red diamonds represent errors. The more dense the circles and diamonds the higher the request rate. The faster the animation the faster the response times.
+
+TCP traffic is represented by offset circles where the speed of the circles indicates the traffic speed.
+++++
+<a class="video-popup" href="/images/documentation/features/kiali_traffic_animation.mp4" title="Visualize your traffic flow">
+    <video autoplay muted loop width="600px" src="/images/documentation/features/kiali_traffic_animation_thumb.mp4" style="display:block;margin:0 auto;" />
+</a>
+++++
+
+{empty} +
+
+==== Graph: Graph Types
+Kiali offers four different graph renderings of the mesh telemetry. Each graph type provides a different view of the traffic.
+
+* The **workload** graph provides the a detailed view of communication between workloads.
+
+* The **app** graph aggregates the workloads with the same app labeling, which provides a more logical view.
+
+* The **versioned app** graph aggregates by app, but breaks out the different versions providing traffic breakdowns that are version-specific.
+
+* The **service** graph provides a high-level view, which aggregates all traffic for defined services.
+++++
+<a class="image-popup-fit-height" href="/images/documentation/features/graph-types.png" title="Visualize your mesh different ways">
+    <img src="/images/documentation/features/graph-types-thumb.png" style="display:block;margin: 0 auto;" />
+</a>
+++++
+
+{empty} +
+
+=== Detail Views
+Kiali provides filtered list views of all your service mesh definitions. Each view provides health, details, YAML definitions and links to help you visualize your mesh. There are list and detail views for:
+
+* Services
+* Applications
+* Workloads
+* Istio Configurations (Virtual Services, Gateways, etc)
+++++
+<a class="video-popup" href="/images/documentation/features/applications_workloads_services_overview.mp4" title="Filtered component lists">
+    <video autoplay muted loop width="600px" src="/images/documentation/features/applications_workloads_services_overview-thumb.mp4" style="display:block;margin:0 auto;" />
+</a>
+++++
+
+{empty} +
+
+==== Detail: Metrics
+Each detail view provides predefined metric dashboards. The metric dashboards provided are tailored to the relevant application, workload or service level.
+
+Application and workload detail views show request and response metrics such as volume, duration, size, or tcp traffic. The traffic can also be viewed for either inbound or outbound traffic.
+
+The service detail view shows request and response metrics for inbound traffic.
+++++
+<a class="video-popup" href="/images/documentation/features/detailed_metrics.mp4" title="Metric Charts">
+    <video autoplay muted loop width="600px" src="/images/documentation/features/detailed_metrics_thumb.mp4" style="display:block;margin:0 auto;" />
+</a>
+++++
+
+{empty} +
+
+==== Detail: Services
+The service detail view shows the user the workloads running the service. It also shows the Istio traffic routing configuration, VirtualServices and DestinationRules, associated with the service.
+
+Kiali provides access to YAML definitions and allows modification and deletion access for authorized users. It provides wizards to assist in common configurations and performs additional validation on VirtualServices to detect misconfigured routes.
+++++
+<a class="video-popup" href="/images/documentation/features/services_traffic_routing.mp4" title="Service Details">
+    <video autoplay muted loop width="600px" src="/images/documentation/features/services_traffic_routing_thumb.mp4" style="display:block;margin:0 auto;" />
+</a>
+++++
+
+{empty} +
+
+==== Detail: Workloads
+Kiali performs several validations on workload configuration:
+
+* Are Istio sidecars deployed?
+
+* Are proper *app* and *version* labels assigned?
+
+Workload detail shows you the services for which the workload is handling requests, and the pods backing the workload.
+
+Workload detail also allows access to the pod logs, and provides detailed traffic breakdown.
+++++
+<a class="image-popup-fit-height" href="/images/documentation/features/workload_details.png" title="Workload Details">
+    <img src="/images/documentation/features/workload_details_thumb.png" style="display:block;margin: 0 auto;" />
+</a>
+++++
+
+{empty} +
+
+==== Detail: Custom Dashboards
+Kiali comes with default dashboards for several runtimes, including Go, Node.js, Spring Boot, Thorntail, and Vert.x.
+
+These dashboards are simple Kubernetes resources, so you can use your favorite tool to create, modify or delete them.
+As they are defined as plain YAML or JSON files, so it's easy to keep them in source control like Git, track their changes, and share them.
+
+Check out the link:/documentation/v1.20/runtimes-monitoring/[documentation page, window=_blank] to learn more about it.
+++++
+<a class="image-popup-fit-height" href="/images/documentation/features/runtimes_monitoring.png" title="Runtimes Dashboards">
+    <img src="/images/documentation/features/runtimes_monitoring_thumb.png" style="display:block;margin: 0 auto;" />
+</a>
+++++
+
+{empty} +
+
+=== Distributed Tracing
+Click the Distributed Tracing menu item for tracing services https://www.jaegertracing.io/[Jaeger, window=_blank].
+
+{empty} +
+
+== Configuration and Validation Features
+
+Kiali is more than observability, it also helps you to configure, update and validate your Istio service mesh.
+
+
+=== Istio Configuration
+The Istio configuration view provides advanced filtering and navigation for Istio configuration objects such as Virtual Services and Gateways.
+Kiali provides inline config edition and powerful semantic validation for Istio resources.
+++++
+<a class="video-popup" href="/images/documentation/features/istio_configuration.mp4" title="Istio Configurations">
+    <video autoplay muted loop width="600px" src="/images/documentation/features/istio_configuration_thumb.mp4" style="display:block;margin:0 auto;" />
+</a>
+++++
+
+=== Validations
+Kiali performs a set of validations to the most common Istio Objects such as Destination Rules, Service Entries, and Virtual Services. Those validations are done in addition to the existing ones performed by Istio's Galley component. Most validations are done inside a single namespace only, any exceptions, such as gateways, are properly documented.
+
+Galley validations are mostly syntactic validations based on the object syntax analysis of Istio objects while Kiali validations are mostly semantic validations between different Istio objects. Kiali validations are based on the runtime status of your service mesh, Galley validations are static ones and doesn't take into account what is configured in the mesh.
+
+Check the complete link:/documentation/v1.20/validations/[list of validations] for further information.
+
+=== Istio Wizards
+Kiali provides different actions to create, update and delete Istio configuration driven by wizards. These are located in the *Actions* menu on the Service Details page.
+++++
+<a class="image-popup-fit-height" href="/images/documentation/features/service-istio-actions.png" title="Service Details Actions">
+    <img src="/images/documentation/features/service-istio-actions-thumb.png" style="display:block;margin: 0 auto;" />
+</a>
+++++
+{nbsp} +
+These actions are enabled by default. +
+Kiali can also be installed in *view only* mode to restrict any write operation on Istio configuration. +
+Check https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml[Kiali Operator CR, window=_blank] to get more details about how to configure this option.
+
+==== Weighted Routing Wizard
+With this wizard, you can select the percentage of traffic that is routed to a specific workload.
+++++
+<a class="image-popup-fit-height" href="/images/documentation/features/wizard-weighted-routing.png" title="Weighted Routing Wizard">
+    <img src="/images/documentation/features/wizard-weighted-routing-thumb.png" style="display:block;margin: 0 auto;" />
+</a>
+++++
+Kiali creates a pair of Istio resources, VirtualService and DestinationRule, with a single routing rule using the selected weights for the destination workloads.
+
+==== Matching Routing Wizard
+The Matching Routing Wizard allows to create multiple routing rules.
+
+* Every rule is composed by a Matching and a Routes section.
+* The Matching section can add multiple filters using HEADERS, URI, SCHEME, METHOD or AUTHORITY Http parameters.
+* The Matching section can be empty, on this case, any http request received is matched against this rule.
+* The Routes section can select one or multiple Workloads.
+
+Istio applies routing rules in order, meaning that first rule that matches an HTTP request, it is responsible to perform the routing. The Matching Routing Wizard allows to change order of rules.
+++++
+<a class="image-popup-fit-height" href="/images/documentation/features/wizard-matching-routing.png" title="Matching Routing Wizard">
+    <img src="/images/documentation/features/wizard-matching-routing-thumb.png" style="display:block;margin: 0 auto;" />
+</a>
+++++
+In the same way as the previous wizard, Kiali creates a pair of Istio resources mapping the routing rules defined into the generated VirtualService.
+
+==== Suspend Traffic Wizard
+This wizard helps user to partially or totally stop traffic for a service. You can define which workloads receive traffic.
+
+When traffic is suspended for all workloads, Istio returns an error code to any service request.
+++++
+<a class="image-popup-fit-height" href="/images/documentation/features/wizard-suspend-traffic.png" title="Suspend Traffic Wizard">
+    <img src="/images/documentation/features/wizard-suspend-traffic-thumb.png" style="display:block;margin: 0 auto;" />
+</a>
+++++
+When there is traffic for some workload, the wizard maps a weighted rule; when there is not traffic, an abort rule is coded in the pair of Istio resources VirtualService and DestinationRule generated.
+
+==== Advanced Options
+All previous wizards have an Advanced Options section where user can define specific configuration for TLS and LoadBalancing.
+++++
+<a class="image-popup-fit-height" href="/images/documentation/features/wizard-advanced-options.png" title="Advanced options section">
+    <img src="/images/documentation/features/wizard-advanced-options-thumb.png" style="display:block;margin: 0 auto;" />
+</a>
+++++
+When mTLS is enabled by default in the global cluster or namespace this option is selected by default.
+
+==== More Wizard examples
+The following article https://medium.com/kialiproject/kiali-observability-in-action-for-istio-service-mesh-69127f792103[Kiali: Observability in Action for Istio Service Mesh, window=_blank] describes more examples of how to use the Kiali Wizards to configure Istio configuration.
+
+== Multi-cluster support
+Istio provides https://istio.io/docs/setup/install/multicluster/[installation instructions] for three different multi-cluster scenarios: replicated control planes, shared control plane with single-network, and shared control plane with multi-network.
+
+Currently, Kiali only works with Istio's replicated control planes scenario. You will need to install Kiali aside each Istio's control plane; i.e. you will need one Kiali instance per Istio's control plane you want to monitor. Install instructions for Kiali are the same as for the single cluster scenario, so following the link:/documentation/v1.20/getting-started/[Getting started guide] is enough. Kiali will let you observe the mesh portion that is managed by the adjacent control plane.
+
+The shared control plane scenarios are currently not supported by Kiali.
+
+== Useful resources
+
+.Kiali
+* https://github.com/kiali/kiali/blob/master/README.adoc[Kiali Readme, window=_blank]
+* https://github.com/kiali/kiali-ui/blob/master/README.adoc[Kiali-ui Readme, window=_blank]
+* https://github.com/kiali/kiali-test-mesh[Kiali-test-mesh, window=_blank]
+
+.Istio
+* https://istio.io/[Istio, window=_blank]
+ - https://istio.io/docs/concepts/what-is-istio/[What is Istio?, window=_blank]
+ - https://istio.io/docs/concepts/traffic-management/[Traffic Management, window=_blank]
+ - https://istio.io/docs/examples/[Examples, window=_blank]
+
+.Jaeger
+* https://www.jaegertracing.io/[Jaeger, window=_blank]
+
+

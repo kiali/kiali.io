@@ -1,0 +1,12 @@
+---
+title: I can’t see the link to Tracing or traces tab in service details
+weight: 70
+---
+:icons: font
+:imagesdir: /images/faq/tracing/
+
+To see Jaeger integration (both link to browse traces and traces tabs in service details) Kiali needs to know the URL where Jaeger is running under. In order for Kiali users to know which URL Kiali users, check the About menu, as it follows:
+
+image::about_menu.png[About menu]
+
+image::about.png[About modal]
