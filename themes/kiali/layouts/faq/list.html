@@ -12,17 +12,32 @@
     {{ .Content }}
 
     {{ range .Data.Pages.ByWeight }}
-      <h2>{{ .LinkTitle }}</h2>
       <ul>
-        {{ $questions := .Resources.ByType "page" }}
-        {{ $sorted_questions := sort $questions ".Params.weight" }}
-        {{ $url := .RelPermalink }}
-        {{ range $sorted_questions }}
-          <li role="none"><a name="{{ .File.BaseFileName }}" href="#{{ .File.BaseFileName | urlize }}">{{ .Title }}</a></li>
-
-          <p>{{ .Content }}</p>
-        {{ end }}
+        <li role="none">
+          {{ .Title }}
+          <ul>
+            {{ $questions := .Resources.ByType "page" }}
+            {{ $sorted_questions := sort $questions ".Params.weight" }}
+            {{ $url := .RelPermalink }}
+            {{ range $sorted_questions }}
+              <li role="none"><a href="#{{ .File.BaseFileName }}">{{ .Title }}</a></li>
+            {{ end }}
+          </ul>
+        </li>
       </ul>
+    {{ end }}
+
+    {{ range .Data.Pages.ByWeight }}
+      <h3>{{ .LinkTitle }}</h3>
+
+      {{ $questions := .Resources.ByType "page" }}
+      {{ $sorted_questions := sort $questions ".Params.weight" }}
+      {{ $url := .RelPermalink }}
+      {{ range $sorted_questions }}
+        <h5><a name="{{ .File.BaseFileName }}" href="#{{ .File.BaseFileName }}">{{ .Title }}</a></h5>
+
+        <p>{{ .Content }}</p>
+      {{ end }}
     {{ end }}
   </main>
 </article>
