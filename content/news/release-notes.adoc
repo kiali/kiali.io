@@ -15,6 +15,40 @@ For additional information check our https://www.youtube.com/channel/UCcm2NzDN_U
 
 toc::[]
 
+== 1.21.0
+Sprint Release: July 17th, 2020
+
+Features:
+
+* https://github.com/kiali/kiali/issues/2995[need an FAQ to explain how to get a token for token auth strategy]
+* https://github.com/kiali/kiali/issues/2181[Reorganize documentation for kiali.io]
+* https://github.com/kiali/kiali/issues/2989[be able to include/exclude monitoring dashboard resources that get created for you]
+* https://github.com/kiali/kiali/issues/2854[Add request classification information to graph]
+* https://github.com/kiali/kiali/issues/2856[Design: request classification information in graph]
+* https://github.com/kiali/kiali/issues/2969[(kiali.io) Add Feature: Graph support for request classification (operation nodes)]
+* https://github.com/kiali/kiali/issues/2984[molecule tests should grab server logs on failures]
+* https://github.com/kiali/kiali/issues/2251[kiali.io - Quick install page]
+* https://github.com/kiali/kiali/issues/2908[graph gen: request classification information in graph]
+* https://github.com/kiali/kiali/issues/2840[In-graph tracing: show list of traces for service]
+* https://github.com/kiali/kiali/issues/2892[Add Regex filtering to Show/hide workoad logging]
+* https://github.com/kiali/kiali/issues/2970[Fetch single trace endpoint doesn't need service/namespace]
+* https://github.com/kiali/kiali/issues/2937[(downstream) Run Kiali as a non-root regular user]
+* https://github.com/kiali/kiali/issues/2933[Invalid OIDC "/authorize" request due to missing state param]
+* https://github.com/kiali/kiali/issues/2283[Istio upstream: Adding AuthorizationPolicies analyzers]
+* https://github.com/kiali/kiali/issues/2917[Move to the new OpenShift serving-certificate interface]
+* https://github.com/kiali/kiali/issues/2909[Replace Glide with GoModules]
+
+Fixes:
+
+* https://github.com/kiali/kiali/issues/2954[OpenID authentication strategy should not require "expires_in" in the callback]
+* https://github.com/kiali/kiali/issues/2994[FAQ links are all broken]
+* https://github.com/kiali/kiali/issues/2975[OAuthClient is a clustered resource - do not specify namespace]
+* https://github.com/kiali/kiali/issues/2977[non-amd Travis builds need envsubst explicitly installed]
+* https://github.com/kiali/kiali/issues/1826[Rendering Problems on Graph with Big Meshes]
+* https://github.com/kiali/kiali/issues/2946[In kiosk mode the main header should not be shown]
+* https://github.com/kiali/kiali/issues/2902[developer API link is broken]
+* https://github.com/kiali/kiali/issues/2920[Label operation - Refresh resets the value]
+
 == 1.20.0
 Sprint Release: June 26th, 2020
 
