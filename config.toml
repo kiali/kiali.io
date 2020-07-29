@@ -36,7 +36,7 @@ relativeURLs = true
           parent = "main_news"
   [[menu.main]]
       identifier = "main_quickstart"
-      name = "Quick start"
+      name = "Quick Start"
       url = "/documentation/latest/quick-start"
       weight = 3
   [[menu.main]]

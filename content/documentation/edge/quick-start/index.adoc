@@ -1,5 +1,5 @@
 ---
-title: "Quick install"
+title: "Quick Start"
 date: 2019-03-20T09:04:38+02:00
 aliases:
 - /quick-start
@@ -8,9 +8,10 @@ aliases:
 - /documentation/getting-started
 - /documentation/latest/getting-started
 draft: false
+weight: 2
 ---
 
-:keywords: Kiali Quick Install
+:keywords: Kiali Quick Start
 :icons: font
 :imagesdir: /images/quickinstall/
 :sectlinks:

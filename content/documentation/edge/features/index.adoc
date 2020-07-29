@@ -6,6 +6,7 @@ aliases:
 date: 2018-06-20T19:04:38+02:00
 draft: false
 type: "features"
+weight: 1
 ---
 
 :sectlinks:
@@ -39,8 +40,8 @@ The graph also shows which services are configured with virtual services and cir
 
 You can configure the graph to show the namespaces and data that are important to you, and display it in the way that best meets your needs.
 ++++
-<a class="image-popup-fit-height" href="/images/documentation/features/graph-overview.png" title="Visualize your service mesh topology">
-    <img src="/images/documentation/features/graph-overview-thumb.png" style="display:block;margin: 0 auto;" />
+<a class="image-popup-fit-height" href="/images/documentation/features/graph-overview-v1.22.0.png" title="Visualize your service mesh topology">
+    <img src="/images/documentation/features/graph-overview-thumb-v1.22.0.png" style="display:block;margin: 0 auto;" />
 </a>
 ++++
 
@@ -51,8 +52,8 @@ Colors in the graph represent the health of your service mesh. A node colored re
 
 The health of nodes and edges is refreshed automatically based on the user's preference. The graph can also be paused to examine a particular state, or replayed to re-examine a particular time period.
 ++++
-<a class="image-popup-fit-height" href="/images/documentation/features/graph-health.png" title="Visualize the health of your mesh">
-    <img src="/images/documentation/features/graph-health-thumb.png" style="display:block;margin: 0 auto;" />
+<a class="image-popup-fit-height" href="/images/documentation/features/graph-health-v1.22.0.png" title="Visualize the health of your mesh">
+    <img src="/images/documentation/features/graph-health-thumb-v1.22.0.png" style="display:block;margin: 0 auto;" />
 </a>
 ++++
 
@@ -65,8 +66,8 @@ Double click on a graph node and you can see a detailed view centered on that co
 
 You can jump back to the main graph and continue where you left off.
 ++++
-<a class="image-popup-fit-height" href="/images/documentation/features/graph-detailed.png" title="Focus your graph on a selected component">
-    <img src="/images/documentation/features/graph-detailed-thumb.png" style="display:block;margin: 0 auto;" />
+<a class="image-popup-fit-height" href="/images/documentation/features/graph-detailed-v1.22.0.png" title="Focus your graph on a selected component">
+    <img src="/images/documentation/features/graph-detailed-thumb-v1.22.0.png" style="display:block;margin: 0 auto;" />
 </a>
 ++++
 
@@ -82,8 +83,8 @@ Want to get a quick summary of anything in the graph? Select any node with a sin
 
 Or, click the graph background and the side panel to view an overall summary for the entire graph.
 ++++
-<a class="image-popup-fit-height" href="/images/documentation/features/graph-side-panel.png" title="Quick summary of a selected component">
-    <img src="/images/documentation/features/graph-side-panel-thumb.png" style="display:block;margin: 0 auto;" />
+<a class="image-popup-fit-height" href="/images/documentation/features/graph-side-panel-v1.22.0.png" title="Quick summary of a selected component">
+    <img src="/images/documentation/features/graph-side-panel-thumb-v1.22.0.png" style="display:block;margin: 0 auto;" />
 </a>
 ++++
 
@@ -96,8 +97,8 @@ For HTTP traffic, circles represent successful requests while red diamonds repre
 
 TCP traffic is represented by offset circles where the speed of the circles indicates the traffic speed.
 ++++
-<a class="video-popup" href="/images/documentation/features/kiali_traffic_animation.mp4" title="Visualize your traffic flow">
-    <video autoplay muted loop width="600px" src="/images/documentation/features/kiali_traffic_animation_thumb.mp4" style="display:block;margin:0 auto;" />
+<a class="video-popup" href="/images/documentation/features/kiali_traffic_animation-v1.22.0.mp4" title="Visualize your traffic flow">
+    <video autoplay muted loop width="600px" src="/images/documentation/features/kiali_traffic_animation_thumb-v1.22.0.mp4" style="display:block;margin:0 auto;" />
 </a>
 ++++
 
@@ -114,9 +115,39 @@ Kiali offers four different graph renderings of the mesh telemetry. Each graph t
 
 * The **service** graph provides a high-level view, which aggregates all traffic for defined services.
 ++++
-<a class="image-popup-fit-height" href="/images/documentation/features/graph-types.png" title="Visualize your mesh different ways">
-    <img src="/images/documentation/features/graph-types-thumb.png" style="display:block;margin: 0 auto;" />
-</a>
+<span>
+  <a class="image-popup-fit-height" href="/images/documentation/features/graph-type-app-v1.22.0.png" title="Visualize Apps">
+      <img src="/images/documentation/features/graph-type-app-thumb-v1.22.0.png" style="display:inline;margin: 0 auto;" />
+  </a>
+  <a class="image-popup-fit-height" href="/images/documentation/features/graph-type-service-v1.22.0.png" title="Visualize Services">
+      <img src="/images/documentation/features/graph-type-service-thumb-v1.22.0.png" style="display:inline;margin: 0 auto;" />
+  </a>
+  <a class="image-popup-fit-height" href="/images/documentation/features/graph-type-version-app-v1.22.0.png" title="Visualize Versioned Apps">
+      <img src="/images/documentation/features/graph-type-version-app-thumb-v1.22.0.png" style="display:inline;margin: 0 auto;" />
+  </a>
+  <a class="image-popup-fit-height" href="/images/documentation/features/graph-type-workload-v1.22.0.png" title="Visualize Workloads">
+      <img src="/images/documentation/features/graph-type-workload-thumb-v1.22.0.png" style="display:inline;margin: 0 auto;" />
+  </a>
+</span>
+++++
+
+{empty} +
+
+==== Graph: Replay
+
+Graph replay is a new feature that lets you examine the past state of your service mesh.
+
+++++
+<div id="replay-video" style="display:flex;align-items: center; justify-items: center;">
+  <iframe
+    width="560" height="315"
+    style="display:block;margin:0 auto;"
+    src="https://www.youtube.com/embed/CC_dl4zSZiU"
+    frameborder="0"
+    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen>
+  </iframe>
+</div>
 ++++
 
 {empty} +
@@ -130,8 +161,8 @@ Because operation nodes represent aggregate traffic they are not compatible with
 
 Operation nodes are represented as pentagons in the Kiali graph:
 ++++
-<a class="image-popup-fit-height" href="/images/documentation/features/graph-operations.png" title="Operation Nodes">
-    <img src="/images/documentation/features/graph-operations-thumb.png" style="display:block;margin: 0 auto;" />
+<a class="image-popup-fit-height" href="/images/documentation/features/graph-operations-v1.22.0.png" title="Operation Nodes">
+    <img src="/images/documentation/features/graph-operations-thumb-v1.22.0.png" style="display:block;margin: 0 auto;" />
 </a>
 ++++
 
@@ -143,7 +174,7 @@ Kiali provides filtered list views of all your service mesh definitions. Each vi
 * Services
 * Applications
 * Workloads
-* Istio Configurations (Virtual Services, Gateways, etc)
+* Istio Configuration
 ++++
 <a class="video-popup" href="/images/documentation/features/applications_workloads_services_overview.mp4" title="Filtered component lists">
     <video autoplay muted loop width="600px" src="/images/documentation/features/applications_workloads_services_overview-thumb.mp4" style="display:block;margin:0 auto;" />
