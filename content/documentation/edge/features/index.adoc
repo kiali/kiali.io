@@ -322,6 +322,29 @@ Check out the link:/documentation/edge/runtimes-monitoring/[documentation page, 
 
 ==== Detail: Traces
 
+Kiali has now a Span duration legend item on Service Metrics tab, when enabled, correlates Span and Metrics on the same chart.
+
+++++
+<a class="image-popup-fit-height" href="/images/documentation/features/traces-metrics-v1.22.0.png" title="Metrics and Trace Spans">
+    <img src="/images/documentation/features/traces-metrics-thumb-v1.22.0.png" style="display: block; margin: 0 auto;" />
+</a>
+++++
+
+User can navigate to the traces tab to browse filtered traces for a given service in the time interval or to show details for a single trace.
+
+++++
+<div style="display: flex;">
+    <span style="margin: 0 auto;">
+      <a class="image-popup-fit-height" href="/images/documentation/features/traces-view-v1.22.0.png" title="Traces Timeline for a Service">
+          <img src="/images/documentation/features/traces-view-thumb-v1.22.0.png" style="width: 726px;display:inline;margin: 0 auto;" />
+      </a>
+      <a class="image-popup-fit-height" href="/images/documentation/features/traces-view-details-v1.22.0.png" title="Trace Details">
+          <img src="/images/documentation/features/traces-view-details-thumb-v1.22.0.png" style="width: 726px;display:inline;margin: 0 auto;" />
+      </a>
+    </span>
+</div>
+++++
+
 {empty} +
 
 == Configuration and Validation Features
