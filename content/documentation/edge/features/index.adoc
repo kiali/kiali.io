@@ -18,13 +18,11 @@ weight: 1
 :icons: font
 :imagesdir: /images/documentation/features/
 
-== Overview
-
 Kiali helps you define, validate, and observe the connections and microservices of your Istio service mesh.
 
-Kiali works with Istio in OpenShift or Kubernetes. It visualizes the service mesh topology and provides visibility into features like request routing, circuit breakers, request rates, latency and more. Kiali offers insights about the mesh components at different levels, from abstract Applications to Services and Workloads.
+Kiali works with Istio in Kubernetes distributions. It visualizes the service mesh topology and provides visibility into features like request routing, circuit breakers, request rates, latency and more. Kiali offers insights about the mesh components at different levels, from abstract Applications to Services and Workloads.
 
-icon:lightbulb[size=2x] {nbsp}{nbsp}{nbsp}{nbsp} Kiali also includes Jaeger Tracing to provide distributed tracing by default.
+Kiali also helps to operate the Service Mesh providing Wizards to apply common traffic patterns an generate automatically Istio configuration.
 
 toc::[]
 
@@ -32,6 +30,15 @@ toc::[]
 
 The following observability features help you ensure your mesh is healthy or to quickly identify problem areas in operation. It combines topology, telemetry, traces, logs, events and definitions in a holistic view of your system.
 
+=== Overview
+
+Kiali provides a summary page of the Service Mesh namespaces and the status of their Applications, Workloads and Services.
+
+++++
+<a class="image-popup-fit-height" href="/images/documentation/features/overview-v1.22.0.png" title="Visualize your service mesh topology">
+    <img src="/images/documentation/features/overview-thumb-v1.22.0.png" style="display:block;margin: 0 auto;" />
+</a>
+++++
 
 === Graph
 The graph provides a powerful way to visualize the topology of your service mesh. It shows you which services communicate with each other and the traffic rates and latencies between them, which helps you visually identify problem areas and quickly pinpoint issues. Kiali provides graphs that show a high-level view of service interactions, a low level view of workloads, or a logical view of applications.
