@@ -115,20 +115,26 @@ Kiali offers four different graph renderings of the mesh telemetry. Each graph t
 
 * The **service** graph provides a high-level view, which aggregates all traffic for defined services.
 ++++
-<span>
-  <a class="image-popup-fit-height" href="/images/documentation/features/graph-type-app-v1.22.0.png" title="Visualize Apps">
-      <img src="/images/documentation/features/graph-type-app-thumb-v1.22.0.png" style="display:inline;margin: 0 auto;" />
-  </a>
-  <a class="image-popup-fit-height" href="/images/documentation/features/graph-type-service-v1.22.0.png" title="Visualize Services">
-      <img src="/images/documentation/features/graph-type-service-thumb-v1.22.0.png" style="display:inline;margin: 0 auto;" />
-  </a>
-  <a class="image-popup-fit-height" href="/images/documentation/features/graph-type-version-app-v1.22.0.png" title="Visualize Versioned Apps">
-      <img src="/images/documentation/features/graph-type-version-app-thumb-v1.22.0.png" style="display:inline;margin: 0 auto;" />
-  </a>
-  <a class="image-popup-fit-height" href="/images/documentation/features/graph-type-workload-v1.22.0.png" title="Visualize Workloads">
-      <img src="/images/documentation/features/graph-type-workload-thumb-v1.22.0.png" style="display:inline;margin: 0 auto;" />
-  </a>
-</span>
+<div style="display: flex;">
+    <span style="margin: 0 auto;">
+      <a class="image-popup-fit-height" href="/images/documentation/features/graph-type-app-v1.22.0.png" title="Visualize Apps">
+          <img src="/images/documentation/features/graph-type-app-thumb-v1.22.0.png" style="display:inline;margin: 0 auto;" />
+      </a>
+      <a class="image-popup-fit-height" href="/images/documentation/features/graph-type-service-v1.22.0.png" title="Visualize Services">
+          <img src="/images/documentation/features/graph-type-service-thumb-v1.22.0.png" style="display:inline;margin: 0 auto;" />
+      </a>
+    </span>
+</div>
+<div style="display: flex;">
+    <span style="margin: 0 auto;">
+      <a class="image-popup-fit-height" href="/images/documentation/features/graph-type-version-app-v1.22.0.png" title="Visualize Versioned Apps">
+          <img src="/images/documentation/features/graph-type-version-app-thumb-v1.22.0.png" style="display:inline;margin: 0 auto;" />
+      </a>
+      <a class="image-popup-fit-height" href="/images/documentation/features/graph-type-workload-v1.22.0.png" title="Visualize Workloads">
+          <img src="/images/documentation/features/graph-type-workload-thumb-v1.22.0.png" style="display:inline;margin: 0 auto;" />
+      </a>
+    </span>
+</div>
 ++++
 
 {empty} +
@@ -176,9 +182,90 @@ Kiali provides filtered list views of all your service mesh definitions. Each vi
 * Workloads
 * Istio Configuration
 ++++
-<a class="video-popup" href="/images/documentation/features/applications_workloads_services_overview.mp4" title="Filtered component lists">
-    <video autoplay muted loop width="600px" src="/images/documentation/features/applications_workloads_services_overview-thumb.mp4" style="display:block;margin:0 auto;" />
-</a>
+<div style="display: flex;">
+    <span style="margin: 0 auto;">
+      <a class="image-popup-fit-height" href="/images/documentation/features/app-list-v1.22.0.png" title="List Apps">
+          <img src="/images/documentation/features/app-list-thumb-v1.22.0.png" style="width: 726px; display:inline;margin: 0 auto;" />
+      </a>
+      <a class="image-popup-fit-height" href="/images/documentation/features/workload-list-v1.22.0.png" title="List Workloads">
+          <img src="/images/documentation/features/workload-list-thumb-v1.22.0.png" style="width: 726px; display:inline;margin: 0 auto;" />
+      </a>
+    </span>
+</div>
+<div style="display: flex;">
+    <span style="margin: 0 auto;">
+      <a class="image-popup-fit-height" href="/images/documentation/features/service-list-v1.22.0.png" title="List Services">
+          <img src="/images/documentation/features/service-list-thumb-v1.22.0.png" style="width: 726px; display:inline;margin: 0 auto;" />
+      </a>
+      <a class="image-popup-fit-height" href="/images/documentation/features/istio-list-v1.22.0.png" title="List Istio Config">
+          <img src="/images/documentation/features/istio-list-thumb-v1.22.0.png" style="width: 726px; display:inline;margin: 0 auto;" />
+      </a>
+    </span>
+</div>
+++++
+
+{empty} +
+
+==== Detail: Overview
+
+The overview tab provides detail information, graph details and health overview for a specific Application, Workload or Service.
+
+For each type of element, Kiali adds additional features.
+
+In the Workload Overview, Kiali performs several validations on workload configuration:
+
+* Are Istio sidecars deployed?
+
+* Are proper *app* and *version* labels assigned?
+
+Workload detail show you the services for which the workload in handling request the pods backing them.
+
+The Service Overview shows the user the workloads running the service. It also shows the Istio traffic routing configuration, VirtualServices and DestinationRules, associated with the service.
+
+Kiali provides access to YAML definitions and allows modification and deletion access for authorized users. It provides wizards to assist in common configurations and performs additional validation on VirtualServices to detect misconfigured routes.
+
+++++
+<div style="display: flex;">
+ <span style="margin: 0 auto;">
+  <a class="image-popup-fit-height" href="/images/documentation/features/overview-app-v1.22.0.png" title="App Overview">
+    <img src="/images/documentation/features/overview-app-thumb-v1.22.0.png" style="width: 500px; display:inline;margin: 0 auto;" />
+  </a>
+  <a class="image-popup-fit-height" href="/images/documentation/features/overview-workload-v1.22.0.png" title="Workload Overview">
+    <img src="/images/documentation/features/overview-workload-thumb-v1.22.0.png" style="width: 500px; display:inline;margin: 0 auto;" />
+  </a>
+  <a class="image-popup-fit-height" href="/images/documentation/features/overview-service-v1.22.0.png" title="Service Overview">
+    <img src="/images/documentation/features/overview-service-thumb-v1.22.0.png" style="width: 500px; display:inline;margin: 0 auto;" />
+  </a>
+ </span>
+</div>
+++++
+
+{empty} +
+
+==== Detail: Traffic
+
+The traffic tab collects all connections from and to a specific Application, Workload and/or Service.
+
+It groups them in Inbound and Outbound tables prividing traffic details and links to specific detailed metrics.
+
+++++
+ <a class="image-popup-fit-height" href="/images/documentation/features/traffic-v1.22.0.png" title="Traffic tab">
+  <img src="/images/documentation/features/traffic-thumb-v1.22.0.png" style="display:block;margin: 0 auto;" />
+ </a>
+++++
+
+{empty} +
+
+==== Detail: Logs
+
+The Workload detail offer a special Logs tab. Kiali allows to examine at same time application containers and sidecar logs of a selected Pod.
+
+The logs tab adds additional filtering cappabilities to show or hide specific lines.
+
+++++
+ <a class="image-popup-fit-height" href="/images/documentation/features/logs-v1.22.0.png" title="Logs tab">
+  <img src="/images/documentation/features/logs-thumb-v1.22.0.png" style="display:block;margin: 0 auto;" />
+ </a>
 ++++
 
 {empty} +
@@ -192,36 +279,6 @@ The service detail view shows request and response metrics for inbound traffic.
 ++++
 <a class="video-popup" href="/images/documentation/features/detailed_metrics.mp4" title="Metric Charts">
     <video autoplay muted loop width="600px" src="/images/documentation/features/detailed_metrics_thumb.mp4" style="display:block;margin:0 auto;" />
-</a>
-++++
-
-{empty} +
-
-==== Detail: Services
-The service detail view shows the user the workloads running the service. It also shows the Istio traffic routing configuration, VirtualServices and DestinationRules, associated with the service.
-
-Kiali provides access to YAML definitions and allows modification and deletion access for authorized users. It provides wizards to assist in common configurations and performs additional validation on VirtualServices to detect misconfigured routes.
-++++
-<a class="video-popup" href="/images/documentation/features/services_traffic_routing.mp4" title="Service Details">
-    <video autoplay muted loop width="600px" src="/images/documentation/features/services_traffic_routing_thumb.mp4" style="display:block;margin:0 auto;" />
-</a>
-++++
-
-{empty} +
-
-==== Detail: Workloads
-Kiali performs several validations on workload configuration:
-
-* Are Istio sidecars deployed?
-
-* Are proper *app* and *version* labels assigned?
-
-Workload detail shows you the services for which the workload is handling requests, and the pods backing the workload.
-
-Workload detail also allows access to the pod logs, and provides detailed traffic breakdown.
-++++
-<a class="image-popup-fit-height" href="/images/documentation/features/workload_details.png" title="Workload Details">
-    <img src="/images/documentation/features/workload_details_thumb.png" style="display:block;margin: 0 auto;" />
 </a>
 ++++
 
@@ -242,10 +299,10 @@ Check out the link:/documentation/edge/runtimes-monitoring/[documentation page, 
 
 {empty} +
 
-=== Distributed Tracing
-Click the Distributed Tracing menu item for tracing services https://www.jaegertracing.io/[Jaeger, window=_blank].
+==== Detail: Traces
 
 {empty} +
+
 
 == Configuration and Validation Features
 
