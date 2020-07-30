@@ -15,7 +15,7 @@ draft: false
 :imagesdir: /images/quickinstall/
 :sectlinks:
 
-icon:lightbulb[size=1x]{nbsp} This page is intended for users installing Kiali for the first time, not recomended for custom production environments. In case of custom installations, visit the link:{{< ref "/documentation/edge/installation-guide" >}}[installation guide].
+icon:lightbulb[size=1x]{nbsp} This page is intended for users installing Kiali for the first time, not recommended for custom production environments. In case of custom installations, visit the link:{{< ref "/documentation/edge/installation-guide" >}}[installation guide].
 
 == Installing Kiali
 
@@ -115,7 +115,7 @@ The Istio `istioctl` client has an easy method to access the Kiali UI:
 istioctl dashboard kiali
 ----
 
-icon:bullhorn[size=1x]{nbsp} The credentials you use on the login screen depend on the authentication strategy that was configured for Kiali. See link:{{< ref "/documentation/edge/installation-guide#_login_options" >}}[Login Options] for more details.
+icon:bullhorn[size=1x]{nbsp} The credentials you use on the login screen depend on the authentication strategy configured for Kiali. See link:{{< ref "/documentation/edge/installation-guide#_login_options" >}}[Login Options] for more details.
 
 == More installation details
 
