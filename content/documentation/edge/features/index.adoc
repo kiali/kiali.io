@@ -284,9 +284,16 @@ Application and workload detail views show request and response metrics such as 
 
 The service detail view shows request and response metrics for inbound traffic.
 ++++
-<a class="video-popup" href="/images/documentation/features/detailed_metrics.mp4" title="Metric Charts">
-    <video autoplay muted loop width="600px" src="/images/documentation/features/detailed_metrics_thumb.mp4" style="display:block;margin:0 auto;" />
-</a>
+<div style="display: flex;">
+    <span style="margin: 0 auto;">
+      <a class="image-popup-fit-height" href="/images/documentation/features/metrics-inbound-v1.22.0.png" title="Inbound Metrics">
+          <img src="/images/documentation/features/metrics-inbound-thumb-v1.22.0.png" style="width: 726px; display:inline;margin: 0 auto;" />
+      </a>
+      <a class="image-popup-fit-height" href="/images/documentation/features/metrics-outbound-v1.22.0.png" title="Outbound Metrics">
+          <img src="/images/documentation/features/metrics-outbound-thumb-v1.22.0.png" style="width: 726px; display:inline;margin: 0 auto;" />
+      </a>
+    </span>
+</div>
 ++++
 
 {empty} +
@@ -299,9 +306,16 @@ As they are defined as plain YAML or JSON files, so it's easy to keep them in so
 
 Check out the link:/documentation/edge/runtimes-monitoring/[documentation page, window=_blank] to learn more about it.
 ++++
-<a class="image-popup-fit-height" href="/images/documentation/features/runtimes_monitoring.png" title="Runtimes Dashboards">
-    <img src="/images/documentation/features/runtimes_monitoring_thumb.png" style="display:block;margin: 0 auto;" />
-</a>
+<div style="display: flex;">
+    <span style="margin: 0 auto;">
+      <a class="image-popup-fit-height" href="/images/documentation/features/metrics-dashboards-jvm-v1.22.0.png" title="Custom JVM Metrics">
+          <img src="/images/documentation/features/metrics-dashboards-jvm-thumb-v1.22.0.png" style="width: 726px; display:inline;margin: 0 auto;" />
+      </a>
+      <a class="image-popup-fit-height" href="/images/documentation/features/metrics-dashboards-vertx-v1.22.0.png" title="Custom Vertx Metrics">
+          <img src="/images/documentation/features/metrics-dashboards-vertx-thumb-v1.22.0.png" style="width: 726px; display:inline;margin: 0 auto;" />
+      </a>
+    </span>
+</div>
 ++++
 
 {empty} +
@@ -309,7 +323,6 @@ Check out the link:/documentation/edge/runtimes-monitoring/[documentation page, 
 ==== Detail: Traces
 
 {empty} +
-
 
 == Configuration and Validation Features
 
