@@ -332,6 +332,10 @@ Kiali has now a Span duration legend item on Service Metrics tab, when enabled, 
 
 User can navigate to the traces tab to browse filtered traces for a given service in the time interval or to show details for a single trace.
 
+The tracing toolbar offers some control over the data to fetch, to facilitate the user experience. In the tracing view, as shown in the image below, it’s possible to select the traces interval, results limit, status code, errors, adjust time (expand results on time), last Xm traffic (Traces from last minutes) and refresh interval.
+
+After selecting a trace, Kiali shows the information related to that trace like number of spans, spans grouped by operation name, duration, date.
+
 ++++
 <div style="display: flex;">
     <span style="margin: 0 auto;">
