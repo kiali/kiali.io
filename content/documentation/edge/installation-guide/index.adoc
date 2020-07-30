@@ -30,6 +30,10 @@ Kiali requires a supported version of Istio. link:https://istio.io/news/[The Ist
 |Kiali
 |Notes
 
+| 1.7.0+
+| 1.22.0+
+| Istio 1.7 istioctl will no longer install Kiali. Use the Istio samples/addons all-in-one yaml or the Kiali Helm Chart.
+
 | 1.6.0+
 | 1.18.1+
 | Istio 1.6 introduces CRD and Config changes, Kiali 1.18+ may not offer the best experience when used with Istio < 1.6.
@@ -83,7 +87,7 @@ If you are installing on OpenShift, you must grant the `cluster-admin` role to t
 
 == Install Kiali via Istio or Maistra
 
-icon:lightbulb[size=1x]{nbsp} Both Istio and Maistra include Kiali distributions.
+icon:bullhorn[size=1x]{nbsp} Starting with Istio 1.7, Kiali is no longer shipped with the istioctl installer. If you are using an  Istio implementation of version 1.7 or higher, skip this section and go on to the next.
 
 If you prefer to use the latest Kiali version, complete the Istio or Maistra installation and then link:#_install_kiali_latest[Install Kiali Latest].
 
@@ -99,34 +103,34 @@ The version of Kiali packaged with Istio or Maistra may not contain the most rec
 
 Installing the latest version of Kiali is done using the Kiali Operator. The Kiali Operator is a link:https://coreos.com/operators/[Kubernetes Operator]. The Kiali Operator manages your Kiali installation. The Kiali Operator watches the Kiali Custom Resource (CR), a YAML file that holds the Kiali configuration. When you modify the Kiali CR, the operator installs, updates, or uninstalls Kiali as needed.
 
-Below are three options for installing the Kiali Operator. If you're replacing an existing Kiali Operator you will be prompted for confirmation. Depending on the installation option the operator may then install Kiali. If you're replacing an existing Kiali you will be prompted for confirmation. For new Kiali installations, you will be prompted for the authentication strategy. See link:#_login_options[Login Options] for more on the `login`, `anonymous`, `ldap`, `openshift`, `token` and `openid` authentication strategies. Depending on the chosen strategy, the installation may prompt for additional information.
+The next few sections describe the different installation methods available for installing the Kiali Operator. Depending on the installation method you use, the operator may then install Kiali. Before you install Kiali, you will want to know which authentication strategy Kiali should use (this determines how users are to log into Kiali). See link:#_login_options[Login Options] for more on the `login`, `anonymous`, `ldap`, `openshift`, `token` and `openid` authentication strategies.
 
-icon:bullhorn[size=1x]{nbsp} It is only necessary to install the Kiali Operator one time. After the operator is installed you need only create or edit the Kiali CR (see link:#_create_or_edit_the_kiali_cr[Create or Edit the Kiali CR]). The Kiali config map will be managed by the Kiali Operator and should *not* be manually edited. There is no need to again perform one of the bash installations below.
+icon:bullhorn[size=1x]{nbsp} It is only necessary to install the Kiali Operator one time. After the operator is installed you need only create or edit the Kiali CR (see link:#_create_or_edit_the_kiali_cr[Create or Edit the Kiali CR]). The Kiali ConfigMap will be managed by the Kiali Operator and should *not* be manually edited. There is no need to again perform one of the installations below once the Kiali operator is installed and running.
 
 
 === Quick Install
 
-This option installs the Kiali Operator and the Kiali CR with default options. If you are running with an https://github.com/istio/istio/releases[upstream Istio release], you will probably want to pass in _--accessible_namespaces="**"_ since that is the typical way Kiali is expected to run within an upstream Istio environment.
-
-
-When the Kiali CR is created it triggers the operator to then install Kiali. Kiali is able to access existing namespaces, but it required a CR update to access future namespaces. See link:#_namespace_management[Namespace Management] for more information. Run the install script via this command:
+This option installs the Kiali Operator and the Kiali CR with default options. If you are running with an https://github.com/istio/istio/releases[upstream Istio release], you will probably want to pass in _--accessible-namespaces="**"_ since that is the typical way Kiali is expected to run within an upstream Istio environment.
 
 [source,bash]
 ----
-  bash <(curl -L https://kiali.io/getLatestKialiOperator) --accessible-namespaces '**'
+  bash <(curl -L https://kiali.io/getLatestKialiOperator) --accessible-namespaces="**"
 ----
 
+This option gives Kiali access to existing namespaces as well as namespaces created later. See link:#_namespace_management"[Namespace Management] for more information if you want to change that behavior.
+
+When the Kiali CR is created it triggers the operator to then install the Kiali Server.
 
 === Development Install
 
-This option installs the Kiali Operator and the Kiali CR. It uses a non-default setting for accessible-namespaces making all current and future namespaces accessible to Kiali. This option is good for demo and development installations. This option grants special cluster role permissions and is not recommended for production. See link:#_namespace_management[Namespace Management] for more information.
-
-When the Kiali CR is created it triggers the operator to then install Kiali. Run the install script via this command:
+This option installs the Kiali Operator and the Kiali CR. It also allows Kiali to access all current and future namespaces. This option is good for demo and development installations. See link:#_namespace_management[Namespace Management] for more information.
 
 [source,bash]
 ----
   bash <(curl -L https://kiali.io/getLatestKialiOperator) --accessible-namespaces '**' -oiv latest -kiv latest
 ----
+
+When the Kiali CR is created it triggers the operator to then install Kiali.
 
 icon:bullhorn[size=1x]{nbsp} The above options install the _latest_ operator and Kiali from stable master.
 
@@ -153,8 +157,30 @@ It is not usually necessary to explicitly execute the link:https://github.com/ki
   bash <(curl -L https://kiali.io/getLatestKialiOperator) --help
 ----
 
-icon:bullhorn[size=1x]{nbsp} The install script requires `envsubst` installed and in your PATH; you can get it via the GNU `gettext` package.
+==== OperatorHub
 
+For production environments that have OperatorHub installed (such as OpenShift), you will want to install Kiali Operator using OperatorHub. Simply go to the OperatorHub console and install Kiali Operator. At that point, you can link:#_create_or_edit_the_kiali_cr[create the Kiali CR] to install Kiali.
+
+==== Helm Chart
+
+For production environments that do not have OperatorHub, you will most likely want to use link:https://kiali.org/kiali-operator/charts/index.yaml[the Kiali Operator Helm Chart] rather than the install script. In fact, the install script uses the Helm Chart to perform the installation.
+
+The Kiali Operator Helm Chart is configurable. You can see the link:https://github.com/kiali/kiali-operator/tree/master/deploy/charts/kiali-operator/values.yaml[default values.yaml here].
+
+To install the Kiali Operator along with a Kiali CR using the Helm Chart, you can run this:
+
+[source,bash]
+----
+$ KIALI_VERSION=<determine the version you want to install>
+$ kubectl create kiali-operator
+$ helm install \
+    --set cr.create=true \
+    --namespace kiali-operator \
+    --version ${KIALI_VERSION} \
+    --repo https://kiali.org/kiali-operator/chart \
+    kiali-operator \
+    kiali-operator
+----
 
 === Create or Edit the Kiali CR
 
@@ -164,20 +190,20 @@ To create an initial Kiali CR file it is recommended to copy the fully documente
 
 icon:lightbulb[size=1x]{nbsp} It is important to understand the `deployment:accessible_namespaces` setting in the CR. See link:#_accessible_namespaces[Accessible Namespaces] for more information.
 
-icon:bullhorn[size=1x]{nbsp} The Kiali config map will be managed by the Kiali Operator and should *not* be manually edited.
+icon:bullhorn[size=1x]{nbsp} The Kiali ConfigMap will be managed by the Kiali Operator and should *not* be manually edited.
 
 To install Kiali create the Kiali CR using the local file. To create the Kiali CR run the command:
 
 [source,bash]
 ----
-  oc apply -f my-kiali-cr.yaml -n kiali-operator
+  oc apply -f my-kiali-cr.yaml -n istio-system
 ----
 
 To update Kiali, edit and save the existing the Kiali CR. To edit the Kiali CR run the command. In this example, the default Kiali CR name is `kiali`:
 
 [source,bash]
 ----
-  oc edit kiali <Kiali CR name> -n kiali-operator
+  oc edit kiali kiali -n istio-system
 ----
 
 === Open the UI
@@ -190,35 +216,42 @@ icon:bullhorn[size=1x]{nbsp} The credentials you use on the login screen depend 
 
 === Uninstall Kiali Only
 
-To remove Kiali is simple - just delete the Kiali CR. To trigger the Kiali Operator to uninstall Kiali run the command (note: the default Kiali CR name is `kiali`):
+To remove Kiali is simple - just delete the Kiali CR. To trigger the Kiali Operator to uninstall Kiali run a command similar to this (note: the default Kiali CR name is `kiali` and you normally install it in the Istio control plane namespace):
 
 [source,bash]
 ----
-  oc delete kiali <Kiali CR name> -n kiali-operator
+  oc delete kiali kiali -n istio-system
 ----
 
 At this point, you have no Kiali installed, but you still have the Kiali Operator running. You could create another Kiali CR with potentially different configuration settings to install a new Kiali instance.
 
 === Uninstall Kiali Operator and Kiali
 
-To uninstall *everything* related to Kiali (Kiali Operator, Kiali, etc) run the command:
+If you installed Kiali Operator using OperatorHub, use OperatorHub to uninstall. Otherwise, to uninstall *everything* related to Kiali (Kiali Operator, Kiali, etc) you will want to use Helm.
+
+To uninstall, first you must ensure all Kiali CRs that are being watched by the operator are deleted. This gives the operator a chance to uninstall the Kiali Servers before you remove the operator itself.
+
+icon:bullhorn[size=1x]{nbsp} If you fail to delete the Kiali CRs first, your cluster may not be able to delete the namespace where the CR is deployed and remnants from the Kiali Server will not be deleted.
+
+After you have successfully deleted the Kiali CRs, then you can uninstall the operator using helm. For example:
 
 [source,bash]
 ----
-  bash <(curl -L https://kiali.io/getLatestKialiOperator) --uninstall-mode true
+$ helm uninstall --namespace kiali-operator  kiali-operator
 ----
-
 
 ==== Known Problem: Uninstall Hangs
 
-In Kiali < 0.22 using Kubernetes versions < 0.14 (OpenShift version 3), there is an operator-sdk bug that can hang uninstall. This can happen when uninstalling Kiali via the Kiali Operator, or occasionally when trying to delete the namespace in which Kiali is installed. This is due to a kubernetes bug detecting finalizer completion. If you get into this hung state the following command may resolve the problem:
+If the uninstall hangs (typically due to failing to delete all Kiali CRs prior to uninstalling the operator) the following may help to resolve the problem. You basically want to clear the finalizer from the Kiali CRs causing the hang.
 
-icon:lightbulb[size=1x]{nbsp} If you installed the Kiali CR in a different namespace (via -own, --operator-watch-namespace), replace "kiali-operator" in the command with the namespace in which the Kiali CR is located.
+icon:lightbulb[size=1x]{nbsp} If you installed the Kiali CR in a different namespace, replace "istio-system" in the command with the namespace in which the Kiali CR is located.
 
 [source,bash]
 ----
-  oc patch kiali kiali -n kiali-operator -p '{"metadata":{"finalizers": []}}' --type=merge
+  oc patch kiali kiali -n istio-system -p '{"metadata":{"finalizers": []}}' --type=merge
 ----
+
+Note that even if this fixes the hang problem, you may still have remnants of the Kiali Server in your cluster. You will manually need to delete those resources.
 
 == Additional Notes
 

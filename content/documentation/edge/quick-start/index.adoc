@@ -15,27 +15,64 @@ draft: false
 :imagesdir: /images/quickinstall/
 :sectlinks:
 
-icon:lightbulb[size=1x]{nbsp} This page is intended for users installing Kiali for the first time, not recomended for production environments. In case of custom installations, visit the link:{{< ref "/documentation/edge/installation-guide" >}}[installation guide].
+icon:lightbulb[size=1x]{nbsp} This page is intended for users installing Kiali for the first time, not recommended for custom production environments. In case of custom installations, visit the link:{{< ref "/documentation/edge/installation-guide" >}}[installation guide].
 
-== Install via Kiali Operator
+== Installing Kiali
 
-This option installs the Kiali Operator and the Kiali CR with default options. If you are running with an https://github.com/istio/istio/releases[upstream Istio release], you will probably want to pass in _--accessible-namespaces="**"_ since that is the typical way Kiali is expected to run within an upstream Istio environment.
+=== Install via OperatorHub
 
+This is the simplest install mechanism. If you are running OpenShift (or you have a Kubernetes environment with OperatorHub installed), simply go to the OperatorHub console and choose to install the Kiali Operator.
 
-When the Kiali CR is created it triggers the operator to then install Kiali. Kiali is able to access existing namespaces, but it required a CR update to access future namespaces. See link:{{< ref "/documentation/edge/installation-guide#_namespace_management" >}}[Namespace Management] for more information. Run the install script via this command:
+=== Install via Kiali Operator using install script
+
+This option installs the Kiali Operator and the Kiali CR with options necessary to get started with an https://github.com/istio/istio/releases[upstream Istio release]. Run the install script via this command:
 
 [source,bash]
 ----
   bash <(curl -L https://kiali.io/getLatestKialiOperator) --accessible-namespaces '**'
 ----
 
-=== Open the UI
+When the Kiali CR is created it triggers the operator to then install the Kiali Server. Kiali will be able to access all existing and future namespaces. See link:{{< ref "/documentation/edge/installation-guide#_namespace_management" >}}[Namespace Management] for more information if you want to change that behavior.
 
-Once Istio, Maistra or the Kiali Operator has installed Kiali, and the Kiali pod has successfully started, you can access the UI. Please, check the link:{{< ref "/documentation/edge/faq/general#how-do-i-access-kiai" >}}[FAQ: How do I access Kiali UI?]
+To uninstall, remove the Kiali CR and use the `helm uninstall` command (see below).
 
-icon:bullhorn[size=1x]{nbsp} The credentials you use on the login screen depend on the authentication strategy that was configured for Kiali. See link:{{< ref "/documentation/edge/installation-guide#_login_options" >}}[Login Options] for more details.
+=== Install via Kiali Operator using Helm
 
-== Install via `istioctl`
+The Kiali Operator can be installed via a link:https://kiali.org/kiali-operator/charts/index.yaml[Helm Chart] (note: this Helm Chart is the engine used by the install script mentioned above).
+
+The Kiali Operator Helm Chart is configurable. You can see the link:https://github.com/kiali/kiali-operator/tree/master/deploy/charts/kiali-operator/values.yaml[default values.yaml here].
+
+To install the Kiali Operator along with a Kiali CR using the Helm Chart, you can run this:
+
+[source,bash]
+----
+$ KIALI_VERSION=<determine the version you want to install>
+$ kubectl create kiali-operator
+$ helm install \
+    --set cr.create=true \
+    --namespace kiali-operator \
+    --version ${KIALI_VERSION} \
+    --repo https://kiali.org/kiali-operator/chart \
+    kiali-operator \
+    kiali-operator
+----
+
+To uninstall, first you must ensure all Kiali CRs that are being watched by the operator are deleted. This gives the operator a chance to uninstall the Kiali Servers before you remove the operator itself.
+
+icon:bullhorn[size=1x]{nbsp} If you fail to delete the Kiali CRs first, your cluster may not be able to delete the namespace where the CR is deployed and remnants from the Kiali Server will not be deleted.
+
+After you have successfully deleted the Kiali CRs, then you can uninstall the operator using helm. For example:
+
+[source,bash]
+----
+$ kubectl delete kiali kiali -n istio-system
+$ helm uninstall kiali-operator
+----
+
+
+=== Install via `istioctl`
+
+icon:bullhorn[size=1x]{nbsp} This install mechanism is deprecated. It is only supported with upstream Istio version 1.6 or earlier.
 
 Install Kiali via https://istio.io/v1.6/docs/setup/additional-setup/config-profiles/[Istio profiles]. The `demo` profile is designed to showcase Istio functionality with modest resource requirements. It installs both core and add-on components such as Kiali, Jaeger, Grafana, Prometheus, Istio and Istio Ingress/Egress gateways.
 
@@ -46,9 +83,9 @@ Once you have the `istioctl` in your PATH, execute the following:
 istioctl install --set profile=demo
 ----
 
-=== Access to the UI
+==== Access to the UI
 
-The Istio client has an easy method to access to all of its UIs. To get access to the Kiali UI:
+The Istio `istioctl` client has an easy method to access to all of its UIs. To get access to the Kiali UI:
 
 [source,bash]
 ----
@@ -57,9 +94,9 @@ istioctl dashboard kiali
 
 icon:bullhorn[size=1x]{nbsp} The default credentials to log in are: `admin/admin`. It is highly recommended to change them as soon as possible, see the link:{{< ref "/documentation/edge/installation-guide#_login_options" >}}[Login Options]
 
-=== Running on OpenShift
+==== Running on OpenShift
 
-When Kiali runs on OpenShift it needs access to some OpenShift specific resources in order to function properly, which can be done using the following commands after Kiali has been installed:
+When installing using `istioctl` on OpenShift, Kiali needs to be given access to some OpenShift specific resources in order to function properly, which can be done using the following commands after Kiali has been installed:
 
 ----
 $ oc patch clusterrole kiali -p '[{"op":"add", "path":"/rules/-", "value":{"apiGroups":["apps.openshift.io"], "resources":["deploymentconfigs"],"verbs": ["get", "list", "watch"]}}]' --type json
@@ -67,6 +104,20 @@ $ oc patch clusterrole kiali -p '[{"op":"add", "path":"/rules/-", "value":{"apiG
 $ oc patch clusterrole kiali -p '[{"op":"add", "path":"/rules/-", "value":{"apiGroups":["route.openshift.io"], "resources":["routes"],"verbs": ["get"]}}]' --type json
 ----
 
+== Open the UI
+
+Once the Kiali Server has been installed and has successfully started, you can access the UI. For more details, check the link:{{< ref "/documentation/edge/faq/general#how-do-i-access-kiai" >}}[FAQ: How do I access Kiali UI?]
+
+The Istio `istioctl` client has an easy method to access the Kiali UI:
+
+[source,bash]
+----
+istioctl dashboard kiali
+----
+
+icon:bullhorn[size=1x]{nbsp} The credentials you use on the login screen depend on the authentication strategy configured for Kiali. See link:{{< ref "/documentation/edge/installation-guide#_login_options" >}}[Login Options] for more details.
+
 == More installation details
 
 Find more detailed information on the installation process in the link:{{< ref "/documentation/edge/installation-guide" >}}[installation guide].
+
