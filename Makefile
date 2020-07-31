@@ -14,7 +14,7 @@ muffet:
 
 .PHONY: build
 build:
-	${CONTAINER_RUNTIME} build --build-arg HUGO_VERSION=${HUGO_VERSION} -t kiali/hugo:${HUGO_VERSION} hugo
+	${CONTAINER_RUNTIME} build --build-arg HUGO_VERSION=${HUGO_VERSION} -t kiali/hugo:${HUGO_VERSION} .
 
 .PHONY: serve
 serve: build
