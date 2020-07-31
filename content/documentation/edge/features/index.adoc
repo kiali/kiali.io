@@ -105,7 +105,7 @@ For HTTP traffic, circles represent successful requests while red diamonds repre
 TCP traffic is represented by offset circles where the speed of the circles indicates the traffic speed.
 ++++
 <a class="video-popup" href="/images/documentation/features/kiali_traffic_animation-v1.22.0.mp4" title="Visualize your traffic flow">
-    <video autoplay muted loop width="600px" src="/images/documentation/features/kiali_traffic_animation_thumb-v1.22.0.mp4" style="display:block;margin:0 auto;" />
+    <video autoplay muted loop width="1333px" src="/images/documentation/features/kiali_traffic_animation_thumb-v1.22.0.mp4" style="display:block;margin:0 auto;" />
 </a>
 ++++
 
@@ -125,20 +125,20 @@ Kiali offers four different graph renderings of the mesh telemetry. Each graph t
 <div style="display: flex;">
     <span style="margin: 0 auto;">
       <a class="image-popup-fit-height" href="/images/documentation/features/graph-type-app-v1.22.0.png" title="Visualize Apps">
-          <img src="/images/documentation/features/graph-type-app-thumb-v1.22.0.png" style="display:inline;margin: 0 auto;" />
+          <img src="/images/documentation/features/graph-type-app-thumb-v1.22.0.png" style="width: 660px; display:inline;margin: 0 auto;" />
       </a>
       <a class="image-popup-fit-height" href="/images/documentation/features/graph-type-service-v1.22.0.png" title="Visualize Services">
-          <img src="/images/documentation/features/graph-type-service-thumb-v1.22.0.png" style="display:inline;margin: 0 auto;" />
+          <img src="/images/documentation/features/graph-type-service-thumb-v1.22.0.png" style="width: 660px; display:inline;margin: 0 auto;" />
       </a>
     </span>
 </div>
 <div style="display: flex;">
     <span style="margin: 0 auto;">
       <a class="image-popup-fit-height" href="/images/documentation/features/graph-type-version-app-v1.22.0.png" title="Visualize Versioned Apps">
-          <img src="/images/documentation/features/graph-type-version-app-thumb-v1.22.0.png" style="display:inline;margin: 0 auto;" />
+          <img src="/images/documentation/features/graph-type-version-app-thumb-v1.22.0.png" style="width: 660px; display:inline;margin: 0 auto;" />
       </a>
       <a class="image-popup-fit-height" href="/images/documentation/features/graph-type-workload-v1.22.0.png" title="Visualize Workloads">
-          <img src="/images/documentation/features/graph-type-workload-thumb-v1.22.0.png" style="display:inline;margin: 0 auto;" />
+          <img src="/images/documentation/features/graph-type-workload-thumb-v1.22.0.png" style="width: 660px; display:inline;margin: 0 auto;" />
       </a>
     </span>
 </div>
@@ -153,7 +153,8 @@ Graph replay is a new feature that lets you examine the past state of your servi
 ++++
 <div id="replay-video" style="display:flex;align-items: center; justify-items: center;">
   <iframe
-    width="560" height="315"
+    width="1333"
+    height="704"
     style="display:block;margin:0 auto;"
     src="https://www.youtube.com/embed/CC_dl4zSZiU"
     frameborder="0"
@@ -175,7 +176,7 @@ Because operation nodes represent aggregate traffic they are not compatible with
 Operation nodes are represented as pentagons in the Kiali graph:
 ++++
 <a class="image-popup-fit-height" href="/images/documentation/features/graph-operations-v1.22.0.png" title="Operation Nodes">
-    <img src="/images/documentation/features/graph-operations-thumb-v1.22.0.png" style="display:block;margin: 0 auto;" />
+    <img src="/images/documentation/features/graph-operations-v1.22.0.png" style="width: 1333px; display:block;margin: 0 auto;" />
 </a>
 ++++
 
@@ -192,20 +193,20 @@ Kiali provides filtered list views of all your service mesh definitions. Each vi
 <div style="display: flex;">
     <span style="margin: 0 auto;">
       <a class="image-popup-fit-height" href="/images/documentation/features/app-list-v1.22.0.png" title="List Apps">
-          <img src="/images/documentation/features/app-list-thumb-v1.22.0.png" style="width: 726px; display:inline;margin: 0 auto;" />
+          <img src="/images/documentation/features/app-list-thumb-v1.22.0.png" style="width: 660px; display:inline;margin: 0 auto;" />
       </a>
       <a class="image-popup-fit-height" href="/images/documentation/features/workload-list-v1.22.0.png" title="List Workloads">
-          <img src="/images/documentation/features/workload-list-thumb-v1.22.0.png" style="width: 726px; display:inline;margin: 0 auto;" />
+          <img src="/images/documentation/features/workload-list-thumb-v1.22.0.png" style="width: 660px; display:inline;margin: 0 auto;" />
       </a>
     </span>
 </div>
 <div style="display: flex;">
     <span style="margin: 0 auto;">
       <a class="image-popup-fit-height" href="/images/documentation/features/service-list-v1.22.0.png" title="List Services">
-          <img src="/images/documentation/features/service-list-thumb-v1.22.0.png" style="width: 726px; display:inline;margin: 0 auto;" />
+          <img src="/images/documentation/features/service-list-thumb-v1.22.0.png" style="width: 660px; display:inline;margin: 0 auto;" />
       </a>
       <a class="image-popup-fit-height" href="/images/documentation/features/istio-list-v1.22.0.png" title="List Istio Config">
-          <img src="/images/documentation/features/istio-list-thumb-v1.22.0.png" style="width: 726px; display:inline;margin: 0 auto;" />
+          <img src="/images/documentation/features/istio-list-thumb-v1.22.0.png" style="width: 660px; display:inline;margin: 0 auto;" />
       </a>
     </span>
 </div>
@@ -235,13 +236,17 @@ Kiali provides access to YAML definitions and allows modification and deletion a
 <div style="display: flex;">
  <span style="margin: 0 auto;">
   <a class="image-popup-fit-height" href="/images/documentation/features/overview-app-v1.22.0.png" title="App Overview">
-    <img src="/images/documentation/features/overview-app-thumb-v1.22.0.png" style="width: 500px; display:inline;margin: 0 auto;" />
+    <img src="/images/documentation/features/overview-app-thumb-v1.22.0.png" style="width: 660px; display:inline;margin: 0 auto;" />
   </a>
   <a class="image-popup-fit-height" href="/images/documentation/features/overview-workload-v1.22.0.png" title="Workload Overview">
-    <img src="/images/documentation/features/overview-workload-thumb-v1.22.0.png" style="width: 500px; display:inline;margin: 0 auto;" />
+    <img src="/images/documentation/features/overview-workload-thumb-v1.22.0.png" style="width: 660px; display:inline;margin: 0 auto;" />
   </a>
+</span>
+</div>
+<div style="display: flex;">
+ <span style="margin: 0 auto;">
   <a class="image-popup-fit-height" href="/images/documentation/features/overview-service-v1.22.0.png" title="Service Overview">
-    <img src="/images/documentation/features/overview-service-thumb-v1.22.0.png" style="width: 500px; display:inline;margin: 0 auto;" />
+    <img src="/images/documentation/features/overview-service-thumb-v1.22.0.png" style="width: 660px; display:inline;margin: 0 auto;" />
   </a>
  </span>
 </div>
@@ -287,10 +292,10 @@ The service detail view shows request and response metrics for inbound traffic.
 <div style="display: flex;">
     <span style="margin: 0 auto;">
       <a class="image-popup-fit-height" href="/images/documentation/features/metrics-inbound-v1.22.0.png" title="Inbound Metrics">
-          <img src="/images/documentation/features/metrics-inbound-thumb-v1.22.0.png" style="width: 726px; display:inline;margin: 0 auto;" />
+          <img src="/images/documentation/features/metrics-inbound-thumb-v1.22.0.png" style="width: 660px; display:inline;margin: 0 auto;" />
       </a>
       <a class="image-popup-fit-height" href="/images/documentation/features/metrics-outbound-v1.22.0.png" title="Outbound Metrics">
-          <img src="/images/documentation/features/metrics-outbound-thumb-v1.22.0.png" style="width: 726px; display:inline;margin: 0 auto;" />
+          <img src="/images/documentation/features/metrics-outbound-thumb-v1.22.0.png" style="width: 660px; display:inline;margin: 0 auto;" />
       </a>
     </span>
 </div>
@@ -309,10 +314,10 @@ Check out the link:/documentation/edge/runtimes-monitoring/[documentation page, 
 <div style="display: flex;">
     <span style="margin: 0 auto;">
       <a class="image-popup-fit-height" href="/images/documentation/features/metrics-dashboards-jvm-v1.22.0.png" title="Custom JVM Metrics">
-          <img src="/images/documentation/features/metrics-dashboards-jvm-thumb-v1.22.0.png" style="width: 726px; display:inline;margin: 0 auto;" />
+          <img src="/images/documentation/features/metrics-dashboards-jvm-thumb-v1.22.0.png" style="width: 660px; display:inline;margin: 0 auto;" />
       </a>
       <a class="image-popup-fit-height" href="/images/documentation/features/metrics-dashboards-vertx-v1.22.0.png" title="Custom Vertx Metrics">
-          <img src="/images/documentation/features/metrics-dashboards-vertx-thumb-v1.22.0.png" style="width: 726px; display:inline;margin: 0 auto;" />
+          <img src="/images/documentation/features/metrics-dashboards-vertx-thumb-v1.22.0.png" style="width: 660px; display:inline;margin: 0 auto;" />
       </a>
     </span>
 </div>
@@ -340,10 +345,10 @@ After selecting a trace, Kiali shows the information related to that trace like 
 <div style="display: flex;">
     <span style="margin: 0 auto;">
       <a class="image-popup-fit-height" href="/images/documentation/features/traces-view-v1.22.0.png" title="Traces Timeline for a Service">
-          <img src="/images/documentation/features/traces-view-thumb-v1.22.0.png" style="width: 726px;display:inline;margin: 0 auto;" />
+          <img src="/images/documentation/features/traces-view-thumb-v1.22.0.png" style="width: 660px;display:inline;margin: 0 auto;" />
       </a>
       <a class="image-popup-fit-height" href="/images/documentation/features/traces-view-details-v1.22.0.png" title="Trace Details">
-          <img src="/images/documentation/features/traces-view-details-thumb-v1.22.0.png" style="width: 726px;display:inline;margin: 0 auto;" />
+          <img src="/images/documentation/features/traces-view-details-thumb-v1.22.0.png" style="width: 660px;display:inline;margin: 0 auto;" />
       </a>
     </span>
 </div>
