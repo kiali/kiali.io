@@ -365,9 +365,13 @@ Kiali is more than observability, it also helps you to configure, update and val
 The Istio configuration view provides advanced filtering and navigation for Istio configuration objects such as Virtual Services and Gateways.
 Kiali provides inline config edition and powerful semantic validation for Istio resources.
 ++++
-<a class="video-popup" href="/images/documentation/features/istio_configuration.mp4" title="Istio Configurations">
-    <video autoplay muted loop width="600px" src="/images/documentation/features/istio_configuration_thumb.mp4" style="display:block;margin:0 auto;" />
-</a>
+<div style="display: flex;">
+ <span style="margin: 0 auto;">
+  <a class="image-popup-fit-height" href="/images/documentation/features/config-list-v1.22.0.png" title="Istio Config List">
+   <img src="/images/documentation/features/config-list-v1.22.0.png" style="width: 1333px;display:inline;margin: 0 auto;" />
+  </a>
+ </span>
+</div>
 ++++
 
 === Validations
@@ -377,12 +381,26 @@ Galley validations are mostly syntactic validations based on the object syntax a
 
 Check the complete link:/documentation/edge/validations/[list of validations] for further information.
 
+++++
+<div style="display: flex;">
+ <span style="margin: 0 auto;">
+  <a class="image-popup-fit-height" href="/images/documentation/features/config-validation-v1.22.0.png" title="Istio Config Validation">
+   <img src="/images/documentation/features/config-validation-v1.22.0.png" style="width: 1333px;display:inline;margin: 0 auto;" />
+  </a>
+ </span>
+</div>
+++++
+
 === Istio Wizards
 Kiali provides different actions to create, update and delete Istio configuration driven by wizards. These are located in the *Actions* menu on the Service Details page.
 ++++
-<a class="image-popup-fit-height" href="/images/documentation/features/service-istio-actions.png" title="Service Details Actions">
-    <img src="/images/documentation/features/service-istio-actions-thumb.png" style="display:block;margin: 0 auto;" />
-</a>
+<div style="display: flex;">
+ <span style="margin: 0 auto;">
+  <a class="image-popup-fit-height" href="/images/documentation/features/service-details-actions-v1.22.0.png" title="Service Details Actions">
+   <img src="/images/documentation/features/service-details-actions-v1.22.0.png" style="width: 1333px;display:inline;margin: 0 auto;" />
+  </a>
+ </span>
+</div>
 ++++
 {nbsp} +
 These actions are enabled by default. +
@@ -392,9 +410,13 @@ Check https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.
 ==== Weighted Routing Wizard
 With this wizard, you can select the percentage of traffic that is routed to a specific workload.
 ++++
-<a class="image-popup-fit-height" href="/images/documentation/features/wizard-weighted-routing.png" title="Weighted Routing Wizard">
-    <img src="/images/documentation/features/wizard-weighted-routing-thumb.png" style="display:block;margin: 0 auto;" />
-</a>
+<div style="display: flex;">
+ <span style="margin: 0 auto;">
+  <a class="image-popup-fit-height" href="/images/documentation/features/wizard-weighted-routing-v1.22.0.png" title="Service Details Actions">
+   <img src="/images/documentation/features/wizard-weighted-routing-v1.22.0.png" style="width: 1333px;display:inline;margin: 0 auto;" />
+  </a>
+ </span>
+</div>
 ++++
 Kiali creates a pair of Istio resources, VirtualService and DestinationRule, with a single routing rule using the selected weights for the destination workloads.
 
@@ -408,9 +430,13 @@ The Matching Routing Wizard allows to create multiple routing rules.
 
 Istio applies routing rules in order, meaning that first rule that matches an HTTP request, it is responsible to perform the routing. The Matching Routing Wizard allows to change order of rules.
 ++++
-<a class="image-popup-fit-height" href="/images/documentation/features/wizard-matching-routing.png" title="Matching Routing Wizard">
-    <img src="/images/documentation/features/wizard-matching-routing-thumb.png" style="display:block;margin: 0 auto;" />
-</a>
+<div style="display: flex;">
+ <span style="margin: 0 auto;">
+  <a class="image-popup-fit-height" href="/images/documentation/features/wizard-matching-routing-v1.22.0.png" title="Service Details Actions">
+   <img src="/images/documentation/features/wizard-matching-routing-v1.22.0.png" style="width: 1333px;display:inline;margin: 0 auto;" />
+  </a>
+ </span>
+</div>
 ++++
 In the same way as the previous wizard, Kiali creates a pair of Istio resources mapping the routing rules defined into the generated VirtualService.
 
@@ -419,23 +445,89 @@ This wizard helps user to partially or totally stop traffic for a service. You c
 
 When traffic is suspended for all workloads, Istio returns an error code to any service request.
 ++++
-<a class="image-popup-fit-height" href="/images/documentation/features/wizard-suspend-traffic.png" title="Suspend Traffic Wizard">
-    <img src="/images/documentation/features/wizard-suspend-traffic-thumb.png" style="display:block;margin: 0 auto;" />
-</a>
+<div style="display: flex;">
+ <span style="margin: 0 auto;">
+  <a class="image-popup-fit-height" href="/images/documentation/features/wizard-suspend-traffic-v1.22.0.png" title="Service Details Actions">
+   <img src="/images/documentation/features/wizard-suspend-traffic-v1.22.0.png" style="width: 1333px;display:inline;margin: 0 auto;" />
+  </a>
+ </span>
+</div>
 ++++
 When there is traffic for some workload, the wizard maps a weighted rule; when there is not traffic, an abort rule is coded in the pair of Istio resources VirtualService and DestinationRule generated.
 
 ==== Advanced Options
-All previous wizards have an Advanced Options section where user can define specific configuration for TLS and LoadBalancing.
+All previous wizards have an Advanced Options section where user can define specific configuration for TLS, LoadBalancing, Security and Gateways.
 ++++
-<a class="image-popup-fit-height" href="/images/documentation/features/wizard-advanced-options.png" title="Advanced options section">
-    <img src="/images/documentation/features/wizard-advanced-options-thumb.png" style="display:block;margin: 0 auto;" />
-</a>
+<div style="display: flex;">
+ <span style="margin: 0 auto;">
+  <a class="image-popup-fit-height" href="/images/documentation/features/wizard-advanced-options-v1.22.0.png" title="Service Details Actions">
+   <img src="/images/documentation/features/wizard-advanced-options-v1.22.0.png" style="width: 1333px;display:inline;margin: 0 auto;" />
+  </a>
+ </span>
+</div>
 ++++
-When mTLS is enabled by default in the global cluster or namespace this option is selected by default.
 
 ==== More Wizard examples
 The following article https://medium.com/kialiproject/kiali-observability-in-action-for-istio-service-mesh-69127f792103[Kiali: Observability in Action for Istio Service Mesh, window=_blank] describes more examples of how to use the Kiali Wizards to configure Istio configuration.
+
+
+=== Istio Forms
+
+Istio Wizards provide a way to apply a Service Mesh pattern and let Kiali to generate the Istio Configuration.
+Kiali also offers actions to create Istio Config for Gateways and Security scenarios.
+
+These actions are located under the Istio Config page.
+
+++++
+<div style="display: flex;">
+ <span style="margin: 0 auto;">
+  <a class="image-popup-fit-height" href="/images/documentation/features/create-istio-config-v1.22.0.png" title="Service Details Actions">
+   <img src="/images/documentation/features/create-istio-config-v1.22.0.png" style="width: 1333px;display:inline;margin: 0 auto;" />
+  </a>
+ </span>
+</div>
+++++
+
+==== Istio Security Forms
+
+Kiali allows to create AuthorizationPolicy, PeerAuthentication and RequestAuthentication Istio resources from the Create New Istio Config forms:
+
+++++
+<div style="display: flex;">
+    <span style="margin: 0 auto;">
+      <a class="image-popup-fit-height" href="/images/documentation/features/form-authorization-policy-v1.22.0.png" title="Custom JVM Metrics">
+          <img src="/images/documentation/features/form-authorization-policy-v1.22.0.png" style="width: 660px; display:inline;margin: 0 auto;" />
+      </a>
+      <a class="image-popup-fit-height" href="/images/documentation/features/form-peer-authentication-v1.22.0.png" title="Custom Vertx Metrics">
+          <img src="/images/documentation/features/form-peer-authentication-v1.22.0.png" style="width: 660px; display:inline;margin: 0 auto;" />
+      </a>
+    </span>
+</div>
+<div style="display: flex;">
+    <span style="margin: 0 auto;">
+      <a class="image-popup-fit-height" href="/images/documentation/features/form-request-authentication-v1.22.0.png" title="Custom JVM Metrics">
+          <img src="/images/documentation/features/form-request-authentication-v1.22.0.png" style="width: 660px; display:inline;margin: 0 auto;" />
+      </a>
+    </span>
+</div>
+++++
+
+==== Istio Traffic Forms
+
+Kiali uses Istio Wizards to generate Istio Traffic config for a specific Service, but Kiali also allows to create Gateway and Sidecar Istio resources for more generic scenarios:
+
+++++
+<div style="display: flex;">
+    <span style="margin: 0 auto;">
+      <a class="image-popup-fit-height" href="/images/documentation/features/form-sidecar-v1.22.0.png" title="Custom JVM Metrics">
+          <img src="/images/documentation/features/form-sidecar-v1.22.0.png" style="width: 660px; display:inline;margin: 0 auto;" />
+      </a>
+      <a class="image-popup-fit-height" href="/images/documentation/features/form-gateway-v1.22.0.png" title="Custom Vertx Metrics">
+          <img src="/images/documentation/features/form-gateway-v1.22.0.png" style="width: 660px; display:inline;margin: 0 auto;" />
+      </a>
+    </span>
+</div>
+++++
 
 == Multi-cluster support
 Istio provides https://istio.io/docs/setup/install/multicluster/[installation instructions] for three different multi-cluster scenarios: replicated control planes, shared control plane with single-network, and shared control plane with multi-network.
