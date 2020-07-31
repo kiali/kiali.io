@@ -22,7 +22,7 @@ Kiali helps you define, validate, and observe the connections and microservices 
 
 Kiali works with Istio in Kubernetes distributions. It visualizes the service mesh topology and provides visibility into features like request routing, circuit breakers, request rates, latency and more. Kiali offers insights about the mesh components at different levels, from abstract Applications to Services and Workloads.
 
-Kiali also helps to operate the Service Mesh providing Wizards to apply common traffic patterns an generate automatically Istio configuration.
+Kiali also helps to manage the Service Mesh providing Wizards to apply common traffic patterns and automatically generate Istio configuration.
 
 toc::[]
 
@@ -216,7 +216,7 @@ Kiali provides filtered list views of all your service mesh definitions. Each vi
 
 ==== Detail: Overview
 
-The overview tab provides detail information, graph details and health overview for a specific Application, Workload or Service.
+The overview tab provides detail information, sparkline graph and health overview for a specific Application, Workload or Service.
 
 For each type of element, Kiali adds additional features.
 
@@ -258,7 +258,7 @@ Kiali provides access to YAML definitions and allows modification and deletion a
 
 The traffic tab collects all connections from and to a specific Application, Workload and/or Service.
 
-It groups them in Inbound and Outbound tables prividing traffic details and links to specific detailed metrics.
+It groups them in Inbound and Outbound tables providing traffic details and links to specific detailed metrics.
 
 ++++
  <a class="image-popup-fit-height" href="/images/documentation/features/traffic-v1.22.0.png" title="Traffic tab">
@@ -270,9 +270,9 @@ It groups them in Inbound and Outbound tables prividing traffic details and link
 
 ==== Detail: Logs
 
-The Workload detail offer a special Logs tab. Kiali allows to examine at same time application containers and sidecar logs of a selected Pod.
+The Workload detail offer a special Logs tab. Kiali allows side-by-side viewing of both the application and the proxy logs of a selected pod.
 
-The logs tab adds additional filtering cappabilities to show or hide specific lines.
+The logs tab adds additional filtering capabilities to show or hide specific lines.
 
 ++++
  <a class="image-popup-fit-height" href="/images/documentation/features/logs-v1.22.0.png" title="Logs tab">
@@ -456,7 +456,7 @@ When traffic is suspended for all workloads, Istio returns an error code to any 
 When there is traffic for some workload, the wizard maps a weighted rule; when there is not traffic, an abort rule is coded in the pair of Istio resources VirtualService and DestinationRule generated.
 
 ==== Advanced Options
-All previous wizards have an Advanced Options section where user can define specific configuration for TLS, LoadBalancing, Security and Gateways.
+All previous wizards have an Advanced Options section where the user can define specific configuration for TLS, LoadBalancing, Security and Gateways.
 ++++
 <div style="display: flex;">
  <span style="margin: 0 auto;">
@@ -490,7 +490,7 @@ These actions are located under the Istio Config page.
 
 ==== Istio Security Forms
 
-Kiali allows to create AuthorizationPolicy, PeerAuthentication and RequestAuthentication Istio resources from the Create New Istio Config forms:
+Kiali allows creation of AuthorizationPolicy, PeerAuthentication and RequestAuthentication Istio resources from the Create New Istio Config forms:
 
 ++++
 <div style="display: flex;">
@@ -514,7 +514,7 @@ Kiali allows to create AuthorizationPolicy, PeerAuthentication and RequestAuthen
 
 ==== Istio Traffic Forms
 
-Kiali uses Istio Wizards to generate Istio Traffic config for a specific Service, but Kiali also allows to create Gateway and Sidecar Istio resources for more generic scenarios:
+Kiali uses Istio Wizards to generate Istio Traffic config for a specific Service, but Kiali also allows creation of Gateway and Sidecar Istio resources for more generic scenarios:
 
 ++++
 <div style="display: flex;">
