@@ -54,7 +54,7 @@ Kiali has public community meetings every three weeks, at the end of each releas
 == Spread the word
 
 As an open source project, community contributions are important to Kiali. The presence of Kiali in multiple projects and at conferences around the globe is a key for our continued success.
-If you are organizing an event with presentations that include Kiali, we would love to know about it and help you spreading the word. Please let us know by filling out this form:
+If you are organizing an event with presentations that include Kiali, we would love to know about it and help you spread the word. Please let us know by filling out this form:
 
 ++++
 <div style="margin:auto;width:15%">
