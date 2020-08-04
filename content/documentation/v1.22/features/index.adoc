@@ -568,9 +568,9 @@ The overview page shows all the available namespaces with aggregated data. Besid
 
 === Graph
 
-The `mTLS` method is used to establish communication between microservices. In the graph, Kiali has the option to show which edges are using `mTLS` and with what percentatge durint the selected period. When an edge shows a lock icon means that there is at least one request with mTLS enabled is present. In case there are both mTLS and non-mTLS request, the side-panel will show the percentatge of requests using `mTLS`.
+The `mTLS` method is used to establish communication between microservices. In the graph, Kiali has the option to show which edges are using `mTLS` and with what percentatge during the selected period. When an edge shows a lock icon it means at least one request with mTLS enabled is present. In case there are both mTLS and non-mTLS requests, the side-panel will show the percentage of requests using `mTLS`.
 
-In case the mesh-wide `mTLS` is enabled, the graph will only show broken locks for those edges that contains non-mTLS requests. Edges that use only `mTLS` won't show any lock.
+In case the mesh-wide `mTLS` is enabled, the graph will show broken locks for only those edges containing non-mTLS requests. Edges that use only `mTLS` won't show any lock.
 
 Enable the option in the `Display` dropdown, select the `security` badge.
 
@@ -586,7 +586,7 @@ Enable the option in the `Display` dropdown, select the `security` badge.
 
 === Validations
 
-Kiali has different validations helping troubleshooting configurations related to `mTLS` such as `DestinationRules` and `PeerAuthentications`.
+Kiali has different validations to help troubleshoot configurations related to `mTLS` such as `DestinationRules` and `PeerAuthentications`.
 
 ++++
 <div style="display: flex;">
