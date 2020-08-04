@@ -92,12 +92,6 @@ relativeURLs = true
           weight = 7
           parent="main_doc"
       [[menu.main]]
-         identifier = "validation"
-         name = "Validation"
-         url = "/documentation/latest/validations"
-         weight = 7
-         parent="main_doc"
-      [[menu.main]]
           identifier = "doc_swagger"
           name = "Developer API"
           url = "/documentation/latest/developer-api"
