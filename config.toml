@@ -55,12 +55,6 @@ relativeURLs = true
           url = "/documentation/latest/features"
           weight = 1
           parent="main_doc"
-          [[menu.main]]
-             identifier = "validation"
-             name = "Validation"
-             url = "/documentation/latest/validations"
-             weight = 1
-             parent="doc_features"
       [[menu.main]]
           identifier = "doc_installation_guide"
           name = "Installation Guide"
@@ -92,16 +86,22 @@ relativeURLs = true
           weight = 6
           parent="main_doc"
       [[menu.main]]
+         identifier = "validation"
+         name = "Validation"
+         url = "/documentation/latest/validations"
+         weight = 7
+         parent="main_doc"
+      [[menu.main]]
           identifier = "doc_swagger"
           name = "Developer API"
           url = "/documentation/latest/developer-api"
-          weight = 7
+          weight = 8
           parent="main_doc"
       [[menu.main]]
           identifier = "doc_glossary"
           name = "Glossary"
           url = "/documentation/latest/glossary"
-          weight = 8
+          weight = 9
           parent="main_doc"
           [[menu.main]]
               identifier = "concepts"
@@ -125,7 +125,7 @@ relativeURLs = true
           identifier = "doc_archive"
           name = "Older Releases"
           url = "/documentation"
-          weight = 9
+          weight = 10
           parent="main_doc"
   [[menu.main]]
       identifier = "main_faq"
