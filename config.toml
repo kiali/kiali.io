@@ -68,22 +68,28 @@ relativeURLs = true
           weight = 3
           parent="main_doc"
       [[menu.main]]
+          identifier = "validations"
+          name = "Validations"
+          url = "/documentation/latest/validations"
+          weight = 4
+          parent="main_doc"
+      [[menu.main]]
           identifier = "doc_runtimes"
           name = "Custom Dashboards"
           url = "/documentation/latest/runtimes-monitoring"
-          weight = 4
+          weight = 5
           parent="main_doc"
       [[menu.main]]
           identifier = "doc_tracing"
           name = "Distributed Tracing"
           url = "/documentation/latest/distributed-tracing"
-          weight = 5
+          weight = 6
           parent="main_doc"
       [[menu.main]]
           identifier = "doc_extensions"
           name = "Extensions"
           url = "/documentation/latest/extensions"
-          weight = 6
+          weight = 7
           parent="main_doc"
       [[menu.main]]
          identifier = "validation"
