@@ -14,6 +14,7 @@ muffet:
 
 # This is not supposed to be run locally, prefer using `serve` instead.
 build:
+	gem install asciidoctor
 	rm -rf public
 	sh scripts/build-swagger.sh
 	hugo
