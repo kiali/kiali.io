@@ -16,7 +16,7 @@ weight: 2
 :imagesdir: /images/quickinstall/
 :sectlinks:
 
-icon:lightbulb[size=1x]{nbsp} This page is intended for users installing Kiali for the first time, not recommended for custom production environments. In case of custom installations, visit the link:{{< ref "/documentation/edge/installation-guide" >}}[installation guide].
+icon:lightbulb[size=1x]{nbsp} This page is intended for users installing Kiali for the first time, not recommended for custom production environments. In case of custom installations, visit the link:{{< ref "/documentation/staging/installation-guide" >}}[installation guide].
 
 == Installing Kiali
 
@@ -33,7 +33,7 @@ This option installs the Kiali Operator and the Kiali CR with options necessary 
   bash <(curl -L https://kiali.io/getLatestKialiOperator) --accessible-namespaces '**'
 ----
 
-When the Kiali CR is created it triggers the operator to then install the Kiali Server. Kiali will be able to access all existing and future namespaces. See link:{{< ref "/documentation/edge/installation-guide#_namespace_management" >}}[Namespace Management] for more information if you want to change that behavior.
+When the Kiali CR is created it triggers the operator to then install the Kiali Server. Kiali will be able to access all existing and future namespaces. See link:{{< ref "/documentation/staging/installation-guide#_namespace_management" >}}[Namespace Management] for more information if you want to change that behavior.
 
 To uninstall, remove the Kiali CR and use the `helm uninstall` command (see below).
 
@@ -93,7 +93,7 @@ The Istio `istioctl` client has an easy method to access to all of its UIs. To g
 istioctl dashboard kiali
 ----
 
-icon:bullhorn[size=1x]{nbsp} The default credentials to log in are: `admin/admin`. It is highly recommended to change them as soon as possible, see the link:{{< ref "/documentation/edge/installation-guide#_login_options" >}}[Login Options]
+icon:bullhorn[size=1x]{nbsp} The default credentials to log in are: `admin/admin`. It is highly recommended to change them as soon as possible, see the link:{{< ref "/documentation/staging/installation-guide#_login_options" >}}[Login Options]
 
 ==== Running on OpenShift
 
@@ -107,7 +107,7 @@ $ oc patch clusterrole kiali -p '[{"op":"add", "path":"/rules/-", "value":{"apiG
 
 == Open the UI
 
-Once the Kiali Server has been installed and has successfully started, you can access the UI. For more details, check the link:{{< ref "/documentation/edge/faq/general#how-do-i-access-kiai" >}}[FAQ: How do I access Kiali UI?]
+Once the Kiali Server has been installed and has successfully started, you can access the UI. For more details, check the link:{{< ref "/documentation/staging/faq/general#how-do-i-access-kiai" >}}[FAQ: How do I access Kiali UI?]
 
 The Istio `istioctl` client has an easy method to access the Kiali UI:
 
@@ -116,9 +116,8 @@ The Istio `istioctl` client has an easy method to access the Kiali UI:
 istioctl dashboard kiali
 ----
 
-icon:bullhorn[size=1x]{nbsp} The credentials you use on the login screen depend on the authentication strategy configured for Kiali. See link:{{< ref "/documentation/edge/installation-guide#_login_options" >}}[Login Options] for more details.
+icon:bullhorn[size=1x]{nbsp} The credentials you use on the login screen depend on the authentication strategy configured for Kiali. See link:{{< ref "/documentation/staging/installation-guide#_login_options" >}}[Login Options] for more details.
 
 == More installation details
 
-Find more detailed information on the installation process in the link:{{< ref "/documentation/edge/installation-guide" >}}[installation guide].
-
+Find more detailed information on the installation process in the link:{{< ref "/documentation/staging/installation-guide" >}}[installation guide].

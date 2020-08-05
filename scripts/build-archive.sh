@@ -10,8 +10,8 @@ echo "Preparing documentation for version ${tag}"
 cp -r "${root}"/edge "${root}"/${tag}
 
 find "${root}/${tag}" -type f -name "*.adoc" -exec sed -i -e "s/  main:/  $(echo "${tag}" | tr "." "-"):/" "{}" \;
-find "${root}/${tag}" -type f -name "*.adoc" -exec sed -i -e "s;documentation/edge;documentation/${tag};g" "{}" \;
-sed -i -r "s/: \"(Edge|Documentation)\"/: ${tag}/g" "${root}/${tag}/_index.adoc"
+find "${root}/${tag}" -type f -name "*.adoc" -exec sed -i -e "s;/staging/;/${tag}/;g" "{}" \;
+sed -i -r "s/: \"(Staging|Documentation)\"/: ${tag}/g" "${root}/${tag}/_index.adoc"
 
 rm "${root}/latest"
 cd "${root}"

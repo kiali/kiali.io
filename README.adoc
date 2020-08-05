@@ -7,98 +7,94 @@ https://app.netlify.com/sites/kiali/deploys[image:https://api.netlify.com/api/v1
 
 toc::[]
 
-This repository contains the source code for https://kiali.io website.
+This repository contains the source code for the http://kiali.io[http://kiali.io] website.
 
-The website is written in link:https://asciidoctor.org/docs/asciidoc-syntax-quick-reference/[AsciiDoc], generated using link:https://gohugo.io/[Hugo], and hosted on GitHub.
+The website is written using http://asciidoctor.org[AsciiDoc], generated using https://gohugo.io[Hugo], hosted on Github and deployed using netlify.
 
-== Requirements
 
-Kiali.io runs on top of Hugo. In order to locally run a kiali.io instance you will need to either install Hugo and AsciiDoctor locally or run a docker image that contains Hugo and AsciiDoctor.
+== Requirements ==
+To run the website locally, you will need:
 
-=== Install and Run Hugo and AsciiDoctor Locally
+* https://docker.io[Docker] or https://podman.io[Podman]
+* https://www.gnu.org/software/make/[GNU Make]
 
-If you want to locally install the required tools, you first must have link://https://gohugo.io/[Hugo] installed and the `hugo` command available on your PATH. It is likely you can easily install `hugo` using your system's package manager. For more information about how to install Hugo please see its link:https://gohugo.io/getting-started/installing/[installation documentation].
+Generally `podman` is easier to setup, but less used due to being newer.
 
-Asciidoctor is also required to run kiali.io. The `make install` command will install Asciidoctor using link:https://rubygems.org[Ruby Gem] and Bundler. You will need to have the `gem` command on your path. Please see the link:https://rubygems.org/pages/download[Ruby Gem installation docs] for more information.
 
-It is recommended to install and run at least **Hugo 0.48**
+== Configuring and Running ==
+Hugo has a command to run a small, self-contained web server locally, so you can test the website without having to upload/deploy it anywhere. The server supports live-reload, so changes to the content will reflect into the browser as they happen.
 
-=== Install and Run Hugo and AsciiDoctor via Docker
+To run the server, you need to run the following on a terminal:
 
-If you do not want to install a local copy of Hugo and AsciiDoctor, you can run a Hugo+AsciiDoctor docker image instead. You need to first create the docker image via `make hugo-docker`. Once you have a docker image, you can run the Hugo server via `make hugo-serve`.
-
-== Installing
-
-If you want to install and run Hugo and AsciiDoctor locally, the following command needs to be run in order to install a few dependencies:
-
-[source, bash]
-----
-make install
-----
-
-==  Start local server
-
-Hugo has a live `serve` command that runs a small, lightweight web server on your computer so you can test your site locally without needing to upload it anywhere.  As you make changes to files in your project, it will rebuild your project and reload the browser for you.
-
-[source,bash]
+[source,shell]
 ----
 make serve
 ----
 
-If you did not install Hugo and AsciiDoctor locally, but you instead want to run with the docker image, you can use the hugo-serve make target instead:
+[NOTE]
+====
+If you are using podman, you need to set `CONTAINER_RUNTIME` when starting the server, as such:
+====
 
-[source,bash]
+[source,shell]
 ----
-make hugo-serve
+CONTAINER_RUNTIME=podman make serve
 ----
 
-If everything is working as expected you should see something like the following being outputted:
+If everything is working as expected, you should see something like this:
 
-```
-                   | EN
-+------------------+-----+
-  Pages            |  12
-  Paginator pages  |   0
-  Non-page files   |   0
-  Static files     | 804
-  Processed images |   0
-  Aliases          |   0
-  Sitemaps         |   1
-  Cleaned          |   0
+[source,]
+----
+                   |  EN
++------------------+------+
+  Pages            | 1353
+  Paginator pages  |    0
+  Non-page files   |    0
+  Static files     |  119
+  Processed images |    0
+  Aliases          |  155
+  Sitemaps         |    1
+  Cleaned          |    0
 
-Total in 4798 ms
-Watching for changes in /home/theute/Projects/Kiali/kiali.io/{content,data,layouts,static,themes}
+Total in 15304 ms
+Watching for changes in /site/{content,data,layouts,static,themes}
+Watching for config changes in /site/config.toml
+Environment: "development"
 Serving pages from memory
-Running in Fast Render Mode. For full rebuilds on change: hugo server --disableFastRender
-Web Server is available at http://localhost:1313/ (bind address 127.0.0.1)
+Web Server is available at http://localhost:1313/ (bind address 0.0.0.0)
 Press Ctrl+C to stop
-```
+----
 
-You should now be able to access hugo running kiali.io at link:http://localhost:1313/[http://localhost:1313]
+The server should be available on http://localhost:1313[http://localhost:1313]. Some files might not be supported for live reload. If, for some reason, you are not seeing your changes appearing you may need to restart the server.
 
-This running instance should support live reload. Changes you make to files should be automatically updated in your running instance.
+== Documentation Versioning ==
 
-Some files may not be supported for live reload. If you are not automatically seeing your changes live you may need to restart the server. You can restart the server by pressing 'ctrl-c' and running `make serve` again (or `make hugo-serve` if you are running the docker image).
+The documentation is versioned, and all new changes should go to `content/documentation/staging`. The release script runs every 3 weeks usually and generates a `content/documentation/vX.X` with the contents of staging, as well as creating a symbolic link on `content/documentation/latest`.
 
-==  Project directory structure
+The versioning/release script can be found on `scripts/build-archive.sh`.
 
-```
-├── [archetypes]- Directory where you define the content, tags, categories, etc.
-├── [content] - Directory that contains the content of the site.
-│   ├── [contribute]
-│   ├── [documentation]
-├── [data] - Directory that contains site data such as localization configuration.
-├── [layouts] - Directory that contains Go HTML/template library used to template and format the site.
-├── [public] - (Doesn't exist until generated) Directory that contains the generated content for the site.  Should be part of your git.ignore file.
-├── [scripts] - Directory that contains the generator for swagger documentation
-├── [static] - Directory for any static files to be compiled into the web site (style sheets, JavaScript, images, robots.txt, fav icons, etc.).
-├── [themes] - Directory that contains the site theme.  Themes override layouts.
-├── Makefile
-├── hugo/Dockerfile - the Dockerfile used to build the Hugo+AsciiDoctor image
-├── config.toml - Main configuration file, where you define the web site title, URL, language, etc.
-├── README.adoc (This file)
-```
+== Production Deployment ==
 
-==  To generate the Swagger documentation
-Run the following:
-`sh scripts/build-swagger.sh`
+Deployment is done automatically when a pull request is merged, and preview deployments are also done for each PR, so you can verify that your changes will work in production before actually deploying.
+
+== Directory Structure ==
+
+* archetypes :: Content definitions, tag, categories and so on
+* content :: Content for the website (pages and articles)
+** contribute :: Contribution how-to
+** documentation :: Documentation for Kiali
+*** staging :: The documentation for the next released versions, changes should go here
+*** latest :: A symbolic link to the latest generated version, replaced on release
+*** vX.X :: Documentation for older versions, those are usually generated by the release scripts
+** news :: News about the project
+* data :: Website data, such as localization configuration
+* layouts :: Page layout templates
+* public :: Content for website automatically generated by Hugo, it is not included in the repository
+* scripts :: Scripts for generating swagger documentation and versioning
+* static :: Any static files that need to be added to the website (images, css and js)
+* themes :: The website theme
+
+
+== License and Code of Conduct ==
+
+The kiali.io website, like the other kiali-related projects are licensed under the https://www.apache.org/licenses/LICENSE-2.0[Apache License 2.0]. It also follows the https://github.com/kiali/kiali/blob/master/CODE_OF_CONDUCT.md[Kiali Community Code of Conduct].
