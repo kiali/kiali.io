@@ -75,33 +75,6 @@ https://istio.io/docs/reference/config/authorization/istio.rbac.v1alpha1/#Servic
 
 '''
 
-=== KIA0103 - No matching workload found for authorization policy selector in this namespace
-
-The selector field decides where to apply the rules of the authorization policy. The validation appears when the labels specified don't match with any workload listed in the same namespace. Cross-namespace validations are not supported.
-
-==== Resolution
-
-Make sure you have at least a workload that its labels matches with the selector labels of the Authorization Policy.
-
-==== Severity
-
-icon:exclamation-triangle[] Warning
-
-==== Example
-
-[source, yaml]
-----
-include::/data/files/validation_examples/803.yaml[]
-----
-
-==== See Also
-
-https://github.com/kiali/kiali/blob/master/business/checkers/authorization/workload_selector_checker.go[Validator source code, window="_blank"] +
-https://istio.io/docs/reference/config/security/authorization-policy/#AuthorizationPolicy[Istio documentation, window="_blank"] +
-https://istio.io/docs/reference/config/security/authorization-policy/[AuthorizationPolicy documentation, window="_blank"]
-
-'''
-
 === KIA0104 - This host has no matching entry in the service registry
 
 AuthorizationPolicy enables access control on workloads. Each policy effects only to a group of request going to a specific destination. For instance, allow all the request going to `details` host.
@@ -115,7 +88,7 @@ Either remove the host from the list, correct if there is any typo or deploy a n
 
 ==== Severity
 
-icon:exclamation-triangle[] Error
+icon:exclamation-circle[] Error
 
 ==== Example
 
@@ -529,95 +502,6 @@ https://istio.io/docs/tasks/security/authentication/authn-policy/#enable-mutual-
 
 '''
 
-=== KIA0502 - More than one selector-less PeerAuthentication in the same namespace
-
-PeerAuthentication objects are used to define the authentication methods that a set of workloads can accept: Mutual, Istio Mutual, Simple or Disabled. This rule might apply to one workload, multiple workloads, all the workloads in a namespace or all the workloads of the mesh. Both `selector` and `namespace` fields will determine this.
-
-This validation refers to the usage of the `selector`. Selector-less PeerAuthentications are those objects that don't have the `selector` field specified. Therefore, objects that apply to all the workloads of a namespace (or whole mesh if the namespace is the same as the control plane namespace).
-
-This validation warns you that you have two different PeerAuthentication living in the same namespace. This may leave an non-deterministic or unexpected behavior on the workloads of the namespace.
-
-==== Resolution
-
-The natural solution is to merge both PeerAuthentications. In case there are different behaviors you want to apply, consider to define the `selector` field targeting a specific set of workloads.
-
-==== Severity
-
-icon:exclamation-triangle[] Warning
-
-==== Example
-
-[source, yaml]
-----
-include::/data/files/validation_examples/302.yaml[]
-----
-
-==== See Also
-
-https://github.com/kiali/kiali/tree/master/business/checkers/common/multi_match_selector_checker.go[Validator source code, window="_blank"] +
-https://istio.io/docs/tasks/security/authentication/authn-policy/#enable-mutual-tls-per-namespace-or-workload[Enabling Istio mutual TLS namespace-wide, window="_blank"]
-https://istio.io/docs/reference/config/security/peer_authentication[PeerAuthentication reference, windor="_blank"]
-
-'''
-
-=== KIA0503 - More than one PeerAuthentication applied to the same workload
-
-PeerAuthentication objects are used to define the authentication methods that a set of workloads can accept: Mutual, Istio Mutual, Simple or Disabled. This rule might apply to one workload, multiple workloads, all the workloads in a namespace or all the workloads of the mesh. Both `selector` and `namespace` fields will determine this.
-
-This validation refers to the usage of the `selector`. In this field are defined the labels of the workloads that this object will be applied to. It might be one or more workloads in the same namespace.
-
-This validation warns the scenario where there are two different PeerAuthentication applying to the same workload(s). This may leave an undeterministic or unexpected behavior on the workloads of the namespace.
-
-==== Resolution
-
-There isn't a standard solution for that. It is a good practice not to have multiple rules of the same kind applying to the same workloads. Otherwise you would end up having interferences between objects and having troubles when debugging.
-The first approach would be to merge both PeerAuthentication into one if possible. The second approach would be to reorganize the PeerAutentications in a way that each one only applies to a different set of workloads. Applying no change into the PeerAuthentication is also an option although not desiderable.
-
-==== Severity
-
-icon:exclamation-triangle[] Warning
-
-==== Example
-
-[source, yaml]
-----
-include::/data/files/validation_examples/303.yaml[]
-----
-
-==== See Also
-
-https://github.com/kiali/kiali/tree/master/business/checkers/common/workload_selector_checker.go[Validator source code, window="_blank"] +
-https://istio.io/docs/reference/config/security/peer_authentication[PeerAuthentication reference, windor="_blank"]
-
-'''
-
-=== KIA0504 - No matching workload found for PeerAuthentication selector in this namespace
-
-PeerAuthentication objects are used to define the authentication methods that a set of workloads can accept: Mutual, Istio Mutual, Simple or Disabled. This rule might apply to one workload, multiple workloads, all the workloads in a namespace or all the workloads of the mesh. Both `selector` and `namespace` fields will determine this.
-
-This validation warns the scenario where there are not workloads matching with the `selector` labels. In other terms, this object doesn't have any implication into the mesh.
-
-==== Resolution
-
-There are three scenarios: either change the labels to match an existing workload (useful with typos), deploy a workload that match with those labels or safely remove this PeerAuthentication.
-
-==== Severity
-
-icon:exclamation-triangle[] Warning
-
-==== Example
-
-[source, yaml]
-----
-include::/data/files/validation_examples/304.yaml[]
-----
-
-==== See Also
-
-https://github.com/kiali/kiali/tree/master/business/checkers/common/workload_selector_checker.go[Validator source code, window="_blank"] +
-https://istio.io/docs/reference/config/security/peer_authentication[PeerAuthentication reference, windor="_blank"]
-
-'''
 
 === KIA0505 - Destination Rule disabling namespace-wide mTLS is missing
 
@@ -846,63 +730,6 @@ https://istio.io/docs/reference/config/authorization/istio.rbac.v1alpha1/#Servic
 [#sidecars]
 == Sidecars
 
-=== KIA1001 - No matching workload found for the sidecar selector in this namespace
-
-The Sidecar resources are used for configuring the sidecar proxies in the service mesh. This resource is aimed to target either specific workloads, all workloads in a namespace or all the sidecars of the service mesh. Each Sidecar resource living in a namespace (except the one living in the control plane namespace) effects only to the workloads in the same namespace.
-
-This validation refers to the scenario where there aren't workloads matching the labels specified into the sidecar's `workloadSelector` field. Therefore, all the settings defined within the sidecar resource won't be applied to any workload in the mesh.
-
-==== Resolution
-
-The validation will be gone when there is at least one workload matching the labels set in the `workloadSelector` field. The workload must be in the same namespace of the sidecar resource.
-
-==== Severity
-
-icon:exclamation-triangle[] Warning
-
-==== Example
-
-[source, yaml]
-----
-include::/data/files/validation_examples/901.yaml[]
-----
-
-==== See Also
-
-https://github.com/kiali/kiali/tree/master/business/checkers/sidecars/workload_selector_checker.go[Validator source code, window="_blank"] +
-https://istio.io/docs/reference/config/networking/sidecar/[Sidecar documentation, window="_blank"] +
-
-'''
-
-=== KIA1002 - More than one selector-less Sidecar in the same namespace
-
-The Sidecar resources are used for configuring the sidecar proxies in the service mesh. This resource is aimed to target either specific workloads, all workloads in a namespace or all the sidecars of the service mesh. Each Sidecar resource living in a namespace (except the one living in the control plane namespace) effects only to the workloads in the same namespace.
-
-Selector-less sidecars are those sidecars that don't have the `workloadSelector` field and thus they are pointing to all workloads running in the same namespace.
-Therefore, this validation refers to the scenario where there are more than one sidecar targetting to all workloads of the namespace. According to Istio documentation the behavior of the mesh is undefined when this scenario is presented.
-
-==== Resolution
-
-Make sure that all that there is only one selector-less sidecar in the namespace. Three possible solutions are suggested: merging selector-less sidecars into one, adding selectors to existing selector-less sidecars or removing selector-less sidecars.
-
-==== Severity
-
-icon:times-circle[] Error
-
-==== Example
-
-[source, yaml]
-----
-include::/data/files/validation_examples/902.yaml[]
-----
-
-==== See Also
-
-https://github.com/kiali/kiali/tree/master/business/checkers/sidecars/multi_match_checker.go[Validator source code, window="_blank"] +
-https://istio.io/docs/reference/config/networking/sidecar/[Sidecar documentation, window="_blank"] +
-
-'''
-
 === KIA1003 - Invalid host format. 'namespace/dnsName' format expected
 
 The Sidecar resources are used for configuring the sidecar proxies in the service mesh. IstioEgressListener specifies the properties of an outbound traffic listener on the sidecar proxy attached to a workload instance.
@@ -960,34 +787,6 @@ include::/data/files/validation_examples/904.yaml[]
 
 https://github.com/kiali/kiali/tree/master/business/checkers/sidecars/egress_listener_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/reference/config/networking/sidecar/#IstioEgressListener[Sidecar EgressListener documentation, window="_blank"] +
-
-'''
-
-=== KIA1005 - More than one Sidecar applied to the same workload
-
-The Sidecar resources are used for configuring the sidecar proxies in the service mesh. The `workloadSelector` field is the set of labels that selects which workloads' sidecars this resource will be applied to.
-
-The behavior of the system is undefined if two or more Sidecar configurations with a workloadSelector select the same workload instance. It means that Istio undeterministicly applies one sidecar or another to a set of workloads. This scenario is very unlikely and it should be prevented.
-
-==== Resolution
-
-Make sure the labels for the sidecar are applying to a unique set of workloads. Ensure that other sidecars in the namespace are not targetting workloads targetted in this sidecar.
-
-==== Severity
-
-icon:times-circle[] Error
-
-==== Example
-
-[source, yaml]
-----
-include::/data/files/validation_examples/905.yaml[]
-----
-
-==== See Also
-
-https://github.com/kiali/kiali/tree/master/business/checkers/sidecars/multi_match_checker.go[Validator source code, window="_blank"] +
-https://istio.io/docs/reference/config/networking/sidecar[Sidecar documentation: first warning, window="_blank"] +
 
 '''
 
@@ -1231,3 +1030,82 @@ https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/no
 
 In certain cases, Kiali is unable to validate the field since it spans another namespace to which the validator is not capable of looking at. In such cases, Kiali will mark this field with a grey icon indicating that the fields correctness could not be verified. This does not necessarily mean there is an error, but that the user should be careful and do the validation manually.
 
+=== KIA0002 - More than one selector-less object in the same namespace
+
+This validation refers to the usage of the `selector`. Selector-less Istio objects are those objects that don't have the `selector` field specified. Therefore, objects that apply to all the workloads of a namespace (or whole mesh if the namespace is the same as the control plane namespace).
+
+This validation warns you that you have two different objects living in the same namespace. This may leave an non-deterministic or unexpected behavior on the workloads of the namespace.
+
+==== Resolution
+
+The natural solution is to merge both objects. In case there are different behaviors you want to apply, consider to define the `selector` field targeting a specific set of workloads.
+
+==== Severity
+
+icon:exclamation-circle[] Error
+
+==== Example
+
+[source, yaml]
+----
+include::/data/files/validation_examples/302.yaml[]
+----
+
+==== See Also
+
+https://github.com/kiali/kiali/tree/master/business/checkers/common/multi_match_selector_checker.go[Validator source code, window="_blank"] +
+
+'''
+
+=== KIA0003 - More than one object applied to the same workload
+
+This validation refers to the usage of the `selector`. In this field are defined the labels of the workloads that this object will be applied to. It might be one or more workloads in the same namespace.
+
+This validation warns the scenario where there are two different objects applying to the same workload(s). This may leave an undeterministic or unexpected behavior on the workloads of the namespace.
+
+==== Resolution
+
+There isn't a standard solution for that. It is a good practice not to have multiple rules of the same kind applying to the same workloads. Otherwise you would end up having interferences between objects and having troubles when debugging.
+The first approach would be to merge both objects into one if possible. The second approach would be to reorganize the objects of the same kind in a way that each one only applies to a different set of workloads. Applying no change into the objects is also an option although not desiderable.
+
+==== Severity
+
+icon:exclamation-circle[] Error
+
+==== Example
+
+[source, yaml]
+----
+include::/data/files/validation_examples/303.yaml[]
+----
+
+==== See Also
+
+https://github.com/kiali/kiali/tree/master/business/checkers/common/workload_selector_checker.go[Validator source code, window="_blank"] +
+
+'''
+
+=== KIA0004 - No matching workload found for the selector in this namespace
+
+This validation warns the scenario where there are not workloads matching with the `selector` labels. In other terms, this object doesn't have any implication into the mesh.
+
+==== Resolution
+
+There are three scenarios: either change the labels to match an existing workload (useful with typos), deploy a workload that match with those labels or safely remove this object.
+
+==== Severity
+
+icon:exclamation-triangle[] Warning
+
+==== Example
+
+[source, yaml]
+----
+include::/data/files/validation_examples/304.yaml[]
+----
+
+==== See Also
+
+https://github.com/kiali/kiali/tree/master/business/checkers/common/workload_selector_checker.go[Validator source code, window="_blank"] +
+
+'''
