@@ -1024,7 +1024,7 @@ https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/no
 
 [#generic]
 
-== Unknown
+== Generic
 
 === KIA0001 - Unable to verify the validity, cross-namespace validation is not supported for this field
 
