@@ -113,7 +113,7 @@ The version of Kiali packaged with Istio or Maistra may not contain the most rec
 
 Installing the latest version of Kiali is done using the Kiali Operator. The Kiali Operator is a link:https://coreos.com/operators/[Kubernetes Operator]. The Kiali Operator manages your Kiali installation. The Kiali Operator watches the Kiali Custom Resource (CR), a YAML file that holds the Kiali configuration. When you modify the Kiali CR, the operator installs, updates, or uninstalls Kiali as needed.
 
-The next few sections describe the different installation methods available for installing the Kiali Operator. Depending on the installation method you use, the operator may then install Kiali. Before you install Kiali, you will want to know which authentication strategy Kiali should use (this determines how users are to log into Kiali). See link:#_login_options[Login Options] for more on the `login`, `anonymous`, `ldap`, `openshift`, `token` and `openid` authentication strategies.
+The next few sections describe the different installation methods available for installing the Kiali Operator. Depending on the installation method you use, the operator may then install Kiali. Before you install Kiali, you will want to know which authentication strategy Kiali should use (this determines how users are to log into Kiali). See link:#_login_options[Login Options] for more on the `anonymous`, `openshift`, `token`, and `openid` authentication strategies.
 
 icon:bullhorn[size=1x]{nbsp} It is only necessary to install the Kiali Operator one time. After the operator is installed you need only create or edit the Kiali CR (see link:#_create_or_edit_the_kiali_cr[Create or Edit the Kiali CR]). The Kiali ConfigMap will be managed by the Kiali Operator and should *not* be manually edited.  As soon as the Kiali operator is installed and running, there is no need to again perform one of the installations below.
 
@@ -254,15 +254,7 @@ The above is the default when Kiali is installed on Kubernetes - so to access th
 
 Kiali supports several different login options.
 
-*login*: This option allows a user to log in to Kiali using a username and password. This is the default option if using Kubernetes.
-
-icon:bullhorn[size=2x]{nbsp} The _login_ strategy is deprecated and it will be removed in a following release. As an alternative, use the _token_ strategy, which provides similar authentication experience to the link:https://github.com/kubernetes/dashboard[Kubernetes Dashboard].
-
 *anonymous*: This option removes any login requirement. A user will not be presented the login page and will automatically have access to Kiali without having to present any credentials.
-
-*ldap*: This option allows a user to log in to Kiali using a username and passphrase that is authenticated via a backend LDAP server. This option requires that you configure additional settings in the Kiali CR under `auth.ldap` - see below for an example. If you want to use this option, you cannot use the operator deploy script to configure Kiali for you - you must create the Kiali CR and either pass it to the deploy script via `--kiali-cr` or do not have the script deploy a Kiali CR (`--operator-install-kiali=false`) but instead deploy the Kiali CR directly into your cluster yourself.
-
-icon:bullhorn[size=2x]{nbsp} The _ldap_ strategy is deprecated and it will be removed in a following release. As an alternative, use the _openid_ strategy and use an OpenID provider that supports LDAP integration.
 
 *openshift*: If you have deployed Kiali on OpenShift you can use this option (this is the default option if you're using OpenShift). With this option, users log in to Kiali with the OpenShift OAuth login. What users can access in Kiali will now be based on their user roles in OpenShift using the Kubernetes RBAC.
 
@@ -272,15 +264,7 @@ icon:bullhorn[size=2x]{nbsp} The _ldap_ strategy is deprecated and it will be re
 
 icon:bullhorn[size=1x]{nbsp} Using the *anonymous* option will leave Kiali unsecured. Anyone who can access the console will have full access to Kiali. If you are using this option you will need to make sure that it is only available on a trusted network and that only trusted users can access it.
 
-If `login` strategy is selected during the installation, a secret containing Kiali login credentials is required to be deployed along with Kiali. In this case, the install script will prompt you to enter a username and passphrase for the credentials that you want users to enter in order to log in successfully to Kiali. The install script will store those credentials in a secret that is deployed in the same namespace where Kiali is installed.
-
-icon:bullhorn[size=1x]{nbsp} If you configured the install script not to install a Kiali CR (and thus not have Kiali installed yet) via the `operator-install-kiali=false` option, you are responsible for creating this secret if you wish to install Kiali with the authentication strategy of "login". A secret is not required if your authentication strategy is not "login". The following command is a simple way to create a secret for Kiali whose user name is "admin" and password is "admin":
-[source,bash]
-----
-  kubectl create secret generic kiali -n istio-system --from-literal "username=admin" --from-literal "passphrase=admin"
-----
-
-For the `login`, `anonymous`, and `ldap` login options, the content displayed in Kiali is based on the permissions of the Kiali service account. On Kubernetes, the Kiali service account has cluster wide access and will be able to display everything in the cluster. By default, in OpenShift the service account will also have access to everything in the cluster but this can be customized by following the link:#_reducing_permissions_in_openshift[instructions below].
+For the `anonymous` login option, the content displayed in Kiali is based on the permissions of the Kiali service account. On Kubernetes, the Kiali service account has cluster wide access and will be able to display everything in the cluster. By default, in OpenShift the service account will also have access to everything in the cluster but this can be customized by following the link:#_reducing_permissions_in_openshift[instructions below].
 
 For the `openshift` login option, the content displayed in Kiali is based on the permissions of the user who logged in via the OpenShift OAuth login page. This means that individual users will be shown different content based on their roles within OpenShift. See the link:#openshift_user_permissions[section] below for how to grant or remove a user's access to specific namespaces.
 
@@ -291,57 +275,6 @@ The login option can be specified in the Kiali CR when installing Kiali. For ins
 auth:
   strategy: openshift
 ----
-
-==== LDAP
-
-icon:bullhorn[size=2x]{nbsp} The _ldap_ strategy is deprecated and it will be removed in a following release. As an alternative, use the _openid_ strategy and use an OpenID provider that supports LDAP integration.
-
-The `ldap` login option requires additional settings in the `auth.ldap` section. For example:
-
-[source,yaml]
-----
-auth:
-  strategy: ldap
-  ldap:
-    ldap_base: "DC=example,DC=com"
-    ldap_bind_dn: "CN={USERID},OU=xyz,OU=Users,OU=Accounts,DC=example,DC=com"
-    ldap_group_filter: "(cn=%s)"
-    ldap_host: "ldap-service.ldap-namespace"
-    ldap_insecure_skip_verify: true
-    ldap_mail_id_key: "mail"
-    ldap_member_of_key: "memberOf"
-    ldap_port: 123
-    ldap_role_filter: ".*xyz.*"
-    ldap_search_filter: "(&(name={USERID}))"
-    ldap_use_ssl: false
-    ldap_user_filter: "(cn=%s)"
-    ldap_user_id_key: "cn"
-----
-
-An expanation for those LDAP configuration settings are given below:
-
-* `ldap_base`: The starting point from where Kiali will search for users.
-* `ldap_bind_dn`: The template used to try to authenticate a user. There must be a user ID to match this template in order to be able to log in to Kiali.
-* `ldap_group_filter`: This is used to get the groups of the user. If the group is part of Common Name (CN), the filter will be something like `(cn=%s)`.
-* `ldap_host`: The host IP of the LDAP server.
-* `ldap_insecure_skip_verify`: If true, Kiali will not attempt to verify the LDAP server's certificate when using SSL.
-* `ldap_mail_id_key`: The attribute that is used to retrieve the mail id of the user from the LDAP server.
-* `ldap_member_of_key`: The attribute that is used to retrieve the member groups of the user from the LDAP server.
-* `ldap_port`: The port that the LDAP server is listening to.
-* `ldap_role_filter`: Used to filter the user roles based on the regular expression provided.
-* `ldap_search_filter`: Used to get the user details from LDAP.
-* `ldap_use_ssl`: When true, Kiali will send requests to the LDAP server using the secure SSL protocol.
-* `ldap_user_filter`: Used to search for the given user name.
-* `ldap_user_id_key`: The attribute that is used to retrieve the user ID of the user from the LDAP server.
-
-The configuration settings that are required to be set in order to use the LDAP authentication strategy are:
-
-* ldap_base
-* ldap_bind_dn
-* ldap_host
-* ldap_port
-
-Kiali will not start if those settings are not present.
 
 ==== OpenID Connect
 
