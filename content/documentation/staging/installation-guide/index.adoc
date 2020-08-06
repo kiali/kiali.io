@@ -31,7 +31,7 @@ Kiali requires a supported version of Istio. link:https://istio.io/news/[The Ist
 |Notes
 
 | 1.7.0+
-| 1.22.0+
+| 1.22.1+
 | Istio 1.7 istioctl will no longer install Kiali. Use the Istio samples/addons all-in-one yaml or the Kiali Helm Chart for quick demo installs.
 
 | 1.6.0+
@@ -75,11 +75,11 @@ If you are going to install the Helm Chart, *you must use Helm 3*. You can insta
 
 == Installation
 
-Kiali can be installed in an OpenShift or Kubernetes cluster environment. For OpenShift only, a minimal preparation is necessary.
-
-icon:bullhorn[size=1x]{nbsp} If you previously installed Kiali through some other mechanism, *you must uninstall it first* using that original mechanism's uninstall procedures. There is no migration path between older installation mechanisms and the install mechanisms explaned below.
+icon:bullhorn[size=1x]{nbsp} If you previously installed Kiali through some other mechanism, *you must uninstall it first* using that original mechanism's uninstall procedures. There is no migration path between older installation mechanisms and the install mechanisms explained below.
 
 icon:lightbulb[size=1x]{nbsp}For several commands listed on this page, the OpenShift CLI command `oc` is used to interact with the cluster environment. If you are on Kubernetes, simply replace `oc` with `kubectl` unless otherwise noted.
+
+If installing Kiali into an OpenShift Kubernetes distribution then follow the minimal preparation below. For other Kubernetes distributions you can skip to the next section.
 
 
 === OpenShift Preparation

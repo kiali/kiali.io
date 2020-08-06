@@ -18,11 +18,15 @@ weight: 2
 
 icon:lightbulb[size=1x]{nbsp} This page is intended for users installing Kiali for the first time. These instructions are not recommended to install Kiali in production environments. In the case of custom installations, visit the link:{{< ref "/documentation/staging/installation-guide" >}}[installation guide].
 
+icon:lightbulb[size=1x]{nbsp} If you are installing on OpenShift, you must grant the `cluster-admin` role to the user that is installing Istio and Kiali. If OpenShift is installed locally on the machine you are using, the following command should log you in as user `system:admin` which has this `cluster-admin` role: `oc login -u system:admin`
+
+icon:lightbulb[size=1x]{nbsp} Before attempting to install Kiali, please review the link:../installation-guide/#_prerequisites[prerequisites].
+
 == Install via Kiali Server Helm Chart
 
 This option installs the Kiali Server using a Helm Chart. *You must use link:https://helm.sh/docs/intro/install/[Helm 3].*
 
-icon:bullhorn[size=1x]{nbsp} If you already installed Kiali resources using the Istio distribution's link:https://github.com/istio/istio/blob/master/samples/addons/kiali.yaml[samples/addons all-in-one kiali.yaml], then you must delete those resources first via `kubectl delete -f ${ISTIO_HOME}/samples/addons/kiali.yaml`.
+icon:bullhorn[size=1x]{nbsp} If you already installed Kiali resources, you must remove them first. For example, if you used Istio's `istioctl` demo profile, you must remove the Kiali that it installed. If you used the Istio distribution's link:https://github.com/istio/istio/blob/master/samples/addons/kiali.yaml[samples/addons all-in-one kiali.yaml]), then you must delete those resources via `kubectl delete -f ${ISTIO_HOME}/samples/addons/kiali.yaml`.
 
 [source,bash]
 ----
@@ -47,6 +51,7 @@ helm uninstall --namespace istio-system kiali-server
 kubectl delete crd monitoringdashboards.monitoring.kiali.io
 ----
 
+
 === Access to the UI
 
 The Istio `istioctl` client has an easy method to expose and access Kiali:
@@ -58,9 +63,11 @@ istioctl dashboard kiali
 
 icon:bullhorn[size=1x]{nbsp} istioctl looks for a Kiali pod with a label of `app=kiali`, this is why the helm command above passed `fullnameOverride=kiali` and `nameOverride=kiali` (this ensures the names and labels are what istioctl expects).
 
+
 === Logging In
 
 The credentials you use to log into Kiali depend on the authentication strategy configured for Kiali. The helm command above sets the authentication strategy of `anonymous` which allows anyone to access the Kiali UI without having to provide any credentials. See link:{{< ref "/documentation/staging/installation-guide#_login_options" >}}[Login Options] for more details.
+
 
 == More installation details
 
