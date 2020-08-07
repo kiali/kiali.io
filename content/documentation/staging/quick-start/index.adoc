@@ -57,12 +57,12 @@ helm install \
   --namespace istio-system \
   --set auth.strategy="anonymous" \
   --set deployment.accessible_namespaces[0]="**" \
-  --set fullnameOverride=kiali \
-  --set nameOverride=kiali \
   --repo https://kiali.org/helm-charts \
   kiali-server \
   kiali-server
 ----
+
+icon:bullhorn[size=1x]{nbsp} If you get a validation error, you may have to pass the option `--disable-openapi-validation` (this is needed on OpenShift 4.5, for example).
 
 Kiali will be able to access all existing and future namespaces. See link:{{< ref "/documentation/staging/installation-guide#_namespace_management" >}}[Namespace Management] for more information if you want to change that behavior.
 
@@ -83,8 +83,6 @@ The Istio `istioctl` client has an easy method to expose and access Kiali:
 ----
 istioctl dashboard kiali
 ----
-
-icon:bullhorn[size=1x]{nbsp} istioctl looks for a Kiali pod with a label of `app=kiali`, this is why the helm command above passed `fullnameOverride=kiali` and `nameOverride=kiali` (this ensures the names and labels are what istioctl expects).
 
 
 == Logging In
