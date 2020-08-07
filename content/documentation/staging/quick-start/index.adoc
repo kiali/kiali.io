@@ -11,6 +11,9 @@ draft: false
 weight: 2
 ---
 
+:toc: macro
+:toclevels: 2
+:toc-title: Table of Contents
 :keywords: Kiali Quick Start
 :icons: font
 :imagesdir: /images/quickinstall/
@@ -20,11 +23,33 @@ icon:lightbulb[size=1x]{nbsp} This page is intended for users installing Kiali f
 
 icon:lightbulb[size=1x]{nbsp} Before attempting to install Kiali, please review the link:../installation-guide/#_prerequisites[prerequisites].
 
+toc::[]
+
+== Install via Istio Addons
+
+Istio 1.7+ has introduced all-in-one yamls to install third-party addon components such as link:https://preliminary.istio.io/latest/docs/ops/integrations/kiali/[Kiali], link:https://preliminary.istio.io/latest/docs/ops/integrations/prometheus/[Prometheus], link:https://preliminary.istio.io/latest/docs/ops/integrations/jaeger/[Jaeger], link:https://preliminary.istio.io/latest/docs/ops/integrations/Grafana/[Grafana] and link:https://preliminary.istio.io/latest/docs/ops/integrations/[others].
+
+icon:bullhorn[size=1x]{nbsp} These are all intended for demonstration only, and are not tuned for performance or security.
+
+To install a Kiali Server using the all-in-one yaml shipped with your version of Istio run the following:
+
+[source,bash]
+----
+kubectl apply -f ${ISTIO_HOME}/samples/addons/kiali.yaml
+----
+
+To uninstall:
+
+[source,bash]
+----
+kubectl delete -f ${ISTIO_HOME}/samples/addons/kiali.yaml
+----
+
 == Install via Kiali Server Helm Chart
 
-This option installs the Kiali Server using a Helm Chart. *You must use link:https://helm.sh/docs/intro/install/[Helm 3].*
+This option installs the latest version of Kiali Server using a Helm Chart. *You must use link:https://helm.sh/docs/intro/install/[Helm 3].*
 
-icon:bullhorn[size=1x]{nbsp} If you already installed Kiali resources, you must remove them first. For example, if you used Istio's `istioctl` demo profile, you must remove the Kiali that it installed. If you used the Istio distribution's link:https://github.com/istio/istio/blob/master/samples/addons/kiali.yaml[samples/addons all-in-one kiali.yaml]), then you must delete those resources via `kubectl delete -f ${ISTIO_HOME}/samples/addons/kiali.yaml`.
+icon:bullhorn[size=1x]{nbsp} If you already installed Kiali resources, you must remove them first. For example, if you used Istio's `istioctl` demo profile, you must delete the Kiali that it installed. If you used the Istio distribution's link:#_install_via_istio_addons[samples/addons all-in-one kiali.yaml], then you must uninstall those resources.
 
 [source,bash]
 ----
@@ -50,7 +75,7 @@ kubectl delete crd monitoringdashboards.monitoring.kiali.io
 ----
 
 
-=== Access to the UI
+== Access to the UI
 
 The Istio `istioctl` client has an easy method to expose and access Kiali:
 
@@ -62,9 +87,9 @@ istioctl dashboard kiali
 icon:bullhorn[size=1x]{nbsp} istioctl looks for a Kiali pod with a label of `app=kiali`, this is why the helm command above passed `fullnameOverride=kiali` and `nameOverride=kiali` (this ensures the names and labels are what istioctl expects).
 
 
-=== Logging In
+== Logging In
 
-The credentials you use to log into Kiali depend on the authentication strategy configured for Kiali. The helm command above sets the authentication strategy of `anonymous` which allows anyone to access the Kiali UI without having to provide any credentials. See link:{{< ref "/documentation/staging/installation-guide#_login_options" >}}[Login Options] for more details.
+The credentials you use to log into Kiali depend on the authentication strategy configured for Kiali. The install instructions mentioned above set the authentication strategy of `anonymous` which allows anyone to access the Kiali UI without having to provide any credentials. See link:{{< ref "/documentation/staging/installation-guide#_login_options" >}}[Login Options] for more details.
 
 
 == More installation details
