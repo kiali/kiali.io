@@ -73,16 +73,7 @@ For more, see the link:https://docs.okd.io/latest/welcome/index.html[OKD install
 If you are going to install the Helm Chart, *you must use Helm 3*. You can install Helm by following the link:https://helm.sh/docs/intro/install/[Helm installation docs].
 
 
-== Installation
-
-icon:bullhorn[size=1x]{nbsp} If you previously installed Kiali through some other mechanism, *you must uninstall it first* using that original mechanism's uninstall procedures. There is no migration path between older installation mechanisms and the install mechanisms explained below.
-
-icon:lightbulb[size=1x]{nbsp}For several commands listed on this page, the OpenShift CLI command `oc` is used to interact with the cluster environment. If you are on Kubernetes, simply replace `oc` with `kubectl` unless otherwise noted.
-
-If installing Kiali into an OpenShift Kubernetes distribution then follow the minimal preparation below. For other Kubernetes distributions you can skip to the next section.
-
-
-=== OpenShift Preparation
+=== OpenShift Requirements
 
 If you are installing on OpenShift, you must grant the `cluster-admin` role to the user that is installing Istio and Kiali. If OpenShift is installed locally on the machine you are using, the following command should log you in as user `system:admin` which has this `cluster-admin` role:
 
@@ -90,6 +81,13 @@ If you are installing on OpenShift, you must grant the `cluster-admin` role to t
 ----
   oc login -u system:admin
 ----
+
+icon:lightbulb[size=1x]{nbsp}For most commands listed on this page the Kubernetes CLI command `kubectl` is used to interact with the cluster environment. On OpenShift you can simply replace `kubectl` with `oc`, unless otherwise noted.
+
+
+== Installation
+
+icon:bullhorn[size=1x]{nbsp} If you previously installed Kiali through some other mechanism, *you must uninstall it first* using that original mechanism's uninstall procedures. There is no migration path between older installation mechanisms and the install mechanisms explained below.
 
 
 === Quick Install
@@ -171,14 +169,14 @@ To install Kiali, create the Kiali CR using the local file by running a command 
 
 [source,bash]
 ----
-  oc apply -f my-kiali-cr.yaml -n istio-system
+  kubectl apply -f my-kiali-cr.yaml -n istio-system
 ----
 
 To update Kiali, edit and save the existing Kiali CR; for example:
 
 [source,bash]
 ----
-  oc edit kiali kiali -n istio-system
+  kubectl edit kiali kiali -n istio-system
 ----
 
 
@@ -198,7 +196,7 @@ To remove Kiali is simple - just delete the Kiali CR. To trigger the Kiali Opera
 
 [source,bash]
 ----
-  oc delete kiali kiali -n istio-system
+  kubectl delete kiali kiali -n istio-system
 ----
 
 Once deleted, you have no Kiali installed, but you still have the Kiali Operator running. You could create another Kiali CR with potentially different configuration settings to install a new Kiali instance.
@@ -228,7 +226,7 @@ icon:lightbulb[size=1x]{nbsp} If you installed the Kiali CR in a different names
 
 [source,bash]
 ----
-  oc patch kiali kiali -n istio-system -p '{"metadata":{"finalizers": []}}' --type=merge
+  kubectl patch kiali kiali -n istio-system -p '{"metadata":{"finalizers": []}}' --type=merge
 ----
 
 Note that even if this fixes the hang problem, you may still have remnants of the Kiali Server in your cluster. You will manually need to delete those resources.
@@ -277,7 +275,7 @@ If `login` strategy is selected during the installation, a secret containing Kia
 icon:bullhorn[size=1x]{nbsp} If you configured the install script not to install a Kiali CR (and thus not have Kiali installed yet) via the `operator-install-kiali=false` option, you are responsible for creating this secret if you wish to install Kiali with the authentication strategy of "login". A secret is not required if your authentication strategy is not "login". The following command is a simple way to create a secret for Kiali whose user name is "admin" and password is "admin":
 [source,bash]
 ----
-  oc create secret generic kiali -n istio-system --from-literal "username=admin" --from-literal "passphrase=admin"
+  kubectl create secret generic kiali -n istio-system --from-literal "username=admin" --from-literal "passphrase=admin"
 ----
 
 For the `login`, `anonymous`, and `ldap` login options, the content displayed in Kiali is based on the permissions of the Kiali service account. On Kubernetes, the Kiali service account has cluster wide access and will be able to display everything in the cluster. By default, in OpenShift the service account will also have access to everything in the cluster but this can be customized by following the link:#_reducing_permissions_in_openshift[instructions below].
