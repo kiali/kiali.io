@@ -210,11 +210,13 @@ To uninstall, first you must ensure all Kiali CRs that are being watched by the 
 
 icon:bullhorn[size=1x]{nbsp} If you fail to delete the Kiali CRs first, your cluster may not be able to delete the namespace where the CR is deployed and remnants from the Kiali Server will not be deleted.
 
-After you have successfully deleted the Kiali CRs, then you can uninstall the Kiali Operator using Helm. For example:
+After you have successfully deleted the Kiali CRs, then you can uninstall the Kiali Operator using Helm. Because link:https://helm.sh/docs/topics/charts/#limitations-on-crds[Helm does not delete CRDs], you have to do that in order to clean up everything. For example:
 
 [source,bash]
 ----
-$ helm uninstall --namespace kiali-operator  kiali-operator
+  helm uninstall --namespace kiali-operator kiali-operator
+  kubectl delete monitoringdashboards.monitoring.kiali.io
+  kubectl delete kialis.kiali.io
 ----
 
 
