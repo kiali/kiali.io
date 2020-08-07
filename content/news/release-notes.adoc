@@ -15,6 +15,64 @@ For additional information check our https://www.youtube.com/channel/UCcm2NzDN_U
 
 toc::[]
 
+== 1.22
+Kiali 1.22 is installed with:
+
+* Istio 1.7.0+
+
+=== 1.22.1
+Sprint Release: August 7th, 2020
+
+Features:
+
+* https://github.com/kiali/kiali/issues/2131[When using Openshift for AUTH_STRATEGY, any path on the URL is lost after sign in]
+* https://github.com/kiali/kiali/issues/3052[Istio 1.7 issues]
+* https://github.com/kiali/kiali/issues/3094[update kiali.io with information about the new helm charts]
+* https://github.com/kiali/kiali/issues/1374[Matching Routing Wizard: Combine weights in routes]
+* https://github.com/kiali/kiali/issues/2543[Support RequestAuthentication resources]
+* https://github.com/kiali/kiali/issues/2896[be able to turn on/off auto-injection of sidecars]
+* https://github.com/kiali/kiali/issues/3010[In-graph tracing: show trace details]
+* https://github.com/kiali/kiali/issues/3086[helm charts moved - update dev env and jenkins]
+* https://github.com/kiali/kiali/issues/3051[Clean up kiali.io]
+* https://github.com/kiali/kiali/issues/3047[(K-charted / iter8) Make labels configurable for single-selection]
+* https://github.com/kiali/kiali/issues/3077[(K-charted / iter8) Hide x-axis tick labels]
+* https://github.com/kiali/kiali/issues/2799[Make Kiali community calendar visible in our website and github readme]
+* https://github.com/kiali/kiali/issues/2973[Properly handle invalid regular expression in workload log querying]
+* https://github.com/kiali/kiali/issues/3074[Popup message in AlertCenter for Error conditions only]
+* https://github.com/kiali/kiali/issues/3069[do not hardcode the "kiali-" prefix of the route url and oauthcilent name]
+* https://github.com/kiali/kiali/issues/3066[Create a simple kiali helm installer]
+* https://github.com/kiali/kiali/issues/2227[Config validation for Istio Security objects]
+* https://github.com/kiali/kiali/issues/2231[Support creation of Istio Security objects from Kiali]
+* https://github.com/kiali/kiali/issues/1523[Add mTLS documentation on features page]
+* https://github.com/kiali/kiali/issues/3054[Update kiali.io with recent screenshots and videos]
+* https://github.com/kiali/kiali/issues/195[add helm chart to kubernetes/charts]
+* https://github.com/kiali/kiali/issues/2691[Add Logging Fullscreen option]
+* https://github.com/kiali/kiali/issues/3023[(K-charted / iter8) Default labels grouping]
+* https://github.com/kiali/kiali/issues/3022[(K-charted / iter8) show timeless series charts ordered by label]
+* https://github.com/kiali/kiali/issues/1381[Routing wizard should for mTLS also set up a policy object]
+
+Fixes:
+
+* https://github.com/kiali/kiali/issues/3105[getLatestKialiOperator script failure]
+* https://github.com/kiali/kiali/issues/3018[Overview tiles sometimes not aligned(bottom)]
+* https://github.com/kiali/kiali/issues/3100[In-graph tracing, some style issues]
+* https://github.com/kiali/kiali/issues/2964[Kiali Graph view renders duplicate ServiceEntries when multiple namespaces are selected]
+* https://github.com/kiali/kiali/issues/3080[Application tabs selection broken with Traces + Dashboards]
+* https://github.com/kiali/kiali/issues/3072[Graph Find/Hide minor usability issues]
+* https://github.com/kiali/kiali/issues/3082[Overview CSS issue between Developer vs Release mode]
+* https://github.com/kiali/kiali/issues/3065[Istio Config looks incorrect in Service List]
+* https://github.com/kiali/kiali/issues/3055[(Istio 1.7) Missing custom dashboards]
+* https://github.com/kiali/kiali/issues/3045[Traces are being searched for by service name but apparently it's the app label that actually matters]
+* https://github.com/kiali/kiali/issues/3001[KIA0104 error severity]
+* https://github.com/kiali/kiali/issues/3027[(Istio 1.7) Istio sub-component health: adjust names to new addons system]
+* https://github.com/kiali/kiali/issues/2916[Istio health masthead: support addon custom installation]
+* https://github.com/kiali/kiali/issues/3053[(Istio 1.7) Missing some response time edge labels]
+* https://github.com/kiali/kiali/issues/2982[Renamed k8s services are persisted within the Graph UI]
+* https://github.com/kiali/kiali/issues/3032[Istio 1.7 testing: Wrong Istio version in About]
+
+=== 1.22.0
+_not officially released_
+
 == 1.21.0
 Sprint Release: July 17th, 2020
 
