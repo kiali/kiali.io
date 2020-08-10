@@ -56,7 +56,6 @@ icon:bullhorn[size=1x]{nbsp} If you already installed Kiali resources, you must 
 helm install \
   --namespace istio-system \
   --set auth.strategy="anonymous" \
-  --set deployment.accessible_namespaces[0]="**" \
   --repo https://kiali.org/helm-charts \
   kiali-server \
   kiali-server
