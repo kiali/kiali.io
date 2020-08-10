@@ -123,7 +123,7 @@ relativeURLs = true
               parent="doc_glossary"
       [[menu.main]]
           identifier = "doc_archive"
-          name = "Older Releases"
+          name = "Other Releases"
           url = "/documentation"
           weight = 10
           parent="main_doc"
