@@ -1,9 +1,0 @@
----
-title: FAQ
-description: Frequently Asked Questions about Kiali.
-weight: 6
-type: faq
-icon: faq
----
-
-You've got questions? We've got answers!
