@@ -6,7 +6,7 @@ weight: 2
 
 When using OpenID strategy for authentication and deploying Kiali behind a reverse proxy or a load balancer, Kiali needs to know the originating port of client requests. You may need to setup your proxy to inject a `X-Forwarded-Port` HTTP header when forwarding the request to Kiali.
 
-For example, the VirtualService should have something like this to indicate the user should be forwarded to port 443 instead of 20001:
+For example, when using an Istio Gateway and VirtualService to expose Kiali, you could use the [headers property](https://istio.io/latest/docs/reference/config/networking/virtual-service/#Headers) of the route:
 
 ```
 spec:
