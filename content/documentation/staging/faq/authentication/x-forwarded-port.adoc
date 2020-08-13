@@ -1,5 +1,5 @@
 ---
-title: How to forward OpenID login to Kiali behind a Virtual Service
+title: How to configure the originating port when Kiali is served behind a proxy (OpenID support)
 weight: 2
 ---
 :icons: font
