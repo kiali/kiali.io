@@ -4,7 +4,7 @@ weight: 2
 ---
 :icons: font
 
-When deploying Kiali behind an Istio VirtualService, the OpenID login button redirects to `<schema>://<web_fqdn>:20001`. If your ingress is listening on a different port, you can indicate this port via the `X-Forwarded-Port` HTTP header.
+When using OpenID strategy for authentication and deploying Kiali behind a reverse proxy or a load balancer, Kiali needs to know the originating port of client requests. You may need to setup your proxy to inject a `X-Forwarded-Port` HTTP header when forwarding the request to Kiali.
 
 For example, the VirtualService should have something like this to indicate the user should be forwarded to port 443 instead of 20001:
 
