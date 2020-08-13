@@ -42,7 +42,7 @@ To uninstall:
 
 [source,bash]
 ----
-kubectl delete -f ${ISTIO_HOME}/samples/addons/kiali.yaml
+kubectl delete -f ${ISTIO_HOME}/samples/addons/kiali.yaml --ignore-not-found
 ----
 
 == Install via Kiali Server Helm Chart
