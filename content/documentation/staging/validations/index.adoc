@@ -958,7 +958,7 @@ A VirtualService defines a set of traffic routing rules to apply when a host is 
 
 ==== Resolution
 
-This is valid configuration only if VirtualService is bound to a gateway, sidecars do not accept this behavior. There are several caveats when using this method and defining the same parts in multiple Virtual Service definitions is not recommended. While Istio will merge the configuration, it does not guarantee any ordering for cross-resource merging and only the first seen configuration is applied (rest ignored). As recommended, each VS definition should have a 'catch-all' situation, but this can only be defined in a definition affecting the same host.
+This is a valid configuration only if two VirtualServices share the same host but are bound to a different gateways, sidecars do not accept this behavior. There are several caveats when using this method and defining the same parts in multiple Virtual Service definitions is not recommended. While Istio will merge the configuration, it does not guarantee any ordering for cross-resource merging and only the first seen configuration is applied (rest ignored). As recommended, each VS definition should have a 'catch-all' situation, but this can only be defined in a definition affecting the same host.
 
 ==== Severity
 
@@ -1107,5 +1107,3 @@ include::/data/files/validation_examples/304.yaml[]
 ==== See Also
 
 https://github.com/kiali/kiali/tree/master/business/checkers/common/workload_selector_checker.go[Validator source code, window="_blank"] +
-
-'''
