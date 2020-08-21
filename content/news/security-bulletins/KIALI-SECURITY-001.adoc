@@ -38,7 +38,9 @@ kubectl get cm kiali -n istio-system -o yaml | grep signing_key | grep -vq kiali
 TEST_KEY_CFG=$?
 VERSION_ENTRIES=(${KIALI_VERSION//./ })
 echo "Your Kiali version found: ${KIALI_VERSION}"
-[ ${VERSION_ENTRIES[0]} -le "1" ] && [ ${VERSION_ENTRIES[1]} -le "15" ] && [ ${VERSION_ENTRIES[2]} -le "0" ] && echo "Your Kiali version is vulnerable"
+[ ${VERSION_ENTRIES[0]} -lt "1" ] || ([ ${VERSION_ENTRIES[0]} -eq "1" ] && (\
+  [ ${VERSION_ENTRIES[1]} -lt "15" ] || ([ ${VERSION_ENTRIES[1]} -eq "15" ] && ( \
+  [ ${VERSION_ENTRIES[2]} -le "0" ])))) && echo "Your Kiali version is vulnerable"
 [ $TEST_KEY_ENV -eq 1 ] && [ $TEST_KEY_CFG -eq 1 ] && echo "Your Kiali configuration looks vulnerable"
 ----
 
