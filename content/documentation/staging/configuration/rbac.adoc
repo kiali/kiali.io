@@ -25,7 +25,7 @@ dedicated Anonymous strategy page].
 
 Kiali uses the RBAC capabilities of the underlying cluster. Thus, RBAC is
 accomplished by using the standard RBAC features of the cluster, which is
-through ClusterRoles, ClusterRoleBinding, Roles and RoleBindings resources.
+through ClusterRoles, ClusterRoleBindings, Roles and RoleBindings resources.
 Read the
 link:https://kubernetes.io/docs/reference/access-authn-authz/rbac/[Kubernetes
 RBAC documentation] for details. If you are using OpenShift, read the
@@ -69,13 +69,13 @@ $ kubectl create rolebinding john-openid-binding --clusterrole=kiali --user="joh
 $ oc adm policy add-role-to-user kiali john -n mynamespace # For OpenShift clusters
 ----
 
-Please, read your cluster RBAC documentation to learn how to assign privileges.
+Please read your cluster RBAC documentation to learn how to assign privileges.
 
 == Minimum required privileges to login
 
 The `get namespace` privilege in some namespace is the minimum privilege needed
 in order to be able to login to Kiali. This means you need the following
-minimal `Role` binded to the user requiring to login:
+minimal `Role` bound to the user that wants to login:
 
 [source,yaml]
 ----
@@ -106,16 +106,16 @@ kubectl describe clusterrole kiali
 icon:bullhorn[size=1x]{nbsp} If you installed Kiali with `view_only_mode: true`
 option, the `ClusterRole` will be named `kiali-viewer` instead of `kiali`.
 
-Alternatively, check in the Kiali Operator source code the
+Alternatively, check in the Kiali Operator source code. See either the
 link:https://github.com/kiali/kiali-operator/blob/master/roles/default/kiali-deploy/templates/kubernetes/role.yaml[Kubernetes
 role.yaml template file], or the
 link:https://github.com/kiali/kiali-operator/blob/master/roles/default/kiali-deploy/templates/openshift/role.yaml[OpenShift
 role.yaml template file].
 
 You can use this `ClusterRole` to assign privileges to users requiring access
-to Kiali. You can assign privileges either in one namespace, which will result
+to Kiali. You can assign privileges either in one namespace, which will result in
 users being able to see only resources in that namespace; or assign
-clustser-wide privileges.
+cluster-wide privileges.
 
 For example, to assign privileges to the `john` user and limiting access to the
 `myApp` namespace, you could run either:
@@ -126,7 +126,7 @@ $ kubectl create rolebinding john-binding --clusterrole=kiali --user="john" --na
 $ oc adm policy add-role-to-user kiali john -n myApp # For OpenShift clusters
 ----
 
-But if you ned to assign cluster-wide privileges, you could run either:
+But if you need to assign cluster-wide privileges, you could run either:
 
 [source,bash]
 ----
@@ -140,6 +140,6 @@ based off the privileges in Kiali's `ClusterRole` and remove the privileges you
 want to ban. You must understand that some Kiali features may not work properly
 because of the reduced privilege set.
 
-icon:bullhorn[size=1x]{nbsp} Do not edit the `kiali` nor the `kiali-viewer`
-`ClusterRoles` because they are binded to the Kiali ServiceAccount and editing
+icon:bullhorn[size=1x]{nbsp} Do not edit the `kiali` or the `kiali-viewer`
+`ClusterRoles` because they are bound to the Kiali ServiceAccount and editing
 them may lead to Kiali not working properly.

@@ -46,7 +46,7 @@ authenticated requests to the Kubernetes API.
 == Set-up
 
 To enable the OpenID Connect strategy, the minimal configuration you need to
-set in the Kiali operator resource is like the following:
+set in the Kiali CR is like the following:
 
 [source,yaml]
 ----
@@ -66,7 +66,7 @@ to start the cluster API server]. If these values don't match, users will fail
 to login to Kiali.
 
 If you are using a replacement or a reverse proxy for the Kubernetes API
-server, the minimal configuration is like following:
+server, the minimal configuration is like the following:
 
 [source,yaml]
 ----
@@ -91,7 +91,7 @@ file encoded in a base64 string, to trust the secure connection.
 The Kiali front-end will, by default, retrieve the string of the `sub` claim of
 the OpenID token and display it as the user name. You can customize which field
 to display as the user name by setting the `username_claim` attribute of the
-operator resource. For example:
+Kiali CR. For example:
 
 [source,yaml]
 ----
@@ -110,7 +110,7 @@ server.
 
 By default, Kiali will request access to the `openid`, `profile` and `email`
 standard scopes. If you need a different set of scopes, you can set the
-`scopes` attribute in the Kiali operator resource. For example:
+`scopes` attribute in the Kiali CR. For example:
 
 [source,yaml]
 ----
@@ -124,7 +124,7 @@ spec:
 ----
 
 The `openid` scope is forced. If you don't add it to the list of scopes to
-request, Kiali will anyway request it to the identity provider.
+request, Kiali will still request it from the identity provider.
 
 === Configuring authentication timeout
 
@@ -146,7 +146,7 @@ spec:
 
 If your OpenID provider is using a self-signed certificate, you can disable
 certificate validation by setting the `insecure_skip_verify_tls` to `true` in
-the Kiali operator resource:
+the Kiali CR:
 
 [source,yaml]
 ----
@@ -158,4 +158,3 @@ spec:
 
 icon:bullhorn[size=1x]{nbsp} You should use self-signed certificates only for
 testing purposes.
-

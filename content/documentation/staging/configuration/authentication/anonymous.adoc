@@ -34,7 +34,7 @@ means.
 == Set-up
 
 To use the `anonymous` strategy, use the following configuration in the Kiali
-operator resource:
+CR:
 
 [source,yaml]
 ----
@@ -71,7 +71,7 @@ Then grant the `kiali` role only in needed namespaces. For example:
 
 Alternatively, you can tell the Kiali Operator to install Kiali in "view only"
 mode (this does work for either OpenShift or Kubernetes). You do this by
-setting the `view_only_mode` to `true` in the Kiali operator resource, which
+setting the `view_only_mode` to `true` in the Kiali CR, which
 allows Kiali to read service mesh resources found in the cluster, but it does
 not allow any change:
 

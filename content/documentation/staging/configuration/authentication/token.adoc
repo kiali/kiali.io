@@ -28,7 +28,7 @@ relref "../rbac" >}}[Role-based access control documentation] for more details.
 Since `token` is the default strategy when deploying Kiali in Kubernetes, you
 shouldn't need to configure anything, unless your cluster is OpenShift. If you
 want to be verbose or if you need to enable the `token` strategy in OpenShift,
-use the following configuration in the Kiali operator resource:
+use the following configuration in the Kiali CR:
 
 [source,yaml]
 ----
