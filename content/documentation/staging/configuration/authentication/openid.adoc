@@ -1,0 +1,160 @@
+---
+title: "OpenID Connect strategy"
+date: 2020-08-25T00:00:00+02:00
+draft: false
+weight: 9
+---
+
+:toc: macro
+:toc-title: In this section:
+:keywords: authentication openid
+:icons: font
+:sectlinks:
+
+toc::[]
+
+== Introduction
+
+The `openid` authentication strategy lets you integrate Kiali to an external
+identity provider that implements link:https://openid.net/connect/[OpenID
+Connect], and allows users to login to Kiali using their existing accounts of a
+third-party system.
+
+The `openid` strategy takes advantage of the cluster's RBAC. See the link:{{<
+relref "../rbac" >}}[Role-based access control documentation] for more details.
+
+== Requirements
+
+You need either:
+
+* A link:https://kubernetes.io/docs/reference/access-authn-authz/authentication/#openid-connect-tokens[Kubernetes cluster configured with OpenID connect integration], which results in the API server accepting tokens issued by your identity provider; or
+* A replacement or reverse proxy for the Kubernetes cluster API capable of handling the OIDC authentication.
+
+The first option is preferred if you can manipulate your cluster API server
+startup flags, which will result in your cluster to also be integrated with the
+external OpenID provider.
+
+The second option is provided for cases where you are using a managed
+Kubernetes and your cloud provider does not support configuring OpenID
+integration. Kiali assumes an implementation of a Kubernetes API server. For
+example, a community user has reported to successfully configure Kiali's OpenID
+strategy by using
+link:https://github.com/jetstack/kube-oidc-proxy[`kube-oidc-proxy`] which is a
+reverse proxy that handles the OpenID authentication and forwards the
+authenticated requests to the Kubernetes API.
+
+== Set-up
+
+To enable the OpenID Connect strategy, the minimal configuration you need to
+set in the Kiali CR is like the following:
+
+[source,yaml]
+----
+spec:
+  auth:
+    strategy: openid
+    openid:
+      client_id: "kiali-client"
+      issuer_uri: "https://openid.issuer.com"
+----
+
+This assumes that your Kubernetes cluster is configured with OpenID Connect
+integration. In this case, the `client-id` and `issuer_uri` attributes must
+match the `--oidc-client-id` and `--oidc-issuer-url` flags
+link:https://kubernetes.io/docs/reference/access-authn-authz/authentication/#configuring-the-api-server[used
+to start the cluster API server]. If these values don't match, users will fail
+to login to Kiali.
+
+If you are using a replacement or a reverse proxy for the Kubernetes API
+server, the minimal configuration is like the following:
+
+[source,yaml]
+----
+spec:
+  auth:
+    strategy: openid
+    openid:
+      api_proxy: "https://proxy.domain.com:port"
+      api_proxy_ca_data: "..."
+      client_id: "kiali-client"
+      issuer_uri: "https://openid.issuer.com"
+----
+
+The value of `client-id` and `issuer_uri` must match the values of the
+configuration of your reverse proxy or cluster API replacement. The `api_proxy`
+attribute is the URI of the reverse proxy or cluster API replacement (only
+HTTPS is allowed). The `api_proxy_ca_data` is the public certificate authority
+file encoded in a base64 string, to trust the secure connection.
+
+=== Configuring the displayed user name
+
+The Kiali front-end will, by default, retrieve the string of the `sub` claim of
+the OpenID token and display it as the user name. You can customize which field
+to display as the user name by setting the `username_claim` attribute of the
+Kiali CR. For example:
+
+[source,yaml]
+----
+spec:
+  auth:
+    openid:
+      username_claim: "email"
+----
+
+Usually, you will want the `username_claim` attribute to match the
+`--oidc-username-claim` flag used to start the Kubernetes API server, or the
+equivalent option if you are using a replacement or reverse proxy of the API
+server.
+
+=== Configuring requested scopes
+
+By default, Kiali will request access to the `openid`, `profile` and `email`
+standard scopes. If you need a different set of scopes, you can set the
+`scopes` attribute in the Kiali CR. For example:
+
+[source,yaml]
+----
+spec:
+  auth:
+    openid:
+      scopes:
+      - "openid"
+      - "email"
+      - "groups"
+----
+
+The `openid` scope is forced. If you don't add it to the list of scopes to
+request, Kiali will still request it from the identity provider.
+
+=== Configuring authentication timeout
+
+When the user is redirected to the external authentication system, by default
+Kiali will wait at most 5 minutes for the user to authenticate. After that time
+has elapsed, Kiali will reject authentication. You can adjust this timeout by
+setting the `authentication_timeout` with the number of seconds that Kiali
+should wait at most. For example:
+
+[source,yaml]
+----
+spec:
+  auth:
+    openid:
+      authentication_timeout: 60 # Wait only one minute.
+----
+
+=== Using an OpenID provider with a self-signed certificate
+
+If your OpenID provider is using a self-signed certificate, you can disable
+certificate validation by setting the `insecure_skip_verify_tls` to `true` in
+the Kiali CR:
+
+[source,yaml]
+----
+spec:
+  auth:
+    openid:
+      insecure_skip_verify_tls: true
+----
+
+icon:bullhorn[size=1x]{nbsp} You should use self-signed certificates only for
+testing purposes.

@@ -113,7 +113,7 @@ The version of Kiali packaged with Istio or Maistra may not contain the most rec
 
 Installing the latest version of Kiali is done using the Kiali Operator. The Kiali Operator is a link:https://coreos.com/operators/[Kubernetes Operator]. The Kiali Operator manages your Kiali installation. The Kiali Operator watches the Kiali Custom Resource (CR), a YAML file that holds the Kiali configuration. When you modify the Kiali CR, the operator installs, updates, or uninstalls Kiali as needed.
 
-The next few sections describe the different installation methods available for installing the Kiali Operator. Depending on the installation method you use, the operator may then install Kiali. Before you install Kiali, you will want to know which authentication strategy Kiali should use (this determines how users are to log into Kiali). See link:#_login_options[Login Options] for more on the `anonymous`, `openshift`, `token`, and `openid` authentication strategies.
+The next few sections describe the different installation methods available for installing the Kiali Operator. Depending on the installation method you use, the operator may then install Kiali. Before you install Kiali, you will want to know which authentication strategy Kiali should use (this determines how users are to log into Kiali). See the link:{{< ref "configuration/authentication" >}}[authentication configuration page].
 
 icon:bullhorn[size=1x]{nbsp} It is only necessary to install the Kiali Operator one time. After the operator is installed you need only create or edit the Kiali CR (see link:#_create_or_edit_the_kiali_cr[Create or Edit the Kiali CR]). The Kiali ConfigMap will be managed by the Kiali Operator and should *not* be manually edited.  As soon as the Kiali operator is installed and running, there is no need to again perform one of the installations below.
 
@@ -184,7 +184,7 @@ To update Kiali, edit and save the existing Kiali CR; for example:
 
 Once Istio, Maistra, or the Kiali Operator has installed Kiali, and the Kiali pod has successfully started, you can access the UI. Please, check the link:{{< ref "/documentation/staging/faq/general#how-do-i-access-kiai" >}}[FAQ: How do I access Kiali UI?]
 
-icon:bullhorn[size=1x]{nbsp} The credentials you use on the login screen depend on the authentication strategy that was configured for Kiali. See link:#_login_options[Login Options] for more details.
+icon:bullhorn[size=1x]{nbsp} The credentials you use on the login screen depend on the authentication strategy that was configured for Kiali. See the link:{{< ref "configuration/authentication" >}}[authentication configuration page] for more details.
 
 
 == Uninstall
@@ -249,110 +249,6 @@ server:
 ----
 
 The above is the default when Kiali is installed on Kubernetes - so to access the Kiali UI on Kubernetes you access it at the root context path of `/kiali`.
-
-=== Login Options
-
-Kiali supports several different login options.
-
-*anonymous*: This option removes any login requirement. A user will not be presented the login page and will automatically have access to Kiali without having to present any credentials.
-
-*openshift*: If you have deployed Kiali on OpenShift you can use this option (this is the default option if you're using OpenShift). With this option, users log in to Kiali with the OpenShift OAuth login. What users can access in Kiali will now be based on their user roles in OpenShift using the Kubernetes RBAC.
-
-*token*: This option allows a user to log in to Kiali using a Service Account token. This is similar to the link:https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/README.md#login-view[login view of Kubernetes Dashboard]. When using this option, the cluser RBAC will take effect and users can access only what is allowed to the Service Account.
-
-*openid*: This option allows a user to log in to Kiali using an external identity provider that implements link:https://openid.net/connect/[OpenID Connect]. When using this option, the cluser RBAC will take effect and users can access only what is allowed via the link:https://kubernetes.io/docs/reference/access-authn-authz/rbac/[cluster's authorization mechanisms]. This strategy requires that your link:https://kubernetes.io/docs/reference/access-authn-authz/authentication/#openid-connect-tokens[Kubernetes cluster is configured to accept tokens issued from your identity provider]. See the dedicated link:#_openid_connect[OpenID section of this page] for more information.
-
-icon:bullhorn[size=1x]{nbsp} Using the *anonymous* option will leave Kiali unsecured. Anyone who can access the console will have full access to Kiali. If you are using this option you will need to make sure that it is only available on a trusted network and that only trusted users can access it.
-
-For the `anonymous` login option, the content displayed in Kiali is based on the permissions of the Kiali service account. On Kubernetes, the Kiali service account has cluster wide access and will be able to display everything in the cluster. By default, in OpenShift the service account will also have access to everything in the cluster but this can be customized by following the link:#_reducing_permissions_in_openshift[instructions below].
-
-For the `openshift` login option, the content displayed in Kiali is based on the permissions of the user who logged in via the OpenShift OAuth login page. This means that individual users will be shown different content based on their roles within OpenShift. See the link:#openshift_user_permissions[section] below for how to grant or remove a user's access to specific namespaces.
-
-The login option can be specified in the Kiali CR when installing Kiali. For instance, to use the `openshift` login option, the Kiali CR should contain the following in the `auth` section:
-
-[source,yaml]
-----
-auth:
-  strategy: openshift
-----
-
-==== OpenID Connect
-
-The `openid` login strategy requires additional settings in the `auth.openid` section. The minimal required attributes are `client_id` and `issuer_uri`. For example:
-
-[source,yaml]
-----
-auth:
-  strategy: openid
-  openid:
-    client_id: "kiali-client"
-    issuer_uri: "https://openid.issuer.com"
-----
-
-Please, check the
-link:https://github.com/kiali/kiali-operator/blob/8f2329c17d67d9a22c9fc1a50b468a7e80df72e6/deploy/kiali/kiali_cr.yaml#L173-L206[kiali_cr.yaml]
-file of the Kiali operator repository to learn about all available options for
-configuring the `openid` strategy.
-
-The `openid` strategy requires that your
-link:https://kubernetes.io/docs/reference/access-authn-authz/authentication/#openid-connect-tokens[Kubernetes
-cluster is configured to accept tokens generated by your identity provider]. If
-your cluster is not properly configured, authentication will fail and users
-won't be able to log in to Kiali. Because of this, the value of `client-id`,
-`issuer_uri` and `username_claim` configuration options in Kiali are required
-to match the `--oidc-client-id`, `--oidc-issuer-url` and
-`--oidc-username-claim` flags
-link:https://kubernetes.io/docs/reference/access-authn-authz/authentication/#configuring-the-api-server[used
-to start the cluster API server]. If one or more of these values don't match,
-users might fail to log in to Kiali.
-
-Kiali uses the OpenID identity of the logged in user to make calls to the
-cluster API. Because of this, the `openid` strategy is RBAC-enabled and only
-users with privileges on the cluster will be able to log in to Kiali.
-Depending on the options you provided in the Kiali operator CR, there will be a
-ClusterRole named either `kiali` or `kiali-viewer` that you can use to assign
-privileges.  For example, to assign privileges to the `john@example.com` OpenId
-user in the `testing` namespace, you could run the following command:
-
-[source,bash]
-----
-kubectl create rolebinding john-openid-binding --clusterrole=kiali --user="john@example.com" --namespace=testing
-----
-
-By assigning privileges this way, the user will be able to use Kiali and
-inspect only the `testing` namespace. If you need to assign cluster-wide
-permissions, assign privileges using a ClusterRoleBinding:
-
-[source,bash]
-----
-kubectl create clusterrolebinding john-openid-clusterbinding --clusterrole=kiali --user="john@example.com"
-----
-
-icon:bullhorn[size=1x]{nbsp} If you need to assign a more limited set of
-privileges, it's possible to use the `kiali` or `kiali-viewer` ClusterRoles as
-a base for creating your own customized Roles or ClusterRoles. Then, bind the
-users these customized roles. Do not edit the `kiali` nor the `kiali-viewer`
-ClusterRoles becuase they are binded to the Kiali ServiceAccount and editing
-them may lead to Kiali not working properly.
-
-[#openshift_user_permissions]
-==== OpenShift User Permissions
-
-If you are running with the `openshift` login option you will need to grant a user the 'kiali' role for them to be able to properly access a namespace in Kiali.
-
-For instance, to grant the user 'developer' access to the 'myproject' namespace, you could run the following command:
-
-[source,bash]
-----
-  oc adm policy add-role-to-user kiali developer -n myproject
-----
-
-To remove the 'kiali' role from the user 'developer' in the 'myproject' namespace you can run the following command:
-
-[source,bash]
-----
-  oc adm policy remove-role-from-user kiali developer -n myproject
-----
 
 === Namespace Management
 
