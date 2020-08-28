@@ -86,7 +86,7 @@ istioctl dashboard kiali
 
 == Logging In
 
-The credentials you use to log into Kiali depend on the authentication strategy configured for Kiali. The install instructions mentioned above set the authentication strategy of `anonymous` which allows anyone to access the Kiali UI without having to provide any credentials. See link:{{< ref "/documentation/staging/installation-guide#_login_options" >}}[Login Options] for more details.
+The credentials you use to log into Kiali depend on the authentication strategy configured for Kiali. The install instructions mentioned above set the authentication strategy of `anonymous` which allows anyone to access the Kiali UI without having to provide any credentials. See the link:{{< ref "configuration/authentication" >}}[authentication configuration page] for more details.
 
 
 == More installation details

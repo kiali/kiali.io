@@ -68,40 +68,58 @@ relativeURLs = true
           weight = 3
           parent="main_doc"
       [[menu.main]]
+          identifier = "doc_configuration"
+          name = "Configuration"
+          url = "/documentation/latest/configuration"
+          weight = 4
+          parent="main_doc"
+          [[menu.main]]
+              identifier = "doc_authentication"
+              name = "Authentication"
+              url = "/documentation/latest/configuration/authentication"
+              weight = 1
+              parent="doc_configuration"
+          [[menu.main]]
+              identifier = "doc_rbac"
+              name = "RBAC"
+              url = "/documentation/latest/configuration/rbac"
+              weight = 2
+              parent="doc_configuration"
+      [[menu.main]]
           identifier = "validations"
           name = "Validations"
           url = "/documentation/latest/validations"
-          weight = 4
+          weight = 5
           parent="main_doc"
       [[menu.main]]
           identifier = "doc_runtimes"
           name = "Custom Dashboards"
           url = "/documentation/latest/runtimes-monitoring"
-          weight = 5
+          weight = 6
           parent="main_doc"
       [[menu.main]]
           identifier = "doc_tracing"
           name = "Distributed Tracing"
           url = "/documentation/latest/distributed-tracing"
-          weight = 6
+          weight = 7
           parent="main_doc"
       [[menu.main]]
           identifier = "doc_extensions"
           name = "Extensions"
           url = "/documentation/latest/extensions"
-          weight = 7
+          weight = 8
           parent="main_doc"
       [[menu.main]]
           identifier = "doc_swagger"
           name = "Developer API"
           url = "/documentation/latest/developer-api"
-          weight = 8
+          weight = 9
           parent="main_doc"
       [[menu.main]]
           identifier = "doc_glossary"
           name = "Glossary"
           url = "/documentation/latest/glossary"
-          weight = 9
+          weight = 10
           parent="main_doc"
           [[menu.main]]
               identifier = "concepts"
@@ -125,7 +143,7 @@ relativeURLs = true
           identifier = "doc_archive"
           name = "Other Releases"
           url = "/documentation"
-          weight = 10
+          weight = 11
           parent="main_doc"
   [[menu.main]]
       identifier = "main_faq"
