@@ -15,8 +15,41 @@ For additional information check our https://www.youtube.com/channel/UCcm2NzDN_U
 
 toc::[]
 
+== 1.23.0
+Sprint Release: August 28th, 2020
+
+Features:
+
+* https://github.com/kiali/kiali/issues/2771[Improve documentation for the reduced permissions case]
+* https://github.com/kiali/kiali/issues/3042[Kiali not working with OIDC for 1.19 ]
+* https://github.com/kiali/kiali/issues/1411[Command completion on Graph Find/Hide]
+* https://github.com/kiali/kiali/issues/1342[Make nodes draggable]
+* https://github.com/kiali/kiali/issues/3147[Update Kiali Cache with Istio resources used in validations]
+* https://github.com/kiali/kiali/issues/3150[Expose login error from the back-end]
+* https://github.com/kiali/kiali/issues/3124[Enable/Disable Auto Injection - Close the action and show notification]
+* https://github.com/kiali/kiali/issues/2530[need FAQ on how to query prometheus to see telemetry]
+* https://github.com/kiali/kiali/issues/3017[remove login and ldap auth strategy]
+* https://github.com/kiali/kiali/issues/3117[Add a 'Getting started videos' section to Kiali.io]
+* https://github.com/kiali/kiali/issues/3101[Change Welcome screen from "Service Mesh Observability" to "Service Mesh Management for Istio"]
+* https://github.com/kiali/kiali/issues/1471[VS/DR can share same host in some cases]
+* https://github.com/kiali/kiali/issues/3093[Jenkins should release the helm charts]
+
+Fixes:
+
+* https://github.com/kiali/kiali/issues/3156[Filter by Label - textbox not emptied]
+* https://github.com/kiali/kiali/issues/3011[Refactor refresh controls in Log tab]
+* https://github.com/kiali/kiali/issues/3103[oidc redirect to `/kiali` always redirects to `/kiali/` without processing the request]
+* https://github.com/kiali/kiali/issues/3139[Kiali access for developer in their Namespace(s) only - Kiali throws errors when checking the Istio deployment status.]
+* https://github.com/kiali/kiali/issues/3135[Possible shortcoming in KIALI-SECURITY-001 detection script]
+* https://github.com/kiali/kiali/issues/3133[Address refresh inconsistency on Workload details]
+* https://github.com/kiali/kiali/issues/3125[When namespace contains 'istio-injection=disabled' label, Kiali recognizes that as Enabled]
+* https://github.com/kiali/kiali/issues/3112[k delete -f samples/addons - error deleting dashboards]
+* https://github.com/kiali/kiali/issues/3119[Namespace Enable/Disable Auto Injection - Fails on OCP cluster]
+* https://github.com/kiali/kiali/issues/2960[Breadcrumb - 3scale "Adapter" and "Template" names are not shown]
+* https://github.com/kiali/kiali/issues/3050[Kiali.io 'Older Releases' ordering is Lexical not numeric]
+
 == 1.22
-Kiali 1.22 is installed with:
+Kiali 1.22 is installed as an addon with:
 
 * Istio 1.7.0+
 
@@ -180,7 +213,7 @@ Fixes:
 Notes:
 
 * With the introduction of the `openid` login option the following link:https://kiali.io/documentation/latest/getting-started/#_login_options[login options]
-are deprecated: `LDAP`, `login`.  They will be eligible for removal when Istio 1.6 goes out of support. Starting
+are deprecated: `LDAP`, `login`.  They will be eligible for removal when Istio 1.5 goes out of support. Starting
 in Kiali 1.19.0 the default login option has changed from `login` to `token`.
 
 == 1.18

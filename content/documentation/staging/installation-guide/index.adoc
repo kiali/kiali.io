@@ -36,15 +36,11 @@ Kiali requires a supported version of Istio. link:https://istio.io/news/[The Ist
 
 | 1.6.0+
 | 1.18.1+
-| Istio 1.6 introduces CRD and Config changes, Kiali 1.18+ may not offer the best experience when used with Istio < 1.6.
+| Istio 1.6 introduces CRD and Config changes, Kiali 1.17 is recommended for Istio < 1.6.
 
-| 1.5.1+
-| 1.15.2+
-| Avoid Istio v1.5.0 for security reasons. Kiali 1.18+ is best with Istio 1.6+
-
-| <= 1.4
+| <= 1.5
 | n/a
-| Out of support, users should use Istio >= 1.5
+| Out of support, users should use Istio >= 1.6.
 
 |===
 
