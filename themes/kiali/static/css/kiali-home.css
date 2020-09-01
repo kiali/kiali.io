@@ -40,13 +40,66 @@ section#hero p.buttons {
   margin-top: var(--kiali-blue-spacing);
 }
 
-.go-to-videos-link a {
-  float:right;
-  font-size: 18px
+.video-section {
+  background-color: var(--kiali-secondary-bg-color);
+  padding-top: var(--kiali-orange-spacing);
+  padding-left: 215px;
+}
+
+.new-embed-video-links {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  overflow-x: scroll;
+  background-color: var(--kiali-secondary-bg-color);
 }
 
 .embed-video-links {
- // nothing yet
+// nothing yet
+}
+
+.go-to-videos-link a {
+  float:right;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.video-card {
+  margin-right: var(--kiali-pink-spacing);
+  margin-bottom: var(--kiali-orange-spacing) ;
+  padding: var(--kiali-pink-spacing);
+  background-color: white;
+  border: 1px solid var(--kiali-card-border-color);
+  border-radius: 5px;
+  box-shadow: 2px 2px 2px 0 rgba(245,245,245,1);
+}
+
+.video-header {
+  border-bottom: 1px solid var(--kiali-card-border-color);
+  padding-bottom: 0.5em;
+  margin-bottom: var(--kiali-dark-green-spacing);
+}
+
+.video-text {
+  font-size: 15px;
+  color: var(--kiali-font-color);
+  white-space: nowrap;
+}
+
+.video-title {
+  font-weight: 400;
+  font-size: 18px;
+}
+
+.video-text-footer {
+  font-size: 18px;
+  font-weight: 300;
+  margin-bottom: -5px;
+}
+
+.video-icon {
+  float:right;
+  color: var(--kiali-font-color-secondary);
 }
 
 .video-iframe-links {
@@ -148,7 +201,7 @@ div#features-blocks div.more-coming p {
 
 section#blog-latest {
   background-color: var(--kiali-secondary-bg-color);
-  padding: var(--kiali-red-spacing) var(--kiali-pink-spacing); 
+  padding: var(--kiali-red-spacing) var(--kiali-pink-spacing);
 }
 
 section#blog-latest div#blog-blocks {
@@ -243,7 +296,7 @@ section#blog-latest div#blog-blocks > a > div p {
 
 @media only screen and (min-width: 870px) {
   section#blog-latest {
-    padding: var(--kiali-orange-spacing) var(--kiali-yellow-spacing); 
+    padding: var(--kiali-orange-spacing) var(--kiali-yellow-spacing);
   }
 
   section#blog-latest > h1 {
