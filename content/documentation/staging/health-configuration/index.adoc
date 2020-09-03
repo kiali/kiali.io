@@ -1,0 +1,369 @@
+---
+title: "Custom Health"
+date: 2019-03-06T13:55:38+02:00
+draft: false
+type: "documentation"
+weight: 5
+---
+
+:linkattrs:
+:sectlinks:
+
+= Monitoring with custom dashboards
+:sectnums:
+:toc: left
+toc::[]
+:toc-title: Custom Health
+:keywords: Kiali Documentation Health
+:icons: font
+:imagesdir: /images/documentation/health-configuration/
+
+Kiali can customize the health of your environment.
+
+== Health Configuration
+
+Kiali provide a way to configure the health.
+
+=== Icons and colors
+
+Kiali use icons and colors to show the health.
+
+++++
+<div style="display: flex;">
+<ul>
+<li>
+ <img src="/images/documentation/health-configuration/no_health.png" style="width: 40px;height: 40px" /> No Health Information
+</li>
+<li>
+ <img src="/images/documentation/health-configuration/healthy.png" style="width: 40px;height: 40px" /> Healthy
+</li>
+<li>
+ <img src="/images/documentation/health-configuration/degraded.png" style="width: 40px;height: 40px" /> Degraded
+</li>
+<li>
+ <img src="/images/documentation/health-configuration/failure.png" style="width: 40px;height: 40px" /> Failure
+</li>
+</ul>
+  </div>
+++++
+
+=== Default Values
+
+Kiali by default calculate the health with this configuration:
+
+* For _http_ protocol all 4xx-5xx codes are errors
+* For _grpc_ protocol all 1-9 or 10-16 are errors
+
+So if the rate of errors is > 0.1% kiali will show a *Degraded* state and if this rate is greater than 20% will be a *Failure* state.
+
+```yaml
+# ...
+  health_config:
+    rate:
+      - namespace: ".*"
+        kind: ".*"
+        name: ".*"
+        tolerance:
+          - code: "^[4-5]\\d\\d$"
+            direction: ".*"
+            protocol: "http"
+            degraded: 0.1
+            failure: 20
+          - code: "^[1-9]$|^1[0-6]$"
+            direction: ".*"
+            protocol: "grpc"
+            degraded: 0.1
+            failure: 20
+# ...
+```
+
+=== Configuration
+
+You can see the full configuration in the link:https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml[Kiali CR]
+Kiali will apply the first configuration that match the criteria, then kiali will calculate the status for each tolerance and get the one with more priority
+
+
+++++
+<table style="width: 100%; border: 1px solid black">
+<tr style="width: 100%; border: 1px solid black"><td>Option</td><td>Definition</td><td>Default if empty</td>
+<tr style="width: 100%; border: 1px solid black">
+<td>namespace</td><td>Namespace to apply the configuration (regular expression)</td><td>".*" (all options)</td>
+</tr>
+<tr style="width: 100%; border: 1px solid black">
+<td>kind</td><td>Type of resource (workload, app, service...) to apply the configuration (regular expression)</td><td>".*" (all options)</td>
+</tr>
+<tr style="width: 100%; border: 1px solid black">
+<td>name</td><td>Name of the resource to apply the configuration (regular expression)</td><td>".*" (all options)</td>
+</tr>
+<tr>
+<td rowspan="2">Tolerance</td><td colspan="2">Array of tolerances that we want to apply.</td>
+</tr>
+<tr>
+<td colspan="2">
+ <table style="width: 100%; border: 1px solid black" >
+    <tr style="width: 100%; border: 1px solid black">
+        <td> Option </td>
+        <td> Definition </td>
+        <td>Default if empty</td>
+    </tr>
+    <tr>
+      <td>code</td>
+      <td>The response status code that we want to analyze</td>
+      <td><strong>We need to set this value</strong></td>
+    </tr>
+    <tr>
+      <td>direction</td>
+      <td>The direction of the request (inbound|outbound)</td>
+      <td>".*" (all options)</td>
+    </tr>
+    <tr>
+      <td>protocol</td>
+      <td>The protocol of the request (http|grpc)</td>
+      <td>".*" (all options)</td>
+    </tr>
+    <tr>
+      <td>degraded</td>
+      <td>Threshold to set status to degraded is % error requests is >=value and < that failure value</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>failure</td>
+      <td>Threshold to set status to failure is % error requests is >=value</td>
+      <td>0</td>
+    </tr>
+ </table>
+</td>
+</tr>
+</table>
+++++
+
+So Kiali will check the % requests that match the code regex and in this order:
+
+++++
+ <table style="width: 100%; border: 1px solid black" >
+    <tr>
+        <td> Priority </td>
+        <td> Rule </td>
+        <td>Status</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>value is >= FAILURE</td>
+      <td><img src="/images/documentation/health-configuration/failure.png" style="width: 40px;height: 40px" />FAILURE</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>value is >= DEGRADED  & < FAILURE</td>
+      <td><img src="/images/documentation/health-configuration/degraded.png" style="width: 40px;height: 40px" />DEGRADED</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>value is >0 & <DEGRADED</td>
+      <td><img src="/images/documentation/health-configuration/healthy.png" style="width: 40px;height: 40px" />HEALTHY</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>value is 0</td>
+      <td><img src="/images/documentation/health-configuration/healthy.png" style="width: 40px;height: 40px" />HEALTHY</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>No requests</td>
+      <td><img src="/images/documentation/health-configuration/no_health.png" style="width: 40px;height: 40px" />No Health Information</td>
+    </tr>
+
+ </table>
+++++
+
+== Examples
+
+For this examples we are goiing to use the repo _https://github.com/kiali/demos/tree/master/error-rates_.
+
+In this repo we can see 2 namespaces: alpha and betha (link:https://github.com/kiali/demos/tree/master/error-rates#error-rates-demo-design[Demo design]).
+++++
+<table style="width: 100%">
+<tr style="text-align: center">
+<td>Alpha</td>
+</tr>
+<tr style="text-align: center">
+<td>
+<img src="https://raw.githubusercontent.com/kiali/demos/master/error-rates/doc/Kiali-AlphaNamespace.png" style="width: 80%; height: 60%" />
+</td>
+</tr>
+</table>
+++++
+
+Where nodes return the responses (You can configure responses link:https://github.com/kiali/demos/tree/master/error-rates#configurable-error-rates[here] ):
+
+- link:https://github.com/kiali/demos/blob/master/error-rates/alpha.yaml[Alpha deployment]
+- link:https://github.com/kiali/demos/blob/master/error-rates/beta.yaml[Beta deployment]
+
+++++
+<table style="width: 100%; border: 1px solid black">
+<tr style="text-align: center; border: 1px solid black; background-color: #F0F0F0">
+<td style="border: 1px solid black" rowspan="2">App</td><td style="border: 1px solid black" colspan="2">Alpha/Beta</td>
+</tr>
+<tr style="text-align: center; background-color: #F0F0F0">
+<td style="text-align: center; border: 1px solid black"> Code </td>
+<td style="text-align: center; border: 1px solid black"> Rate </td>
+</tr>
+<tr>
+    <td style="text-align: center; border: 1px solid black" rowspan="2"> x-server</td>
+    <td style="text-align: center; border: 1px solid black"> 200</td>
+    <td style="text-align: center; border: 1px solid black"> 9</td>
+</tr>
+<tr>
+    <td style="text-align: center; border: 1px solid black"> 404</td>
+    <td style="text-align: center; border: 1px solid black"> 1  </td>
+</tr>
+<tr>
+    <td style="text-align: center; border: 1px solid black" rowspan="2"> y-server</td>
+    <td style="text-align: center; border: 1px solid black"> 200</td>
+    <td style="text-align: center; border: 1px solid black"> 9</td>
+</tr>
+<tr>
+    <td style="text-align: center; border: 1px solid black"> 500</td>
+    <td style="text-align: center; border: 1px solid black"> 1</td>
+</tr>
+<tr>
+    <td style="text-align: center; border: 1px solid black" rowspan="3"> z-server</td>
+    <td style="text-align: center; border: 1px solid black"> 200</td>
+    <td style="text-align: center; border: 1px solid black"> 8</td>
+</tr>
+<tr>
+    <td style="text-align: center; border: 1px solid black"> 201</td>
+    <td style="text-align: center; border: 1px solid black"> 1</td>
+</tr>
+<tr>
+    <td style="text-align: center; border: 1px solid black"> 202</td>
+    <td style="text-align: center; border: 1px solid black"> 1</td>
+</tr>
+</table>
+++++
+
+We are going to assume that the configuration to apply is:
+
+```yaml
+# ...
+health_config:
+  rate:
+   - namespace: "alpha"
+     tolerance:
+       - code: "404"
+         failure: 10
+         protocol: "http"
+       - code: "[45]\\d[^\\D4]"
+         protocol: "http"
+   - namespace: "beta"
+     tolerance:
+       - code: "[4]\\d\\d"
+         degraded: 30
+         failure: 40
+         protocol: "http"
+       - code: "[5]\\d\\d"
+         protocol: "http"
+# ...
+```
+
+Kiali will add his default configuration so we'll have the following configuration (Debug Info Kiali):
+
+```json
+{
+  "healthConfig": {
+    "rate": [
+      {
+        "namespace": "/alpha/",
+        "kind": "/.*/",
+        "name": "/.*/",
+        "tolerance": [
+          {
+            "code": "/404/",
+            "degraded": 0,
+            "failure": 10,
+            "protocol": "/http/",
+            "direction": "/.*/"
+          },
+          {
+            "code": "/[45]\\d[^\\D4]/",
+            "degraded": 0,
+            "failure": 0,
+            "protocol": "/http/",
+            "direction": "/.*/"
+          }
+        ]
+      },
+      {
+        "namespace": "/beta/",
+        "kind": "/.*/",
+        "name": "/.*/",
+        "tolerance": [
+          {
+            "code": "/[4]\\d\\d/",
+            "degraded": 30,
+            "failure": 40,
+            "protocol": "/http/",
+            "direction": "/.*/"
+          },
+          {
+            "code": "/[5]\\d\\d/",
+            "degraded": 0,
+            "failure": 0,
+            "protocol": "/http/",
+            "direction": "/.*/"
+          }
+        ]
+      },
+      {
+        "namespace": "/.*/",
+        "kind": "/.*/",
+        "name": "/.*/",
+        "tolerance": [
+          {
+            "code": "/^5\\d\\d$/",
+            "degraded": 0.1,
+            "failure": 20,
+            "protocol": "/http/",
+            "direction": "/.*/"
+          },
+          {
+            "code": "/^[1-9]$|^1[0-6]$/",
+            "degraded": 0.1,
+            "failure": 20,
+            "protocol": "/grpc/",
+            "direction": "/.*/"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+What are we applying?
+
+- For namespace alpha, all resources
+  - Protocol http if % requests with error code 404 are >= 10 then FAILURE, if they are > 0 then DEGRADED
+  - Protocol http if % requests with others error codes are> 0 then FAILURE.
+
+- For namespace beta, all resources
+  - Protocol http if % requests with error code 4xx are >= 40 then FAILURE, if they are >= 30 then DEGRADED
+  - Protocol http if % requests with error code 5xx are > 0 then FAILURE
+
+- For other namespaces kiali apply defaults.
+  - Protocol http if % requests with error code 5xx are >= 20 then FAILURE, if they are >= 0.1 then DEGRADED
+  - Protocol grpc if % requests with error code match /^[1-9]$|^1[0-6]$/ are >= 20 then FAILURE, if they are >= 0.1 then DEGRADED
+
+
+
+++++
+ <table style="width: 100%; border: 1px solid black" >
+    <tr style="text-align: center;width: 100%; border: 1px solid black">
+        <td> Alpha </td>
+        <td> Beta </td>
+    </tr>
+    <tr>
+      <td><img src="/images/documentation/health-configuration/alpha.png" style="width: 100%;height: 800px" /></td>
+      <td><img src="/images/documentation/health-configuration/beta.png" style="width: 100%;height: 800px" /></td>
+    </tr>
+ </table>
+++++
