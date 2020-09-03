@@ -1,0 +1,21 @@
+---
+title: "Authentication"
+date: 2020-08-25T00:00:00+02:00
+draft: false
+weight: 9
+hideIndex: true
+---
+
+Kiali supports four authentication mechanisms:
+
+* link:{{< relref "anonymous" >}}[anonymous]: gives free access to Kiali.
+* link:{{< relref "openid" >}}[openid]: requires authentication through a third-party service to access Kiali.
+* link:{{< relref "openshift" >}}[openshift]: requires authentication through the OpenShift authentication to access Kiali.
+* link:{{< relref "token" >}}[token]: requires user to provide a Kubernetes ServiceAccount token to access Kiali.
+
+The default authentication mechanism for OpenShift clusters is `openshift`. For
+all other Kubernetes clusters, the default mechanism is `token`.
+
+Read the dedicated page of each authentication mechanism (by clicking on the
+bullets) to learn more. All mechanisms other than `anonymous` support link:{{<
+relref "../rbac" >}}[Role-based access control].

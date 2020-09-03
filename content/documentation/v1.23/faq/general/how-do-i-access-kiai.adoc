@@ -1,0 +1,63 @@
+---
+title: How do I access Kiali UI?
+weight: 10
+---
+:icons: font
+
+*_This assumes that you have used the
+link:{{< ref "/documentation/v1.23/installation-guide" >}}[Installation guide] to
+install Kiali._*
+
+*If you are using OpenShift*, installation exposes Kiali through a route. The
+following command should open Kiali in your default web browser:
+
+[source, bash]
+----
+xdg-open https://$(oc get routes -n istio-system kiali -o jsonpath='{.spec.host}')/console
+----
+
+*If you are using Kubernetes*, installation exposes Kiali through an
+link:https://github.com/kiali/kiali-operator/blob/master/roles/default/kiali-deploy/templates/kubernetes/ingress.yaml[Ingress
+rule]. Find out your Ingress IP or domain name and use it to access Kiali by
+visiting this URL in your web browser:
+`https://_your_ingress_ip_or_domain_/kiali`.
+
+To find your Ingress IP or domain name, as per
+link:https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/#create-an-ingress-resource[the
+Kubernetes documentation], try the following command (doesn't work if using
+Minikube):
+
+[source, bash]
+----
+kubectl get ingress kiali -n istio-system -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
+----
+
+If it doesn't work, unfortunately, it depends on how and where you had setup
+your cluster. There are several Ingress controllers available and some cloud
+providers have their own controller or preferred exposure method. Please, check
+the documentation of your cloud provider. You may need to customize the
+pre-installed Ingress rule, or to expose Kiali using a different method.
+
+*If you are using Minikube* and you have
+link:https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/#enable-the-ingress-controller[enabled
+the Ingress controller], the following command should open Kiali in your
+default web browser:
+
+[source, bash]
+----
+xdg-open https://$(minikube ip)/kiali
+----
+
+*In any platform*, you can use port-forwarding to access Kiali. Run any of
+these commands:
+
+[source, bash]
+----
+# If you have oc command line tool
+oc port-forward svc/kiali 20001:20001 -n istio-system
+# If you have kubectl command line tool
+kubectl port-forward svc/kiali 20001:20001 -n istio-system
+----
+
+These commands will block. Access Kiali by visiting https://localhost:20001/ in
+your preferred web browser.
