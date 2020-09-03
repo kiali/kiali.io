@@ -7,7 +7,7 @@ root="$(pwd)/content/documentation"
 
 echo "Preparing documentation for version ${tag}"
 
-cp -r "${root}"/edge "${root}"/${tag}
+cp -r "${root}"/staging "${root}"/${tag}
 
 find "${root}/${tag}" -type f -name "*.adoc" -exec sed -i -e "s/  main:/  $(echo "${tag}" | tr "." "-"):/" "{}" \;
 find "${root}/${tag}" -type f -name "*.adoc" -exec sed -i -e "s;/staging/;/${tag}/;g" "{}" \;
