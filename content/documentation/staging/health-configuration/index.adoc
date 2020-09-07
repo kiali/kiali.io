@@ -80,7 +80,7 @@ So if the rate of errors is > 0.1% kiali will show a *Degraded* state and if thi
 === Configuration
 
 You can see the full configuration in the link:https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml[Kiali CR]
-Kiali will apply the first configuration that match the criteria, then kiali will calculate the status for each tolerance and get the one with more priority
+Kiali will *apply the first configuration that match the criteria*, then kiali will calculate the status for each tolerance and get the one with more priority
 
 
 ++++
