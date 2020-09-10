@@ -531,11 +531,11 @@ Kiali uses Istio Wizards to generate Istio Traffic config for a specific Service
 
 == Health Configuration
 
-Kiali gives support to configure the health status.
+Kiali allows users to customize the configuration used to determine health.
 
-=== Error Rate
+=== Traffic Health
 
-Kiali use configuration to calculate the error requests to check the status of the resource (service, workload, app...). link:/documentation/staging/health-configuration/[Health Configuration documentation]
+Kiali establishes reasonable defaults for determining the health of request traffic. But when the defaults are not appropriate Kiali offers a way to customize the thresholding used to determine degraded or failing request traffic for resources (service, workload, app...). See the link:/documentation/latest/configuration/health/[Health Configuration documentation] for more detail.
 
 ++++
 <div style="display: flex;">
