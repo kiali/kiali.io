@@ -529,6 +529,28 @@ Kiali uses Istio Wizards to generate Istio Traffic config for a specific Service
 </div>
 ++++
 
+== Health Configuration
+
+Kiali gives support to configure the health status.
+
+=== Error Rate
+
+Kiali use configuration to calculate the error requests to check the status of the resource (service, workload, app...). link:/documentation/staging/health-configuration/[Health Configuration documentation]
+
+++++
+<div style="display: flex;">
+ <span style="margin: 0 auto">
+  <a class="image-popup-fit-height" href="/images/documentation/health-configuration/beta.png" title="beta Namespace">
+   <img src="/images/documentation/health-configuration/beta.png" style="width: 300px;height:400px;display:inline;margin: 0 auto;" />
+  </a>
+  <a class="image-popup-fit-height" href="/images/documentation/health-configuration/details_health.png" title="Health Deatails">
+   <img src="/images/documentation/health-configuration/details_health.png" style="width: 300px;height:400px; display:inline;margin: 0 auto;" />
+  </a>
+ </span>
+</div>
+++++
+
+
 == Security
 
 Kiali gives support to better understand how mTLS is used in Istio meshes. Find those helpers in the graph, the masthead menu, the overview page and specific validations.
