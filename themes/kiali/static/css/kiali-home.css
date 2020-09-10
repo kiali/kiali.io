@@ -43,7 +43,6 @@ section#hero p.buttons {
 .video-section {
   background-color: var(--kiali-secondary-bg-color);
   padding-top: var(--kiali-orange-spacing);
-  padding-left: 215px;
 }
 
 .new-embed-video-links {
@@ -52,10 +51,6 @@ section#hero p.buttons {
   flex-direction: row;
   overflow-x: scroll;
   background-color: var(--kiali-secondary-bg-color);
-}
-
-.embed-video-links {
-// nothing yet
 }
 
 .go-to-videos-link a {
@@ -123,7 +118,6 @@ section#hero p.buttons {
     margin-bottom: 0;
   }
 }
-
 
 /* "About" block styles */
 #intro-video iframe {
@@ -299,6 +293,10 @@ section#blog-latest div#blog-blocks > a > div p {
     padding: var(--kiali-orange-spacing) var(--kiali-yellow-spacing);
   }
 
+ .video-section {
+    padding: var(--kiali-orange-spacing) var(--kiali-yellow-spacing);
+  }
+
   section#blog-latest > h1 {
     float: left;
   }
@@ -321,6 +319,11 @@ section#blog-latest div#blog-blocks > a > div p {
 
 @media only screen and (min-width: 1500px) {
   section#blog-latest {
+    padding-left: 15%;
+    padding-right: 15%;
+  }
+
+  .video-section {
     padding-left: 15%;
     padding-right: 15%;
   }
