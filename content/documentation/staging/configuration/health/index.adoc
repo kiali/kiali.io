@@ -329,6 +329,13 @@ After Kiali adds default configuration we have the following (Debug Info Kiali):
           {
             "code": "/^5\\d\\d$/",
             "degraded": 0.1,
+            "failure": 10,
+            "protocol": "/http/",
+            "direction": "/.*/"
+          },
+          {
+            "code": "/^4\\d\\d$/",
+            "degraded": 10,
             "failure": 20,
             "protocol": "/http/",
             "direction": "/.*/"
@@ -336,7 +343,7 @@ After Kiali adds default configuration we have the following (Debug Info Kiali):
           {
             "code": "/^[1-9]$|^1[0-6]$/",
             "degraded": 0.1,
-            "failure": 20,
+            "failure": 10,
             "protocol": "/grpc/",
             "direction": "/.*/"
           }
