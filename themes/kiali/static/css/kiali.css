@@ -618,20 +618,3 @@ body > header div.search-container input:valid ~ i.search-icon {
 #footer-netlify {
   float: right;
 }
-
-/* Magnific Popup */
-div.kiali-video {
-  height: 100vh;
-  visibility: visible;
-}
-
-.kiali-video .mfp-title {
-  text-align: center;
-  padding: 0;
-}
-
-.kiali-video video {
-  height: calc(100vh - 80px);
-  width: 100vw;
-  margin: 44px auto 40px;
-}
