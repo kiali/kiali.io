@@ -1,0 +1,94 @@
+---
+title: "Quick Start"
+date: 2019-03-20T09:04:38+02:00
+aliases:
+- /quick-start
+- /getting-started
+- /gettingstarted
+- /documentation/getting-started
+- /documentation/latest/getting-started
+draft: false
+weight: 2
+---
+
+:toc: macro
+:toclevels: 2
+:toc-title: Table of Contents
+:keywords: Kiali Quick Start
+:icons: font
+:imagesdir: /images/quickinstall/
+:sectlinks:
+
+icon:lightbulb[size=1x]{nbsp} This page is intended for users installing Kiali for the first time. These instructions are not recommended to install Kiali in production environments. In the case of custom installations, visit the link:{{< ref "/documentation/v1.23/installation-guide" >}}[installation guide].
+
+icon:lightbulb[size=1x]{nbsp} Before attempting to install Kiali, please review the link:../installation-guide/#_prerequisites[prerequisites].
+
+toc::[]
+
+== Install via Istio Addons
+
+Istio 1.7+ has introduced all-in-one yamls to install third-party addon components such as link:https://preliminary.istio.io/latest/docs/ops/integrations/kiali/[Kiali], link:https://preliminary.istio.io/latest/docs/ops/integrations/prometheus/[Prometheus], link:https://preliminary.istio.io/latest/docs/ops/integrations/jaeger/[Jaeger], link:https://preliminary.istio.io/latest/docs/ops/integrations/Grafana/[Grafana] and link:https://preliminary.istio.io/latest/docs/ops/integrations/[others].
+
+icon:bullhorn[size=1x]{nbsp} These are all intended for demonstration only, and are not tuned for performance or security.
+
+To install a Kiali Server using the all-in-one yaml shipped with your version of Istio run the following:
+
+[source,bash]
+----
+kubectl apply -f ${ISTIO_HOME}/samples/addons/kiali.yaml
+----
+
+To uninstall:
+
+[source,bash]
+----
+kubectl delete -f ${ISTIO_HOME}/samples/addons/kiali.yaml --ignore-not-found
+----
+
+== Install via Kiali Server Helm Chart
+
+This option installs the latest version of Kiali Server using a Helm Chart. *You must use link:https://helm.sh/docs/intro/install/[Helm 3].*
+
+icon:bullhorn[size=1x]{nbsp} If you already installed Kiali resources, you must remove them first. For example, if you used Istio's `istioctl` demo profile, you must delete the Kiali that it installed. If you used the Istio distribution's link:#_install_via_istio_addons[samples/addons all-in-one kiali.yaml], then you must uninstall those resources.
+
+[source,bash]
+----
+helm install \
+  --namespace istio-system \
+  --set auth.strategy="anonymous" \
+  --repo https://kiali.org/helm-charts \
+  kiali-server \
+  kiali-server
+----
+
+icon:bullhorn[size=1x]{nbsp} If you get a validation error, you may have to pass the option `--disable-openapi-validation` (this is needed on OpenShift 4.5, for example).
+
+Kiali will be able to access all existing and future namespaces. See link:{{< ref "/documentation/v1.23/installation-guide#_namespace_management" >}}[Namespace Management] for more information if you want to change that behavior.
+
+To uninstall, use helm and then remove Kiali's Monitoring Dashboards CRD:
+
+[source,bash]
+----
+helm uninstall --namespace istio-system kiali-server
+kubectl delete crd monitoringdashboards.monitoring.kiali.io
+----
+
+
+== Access to the UI
+
+The Istio `istioctl` client has an easy method to expose and access Kiali:
+
+[source,bash]
+----
+istioctl dashboard kiali
+----
+
+
+== Logging In
+
+The credentials you use to log into Kiali depend on the authentication strategy configured for Kiali. The install instructions mentioned above set the authentication strategy of `anonymous` which allows anyone to access the Kiali UI without having to provide any credentials. See the link:{{< ref "configuration/authentication" >}}[authentication configuration page] for more details.
+
+
+== More installation details
+
+Find more detailed information on installing Kiali see the link:{{< ref "/documentation/v1.23/installation-guide" >}}[installation guide].
