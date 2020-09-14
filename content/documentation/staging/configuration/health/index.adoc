@@ -21,8 +21,24 @@ toc::[]
 
 == Health
 
-Customize resource health by overriding the default health configuration.
+Kiali health is calculated based in signals like pods, traffic ... Kiali calls _global health_ to the maximum status of all these inputs.
 
+This feature allows to determine the severity of those signals.
+
+=== Supported Health configurations
+
+++++
+<div style="display: flex;">
+    <table style="width: 100%; border: 1px solid black">
+    <tr style="width: 100%; border: 1px solid black"><th>Supported</th><th>Health type</th></tr>
+    <tr style="width: 100%; border: 1px solid black">
+        <td>NO</td><td>Pod Status</td></tr>
+    <tr style="width: 100%; border: 1px solid black">
+        <td>YES</td><td>Traffic Health</td>
+    </tr>
+    </table>
+</div>
+++++
 
 === Icons and colors
 
