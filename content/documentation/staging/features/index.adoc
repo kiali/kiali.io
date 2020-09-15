@@ -531,19 +531,23 @@ Kiali uses Istio Wizards to generate Istio Traffic config for a specific Service
 
 == Health Configuration
 
-Kiali health is a calculation of several health inputs: pods, traffic ...
-Kiali calls this _global health_ and it's calculated like the maximum status of all these inputs.
+Kiali calculates health by combining the individual health of several indicators, such as pods and request traffic.  The _global health_ of a resource reflects the most severe health of its indicators.
 
-Health configuration allows to determine the health of a particular signal.
+The table below lists the current health indicators and whether the indicator supports custom configuration for its health calculation.
+
 ++++
 <div style="display: flex;">
     <table style="width: 100%; border: 1px solid black">
-    <tr style="width: 100%; border: 1px solid black"><th>Supported</th><th>Health type</th></tr>
-    <tr style="width: 100%; border: 1px solid black">
-        <td>NO</td><td>Pod Status</td></tr>
-    <tr style="width: 100%; border: 1px solid black">
-        <td>YES</td><td>Traffic Health</td>
-    </tr>
+      <tr style="width: 100%; border: 1px solid black">
+        <th>Indicator</th>
+        <th>Supports Configuration</th>
+      </tr>
+      <tr style="width: 100%; border: 1px solid black">
+        <td>Pod Status</td><td>No</td>
+      </tr>
+      <tr style="width: 100%; border: 1px solid black">
+        <td>Traffic Health</td><td>Yes</td>
+      </tr>
     </table>
 </div>
 ++++

@@ -21,21 +21,25 @@ toc::[]
 
 == Health
 
-Kiali health is calculated based in signals like pods, traffic ... Kiali calls _global health_ to the maximum status of all these inputs.
+Kiali calculates health by combining the individual health of several indicators, such as pods and request traffic.  The _global health_ of a resource reflects the most severe health of its indicators.
 
-This feature allows to determine the severity of those signals.
+=== Health Indicators
 
-=== Supported Health configurations
+The table below lists the current health indicators and whether the indicator supports custom configuration for its health calculation.
 
 ++++
 <div style="display: flex;">
     <table style="width: 100%; border: 1px solid black">
-    <tr style="width: 100%; border: 1px solid black"><th>Supported</th><th>Health type</th></tr>
-    <tr style="width: 100%; border: 1px solid black">
-        <td>NO</td><td>Pod Status</td></tr>
-    <tr style="width: 100%; border: 1px solid black">
-        <td>YES</td><td>Traffic Health</td>
-    </tr>
+      <tr style="width: 100%; border: 1px solid black">
+        <th>Indicator</th>
+        <th>Supports Configuration</th>
+      </tr>
+      <tr style="width: 100%; border: 1px solid black">
+        <td>Pod Status</td><td>No</td>
+      </tr>
+      <tr style="width: 100%; border: 1px solid black">
+        <td>Traffic Health</td><td>Yes</td>
+      </tr>
     </table>
 </div>
 ++++
@@ -132,7 +136,7 @@ Kiali applies *the first matching rate configuration (namespace, kind, etc)* and
     </tr>
     <tr>
       <td>code</td>
-      <td>Matching Response Status Codes (regex)</td>
+      <td>Matching Response Status Codes (regex) [1]</td>
       <td><strong>required</strong></td>
     </tr>
     <tr>
@@ -160,6 +164,7 @@ Kiali applies *the first matching rate configuration (namespace, kind, etc)* and
 </tr>
 </table>
 ++++
+_[1] The status code typically depends on the request protocol. The special code **-**, a single dash, is used for requests that don't receive a response, and therefore no response code._
 
 Kiali reports traffic health with the following top-down status priority :
 
