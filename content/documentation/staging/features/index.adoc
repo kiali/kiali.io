@@ -529,6 +529,47 @@ Kiali uses Istio Wizards to generate Istio Traffic config for a specific Service
 </div>
 ++++
 
+== Health Configuration
+
+Kiali calculates health by combining the individual health of several indicators, such as pods and request traffic.  The _global health_ of a resource reflects the most severe health of its indicators.
+
+The table below lists the current health indicators and whether the indicator supports custom configuration for its health calculation.
+
+++++
+<div style="display: flex;">
+    <table style="width: 100%; border: 1px solid black">
+      <tr style="width: 100%; border: 1px solid black">
+        <th>Indicator</th>
+        <th>Supports Configuration</th>
+      </tr>
+      <tr style="width: 100%; border: 1px solid black">
+        <td>Pod Status</td><td>No</td>
+      </tr>
+      <tr style="width: 100%; border: 1px solid black">
+        <td>Traffic Health</td><td>Yes</td>
+      </tr>
+    </table>
+</div>
+++++
+
+=== Traffic Health
+
+Kiali establishes reasonable defaults for determining the health of request traffic. But when the defaults are not appropriate Kiali offers a way to customize the thresholding used to determine degraded or failing request traffic for resources (service, workload, app...). See the link:/documentation/latest/configuration/health/[Health Configuration documentation] for more detail.
+
+++++
+<div style="display: flex;">
+ <span style="margin: 0 auto">
+  <a class="image-popup-fit-height" href="/images/documentation/health-configuration/beta.png" title="beta Namespace">
+   <img src="/images/documentation/health-configuration/beta.png" style="width: 300px;height:400px;display:inline;margin: 0 auto;" />
+  </a>
+  <a class="image-popup-fit-height" href="/images/documentation/health-configuration/details_health.png" title="Health Deatails">
+   <img src="/images/documentation/health-configuration/details_health.png" style="width: 300px;height:400px; display:inline;margin: 0 auto;" />
+  </a>
+ </span>
+</div>
+++++
+
+
 == Security
 
 Kiali gives support to better understand how mTLS is used in Istio meshes. Find those helpers in the graph, the masthead menu, the overview page and specific validations.

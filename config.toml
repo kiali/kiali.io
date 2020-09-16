@@ -80,10 +80,16 @@ relativeURLs = true
               weight = 1
               parent="doc_configuration"
           [[menu.main]]
+              identifier = "doc_health"
+              name = "Health"
+              url = "/documentation/latest/configuration/health"
+              weight = 2
+              parent="doc_configuration"
+          [[menu.main]]
               identifier = "doc_rbac"
               name = "RBAC"
               url = "/documentation/latest/configuration/rbac"
-              weight = 2
+              weight = 3
               parent="doc_configuration"
       [[menu.main]]
           identifier = "validations"
