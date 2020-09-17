@@ -490,7 +490,7 @@ The Traffic Shifting Wizard allows selecting the percentage of traffic that is r
 
 ==== Traffic Management: Request Timeouts
 
-The Request Timeouts Wizard sets up request timeous in Envoy, using Istio.
+The Request Timeouts Wizard sets up request timeouts in Envoy, using Istio.
 
 * HTTP Timeout defines the timeout for a request.
 * HTTP Retry describes the retry policy to use when an HTTP request fails.
@@ -614,7 +614,7 @@ For example, at some point a namespace presents a traffic graph like this:
 </div>
 ++++
 
-And a user may want to add Traffic Policies to secure that communication. In other words, to prevent traffic other than the currently reflected in the Graph's Services and Workloads.
+And a user may want to add Traffic Policies to secure that communication. In other words, to prevent traffic other than that currently reflected in the Graph's Services and Workloads.
 
 Using the *Create Traffic Policies* action on a namespace, Kiali will generate AuthorizationPolicy resources per every *Workload* in the *Namespace*.
 
