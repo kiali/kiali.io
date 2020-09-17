@@ -392,7 +392,7 @@ Check the complete link:/documentation/staging/validations/[list of validations]
 ++++
 
 === Istio Wizards
-Kiali provides different actions to create, update and delete Istio configuration driven by wizards.
+Kiali provides actions to create, update and delete Istio configuration, driven by wizards.
 
 Actions can be applied to a *Service*
 
@@ -408,7 +408,7 @@ Actions can be applied to a *Service*
 
 {empty} +
 
-A *Workload* has also enabled specific actions
+Actions can also be applied to a *Workload*
 
 ++++
 <div style="display: flex;">
@@ -422,7 +422,7 @@ A *Workload* has also enabled specific actions
 
 {empty} +
 
-Also, actions are availble for an entire *Namespace*
+Also, actions are available for an entire *Namespace*
 
 ++++
 <div style="display: flex;">
@@ -440,10 +440,10 @@ Also, actions are availble for an entire *Namespace*
 
 The Request Routing Wizard allows creating multiple routing rules.
 
-* Every rule is composed by a Request Matching and a Routes To section.
+* Every rule is composed of a Request Matching and a Routes To section.
 * The Request Matching section can add multiple filters using HEADERS, URI, SCHEME, METHOD or AUTHORITY Http parameters.
-* The Request Matching section can be empty, on this case, any http request received is matched against this rule.
-* The Routes To section can select the percentage of traffic that is routed to a specific workload.
+* The Request Matching section can be empty, in this case any http request received is matched against this rule.
+* The Routes To section can specify the percentage of traffic that is routed to a specific workload.
 
 ++++
 <div style="display: flex;">
@@ -455,7 +455,7 @@ The Request Routing Wizard allows creating multiple routing rules.
 </div>
 ++++
 
-Istio applies routing rules in order, meaning that first rule that matches an HTTP request, it is responsible to perform the routing. The Matching Routing Wizard allows changing order of rules.
+Istio applies routing rules in order, meaning that the first rule matching an HTTP request performs the routing. The Matching Routing Wizard allows changing the rule order.
 
 ==== Traffic Management: Fault Injection
 
@@ -490,10 +490,10 @@ The Traffic Shifting Wizard allows selecting the percentage of traffic that is r
 
 ==== Traffic Management: Request Timeouts
 
-The Request Timeouts Wizard permits to set up request timetous in Envoy using Istio.
+The Request Timeouts Wizard sets up request timeous in Envoy, using Istio.
 
 * HTTP Timeout defines the timeout for a request.
-* HTTP Retry describes the retry policy to use when a HTTP request fails.
+* HTTP Retry describes the retry policy to use when an HTTP request fails.
 
 ++++
 <div style="display: flex;">
@@ -509,7 +509,7 @@ The Request Timeouts Wizard permits to set up request timetous in Envoy using Is
 
 Traffic Management Wizards have an Advanced Options section that can be used to extend the scenario.
 
-One available Advanced Option is to expose a Service to external traffic through an existing Gateway or create a new Gateway for this Service.
+One available Advanced Option is to expose a Service to external traffic through an existing Gateway or to create a new Gateway for this Service.
 
 ++++
 <div style="display: flex;">
@@ -543,7 +543,7 @@ Traffic Management Wizards allows defining Circuit Breakers on Services as part 
 Traffic Management Advanced Options allows defining Security and Load Balancing settings.
 
 * TLS related settings for connections to the upstream service.
-* Automatically generated a PeerAuthentication resource for this Service.
+* Automatically generate a PeerAuthentication resource for this Service.
 * Load balancing policies to apply for a specific destination.
 
 ++++
@@ -556,15 +556,15 @@ Traffic Management Advanced Options allows defining Security and Load Balancing 
 </div>
 ++++
 
-=== Worksload Actions
+=== Workload Actions
 
 ==== Automatic Sidecar Injection
 
 A *Workload* can be individually annotated to control the Sidecar Injection.
 
-A default scenario is to indicate this at *Namespace* level but there can be cases where a *Workload* shouldn't be part of the Mesh or viceversa.
+A default scenario is to indicate this at *Namespace* level but there can be cases where a *Workload* shouldn't be part of the Mesh or vice versa.
 
-Kiali allows to annotate the Deployment template and propagate this configuration into the Pods.
+Kiali allows users to annotate the Deployment template and propagate this configuration into the Pods.
 
 ++++
 <div style="display: flex;">
@@ -578,7 +578,7 @@ Kiali allows to annotate the Deployment template and propagate this configuratio
 
 === Namespace Actions
 
-Kiali offers several actions for a *Namespace* located in the Overview page in any of its views: Expanded, Compacted or Table.
+The Kiali Overview page offers several *Namespace* actions, in any of its views: Expanded, Compacted or Table.
 
 ++++
 <div style="display: flex;">
@@ -592,15 +592,15 @@ Kiali offers several actions for a *Namespace* located in the Overview page in a
 
 ==== Show
 
-Show actions allows to navigate from a *Namespace* to its specific Graph, Applications, Workload, Services or Istio Config pages.
+Show actions navigate from a *Namespace* to its specific Graph, Applications, Workloads, Services or Istio Config pages.
 
 ==== Automatic Sidecar Injection
 
-When https://istio.io/latest/docs/setup/additional-setup/sidecar-injection[Automatic Sidecar Injection] is enabled in the cluster, a *Namespace* can be labeled to enable/disable the injection webhook in the namespace, then new deployments will automatically have a sidecar added to them.
+When https://istio.io/latest/docs/setup/additional-setup/sidecar-injection[Automatic Sidecar Injection] is enabled in the cluster, a *Namespace* can be labeled to enable/disable the injection webhook, controlling whether new deployments will automatically have a sidecar.
 
 ==== Security: Traffic Policies
 
-Kiali can generate Traffic Policies based on traffic for a namespace.
+Kiali can generate Traffic Policies based on the traffic for a namespace.
 
 For example, at some point a namespace presents a traffic graph like this:
 
@@ -614,9 +614,9 @@ For example, at some point a namespace presents a traffic graph like this:
 </div>
 ++++
 
-And a user may want to add Traffic Policies to secure that communication, in other words, to not allow other traffid different to the represented by the Services and Workloads in the Graph.
+And a user may want to add Traffic Policies to secure that communication. In other words, to prevent traffic other than the currently reflected in the Graph's Services and Workloads.
 
-Using *Create Traffic Policies* action on a namespace Kiali will generate AuthorizationPolicy resources per every *Workload* in the *Namespace*.
+Using the *Create Traffic Policies* action on a namespace, Kiali will generate AuthorizationPolicy resources per every *Workload* in the *Namespace*.
 
 ++++
 <div style="display: flex;">
