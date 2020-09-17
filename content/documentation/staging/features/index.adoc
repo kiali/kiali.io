@@ -392,84 +392,241 @@ Check the complete link:/documentation/staging/validations/[list of validations]
 ++++
 
 === Istio Wizards
-Kiali provides different actions to create, update and delete Istio configuration driven by wizards. These are located in the *Actions* menu on the Service Details page.
+Kiali provides different actions to create, update and delete Istio configuration driven by wizards.
+
+Actions can be applied to a *Service*
+
 ++++
 <div style="display: flex;">
  <span style="margin: 0 auto;">
-  <a class="image-popup-fit-height" href="/images/documentation/features/service-details-actions-v1.22.0.png" title="Service Details Actions">
-   <img src="/images/documentation/features/service-details-actions-v1.22.0.png" style="width: 1333px;display:inline;margin: 0 auto;" />
-  </a>
- </span>
-</div>
-++++
-{nbsp} +
-These actions are enabled by default. +
-Kiali can also be installed in *view only* mode to restrict any write operation on Istio configuration. +
-Check https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml[Kiali Operator CR, window=_blank] to get more details about how to configure this option.
-
-==== Weighted Routing Wizard
-With this wizard, you can select the percentage of traffic that is routed to a specific workload.
-++++
-<div style="display: flex;">
- <span style="margin: 0 auto;">
-  <a class="image-popup-fit-height" href="/images/documentation/features/wizard-weighted-routing-v1.22.0.png" title="Service Details Actions">
-   <img src="/images/documentation/features/wizard-weighted-routing-v1.22.0.png" style="width: 1333px;display:inline;margin: 0 auto;" />
-  </a>
- </span>
-</div>
-++++
-Kiali creates a pair of Istio resources, VirtualService and DestinationRule, with a single routing rule using the selected weights for the destination workloads.
-
-==== Matching Routing Wizard
-The Matching Routing Wizard allows to create multiple routing rules.
-
-* Every rule is composed by a Matching and a Routes section.
-* The Matching section can add multiple filters using HEADERS, URI, SCHEME, METHOD or AUTHORITY Http parameters.
-* The Matching section can be empty, on this case, any http request received is matched against this rule.
-* The Routes section can select one or multiple Workloads.
-
-Istio applies routing rules in order, meaning that first rule that matches an HTTP request, it is responsible to perform the routing. The Matching Routing Wizard allows to change order of rules.
-++++
-<div style="display: flex;">
- <span style="margin: 0 auto;">
-  <a class="image-popup-fit-height" href="/images/documentation/features/wizard-matching-routing-v1.22.0.png" title="Service Details Actions">
-   <img src="/images/documentation/features/wizard-matching-routing-v1.22.0.png" style="width: 1333px;display:inline;margin: 0 auto;" />
-  </a>
- </span>
-</div>
-++++
-In the same way as the previous wizard, Kiali creates a pair of Istio resources mapping the routing rules defined into the generated VirtualService.
-
-==== Suspend Traffic Wizard
-This wizard helps user to partially or totally stop traffic for a service. You can define which workloads receive traffic.
-
-When traffic is suspended for all workloads, Istio returns an error code to any service request.
-++++
-<div style="display: flex;">
- <span style="margin: 0 auto;">
-  <a class="image-popup-fit-height" href="/images/documentation/features/wizard-suspend-traffic-v1.22.0.png" title="Service Details Actions">
-   <img src="/images/documentation/features/wizard-suspend-traffic-v1.22.0.png" style="width: 1333px;display:inline;margin: 0 auto;" />
-  </a>
- </span>
-</div>
-++++
-When there is traffic for some workload, the wizard maps a weighted rule; when there is not traffic, an abort rule is coded in the pair of Istio resources VirtualService and DestinationRule generated.
-
-==== Advanced Options
-All previous wizards have an Advanced Options section where the user can define specific configuration for TLS, LoadBalancing, Security and Gateways.
-++++
-<div style="display: flex;">
- <span style="margin: 0 auto;">
-  <a class="image-popup-fit-height" href="/images/documentation/features/wizard-advanced-options-v1.22.0.png" title="Service Details Actions">
-   <img src="/images/documentation/features/wizard-advanced-options-v1.22.0.png" style="width: 1333px;display:inline;margin: 0 auto;" />
+  <a class="image-popup-fit-height" href="/images/documentation/features/service-actions-v1.24.0.png" title="Service Details Actions">
+   <img src="/images/documentation/features/service-actions-v1.24.0.png" style="width: 1333px;display:inline;margin: 0 auto;" />
   </a>
  </span>
 </div>
 ++++
 
-==== More Wizard examples
-The following article https://medium.com/kialiproject/kiali-observability-in-action-for-istio-service-mesh-69127f792103[Kiali: Observability in Action for Istio Service Mesh, window=_blank] describes more examples of how to use the Kiali Wizards to configure Istio configuration.
+{empty} +
 
+A *Workload* has also enabled specific actions
+
+++++
+<div style="display: flex;">
+ <span style="margin: 0 auto;">
+  <a class="image-popup-fit-height" href="/images/documentation/features/workload-actions-v1.24.0.png" title="Workload Details Actions">
+   <img src="/images/documentation/features/workload-actions-v1.24.0.png" style="width: 1333px;display:inline;margin: 0 auto;" />
+  </a>
+ </span>
+</div>
+++++
+
+{empty} +
+
+Also, actions are availble for an entire *Namespace*
+
+++++
+<div style="display: flex;">
+ <span style="margin: 0 auto;">
+  <a class="image-popup-fit-height" href="/images/documentation/features/overview-actions-v1.24.0.png" title="Namespace Actions">
+   <img src="/images/documentation/features/overview-actions-v1.24.0.png" style="width: 1333px;display:inline;margin: 0 auto;" />
+  </a>
+ </span>
+</div>
+++++
+
+=== Service Actions
+
+==== Traffic Management: Request Routing
+
+The Request Routing Wizard allows creating multiple routing rules.
+
+* Every rule is composed by a Request Matching and a Routes To section.
+* The Request Matching section can add multiple filters using HEADERS, URI, SCHEME, METHOD or AUTHORITY Http parameters.
+* The Request Matching section can be empty, on this case, any http request received is matched against this rule.
+* The Routes To section can select the percentage of traffic that is routed to a specific workload.
+
+++++
+<div style="display: flex;">
+ <span style="margin: 0 auto;">
+  <a class="image-popup-fit-height" href="/images/documentation/features/wizard-request-routing-v1.24.0.png" title="Request Routing">
+   <img src="/images/documentation/features/wizard-request-routing-v1.24.0.png" style="width: 1333px;display:inline;margin: 0 auto;" />
+  </a>
+ </span>
+</div>
+++++
+
+Istio applies routing rules in order, meaning that first rule that matches an HTTP request, it is responsible to perform the routing. The Matching Routing Wizard allows changing order of rules.
+
+==== Traffic Management: Fault Injection
+
+The Fault Injection Wizard allows injecting faults to test the resiliency of a Service.
+
+* HTTP Delay specification is used to inject latency into the request forwarding path.
+* HTTP Abort specification is used to prematurely abort a request with a pre-specified error code.
+
+++++
+<div style="display: flex;">
+ <span style="margin: 0 auto;">
+  <a class="image-popup-fit-height" href="/images/documentation/features/wizard-fault-injection-v1.24.0.png" title="Fault Injection">
+   <img src="/images/documentation/features/wizard-fault-injection-v1.24.0.png" style="width: 1333px;display:inline;margin: 0 auto;" />
+  </a>
+ </span>
+</div>
+++++
+
+==== Traffic Management: Traffic Shifting
+
+The Traffic Shifting Wizard allows selecting the percentage of traffic that is routed to a specific workload.
+
+++++
+<div style="display: flex;">
+ <span style="margin: 0 auto;">
+  <a class="image-popup-fit-height" href="/images/documentation/features/wizard-traffic-shifting-v1.24.0.png" title="Traffic Shifting">
+   <img src="/images/documentation/features/wizard-traffic-shifting-v1.24.0.png" style="width: 1333px;display:inline;margin: 0 auto;" />
+  </a>
+ </span>
+</div>
+++++
+
+==== Traffic Management: Request Timeouts
+
+The Request Timeouts Wizard permits to set up request timetous in Envoy using Istio.
+
+* HTTP Timeout defines the timeout for a request.
+* HTTP Retry describes the retry policy to use when a HTTP request fails.
+
+++++
+<div style="display: flex;">
+ <span style="margin: 0 auto;">
+  <a class="image-popup-fit-height" href="/images/documentation/features/wizard-request-timeouts-v1.24.0.png" title="Request Timeouts">
+   <img src="/images/documentation/features/wizard-request-timeouts-v1.24.0.png" style="width: 1333px;display:inline;margin: 0 auto;" />
+  </a>
+ </span>
+</div>
+++++
+
+==== Traffic Management: Gateways
+
+Traffic Management Wizards have an Advanced Options section that can be used to extend the scenario.
+
+One available Advanced Option is to expose a Service to external traffic through an existing Gateway or create a new Gateway for this Service.
+
+++++
+<div style="display: flex;">
+ <span style="margin: 0 auto;">
+  <a class="image-popup-fit-height" href="/images/documentation/features/wizard-advanced-options-gateways-v1.24.0.png" title="Request Timeouts">
+   <img src="/images/documentation/features/wizard-advanced-options-gateways-v1.24.0.png" style="width: 1333px;display:inline;margin: 0 auto;" />
+  </a>
+ </span>
+</div>
+++++
+
+==== Traffic Management: Circuit Breaker
+
+Traffic Management Wizards allows defining Circuit Breakers on Services as part of the available Advanced Options.
+
+* Connection Pool defines the connection limits for an upstream host.
+* Outlier Detection implements the Circuit Breaker based on the consecutive errors reported.
+
+++++
+<div style="display: flex;">
+ <span style="margin: 0 auto;">
+  <a class="image-popup-fit-height" href="/images/documentation/features/wizard-advanced-options-gateways-v1.24.0.png" title="Circuit Breakers">
+   <img src="/images/documentation/features/wizard-advanced-options-gateways-v1.24.0.png" style="width: 1333px;display:inline;margin: 0 auto;" />
+  </a>
+ </span>
+</div>
+++++
+
+==== Security: Traffic Policy
+
+Traffic Management Advanced Options allows defining Security and Load Balancing settings.
+
+* TLS related settings for connections to the upstream service.
+* Automatically generated a PeerAuthentication resource for this Service.
+* Load balancing policies to apply for a specific destination.
+
+++++
+<div style="display: flex;">
+ <span style="margin: 0 auto;">
+  <a class="image-popup-fit-height" href="/images/documentation/features/wizard-advanced-options-traffic-policy-v1.24.0.png" title="Traffic Policy">
+   <img src="/images/documentation/features/wizard-advanced-options-traffic-policy-v1.24.0.png" style="width: 1333px;display:inline;margin: 0 auto;" />
+  </a>
+ </span>
+</div>
+++++
+
+=== Worksload Actions
+
+==== Automatic Sidecar Injection
+
+A *Workload* can be individually annotated to control the Sidecar Injection.
+
+A default scenario is to indicate this at *Namespace* level but there can be cases where a *Workload* shouldn't be part of the Mesh or viceversa.
+
+Kiali allows to annotate the Deployment template and propagate this configuration into the Pods.
+
+++++
+<div style="display: flex;">
+ <span style="margin: 0 auto;">
+  <a class="image-popup-fit-height" href="/images/documentation/features/workload-actions-sidecar-injection-v1.24.0.png" title="Automatic Sidecar Injection">
+   <img src="/images/documentation/features/workload-actions-sidecar-injection-v1.24.0.png" style="width: 1333px;display:inline;margin: 0 auto;" />
+  </a>
+ </span>
+</div>
+++++
+
+=== Namespace Actions
+
+Kiali offers several actions for a *Namespace* located in the Overview page in any of its views: Expanded, Compacted or Table.
+
+++++
+<div style="display: flex;">
+ <span style="margin: 0 auto;">
+  <a class="image-popup-fit-height" href="/images/documentation/features/overview-table-actions-v1.24.0.png" title="Namespace Actions">
+   <img src="/images/documentation/features/overview-table-actions-v1.24.0.png" style="width: 1333px;display:inline;margin: 0 auto;" />
+  </a>
+ </span>
+</div>
+++++
+
+==== Show
+
+Show actions allows to navigate from a *Namespace* to its specific Graph, Applications, Workload, Services or Istio Config pages.
+
+==== Automatic Sidecar Injection
+
+When https://istio.io/latest/docs/setup/additional-setup/sidecar-injection[Automatic Sidecar Injection] is enabled in the cluster, a *Namespace* can be labeled to enable/disable the injection webhook in the namespace, then new deployments will automatically have a sidecar added to them.
+
+==== Security: Traffic Policies
+
+Kiali can generate Traffic Policies based on traffic for a namespace.
+
+For example, at some point a namespace presents a traffic graph like this:
+
+++++
+<div style="display: flex;">
+ <span style="margin: 0 auto;">
+  <a class="image-popup-fit-height" href="/images/documentation/features/overview-actions-trafficpolicies-graph-v1.24.0.png" title="Traffic Policies: Graph">
+   <img src="/images/documentation/features/overview-actions-trafficpolicies-graph-v1.24.0.png" style="width: 1333px;display:inline;margin: 0 auto;" />
+  </a>
+ </span>
+</div>
+++++
+
+And a user may want to add Traffic Policies to secure that communication, in other words, to not allow other traffid different to the represented by the Services and Workloads in the Graph.
+
+Using *Create Traffic Policies* action on a namespace Kiali will generate AuthorizationPolicy resources per every *Workload* in the *Namespace*.
+
+++++
+<div style="display: flex;">
+ <span style="margin: 0 auto;">
+  <a class="image-popup-fit-height" href="/images/documentation/features/overview-actions-trafficpolicies-authorizationpolicies-v1.24.0.png" title="Traffic Policies: Graph">
+   <img src="/images/documentation/features/overview-actions-trafficpolicies-authorizationpolicies-v1.24.0.png" style="width: 1333px;display:inline;margin: 0 auto;" />
+  </a>
+ </span>
+</div>
+++++
 
 === Istio Forms
 
