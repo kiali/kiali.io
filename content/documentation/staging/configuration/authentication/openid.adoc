@@ -23,6 +23,9 @@ third-party system.
 The `openid` strategy takes advantage of the cluster's RBAC. See the link:{{<
 relref "../rbac" >}}[Role-based access control documentation] for more details.
 
+Currently, Kiali supports the _authorization code flow_ (preferred) and the
+_implicit flow_ of the link:https://openid.net/connect/[OpenId Connect spec].
+
 == Requirements
 
 You need either:
@@ -45,7 +48,34 @@ authenticated requests to the Kubernetes API.
 
 == Set-up
 
-To enable the OpenID Connect strategy, the minimal configuration you need to
+If you want to enable usage of the OpenId's _authorization code flow_, make sure that
+the Kiali's signing key is 16, 24 or 32 bytes long. If you install Kiali via
+the operator and don't set a custom signing key, the operator should create a
+16 bytes long signing key. If you setup a signing key of a different size,
+Kiali will only be capable of using the _implicit flow_. 
+
+icon:bullhorn[size=1x]{nbsp} We recommend using the _authorization code flow_.
+
+Register Kiali as a client application in your OpenId Server. Use the
+root path of your Kiali instance as the callback URL. If the OpenId Server
+provides you a _client secret_, or if you manually set a _client secret_, issue
+the following command to create a Kubernetes secret holding the OpenId client
+secret: 
+
+[source,yaml]
+----
+kubectl create secret generic kiali --from-literal="oidc-secret=$CLIENT_SECRET" -n $NAMESPACE
+----
+
+where `$NAMESPACE` is the namespace where you installed Kiali and
+`$CLIENT_SECRET` is the secret you configured or provided by your OpenId
+Server.
+
+icon:bullhorn[size=1x]{nbsp} This secret is not needed if you don't want
+Kiali to use the _authorization code flow_ (i.e. if your signing key is neither 16,
+24 or 32 bytes long).
+
+Then, to enable the OpenID Connect strategy, the minimal configuration you need to
 set in the Kiali CR is like the following:
 
 [source,yaml]
