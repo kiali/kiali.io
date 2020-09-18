@@ -1,0 +1,30 @@
+---
+title: What are the minimum privileges to login when using RBAC?
+weight: 55
+---
+
+The `get namespace` privilege is required for Kiali login when using an
+RBAC-enabled authentication strategy.  The user needs the privilege in at least
+one namespace.  The Kiali Operator will provide a `ClusterRole` named either
+`kiali` or `kiali-viewer` with the needed privilege.  Users can be bound to
+this role.
+
+When using a customized `Role` or `ClusterRole` then the following rule is
+required for Kiali login:
+
+[source,yaml]
+----
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: custom-kiali-role
+rules:
+- apiGroups: [""]
+  resources:
+  - namespaces
+  verbs:
+  - get
+----
+
+Although required for login, this privilege is not sufficient for Kiali
+to function well in general.
