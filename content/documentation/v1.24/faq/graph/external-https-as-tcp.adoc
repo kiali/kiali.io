@@ -4,7 +4,7 @@ weight: 60
 ---
 :icons: font
 
-Istio can't recognize HTTPS request that go directly to the service, the reason is that these
+Istio can't recognize HTTPS requests that go directly to the service, the reason is that these
 requests are encrypted and are recognized as TCP traffic.
 
 You can however configure your
