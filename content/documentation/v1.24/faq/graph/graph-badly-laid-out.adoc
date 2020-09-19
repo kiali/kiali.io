@@ -6,9 +6,9 @@ weight: 20
 If you search in the https://groups.google.com/forum/#!msg/kiali-dev/[mailing list], you will find a number of discussions about the graph layouts.
 
 The layout for Kiali Graph may render differently, depending on the data to display (number of graph nodes and their interactions) and it's sometimes difficult, not to say impossible,
-to have a single layout that renders nicely in every situations.
+to have a single layout that renders nicely in every situation.
 That's why Kiali offers a choice of several layout algorithms. However, we may still find some scenarios where none of the proposed algorithm offer a satisfying display.
-If Kiali doesn't not render your graph layout in a satisfactory manner please switch to another layout option.
+If Kiali doesn't render your graph layout in a satisfactory manner please switch to another layout option.
 This can be done from the _Graph Toolbar_ located on the bottom left of the graph.
 
 
