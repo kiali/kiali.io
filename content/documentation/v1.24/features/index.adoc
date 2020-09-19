@@ -114,7 +114,7 @@ TCP traffic is represented by offset circles where the speed of the circles indi
 ==== Graph: Graph Types
 Kiali offers four different graph renderings of the mesh telemetry. Each graph type provides a different view of the traffic.
 
-* The **workload** graph provides the a detailed view of communication between workloads.
+* The **workload** graph provides the detailed view of communication between workloads.
 
 * The **app** graph aggregates the workloads with the same app labeling, which provides a more logical view.
 
@@ -226,7 +226,7 @@ In the Workload Overview, Kiali performs several validations on workload configu
 
 * Are proper *app* and *version* labels assigned?
 
-Workload detail show you the services for which the workload in handling request the pods backing them.
+Workload detail shows you the services for which the workload in handling request the pods backing them.
 
 The Service Overview shows the user the workloads running the service. It also shows the Istio traffic routing configuration, VirtualServices and DestinationRules, associated with the service.
 
@@ -270,7 +270,7 @@ It groups them in Inbound and Outbound tables providing traffic details and link
 
 ==== Detail: Logs
 
-The Workload detail offer a special Logs tab. Kiali allows side-by-side viewing of both the application and the proxy logs of a selected pod.
+The Workload detail offers a special Logs tab. Kiali allows side-by-side viewing of both the application and the proxy logs of a selected pod.
 
 The logs tab adds additional filtering capabilities to show or hide specific lines.
 
@@ -377,7 +377,7 @@ Kiali provides inline config edition and powerful semantic validation for Istio 
 === Validations
 Kiali performs a set of validations to the most common Istio Objects such as Destination Rules, Service Entries, and Virtual Services. Those validations are done in addition to the existing ones performed by Istio's Galley component. Most validations are done inside a single namespace only, any exceptions, such as gateways, are properly documented.
 
-Galley validations are mostly syntactic validations based on the object syntax analysis of Istio objects while Kiali validations are mostly semantic validations between different Istio objects. Kiali validations are based on the runtime status of your service mesh, Galley validations are static ones and doesn't take into account what is configured in the mesh.
+Galley validations are mostly syntactic validations based on the object syntax analysis of Istio objects while Kiali validations are mostly semantic validations between different Istio objects. Kiali validations are based on the runtime status of your service mesh, Galley validations are static ones and don't take into account what is configured in the mesh.
 
 Check the complete link:/documentation/v1.24/validations/[list of validations] for further information.
 
