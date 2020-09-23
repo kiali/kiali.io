@@ -52,7 +52,6 @@ Fixes:
 * https://github.com/kiali/kiali/issues/3199[Broken navigation within details page tabs]
 * https://github.com/kiali/kiali/issues/3202[Configurable Tresholds - 0% is shown in Failure objects]
 * https://github.com/kiali/kiali/issues/3198[Links (sort of) broken when navigating within details page tabs]
-* https://github.com/kiali/kiali/issues/3187[Add new config `rev` into kiali settings]
 * https://github.com/kiali/kiali/issues/3172[latest kiali.io docs are still 1.22 when they should be 1.23]
 * https://github.com/kiali/kiali/issues/3110[travis produced a test-race failure]
 
