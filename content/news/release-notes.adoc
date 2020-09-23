@@ -15,6 +15,46 @@ For additional information check our https://www.youtube.com/channel/UCcm2NzDN_U
 
 toc::[]
 
+== 1.24.0
+Sprint Release: September 18th, 2020
+
+Features:
+
+* https://github.com/kiali/kiali/issues/3088[OIDC - Add support for "Authentication code" flow]
+* https://github.com/kiali/kiali/issues/1452[DR Overview - Add Status Info]
+* https://github.com/kiali/kiali/issues/3217[Adjust Actions Menu]
+* https://github.com/kiali/kiali/issues/3194[Add support for requests with no response]
+* https://github.com/kiali/kiali/issues/3213[(operator) need v1.24 playbook directory in operator]
+* https://github.com/kiali/kiali/issues/2924[Wizard to create AuthorizationPolicy based on the graph of the current traffic]
+* https://github.com/kiali/kiali/issues/3164[On Kiali.io video section add horizontal scrolling and titles to videos]
+* https://github.com/kiali/kiali/issues/2842[In-graph tracing: link from traces details]
+* https://github.com/kiali/kiali/issues/3197[Enhance Health tooltip info]
+* https://github.com/kiali/kiali/issues/3175[(Tracing+Metrics) Filter spans for service/workloads]
+* https://github.com/kiali/kiali/issues/2234[Improve health calculation of workloads]
+* https://github.com/kiali/kiali/issues/3191[ Support "Circuit Breaker" scenario in Wizards]
+* https://github.com/kiali/kiali/issues/3158[Improve the zoom out behavior when graph is refreshing]
+* https://github.com/kiali/kiali/issues/3183[Support "Request Timeout" scenario in Wizards]
+* https://github.com/kiali/kiali/issues/3192[Show propagation status for Istio Objects into details page]
+* https://github.com/kiali/kiali/issues/2236[Enable Kiali to support new CRD 'status' field for Validations]
+* https://github.com/kiali/kiali/issues/1424[Configurable thresholds for error rates]
+* https://github.com/kiali/kiali/issues/3178[Revisit "Suspend Traffic" into a better "Fault Injection" scenario.]
+* https://github.com/kiali/kiali/issues/2250[Integrate galley checks into kiali yaml editor]
+* https://github.com/kiali/kiali/issues/3071[(Tracing) Tracing tab in Service page]
+* https://github.com/kiali/kiali/issues/3167[review operator playbooks to confirm `until` loops do not expect template re-evaluation]
+* https://github.com/kiali/kiali/issues/3165[Graph find/hide expressions should be more flexible]
+* https://github.com/kiali/kiali/issues/3161[Rethink Overview Tab in IstioConfig details in favor of side cards]
+* https://github.com/kiali/kiali/issues/3015[Better link Istio configuration under Workload and Service details.]
+
+Fixes:
+
+* https://github.com/kiali/kiali/issues/3181[istio_status_enabled not working in 1.23.0]
+* https://github.com/kiali/kiali/issues/3171[Traces view: sometimes not easy to click on traces]
+* https://github.com/kiali/kiali/issues/3199[Broken navigation within details page tabs]
+* https://github.com/kiali/kiali/issues/3202[Configurable Tresholds - 0% is shown in Failure objects]
+* https://github.com/kiali/kiali/issues/3198[Links (sort of) broken when navigating within details page tabs]
+* https://github.com/kiali/kiali/issues/3172[latest kiali.io docs are still 1.22 when they should be 1.23]
+* https://github.com/kiali/kiali/issues/3110[travis produced a test-race failure]
+
 == 1.23.0
 Sprint Release: August 28th, 2020
 
