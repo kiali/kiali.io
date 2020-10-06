@@ -394,6 +394,8 @@ https://istio.io/docs/tasks/security/authn-policy/#globally-enabling-istio-mutua
 
 Gateway creates a proxy that forwards the inbound traffic for the exposed ports. If two different gateways expose the same ports for the same host, this creates ambiguity inside Istio as either of these gateways could handle the traffic. This is most likely a configuration error. This check is done across all namespaces the user has access to.
 
+There is one exception: when both gateways points to a different ingress. Then the ambiguity doesn't exist and, in consequence, no validation is shown. Kiali considers that two gateways points to the same ingress if they share the exact same selector.
+
 ==== Resolution
 
 Remove the duplicate gateway entries or merge the two gateway definitions into a single one.
