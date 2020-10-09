@@ -1,7 +1,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: bookinfo-gateway
+  name: bookinfo-gateway # Validation shown
   namespace: bookinfo
 spec:
   selector:
@@ -17,11 +17,27 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: bookinfo-gateway-copy
+  name: bookinfo-gateway-copy # Validation shown
   namespace: bookinfo2
 spec:
   selector:
     istio: ingressgateway # use istio default controller
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: bookinfo-gateway-diff-ingress # No validations shown
+  namespace: bookinfo
+spec:
+  selector:
+    istio: ingressgateway-pub # Using different ingress
   servers:
   - port:
       number: 80
