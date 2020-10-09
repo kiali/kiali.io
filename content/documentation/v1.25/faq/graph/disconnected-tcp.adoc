@@ -1,0 +1,11 @@
+---
+title: Why are my TCP requests disconnected in the graph?
+weight: 100
+---
+:imagesdir: /images/faq/graph/
+
+
+Some users are surprised when requests are not connected in the graph.  This is normal Istio telemetry for TCP requests if mTLS is not enabled. For HTTP requests, the requests will be connected even without MTLS, because Istio uses headers to exchange workload metadata between source and destination.  With the disconnected telemetry you will see an edge from a workload to a terminal service node.  That's the first hop.  And then another edge from "Unknown" to the expected destination service/workload.  In the graph below, this can be seen for the requests from myapp to redis and mongodb:
+
+image::disconnected-tcp.png[Disconnected graph for non-mTLS TCP requests]
+
