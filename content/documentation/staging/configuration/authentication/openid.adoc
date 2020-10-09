@@ -48,19 +48,25 @@ authenticated requests to the Kubernetes API.
 
 == Set-up
 
-If you want to enable usage of the OpenId's _authorization code flow_, make sure that
-the Kiali's signing key is 16, 24 or 32 bytes long. If you install Kiali via
-the operator and don't set a custom signing key, the operator should create a
-16 bytes long signing key. If you setup a signing key of a different size,
-Kiali will only be capable of using the _implicit flow_. 
+If you want to enable usage of the OpenId's _authorization code flow_, make
+sure that the
+link:https://github.com/kiali/kiali-operator/blob/7dafc469c95d4307ebd03c515a87c7f84eb64da7/deploy/kiali/kiali_cr.yaml#L746-L754[Kiali's
+signing key] is 16, 24 or 32 byte long. If you setup a signing key of a
+different size, Kiali will only be capable of using the _implicit flow_. If you
+install Kiali via the operator and don't set a custom signing key, the operator
+should create a 16 byte long signing key.  
 
 icon:bullhorn[size=1x]{nbsp} We recommend using the _authorization code flow_.
 
-Register Kiali as a client application in your OpenId Server. Use the
-root path of your Kiali instance as the callback URL. If the OpenId Server
-provides you a _client secret_, or if you manually set a _client secret_, issue
-the following command to create a Kubernetes secret holding the OpenId client
-secret: 
+Assuming you already have a working Kubernetes cluster with OpenId integration
+(or a working alternative like `kube-oidc-proxy`), you should already had
+configured an _application_ or a _client_ in your OpenId server (some cloud
+providers configure this app/client automatically for you). You must re-use
+this existing _application/client_ by adding the root path of your Kiali
+instance as an allowed/authorized callback URL. If the OpenID server provided
+you a _client secret_ for the application/client, or if you had manually set a
+_client secret_, issue the following command to create a Kubernetes secret
+holding the OpenId client secret:
 
 [source,yaml]
 ----
@@ -69,11 +75,17 @@ kubectl create secret generic kiali --from-literal="oidc-secret=$CLIENT_SECRET" 
 
 where `$NAMESPACE` is the namespace where you installed Kiali and
 `$CLIENT_SECRET` is the secret you configured or provided by your OpenId
-Server.
+Server. If Kiali is already running, you may need to restart the Kiali pod so
+that the secret is mounted in Kiali.
 
-icon:bullhorn[size=1x]{nbsp} This secret is not needed if you don't want
-Kiali to use the _authorization code flow_ (i.e. if your signing key is neither 16,
-24 or 32 bytes long).
+icon:bullhorn[size=1x]{nbsp} This secret is only needed if you want Kiali to
+use the _authorization code flow_ (i.e. if your Kiali's signing key is neither
+16, 24 or 32 byte long).
+
+icon:bullhorn[size=1x]{nbsp} It's worth emphasizing that to configure OpenID
+integration you must re-use the OpenID application/client that you created for
+your Kubernetes cluster. If you create a new application/client for Kiali in
+your OpenId server, Kiali will fail to properly authenticate users.
 
 Then, to enable the OpenID Connect strategy, the minimal configuration you need to
 set in the Kiali CR is like the following:
