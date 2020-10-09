@@ -7,129 +7,203 @@ To reduce Prometheus storage some users want to customize the metrics generated 
 
 Kiali currently requires the following metrics and attributes (note, this assumes Telemetry V2 in being used):
 
-* istio_requests_total
-** connection_security_policy
-*** only used when graph security option is enabled
-** destination_canonical_revision
-** destination_canonical_service
-** destination_principal
-*** only used when graph security option is enabled
-** destination_service
-** destination_service_name
-** destination_service_namespace
-** destination_workload
-** destination_workload_namespace
-** grpc_response_status
-*** only used when request_protocol="grpc"
-** request_operation
-*** only used when request classification is configured
-*** "request_operation" is the default attribute, it is configurable
-** request_protocol
-** reporter
-*** both "source" and "destination" metrics are used by Kiali
-** response_code
-** response_flags
-** source_canonical_revision
-** source_canonical_service
-** source_principal
-*** only used when graph security option is enabled
-** source_workload
-** source_workload_namespace
+'''
 
-* istio_request_bytes_sum
-*** only used by metrics
-** destination_canonical_service
-** destination_service_name
-** destination_service_namespace
-** destination_workload
-** destination_workload_namespace
-** grpc_response_status
-*** only used when request_protocol="grpc"
-** request_operation
-*** only used when request classification is configured
-*** "request_operation" is the default attribute, it is configurable
-** reporter
-*** both "source" and "destination" metrics are used by Kiali
-** request_protocol
-** response_code
-** source_canonical_service
-** source_workload
-** source_workload_namespace
+[cols=".<40%m,.<60%",options="header"]
+|===
+|Metric
+|Notes
 
-* istio_request_duration_milliseconds_bucket
-** destination_canonical_revision
-** destination_canonical_service
-** destination_service
-** destination_service_name
-** destination_service_namespace
-** destination_workload
-** destination_workload_namespace
-** grpc_response_status
-*** only used when request_protocol="grpc"
-** reporter
-*** both "source" and "destination" metrics are used by Kiali
-** response_code
-** source_canonical_revision
-** source_canonical_service
-** source_workload
-** source_workload_namespace
+|istio_requests_total
+|used throughout Kiali and the primary metric for http/grpc traffic graph generation
 
+|istio_request_bytes_sum
+|only used in metrics displays
 
-* istio_response_bytes_sum
-*** only used by metrics
-** destination_canonical_service
-** destination_service_name
-** destination_service_namespace
-** destination_workload
-** destination_workload_namespace
-** grpc_response_status
-*** only used when request_protocol="grpc"
-** request_operation
-*** only used when request classification is configured
-*** "request_operation" is the default attribute, it is configurable
-** reporter
-*** both "source" and "destination" metrics are used by Kiali
-** request_protocol
-** response_code
-** source_canonical_service
-** source_workload
-** source_workload_namespace
+|istio_request_duration_milliseconds_bucket
+|used throughout Kiali for response time calculation
 
-* istio_tcp_received_bytes_total
-*** only used by metrics
-** destination_canonical_service
-** destination_service_name
-** destination_service_namespace
-** destination_workload
-** destination_workload_namespace
-** grpc_response_status
-*** only used when request_protocol="grpc"
-** request_operation
-*** only used when request classification is configured
-*** "request_operation" is the default attribute, it is configurable
-** reporter
-*** both "source" and "destination" metrics are used by Kiali
-** request_protocol
-** response_code
-** source_canonical_service
-** source_workload
-** source_workload_namespace
+|istio_response_bytes_sum
+|only used in metrics displays
 
-* istio_tcp_sent_bytes_total
-** destination_canonical_revision
-** destination_canonical_service
-** destination_service
-** destination_service_name
-** destination_service_namespace
-** destination_workload
-** destination_workload_namespace
-*** only when request_protocol="grpc"
-** reporter
-*** both "source" and "destination" metrics are used by Kiali
-** response_flags
-** source_canonical_revision
-** source_canonical_service
-** source_workload
-** source_workload_namespace
+|istio_tcp_received_bytes_total
+|only used in metrics displays
 
+|istio_tcp_sent_bytes_total
+|used throughout Kiali and the primary metric for tcp traffic graph generation
+
+|===
+
+{nbsp} +
+
+[cols=".<30%m,.<40%m,.<30%",options="header"]
+|===
+|Attribute
+|Metrics
+|Notes
+
+|connection_security_policy
+|istio_requests_total
+|used only when graph Security display option is enabled
+
+|destination_canonical_revision
+|
+istio_requests_total
+istio_request_duration_milliseconds_bucket
+istio_tcp_sent_bytes_total
+|
+
+|destination_canonical_service
+|
+istio_requests_total
+istio_request_bytes_sum
+istio_request_duration_milliseconds_bucket
+istio_response_bytes_sum
+istio_tcp_received_bytes_total
+istio_tcp_sent_bytes_total
+|
+
+|destination_principal
+|
+istio_requests_total
+istio_tcp_sent_bytes_total
+|used only when graph Security display option is enabled
+
+| destination_service
+| istio_requests_total
+istio_request_duration_milliseconds_bucket
+istio_tcp_sent_bytes_total
+|
+
+|destination_service_name
+|
+istio_requests_total
+istio_request_bytes_sum
+istio_request_duration_milliseconds_bucket
+istio_response_bytes_sum
+istio_tcp_received_bytes_total
+istio_tcp_sent_bytes_total
+|
+
+| destination_service_namespace
+|
+istio_requests_total
+istio_request_bytes_sum
+istio_request_duration_milliseconds_bucket
+istio_response_bytes_sum
+istio_tcp_received_bytes_total
+istio_tcp_sent_bytes_total
+|
+
+|destination_workload
+|
+istio_requests_total
+istio_request_bytes_sum
+istio_request_duration_milliseconds_bucket
+istio_response_bytes_sum
+istio_tcp_received_bytes_total
+istio_tcp_sent_bytes_total
+|
+
+|destination_workload_namespace
+|
+istio_requests_total
+istio_request_bytes_sum
+istio_request_duration_milliseconds_bucket
+istio_response_bytes_sum
+istio_tcp_received_bytes_total
+istio_tcp_sent_bytes_total
+|
+
+|grpc_response_status
+|
+istio_requests_total
+istio_request_bytes_sum
+istio_request_duration_milliseconds_bucket
+istio_response_bytes_sum
+istio_tcp_received_bytes_total
+istio_tcp_sent_bytes_total
+| used only when request_protocol="grpc"
+
+|reporter
+|
+istio_requests_total
+istio_request_bytes_sum
+istio_request_duration_milliseconds_bucket
+istio_response_bytes_sum
+istio_tcp_received_bytes_total
+istio_tcp_sent_bytes_total
+|both "source" and "destination" metrics are used by Kiali
+
+|request_operation
+|
+istio_requests_total
+istio_request_bytes_sum
+istio_response_bytes_sum
+|used only when request classification is configured. "request_operation" is the default attribute, it is configurable.
+
+|request_protocol
+|
+istio_requests_total
+istio_request_bytes_sum
+istio_response_bytes_sum
+|
+
+|response_code
+|
+istio_requests_total
+istio_request_bytes_sum
+istio_request_duration_milliseconds_bucket
+istio_response_bytes_sum
+|
+
+|response_flags
+|
+istio_requests_total
+| 
+
+|source_canonical_revision
+|
+istio_requests_total
+istio_request_duration_milliseconds_bucket
+istio_tcp_sent_bytes_total
+|
+
+|source_canonical_service
+|
+istio_requests_total
+istio_request_bytes_sum
+istio_request_duration_milliseconds_bucket
+istio_response_bytes_sum
+istio_tcp_received_bytes_total
+istio_tcp_sent_bytes_total
+|
+
+|source_principal
+|
+istio_requests_total
+istio_tcp_sent_bytes_total
+|used only when graph Security display option is enabled
+
+|source_workload
+|
+istio_requests_total
+istio_request_bytes_sum
+istio_request_duration_milliseconds_bucket
+istio_response_bytes_sum
+istio_tcp_received_bytes_total
+istio_tcp_sent_bytes_total
+|
+
+|source_workload_namespace
+|
+istio_requests_total
+istio_request_bytes_sum
+istio_request_duration_milliseconds_bucket
+istio_response_bytes_sum
+istio_tcp_received_bytes_total
+istio_tcp_sent_bytes_total
+|
+
+|===
 
