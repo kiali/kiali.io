@@ -15,8 +15,53 @@ For additional information check our https://www.youtube.com/channel/UCcm2NzDN_U
 
 toc::[]
 
+== 1.25.0
+Sprint Release: October 9th, 2020
+
+Features:
+
+* https://github.com/kiali/kiali/issues/3252[Graph scalability: health filtering]
+* https://github.com/kiali/kiali/issues/2633[Enhance Iter8 Experiment details page]
+* https://github.com/kiali/kiali/issues/1615[Mesh status view, proxy-status health]
+* https://github.com/kiali/kiali/issues/3273[Remove the bottom white padding from overview, list and details]
+* https://github.com/kiali/kiali/issues/2939[Show principals in topology graph]
+* https://github.com/kiali/kiali/issues/3278[Trace details page, spans table: add filtering toolbar]
+* https://github.com/kiali/kiali/issues/3297[FAQ: tell users if they use a PSP they need to set readOnlyRootFilesystem: false]
+* https://github.com/kiali/kiali/issues/3264[Add log entry support to the server-side logging API]
+* https://github.com/kiali/kiali/issues/3285[operator should not install dashboard resources if the enabled flag is false]
+* https://github.com/kiali/kiali/issues/3095[Tracing page reworking]
+* https://github.com/kiali/kiali/issues/3176[Please allow traffic to be sortable in the traffic tab]
+* https://github.com/kiali/kiali/issues/1535[Indentation is looking confusing in traffic page]
+* https://github.com/kiali/kiali/issues/3163[Overview and Traffic tabs should enable auto-refresh in App/Workload/Service details pages]
+* https://github.com/kiali/kiali/issues/3258[(operator) Create two new golden copies of community and upstream OLM CSV metadata for next release]
+* https://github.com/kiali/kiali/issues/3259[update molecule tests to use more accurate config]
+* https://github.com/kiali/kiali/issues/3235[Add a complex A/B testing scenario under demos]
+
+Fixes:
+
+* https://github.com/kiali/kiali/issues/3274[Invalid dates in Iter8 Overview Card]
+* https://github.com/kiali/kiali/issues/3219[KIA0301 validation rule does not work for multiple ingress-gateways]
+* https://github.com/kiali/kiali/issues/3299[When no Traces - Empty Traces details tabs in bottom]
+* https://github.com/kiali/kiali/issues/3247[Traces page: improve behaviour with large traces]
+* https://github.com/kiali/kiali/issues/3280[Align VirtualService Hosts with Gateway when Add Gateway is used in Kiali Wizard]
+* https://github.com/kiali/kiali/issues/3288[Workload pod status doesn't show details]
+* https://github.com/kiali/kiali/issues/3284[Broken navigation in tabs, both Istio and Custom dashboards]
+* https://github.com/kiali/kiali/issues/3267[Clean yarn warnings]
+* https://github.com/kiali/kiali/issues/3257[Remove ServiceMeshPolicies and ServiceRbacConfig usage]
+* https://github.com/kiali/kiali/issues/3261[where does component_status belong?]
+* https://github.com/kiali/kiali/issues/3237[openid molecule test fails]
+* https://github.com/kiali/kiali/issues/2695[Create New AuthPolicies - allow_all and deny_all are not Istio recommended ones]
+* https://github.com/kiali/kiali/issues/3227[(operator) do not have the operator look for a specifically named role]
+* https://github.com/kiali/kiali/issues/3240[Delete action has a wrong z-index]
+* https://github.com/kiali/kiali/issues/3231[(operator) make sure operator sorts accessible_namespaces]
+* https://github.com/kiali/kiali/issues/3230[Breadcrumb - Istio Config Type - click does not apply filter in lists]
+* https://github.com/kiali/kiali/issues/3234[Pods table needs to be adjusted when empty]
+* https://github.com/kiali/kiali/issues/3233[Error fetching spans on idle workloads]
+
 == 1.24.0
 Sprint Release: September 18th, 2020
+
+Kiali 1.24 patch releases support RH OSSM product, community users will likely prefer 1.25+.
 
 Features:
 
