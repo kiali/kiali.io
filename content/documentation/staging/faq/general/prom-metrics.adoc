@@ -18,16 +18,19 @@ Kiali currently requires the following metrics and attributes (note, this assume
 |used throughout Kiali and the primary metric for http/grpc traffic graph generation
 
 |istio_request_bytes_sum
-|only used in metrics displays
+|used in metrics displays
 
 |istio_request_duration_milliseconds_bucket
-|used throughout Kiali for response time calculation
+|used throughout Kiali for response time calculation. used by iter8 extension.
+
+|istio_request_duration_milliseconds_sum
+|used throughout Kiali for response time calculation. used by iter8 extension.
 
 |istio_response_bytes_sum
-|only used in metrics displays
+|used in metrics displays
 
 |istio_tcp_received_bytes_total
-|only used in metrics displays
+|used in metrics displays
 
 |istio_tcp_sent_bytes_total
 |used throughout Kiali and the primary metric for tcp traffic graph generation
@@ -50,6 +53,7 @@ Kiali currently requires the following metrics and attributes (note, this assume
 |
 istio_requests_total
 istio_request_duration_milliseconds_bucket
+istio_request_duration_milliseconds_sum
 istio_tcp_sent_bytes_total
 |
 
@@ -58,6 +62,7 @@ istio_tcp_sent_bytes_total
 istio_requests_total
 istio_request_bytes_sum
 istio_request_duration_milliseconds_bucket
+istio_request_duration_milliseconds_sum
 istio_response_bytes_sum
 istio_tcp_received_bytes_total
 istio_tcp_sent_bytes_total
@@ -72,6 +77,7 @@ istio_tcp_sent_bytes_total
 | destination_service
 | istio_requests_total
 istio_request_duration_milliseconds_bucket
+istio_request_duration_milliseconds_sum
 istio_tcp_sent_bytes_total
 |
 
@@ -80,6 +86,7 @@ istio_tcp_sent_bytes_total
 istio_requests_total
 istio_request_bytes_sum
 istio_request_duration_milliseconds_bucket
+istio_request_duration_milliseconds_sum
 istio_response_bytes_sum
 istio_tcp_received_bytes_total
 istio_tcp_sent_bytes_total
@@ -90,6 +97,7 @@ istio_tcp_sent_bytes_total
 istio_requests_total
 istio_request_bytes_sum
 istio_request_duration_milliseconds_bucket
+istio_request_duration_milliseconds_sum
 istio_response_bytes_sum
 istio_tcp_received_bytes_total
 istio_tcp_sent_bytes_total
@@ -100,6 +108,7 @@ istio_tcp_sent_bytes_total
 istio_requests_total
 istio_request_bytes_sum
 istio_request_duration_milliseconds_bucket
+istio_request_duration_milliseconds_sum
 istio_response_bytes_sum
 istio_tcp_received_bytes_total
 istio_tcp_sent_bytes_total
@@ -110,6 +119,7 @@ istio_tcp_sent_bytes_total
 istio_requests_total
 istio_request_bytes_sum
 istio_request_duration_milliseconds_bucket
+istio_request_duration_milliseconds_sum
 istio_response_bytes_sum
 istio_tcp_received_bytes_total
 istio_tcp_sent_bytes_total
@@ -120,16 +130,23 @@ istio_tcp_sent_bytes_total
 istio_requests_total
 istio_request_bytes_sum
 istio_request_duration_milliseconds_bucket
+istio_request_duration_milliseconds_sum
 istio_response_bytes_sum
 istio_tcp_received_bytes_total
 istio_tcp_sent_bytes_total
 | used only when request_protocol="grpc"
+
+|job
+|
+istio_request_duration_milliseconds_sum
+| used only by iter8 extension
 
 |reporter
 |
 istio_requests_total
 istio_request_bytes_sum
 istio_request_duration_milliseconds_bucket
+istio_request_duration_milliseconds_sum
 istio_response_bytes_sum
 istio_tcp_received_bytes_total
 istio_tcp_sent_bytes_total
@@ -154,18 +171,24 @@ istio_response_bytes_sum
 istio_requests_total
 istio_request_bytes_sum
 istio_request_duration_milliseconds_bucket
+istio_request_duration_milliseconds_sum
 istio_response_bytes_sum
 |
 
 |response_flags
 |
 istio_requests_total
+istio_request_bytes_sum
+istio_request_duration_milliseconds_bucket
+istio_request_duration_milliseconds_sum
+istio_response_bytes_sum
 | 
 
 |source_canonical_revision
 |
 istio_requests_total
 istio_request_duration_milliseconds_bucket
+istio_request_duration_milliseconds_sum
 istio_tcp_sent_bytes_total
 |
 
@@ -174,6 +197,7 @@ istio_tcp_sent_bytes_total
 istio_requests_total
 istio_request_bytes_sum
 istio_request_duration_milliseconds_bucket
+istio_request_duration_milliseconds_sum
 istio_response_bytes_sum
 istio_tcp_received_bytes_total
 istio_tcp_sent_bytes_total
@@ -190,6 +214,7 @@ istio_tcp_sent_bytes_total
 istio_requests_total
 istio_request_bytes_sum
 istio_request_duration_milliseconds_bucket
+istio_request_duration_milliseconds_sum
 istio_response_bytes_sum
 istio_tcp_received_bytes_total
 istio_tcp_sent_bytes_total
@@ -200,6 +225,7 @@ istio_tcp_sent_bytes_total
 istio_requests_total
 istio_request_bytes_sum
 istio_request_duration_milliseconds_bucket
+istio_request_duration_milliseconds_sum
 istio_response_bytes_sum
 istio_tcp_received_bytes_total
 istio_tcp_sent_bytes_total
