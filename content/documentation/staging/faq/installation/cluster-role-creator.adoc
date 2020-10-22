@@ -1,0 +1,17 @@
+---
+title: Operator fails due to `cannot list resource "clusterroles"` error
+weight: 1
+---
+:icons: font
+
+When the Kiali Operator installs a Kiali Server, the Operator will assign the Kiali Server the proper roles/rolebindings so the Kiali Server can access the appropriate namespaces. The Kiali Operator will check to see if the Kiali CR setting `deployment.accessible_namespaces` has a value of `['+++**+++']`. If it does, this means the Kiali Server is to be given access to all namespaces in the cluster, including namespaces that will be created in the future. In this case, the Kiali Operator will create and assign ClusterRole/ClusterRoleBinding resources to the Kiali Server. But in order to do this, the Kiali Operator must itself be given permission to create those ClusterRole and ClusterRoleBinding resources. When you install the Kiali Operator via OLM, these permissions are automatically granted. However, if you installed the Kiali Operator with the link:https://kiali.org/helm-charts/index.yaml[Operator Helm Chart], and if you did so with the value link:https://github.com/kiali/helm-charts/blob/v1.25.0/kiali-operator/values.yaml#L33-L36[`clusterRoleCreator`] set to `false` then the Kiali Operator will not be given permission to create cluster roles. In this case, you will be unable to install a Kiali Server if your Kiali CR has `deployment.accessible_namespaces` set to `['+++**+++']` - you will get an error similar to this:
+
+```
+Failed to list rbac.authorization.k8s.io/v1, Kind=ClusterRole:
+clusterroles.rbac.authorization.k8s.io is forbidden:
+User "system:serviceaccount:kiali-operator:kiali-operator"
+cannot list resource "clusterroles" in API group
+"rbac.authorization.k8s.io" at the cluster scope
+```
+
+Thus, if you do not give the Kiali Operator the permission to create cluster roles, you must tell the Operator which specific namespaces the Kiali Server can access (you cannot use `['+++**+++']`). When specific namespaces are specified in `deployment.accessible_namespaces`, the Kiali Operator will create Role and RoleBindings (not the "Cluster" kinds) and assign them to the Kiali Server.
