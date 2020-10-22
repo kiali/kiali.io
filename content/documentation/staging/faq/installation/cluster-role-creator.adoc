@@ -1,6 +1,6 @@
 ---
 title: Operator fails due to `cannot list resource "clusterroles"` error
-weight: 1
+weight: 2
 ---
 :icons: font
 
