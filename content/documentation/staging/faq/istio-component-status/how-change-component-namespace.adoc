@@ -1,0 +1,8 @@
+---
+title: How can I change the namespace of a component?
+weight: 3
+---
+:icons: font
+
+There are four different places in the Kiali CR whre you can change the Namespace. See the link:#where-find-config[FAQ] related to this.
+Pick the component you want to perform the namespace in the Kiali CR and change it. Restart the Kiali pod to get the changes applied.

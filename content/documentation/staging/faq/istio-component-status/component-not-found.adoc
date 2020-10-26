@@ -1,0 +1,12 @@
+---
+title: One component is Not found but I can see it running. What I can do?
+weight: 2
+---
+:icons: font
+
+The first thing you should do is check into the Kiali CR for the `component_status` field. See the FAQ that shows link:#where-find-config[the specific settings for this feature].
+
+What Kiali does is look for a Deployment which its pods have the `app` label with the specified value in the CR and live in that namespace.
+The `app` label name may be changed form the default (app) and it is specified in this https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml#L642[field] in the Kiali CR.
+
+Ensure that you have specified correctly the namespace and that the deployment's pod template has the specified label.

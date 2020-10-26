@@ -1,0 +1,12 @@
+---
+title: Where I can find the settings for changing the Istio Config Status feature?
+weight: 1
+---
+:icons: font
+
+There are four different fields in the Kiali CR where you can find the definition of each Istio Component:
+
+- external_services.grafana https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml#L438[CR section]
+- external_services.istio https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml#L482[CR section]
+- external_services.prometheus https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml#L527[CR section]
+- external_services.jaeger https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml#L566[CR section]

@@ -796,6 +796,26 @@ Kiali has different validations to help troubleshoot configurations related to `
 </div>
 ++++
 
+== Istio Component Status
+
+The Istio service mesh architecture is based in different components: from the istiod to Jaeger. Those components are key for the mesh to work well. That is why Kiali runs regular checks looking for the status of these Istio components.
+
+++++
+<div style="display: flex;">
+ <span style="margin: 0 auto;">
+  <a class="image-popup-fit-height" href="/images/documentation/features/istio-components-1.24.png" title="Istio components status: components not healthy or found">
+   <img src="/images/documentation/features/istio-components-1.24.png" style="width: 660px;display:inline;margin: 0 auto;" />
+  </a>
+ </span>
+</div>
+++++
+
+There are two possible *statuses* which a component may be in: `Not healthy` or `Not found`. The `Not healthy` status means that the deployment doesn't have the desired amount of replicas running. The `Not found` status means that Kiali is not able to find the deployment.
+
+Regarding the *severity* of each component, there is only to options: `core` or `add-on`. The `core` components are those shown as errors (in red) whereas the `add-ons` are displayed as warnings (in orange).
+
+By default, Kiali checks the following components installed in the control plane namespace: istiod, ingress, prometheus (as core components), egress, grafana and jaeger (as add-ons).
+
 == Multi-cluster support
 Istio provides https://istio.io/docs/setup/install/multicluster/[installation instructions] for three different multi-cluster scenarios: replicated control planes, shared control plane with single-network, and shared control plane with multi-network.
 
