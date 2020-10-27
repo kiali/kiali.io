@@ -336,56 +336,22 @@ https://istio.io/docs/tasks/security/authentication/authn-policy/#globally-enabl
 
 '''
 
-=== KIA0209 - ServiceMeshPolicy enabling mTLS is missing
+=== KIA0209 - DestinationRule Subset has not labels
 
-Maistra has the ability to define mTLS communications at mesh level. In order to do that, Istio needs one DestinationRule and one ServiceMeshPolicy. The DestinationRule configures all the clients of the mesh to use mTLS protocol on their connections. The ServiceMeshPolicy defines what authentication methods can be accepted on the workload of the whole mesh.
-If the ServiceMeshPolicy is not found at control plane namespace or doesn't exist and the mesh-wide DestinationRule is on ISTIO_MUTUAL mode, all the communication returns 500 errors.
+A DestinationRule subset without labels may miss the destination endpoint linked with a specific workload.
 
 ==== Resolution
-Add a ServiceMeshPolicy named as default without specifying targets but setting peers mtls mode to STRICT or PERMISSIVE. The ServiceMeshPolicy should be like link:/data/files/validation_examples/401.yaml[this, window="_blank"].
+Validate that a subset is properly configured.
 
 ==== Severity
 
-icon:times-circle[] Error
-
-==== Example
-
-[source, yaml]
-----
-include::/data/files/validation_examples/004.yaml[]
-----
+icon:exclamation-triangle[] Warning
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/master/business/checkers/destinationrules/meshwide_mtls_checker.go[Validator source code, window="_blank"] +
-https://maistra.io/docs/examples/mesh-wide_mtls[Globally enabling Istio mutual TLS, window="_blank"]
+https://istio.io/latest/docs/reference/config/networking/destination-rule/#Subset[DestinationRule Subset, window="_blank"]
 
 '''
-
-=== KIA0210 - ServiceMeshPolicy enabling mTLS found, permissive policy is needed
-
-Maistra needs both a DestinationRule and Policy to enable mTLS communications. The policy configures the authentication method accepted for all the targeted workloads. The DestinationRule defines which is the authentication method that the clients of specific workloads has to start communications with.
-
-Kiali found a DestinationRule starting communications without TLS but there was a ServiceMeshPolicy allowing services to accept only requests in mTLS.
-
-==== Resolution
-There are two ways to fix this situation. You can either change the ServiceMeshPolicy to enable PERMISSIVE mode to all the workloads in the mesh or change the DestinatonRule to enable mTLS instead of disabling it (change the mode to ISTIO_MUTUAL).
-
-==== Severity
-
-icon:times-circle[] Error
-
-==== Example
-
-[source, yaml]
-----
-include::/data/files/validation_examples/009.yaml[]
-----
-
-==== See Also
-
-https://github.com/kiali/kiali/tree/master/business/checkers/destinationrules/disabled_namespacewide_mtls_checker.go[Validator source code, window="_blank"] +
-https://istio.io/docs/tasks/security/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-mode[Globally enabling Istio mutual TLS, window="_blank"]
 
 [#gateways]
 == Gateways
