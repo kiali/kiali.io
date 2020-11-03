@@ -246,6 +246,16 @@ server:
 
 The above is the default when Kiali is installed on Kubernetes - so to access the Kiali UI on Kubernetes you access it at the root context path of `/kiali`.
 
+You can also set the FQDN and port for the resulting service (in case you are using an Istio VirtualService or a kubernetes ingress that does not set the proper params) on the same key, with the names `web_fqdn` and `web_port`, as shown in the example:
+
+[source,yaml]
+----
+server:
+  web_fqdn: mykiali.mydomain.com
+  web_port: 443
+  ...
+----
+
 === Namespace Management
 
 ==== Accessible Namespaces
