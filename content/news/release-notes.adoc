@@ -31,7 +31,6 @@ Features:
 * https://github.com/kiali/kiali/issues/3315[Short term caching of Prometheus queries in Health Service]
 * https://github.com/kiali/kiali/issues/2235[Improve health check of Istio subcomponents]
 * https://github.com/kiali/kiali/issues/3324[(operator) provide a hidden setting in Kiali CR to turn off operator reconciliation]
-* https://github.com/kiali/kiali/issues/3322[turn off dependent resource watching until we get a better handle on its effects]
 * https://github.com/kiali/kiali/issues/3291[add molecule tests to test as much of the API as possible]
 
 Fixes:
@@ -497,4 +496,3 @@ Known Issues:
 * https://github.com/kiali/kiali/issues/2548[Missing ServiceEntries in Graph]
 
 '''
-
