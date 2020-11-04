@@ -15,6 +15,43 @@ For additional information check our https://www.youtube.com/channel/UCcm2NzDN_U
 
 toc::[]
 
+== 1.26.0
+Sprint Release: October 30th, 2020
+
+Features:
+
+* https://github.com/kiali/kiali/issues/3363[Enable/Disable Mutual TLS by Namespace granularity ]
+* https://github.com/kiali/kiali/issues/3067[Add Date/time (start/stop) filtering for logs tab]
+* https://github.com/kiali/kiali/issues/2232[Improve visualization, filtering and searching in Kiali Logs tab]
+* https://github.com/kiali/kiali/issues/3340[Remove mixer/telemetry-v1 use of _app and _version metric attributes]
+* https://github.com/kiali/kiali/issues/3341[Remove mixer config dependencies]
+* https://github.com/kiali/kiali/issues/3155[Add fullscreen zooming beyond browser chrome]
+* https://github.com/kiali/kiali/issues/3338[(mixer removal) remove use of  istio_request_duration_seconds]
+* https://github.com/kiali/kiali/issues/3303[Support "duration" parameter for pod logs API]
+* https://github.com/kiali/kiali/issues/3315[Short term caching of Prometheus queries in Health Service]
+* https://github.com/kiali/kiali/issues/2235[Improve health check of Istio subcomponents]
+* https://github.com/kiali/kiali/issues/3324[(operator) provide a hidden setting in Kiali CR to turn off operator reconciliation]
+* https://github.com/kiali/kiali/issues/3322[turn off dependent resource watching until we get a better handle on its effects]
+* https://github.com/kiali/kiali/issues/3291[add molecule tests to test as much of the API as possible]
+
+Fixes:
+
+* https://github.com/kiali/kiali/issues/3378[Error in Render Kiali UI with threescale]
+* https://github.com/kiali/kiali/issues/3348[Overview Filter align has been modified]
+* https://github.com/kiali/kiali/issues/3333[Make "Create Traffic Policies" viewing configurable]
+* https://github.com/kiali/kiali/issues/3359[Wrong timestamp used for traces query in graph]
+* https://github.com/kiali/kiali/issues/3336[DR - No labels on subset - Error in list but not in overview]
+* https://github.com/kiali/kiali/issues/3307[Wrong z-level in the refresh controller in metrics tab]
+* https://github.com/kiali/kiali/issues/3334[CSS issue in overview toolbar (minor)]
+* https://github.com/kiali/kiali/issues/3330[add "versions" list to MonitoringDashboard CRD]
+* https://github.com/kiali/kiali/issues/3325[(operator) perform truthy checks on view_only_mode and other bool settings]
+* https://github.com/kiali/kiali/issues/3323[(operator) operator infinite reconciliation loop when accessible_namespaces is **]
+* https://github.com/kiali/kiali/issues/3313[Session not cleared correctly on log-out]
+* https://github.com/kiali/kiali/issues/3320[Kiali reported missing sidecar but did not]
+* https://github.com/kiali/kiali/issues/3306[Wrong workload for kiali-traffic-generator in Traces Spans]
+* https://github.com/kiali/kiali/issues/3318[Proxy-status reporting out of sync for all pods]
+* https://github.com/kiali/kiali/issues/3271[VS icon missing in Kiali-UI for application graph of a VS with TLS routes.]
+
 == 1.25.0
 Sprint Release: October 9th, 2020
 
