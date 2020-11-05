@@ -30,12 +30,16 @@ Kiali requires a supported version of Istio. link:https://istio.io/news/[The Ist
 |Kiali
 |Notes
 
-| 1.7.0+
-| 1.22.1+
+| 1.8.0 or later
+| 1.26.0 or later
+| Istio 1.8 removes all support for mixer/telemetry V1, as does Kiali 1.26.0. Use earlier versions of Kiali for mixer support.
+
+| 1.7.0 or later
+| 1.22.1 or later
 | Istio 1.7 istioctl will no longer install Kiali. Use the Istio samples/addons all-in-one yaml or the Kiali Helm Chart for quick demo installs.
 
-| 1.6.0+
-| 1.18.1+
+| 1.6.0 or later
+| 1.18.1 or later
 | Istio 1.6 introduces CRD and Config changes, Kiali 1.17 is recommended for Istio < 1.6.
 
 | <= 1.5

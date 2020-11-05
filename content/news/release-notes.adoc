@@ -32,6 +32,7 @@ Features:
 * https://github.com/kiali/kiali/issues/2235[Improve health check of Istio subcomponents]
 * https://github.com/kiali/kiali/issues/3324[(operator) provide a hidden setting in Kiali CR to turn off operator reconciliation]
 * https://github.com/kiali/kiali/issues/3291[add molecule tests to test as much of the API as possible]
+* https://github.com/kiali/kiali/issues/3084[support external OIDC providers]
 
 Fixes:
 
