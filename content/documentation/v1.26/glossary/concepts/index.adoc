@@ -64,10 +64,6 @@ Namespaces are a way to divide cluster resources between multiple users.
 
 A limited or fixed number or amount of resources.
 
-== QuotaSpecBinding
-
-Quota spec binding is used to bind link:https://istio.io/help/faq/mixer/[mixer] quota resource name to a proxy.
-
 == ReplicaSet
 
 Ensures that a specified number of pod replicas are running at any one time.
