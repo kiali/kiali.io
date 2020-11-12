@@ -1,8 +1,14 @@
+{{- $maxBlogPosts := 5 }}
+{{- $expTimestamp := div now.Unix 6000 }}
+{{- $sprintURL    := printf "https://api.rss2json.com/v1/api.json?timestamp=%d&rss_url=https://www.youtube.com/feeds/videos.xml?playlist_id=PLgwrCYrAkQYOHIeGukEZUmNRGbqI9uwpi" $expTimestamp }}
+{{- $json         := getJSON $sprintURL }}
+{{- $vids         := first $maxBlogPosts $json.items }}
+
 <section id="video-sprint-demo" class="video-section">
     <h1>
         Sprint demo videos
         <span class="go-to-videos-link">
-          <a href="https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w" target="_blank">
+          <a href="https://www.youtube.com/playlist?list=PLgwrCYrAkQYOHIeGukEZUmNRGbqI9uwpi" target="_blank">
             Go to videos
             <span class="fas fa-external-link-alt"/>
           </a>
@@ -10,46 +16,23 @@
     </h1>
 
     <div id="sprint-videos" class="new-embed-video-links">
-        <div class="video-card">
-            <header class="video-header">
-                <span class="video-text">September 18, 2020</span>
-                <span class=" video-text video-icon"><span class="fas fa-video"/></span>
-            </header>
-            <p class="video-text video-title">Sprint 45 [Kiali v1.24]</p>
-            <iframe class="video-iframe-links" src="https://www.youtube.com/embed/XqliZJZMR84"></iframe>
-            <p class="video-text video-text-footer">Kiali Team</p>
-        </div>
+      {{ range $vids }}
+        {{ $link    := .link }}
+        {{ $img     := .thumbnail }}
+        {{ $title   := .title }}
+        {{ $dateRaw := .pubDate }}
+        {{ $vidId   := index (split .guid ":") 2 }}
+        {{ $date    := dateFormat "January 2, 2006" $dateRaw }}
 
         <div class="video-card">
             <header class="video-header">
-                <span class="video-text">July 27, 2020</span>
+              <span class="video-text">{{ $date }}</span>
                 <span class=" video-text video-icon"><span class="fas fa-video"/></span>
             </header>
-            <p class="video-text video-title">Sprint 42 [Kiali v1.21]</p>
-            <iframe class="video-iframe-links" src="https://www.youtube.com/embed/wCVt8eRbtu8"></iframe>
-            <p class="video-text video-text-footer">Kiali Team</p>
+            <p class="video-text video-title">{{ $title }}</p>
+            <iframe class="video-iframe-links" src="https://www.youtube.com/embed/{{ $vidId }}"></iframe>
         </div>
-
-        <div class="video-card">
-            <header class="video-header">
-                <span class="video-text">July 2, 2020</span>
-                <span class=" video-text video-icon"><span class="fas fa-video"/></span>
-            </header>
-            <p class="video-text video-title">Sprint 41 [Kiali v1.20]</p>
-            <iframe class="video-iframe-links" src="https://www.youtube.com/embed/i0cRua9v4CE"></iframe>
-            <p class="video-text video-text-footer">Kiali Team</p>
-        </div>
-
-        <div class="video-card">
-            <header class="video-header">
-                <span class="video-text">June 9, 2020</span>
-                <span class=" video-text video-icon"><span class="fas fa-video"/></span>
-            </header>
-            <p class="video-text video-title">Sprint 40 [Kiali v1.19]</p>
-            <iframe class="video-iframe-links" src="https://www.youtube.com/embed/9qvhfOkC-RM"></iframe>
-            <p class="video-text video-text-footer">Kiali Team</p>
-        </div>
-
+      {{ end }}
     </div>
 
 </section>
