@@ -1,5 +1,5 @@
 {{- $maxBlogPosts := .Site.Params.maxBlogPosts }}
-{{- $expTimestamp := div now.Unix 6000 }}
+{{- $expTimestamp := div now.Unix 60 }}
 {{- $sprintURL    := printf "https://api.rss2json.com/v1/api.json?timestamp=%d&rss_url=https://www.youtube.com/feeds/videos.xml?playlist_id=PLgwrCYrAkQYOHIeGukEZUmNRGbqI9uwpi" $expTimestamp }}
 {{- $json         := getJSON $sprintURL }}
 {{- $vids         := first $maxBlogPosts $json.items }}
