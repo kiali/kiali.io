@@ -67,6 +67,7 @@ section#hero p.buttons {
   border: 1px solid var(--kiali-card-border-color);
   border-radius: 5px;
   box-shadow: 2px 2px 2px 0 rgba(245,245,245,1);
+  max-width: 375px;
 }
 
 .video-header {
@@ -84,6 +85,8 @@ section#hero p.buttons {
 .video-title {
   font-weight: 400;
   font-size: 18px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .video-text-footer {
@@ -297,6 +300,10 @@ section#blog-latest div#blog-blocks > a > div p {
     padding: var(--kiali-orange-spacing) var(--kiali-yellow-spacing);
   }
 
+  .video-card {
+    max-width: 375px;
+  }
+
   section#blog-latest > h1 {
     float: left;
   }
@@ -326,5 +333,9 @@ section#blog-latest div#blog-blocks > a > div p {
   .video-section {
     padding-left: 15%;
     padding-right: 15%;
+  }
+
+  .video-card {
+    max-width: 375px;
   }
 }

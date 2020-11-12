@@ -1,5 +1,5 @@
-{{- $maxBlogPosts := .Site.Params.maxBlogPosts }}
-{{- $expTimestamp := div now.Unix 60 }}
+{{- $maxBlogPosts := 5 }}
+{{- $expTimestamp := div now.Unix 6000 }}
 {{- $sprintURL    := printf "https://api.rss2json.com/v1/api.json?timestamp=%d&rss_url=https://www.youtube.com/feeds/videos.xml?playlist_id=PLgwrCYrAkQYOHIeGukEZUmNRGbqI9uwpi" $expTimestamp }}
 {{- $json         := getJSON $sprintURL }}
 {{- $vids         := first $maxBlogPosts $json.items }}
@@ -20,11 +20,9 @@
         {{ $link    := .link }}
         {{ $img     := .thumbnail }}
         {{ $title   := .title }}
-        {{ $author  := .author }}
         {{ $dateRaw := .pubDate }}
         {{ $vidId   := index (split .guid ":") 2 }}
         {{ $date    := dateFormat "January 2, 2006" $dateRaw }}
-        {{ $summary := .description | plainify | truncate 150 }}
 
         <div class="video-card">
             <header class="video-header">
@@ -33,7 +31,6 @@
             </header>
             <p class="video-text video-title">{{ $title }}</p>
             <iframe class="video-iframe-links" src="https://www.youtube.com/embed/{{ $vidId }}"></iframe>
-            <p class="video-text video-text-footer">{{ $author }}</p>
         </div>
       {{ end }}
     </div>
