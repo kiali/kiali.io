@@ -798,7 +798,7 @@ Kiali has different validations to help troubleshoot configurations related to `
 
 == Istio Component Status
 
-The Istio service mesh architecture is based in different components: from the istiod to Jaeger. Those components are key for the mesh to work well. That is why Kiali runs regular checks looking for the status of these Istio components.
+The Istio service mesh architecture is comprised of several components, from istiod to Jaeger. Each component must work as expected for the mesh to work well overall. Kiali regularly checks the status of each Istio component to ensure the mesh is healthy.
 
 ++++
 <div style="display: flex;">
@@ -810,11 +810,11 @@ The Istio service mesh architecture is based in different components: from the i
 </div>
 ++++
 
-There are two possible *statuses* which a component may be in: `Not healthy` or `Not found`. The `Not healthy` status means that the deployment doesn't have the desired amount of replicas running. The `Not found` status means that Kiali is not able to find the deployment.
+A component *status* will be one of: `Not found`, `Unreachable`, `Not healthy` and `Healthy`. The `Not found` status means that Kiali is not able to find the deployment. The `Unreachable` status means that Kiali hasn't been succesfuly able to communicate with the component (Prometheus, Grafana and Jaeger). The `Not healthy` status means that the deployment doesn't have the desired amount of replicas running. The `Healthy` status is when the component is not in the previous ones, plus, healthy components won't be shown in the list.
 
-Regarding the *severity* of each component, there is only to options: `core` or `add-on`. The `core` components are those shown as errors (in red) whereas the `add-ons` are displayed as warnings (in orange).
+Regarding the *severity* of each component, there are only to options: `core` or `add-on`. The `core` components are those shown as errors (in red) whereas the `add-ons` are displayed as warnings (in orange).
 
-By default, Kiali checks the following components installed in the control plane namespace: istiod, ingress, prometheus (as core components), egress, grafana and jaeger (as add-ons).
+By default, Kiali checks the following components installed in the control plane namespace: istiod, ingress, egress; and prometheus, grafana and jaeger accessible thought their services.
 
 == Multi-cluster support
 Istio provides https://istio.io/docs/setup/install/multicluster/[installation instructions] for three different multi-cluster scenarios: replicated control planes, shared control plane with single-network, and shared control plane with multi-network.
