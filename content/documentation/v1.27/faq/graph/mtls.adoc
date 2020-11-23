@@ -1,0 +1,21 @@
+---
+title: Which lock icons should I see when I enable the Kiali Graph Security Display option?
+weight: 120
+---
+:icons: font
+:imagesdir: /images/faq/graph/
+
+Sometimes the Kiali Graph Security Display option causes confusion. The option is disabled by default
+for optimal performance, but enabling the option typically adds nominal time to the graph rendering.  When
+enabled, Kiali will determine the percentage of mutual TLS (mTLS) traffic on each edge.  Kiali only
+shows lock icons on edges with traffic that differs from the global setting for the time period.  If
+global MTLS is configured Kiali will show a lock icon in the masthead and open lock icons on edges
+with less than 100% mTLS traffic. Otherwise Kiali will not show the masthead lock icon and shows closed
+lock icons for edges that have > 0% mTLS traffic.
+
+Kiali determines the mTLS percentage for the edges via the `connection_security_policy` attribute in the
+Prometheus telemetry. Note that this is destination telemetry (i.e. `reporter="destination"`).
+
+For more on the masthead indicator, the graph security option, and other Kiali security features see
+https://kiali.io/documentation/latest/features/#_security[Security Features].
+
