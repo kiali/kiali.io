@@ -15,6 +15,39 @@ For additional information check our https://www.youtube.com/channel/UCcm2NzDN_U
 
 toc::[]
 
+== 1.27.0
+Sprint Release: November 20th, 2020
+
+Features:
+
+* https://github.com/kiali/kiali/issues/3437[Align List pages with Namespace selector logic on empty selection]
+* https://github.com/kiali/kiali/issues/3420[Span rows: expandable mode]
+* https://github.com/kiali/kiali/issues/3422[Consolidate k-charted into kiali repo]
+* https://github.com/kiali/kiali/issues/3173[Kiali namespace filter "Select all" option]
+* https://github.com/kiali/kiali/issues/3111[Add configuration option to specify Kiali's public port (OIDC support)]
+* https://github.com/kiali/kiali/issues/3293[Use metrics-based comparison / trends for span's duration info]
+* https://github.com/kiali/kiali/issues/3411[add common labels such as "app.kubernetes.io/part-of" to kiali deployment]
+* https://github.com/kiali/kiali/issues/2893[(FEATURE) JSON based logging for day2 operations]
+* https://github.com/kiali/kiali/issues/3084[Support external OIDC providers]
+* https://github.com/kiali/kiali/issues/1399[Indicating in UI that a pod has been ejected in outlier detection situations]
+
+Fixes:
+
+* https://github.com/kiali/kiali/issues/3290[kiali.io developer API page doesn't react to clicks or search]
+* https://github.com/kiali/kiali/issues/3350[Alignment issue with Custom TimeRange]
+* https://github.com/kiali/kiali/issues/3449[Traffic tab crash for service and workload for error-rates project]
+* https://github.com/kiali/kiali/issues/3433[need to create NetworkPolicy when deploying dev builds inside a Maistra environment]
+* https://github.com/kiali/kiali/issues/3353[Prometheus not found in Istio Components status]
+* https://github.com/kiali/kiali/issues/3265[Need of a warning(KIA0302 No matching workload found for gateway selector in this namespace)? ]
+* https://github.com/kiali/kiali/issues/3424[kiali-ossm golden copy has wrong link in description]
+* https://github.com/kiali/kiali/issues/3410[Unable to authenticate with OIDC and Google OpenID connect]
+* https://github.com/kiali/kiali/issues/3419[Error in Run kiali with config file]
+* https://github.com/kiali/kiali/issues/2906[Warning console Add key in list item in IstioStatusList]
+* https://github.com/kiali/kiali/issues/3389[Remove label filter by clicking on the label is not working]
+* https://github.com/kiali/kiali/issues/2905[Connections to the OpenShift API are kept open and accumulating until no more connections can be established, turning Kiali inaccessible]
+* https://github.com/kiali/kiali/issues/3373[health_config is not propagated from Kiali CR to configmap]
+* https://github.com/kiali/kiali/issues/3388[Workload Logs tab crash for istio-system]
+
 == 1.26.0
 Sprint Release: October 30th, 2020
 
