@@ -1,0 +1,12 @@
+---
+title: "I see an error message in embedded feature \"might be temporarily down ...\""
+weight: 70
+---
+:icons: font
+:imagesdir: /images/faq/tracing/
+
+If you are working in a development environment, you can see an error as the image below.
+
+image::certificateErr.png[Certificate Error]
+
+This is because your certificate is not valid, so you need to accept the certificate, open the tracing service in a new tab and accept it, after that you need to refresh the Kiali website.
