@@ -257,3 +257,20 @@ spec:
 
 icon:bullhorn[size=1x]{nbsp} You should use self-signed certificates only for
 testing purposes.
+
+=== Using a HTTP/HTTPS Proxy
+
+In some network configurations, there is the need to use proxies to connect to
+the outside world. OpenID requires outside world connections to get metadata and
+do key validation, so you can configure it by setting the `http_proxy` and
+`https_proxy` keys in the Kiali CR. They use the same format as the `HTTP_PROXY`
+and `HTTPS_PROXY` environment variables.
+
+[source,yaml]
+----
+spec:
+  auth:
+    openid:
+      http_proxy: http://USERNAME:PASSWORD@10.0.1.1:8080/
+      https_proxy: https://USERNAME:PASSWORD@10.0.0.1:8080/
+----
