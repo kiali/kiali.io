@@ -11,7 +11,7 @@
  *      description: The GitHub repo of the website sources, in owner/repo format.
  *   - SITE_RELEASING_BRANCH
  *      defaultValue: refs/heads/master
- *      description: Branch of the website to release
+ *      description: Branch of the website to checkout and run the release
  */
 
 
@@ -25,6 +25,9 @@ node('kiali-build && fedora') {
           $class: 'GitSCM',
           branches: [[name: params.SITE_RELEASING_BRANCH]],
           doGenerateSubmoduleConfigurations: false,
+          extensions: [
+            [$class: 'LocalBranch', localBranch: '**']
+          ],
           submoduleCfg: [],
           userRemoteConfigs: [[
           credentialsId: 'kiali-bot-gh-ssh',
