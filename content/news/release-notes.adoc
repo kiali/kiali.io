@@ -15,6 +15,40 @@ For additional information check our https://www.youtube.com/channel/UCcm2NzDN_U
 
 toc::[]
 
+== 1.28.0
+Sprint Release: December 11st, 2020
+
+Features:
+
+* https://github.com/kiali/kiali/issues/3451[Ability to set https_proxy on Kiali instances spawned by the operator]
+* https://github.com/kiali/kiali/issues/2630[Allow to edit Iter8 generated VS/DR Istio config from Kiali Wizard]
+* https://github.com/kiali/kiali/issues/3487[Show heatmaps in trace tooltips]
+* https://github.com/kiali/kiali/issues/3436[Add timeouts on Prometheus calls]
+* https://github.com/kiali/kiali/issues/3460[multi-arch builds for the operator]
+* https://github.com/kiali/kiali/issues/3203[Envoy config dump]
+* https://github.com/kiali/kiali/issues/3279[Consider showing traces comparisons with charts]
+* https://github.com/kiali/kiali/issues/3476[Support Mirroring scenario in Wizards.]
+* https://github.com/kiali/kiali/issues/3489[be able to enable profiler in operator]
+* https://github.com/kiali/kiali/issues/3484[Qualify Kiali-ui to latest node.js LTS version (14)]
+* https://github.com/kiali/kiali/issues/3327[Add support to TCP Shifting / Routing scenarios]
+* https://github.com/kiali/kiali/issues/3467[Fix bypassed queries to kubernetes Services]
+* https://github.com/kiali/kiali/issues/3471[Change kiali-bot to use merge commits for helm and operator repositories]
+* https://github.com/kiali/kiali/issues/3406[Use client / server timeouts (potential leaks)]
+
+Fixes:
+
+* https://github.com/kiali/kiali/issues/3504[The logs tab in Kiali 1.26 produces an error at istio 1.8]
+* https://github.com/kiali/kiali/issues/3515[Error while loading workloads from istio-system]
+* https://github.com/kiali/kiali/issues/3477[Weird percentage in Graph edges]
+* https://github.com/kiali/kiali/issues/3497[Service URL getting incorrect status code]
+* https://github.com/kiali/kiali/issues/3503[Traces tab is always fetching last 10 minutes]
+* https://github.com/kiali/kiali/issues/3461[Traces query failed from Graph]
+* https://github.com/kiali/kiali/issues/3485[status field accessibleNamespaces in Kiali CR is not updated properly]
+* https://github.com/kiali/kiali/issues/3482[(operator) disable dependent resource watching]
+* https://github.com/kiali/kiali/issues/3465[Graph crash when selecting new namespaces]
+* https://github.com/kiali/kiali/issues/3450[Last selected trace is kept selected in Tracing view]
+* https://github.com/kiali/kiali/issues/3453[data race - istio status scenarios]
+
 == 1.27.0
 Sprint Release: November 20th, 2020
 
