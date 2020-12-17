@@ -9,19 +9,21 @@
  *   - SITE_REPO
  *      defaultValue: kiali/kiali.io
  *      description: The GitHub repo of the website sources, in owner/repo format.
+ *   - SITE_RELEASING_BRANCH
+ *      defaultValue: refs/heads/master
+ *      description: Branch of the website to release
  */
 
 
 node('kiali-build && fedora') {
   def siteMakefile = 'Makefile.site.jenkins'
-  def siteReleasingBranch = 'refs/heads/master'
   def siteGitUri = "git@github.com:${params.SITE_REPO}.git"
 
   try {
     stage('Checkout code') {
       checkout([
           $class: 'GitSCM',
-          branches: [[name: siteReleasingBranch]],
+          branches: [[name: params.SITE_RELEASING_BRANCH]],
           doGenerateSubmoduleConfigurations: false,
           submoduleCfg: [],
           userRemoteConfigs: [[
