@@ -8,10 +8,6 @@ SITE_VERSION ?= $(shell sed -rn 's/^VERSION \?= v(.*)/\1/p' Makefile)
 # This will take 'latest' as is or vX.Y.Z-type.
 VERSION_TAG ?= $(shell sed -rn 's/^VERSION \?= (.*)/\1/p' Makefile)
 
-SITE_REPO ?= kiali/kiali.io
-SITE_GITHUB_URI ?= git@github.com:$(SITE_REPO).git
-SITE_PULL_URI ?= https://api.github.com/repos/$(SITE_REPO)/pulls
-SITE_RELEASE_URI = $(subst pulls,releases,$(SITE_PULL_URI))
 SITE_MAIN_BRANCH ?= master
 
 ifeq ($(SHOULD_RELEASE_SITE),auto)
@@ -43,8 +39,8 @@ ifeq ($(PUSH_CHANGES),y)
 	./scripts/build-archive.sh v$(SITE_VERSION)
 	git add -A
 	git commit -m "Release v$(SITE_VERSION)"
-	git push $(SITE_GITHUB_URI) $$(git rev-parse HEAD):$(SITE_MAIN_BRANCH)
-	git push $(SITE_GITHUB_URI) $$(git rev-parse HEAD):refs/tags/v$(SITE_VERSION)
+	git push $$(git rev-parse HEAD):$(SITE_MAIN_BRANCH)
+	git push $$(git rev-parse HEAD):refs/tags/v$(SITE_VERSION)
 else
 	@echo "Skipped website release on patch or snapshot releases"
 endif

@@ -15,7 +15,7 @@
 node('kiali-build && fedora') {
   def siteMakefile = 'Makefile.site.jenkins'
   def siteReleasingBranch = 'refs/heads/master'
-  def siteGitUri = "https://github.com/${params.SITE_REPO}.git"
+  def siteGitUri = "git@github.com:${params.SITE_REPO}.git"
 
   try {
     stage('Checkout code') {
