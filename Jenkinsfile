@@ -14,10 +14,26 @@
  *      description: Branch of the website to checkout and run the release
  */
 
+def bumpVersion(String versionType, String currentVersion) {
+  def split = currentVersion.split('\\.')
+    switch (versionType){
+      case "patch":
+        split[2]=1+Integer.parseInt(split[2])
+          break
+      case "minor":
+          split[1]=1+Integer.parseInt(split[1])
+            break;
+      case "major":
+          split[0]=1+Integer.parseInt(split[0])
+            break;
+    }
+  return split.join('.')
+}
 
 node('kiali-build && fedora') {
   def siteMakefile = 'Makefile.site.jenkins'
   def siteGitUri = "git@github.com:${params.SITE_REPO}.git"
+  def mainBranch = 'master'
 
   try {
     stage('Checkout code') {
@@ -41,9 +57,17 @@ node('kiali-build && fedora') {
     stage('Release website') {
       withCredentials([string(credentialsId: 'kiali-bot-gh-token', variable: 'GH_TOKEN')]) {
         sshagent(['kiali-bot-gh-ssh']) {
-          withEnv(["SHOULD_RELEASE_SITE=y"]) {
-            sh "make -f ${siteMakefile} website-build-archive"
-          }
+          def releasingVersion = sh(
+              returnStdout: true,
+              script: "sed -rn 's/^VERSION \\?= v(.*)/\\1/p' Makefile").trim()
+          def nextVersion = bumpVersion("minor", releasingVersion)
+          echo "Will build version: ${releasingVersion}"
+          sh "./scripts/build-archive.sh v${releasingVersion}"
+
+          echo "Prepare for next version: ${nextVersion}"
+          sh "sed -i -r 's/^VERSION \\?= v.*/VERSION \\?= v${nextVersion}/' Makefile"
+          sh "git add -A && git commit -m \"Release v${releasingVersion}\""
+          sh "git push origin HEAD:${mainBranch} && git push origin HEAD:refs/tags/v${releasingVersion}"
         }
       }
     }
