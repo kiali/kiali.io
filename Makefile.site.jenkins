@@ -39,8 +39,8 @@ ifeq ($(PUSH_CHANGES),y)
 	./scripts/build-archive.sh v$(SITE_VERSION)
 	git add -A
 	git commit -m "Release v$(SITE_VERSION)"
-	git push $$(git rev-parse HEAD):$(SITE_MAIN_BRANCH)
-	git push $$(git rev-parse HEAD):refs/tags/v$(SITE_VERSION)
+	git push origin HEAD:$(SITE_MAIN_BRANCH)
+	git push origin HEAD:refs/tags/v$(SITE_VERSION)
 else
 	@echo "Skipped website release on patch or snapshot releases"
 endif
