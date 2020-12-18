@@ -10,18 +10,6 @@ VERSION_TAG ?= $(shell sed -rn 's/^VERSION \?= (.*)/\1/p' Makefile)
 
 SITE_MAIN_BRANCH ?= master
 
-ifeq ($(SHOULD_RELEASE_SITE),auto)
-ifeq ($(RELEASE_TYPE),minor)
-	PUSH_CHANGES = y
-endif
-else
-ifeq ($(SHOULD_RELEASE_SITE),y)
-	PUSH_CHANGES = y
-else
-	PUSH_CHANGES = n
-endif
-endif
-
 # NOTE: The value fo SITE_BUMPED_VERSION and SITE_VERSION_BRANCH will only be valid
 # after the main Makefile has been modified with the version being released.
 SITE_BUMPED_VERSION ?= $(shell semver bump minor $(SITE_VERSION))
@@ -33,7 +21,6 @@ all:
 	$(error You must explicitly specify a target)
 
 website-build-archive:
-ifeq ($(PUSH_CHANGES),y)
 	@echo "Will build version: $(SITE_VERSION)"
 	sed -i -r 's/^VERSION \?= v.*/VERSION \?= v$(SITE_BUMPED_VERSION)/' Makefile
 	./scripts/build-archive.sh v$(SITE_VERSION)
@@ -41,8 +28,5 @@ ifeq ($(PUSH_CHANGES),y)
 	git commit -m "Release v$(SITE_VERSION)"
 	git push origin HEAD:$(SITE_MAIN_BRANCH)
 	git push origin HEAD:refs/tags/v$(SITE_VERSION)
-else
-	@echo "Skipped website release on patch or snapshot releases"
-endif
 
 release: website-build-archive
