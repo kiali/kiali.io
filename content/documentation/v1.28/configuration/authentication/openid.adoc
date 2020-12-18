@@ -274,3 +274,11 @@ spec:
       http_proxy: http://USERNAME:PASSWORD@10.0.1.1:8080/
       https_proxy: https://USERNAME:PASSWORD@10.0.0.1:8080/
 ----
+
+=== Using with Keycloak
+
+When using OpenId with Keycloak, you will need to enable the `Standard Flow Enabled` and `Implicit Flow Enabled` options on the Client (in the Administration Console):
+
+image::/images/documentation/authentication/keycloak-implicit-client.png[Client configuration screen on Keycloak]
+
+Without those, you will get an error like `Client is not allowed to initiate browser login with given response_type. Implicit flow is disabled for the client.`.
