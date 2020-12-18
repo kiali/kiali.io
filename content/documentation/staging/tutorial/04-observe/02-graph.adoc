@@ -1,0 +1,8 @@
+---
+title: Graph Walkthrough
+weight: 41
+---
+:icons: font
+:sectlinks:
+
+Enable Sidecars in all Travel Demo namespaces

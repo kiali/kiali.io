@@ -1,0 +1,8 @@
+---
+title: Metrics Details
+weight: 43
+---
+:icons: font
+:sectlinks:
+
+Examine Metrics

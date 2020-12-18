@@ -1,0 +1,8 @@
+---
+title: Mirroring
+weight: 56
+---
+:icons: font
+:sectlinks:
+
+Mirroring scenario

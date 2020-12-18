@@ -1,0 +1,8 @@
+---
+title: Application, Service and Workload Details
+weight: 42
+---
+:icons: font
+:sectlinks:
+
+Examine Application, Service and Workload Details

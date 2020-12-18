@@ -1,0 +1,15 @@
+---
+title: Platform Setup
+weight: 11
+---
+:icons: font
+:sectlinks:
+
+This tutorial assumes you have access to a Kubernetes cluster with Istio installed.
+
+This tutorial has been tested using a link:https://istio.io/latest/docs/setup/platform-setup/minikube/[Minikube] installation.
+
+icon:bullhorn[size=1x]{nbsp} Platform dependent tasks will be indicated with a special note like this.
+
+
+

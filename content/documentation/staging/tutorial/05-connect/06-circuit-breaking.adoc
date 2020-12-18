@@ -1,0 +1,8 @@
+---
+title: Circuit Breaking
+weight: 55
+---
+:icons: font
+:sectlinks:
+
+Circuit Breaking scenario
