@@ -52,7 +52,7 @@ In the Travels Demo it has been introduced a *business dashboard* with two featu
 * Providing a *business* view of the total requests generated from the *travel-portal* namespace to the *travel-agency* services, organized with business criteria as grouped per shop, per type of traffic and per city.
 
 ++++
-<a class="image-popup-fit-height" href="/images/tutorial/02-02-updated-telemetry.png" title="Updated Telemetry">
-    <img src="/images/tutorial/02-02-updated-telemetry.png" style="display:block;margin: 0 auto;" />
+<a class="image-popup-fit-height" href="/images/tutorial/02-02-travels-dashboard.png" title="Travels Dashboard">
+    <img src="/images/tutorial/02-02-travels-dashboard.png" style="display:block;margin: 0 auto;" />
 </a>
 ++++

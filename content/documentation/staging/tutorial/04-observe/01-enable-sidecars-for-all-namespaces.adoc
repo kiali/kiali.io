@@ -46,14 +46,14 @@ kubectl apply -f <(curl -L https://raw.githubusercontent.com/kiali/demos/master/
 {nbsp} +
 Verify that *travel-control*, *travel-portal* and *travel-agency* workloads have sidecars deployed:
 ++++
-<a class="image-popup-fit-height" href="/images/tutorial/04-01-updated-sidecars.png" title="Updated Sidecars">
-    <img src="/images/tutorial/04-01-updated-sidecars.png" style="display:block;margin: 0 auto;" />
+<a class="image-popup-fit-height" href="/images/tutorial/04-01-updated-workloads.png" title="Updated Workloads">
+    <img src="/images/tutorial/04-01-updated-workloads.png" style="display:block;margin: 0 auto;" />
 </a>
 ++++
 
 NOTE: *[3]* Verify updated telemetry for *travel-portal* and *travel-agency* namespaces
 ++++
-<a class="image-popup-fit-height" href="/images/tutorial/04-01-missing-sidecars.png" title="Missing Sidecars">
-    <img src="/images/tutorial/04-01-missing-sidecars.png" style="display:block;margin: 0 auto;" />
+<a class="image-popup-fit-height" href="/images/tutorial/04-01-updated-telemetry.png" title="Updated Telemetry">
+    <img src="/images/tutorial/04-01-updated-telemetry.png" style="display:block;margin: 0 auto;" />
 </a>
 ++++

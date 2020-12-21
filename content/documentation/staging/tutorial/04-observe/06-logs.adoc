@@ -1,8 +1,0 @@
----
-title: Logs Details
-weight: 45
----
-:icons: font
-:sectlinks:
-
-Examine Logs

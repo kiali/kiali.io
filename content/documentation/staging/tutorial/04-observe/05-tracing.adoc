@@ -1,8 +1,0 @@
----
-title: Tracing Details
-weight: 44
----
-:icons: font
-:sectlinks:
-
-Examine Traces
