@@ -1,5 +1,5 @@
 /*
- * This pipeline supports only `minor` and `major` releases. Don't run it on `patch`,
+ * This pipeline supports only `minor` releases. Don't run it on `major`, `patch`,
  * `snapshot`, nor `edge` releases.
  *
  * The Jenkins job should be configured with the following properties:
@@ -22,9 +22,12 @@ def bumpVersion(String versionType, String currentVersion) {
           break
       case "minor":
           split[1]=1+Integer.parseInt(split[1])
+          split[2]=0
             break;
       case "major":
           split[0]=1+Integer.parseInt(split[0])
+          split[1]=0
+          split[2]=0
             break;
     }
   return split.join('.')
