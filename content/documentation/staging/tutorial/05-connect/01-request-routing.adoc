@@ -126,3 +126,15 @@ If you use the "Find.../Hide..." filter, graph can hide old traffic grey edges f
     <img src="/images/tutorial/05-01-request-routing-graph.png" style="display:block;margin: 0 auto;" />
 </a>
 ++++
+
+{nbsp} +
+Examining the "Inbound Traffic" for any of the *travels* workloads will show a similar pattern in the telemetry.
+
+++++
+<a class="image-popup-fit-height" href="/images/tutorial/05-01-travels-v1-inbound-traffic.png" title="Travels v1 Inbound Traffic">
+    <img src="/images/tutorial/05-01-travels-v1-inbound-traffic.png" style="display:block;margin: 0 auto;" />
+</a>
+++++
+
+{nbsp} +
+Using a large interval we can see how a workload received traffic from all portals and moved to a single portal once that the Request Routing scenarios was defined.
