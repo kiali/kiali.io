@@ -138,3 +138,21 @@ Examining the "Inbound Traffic" for any of the *travels* workloads will show a s
 
 {nbsp} +
 Using a large interval we can see how a workload received traffic from all portals and moved to a single portal once that the Request Routing scenarios was defined.
+
+NOTE: *[5]* Update or delete Istio Configuration
+
+Kiali Wizards allow to define high level Service Mesh scenarios and generate the Istio Configuration (VirtualServices, DestinationRules, Gateways and PeerRequests) needed for its implementation.
+
+These scenarios can be updated and the generated Istio configuration linked for a given service can be also deleted from the "Actions" menu.
+
+++++
+<a class="image-popup-fit-height" href="/images/tutorial/05-01-update-or-delete.png" title="Update or Delete">
+    <img src="/images/tutorial/05-01-update-or-delete.png" style="display:block;margin: 0 auto;" />
+</a>
+++++
+
+{nbsp} +
+As part of the tutorial step, when you have finished to experiment more Routing Requests scenarios, you can delete the generated Istio config for the *travels* service.
+
+
+
