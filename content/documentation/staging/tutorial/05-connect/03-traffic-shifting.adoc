@@ -46,13 +46,14 @@ Istio Telemetry is grouped per logical application and that gives an advantage t
 
 In our example, we can use the "Inbound Metrics" and "Outbound Metrics" tabs in the *travels* application details, group by "Local version" and compare how *travels-v2* and *travels-v3* are working.
 
-The charts show that the Traffic distribution is working accordingly and 80% is being distributed into *travels-v1* workload and they also show no big differences between *travels-v2* and *travels-v3* in terms of request duration.
-
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/05-03-compare-local-travels-version.png" title="Compare Travels Workloads">
     <img src="/images/tutorial/05-03-compare-local-travels-version.png" style="display:block;margin: 0 auto;" />
 </a>
 ++++
+
+{nbsp} +
+The charts show that the Traffic distribution is working accordingly and 80% is being distributed into *travels-v1* workload and they also show no big differences between *travels-v2* and *travels-v3* in terms of request duration.
 
 NOTE: *[4]* Update or delete Istio Configuration
 
