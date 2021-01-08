@@ -5,4 +5,10 @@ weight: 53
 :icons: font
 :sectlinks:
 
-TCP Traffic Shifting scenario
+The Travel Demo application has a database service used by several services deployed in the *travel-agency* namespace.
+
+Let's imagine an hypothetical scenario: at some point of the lifecycle of the application, the telemetry shows that the database service degrades and starts to increase the average response time.
+
+This is a very common situation and in this case database specialist suggests that data are growing and the original indexes design needs to be updated.
+
+Our database specialist is suggesting two approaches and proposes to prepare two versions of the database service to test which may work better.
