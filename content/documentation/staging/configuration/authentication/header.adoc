@@ -89,7 +89,7 @@ The authenticating reverse proxy should use the TokenRequest API instead of stat
 be short lived cuts down on the possibility of a token being leaked while it's being 
 passed between different parts of the infrastructure.
 
-==== Drop Incomming Impersonation Headers
+==== Drop Incoming Impersonation Headers
 
 The authenticating proxy *MUST* drop any headers it receives from a remote client 
 that match the impersonation headers.  Not only do you want to make sure that the
