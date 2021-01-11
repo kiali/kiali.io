@@ -66,7 +66,7 @@ directly to the API server.
 
 === Network Polcies
 
-A policy should be put in place to make sure that the only "client" for kiali is
+A policy should be put in place to make sure that the only "client" for Kiali is
 the authenticating reverse proxy.  This helps limit potential abuse and ensures 
 that the authenticating reverse proxy is the source of truth for who accessed
 kiali.
