@@ -73,7 +73,7 @@ Kiali.
 
 === Short Lived Tokens
 
-The authenticating reverse proxy should inject short lived token in the 
+The authenticating reverse proxy should inject a short lived token in the 
 `Authorization` header.  A shorter lived token is less likely to be abused if 
 leaked.  Kiali will take whatever token is passed into the reqeuest, so as tokens 
 are regenerated Kiali will use the new token.
