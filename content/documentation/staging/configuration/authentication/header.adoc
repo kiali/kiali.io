@@ -64,7 +64,7 @@ directly to the API server.
 
 == Security Considerations
 
-=== Network Polcies
+=== Network Policies
 
 A policy should be put in place to make sure that the only "client" for Kiali is
 the authenticating reverse proxy.  This helps limit potential abuse and ensures 
