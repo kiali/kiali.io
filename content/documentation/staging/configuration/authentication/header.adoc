@@ -93,5 +93,5 @@ passed between different parts of the infrastructure.
 
 The authenticating proxy *MUST* drop any headers it receives from a remote client 
 that match the impersonation headers.  Not only do you want to make sure that the
-authenticating proxy can't be over-riden on which user to authenticate, but also
+authenticating proxy can't be overriden on which user to authenticate, but also
 what groups they're a member of. 
