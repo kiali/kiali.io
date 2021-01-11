@@ -92,6 +92,6 @@ passed between different parts of the infrastructure.
 ==== Drop Incomming Impersonation Headers
 
 The authenticating proxy *MUST* drop any headers it receives from a remote client 
-that mach the impersonation headers.  Not only do you want to make sure that the
+that match the impersonation headers.  Not only do you want to make sure that the
 authenticating proxy can't be over-riden on which user to authenticate, but also
 what groups they're a member of. 
