@@ -6,7 +6,7 @@ weight: 9
 hideIndex: true
 ---
 
-Kiali supports four authentication mechanisms:
+Kiali supports five authentication mechanisms:
 
 * link:{{< relref "anonymous" >}}[anonymous]: gives free access to Kiali.
 * link:{{< relref "header" >}}[header]: requires Kiali to run behind a reverse proxy that is responsible for injecting the user's token or a token with impersonation.
