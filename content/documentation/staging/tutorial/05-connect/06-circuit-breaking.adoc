@@ -83,7 +83,6 @@ NOTE: *[4]* Update or delete Istio Configuration
 
 As part of this step you can update the scenarios defined around the *travels* service to experiment with more Circuit Breaker settings, or you can delete the generated Istio config in the service.
 
-
 {nbsp} +
 Understanding what happened:
 
