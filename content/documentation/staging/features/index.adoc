@@ -216,7 +216,7 @@ Kiali provides filtered list views of all your service mesh definitions. Each vi
 
 ==== Detail: Overview
 
-The overview tab provides detail information, sparkline graph and health overview for a specific Application, Workload or Service.
+The overview tab provides detail information, a contextual graph and health overview for a specific Application, Workload or Service.
 
 For each type of element, Kiali adds additional features.
 
@@ -226,9 +226,9 @@ In the Workload Overview, Kiali performs several validations on workload configu
 
 * Are proper *app* and *version* labels assigned?
 
-Workload detail show you the services for which the workload in handling request the pods backing them.
+Workload detail shows the services for which the workload in handling requests, and the pods backing them.
 
-The Service Overview shows the user the workloads running the service. It also shows the Istio traffic routing configuration, VirtualServices and DestinationRules, associated with the service.
+The Service Overview shows the workloads running the service. It also shows the Istio traffic routing configuration, VirtualServices and DestinationRules associated with the service.
 
 Kiali provides access to YAML definitions and allows modification and deletion access for authorized users. It provides wizards to assist in common configurations and performs additional validation on VirtualServices to detect misconfigured routes.
 
@@ -241,15 +241,19 @@ Kiali provides access to YAML definitions and allows modification and deletion a
   <a class="image-popup-fit-height" href="/images/documentation/features/overview-workload-v1.22.0.png" title="Workload Overview">
     <img src="/images/documentation/features/overview-workload-thumb-v1.22.0.png" style="width: 660px; display:inline;margin: 0 auto;" />
   </a>
-</span>
-</div>
-<div style="display: flex;">
- <span style="margin: 0 auto;">
   <a class="image-popup-fit-height" href="/images/documentation/features/overview-service-v1.22.0.png" title="Service Overview">
     <img src="/images/documentation/features/overview-service-thumb-v1.22.0.png" style="width: 660px; display:inline;margin: 0 auto;" />
   </a>
  </span>
 </div>
+++++
+
+Both Workload and Service detail can be customized to some extent, by adding additional details supplied as annotations. This is done through the `additional_display_details` field in link:https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml[the Kiali CR or ConfigMap].
+
+++++
+ <a class="image-popup-fit-height" href="/images/documentation/features/additional-details-v1.28.0.png" title="Additional details">
+  <img src="/images/documentation/features/additional-details-v1.28.0.png" style="display:block;margin: 0 auto;" />
+ </a>
 ++++
 
 {empty} +
