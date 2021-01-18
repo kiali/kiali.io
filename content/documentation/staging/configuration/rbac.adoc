@@ -89,8 +89,10 @@ rules:
   - get
 ----
 
-This minimal `Role` will allow a user to login, but Kiali will be unusable. You
-will need a broader set of privileges so that Kiali works fine.
+This minimal `Role` will allow a user to login. Kiali may work partially, but
+some pages may be blank or show erroneous information, and errors will be
+logged constantly. You will need a broader set of privileges so that Kiali
+works fine.
 
 == Privileges required for Kiali to work correctly
 
