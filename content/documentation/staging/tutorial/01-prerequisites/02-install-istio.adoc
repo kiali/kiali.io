@@ -5,11 +5,11 @@ weight: 12
 :icons: font
 :sectlinks:
 
-Once you have your Kubernetes cluster ready, follow the link:https://istio.io/latest/docs/setup/getting-started/[Istio Getting Started] to install and setup a demo profile that will be used in this tutorial.
+Once you have your Kubernetes cluster ready, follow the link:https://istio.io/latest/docs/setup/getting-started/[Istio Getting Started, window="_blank"] to install and setup a demo profile that will be used in this tutorial.
 
-icon:bullhorn[size=1x]{nbsp} Determining ingress IP and ports and create DNS entries will be necessary in the following steps.
+icon:bullhorn[size=1x]{nbsp} Determining ingress IP and ports and creating DNS entries will be necessary in the following steps.
 
-icon:bullhorn[size=1x]{nbsp} This tutorial uses link:https://istio.io/latest/docs/setup/platform-setup/minikube/[Minikube tunnel] feature for external Ingress IP.
+icon:bullhorn[size=1x]{nbsp} This tutorial uses link:https://istio.io/latest/docs/setup/platform-setup/minikube/[Minikube tunnel, window="_blank"] feature for external Ingress IP.
 
-icon:bullhorn[size=1x]{nbsp} DNS entries can be added in a basic way to the `/etc/hosts` file but you can any other DNS service that allows to resolve a domain with the external Ingress IP.
+icon:bullhorn[size=1x]{nbsp} DNS entries can be added in a basic way to the `/etc/hosts` file but you can use any other DNS service that allows to resolve a domain with the external Ingress IP.
 

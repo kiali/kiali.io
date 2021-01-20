@@ -5,17 +5,17 @@ weight: 50
 :icons: font
 :sectlinks:
 
-The Travel Demo application have several portals deployed on the *travel-portal* namespace consuming a *travels* service deployed on the *travel-agency* namespace.
+The Travel Demo application has several portals deployed on the *travel-portal* namespace consuming the *travels* service deployed on the *travel-agency* namespace.
 
-The *travels* service is backed up by a single workload called *travels-v1* then it receives requests from all portal workloads.
+The *travels* service is backed by a single workload called *travels-v1* that receives requests from all portal workloads.
 
 At a moment of the lifecycle the business needs of the portals may differ and new versions of the *travels* service may be necessary.
 
-This step will show how to route request dynamically to multiple versions of the *travels* service.
+This step will show how to route requests dynamically to multiple versions of the *travels* service.
 
-NOTE: *[1]* Deploy *travels-v2* and *travels-v3* workloads
+NOTE: *Step 1:* Deploy *travels-v2* and *travels-v3* workloads
 
-To deploy the new versions of the *travels* service follow the steps:
+To deploy the new versions of the *travels* service execute the following commands:
 
 [source,bash]
 ----
@@ -38,9 +38,9 @@ As there is no specific routing defined, when there are multiple workloads for *
 </a>
 ++++
 
-NOTE: *[2]* Investigate the http headers used by Travels Demo application
+NOTE: *Step 2:* Investigate the http headers used by the Travels Demo application
 
-The link:https://istio.io/latest/docs/concepts/traffic-management/#routing-rules[Traffic Management] features of Istio allow to define link:https://istio.io/latest/docs/concepts/traffic-management/#match-condition[Matching Conditions] for dynamic request routing.
+The link:https://istio.io/latest/docs/concepts/traffic-management/#routing-rules[Traffic Management, window="_blank"] features of Istio allow you to define link:https://istio.io/latest/docs/concepts/traffic-management/#match-condition[Matching Conditions, window="_blank"] for dynamic request routing.
 
 In our scenario we would like to perform the following routing logic:
 
@@ -52,7 +52,7 @@ Portal workloads use HTTP/1.1 protocols to call the *travels* service, so one st
 
 But, where to find the HTTP headers ? That information typically belongs to the application domain and we should examine the code, documentation or dynamically trace a request to understand which headers are being used in this context.
 
-There are multiple possibilities, the Travel Demo application uses a link:https://istio.io/latest/docs/reference/config/annotations/[Istio Annotation] feature to add an annotation into the Deployment descriptor to add additional Istio configuration into the proxy.
+There are multiple possibilities. The Travel Demo application uses an link:https://istio.io/latest/docs/reference/config/annotations/[Istio Annotation, window="_blank"] feature to add an annotation into the Deployment descriptor, which adds additional Istio configuration into the proxy.
 
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/05-01-deployment-istio-config.png" title="Istio Config annotations">
@@ -61,11 +61,11 @@ There are multiple possibilities, the Travel Demo application uses a link:https:
 ++++
 
 {nbsp} +
-In our example the link:https://github.com/kiali/demos/blob/master/travels/travels-v2.yaml#L15[HTTP Headers] are added as part of the trace context.
+In our example the link:https://github.com/kiali/demos/blob/master/travels/travels-v2.yaml#L15[HTTP Headers, window="_blank"] are added as part of the trace context.
 
 Then tracing will populate custom tags with the *portal*, *device*, *user* and *travel* used.
 
-NOTE: *[3]* Use the Request Routing Wizard on *travels* service to generate a traffic rule
+NOTE: *Step 3:* Use the Request Routing Wizard on *travels* service to generate a traffic rule
 
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/05-01-travels-request-routing.png" title="Travels Service Request Routing">
@@ -74,7 +74,7 @@ NOTE: *[3]* Use the Request Routing Wizard on *travels* service to generate a tr
 ++++
 
 {nbsp} +
-In the first rule, we will add a Request Matching for *portal* header equals to *travels.uk* value.
+In the first rule, we will add a "Request Matching" for *portal* header equals to *travels.uk* value.
 
 Use "Add Match" button to update the "Matching selected" for this rule.
 
@@ -107,7 +107,7 @@ When the three rules are defined you can use "Create" button to generate all Ist
 ++++
 
 {nbsp} +
-The Istio Config linked with a given service can also be located under the "Istio" tab in the Service Details page.
+All the Istio config linked to a given service are also listed under the "Istio" tab in the Service Details page.
 
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/05-01-service-istio-config.png" title="Service Istio Config">
@@ -115,9 +115,9 @@ The Istio Config linked with a given service can also be located under the "Isti
 </a>
 ++++
 
-NOTE: *[4]* Verify Request Routing working from the *travels-portal* Graph
+NOTE: *Step 4:* Verify that the Request Routing is working from the *travels-portal* Graph
 
-Once the Request Routing is working we can verify that outbound traffic from every portal goes all to a single *travels* workload.
+Once the Request Routing is working we can verify that outbound traffic from every portal goes to the single *travels* workload.
 
 If you use the "Find.../Hide..." filter, graph can hide old traffic grey edges for a clear graph.
 
@@ -137,13 +137,13 @@ Examining the "Inbound Traffic" for any of the *travels* workloads will show a s
 ++++
 
 {nbsp} +
-Using a large interval we can see how a workload received traffic from all portals and moved to a single portal once that the Request Routing scenarios was defined.
+Using a large interval we can see how the workload initially received traffic from all portals but then only a single portal after the Request Routing scenarios were defined.
 
-NOTE: *[5]* Update or delete Istio Configuration
+NOTE: *Step 5:* Update or delete Istio Configuration
 
-Kiali Wizards allow to define high level Service Mesh scenarios and generate the Istio Configuration (VirtualServices, DestinationRules, Gateways and PeerRequests) needed for its implementation.
+Kiali Wizards allow you to define a high level Service Mesh scenarios and will generate the Istio Configuration needed for its implementation (VirtualServices, DestinationRules, Gateways and PeerRequests).
 
-These scenarios can be updated and the generated Istio configuration linked for a given service can be also deleted from the "Actions" menu.
+These scenarios can be updated or deleted from the "Actions" menu of a given service. The relevant Istio configuration will be modified or removed, as needed.
 
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/05-01-update-or-delete.png" title="Update or Delete">
@@ -152,7 +152,7 @@ These scenarios can be updated and the generated Istio configuration linked for 
 ++++
 
 {nbsp} +
-As part of the tutorial step, when you have finished to experiment more Routing Requests scenarios, you can delete the generated Istio config for the *travels* service.
+As part of the tutorial step, when you have finished experimenting with Routing Requests scenarios then use the *travels* service "Actions" menu to delete the generated Istio config.
 
 
 

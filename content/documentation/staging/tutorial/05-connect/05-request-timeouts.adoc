@@ -5,7 +5,7 @@ weight: 54
 :icons: font
 :sectlinks:
 
-In the link:../tutorial/#02-fault-injection[Fault Injection] step we showed how we could introduce a delay in the critical *hotels* service and test the resilience of the application.
+In the link:../tutorial/#02-fault-injection[Fault Injection, window="_blank"] step we showed how we could introduce a delay in the critical *hotels* service and test the resilience of the application.
 
 Delay was propagated across service and Kiali showed how services accepted the delay without creating errors on the system.
 
@@ -13,15 +13,15 @@ But delays may have important consequences in real scenarios and services may wa
 
 This step will show how to add a request timeout for one of the portals deployed in *travel-portal* namespace. The *travel.uk* and *viaggi.it* portals will accept delays but *voyages.fr* will timeout and fail.
 
-NOTE: *[1]* Use the Fault Injection Wizard on *hotels* service to inject a delay
+NOTE: *Step 1:* Use the Fault Injection Wizard on *hotels* service to inject a delay
 
-Repeat the link:../tutorial/#02-fault-injection[Fault Injection] step to add delay on *hotels* service.
+Repeat the link:../tutorial/#02-fault-injection[Fault Injection, window="_blank"] step to add delay on *hotels* service.
 
-NOTE: *[2]* Use the Request Routing Wizard on *travels* service to add a route rule with delay for *voyages.fr*
+NOTE: *Step 2:* Use the Request Routing Wizard on *travels* service to add a route rule with delay for *voyages.fr*
 
 Add a rule to add a request timeout only on requests coming from *voyages.fr* portal:
 
-- Use the Request Matching tab to add a matching condition for *portal* header with *voyages.fr* value.
+- Use the Request Matching tab to add a matching condition for the *portal* header with *voyages.fr* value.
 - Use the Request Timeouts tab to add a HTTP Timeout for this rule.
 - Add the rule to the scenario.
 
@@ -41,7 +41,7 @@ A first rule should be added to the list like:
 ++++
 
 {nbsp} +
-Add a second rule to match any requests and Create the scenario. With this configuration, requests coming from *voyages.fr* will match the first rule and rest of the requests will match the second one.
+Add a second rule to match any request and create the scenario. With this configuration, requests coming from *voyages.fr* will match the first rule and the rest of the requests will match the second one.
 
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/05-05-generic-rule.png" title="Any Request Rule">
@@ -49,7 +49,7 @@ Add a second rule to match any requests and Create the scenario. With this confi
 </a>
 ++++
 
-NOTE: *[3]* Review the impact of the request timeout in the *travels* service
+NOTE: *Step 3:* Review the impact of the request timeout in the *travels* service
 
 When the scenario is created, the Graph will show how requests coming from *voyages.fr* start to fail due the requests timeout introduced.
 
@@ -73,6 +73,6 @@ This scenario can be visualized in detail if we examine the "Inbound Metrics" an
 {nbsp} +
 As expected, the requests coming from *voyages.fr* don't propagate the delay and they fail in 2 seconds range, meanwhile requests from other portals don't fail but they propagate the delay introduced in the *hotels* service.
 
-NOTE: *[4]* Update or delete Istio Configuration
+NOTE: *Step 4:* Update or delete Istio Configuration
 
 As part of this step you can update the scenarios defined around *hotels* and *travels* services to experiment more conditions, or you can delete the generated Istio config in both services.

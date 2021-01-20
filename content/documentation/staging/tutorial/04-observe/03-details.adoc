@@ -5,13 +5,13 @@ weight: 42
 :icons: font
 :sectlinks:
 
-Kiali provides link:../features/#_detail_views[Detail Views] to navigate into application, workload and services.
+Kiali provides link:../features/#_detail_views[Detail Views, window="_blank"] to navigate into application, workload and services.
 
 These views provide information about the structure, health, metrics, logs, traces and Istio configuration for any application component.
 
 In this tutorial we are going to learn how to use them to examine the main *travels* application of our example.
 
-NOTE: *[1]* Navigate to the *travels* application
+NOTE: *Step 1:* Navigate to the *travels* application
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/04-03-travels-application.png" title="Travels Application">
     <img src="/images/tutorial/04-03-travels-application.png" style="display:block;margin: 0 auto;" />
@@ -19,11 +19,11 @@ NOTE: *[1]* Navigate to the *travels* application
 ++++
 
 {nbsp} +
-An *application* is a abstract group of workloads and services labeled with the same "application" name.
+An *application* is an abstract group of workloads and services labeled with the same "application" name.
 
-From Service Mesh perspective this concept is significant as telemetry and tracing signals are mainly grouped by "application" even if multiple workloads can be involved.
+From Service Mesh perspective this concept is significant as telemetry and tracing signals are mainly grouped by "application" even if multiple workloads are involved.
 
-At this point of the tutorial, the *travels* application is quite simple, just a *travels-v1* workload exposed trhough a *travels* service.
+At this point of the tutorial, the *travels* application is quite simple, just a *travels-v1* workload exposed through the *travels* service.
 
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/04-03-travels-v1-workload.png" title="Travels-v1 Workload">
@@ -31,7 +31,7 @@ At this point of the tutorial, the *travels* application is quite simple, just a
 </a>
 ++++
 
-NOTE: *[2]* Examine *Outbound Metrics* of *travels-v1* workload
+NOTE: *Step 2:* Examine *Outbound Metrics* of *travels-v1* workload
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/04-03-travels-v1-metrics.png" title="Travels-v1 Metrics">
     <img src="/images/tutorial/04-03-travels-v1-metrics.png" style="display:block;margin: 0 auto;" />
@@ -41,15 +41,15 @@ NOTE: *[2]* Examine *Outbound Metrics* of *travels-v1* workload
 {nbsp} +
 The Metrics tab provides a powerful visualization of telemetry collected by the Istio proxy sidecar.
 
-The Metrics Settings provide out-of-the-box multiple predefined criteria, as well as possibility to correlate metrics and tracing spans in a single chart.
+Metrics Settings provides multiple predefined criteria out-of-the-box, as well as possibility to correlate metrics and tracing spans in a single chart.
 
-In the context of the Travels application, we can confirm that requests to the *hotels* service have a different volume compared with the rest of *travel-agency* services.
+We can see in the context of the Travels application, the *hotels* service request volume differs from that of the other *travel-agency* services.
 
-The Request Duration chart also shows that there is no suspicious delay, so probably this asymmetric volume is part of application business' logic.
+The Request Duration chart also shows that there is no suspicious delay, so probably this asymmetric volume is part of the application business' logic.
 
-NOTE: *[3]* Review *Logs* of *travels-v1* workload
+NOTE: *Step 3:* Review *Logs* of *travels-v1* workload
 
-The Logs tab allows to combine the application container log with the Istio sidecar proxy log.
+The Logs tab combines the application container log with the Istio sidecar proxy log.
 
 From the application container log we can spot that there are two main business methods: *GetDestinations* and *GetTravelQuote*.
 
@@ -62,7 +62,7 @@ In the Istio sidecar proxy log we see that *GetDestinations* invokes a `GET /hot
 ++++
 
 {nbsp} +
-But *GetTravelQuote* invokes multiple requests to the other services but using a specific city as parameter.
+However, *GetTravelQuote* invokes multiple requests to other services using a specific city as a parameter.
 
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/04-03-travels-v1-logs-gettravelquote.png" title="Travels-v1 Logs GetTravelQuote">
@@ -71,17 +71,17 @@ But *GetTravelQuote* invokes multiple requests to the other services but using a
 ++++
 
 {nbsp} +
-Then as discussed in the link:../#_travel_portal_and_travel_agency_flow[Travel Demo design] there is a first query that returns all available hotels before to let the user to choose one and get a specific quotation of other services for a destination.
+Then, as discussed in the link:../#_travel_portal_and_travel_agency_flow[Travel Demo design, window="_blank"], an initial query returns all available hotels before letting the user choose one and then get specific quotes for other destination services.
 
-That scenarios is shown in the increase of the *hotels* service utilization.
+That scenario is shown in the increase of the *hotels* service utilization.
 
-NOTE: *[4]* Review *Traces* of *workload-v1*
+NOTE: *Step 4:* Review *Traces* of *workload-v1*
 
 Now we have identified that the *hotels* service has more use than other *travel-agency* services.
 
-Next step is to get more context to answer if some particular service is acting slower than expected.
+The next step is to get more context to answer if some particular service is acting slower than expected.
 
-The Traces tab provides a view where traces can be compared with the metrics histogram and user can determine if a particular spike is expected in the context of average values.
+The Traces tab allows comparison between traces and metrics histograms, letting the user determine if a particular spike is expected in the context of average values.
 
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/04-03-travels-v1-tracing-details.png" title="Travels-v1 Traces">
@@ -90,7 +90,7 @@ The Traces tab provides a view where traces can be compared with the metrics his
 ++++
 
 {nbsp} +
-Individual *spans* can be compared in more detail in the same context identifying which step may have a problem in a broader scenario.
+In the same context, individual *spans* can be compared in more detail, helping to identify a problematic step in the broader scenario.
 
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/04-03-travels-v1-tracing-spans.png" title="Travels-v1 Spans">

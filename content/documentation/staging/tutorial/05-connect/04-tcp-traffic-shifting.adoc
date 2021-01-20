@@ -7,17 +7,17 @@ weight: 53
 
 The Travel Demo application has a database service used by several services deployed in the *travel-agency* namespace.
 
-At some point in the lifecycle of the application, the telemetry shows that the database service degrades and starts to increase the average response time.
+At some point in the lifecycle of the application the telemetry shows that the database service degrades and starts to increase the average response time.
 
-This is a common situation and in this case database specialist suggests that data are growing and the original indexes design needs to be updated.
+This is a common situation. In this case, a database specialist suggests an update of the original indexes due to the data growth.
 
 Our database specialist is suggesting two approaches and proposes to prepare two versions of the database service to test which may work better.
 
-This step will show how the "Traffic Shifting" strategy can be applied to TCP services to test which database new indexes strategy works better.
+This step will show how the "Traffic Shifting" strategy can be applied to TCP services to test which new database indexing strategy works better.
 
-NOTE: *[1]* Deploy *mysqldb-v2* and *mysqldb-v3* workloads
+NOTE: *Step 1:* Deploy *mysqldb-v2* and *mysqldb-v3* workloads
 
-To deploy the new versions of the *mysqldb* service follow the steps:
+To deploy the new versions of the *mysqldb* service execute the commands:
 
 [source,bash]
 ----
@@ -25,7 +25,7 @@ kubectl apply -f <(curl -L https://raw.githubusercontent.com/kiali/demos/master/
 kubectl apply -f <(curl -L https://raw.githubusercontent.com/kiali/demos/master/travels/mysql-v3.yaml) -n travel-agency
 ----
 
-NOTE: *[2]* Use the TCP Traffic Shifting Wizard on *mysqldb* service
+NOTE: *Step 2:* Use the TCP Traffic Shifting Wizard on *mysqldb* service
 
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/05-04-tcp-traffic-shifting-action.png" title="TCP Traffic Shifting Action">
@@ -34,7 +34,7 @@ NOTE: *[2]* Use the TCP Traffic Shifting Wizard on *mysqldb* service
 ++++
 
 {nbsp} +
-Create a scenario with 80% of the traffic distributed on *mysqldb-v1* workload and 10% of the traffic distributed on *mysqldb-v2* and *mysqldb-v3*.
+Create a scenario with 80% of the traffic distributed each on *mysqldb-v1* workload and 10% of the traffic distributed on *mysqldb-v2* and *mysqldb-v3*.
 
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/05-04-tcp-split-traffic.png" title="TCP Split Traffic">
@@ -42,7 +42,7 @@ Create a scenario with 80% of the traffic distributed on *mysqldb-v1* workload a
 </a>
 ++++
 
-NOTE: *[3]* Examine Traffic Shifting distribution from the *travels-agency* Graph
+NOTE: *Step 3:* Examine Traffic Shifting distribution from the *travels-agency* Graph
 
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/05-04-tcp-graph.png" title="MysqlDB Graph">
@@ -51,11 +51,11 @@ NOTE: *[3]* Examine Traffic Shifting distribution from the *travels-agency* Grap
 ++++
 
 {nbsp} +
-Note that TCP telemetry has different type of metrics, as "Request Distribution" is only available for HTTP/gRPC services, for this service we need to use "Request Rate" to study the distribution of data between *mysqldb* workloads.
+Note that TCP telemetry has different type of metrics, as "Request Distribution" is only available for HTTP/gRPC services, for this service we need to use "Request Rate" to evaluate the distribution of data between *mysqldb* workloads.
 
-NOTE: *[4]* Compare *mysqldb* workload and study new indexes proposed in *mysqldb-v2* and *mysqldb-v3*
+NOTE: *Step 4:* Compare *mysqldb* workload and study new indexes proposed in *mysqldb-v2* and *mysqldb-v3*
 
-TCP services have different telemetry, but it's still grouped by versions allowing to compare and study differences on the patterns of *mysqldb-v2* and *mysqldb-v3*.
+TCP services have different telemetry but it's still grouped by versions, allowing the user to compare and study pattern differences for *mysqldb-v2* and *mysqldb-v3*.
 
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/05-04-tcp-compare-versions.png" title="Compare MysqlDB Workloads">
@@ -64,11 +64,11 @@ TCP services have different telemetry, but it's still grouped by versions allowi
 ++++
 
 {nbsp} +
-The charts show some peaks in *mysqldb-v2* compared with *mysqldb-v3* but overall a similar behaviour, so probably could be safe to choose any of the both proposals to shift all traffic.
+The charts show more peaks in *mysqldb-v2* compared to *mysqldb-v3* but overall a similar behaviour, so it's probably safe to choose either strategy to shift all traffic.
 
-NOTE: *[4]* Update or delete Istio Configuration
+NOTE: *Step 5:* Update or delete Istio Configuration
 
-As part of this step you can update the TCP Traffic Shifting scenario to test different distribution, when finished you can delete the generated Istio config for the *mysqldb* service.
+As part of this step you can update the TCP Traffic Shifting scenario to test a different distribution. When finished, you can delete the generated Istio config for the *mysqldb* service.
 
 
 

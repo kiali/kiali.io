@@ -27,7 +27,7 @@ But we won't see any traffic in the graph page for any of these new namespaces:
 ++++
 
 {nbsp} +
-If we examine any of the Applications, Workloads or Services page it will confirm that there are missing sidecars:
+If we examine the Applications, Workloads or Services page, it will confirm that there are missing sidecars:
 
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/03-01-missing-sidecar.png" title="Missing Sidecar">

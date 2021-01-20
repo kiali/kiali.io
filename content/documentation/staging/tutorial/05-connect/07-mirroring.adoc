@@ -5,12 +5,12 @@ weight: 56
 :icons: font
 :sectlinks:
 
-This tutorial has shown several scenarios where Istio can route traffic to different versions within the context to compare versions and evaluate which one is working better.
+This tutorial has shown several scenarios where Istio can route traffic to different versions within the context to compare versions and evaluate which one works better.
 
-The link:../tutorial/#03-traffic-shifting[Traffic Shifting] step was focused on *travels* service adding a new *travels-v2* and *travels-v3* workloads
-and the link:../tutorial/#04-tcp-traffic-shifting[TCP Traffic Shifting] showed how this scenario can be used on TCP services like *mysqldb* service.
+The link:../tutorial/#03-traffic-shifting[Traffic Shifting, window="_blank"] step was focused on *travels* service adding a new *travels-v2* and *travels-v3* workloads
+and the link:../tutorial/#04-tcp-traffic-shifting[TCP Traffic Shifting, window="_blank"] showed how this scenario can be used on TCP services like *mysqldb* service.
 
-Mirroring (or shadowing) is a particular case of the Traffic Shifting scenario when the proxy sends a copy of live traffic to a mirrored service.
+Mirroring (or shadowing) is a particular case of the Traffic Shifting scenario where the proxy sends a copy of live traffic to a mirrored service.
 
 The mirrored traffic happens out of band of the request path for a primary service allowing to test new services in production environments with minimal risk.
 
@@ -18,7 +18,7 @@ Istio mirrored traffic is only supported for HTTP/gRPC protocols.
 
 This step will show how to apply mirrored traffic into the *travels* service.
 
-NOTE: *[1]* Use the Traffic Shifting Wizard on *travels* service
+NOTE: *Step 1:* Use the Traffic Shifting Wizard on *travels* service
 
 We will simulate the following:
 
@@ -33,7 +33,7 @@ it will be converted to a mirrored workload that will get a 50% of the original 
 </a>
 ++++
 
-NOTE: *[2]* Examine Traffic Shifting distribution from the *travels-agency* Graph
+NOTE: *Step 2:* Examine Traffic Shifting distribution from the *travels-agency* Graph
 
 Note that Istio doesn't report (or flag) mirrored traffic from source proxy.
 
@@ -57,7 +57,7 @@ The "Source" proxy, on this case, the proxies injected in the workloads of *trav
 ++++
 
 {nbsp} +
-But the "Destination" proxy, on this case, the proxy injected in the *travels-v3* workload, will collect the telemetry from the mirrored traffic.
+But the "Destination" proxy, in this case, the proxy injected in the *travels-v3* workload, will collect the telemetry from the mirrored traffic.
 
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/05-07-mirrored-destination-metrics.png" title="Mirrored Destination Metrics">
@@ -67,7 +67,7 @@ But the "Destination" proxy, on this case, the proxy injected in the *travels-v3
 
 {nbsp} +
 
-NOTE: *[4]* Update or delete Istio Configuration
+NOTE: *Step 3:* Update or delete Istio Configuration
 
 As part of this step you can update the Mirroring scenario to test different mirrored distribution, when finished you can delete the generated Istio config for the *travels* service.
 
