@@ -12,7 +12,7 @@ The Istio `istioctl` client has an easy method to expose and access Kiali:
 istioctl dashboard kiali
 ----
 
-There are other alternatives to expose Kiali or other Addons in Istio. Check link:https://istio.io/latest/docs/tasks/observability/gateways/[Remotely Accessing Telemetry Addons, window="_blank"] for more information.
+There are other alternatives to expose Kiali or other Addons in Istio. Check https://istio.io/latest/docs/tasks/observability/gateways/[Remotely Accessing Telemetry Addons, window="_blank"] for more information.
 
 After the *Prerequisites* you should be able to access Kiali. Verify its version by clicking the "?" icon and selecting "About":
 

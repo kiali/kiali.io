@@ -7,7 +7,7 @@ weight: 40
 
 An Istio sidecar proxy adds a workload into the mesh.
 
-Proxies connect with the control plane and provide link:https://istio.io/latest/docs/concepts/what-is-istio/#why-use-istio[Service Mesh functionality, window="_blank"].
+Proxies connect with the control plane and provide https://istio.io/latest/docs/concepts/what-is-istio/#why-use-istio[Service Mesh functionality, window="_blank"].
 
 Automatically providing metrics, logs and traces is a major feature of the sidecar.
 

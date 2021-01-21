@@ -9,7 +9,7 @@ Istio ships a specific Kiali version as an addon.
 
 In this tutorial we are going to update Kiali to the latest version released.
 
-Assuming you have installed the addons following the link:https://istio.io/latest/docs/setup/getting-started/[Istio Getting Started, window="_blank"] guide, you can uninstall Kiali with the command:
+Assuming you have installed the addons following the https://istio.io/latest/docs/setup/getting-started/[Istio Getting Started, window="_blank"] guide, you can uninstall Kiali with the command:
 
 [source,bash]
 ----

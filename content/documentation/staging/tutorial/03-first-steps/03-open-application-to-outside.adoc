@@ -11,7 +11,7 @@ In this step we are going to expose the *control* service using an Istio Ingress
 
 NOTE: *Step 1:* Create a DNS entry for the *control* service associated with the External IP of the Istio Ingress
 
-icon:bullhorn[size=1x]{nbsp} This step depends on the platform you have chosen, please review link:https://istio.io/latest/docs/setup/getting-started/#determining-the-ingress-ip-and-ports[Determining the Ingress IP and Ports, window="_blank"] for more details.
+icon:bullhorn[size=1x]{nbsp} This step depends on the platform you have chosen, please review https://istio.io/latest/docs/setup/getting-started/#determining-the-ingress-ip-and-ports[Determining the Ingress IP and Ports, window="_blank"] for more details.
 
 icon:bullhorn[size=1x]{nbsp} There are multiple ways to create a DNS entry depending of the platform, servers or services that you are using.
 
@@ -88,8 +88,8 @@ Understanding what happened:
 . Kiali Graph visualizes the traffic telemetry reported from the *control* sidecar proxy
 .. Only the *travel-control* namespace is part of the mesh
 
-link:https://istio.io/latest/docs/reference/config/networking/gateway/[(i) Istio Gateway, window="_blank"]
-link:https://istio.io/latest/docs/reference/config/networking/virtual-service/[(ii) Istio Virtual Service, window="_blank"]
+https://istio.io/latest/docs/reference/config/networking/gateway/[(i) Istio Gateway, window="_blank"]
+https://istio.io/latest/docs/reference/config/networking/virtual-service/[(ii) Istio Virtual Service, window="_blank"]
 
 
 

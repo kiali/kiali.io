@@ -40,7 +40,7 @@ As there is no specific routing defined, when there are multiple workloads for *
 
 NOTE: *Step 2:* Investigate the http headers used by the Travels Demo application
 
-The link:https://istio.io/latest/docs/concepts/traffic-management/#routing-rules[Traffic Management, window="_blank"] features of Istio allow you to define link:https://istio.io/latest/docs/concepts/traffic-management/#match-condition[Matching Conditions, window="_blank"] for dynamic request routing.
+The https://istio.io/latest/docs/concepts/traffic-management/#routing-rules[Traffic Management, window="_blank"] features of Istio allow you to define https://istio.io/latest/docs/concepts/traffic-management/#match-condition[Matching Conditions, window="_blank"] for dynamic request routing.
 
 In our scenario we would like to perform the following routing logic:
 
@@ -52,7 +52,7 @@ Portal workloads use HTTP/1.1 protocols to call the *travels* service, so one st
 
 But, where to find the HTTP headers ? That information typically belongs to the application domain and we should examine the code, documentation or dynamically trace a request to understand which headers are being used in this context.
 
-There are multiple possibilities. The Travel Demo application uses an link:https://istio.io/latest/docs/reference/config/annotations/[Istio Annotation, window="_blank"] feature to add an annotation into the Deployment descriptor, which adds additional Istio configuration into the proxy.
+There are multiple possibilities. The Travel Demo application uses an https://istio.io/latest/docs/reference/config/annotations/[Istio Annotation, window="_blank"] feature to add an annotation into the Deployment descriptor, which adds additional Istio configuration into the proxy.
 
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/05-01-deployment-istio-config.png" title="Istio Config annotations">
@@ -61,7 +61,7 @@ There are multiple possibilities. The Travel Demo application uses an link:https
 ++++
 
 {nbsp} +
-In our example the link:https://github.com/kiali/demos/blob/master/travels/travels-v2.yaml#L15[HTTP Headers, window="_blank"] are added as part of the trace context.
+In our example the https://github.com/kiali/demos/blob/master/travels/travels-v2.yaml#L15[HTTP Headers, window="_blank"] are added as part of the trace context.
 
 Then tracing will populate custom tags with the *portal*, *device*, *user* and *travel* used.
 

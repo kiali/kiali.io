@@ -5,7 +5,7 @@ weight: 56
 :icons: font
 :sectlinks:
 
-link:https://istio.io/latest/docs/concepts/security/[Security, window="_blank"] is one of the main pillar of Istio features.
+https://istio.io/latest/docs/concepts/security/[Security, window="_blank"] is one of the main pillar of Istio features.
 
 The Istio https://istio.io/latest/docs/concepts/security/#high-level-architecture[Security High Level Architecture] provides a comprehensive solution to design and implement multiple security scenarios.
 
@@ -38,7 +38,7 @@ We should validate that telemetry has updated the *travel-portal* namespace and 
 
 NOTE: *Step 2:* Create Authorization Policies for current traffic for *travel-agency* namespace
 
-Every workload in the cluster uses a link:https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/[Service Account, window="_blank"].
+Every workload in the cluster uses a https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/[Service Account, window="_blank"].
 
 *travels.uk*, *viaggi.it* and *voyages.fr* workloads use the default *cluster.local/ns/travel-portal/sa/default" ServiceAccount defined automatically per namespace.
 

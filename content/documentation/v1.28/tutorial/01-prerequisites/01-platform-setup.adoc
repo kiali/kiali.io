@@ -7,7 +7,7 @@ weight: 11
 
 This tutorial assumes you will have access to a Kubernetes cluster with Istio installed.
 
-This tutorial has been tested using a link:https://istio.io/latest/docs/setup/platform-setup/minikube/[Minikube, window="_blank"] installation.
+This tutorial has been tested using a https://istio.io/latest/docs/setup/platform-setup/minikube/[Minikube, window="_blank"] installation.
 
 icon:bullhorn[size=1x]{nbsp} Platform dependent tasks will be indicated with a special note like this.
 

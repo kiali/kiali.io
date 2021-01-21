@@ -28,6 +28,6 @@ NOTE: *Step 2:* Enable Auto Injection for *control* workload
 {nbsp} +
 Understanding what happened:
 
-link:https://istio.io/latest/docs/setup/additional-setup/sidecar-injection/[(i) Sidecar Injection, window="_blank"]
+https://istio.io/latest/docs/setup/additional-setup/sidecar-injection/[(i) Sidecar Injection, window="_blank"]
 
-link:https://istio.io/latest/docs/ops/configuration/mesh/injection-concepts/[(ii) Injection Concepts, window="_blank"]
+https://istio.io/latest/docs/ops/configuration/mesh/injection-concepts/[(ii) Injection Concepts, window="_blank"]
