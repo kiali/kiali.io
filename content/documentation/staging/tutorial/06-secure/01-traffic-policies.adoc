@@ -5,19 +5,19 @@ weight: 56
 :icons: font
 :sectlinks:
 
-https://istio.io/latest/docs/concepts/security/[Security, window="_blank"] is one of the main pillar of Istio features.
+https://istio.io/latest/docs/concepts/security/[Security, window="_blank"] is one of the main pillars of Istio features.
 
 The Istio https://istio.io/latest/docs/concepts/security/#high-level-architecture[Security High Level Architecture] provides a comprehensive solution to design and implement multiple security scenarios.
 
-In the context of this tutorial we are going to show how Kiali can combine telemetry information to create security policies for the workloads deployed on a given namespace.
+In this tutorial we will show how Kiali can use telemetry information to create security policies for the workloads deployed in a given namespace.
 
-Istio aggregates in the telemetry the ServiceAccount information used by the workloads in the communication, and this information can be used to define authorization policies with deny and allow actions for a particular live traffic communication status.
+Istio telemetry aggregates the ServiceAccount information used in the workloads communication. This information can be used to define authorization policies that deny and allow actions on future live traffic communication status.
 
-This step will show how we can define authorization policies for the *travel-agency* namespace in the Travel Demo application for all existing traffic in a given time.
+This step will show how we can define authorization policies for the *travel-agency* namespace in the Travel Demo application, for all existing traffic in a given time period.
 
 Once authorization policies are defined, a new workload will be rejected if it doesn't match the security rules defined.
 
-NOTE: *Step 1:* Undeploy the *loadbtester* workload from *travel-portal* namespace
+NOTE: *Step 1:* Undeploy the *loadtester* workload from *travel-portal* namespace
 
 In this example we will use the *loadtester* workload as the "intruder" in our security rules.
 
@@ -51,7 +51,7 @@ This information is propagated into the Istio Telemetry and Kiali can use it to 
 ++++
 
 {nbsp} +
-This will generate a main DENY ALL rule to protect the whole namespace, and individual ALLOW rule per workload identified in the telemetry.
+This will generate a main DENY ALL rule to protect the whole namespace, and an individual ALLOW rule per workload identified in the telemetry.
 
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/06-01-travel-agency-authorization-policies.png" title="Travel Agency Authorization Policies">
@@ -61,7 +61,7 @@ This will generate a main DENY ALL rule to protect the whole namespace, and indi
 
 NOTE: *Step 3:* Deploy the *loadtester* portal in the *travel-portal* namespace
 
-The *loadtester* workload uses a different ServiceAccount then when it's deployed it won't comply the AuthorizationPolicy rules defined in the previous step.
+If the *loadtester* workload uses a different ServiceAccount then, when it's deployed, it won't comply with the AuthorizationPolicy rules defined in the previous step.
 
 [source,bash]
 ----
@@ -77,7 +77,7 @@ Now, *travels* workload will reject requests made by *loadtester* workload and t
 ++++
 
 {nbsp} +
-This can be also verified in the details page using the Outbound Metrics tab grouped by response code.
+This can also be verified in the details page using the Outbound Metrics tab grouped by response code.
 
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/06-01-loadtester-denied-metrics.png" title="Loadtester Denied Metrics">
@@ -86,7 +86,7 @@ This can be also verified in the details page using the Outbound Metrics tab gro
 ++++
 
 {nbsp} +
-Inspecting the Logs tab confirms that *loadtester* workload is getting a HTTP 403 Forbidden response from *travels* workloads as expected.
+Inspecting the Logs tab confirms that *loadtester* workload is getting a HTTP 403 Forbidden response from *travels* workloads, as expected.
 
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/06-01-loadtester-logs.png" title="Loadtester Logs">
@@ -107,7 +107,7 @@ As part of the example, we can show how a ServiceAccount can be added into an ex
 ++++
 
 {nbsp} +
-As expected, now we can see that *travels-v1* workload accepts request from all *travel-portal* namespace workloads but *travels-v2* and *travels-v3* continue rejecting requests from *loadtester* source.
+As expected, now we can see that *travels-v1* workload accepts requests from all *travel-portal* namespace workloads, but *travels-v2* and *travels-v3* continue rejecting requests from *loadtester* source.
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/06-01-travels-v1-authorizationpolicy.png" title="Travels v1 AuthorizationPolicy">
     <img src="/images/tutorial/06-01-travels-v1-authorizationpolicy.png" style="display:block;margin: 0 auto;" />
@@ -115,7 +115,7 @@ As expected, now we can see that *travels-v1* workload accepts request from all 
 ++++
 
 {nbsp} +
-Using "Outbound Metrics" tab from the *loadtester* workload we can group per "Remove version" and "Response code" to get a detailed view of this AuthorizationPolicy change.
+Using "Outbound Metrics" tab from the *loadtester* workload we can group per "Remote version" and "Response code" to get a detailed view of this AuthorizationPolicy change.
 
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/06-01-loadtester-authorized-metrics.png" title="Travels v1 AuthorizationPolicy">
@@ -125,4 +125,4 @@ Using "Outbound Metrics" tab from the *loadtester* workload we can group per "Re
 
 NOTE: *Step 5:* Update or delete Istio Configuration
 
-As part of this step you can update the AuthorizationPolicies generated for the *travel-agency* namespace and experiment with more security rules, or you can delete the generated Istio config for the namespace.
+As part of this step you can update the AuthorizationPolicies generated for the *travel-agency* namespace, and experiment with more security rules, or you can delete the generated Istio config for the namespace.

@@ -5,11 +5,11 @@ weight: 55
 :icons: font
 :sectlinks:
 
-Distributed systems will benefit from fail quickly and apply back pressure rather than propagate delays an errors through the system.
+Distributed systems will benefit from failing quickly and applying back pressure, as opposed to propagating delays and errors through the system.
 
-Circuit breaking is an important technique used to limit the impact of failures, latency spikes or other type of network problem.
+Circuit breaking is an important technique used to limit the impact of failures, latency spikes, and other types of network problems.
 
-This step will show how to apply a Circuit Breaker into the *travels* service to limit the number of concurrent requests and connections.
+This step will show how to apply a Circuit Breaker into the *travels* service in order to limit the number of concurrent requests and connections.
 
 NOTE: *Step 1:* Deploy a new *loadtester* portal in the *travel-portal* namespace
 
@@ -20,7 +20,7 @@ In this example we are going to deploy a new workload that will simulate an impo
 kubectl apply -f <(curl -L https://raw.githubusercontent.com/kiali/demos/master/travels/travel_loadtester.yaml) -n travel-portal
 ----
 
-The *loadtester* workload will try to create 50 concurrent connections to the *travels* service adding a considerable pressure to the *travels-agency* namespace.
+The *loadtester* workload will try to create 50 concurrent connections to the *travels* service, adding considerable pressure to the *travels-agency* namespace.
 
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/05-06-loadtester-graph.png" title="Loadtester Graph">
@@ -29,7 +29,7 @@ The *loadtester* workload will try to create 50 concurrent connections to the *t
 ++++
 
 {nbsp} +
-The Travels Demo application is capable to handle this load and in a first look it doesn't show unhealthy status.
+The Travels Demo application is capable of handling this load and in a first look it doesn't show unhealthy status.
 
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/05-06-loadtester-details.png" title="Loadtester Details">
@@ -51,18 +51,18 @@ Use the "Traffic Shifting" Wizard to distribute traffic to the *travels* workloa
 ++++
 
 {nbsp} +
-The "Connection Pool" settings will indicate that the proxy sidecar will rejects requests when the number of concurrent connections and requests exceeds more than one.
+The "Connection Pool" settings will indicate that the proxy sidecar will reject requests when the number of concurrent connections and requests exceeds more than one.
 
 {nbsp} +
-The "Outlier Detection" will eject a host from the connection pool when there are more than one consecutive error.
+The "Outlier Detection" will eject a host from the connection pool if there is more than one consecutive error.
 
-NOTE: *Step 3:* Study the behaviour of the Circuit Breaker in the *travels* service
+NOTE: *Step 3:* Study the behavior of the Circuit Breaker in the *travels* service
 
-In the *loadbalancer* workload Graph we can see how the Circuit breaker defined on *travels* service allows some connections but it fails on most of them.
+In the *loadbalancer* workload Graph we can see that the *travels* service's Circuit Breaker accepts some, but fails most, connections.
 
-Remember, that these connections are stopped by the proxy at *loadbalancer* side, so those calls don't overload the network implementing a "fail sooner" pattern.
+Remember, that these connections are stopped by the proxy on the *loadbalancer* side. That "fail sooner" pattern prevents overloading the network.
 
-Using the Graph we can select the failed edge, check the Flags tab and see that those requests are closed by the Circuit breaker.
+Using the Graph we can select the failed edge, check the Flags tab, and see that those requests are closed by the Circuit breaker.
 
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/05-06-loadtester-graph.png" title="Loadtester Graph">
@@ -71,7 +71,7 @@ Using the Graph we can select the failed edge, check the Flags tab and see that 
 ++++
 
 {nbsp} +
-If we examine the "Request volume" metric from the "Outbound Metrics" tab we can see the evolution of the requests, and how the introduction of the Circuit Breaker made the proxy reduce the requests volume.
+If we examine the "Request volume" metric from the "Outbound Metrics" tab we can see the evolution of the requests, and how the introduction of the Circuit Breaker made the proxy reduce the request volume.
 
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/05-06-loadtester-details.png" title="Loadtester Outbound Metrics">

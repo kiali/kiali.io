@@ -64,7 +64,7 @@ TCP services have different telemetry but it's still grouped by versions, allowi
 ++++
 
 {nbsp} +
-The charts show more peaks in *mysqldb-v2* compared to *mysqldb-v3* but overall a similar behaviour, so it's probably safe to choose either strategy to shift all traffic.
+The charts show more peaks in *mysqldb-v2* compared to *mysqldb-v3* but overall a similar behavior, so it's probably safe to choose either strategy to shift all traffic.
 
 NOTE: *Step 5:* Update or delete Istio Configuration
 

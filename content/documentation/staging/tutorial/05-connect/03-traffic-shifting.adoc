@@ -7,13 +7,13 @@ weight: 52
 
 In the previous link:../tutorial/#01-request-routing[Request Routing, window="_blank"] step we have deployed two new versions of the *travels* service using the *travels-v2* and *travels-v3* workloads.
 
-That scenario showed how Istio can route specific requests to specific workloads. In that case, each portal deployed on *travel-portal* namespace (*travels.uk*, *viaggi.it* and *voyages.fr*) were route to a specific *travels* workload (*travels-v1*, *travels-v2* and *travels-v3*).
+That scenario showed how Istio can route specific requests to specific workloads. It was configured such each portal deployed in the *travel-portal* namespace (*travels.uk*, *viaggi.it* and *voyages.fr*) were route to a specific *travels* workload (*travels-v1*, *travels-v2* and *travels-v3*).
 
 This Traffic Shifting step will simulate a new scenario: the new *travels-v2* and *travels-v3* workloads will represent new improvements for the *travels* service that will be used by all requests.
 
 These new improvements implemented in *travels-v2* and *travels-v3* represent two alternative ways to address a specific problem. Our goal is to test them before deciding which one to use as a next version.
 
-At the beginning we will send 80% of the traffic into the original *travels-v1* workload, and will split 10% of the traffic on *travels-v2* and *travels-v3*.
+At the beginning we will send 80% of the traffic into the original *travels-v1* workload, and will split 10% of the traffic each on *travels-v2* and *travels-v3*.
 
 NOTE: *Step 1:* Use the Traffic Shifting Wizard on *travels* service
 
@@ -24,7 +24,7 @@ NOTE: *Step 1:* Use the Traffic Shifting Wizard on *travels* service
 ++++
 
 {nbsp} +
-Create a scenario with 80% of the traffic distributed each on *travels-v1* workload and 10% of the traffic distributed on *travels-v2* and *travels-v3*.
+Create a scenario with 80% of the traffic distributed each on *travels-v1* workload and 10% of the traffic distributed each on *travels-v2* and *travels-v3*.
 
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/05-03-split-traffic.png" title="Split Traffic">
