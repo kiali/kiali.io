@@ -5,9 +5,9 @@ weight: 22
 :icons: font
 :sectlinks:
 
-The Travels Demo application simulates two business domains organized in different namespaces:
-
 ===== Travel Portal namespace
+
+The Travels Demo application simulates two business domains organized in different namespaces.
 
 In a first namespace called *travel-portal* there will be deployed several travel shops, where users can search for and book flights, hotels, cars or insurance.
 
