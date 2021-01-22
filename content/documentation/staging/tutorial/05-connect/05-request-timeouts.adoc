@@ -4,6 +4,7 @@ weight: 54
 ---
 :icons: font
 :sectlinks:
+:linkattrs:
 
 In the link:../tutorial/#02-fault-injection[Fault Injection, window="_blank"] step we showed how we could introduce a delay in the critical *hotels* service and test the resilience of the application.
 

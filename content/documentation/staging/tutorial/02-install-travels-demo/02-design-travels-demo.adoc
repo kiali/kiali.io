@@ -4,6 +4,7 @@ weight: 22
 ---
 :icons: font
 :sectlinks:
+:linkattrs:
 
 ===== Travel Portal namespace
 

@@ -4,6 +4,7 @@ weight: 14
 ---
 :icons: font
 :sectlinks:
+:linkattrs:
 
 The Istio `istioctl` client has an easy method to expose and access Kiali:
 

@@ -4,6 +4,7 @@ weight: 51
 ---
 :icons: font
 :sectlinks:
+:linkattrs:
 
 The link:../tutorial/#02-graph[Observe, window="_blank"] step has spotted that the *hotels* service has additional traffic compared with other services deployed in the *travel-agency* namespace.
 

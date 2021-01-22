@@ -4,6 +4,7 @@ weight: 13
 ---
 :icons: font
 :sectlinks:
+:linkattrs:
 
 Istio ships a specific Kiali version as an addon.
 

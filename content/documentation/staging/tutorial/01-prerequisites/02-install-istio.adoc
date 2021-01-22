@@ -4,6 +4,7 @@ weight: 12
 ---
 :icons: font
 :sectlinks:
+:linkattrs:
 
 Once you have your Kubernetes cluster ready, follow the https://istio.io/latest/docs/setup/getting-started/[Istio Getting Started, window="_blank"] to install and setup a demo profile that will be used in this tutorial.
 

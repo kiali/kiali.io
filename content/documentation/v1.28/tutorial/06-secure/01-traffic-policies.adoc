@@ -4,6 +4,7 @@ weight: 56
 ---
 :icons: font
 :sectlinks:
+:linkattrs:
 
 https://istio.io/latest/docs/concepts/security/[Security, window="_blank"] is one of the main pillars of Istio features.
 

@@ -4,6 +4,7 @@ weight: 21
 ---
 :icons: font
 :sectlinks:
+:linkattrs:
 
 This demo application will deploy several services grouped into three namespaces.
 

@@ -4,6 +4,7 @@ weight: 42
 ---
 :icons: font
 :sectlinks:
+:linkattrs:
 
 Kiali provides link:../features/#_detail_views[Detail Views, window="_blank"] to navigate into applications, workloads and services.
 

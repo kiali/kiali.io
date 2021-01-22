@@ -4,6 +4,7 @@ weight: 11
 ---
 :icons: font
 :sectlinks:
+:linkattrs:
 
 This tutorial assumes you will have access to a Kubernetes cluster with Istio installed.
 

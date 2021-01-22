@@ -4,6 +4,7 @@ weight: 56
 ---
 :icons: font
 :sectlinks:
+:linkattrs:
 
 This tutorial has shown several scenarios where Istio can route traffic to different versions in order to compare versions and evaluate which one works best.
 

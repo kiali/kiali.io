@@ -4,6 +4,7 @@ weight: 55
 ---
 :icons: font
 :sectlinks:
+:linkattrs:
 
 Distributed systems will benefit from failing quickly and applying back pressure, as opposed to propagating delays and errors through the system.
 

@@ -4,6 +4,7 @@ weight: 31
 ---
 :icons: font
 :sectlinks:
+:linkattrs:
 
 The Travels Demo has been deployed in the previous step but without installing any Istio sidecar proxy.
 

@@ -4,6 +4,7 @@ weight: 33
 ---
 :icons: font
 :sectlinks:
+:linkattrs:
 
 The *control* workload now has an Istio sidecar proxy injected but this application is not accessible from the outside.
 
@@ -91,6 +92,7 @@ Understanding what happened:
 .. Only the *travel-control* namespace is part of the mesh
 
 https://istio.io/latest/docs/reference/config/networking/gateway/[(i) Istio Gateway, window="_blank"]
+
 https://istio.io/latest/docs/reference/config/networking/virtual-service/[(ii) Istio Virtual Service, window="_blank"]
 
 

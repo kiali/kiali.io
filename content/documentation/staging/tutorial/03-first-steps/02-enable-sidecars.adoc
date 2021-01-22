@@ -4,6 +4,7 @@ weight: 32
 ---
 :icons: font
 :sectlinks:
+:linkattrs:
 
 In this tutorial, we will add namespaces and workloads into the ServiceMesh individually step by step.
 

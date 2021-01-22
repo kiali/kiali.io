@@ -4,6 +4,7 @@ weight: 52
 ---
 :icons: font
 :sectlinks:
+:linkattrs:
 
 In the previous link:../tutorial/#01-request-routing[Request Routing, window="_blank"] step we have deployed two new versions of the *travels* service using the *travels-v2* and *travels-v3* workloads.
 

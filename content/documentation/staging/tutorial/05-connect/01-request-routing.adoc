@@ -4,6 +4,7 @@ weight: 50
 ---
 :icons: font
 :sectlinks:
+:linkattrs:
 
 The Travel Demo application has several portals deployed on the *travel-portal* namespace consuming the *travels* service deployed on the *travel-agency* namespace.
 

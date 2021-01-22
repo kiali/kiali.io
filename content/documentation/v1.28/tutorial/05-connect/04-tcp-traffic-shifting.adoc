@@ -4,6 +4,7 @@ weight: 53
 ---
 :icons: font
 :sectlinks:
+:linkattrs:
 
 The Travel Demo application has a database service used by several services deployed in the *travel-agency* namespace.
 

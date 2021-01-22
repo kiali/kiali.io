@@ -4,6 +4,7 @@ weight: 40
 ---
 :icons: font
 :sectlinks:
+:linkattrs:
 
 An Istio sidecar proxy adds a workload into the mesh.
 

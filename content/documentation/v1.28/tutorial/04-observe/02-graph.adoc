@@ -4,6 +4,7 @@ weight: 41
 ---
 :icons: font
 :sectlinks:
+:linkattrs:
 
 The graph provides a powerful set of link:../features/#_graph[Graph Features, window="_blank"] to visualize the topology of the service mesh.
 
