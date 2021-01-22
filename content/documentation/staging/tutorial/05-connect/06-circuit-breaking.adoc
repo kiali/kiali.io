@@ -65,8 +65,8 @@ Remember, that these connections are stopped by the proxy on the *loadbalancer* 
 Using the Graph we can select the failed edge, check the Flags tab, and see that those requests are closed by the Circuit breaker.
 
 ++++
-<a class="image-popup-fit-height" href="/images/tutorial/05-06-loadtester-graph.png" title="Loadtester Graph">
-    <img src="/images/tutorial/05-06-loadtester-graph.png" style="display:block;margin: 0 auto;" />
+<a class="image-popup-fit-height" href="/images/tutorial/05-06-loadtester-flags-graph.png" title="Loadtester Flags Graph">
+    <img src="/images/tutorial/05-06-loadtester-flags-graph.png" style="display:block;margin: 0 auto;" />
 </a>
 ++++
 
@@ -74,8 +74,8 @@ Using the Graph we can select the failed edge, check the Flags tab, and see that
 If we examine the "Request volume" metric from the "Outbound Metrics" tab we can see the evolution of the requests, and how the introduction of the Circuit Breaker made the proxy reduce the request volume.
 
 ++++
-<a class="image-popup-fit-height" href="/images/tutorial/05-06-loadtester-details.png" title="Loadtester Outbound Metrics">
-    <img src="/images/tutorial/05-06-loadtester-details.png" style="display:block;margin: 0 auto;" />
+<a class="image-popup-fit-height" href="/images/tutorial/05-06-loadtester-flags-details.png" title="Loadtester Outbound Metrics">
+    <img src="/images/tutorial/05-06-loadtester-flags-details.png" style="display:block;margin: 0 auto;" />
 </a>
 ++++
 

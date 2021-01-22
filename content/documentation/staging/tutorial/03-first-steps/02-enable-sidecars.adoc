@@ -7,7 +7,7 @@ weight: 32
 
 In this tutorial, we will add namespaces and workloads into the ServiceMesh individually step by step.
 
-This will help you to understand to how Istio sidecar proxies work and how applications can use Istio's features.
+This will help you to understand how Istio sidecar proxies work and how applications can use Istio's features.
 
 We are going to start with the *control* workload deployed into the *travel-control* namespace:
 

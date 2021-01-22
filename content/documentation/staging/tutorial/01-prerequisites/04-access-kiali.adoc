@@ -9,7 +9,7 @@ The Istio `istioctl` client has an easy method to expose and access Kiali:
 
 [source,bash]
 ----
-istioctl dashboard kiali
+${ISTIO_HOME}/bin/istioctl dashboard kiali
 ----
 
 There are other alternatives to expose Kiali or other Addons in Istio. Check https://istio.io/latest/docs/tasks/observability/gateways/[Remotely Accessing Telemetry Addons, window="_blank"] for more information.

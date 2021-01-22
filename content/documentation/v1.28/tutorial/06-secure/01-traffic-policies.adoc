@@ -40,7 +40,7 @@ NOTE: *Step 2:* Create Authorization Policies for current traffic for *travel-ag
 
 Every workload in the cluster uses a https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/[Service Account, window="_blank"].
 
-*travels.uk*, *viaggi.it* and *voyages.fr* workloads use the default *cluster.local/ns/travel-portal/sa/default" ServiceAccount defined automatically per namespace.
+*travels.uk*, *viaggi.it* and *voyages.fr* workloads use the default *cluster.local/ns/travel-portal/sa/default* ServiceAccount defined automatically per namespace.
 
 This information is propagated into the Istio Telemetry and Kiali can use it to define a set of AuthorizationPolicy rules using the "Create Traffic Policies" action located in the Overview page.
 

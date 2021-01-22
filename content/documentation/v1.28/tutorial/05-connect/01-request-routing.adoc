@@ -98,7 +98,7 @@ Use the "Add Rule" to create the first rule.
 {nbsp} +
 Add similar rules to route traffic from *viaggi.it* to *travels-v2* workload and from *voyages.fr* to *travels-v3* workload.
 
-When the three rules are defined you can use "Create" button to generate all Istio configuration needed for this scenario.
+When the three rules are defined you can use "Create" button to generate all Istio configurations needed for this scenario.
 
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/05-01-rules-defined.png" title="Rules Defined">
@@ -141,7 +141,7 @@ Using a large interval we can see how the workload initially received traffic fr
 
 NOTE: *Step 5:* Update or delete Istio Configuration
 
-Kiali Wizards allow you to define a high level Service Mesh scenarios and will generate the Istio Configuration needed for its implementation (VirtualServices, DestinationRules, Gateways and PeerRequests).
+Kiali Wizards allow you to define high level Service Mesh scenarios and will generate the Istio Configuration needed for its implementation (VirtualServices, DestinationRules, Gateways and PeerRequests).
 
 These scenarios can be updated or deleted from the "Actions" menu of a given service. The relevant Istio configuration will be modified or removed, as needed.
 

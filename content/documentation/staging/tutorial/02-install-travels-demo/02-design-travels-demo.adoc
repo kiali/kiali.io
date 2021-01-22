@@ -13,7 +13,7 @@ In a first namespace called *travel-portal* there will be deployed several trave
 
 The shop applications can behave differently based on request characteristics like channel (web or mobile) or user (new or existing).
 
-These workloads may generate different type of traffic to imitate different real scenarios.
+These workloads may generate different types of traffic to imitate different real scenarios.
 
 All the portals consume a service called _travels_ deployed in the *travel-agency* namespace.
 
@@ -40,7 +40,7 @@ Service relations between namespaces can be described in the following diagram:
 A typical flow consists of the following steps:
 
 . A portal queries the _travels_ service for available destinations.
-. Travels service queries the available hotels and returns to the portal shop.
+. _Travels_ service queries the available hotels and returns to the portal shop.
 . A user selects a destination and a type of travel, which may include a _flight_ and/or a _car_, _hotel_ and _insurance_.
 . _Cars_, _Hotels_ and _Flights_ may have available discounts depending on user type.
 

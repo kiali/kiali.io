@@ -34,7 +34,7 @@ NOTE: *Step 2:* Use the TCP Traffic Shifting Wizard on *mysqldb* service
 ++++
 
 {nbsp} +
-Create a scenario with 80% of the traffic distributed each on *mysqldb-v1* workload and 10% of the traffic distributed on *mysqldb-v2* and *mysqldb-v3*.
+Create a scenario with 80% of the traffic distributed to *mysqldb-v1* workload and 10% of the traffic distributed each to *mysqldb-v2* and *mysqldb-v3*.
 
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/05-04-tcp-split-traffic.png" title="TCP Split Traffic">
@@ -51,7 +51,7 @@ NOTE: *Step 3:* Examine Traffic Shifting distribution from the *travels-agency* 
 ++++
 
 {nbsp} +
-Note that TCP telemetry has different type of metrics, as "Request Distribution" is only available for HTTP/gRPC services, for this service we need to use "Request Rate" to evaluate the distribution of data between *mysqldb* workloads.
+Note that TCP telemetry has different types of metrics, as "Request Distribution" is only available for HTTP/gRPC services, for this service we need to use "Request Rate" to evaluate the distribution of data between *mysqldb* workloads.
 
 NOTE: *Step 4:* Compare *mysqldb* workload and study new indexes proposed in *mysqldb-v2* and *mysqldb-v3*
 

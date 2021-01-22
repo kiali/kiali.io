@@ -5,7 +5,7 @@ weight: 42
 :icons: font
 :sectlinks:
 
-Kiali provides link:../features/#_detail_views[Detail Views, window="_blank"] to navigate into application, workload and services.
+Kiali provides link:../features/#_detail_views[Detail Views, window="_blank"] to navigate into applications, workloads and services.
 
 These views provide information about the structure, health, metrics, logs, traces and Istio configuration for any application component.
 

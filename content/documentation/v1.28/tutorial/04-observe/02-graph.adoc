@@ -21,7 +21,7 @@ NOTE: *Step 1:* Select all *travel-* namespaces in the graph and enable *Request
 {nbsp} +
 Review the status of the mesh, everything seems healthy, but also note that *hotels* service has more load compared to other services inlcuded in the *travel-agency* namespace.
 
-NOTE: *Step 2:* Select the *hotels* service and correlate with traces
+NOTE: *Step 2:* Select the *hotels* service, use the graph side-panel to select a trace from the Traces tab
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/04-02-hotels-normal-trace.png" title="Hotels Normal Trace">
     <img src="/images/tutorial/04-02-hotels-normal-trace.png" style="display:block;margin: 0 auto;" />
@@ -45,5 +45,5 @@ NOTE: *Step 3:* Select the main *travels* application and double-click to zoom i
 ++++
 
 {nbsp} +
-the graph can focus on an element to study a particular context in detail. +
-Note that contextual menu is available on right click button to easily shortcut the navigation to other sections.
+The graph can focus on an element to study a particular context in detail. +
+Note that a contextual menu is available using the right click button to easily shortcut the navigation to other sections.

@@ -24,6 +24,8 @@ NAME                   TYPE           CLUSTER-IP     EXTERNAL-IP    PORT(S)     
 istio-ingressgateway   LoadBalancer   10.101.6.144   10.101.6.144   15021:30757/TCP,80:32647/TCP,443:30900/TCP,31400:30427/TCP,15443:31072/TCP   19h
 ----
 
+icon:bullhorn[size=1x]{nbsp} Note that EXTERNAL-IP for LoadBalancer are provided in minikube using the minikube tunnel tool. As commented, this depends on the platform you are using, review your Istio configuration in order to validate the external IP and ports used for Ingress.
+
 And we will add a simple entry to the `/etc/hosts` of the tutorial machine with the desired DNS entry:
 
 [source,bash]
@@ -66,7 +68,7 @@ Verify the Istio configuration generated.
 </a>
 ++++
 
-NOTE: *Step 3:* Test the *control* service
+NOTE: *Step 3:* Test the *control* service by pointing your browser to http://control.travel-control.istio-cluster.org
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/03-03-test-gateway.png" title="Test Gateway">
     <img src="/images/tutorial/03-03-test-gateway.png" style="display:block;margin: 0 auto;" />
