@@ -1,0 +1,18 @@
+---
+title: Why don't I see response times on my service graph?
+weight: 90
+---
+:icons: font
+
+Users can select _Response Time_ to label their edges with 95th percentile response times.  The response
+time indicates the amount of time it took for the destination workload to handle the request.  In the
+Kiali graph the edges leading to service nodes represent the request itself, in other words, the routing.
+Kiali can show the request rate for a service but response time is not applicable to be shown on the
+incoming edge. Only edges to app, workload, or service entry nodes show response time because only those
+nodes represent the actual work done to handle the request.  This is why a Service graph will typically
+not show any response time information, even when the _Response Time_ option is selected.
+
+Because Service graphs can show Service Entry nodes the _Response Time_ option is still a valid choice.
+Edges to Service Entry nodes represent externally handled requests, which do report the response time for
+the external handling.
+
