@@ -13,15 +13,10 @@ relativeURLs = true
 
 [menu]
   [[menu.main]]
-      identifier = "main_features"
-      name = "Features"
-      url = "/documentation/latest/features"
-      weight = 1
-  [[menu.main]]
       identifier = "main_news"
       name = "News"
       url = "/news"
-      weight = 2
+      weight = 1
       [[menu.main]]
           identifier = "news_security"
           name = "Security Bulletins"
@@ -38,17 +33,27 @@ relativeURLs = true
       identifier = "main_quickstart"
       name = "Quick Start"
       url = "/documentation/latest/quick-start"
+      weight = 2
+  [[menu.main]]
+      identifier = "main_features"
+      name = "Features"
+      url = "/documentation/latest/features"
       weight = 3
+  [[menu.main]]
+      identifier = "tutorial"
+      name = "Tutorial"
+      url = "/documentation/latest/tutorial"
+      weight = 4
   [[menu.main]]
       identifier = "main_contribute"
       name = "Contribute"
       url = "/contribute"
-      weight = 4
+      weight = 5
   [[menu.main]]
       identifier = "main_doc"
       name = "Documentation"
       url = "/documentation"
-      weight = 5
+      weight = 6
       [[menu.main]]
           identifier = "doc_features"
           name = "Features"
@@ -149,4 +154,4 @@ relativeURLs = true
       identifier = "main_faq"
       name = "FAQ"
       url = "/documentation/latest/faq"
-      weight = 6
+      weight = 7
