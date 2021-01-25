@@ -16,6 +16,8 @@ icon:bullhorn[size=1x]{nbsp} This step depends on the platform you have chosen, 
 
 icon:bullhorn[size=1x]{nbsp} There are multiple ways to create a DNS entry depending of the platform, servers or services that you are using.
 
+icon:bullhorn[size=1x]{nbsp} Kubernetes Service EXTERNAL-IP for "LoadBalancer" TYPE is provided in minikube plaform using the https://minikube.sigs.k8s.io/docs/handbook/accessing/#using-minikube-tunnel[minikube tunnel, window="_blank"] tool.
+
 For minikube we will check the External IP of the Ingress gateway:
 
 [source,bash]
@@ -24,8 +26,6 @@ $ kubectl get services/istio-ingressgateway -n istio-system
 NAME                   TYPE           CLUSTER-IP     EXTERNAL-IP    PORT(S)                                                                      AGE
 istio-ingressgateway   LoadBalancer   10.101.6.144   10.101.6.144   15021:30757/TCP,80:32647/TCP,443:30900/TCP,31400:30427/TCP,15443:31072/TCP   19h
 ----
-
-icon:bullhorn[size=1x]{nbsp} Note that EXTERNAL-IP for LoadBalancer are provided in minikube using the minikube tunnel tool. As commented, this depends on the platform you are using, review your Istio configuration in order to validate the external IP and ports used for Ingress.
 
 And we will add a simple entry to the `/etc/hosts` of the tutorial machine with the desired DNS entry:
 
