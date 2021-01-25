@@ -15,6 +15,39 @@ For additional information check our https://www.youtube.com/channel/UCcm2NzDN_U
 
 toc::[]
 
+== 1.29.0
+Sprint Release: January 22nd, 2021
+
+Features:
+
+* https://github.com/kiali/kiali/issues/3592[(multi-cluster) Initial support]
+* https://github.com/kiali/kiali/issues/2699[Remove graph's "Node Names" display option]
+* https://github.com/kiali/kiali/issues/3361[Improve trace navigation in graph]
+* https://github.com/kiali/kiali/issues/3533[Kiali operator support HPA]
+* https://github.com/kiali/kiali/issues/3502[Migrate Travis CI to Github Actions]
+* https://github.com/kiali/kiali/issues/3519[Graph should make show 'idle' edges a display option (default = false)]
+* https://github.com/kiali/kiali-ui/pull/2051[Add filters into Envoy dump tables]
+
+Fixes:
+
+* https://github.com/kiali/kiali/issues/3587[Incorrect workloadSelector spec key in ServiceEntry model prevents displaying workloadSelector in Kiali UI]
+* https://github.com/kiali/kiali/issues/3532[Sorry, there was a problem. Try a refresh or navigate to a different page. - with Argo Rollouts]
+* https://github.com/kiali/kiali/issues/3272[Overview view should be "bookmarkable"]
+* https://github.com/kiali/kiali/issues/3589[Service Trace are showing error in Jaeger ]
+* https://github.com/kiali/kiali/issues/3598[GeIstioConfigPermissions - missing "t" in function name]
+* https://github.com/kiali/kiali/issues/3591[Error authenticating (getting business layer) - authInfo missing from the request context]
+* https://github.com/kiali/kiali/issues/3575[Fix RBAC minimum privileges docs]
+* https://github.com/kiali/kiali/issues/3483[Cannot inject a fault to a service which is served by a pod with no version: label]
+* https://github.com/kiali/kiali/issues/3537[Review client-go version used in Kiali]
+* https://github.com/kiali/kiali/issues/3493[Idle status taking precedence over degraded health status]
+* https://github.com/kiali/kiali/issues/3539[Proxy status not reporting when cache is disabled]
+* https://github.com/kiali/kiali/issues/3543[All apps are degraded due to unsynced proxies when using different istio labels than app/version]
+* https://github.com/kiali/kiali/issues/3505[Istio Analysis lost the severity on their messages, kiali is broken]
+* https://github.com/kiali/kiali/issues/3518[race condition in new http_util.CreateTransport function]
+* https://github.com/kiali/kiali/issues/3572[Trace in service-type graph is incomplete]
+* https://github.com/kiali/kiali/issues/3552[Kiali show service entries in another namespaces]
+* https://github.com/kiali/kiali/issues/3305["View in Grafana" link can be wrong]
+
 == 1.28.0
 Sprint Release: December 11st, 2020
 
