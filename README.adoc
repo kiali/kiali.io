@@ -67,6 +67,19 @@ Press Ctrl+C to stop
 
 The server should be available on http://localhost:1313[http://localhost:1313]. Some files might not be supported for live reload. If, for some reason, you are not seeing your changes appearing you may need to restart the server.
 
+=== Faster generation ===
+
+The website generation includes every past releases of the documentation, which might be slow and unnecessary. Instead of generating everything, you can speed up the process if you're only interested in latest or staging version. To do so, run the following:
+
+[source,shell]
+----
+make serve-latest
+# or, with podman:
+CONTAINER_RUNTIME=podman make serve-latest
+----
+
+It will move the archived documentation to a temporary location before starting the server, and put it back once the server is closed. Just double-check it's back to its original place before committing (ie. there's no undesired deleted/moved content in your git status).
+
 == Documentation Versioning ==
 
 The documentation is versioned, and all new changes should go to `content/documentation/staging`. The release script runs every 3 weeks usually and generates a `content/documentation/vX.X` with the contents of staging, as well as creating a symbolic link on `content/documentation/latest`.

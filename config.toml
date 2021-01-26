@@ -3,6 +3,7 @@ title = "Kiali"
 theme = "kiali"
 baseURL = "https://kiali.io"
 relativeURLs = true
+ignoreFiles = [ "\\.ignore$" ]
 
 [params]
     custom_css = [
