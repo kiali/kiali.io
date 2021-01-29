@@ -277,8 +277,18 @@ spec:
 
 === Using with Keycloak
 
-When using OpenId with Keycloak, you will need to enable the `Standard Flow Enabled` and `Implicit Flow Enabled` options on the Client (in the Administration Console):
+When using OpenId with Keycloak, you will need to enable the `Standard Flow Enabled`
+option on the Client (in the Administration Console):
 
 image::/images/documentation/authentication/keycloak-implicit-client.png[Client configuration screen on Keycloak]
 
-Without those, you will get an error like `Client is not allowed to initiate browser login with given response_type. Implicit flow is disabled for the client.`.
+The _Standard Flow_ described on the options is the same as the _authorization
+code flow_ from the rest of the documentation.
+
+If you get an error like `Client is not allowed to initiate browser login with
+given response_type. Implicit flow is disabled for the client.`, it means that
+your signing key for Kiali is not a standard size (16, 24 or 32 bytes long).
+
+Enabling the `Implicit Flow Enabled` option of the client will make the problem
+go away, but be aware that the implicit flow is less secure, and not
+recommended.
