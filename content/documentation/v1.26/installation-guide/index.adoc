@@ -84,6 +84,24 @@ If you are installing on OpenShift, you must grant the `cluster-admin` role to t
 
 icon:lightbulb[size=1x]{nbsp}For most commands listed on this page the Kubernetes CLI command `kubectl` is used to interact with the cluster environment. On OpenShift you can simply replace `kubectl` with `oc`, unless otherwise noted.
 
+=== Google Cloud Private Cluster Requirements
+
+Private clusters on Google Cloud have network restrictions. Kiali needs that your cluster give access from the Kubernetes API to the Istio Control Plane namespace in both `8080` and `15000` ports. In order to do that, update your firewall with those two ports.
+
+To review the master access firewall rule:
+
+[source,bash]
+----
+gcloud compute firewall-rules list --filter="name~gke-${CLUSTER_NAME}-[0-9a-z]*-master"
+----
+
+To replace the existing rule and allow master access:
+
+[source,bash]
+----
+gcloud compute firewall-rules update <firewall-rule-name> --allow <previous-ports>,tcp:8080,tcp:15000
+----
+
 
 == Installation
 
