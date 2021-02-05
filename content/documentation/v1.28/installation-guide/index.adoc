@@ -86,7 +86,7 @@ icon:lightbulb[size=1x]{nbsp}For most commands listed on this page the Kubernete
 
 === Google Cloud Private Cluster Requirements
 
-Private clusters on Google Cloud have network restrictions. Kiali needs that your cluster give access from the Kubernetes API to the Istio Control Plane namespace in both `8080` and `15000` ports. In order to do that, update your firewall with those two ports.
+Private clusters on Google Cloud have network restrictions. Kiali needs your cluster to allow access from the Kubernetes API to the Istio Control Plane namespace, for both the `8080` and `15000` ports. You must update your firewall with those two ports.
 
 To review the master access firewall rule:
 
@@ -200,7 +200,7 @@ To update Kiali, edit and save the existing Kiali CR; for example:
 
 === Open the UI
 
-Once Istio, Maistra, or the Kiali Operator has installed Kiali, and the Kiali pod has successfully started, you can access the UI. Please, check the link:{{< ref "/documentation/v1.28/faq/general#how-do-i-access-kiai" >}}[FAQ: How do I access Kiali UI?]
+Once Istio, Maistra, or the Kiali Operator has installed Kiali, and the Kiali pod has successfully started, you can access the UI. Please, check the link:{{< ref "/documentation/staging/faq/general#how-do-i-access-kiai" >}}[FAQ: How do I access Kiali UI?]
 
 icon:bullhorn[size=1x]{nbsp} The credentials you use on the login screen depend on the authentication strategy that was configured for Kiali. See the link:{{< ref "configuration/authentication" >}}[authentication configuration page] for more details.
 

@@ -30,12 +30,16 @@ Kiali requires a supported version of Istio. link:https://istio.io/news/[The Ist
 |Kiali
 |Notes
 
-| 1.7.0+
-| 1.22.1+
+| 1.8.0 or later
+| 1.26.0 or later
+| Istio 1.8 removes all support for mixer/telemetry V1, as does Kiali 1.26.0. Use earlier versions of Kiali for mixer support.
+
+| 1.7.0 or later
+| 1.22.1 or later
 | Istio 1.7 istioctl will no longer install Kiali. Use the Istio samples/addons all-in-one yaml or the Kiali Helm Chart for quick demo installs.
 
-| 1.6.0+
-| 1.18.1+
+| 1.6.0 or later
+| 1.18.1 or later
 | Istio 1.6 introduces CRD and Config changes, Kiali 1.17 is recommended for Istio < 1.6.
 
 | <= 1.5
@@ -82,7 +86,7 @@ icon:lightbulb[size=1x]{nbsp}For most commands listed on this page the Kubernete
 
 === Google Cloud Private Cluster Requirements
 
-Private clusters on Google Cloud have network restrictions. Kiali needs that your cluster give access from the Kubernetes API to the Istio Control Plane namespace in both `8080` and `15000` ports. In order to do that, update your firewall with those two ports.
+Private clusters on Google Cloud have network restrictions. Kiali needs your cluster to allow access from the Kubernetes API to the Istio Control Plane namespace, for both the `8080` and `15000` ports. You must update your firewall with those two ports.
 
 To review the master access firewall rule:
 
@@ -196,7 +200,7 @@ To update Kiali, edit and save the existing Kiali CR; for example:
 
 === Open the UI
 
-Once Istio, Maistra, or the Kiali Operator has installed Kiali, and the Kiali pod has successfully started, you can access the UI. Please, check the link:{{< ref "/documentation/v1.25/faq/general#how-do-i-access-kiai" >}}[FAQ: How do I access Kiali UI?]
+Once Istio, Maistra, or the Kiali Operator has installed Kiali, and the Kiali pod has successfully started, you can access the UI. Please, check the link:{{< ref "/documentation/staging/faq/general#how-do-i-access-kiai" >}}[FAQ: How do I access Kiali UI?]
 
 icon:bullhorn[size=1x]{nbsp} The credentials you use on the login screen depend on the authentication strategy that was configured for Kiali. See the link:{{< ref "configuration/authentication" >}}[authentication configuration page] for more details.
 
@@ -263,6 +267,16 @@ server:
 ----
 
 The above is the default when Kiali is installed on Kubernetes - so to access the Kiali UI on Kubernetes you access it at the root context path of `/kiali`.
+
+You can also set the FQDN and port for the resulting service (in case you are using an Istio VirtualService or a kubernetes ingress that does not set the proper params) on the same key, with the names `web_fqdn` and `web_port`, as shown in the example:
+
+[source,yaml]
+----
+server:
+  web_fqdn: mykiali.mydomain.com
+  web_port: 443
+  ...
+----
 
 === Namespace Management
 
