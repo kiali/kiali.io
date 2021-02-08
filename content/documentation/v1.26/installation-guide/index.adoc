@@ -13,6 +13,7 @@ draft: false
 :icons: font
 :imagesdir: /images/gettingstarted/
 :sectlinks:
+:linkattrs:
 
 toc::[]
 
@@ -102,6 +103,7 @@ To replace the existing rule and allow master access:
 gcloud compute firewall-rules update <firewall-rule-name> --allow <previous-ports>,tcp:8080,tcp:15000
 ----
 
+icon:bullhorn[size=1x]{nbsp} Istio deployments on private clusters also need extra ports to be opened. Check the https://istio.io/latest/docs/setup/platform-setup/gke/[Istio installation page for GKE,window="_blank"] to see all the extra installation steps for this platform.
 
 == Installation
 
