@@ -13,6 +13,7 @@ draft: false
 :icons: font
 :imagesdir: /images/gettingstarted/
 :sectlinks:
+:linkattrs:
 
 toc::[]
 
@@ -84,6 +85,25 @@ If you are installing on OpenShift, you must grant the `cluster-admin` role to t
 
 icon:lightbulb[size=1x]{nbsp}For most commands listed on this page the Kubernetes CLI command `kubectl` is used to interact with the cluster environment. On OpenShift you can simply replace `kubectl` with `oc`, unless otherwise noted.
 
+=== Google Cloud Private Cluster Requirements
+
+Private clusters on Google Cloud have network restrictions. Kiali needs your cluster to allow access from the Kubernetes API to the Istio Control Plane namespace, for both the `8080` and `15000` ports. You must update your firewall with those two ports.
+
+To review the master access firewall rule:
+
+[source,bash]
+----
+gcloud compute firewall-rules list --filter="name~gke-${CLUSTER_NAME}-[0-9a-z]*-master"
+----
+
+To replace the existing rule and allow master access:
+
+[source,bash]
+----
+gcloud compute firewall-rules update <firewall-rule-name> --allow <previous-ports>,tcp:8080,tcp:15000
+----
+
+icon:bullhorn[size=1x]{nbsp} Istio deployments on private clusters also need extra ports to be opened. Check the https://istio.io/latest/docs/setup/platform-setup/gke/[Istio installation page for GKE,window="_blank"] to see all the extra installation steps for this platform.
 
 == Installation
 
@@ -182,7 +202,7 @@ To update Kiali, edit and save the existing Kiali CR; for example:
 
 === Open the UI
 
-Once Istio, Maistra, or the Kiali Operator has installed Kiali, and the Kiali pod has successfully started, you can access the UI. Please, check the link:{{< ref "/documentation/v1.27/faq/general#how-do-i-access-kiai" >}}[FAQ: How do I access Kiali UI?]
+Once Istio, Maistra, or the Kiali Operator has installed Kiali, and the Kiali pod has successfully started, you can access the UI. Please, check the link:{{< ref "/documentation/staging/faq/general#how-do-i-access-kiai" >}}[FAQ: How do I access Kiali UI?]
 
 icon:bullhorn[size=1x]{nbsp} The credentials you use on the login screen depend on the authentication strategy that was configured for Kiali. See the link:{{< ref "configuration/authentication" >}}[authentication configuration page] for more details.
 
