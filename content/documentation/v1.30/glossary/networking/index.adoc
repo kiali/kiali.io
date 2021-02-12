@@ -1,0 +1,63 @@
+---
+title: "Networking"
+date: 2018-06-20T19:04:38+02:00
+draft: false
+---
+
+:sectlinks:
+
+= Kiali Networking Glossary
+:sectnums:
+:toc: left
+toc::[]
+:toc-title: Networking Glossary Content
+:keywords: Kiali Documentation Glossary
+:icons: font
+
+== Destination
+
+For more information see the <<Destination>> definition in the link:https://istio.io/help/glossary/#destination[Istio Glossary].
+
+=== Destination Rule
+
+For more information see the <<Destination Rule>> definition in the link:https://istio.io/docs/reference/config/networking/destination-rule[Istio Destination Rule Documentation].
+
+== Endpoint
+
+A communication endpoint is a type of communication network node. It is an interface exposed by a communicating party or by a communication channel.
+
+== Error Rate
+
+It's the percentage of errors in the traffic to a specific object for a <<Rate Interval>>.
+
+== Gateway
+
+For more information see the Gateway definition in the link:https://istio.io/docs/reference/config/networking/gateway[Istio Gateway Documentation].
+
+== Inbound Metrics
+
+Metrics on requests received by a given Workload, Service or Application.
+
+== Outbound Metrics
+
+Metrics on requests emitted by a given Workload or Application.
+
+== Port
+
+For more information see the <<Port>> definition in link:https://istio.io/docs/reference/config/networking/gateway#Port[Istio Port Documentation].
+
+== Rate Interval
+
+It's an amount of time. By Default in Kiali last 10 minutes.
+
+== Rule
+
+It's an object that manages external access to the services in a cluster, typically HTTP.
+
+== Source
+
+For more information see the <<Source>> definition in the link:https://istio.io/help/glossary/#source[Istio Glossary].
+
+== Subset
+
+For more information see the <<Subset>> definition in the link:https://istio.io/docs/reference/config/networking/destination-rule/#Subset[Istio Subset Documentation].

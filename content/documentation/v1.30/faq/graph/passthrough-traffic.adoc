@@ -1,0 +1,17 @@
+---
+title: Why do I see traffic to PassthroughCluster?
+weight: 80
+---
+:icons: font
+
+Requests going to PassthroughCluster (or BlackHoleCluster) are requests that did not get routed to a defined
+service or service entry, and instead end up at one of these built-in Istio request handlers.  See
+https://istio.io/blog/2019/monitoring-external-service-traffic/[Monitoring Blocked and Passthrough External
+Service Traffic] for more information.
+
+Unexpected routing to these nodes does not indicate a Kiali problem, you're seeing the actual routing being
+performed by Istio.  In general it is due to a misconfiguration and/or missing Istio sidecar.  Less often
+but possible is an actual issue with the mesh, like a sync issue or evicted pod.
+
+Use Kiali's Workloads list view to ensure sidecars are not missing. Use Kiali's Istio Config list
+view to look for any config validation errors.
