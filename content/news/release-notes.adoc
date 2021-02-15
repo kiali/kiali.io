@@ -15,6 +15,42 @@ For additional information check our https://www.youtube.com/channel/UCcm2NzDN_U
 
 toc::[]
 
+== 1.30.0
+Sprint Release: February 12nd, 2021
+
+Features:
+
+* https://github.com/kiali/kiali/issues/3435[Improve health configuration by annotations in the UI]
+* https://github.com/kiali/kiali/issues/3332[Allow custom health configuration to be deployed as resources/yaml or annotations]
+* https://github.com/kiali/kiali/issues/3371[provide some UI defaults within the Kiali CR]
+* https://github.com/kiali/kiali/issues/3685[Add descriptions for newer Envoy response flags]
+* https://github.com/kiali/kiali/issues/3681[Be able to drag-select and zoom a section of the graph ]
+* https://github.com/kiali/kiali/issues/3659[Metrics page: don't show labels with a single value in legend]
+* https://github.com/kiali/kiali/issues/3625[More info about response flags in traces]
+* https://github.com/kiali/kiali/issues/3174[Review Istio Management Use Cases]
+* https://github.com/kiali/kiali/issues/3488[Update Kiali.io and promote better Tasks scenarios using Kiali]
+
+Fixes:
+
+* https://github.com/kiali/kiali/issues/3494[Some HTTP request still pending and never load (Graph, Applications, Workloads)]
+* https://github.com/kiali/kiali/issues/3684[(regression) Graph Replay broken]
+* https://github.com/kiali/kiali/issues/3683[Graph Tour breaking graph]
+* https://github.com/kiali/kiali/issues/3667[Kiali deployed using customized full name with kiali-server helm chart uses wrong role name]
+* https://github.com/kiali/kiali/issues/3643[kiali ui failing to allow login after a session is externally deleted]
+* https://github.com/kiali/kiali/issues/3649[Fix multiple fetch problem on node double-click]
+* https://github.com/kiali/kiali/issues/3605[Additional Istiod Pod Causes Unhealthy Pod Sync Status For Kiali]
+* https://github.com/kiali/kiali/issues/3642[Gap between rate info collected in graph versus health]
+* https://github.com/kiali/kiali/issues/3595[openshift logout results in error message in log]
+* https://github.com/kiali/kiali/issues/3650[Metrics page: segregate peer by namespace]
+* https://github.com/kiali/kiali/issues/3624[Several links from graph are broken]
+* https://github.com/kiali/kiali/issues/3644[operation node graph is missing the operation node (regression)]
+* https://github.com/kiali/kiali/issues/3562[Kiali 1.28.1: Bulb Bugs]
+* https://github.com/kiali/kiali/issues/3623[Namespace boxes needs a different internal layout]
+* https://github.com/kiali/kiali/issues/3637[hide config.IstioConfigMapName]
+* https://github.com/kiali/kiali/issues/3634[Istio "config_map_name" not used]
+* https://github.com/kiali/kiali/issues/3617[helm charts are created with the wrong appVersion]
+* https://github.com/kiali/kiali/issues/3615[GetPodProxyStatus Error + No Data + Server Hangs]
+
 == 1.29.0
 Sprint Release: January 22nd, 2021
 
