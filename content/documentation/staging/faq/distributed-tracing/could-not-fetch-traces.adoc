@@ -1,0 +1,59 @@
+---
+title: 'Why is Jaeger unreachable or Kiali showing the error "Could not fetch traces" ?'
+weight: 10
+---
+:icons: font
+:imagesdir: /images/faq/tracing/
+:linkattrs:
+
+image::unreachable.png[Jaeger unreachable]
+__Istio components status indicator shows "Jaeger unreachable"__
+
+image::could-not-fetch-traces.png[Could not fetch traces]
+__While on any Tracing page, error "Could not fetch traces" is displayed__
+
+Apparently, Kiali is unable to connect to Jaeger. Make sure tracing is correctly configured in the Kiali custom resource or ConfigMap:
+
+```yaml
+      tracing:
+        auth:
+          type: none
+        enabled: true
+        in_cluster_url: 'http://tracing.istio-system/jaeger'
+        url: 'http://jaeger.example.com/'
+        use_grpc: true
+```
+__link:https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml[View full CR description, window="_blank"].__
+
+You need especially to pay attention to the `in_cluster_url` field, which is how Kiali backend contacts the Jaeger service. In general, this URL is written using Kubernetes domain names in the form of `http://service.namespace`, plus eventually a path.
+
+If you're not sure about this URL, try to find your Jaeger service and its exposed ports:
+
+```bash
+$ kubectl get services -n istio-system
+...
+tracing      ClusterIP      10.108.216.102   <none>        80/TCP      47m
+...
+```
+
+To validate this URL, you can try to `curl` its API via Kiali pod, by appending `/api/traces` to the configured URL (in the following, replace with the appropriate Kiali pod):
+
+```bash
+$ kubectl exec -n istio-system -it kiali-556fdb8ff5-p6l2n -- curl http://tracing.istio-system/jaeger/api/traces
+
+{"data":null,"total":0,"limit":0,"offset":0,"errors":[{"code":400,"msg":"parameter 'service' is required"}]}
+```
+
+If you see some returning JSON as in the above example, congrats, it should be well configured!
+
+If instead of that you see some blocks of mixed HTML/Javascript mentioning JaegerUI, then probably the host+port are correct but the path isn't.
+
+A common mistake is to forget the `/jaeger` suffix, which is often used in Jaeger deployments.
+
+It may also happen that you have a service named `jaeger-query`, exposing port `16686`, instead of the more common `tracing` service on port `80`. In that situation, set `in_cluster_url` to `http://jaeger-query.istio-system:16686/jaeger`.
+
+If Jaeger needs an authentication, make sure to correctly configure the `auth` section.
+
+Note that in general, Kiali will connect to Jaeger via GRPC, which provides better performances. If for some reason it cannot be done (e.g. Jaeger being behind a reverse-proxy that doesn't support GRPC, or that needs more configuration in that purpose), it is possible to switch back to using the http/json API of Jaeger by setting `use_grpc` to `false`.
+
+If for some reason the GRPC connection fails and you think it shouldn't (e.g. your reverse-proxy supports it, and the non-grpc config works fine), please link:https://github.com/kiali/kiali/issues[get in touch with us].
