@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Set Hugo vesrion
+        id: hugo-version
+        run: |
+          HUGO_VERSION=$(grep '^HUGO_VERSION' Makefile | awk -F '=' '{ gsub(" ", "", $2); print $2}')
+          echo "::set-output name=HUGO_VERSION::${HUGO_VERSION}"
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: '${{ steps.hugo-version.outputs.HUGO_VERSION }}'
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7
+      - name: Build
+        run: make build
+      - name: Verify
+        run: |
+          gem install html-proofer
+          htmlproofer --assume-extension --check-external-hash --empty_alt_ignore --url-ignore "#,/github.com/kiali/kiali/pull/,/github.com/kiali/kiali/issues/" ./public
+

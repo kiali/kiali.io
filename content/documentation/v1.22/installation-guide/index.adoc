@@ -146,7 +146,7 @@ $ helm install \
 
 icon:lightbulb[size=1x]{nbsp} To install a specific version X.Y.Z, simply pass `--version X.Y.Z` to the helm command
 
-This installation method gives Kiali access to existing namespaces as well as namespaces created later. See link:#_namespace_management"[Namespace Management] for more information if you want to change that behavior.
+This installation method gives Kiali access to existing namespaces as well as namespaces created later. See link:#_namespace_management[Namespace Management] for more information if you want to change that behavior.
 
 ==== Operator-Only Install
 
