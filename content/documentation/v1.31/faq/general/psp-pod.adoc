@@ -1,0 +1,18 @@
+---
+title: Why is Kiali not working when I use PodSecurityPolicies (PSP)?
+weight: 80
+---
+
+If you use PodSecurityPolicies (PSP) on the Kiali pod you must also set `readOnlyRootFilesystem: false`.  This is required to allow Kiali to perform necessary writes at pod startup.
+
+Without this setting the pod will generate errors like:
+
+```
+E0922 19:30:46.981449       1 kiali.go:256] File I/O error [open /opt/kiali/console/index.html: read-only file system]
+I0922 19:30:46.981457       1 kiali.go:211] Generating env.js from config
+E0922 19:30:46.981477       1 kiali.go:256] File I/O error [open /opt/kiali/console/env.js: read-only file system]
+```
+
+
+
+

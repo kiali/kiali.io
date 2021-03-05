@@ -1,0 +1,37 @@
+---
+title: How do I obtain the logs for Kiali?
+weight: 90
+---
+
+Kiali operator logs can be obtained from within the Kiali operator pod. For example, if the operator is installed in the `kiali-operator` namespace:
+
+```
+KIALI_OPERATOR_NAMESPACE="kiali-operator"
+kubectl logs -n ${KIALI_OPERATOR_NAMESPACE} $(kubectl get pod -l app=kiali-operator -n ${KIALI_OPERATOR_NAMESPACE} -o name)
+```
+
+Kiali server logs can be obtained from within the Kiali server pod. For example, if the Kiali server is installed in the `istio-system` namespace:
+
+```
+KIALI_SERVER_NAMESPACE="istio-system"
+kubectl logs -n ${KIALI_SERVER_NAMESPACE} $(kubectl get pod -l app=kiali -n ${KIALI_SERVER_NAMESPACE} -o name)
+```
+
+Note that you can configure the logger in the Kiali Server via these settings in the  Kiali CR:
+
+* `log_format` supports "text" and "json".
+* `log_level` supports "trace", "debug", "info", "warn", "error", "fatal".
+* `time_field_format` supports a link:https://golang.org/pkg/time/[golang time format]
+* `sampler_rate` defines a basic log sampler setting as an integer. With this setting every "sampler_rate"-th message will be logged. By default, every message is logged.
+
+For example,
+
+```
+spec:
+  deployment:
+    logger:
+      log_level: info
+      log_format: text
+      sampler_rate: "1"
+      time_field_format: "2006-01-02T15:04:05Z07:00"
+```
