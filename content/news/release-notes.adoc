@@ -470,7 +470,7 @@ Fixes:
 
 Notes:
 
-* With the introduction of the `openid` login option the following link:https://kiali.io/documentation/latest/getting-started/#_login_options[login options]
+* With the introduction of the `openid` login option the following link:https://kiali.io/documentation/v1.19/installation-guide/#_login_options[login options]
 are deprecated: `LDAP`, `login`.  They will be eligible for removal when Istio 1.5 goes out of support. Starting
 in Kiali 1.19.0 the default login option has changed from `login` to `token`.
 

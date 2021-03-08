@@ -70,8 +70,8 @@ include::/data/files/validation_examples/802.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/blob/master/business/checkers/authorization/service_binding_checker.go[Validator source code, window="_blank"] +
-https://istio.io/docs/reference/config/authorization/istio.rbac.v1alpha1/#ServiceRoleBinding[Istio documentation, window="_blank"]
+https://github.com/kiali/kiali/blob/v1.18/business/checkers/authorization/service_binding_checker.go[Validator source code, window="_blank"] +
+https://istio.io/v1.3/docs/reference/config/authorization/istio.rbac.v1alpha1/#ServiceRoleBinding[Istio documentation, window="_blank"]
 
 '''
 
@@ -96,9 +96,9 @@ include::/data/files/validation_examples/803.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/blob/master/business/checkers/authorization/workload_selector_checker.go[Validator source code, window="_blank"] +
+https://github.com/kiali/kiali/blob/v1.18/business/checkers/authorization/workload_selector_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/reference/config/security/authorization-policy/#AuthorizationPolicy[Istio documentation, window="_blank"] +
-https://istio.io/docs/reference/config/security/authorization-policy/#istio-type-v1beta1-WorkloadSelector[WorkloadSelector documentation, window="_blank"]
+https://istio.io/v1.4/docs/reference/config/security/authorization-policy/#istio-type-v1beta1-WorkloadSelector[WorkloadSelector documentation, window="_blank"]
 
 '''
 
@@ -258,7 +258,7 @@ Istio has the ability to define mTLS communications at mesh level. In order to d
 If the MeshPolicy is not found or doesn't exist and the mesh-wide DestinationRule is on ISTIO_MUTUAL mode, all the communication returns 500 errors.
 
 ==== Resolution
-Add a MeshPolicy named as default without specifying targets but setting peers mtls mode to STRICT or PERMISSIVE. The MeshPolicy should be like link:/data/files/validation_examples/401.yaml[this, window="_blank"].
+Add a MeshPolicy named as default without specifying targets but setting peers mtls mode to STRICT or PERMISSIVE. The MeshPolicy should be like link:/files/validation_examples/401-PeerAuth.yaml[this, window="_blank"].
 
 ==== Severity
 
@@ -362,7 +362,7 @@ Maistra has the ability to define mTLS communications at mesh level. In order to
 If the ServiceMeshPolicy is not found at control plane namespace or doesn't exist and the mesh-wide DestinationRule is on ISTIO_MUTUAL mode, all the communication returns 500 errors.
 
 ==== Resolution
-Add a ServiceMeshPolicy named as default without specifying targets but setting peers mtls mode to STRICT or PERMISSIVE. The ServiceMeshPolicy should be like link:/data/files/validation_examples/401.yaml[this, window="_blank"].
+Add a ServiceMeshPolicy named as default without specifying targets but setting peers mtls mode to STRICT or PERMISSIVE. The ServiceMeshPolicy should be like link:/files/validation_examples/401.yaml[this, window="_blank"].
 
 ==== Severity
 
@@ -378,7 +378,7 @@ include::/data/files/validation_examples/004.yaml[]
 ==== See Also
 
 https://github.com/kiali/kiali/tree/master/business/checkers/destinationrules/meshwide_mtls_checker.go[Validator source code, window="_blank"] +
-https://maistra.io/docs/examples/mesh-wide_mtls[Globally enabling Istio mutual TLS, window="_blank"]
+https://istio.io/docs/tasks/security/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-mode[Globally enabling Istio mutual TLS, window="_blank"]
 
 '''
 
@@ -513,8 +513,8 @@ include::/data/files/validation_examples/301.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/master/business/checkers/policies/namespace_mtls_checker.go[Validator source code, window="_blank"] +
-https://istio.io/docs/tasks/security/authentication/authn-policy/#enable-mutual-tls-per-namespace-or-service[Enabling Istio mutual TLS namespace-wide, window="_blank"]
+https://github.com/kiali/kiali/tree/v1.17/business/checkers/policies/namespace_mtls_checker.go[Validator source code, window="_blank"] +
+https://istio.io/v1.4/docs/tasks/security/authentication/authn-policy/#enable-mutual-tls-per-namespace-or-service[Enabling Istio mutual TLS namespace-wide, window="_blank"]
 
 
 [#ports]
@@ -604,8 +604,8 @@ include::/data/files/validation_examples/402.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/master/business/checkers/meshpolicies/mesh_mtls_checker.go[Validator source code, window="_blank"] +
-https://maistra.io/docs/examples/mesh-wide_mtls[Globally enabling Istio mutual TLS, window="_blank"]
+https://github.com/kiali/kiali/tree/v1.17/business/checkers/meshpolicies/mesh_mtls_checker.go[Validator source code, window="_blank"] +
+https://istio.io/docs/tasks/security/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-mode[Globally enabling Istio mutual TLS, window="_blank"]
 
 
 [#serviceroles]
@@ -632,8 +632,8 @@ include::/data/files/validation_examples/501.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/blob/master/business/checkers/authorization/service_checker.go[Validator source code, window="_blank"] +
-https://istio.io/docs/reference/config/authorization/istio.rbac.v1alpha1/#AccessRule[Istio documentation, window="_blank"]
+https://github.com/kiali/kiali/blob/v1.18/business/checkers/authorization/service_checker.go[Validator source code, window="_blank"] +
+https://istio.io/v1.3/docs/reference/config/authorization/istio.rbac.v1alpha1/#AccessRule[Istio documentation, window="_blank"]
 
 '''
 
@@ -658,8 +658,8 @@ include::/data/files/validation_examples/502.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/blob/master/business/checkers/authorization/service_checker.go[Validator source code, window="_blank"] +
-https://istio.io/docs/reference/config/authorization/istio.rbac.v1alpha1/#AccessRule[Istio documentation, window="_blank"]
+https://github.com/kiali/kiali/blob/v1.18/business/checkers/authorization/service_checker.go[Validator source code, window="_blank"] +
+https://istio.io/v1.3/docs/reference/config/authorization/istio.rbac.v1alpha1/#AccessRule[Istio documentation, window="_blank"]
 
 '''
 
@@ -684,8 +684,8 @@ include::/data/files/validation_examples/601.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/blob/master/business/checkers/authorization/service_binding_checker.go[Validator source code, window="_blank"] +
-https://istio.io/docs/reference/config/authorization/istio.rbac.v1alpha1/#ServiceRoleBinding[Istio documentation, window="_blank"]
+https://github.com/kiali/kiali/blob/v1.18/business/checkers/authorization/service_binding_checker.go[Validator source code, window="_blank"] +
+https://istio.io/v1.3/docs/reference/config/authorization/istio.rbac.v1alpha1/#ServiceRoleBinding[Istio documentation, window="_blank"]
 
 [#sidecars]
 == Sidecars
@@ -713,7 +713,7 @@ include::/data/files/validation_examples/901.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/master/business/checkers/sidecars/workload_selector_checker.go[Validator source code, window="_blank"] +
+https://github.com/kiali/kiali/tree/v1.18/business/checkers/sidecars/workload_selector_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/reference/config/networking/sidecar/[Sidecar documentation, window="_blank"] +
 
 '''
@@ -742,7 +742,7 @@ include::/data/files/validation_examples/902.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/master/business/checkers/sidecars/multi_match_checker.go[Validator source code, window="_blank"] +
+https://github.com/kiali/kiali/tree/v1.18/business/checkers/sidecars/multi_match_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/reference/config/networking/sidecar/[Sidecar documentation, window="_blank"] +
 
 '''
@@ -830,7 +830,7 @@ include::/data/files/validation_examples/905.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/master/business/checkers/sidecars/multi_match_checker.go[Validator source code, window="_blank"] +
+https://github.com/kiali/kiali/tree/v1.18/business/checkers/sidecars/multi_match_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/reference/config/networking/sidecar[Sidecar documentation: first warning, window="_blank"] +
 
 '''

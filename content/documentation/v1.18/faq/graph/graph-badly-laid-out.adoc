@@ -3,7 +3,7 @@ title: Why is the graph badly laid out?
 weight: 20
 ---
 
-If you search in the https://groups.google.com/forum/#!msg/kiali-dev/[mailing list], you will find a number of discussions about the graph layouts.
+If you search in the https://groups.google.com/g/kiali-dev[mailing list], you will find a number of discussions about the graph layouts.
 
 The layout for Kiali Graph may render differently, depending on the data to display (number of graph nodes and their interactions) and it's sometimes difficult, not to say impossible,
 to have a single layout that renders nicely in every situations.
