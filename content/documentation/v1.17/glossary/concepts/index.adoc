@@ -33,7 +33,7 @@ This is the type specified in the <<Istio Config>>. This could be any of the fol
 
 == Istio Sidecar
 
-For more information see the <<Istio Sidecar>> definition in link:https://istio.io/docs/reference/commands/sidecar-injector/[Istio Sidecar Documentation].
+For more information see the <<Istio Sidecar>> definition in link:https://istio.io/v1.5/docs/reference/commands/sidecar-injector/[Istio Sidecar Documentation].
 
 == Label
 
@@ -66,7 +66,7 @@ A limited or fixed number or amount of resources.
 
 == QuotaSpecBinding
 
-Quota spec binding is used to bind link:https://istio.io/help/faq/mixer/[mixer] quota resource name to a proxy.
+Quota spec binding is used to bind link:https://istio.io/v1.6/faq/mixer/[mixer] quota resource name to a proxy.
 
 == ReplicaSet
 

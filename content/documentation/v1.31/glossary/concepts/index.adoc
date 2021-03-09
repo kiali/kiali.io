@@ -29,7 +29,7 @@ A deployment is a replication controller based on a user defined template called
 
 === Istio object/configuration Type
 
-This is the type specified in the Istio Config. This could be any of the following types: Gateway, <<VirtualService>>, DestinationRule, ServiceEntry, Rule, Quota or <<QuotaSpecBinding>>.
+This is the type specified in the Istio Config. This could be any of the following types: Gateway, <<VirtualService>>, DestinationRule, ServiceEntry, Rule, Quota or QuotaSpecBinding.
 
 == Istio Sidecar
 

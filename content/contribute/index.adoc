@@ -36,8 +36,8 @@ Issue tracking is also enabled for other Kiali repositories, like link:https://g
 
 Kiali team has three preferred channels of contact:
 
-* The link:https://groups.google.com/forum/#!forum/kiali-users[kiali-users Google Group], for end-user usage of Kiali. It's the preferred place to ask questions or expose problems you are having. Please, don't open GitHub issues for questions.
-* The link:https://groups.google.com/forum/#!forum/kiali-dev[kiali-dev Google Group], for Kiali development. It's where discussions about Kiali contributions take place.
+* The link:https://groups.google.com/g/kiali-users[kiali-users Google Group], for end-user usage of Kiali. It's the preferred place to ask questions or expose problems you are having. Please, don't open GitHub issues for questions.
+* The link:https://groups.google.com/g/kiali-dev[kiali-dev Google Group], for Kiali development. It's where discussions about Kiali contributions take place.
 * The link:https://webchat.freenode.net/?channels=%23kiali[#kiali IRC channel at Freenode]. Wanna chat? Join us! This is where the Kiali team meets for more direct interaction.
 
 Since Kiali is observability for Istio, you can also make contact through these Istio channels:
