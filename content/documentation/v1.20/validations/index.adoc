@@ -96,7 +96,7 @@ include::/data/files/validation_examples/803.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/blob/v1.20/business/checkers/authorization/workload_selector_checker.go[Validator source code, window="_blank"] +
+https://github.com/kiali/kiali/blob/v1.18/business/checkers/authorization/workload_selector_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/reference/config/security/authorization-policy/#AuthorizationPolicy[Istio documentation, window="_blank"] +
 https://istio.io/docs/reference/config/security/authorization-policy/[AuthorizationPolicy documentation, window="_blank"]
 
@@ -159,7 +159,7 @@ include::/data/files/validation_examples/001.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/v1.20/business/checkers/destinationrules/multi_match_checker.go[Validator source code, window="_blank"] +
+https://github.com/kiali/kiali/tree/v1.18/business/checkers/destinationrules/multi_match_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/reference/config/networking/destination-rule/#DestinationRule[Destination rule documentation, window="_blank"] +
 https://github.com/istio/istio/blob/0e9cecab053aab744a7c3a731aacb07fd794d5f9/pilot/pkg/model/push_context.go#L879[Istio source code for merging, window="_blank"] +
 https://istio.io/docs/ops/best-practices/traffic-management/#split-virtual-services[Istio documentation: Split large virtual services and destination rules into multiple resources, window="_blank"]
@@ -431,7 +431,7 @@ include::/data/files/validation_examples/201.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/v1.20/business/checkers/gateways/multi_match_checker.go[Validator source code, window=_blank] +
+https://github.com/kiali/kiali/tree/v1.18/business/checkers/gateways/multi_match_checker.go[Validator source code, window=_blank] +
 https://istio.io/docs/reference/config/networking/gateway/[Istio Gateway documentation, window=_blank]
 
 '''
@@ -486,7 +486,7 @@ include::/data/files/validation_examples/401.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/v1.20/business/checkers/meshpolicies/mesh_mtls_checker.go[Validator source code, window="_blank"] +
+https://github.com/kiali/kiali/tree/v1.17/business/checkers/meshpolicies/mesh_mtls_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/tasks/security/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-mode[Globally enabling Istio mutual TLS, window="_blank"]
 
 [#policies]
@@ -513,7 +513,7 @@ include::/data/files/validation_examples/301.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/v1.20/business/checkers/policies/namespace_mtls_checker.go[Validator source code, window="_blank"] +
+https://github.com/kiali/kiali/tree/v1.17/business/checkers/policies/namespace_mtls_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/tasks/security/authentication/authn-policy/#enable-mutual-tls-per-namespace-or-workload[Enabling Istio mutual TLS namespace-wide, window="_blank"]
 
 
@@ -604,7 +604,7 @@ include::/data/files/validation_examples/402.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/v1.20/business/checkers/meshpolicies/mesh_mtls_checker.go[Validator source code, window="_blank"] +
+https://github.com/kiali/kiali/tree/v1.17/business/checkers/meshpolicies/mesh_mtls_checker.go[Validator source code, window="_blank"] +
 https://maistra.io/docs/examples/mesh-wide_mtls[Globally enabling Istio mutual TLS, window="_blank"]
 
 
@@ -685,7 +685,7 @@ include::/data/files/validation_examples/601.yaml[]
 ==== See Also
 
 https://github.com/kiali/kiali/blob/v1.20/business/checkers/authorization/service_binding_checker.go[Validator source code, window="_blank"] +
-https://istio.io/v1.4/docs/reference/config/authorization/istio.rbac.v1alpha1/#ServiceRoleBinding[Istio documentation, window="_blank"]
+https://istio.io/v1.4/docs/reference/config/security/istio.rbac.v1alpha1/#ServiceRoleBinding[Istio documentation, window="_blank"]
 
 [#sidecars]
 == Sidecars
@@ -713,7 +713,7 @@ include::/data/files/validation_examples/901.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/v1.20/business/checkers/sidecars/workload_selector_checker.go[Validator source code, window="_blank"] +
+https://github.com/kiali/kiali/tree/v1.18/business/checkers/sidecars/workload_selector_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/reference/config/networking/sidecar/[Sidecar documentation, window="_blank"] +
 
 '''
@@ -742,7 +742,7 @@ include::/data/files/validation_examples/902.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/v1.20/business/checkers/sidecars/multi_match_checker.go[Validator source code, window="_blank"] +
+https://github.com/kiali/kiali/tree/v1.18/business/checkers/sidecars/multi_match_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/reference/config/networking/sidecar/[Sidecar documentation, window="_blank"] +
 
 '''
@@ -830,7 +830,7 @@ include::/data/files/validation_examples/905.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/v1.20/business/checkers/sidecars/multi_match_checker.go[Validator source code, window="_blank"] +
+https://github.com/kiali/kiali/tree/v1.18/business/checkers/sidecars/multi_match_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/reference/config/networking/sidecar[Sidecar documentation: first warning, window="_blank"] +
 
 '''

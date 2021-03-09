@@ -485,7 +485,7 @@ include::/data/files/validation_examples/701.yaml[]
 ==== See Also
 
 https://github.com/kiali/kiali/blob/v1.12/business/checkers/services/port_mapping_checker.go[Validator source code, window="_blank"] +
-https://github.com/istio/istio.io/blob/master/content/help/faq/traffic-management/naming-port-convention.md[Istio documentation port naming convention, window="_blank"]
+https://github.com/istio/istio.io/blob/release-1.1/content/help/faq/traffic-management/naming-port-convention.md[Istio documentation port naming convention, window="_blank"]
 
 '''
 

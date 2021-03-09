@@ -96,7 +96,7 @@ include::/data/files/validation_examples/803.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/blob/master/business/checkers/authorization/workload_selector_checker.go[Validator source code, window="_blank"] +
+https://github.com/kiali/kiali/blob/v1.18/business/checkers/authorization/workload_selector_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/reference/config/security/authorization-policy/#AuthorizationPolicy[Istio documentation, window="_blank"] +
 https://istio.io/docs/reference/config/security/authorization-policy/[AuthorizationPolicy documentation, window="_blank"]
 
@@ -898,7 +898,7 @@ include::/data/files/validation_examples/902.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/master/business/checkers/sidecars/multi_match_checker.go[Validator source code, window="_blank"] +
+https://github.com/kiali/kiali/tree/v1.18/business/checkers/sidecars/multi_match_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/reference/config/networking/sidecar/[Sidecar documentation, window="_blank"] +
 
 '''
@@ -986,7 +986,7 @@ include::/data/files/validation_examples/905.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/master/business/checkers/sidecars/multi_match_checker.go[Validator source code, window="_blank"] +
+https://github.com/kiali/kiali/tree/v1.18/business/checkers/sidecars/multi_match_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/reference/config/networking/sidecar[Sidecar documentation: first warning, window="_blank"] +
 
 '''
