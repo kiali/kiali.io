@@ -280,7 +280,7 @@ Spec fields definitions are:
 ** *name*: link name to be displayed
 ** *type*: link type, currently only _grafana_ is allowed
 ** *variables*: a set of variables that can be injected in the URL. For instance, with something like _namespace: var-namespace_ and _app: var-app_, an URL to a Grafana dashboard that manages _namespace_ and _app_ variables would look like:
-_http://grafana-server:3000/d/xyz/my-grafana-dashboard?var-namespace=some-namespace&var-app=some-app_. The available variables in this context are *namespace*, *app* and *version*.
+_\http://grafana-server:3000/d/xyz/my-grafana-dashboard?var-namespace=some-namespace&var-app=some-app_. The available variables in this context are *namespace*, *app* and *version*.
 
 icon:bullhorn[size=2x]{nbsp} *Label clash*: you should try to avoid labels clashes within a dashboard.
 In Kiali, labels for grouping are aggregated in the top toolbar, so if the same label refers to different things depending on the metric, you wouldn't be able to distinguish them in the UI. For that reason, ideally, labels should not have too generic names in Prometheus.

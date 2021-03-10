@@ -358,7 +358,7 @@ include::/data/files/validation_examples/004.yaml[]
 ==== See Also
 
 https://github.com/kiali/kiali/tree/master/business/checkers/destinationrules/meshwide_mtls_checker.go[Validator source code, window="_blank"] +
-https://maistra.io/docs/examples/mesh-wide_mtls[Globally enabling Istio mutual TLS, window="_blank"]
+https://istio.io/docs/tasks/security/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-mode[Globally enabling Istio mutual TLS, window="_blank"]
 
 '''
 
