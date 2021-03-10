@@ -12,4 +12,4 @@ If Kiali doesn't not render your graph layout in a satisfactory manner please sw
 This can be done from the _Graph Toolbar_ located on the bottom left of the graph.
 
 
-If Kiali doesn't produce a good graph for you, don't hesitate to https://github.com/kiali/kiali/issues/new?template=bug_report.md[open an issue in GitHub] or reach us in the https://groups.google.com/forum/#!forum/kiali-users[mailing lists], and describe your situation.
+If Kiali doesn't produce a good graph for you, don't hesitate to https://github.com/kiali/kiali/issues/new?template=bug_report.md[open an issue in GitHub] or reach us in the https://groups.google.com/g/kiali-users[mailing lists], and describe your situation.

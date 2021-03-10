@@ -71,7 +71,7 @@ include::/data/files/validation_examples/802.yaml[]
 ==== See Also
 
 https://github.com/kiali/kiali/blob/v1.20/business/checkers/authorization/service_binding_checker.go[Validator source code, window="_blank"] +
-https://istio.io/docs/reference/config/authorization/istio.rbac.v1alpha1/#ServiceRoleBinding[Istio documentation, window="_blank"]
+https://istio.io/v1.3/docs/reference/config/authorization/istio.rbac.v1alpha1/#ServiceRoleBinding[Istio documentation, window="_blank"]
 
 '''
 
@@ -325,7 +325,7 @@ include::/data/files/validation_examples/007.yaml[]
 ==== See Also
 
 https://github.com/kiali/kiali/tree/v1.20/business/checkers/destinationrules/disabled_namespacewide_mtls_checker.go[Validator source code, window="_blank"] +
-https://istio.io/docs/tasks/security/authn-policy/#enable-mutual-tls-per-namespace-or-workload[Enabling Istio mutual TLS per namespace, window="_blank"]
+https://istio.io/docs/tasks/security/authentication/authn-policy/#enable-mutual-tls-per-namespace-or-workload[Enabling Istio mutual TLS per namespace, window="_blank"]
 
 '''
 
@@ -378,7 +378,7 @@ include::/data/files/validation_examples/004.yaml[]
 ==== See Also
 
 https://github.com/kiali/kiali/tree/v1.20/business/checkers/destinationrules/meshwide_mtls_checker.go[Validator source code, window="_blank"] +
-https://maistra.io/docs/examples/mesh-wide_mtls[Globally enabling Istio mutual TLS, window="_blank"]
+https://istio.io/docs/tasks/security/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-mode[Globally enabling Istio mutual TLS, window="_blank"]
 
 '''
 
@@ -605,7 +605,7 @@ include::/data/files/validation_examples/402.yaml[]
 ==== See Also
 
 https://github.com/kiali/kiali/tree/v1.17/business/checkers/meshpolicies/mesh_mtls_checker.go[Validator source code, window="_blank"] +
-https://maistra.io/docs/examples/mesh-wide_mtls[Globally enabling Istio mutual TLS, window="_blank"]
+https://istio.io/docs/tasks/security/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-mode[Globally enabling Istio mutual TLS, window="_blank"]
 
 
 [#serviceroles]

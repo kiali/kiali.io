@@ -33,7 +33,7 @@ This is the type specified in the Istio Config. This could be any of the followi
 
 == Istio Sidecar
 
-For more information see the <<Istio Sidecar>> definition in link:https://istio.io/docs/reference/commands/sidecar-injector/[Istio Sidecar Documentation].
+For more information see the <<Istio Sidecar>> definition in link:https://istio.io/v1.5/docs/reference/commands/sidecar-injector/[Istio Sidecar Documentation].
 
 == Label
 

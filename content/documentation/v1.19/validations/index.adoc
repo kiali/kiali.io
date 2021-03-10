@@ -70,8 +70,8 @@ include::/data/files/validation_examples/802.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/blob/master/business/checkers/authorization/service_binding_checker.go[Validator source code, window="_blank"] +
-https://istio.io/docs/reference/config/authorization/istio.rbac.v1alpha1/#ServiceRoleBinding[Istio documentation, window="_blank"]
+https://github.com/kiali/kiali/blob/v1.18/business/checkers/authorization/service_binding_checker.go[Validator source code, window="_blank"] +
+https://istio.io/v1.3/docs/reference/config/authorization/istio.rbac.v1alpha1/#ServiceRoleBinding[Istio documentation, window="_blank"]
 
 '''
 
@@ -126,7 +126,7 @@ include::/data/files/validation_examples/804.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/blob/master/business/checkers/authorization/no_host_checker.go[Validator source code, window="_blank"] +
+https://github.com/kiali/kiali/blob/v1.20/business/checkers/authorization/no_host_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/reference/config/security/authorization-policy[AuthorizationPolicy documentation, window="_blank"] +
 https://istio.io/docs/reference/config/security/authorization-policy/#Operation[Definition of the operations field, window="_blank"] +
 https://istio.io/docs/ops/deployment/requirements[Service association requirement, window="_blank"]
@@ -159,7 +159,7 @@ include::/data/files/validation_examples/001.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/master/business/checkers/destinationrules/multi_match_checker.go[Validator source code, window="_blank"] +
+https://github.com/kiali/kiali/tree/v1.18/business/checkers/destinationrules/multi_match_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/reference/config/networking/destination-rule/#DestinationRule[Destination rule documentation, window="_blank"] +
 https://github.com/istio/istio/blob/0e9cecab053aab744a7c3a731aacb07fd794d5f9/pilot/pkg/model/push_context.go#L879[Istio source code for merging, window="_blank"] +
 https://istio.io/docs/ops/best-practices/traffic-management/#split-virtual-services[Istio documentation: Split large virtual services and destination rules into multiple resources, window="_blank"]
@@ -189,7 +189,7 @@ include::/data/files/validation_examples/002.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/master/business/checkers/destinationrules/no_dest_checker.go[Validator source code, window="_blank"] +
+https://github.com/kiali/kiali/tree/v1.20/business/checkers/destinationrules/no_dest_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/reference/config/networking/destination-rule/#DestinationRule[Destination rule documentation, window="_blank"] +
 
 '''
@@ -221,7 +221,7 @@ include::/data/files/validation_examples/003.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/master/business/checkers/destinationrules/no_dest_checker.go[Validator source code, window="_blank"] +
+https://github.com/kiali/kiali/tree/v1.20/business/checkers/destinationrules/no_dest_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/reference/config/networking/destination-rule/#DestinationRule[Destination rule documentation, window="_blank"] +
 
 '''
@@ -250,7 +250,7 @@ include::/data/files/validation_examples/005.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/master/business/checkers/destinationrules/traffic_policy_checker.go[Validator source code, window="_blank"]
+https://github.com/kiali/kiali/tree/v1.19/business/checkers/destinationrules/traffic_policy_checker.go[Validator source code, window="_blank"]
 
 '''
 
@@ -277,7 +277,7 @@ include::/data/files/validation_examples/004.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/master/business/checkers/destinationrules/meshwide_mtls_checker.go[Validator source code, window="_blank"] +
+https://github.com/kiali/kiali/tree/v1.19/business/checkers/destinationrules/meshwide_mtls_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/tasks/security/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-mode[Globally enabling Istio mutual TLS, window="_blank"]
 
 '''
@@ -305,7 +305,7 @@ include::/data/files/validation_examples/006.yaml[]
 ----
 
 ==== See Also
-https://github.com/kiali/kiali/blob/master/business/checkers/destinationrules/namespacewide_mtls_checker.go[Validator source code, window="_blank"] +
+https://github.com/kiali/kiali/blob/v1.19/business/checkers/destinationrules/namespacewide_mtls_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/tasks/security/authn-policy/#enable-mutual-tls-per-namespace-or-workload[Enabling Istio mutual TLS per namespace, window="_blank"]
 
 '''
@@ -331,7 +331,7 @@ include::/data/files/validation_examples/007.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/master/business/checkers/destinationrules/disabled_namespacewide_mtls_checker.go[Validator source code, window="_blank"] +
+https://github.com/kiali/kiali/tree/v1.19/business/checkers/destinationrules/disabled_namespacewide_mtls_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/tasks/security/authentication/authn-policy/#enable-mutual-tls-per-namespace-or-workload[Enabling Istio mutual TLS per namespace, window="_blank"]
 
 '''
@@ -358,7 +358,7 @@ include::/data/files/validation_examples/008.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/master/business/checkers/destinationrules/disabled_namespacewide_mtls_checker.go[Validator source code, window="_blank"] +
+https://github.com/kiali/kiali/tree/v1.19/business/checkers/destinationrules/disabled_namespacewide_mtls_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/tasks/security/authentication/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-mode[Globally enabling Istio mutual TLS, window="_blank"]
 
 '''
@@ -384,8 +384,8 @@ include::/data/files/validation_examples/004.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/master/business/checkers/destinationrules/meshwide_mtls_checker.go[Validator source code, window="_blank"] +
-https://maistra.io/docs/examples/mesh-wide_mtls[Globally enabling Istio mutual TLS, window="_blank"]
+https://github.com/kiali/kiali/tree/v1.19/business/checkers/destinationrules/meshwide_mtls_checker.go[Validator source code, window="_blank"] +
+https://istio.io/docs/tasks/security/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-mode[Globally enabling Istio mutual TLS, window="_blank"]
 
 '''
 
@@ -411,7 +411,7 @@ include::/data/files/validation_examples/009.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/master/business/checkers/destinationrules/disabled_namespacewide_mtls_checker.go[Validator source code, window="_blank"] +
+https://github.com/kiali/kiali/tree/v1.19/business/checkers/destinationrules/disabled_namespacewide_mtls_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/tasks/security/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-mode[Globally enabling Istio mutual TLS, window="_blank"]
 
 [#gateways]
@@ -438,7 +438,7 @@ include::/data/files/validation_examples/201.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/master/business/checkers/gateways/multi_match_checker.go[Validator source code, window=_blank] +
+https://github.com/kiali/kiali/tree/v1.19/business/checkers/gateways/multi_match_checker.go[Validator source code, window=_blank] +
 https://istio.io/docs/reference/config/networking/gateway/[Istio Gateway documentation, window=_blank]
 
 '''
@@ -466,7 +466,7 @@ include::/data/files/validation_examples/202.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/blob/master/business/checkers/gateways/selector_checker.go[Validator source code, window="_blank"] +
+https://github.com/kiali/kiali/blob/v1.19/business/checkers/gateways/selector_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/reference/config/networking/v1alpha3/gateway/#Gateway[Istio documentation for gateways, window="_blank"]
 
 [#meshpolicies]
@@ -495,7 +495,7 @@ include::/data/files/validation_examples/401.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/master/business/checkers/meshpolicies/mesh_mtls_checker.go[Validator source code, window="_blank"] +
+https://github.com/kiali/kiali/tree/v1.17/business/checkers/meshpolicies/mesh_mtls_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/tasks/security/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-mode[Globally enabling Istio mutual TLS, window="_blank"]
 
 [#peerauthentication]
@@ -524,7 +524,7 @@ include::/data/files/validation_examples/301.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/master/business/checkers/policies/namespace_mtls_checker.go[Validator source code, window="_blank"] +
+https://github.com/kiali/kiali/tree/v1.17/business/checkers/policies/namespace_mtls_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/tasks/security/authentication/authn-policy/#enable-mutual-tls-per-namespace-or-workload[Enabling Istio mutual TLS namespace-wide, window="_blank"]
 
 '''
@@ -697,7 +697,7 @@ include::/data/files/validation_examples/701.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/blob/master/business/checkers/services/port_mapping_checker.go[Validator source code, window="_blank"] +
+https://github.com/kiali/kiali/blob/v1.19/business/checkers/services/port_mapping_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/ops/deployment/requirements[Istio documentation port naming convention, window="_blank"]
 
 [#services]
@@ -733,7 +733,7 @@ include::/data/files/validation_examples/703.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/blob/master/business/checkers/services/port_mapping_checker.go[Validator source code, window="_blank"] +
+https://github.com/kiali/kiali/blob/v1.19/business/checkers/services/port_mapping_checker.go[Validator source code, window="_blank"] +
 https://kubernetes.io/docs/concepts/services-networking/service/#defining-a-service[Kubernetes services, window="_blank"]
 
 [#servicemeshpolicies]
@@ -760,8 +760,8 @@ include::/data/files/validation_examples/402.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/master/business/checkers/meshpolicies/mesh_mtls_checker.go[Validator source code, window="_blank"] +
-https://maistra.io/docs/examples/mesh-wide_mtls[Globally enabling Istio mutual TLS, window="_blank"]
+https://github.com/kiali/kiali/tree/v1.17/business/checkers/meshpolicies/mesh_mtls_checker.go[Validator source code, window="_blank"] +
+https://istio.io/docs/tasks/security/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-mode[Globally enabling Istio mutual TLS, window="_blank"]
 
 
 [#serviceroles]
@@ -788,8 +788,8 @@ include::/data/files/validation_examples/501.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/blob/master/business/checkers/authorization/service_checker.go[Validator source code, window="_blank"] +
-https://istio.io/docs/reference/config/authorization/istio.rbac.v1alpha1/#AccessRule[Istio documentation, window="_blank"]
+https://github.com/kiali/kiali/blob/v1.18/business/checkers/authorization/service_checker.go[Validator source code, window="_blank"] +
+https://istio.io/v1.3/docs/reference/config/authorization/istio.rbac.v1alpha1/#AccessRule[Istio documentation, window="_blank"]
 
 '''
 
@@ -814,8 +814,8 @@ include::/data/files/validation_examples/502.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/blob/master/business/checkers/authorization/service_checker.go[Validator source code, window="_blank"] +
-https://istio.io/docs/reference/config/authorization/istio.rbac.v1alpha1/#AccessRule[Istio documentation, window="_blank"]
+https://github.com/kiali/kiali/blob/v1.18/business/checkers/authorization/service_checker.go[Validator source code, window="_blank"] +
+https://istio.io/v1.3/docs/reference/config/authorization/istio.rbac.v1alpha1/#AccessRule[Istio documentation, window="_blank"]
 
 '''
 
@@ -840,8 +840,8 @@ include::/data/files/validation_examples/601.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/blob/master/business/checkers/authorization/service_binding_checker.go[Validator source code, window="_blank"] +
-https://istio.io/docs/reference/config/authorization/istio.rbac.v1alpha1/#ServiceRoleBinding[Istio documentation, window="_blank"]
+https://github.com/kiali/kiali/blob/v1.18/business/checkers/authorization/service_binding_checker.go[Validator source code, window="_blank"] +
+https://istio.io/v1.3/docs/reference/config/authorization/istio.rbac.v1alpha1/#ServiceRoleBinding[Istio documentation, window="_blank"]
 
 [#sidecars]
 == Sidecars
@@ -869,7 +869,7 @@ include::/data/files/validation_examples/901.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/master/business/checkers/sidecars/workload_selector_checker.go[Validator source code, window="_blank"] +
+https://github.com/kiali/kiali/tree/v1.18/business/checkers/sidecars/workload_selector_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/reference/config/networking/sidecar/[Sidecar documentation, window="_blank"] +
 
 '''
@@ -927,7 +927,7 @@ include::/data/files/validation_examples/903.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/master/business/checkers/sidecars/egress_listener_checker.go[Validator source code, window="_blank"] +
+https://github.com/kiali/kiali/tree/v1.19/business/checkers/sidecars/egress_listener_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/reference/config/networking/sidecar/#IstioEgressListener[Sidecar EgressListener documentation, window="_blank"] +
 
 '''
@@ -958,7 +958,7 @@ include::/data/files/validation_examples/904.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/master/business/checkers/sidecars/egress_listener_checker.go[Validator source code, window="_blank"] +
+https://github.com/kiali/kiali/tree/v1.19/business/checkers/sidecars/egress_listener_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/reference/config/networking/sidecar/#IstioEgressListener[Sidecar EgressListener documentation, window="_blank"] +
 
 '''
@@ -1014,7 +1014,7 @@ include::/data/files/validation_examples/906.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/master/business/checkers/sidecars/global_checker.go[Validator source code, window="_blank"] +
+https://github.com/kiali/kiali/tree/v1.19/business/checkers/sidecars/global_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/reference/config/networking/sidecar[Sidecar documentation: second warning, window="_blank"] +
 
 [#virtualservices]
@@ -1043,7 +1043,7 @@ include::/data/files/validation_examples/102.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/no_host_checker.go[Validator source code, window="_blank"] +
+https://github.com/kiali/kiali/tree/v1.19/business/checkers/virtual_services/no_host_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/reference/config/networking/destination-rule/#DestinationRule[Destination rule documentation, window="_blank"] +
 
 '''
@@ -1069,7 +1069,7 @@ include::/data/files/validation_examples/101.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/no_gateway_checker.go[Validator source code, window="_blank"]
+https://github.com/kiali/kiali/tree/v1.19/business/checkers/virtual_services/no_gateway_checker.go[Validator source code, window="_blank"]
 
 '''
 
@@ -1095,7 +1095,7 @@ include::/data/files/validation_examples/103.yaml[]
 ==== See Also
 
 https://github.com/istio/istio/blob/0e9cecab053aab744a7c3a731aacb07fd794d5f9/pilot/pkg/model/validation.go#L1628[Istio validation for route types, window="_blank"] +
-https://github.com/kiali/kiali/blob/master/business/checkers/virtual_services/no_host_checker.go[Validator source code, window="_blank"]
+https://github.com/kiali/kiali/blob/v1.19/business/checkers/virtual_services/no_host_checker.go[Validator source code, window="_blank"]
 
 '''
 
@@ -1121,7 +1121,7 @@ include::/data/files/validation_examples/106.yaml[]
 ==== See Also
 https://istio.io/docs/reference/config/networking/virtual-service/#HTTPRouteDestination[Istio documentation about HTTP Route Destination struct, window="_blank"] +
 https://istio.io/docs/reference/config/networking/virtual-service/#RouteDestination[Istio documentation about Route Destination struct, window="_blank"] +
-https://github.com/kiali/kiali/blob/master/business/checkers/virtual_services/route_checker.go[Validator source code, window="_blank"]
+https://github.com/kiali/kiali/blob/v1.19/business/checkers/virtual_services/route_checker.go[Validator source code, window="_blank"]
 
 '''
 
@@ -1149,7 +1149,7 @@ include::/data/files/validation_examples/111.yaml[]
 ==== See Also
 https://istio.io/docs/reference/config/networking/virtual-service/#HTTPRouteDestination[Istio documentation about HTTP Route Destination struct, window="_blank"] +
 https://istio.io/docs/reference/config/networking/virtual-service/#RouteDestination[Istio documentation about Route Destination struct, window="_blank"] +
-https://github.com/kiali/kiali/blob/master/business/checkers/virtual_services/route_checker.go[Validator source code, window="_blank"]
+https://github.com/kiali/kiali/blob/v1.19/business/checkers/virtual_services/route_checker.go[Validator source code, window="_blank"]
 
 '''
 
@@ -1175,7 +1175,7 @@ include::/data/files/validation_examples/104.yaml[]
 ==== See Also
 
 https://istio.io/docs/ops/best-practices/traffic-management/#split-virtual-services[Istio documentation: Split large virtual services and destination rules into multiple resources, window="_blank"]
-https://github.com/kiali/kiali/blob/master/business/checkers/virtual_services/single_host_checker.go[Validator source code, window="_blank"]
+https://github.com/kiali/kiali/blob/v1.19/business/checkers/virtual_services/single_host_checker.go[Validator source code, window="_blank"]
 
 '''
 
@@ -1201,7 +1201,7 @@ include::/data/files/validation_examples/105.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/subset_presence_checker.go[Validator source code, window="_blank"]
+https://github.com/kiali/kiali/tree/v1.19/business/checkers/virtual_services/subset_presence_checker.go[Validator source code, window="_blank"]
 
 '''
 
