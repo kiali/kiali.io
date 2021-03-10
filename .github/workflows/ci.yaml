@@ -32,5 +32,23 @@ jobs:
       - name: Verify
         run: |
           gem install html-proofer
-          htmlproofer --assume-extension --check-external-hash --empty_alt_ignore --url-ignore "#,/github.com/kiali/kiali/pull/,/github.com/kiali/kiali/issues/" ./public
+          # Ignore hash anchors. These anchors go nowhere. I don't know why this is ignored.
+          # They are in the original PoC, so there must be a reason: https://github.com/kiali/kiali.io/pull/227
+          URL_IGNORE='#'
+          # Ignore some links to Kiali repositories. These are ignored because there are lots of links
+          # to Kiali repositories and, because of that, the checker reaches the max GitHub request limit and
+          # we got throttled. As a result, errors can be issued because of 429 HTTP error codes.
+          # So, we ignore some URLs that are probably safe to ignore:
+          # 1. URLs to specific pulls; i.e. of the form https://github.com/kiali/kiali/pull/1234
+          # 2. URLs to specific issues; i.e. of the form https://github.com/kiali/kiali/issues/1234
+          # 3. URLs to a folder in repository in a branch; i.e. of the form https://github.com/kiali/kiali/tree/v1.24/whatever
+          #   - We only ignore links to branches, because it's so-so stable. Master branch
+          #     is unsafe because files are moved, renamed, etc.
+          # 4. URLs to a folder in repository in a branch; i.e. of the form https://github.com/kiali/kiali/blob/v1.24/whatever
+          #   - Same reasoning as previous point.
+          URL_IGNORE="$URL_IGNORE,/^https:\/\/github.com\/kiali\/kiali\/pull\/\d+/"
+          URL_IGNORE="$URL_IGNORE,/^https:\/\/github.com\/kiali\/kiali\/issues\/\d+/"
+          URL_IGNORE="$URL_IGNORE,/^https:\/\/github.com\/kiali\/kiali\/tree\/v\d+\.\d+\//"
+          URL_IGNORE="$URL_IGNORE,/^https:\/\/github.com\/kiali\/kiali\/blob\/v\d+\.\d+\//"
+          htmlproofer --assume-extension --check-external-hash --empty_alt_ignore --url-ignore "$URL_IGNORE" ./public
 
