@@ -19,6 +19,9 @@ Kiali users are exposed to this vulnerability if all the following conditions ar
   _implicit flow_ of the OpenID specification to negotiate authentication.
 * Kiali is setup with RBAC turned off.
 
+This vulnerability is filed as
+link:https://access.redhat.com/security/cve/CVE-2021-20278[CVE-2021-20278]
+
 == Mitigation
 
 If you can update:
