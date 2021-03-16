@@ -15,8 +15,34 @@ For additional information check our https://www.youtube.com/channel/UCcm2NzDN_U
 
 toc::[]
 
+== 1.31.0
+Sprint Release: March 5th, 2021
+
+Features:
+
+* https://github.com/kiali/kiali/issues/2218[Graph Side panel validations click should take me to validations]
+* https://github.com/kiali/kiali/issues/3718[Discover Kiali instances on remote clusters]
+* https://github.com/kiali/kiali/issues/3576[confusing "idle" UI components]
+* https://github.com/kiali/kiali/issues/3600[Collapse 'managedFields' in Istio Config details]
+* https://github.com/kiali/kiali/issues/2582[Enable Envoy dashboard by default]
+* https://github.com/kiali/kiali/issues/2949[Health: show workloads as idle when there's no request]
+* https://github.com/kiali/kiali/issues/1370[Add validation for "exportTo" fields of VirtualService, ServiceEntry]
+* https://github.com/kiali/kiali/issues/3689[show periodic status updates in kiali CR to track operator progress]
+* https://github.com/kiali/kiali/issues/3514[Jaeger client: switch to gRPC/protobuf]
+
+Fixes:
+
+* https://github.com/kiali/kiali/issues/3660[Performance problems with custom dashboards discovery]
+* https://github.com/kiali/kiali/issues/3719[Overview Filter Healthy - Shows Failure and Degraded as well]
+* https://github.com/kiali/kiali/issues/3737[invalid parameter \"match()\": 1:44: parse error: unexpected character inside braces: '.'"]
+* https://github.com/kiali/kiali/issues/3697[KIA0105 incorrectly raised when PeerAuthentication is set at the workload level]
+* https://github.com/kiali/kiali/issues/3698[Traces display options are shown then Jaeger is not configured.]
+* https://github.com/kiali/kiali/issues/3728[Tracing in graph: service entries sometimes missing in traces]
+* https://github.com/kiali/kiali/issues/3035[K-charted tooltip on legend is confusing]
+* https://github.com/kiali/kiali/issues/3709[Regex matching accessible namespaces is too broad]
+
 == 1.30.0
-Sprint Release: February 12nd, 2021
+Sprint Release: February 12th, 2021
 
 Features:
 
