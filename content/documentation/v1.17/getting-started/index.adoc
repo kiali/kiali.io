@@ -54,7 +54,7 @@ Any machine capable of running link:https://www.openshift.com/[Red Hat OpenShift
 
 For development the requirements are lower, so 8GB of ram is usually ok, depending on how demanding your applications are, and how many services you're planning on running at the same time on your machine. Of course, your situation may vary, so plan accordingly. Keep in mind that Kiali is not especially demanding of your machine resources and, as an isolated part of your environment, should not affect your applications throughput or latency.
 
-For more, see the link:https://docs.okd.io/latest/install/prerequisites.html[OKD prerequisites].
+For more, see the link:https://docs.okd.io/3.11/install/prerequisites.html[OKD prerequisites].
 
 
 == Installation
@@ -80,7 +80,7 @@ icon:lightbulb[size=1x]{nbsp} Both Istio and Maistra include Kiali distributions
 
 If you prefer to use the latest Kiali version, complete the Istio or Maistra installation and then link:#_install_kiali_latest[Install Kiali Latest].
 
-To install Kiali as part of the Istio installation just follow the link:https://istio.io/docs/setup/[Istio Setup docs]. If you are running on OpenShift and prefer Maistra, see link:https://maistra.io/docs/installation/[Maistra Setup docs]. You may then continue to link:#_open_the_ui[Open the UI].
+To install Kiali as part of the Istio installation just follow the link:https://istio.io/docs/setup/[Istio Setup docs]. If you are running on OpenShift and prefer Maistra, see link:https://maistra.io/docs/installing-ossm.html[Maistra Setup docs]. You may then continue to link:#_open_the_ui[Open the UI].
 
 
 === Upgrade the Istio or Maistra Version of Kiali
@@ -139,7 +139,7 @@ When the Kiali Operator is installed go to link:#_create_or_edit_the_kiali_cr[Cr
 
 ==== Kiali Operator Install Script
 
-It is not usually necessary to explicitly execute the link:https://github.com/kiali/kiali/blob/master/operator/deploy/deploy-kiali-operator.sh[Kiali Operator install script] but it does offer a variety of options. To learn more about the script, and the available options, run the command:
+It is not usually necessary to explicitly execute the link:https://github.com/kiali/kiali/blob/v1.12/operator/deploy/deploy-kiali-operator.sh[Kiali Operator install script] but it does offer a variety of options. To learn more about the script, and the available options, run the command:
 
 [source,bash]
 ----
@@ -153,7 +153,7 @@ icon:bullhorn[size=1x]{nbsp} The install script requires `envsubst` installed an
 
 The Kiali Operator watches the Kiali CR (Custom Resource). Create, update, or removal of the Kiali CR will trigger the Kiali Operator to install, update, or remove Kiali. This assumes the Kiali Operator has already been installed. See link:#_advanced_install_operator_only[Advanced Install (Operator-Only)] if you need to install the Kiali Operator.
 
-To create an initial Kiali CR file it is recommended to copy the fully documented link:https://github.com/kiali/kiali/blob/master/operator/deploy/kiali/kiali_cr.yaml[example Kiali CR YAML file]. Edit the file, being careful to maintain proper formatting, and save it to a local file such as `my-kiali-cr.yaml`.
+To create an initial Kiali CR file it is recommended to copy the fully documented link:https://github.com/kiali/kiali/blob/v1.12/operator/deploy/kiali/kiali_cr.yaml[example Kiali CR YAML file]. Edit the file, being careful to maintain proper formatting, and save it to a local file such as `my-kiali-cr.yaml`.
 
 icon:lightbulb[size=1x]{nbsp} It is important to understand the `deployment:accessible_namespaces` setting in the CR. See link:#_accessible_namespaces[Accessible Namespaces] for more information.
 
@@ -175,7 +175,7 @@ To update Kiali, edit and save the existing the Kiali CR. To edit the Kiali CR r
 
 === Open the UI
 
-Once Istio, Maistra or the Kiali Operator has installed Kiali, and the Kiali pod has successfully started, you can access the UI. Please, check the link:{{< ref "/documentation/v1.17/faq/general#how-do-i-access-kiai" >}}[FAQ: How do I access Kiali UI?]
+Once Istio, Maistra or the Kiali Operator has installed Kiali, and the Kiali pod has successfully started, you can access the UI. Please, check the link:/documentation/v1.17/faq#how-do-i-access-kiai[FAQ: How do I access Kiali UI?]
 
 icon:bullhorn[size=1x]{nbsp} The credentials you use on the login screen depend on the authentication strategy that was configured for Kiali. See link:#_login_options[Login Options] for more details.
 
@@ -398,7 +398,7 @@ namespaces:
   label_selector: kiali-enabled=true
 ----
 
-For further information on how the `label_selector` interacts with `deployment.accessible_namespaces` read the https://github.com/kiali/kiali/blob/master/operator/deploy/kiali/kiali_cr.yaml[technical documentation].
+For further information on how the `label_selector` interacts with `deployment.accessible_namespaces` read the https://github.com/kiali/kiali/blob/v1.12/operator/deploy/kiali/kiali_cr.yaml[technical documentation].
 
 To label a namespace, you can use the following command, for more information see the :link:https://kubernetes.io/docs/concepts/overview/working-with-objects/labels[official documentation]
 

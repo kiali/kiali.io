@@ -69,7 +69,7 @@ Istio Telemetery. It's a hard dependency for Kiali, and many Kiali features
 will not work without it.
 
 Currently, Kiali relies on
-https://istio.io/docs/reference/config/policy-and-telemetry/metrics/[Istio's
+https://istio.io/latest/docs/reference/config/metrics/[Istio's
 default metrics] set. Make sure that these default metrics are always in place.
 Some metric customization is possible as long as the Kiali requirements are
 still met.  For the current list of required metrics see

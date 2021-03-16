@@ -97,7 +97,7 @@ icon:bullhorn[size=1x]{nbsp} Starting with Istio 1.7, Kiali is no longer shipped
 
 If you prefer to use the latest Kiali version, complete the Istio or Maistra installation and then link:#_install_kiali_latest[Install Kiali Latest].
 
-To install Kiali as part of the Istio installation just follow the link:https://istio.io/docs/setup/[Istio Setup docs]. If you are running on OpenShift and prefer Maistra, see link:https://maistra.io/docs/installation/[Maistra Setup docs]. You may then continue to link:#_open_the_ui[Open the UI].
+To install Kiali as part of the Istio installation just follow the link:https://istio.io/docs/setup/[Istio Setup docs]. If you are running on OpenShift and prefer Maistra, see link:https://maistra.io/docs/installing-ossm.html[Maistra Setup docs]. You may then continue to link:#_open_the_ui[Open the UI].
 
 
 ==== Upgrade the Istio or Maistra Version of Kiali
@@ -142,7 +142,7 @@ $ helm install \
 
 icon:lightbulb[size=1x]{nbsp} To install a specific version X.Y.Z, simply pass `--version X.Y.Z` to the helm command
 
-This installation method gives Kiali access to existing namespaces as well as namespaces created later. See link:#_namespace_management"[Namespace Management] for more information if you want to change that behavior.
+This installation method gives Kiali access to existing namespaces as well as namespaces created later. See link:#_namespace_management[Namespace Management] for more information if you want to change that behavior.
 
 ==== Operator-Only Install
 
@@ -178,7 +178,7 @@ To update Kiali, edit and save the existing Kiali CR; for example:
 
 === Open the UI
 
-Once Istio, Maistra, or the Kiali Operator has installed Kiali, and the Kiali pod has successfully started, you can access the UI. Please, check the link:{{< ref "/documentation/v1.24/faq/general#how-do-i-access-kiai" >}}[FAQ: How do I access Kiali UI?]
+Once Istio, Maistra, or the Kiali Operator has installed Kiali, and the Kiali pod has successfully started, you can access the UI. Please, check the link:../faq/#how-do-i-access-kiai[FAQ: How do I access Kiali UI?]
 
 icon:bullhorn[size=1x]{nbsp} The credentials you use on the login screen depend on the authentication strategy that was configured for Kiali. See the link:{{< ref "configuration/authentication" >}}[authentication configuration page] for more details.
 

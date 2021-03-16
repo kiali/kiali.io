@@ -17,7 +17,7 @@ toc::[]
 
 == Citadel
 
-For more information see the Citadel definition in link:https://istio.io/docs/ops/deployment/architecture/#citadel[Istio Citadel Documentation].
+For more information see the Citadel definition in link:https://istio.io/v1.5/docs/ops/deployment/architecture/#citadel[Istio Citadel Documentation].
 
 == Envoy
 
@@ -30,7 +30,7 @@ A health check performed by Envoy proxies, for inbound and outbound traffic: see
 
 == Pilot
 
-For more information see the Pilot definition in link:https://istio.io/docs/ops/deployment/architecture/#pilot[Istio Pilot Documentation].
+For more information see the Pilot definition in link:https://istio.io/v1.5/docs/ops/deployment/architecture/#pilot[Istio Pilot Documentation].
 
 [#img-homepage]
 .Kiali Graph

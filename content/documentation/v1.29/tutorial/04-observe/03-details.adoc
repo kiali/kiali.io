@@ -72,7 +72,7 @@ However, *GetTravelQuote* invokes multiple requests to other services using a sp
 ++++
 
 {nbsp} +
-Then, as discussed in the link:../#_travel_portal_and_travel_agency_flow[Travel Demo design, window="_blank"], an initial query returns all available hotels before letting the user choose one and then get specific quotes for other destination services.
+Then, as discussed in the <<_travel_portal_and_travel_agency_flow,Travel Demo design>>, an initial query returns all available hotels before letting the user choose one and then get specific quotes for other destination services.
 
 That scenario is shown in the increase of the *hotels* service utilization.
 

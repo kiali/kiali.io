@@ -3,7 +3,7 @@ title: "I see the following informative message: \"Could not fetch Jaeger info. 
 weight: 70
 ---
 :icons: font
-:imagesdir: /images/faq/tracing/
+:imagesdir: /images/documentation/tracing/
 
 image::jaeger_disabled.png[Jaeger Integration Disabled]
 

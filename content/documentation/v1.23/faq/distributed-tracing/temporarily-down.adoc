@@ -3,7 +3,7 @@ title: "I see an error message in embedded feature \"might be temporarily down .
 weight: 70
 ---
 :icons: font
-:imagesdir: /images/faq/tracing/
+:imagesdir: /images/documentation/tracing/
 
 If you are working in a development environment, you can see an error as the image below.
 

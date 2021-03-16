@@ -70,8 +70,8 @@ include::/data/files/validation_examples/802.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/blob/master/business/checkers/authorization/service_binding_checker.go[Validator source code, window="_blank"] +
-https://istio.io/docs/reference/config/authorization/istio.rbac.v1alpha1/#ServiceRoleBinding[Istio documentation, window="_blank"]
+https://github.com/kiali/kiali/blob/v1.25/business/checkers/authorization/service_binding_checker.go[Validator source code, window="_blank"] +
+https://istio.io/v1.3/docs/reference/config/authorization/istio.rbac.v1alpha1/#ServiceRoleBinding[Istio documentation, window="_blank"]
 
 '''
 
@@ -235,7 +235,7 @@ If the PeerAuthentication is not found or doesn't exist and the mesh-wide Destin
 This validation appears only when autoMtls is disabled.
 
 ==== Resolution
-Add a PeerAuthentication within the `istio-system` namespace without specifying targets but setting peers mtls mode to STRICT or PERMISSIVE. The PeerAuthentication should be like link:/data/files/validation_examples/401.yaml[this, window="_blank"].
+Add a PeerAuthentication within the `istio-system` namespace without specifying targets but setting peers mtls mode to STRICT or PERMISSIVE. The PeerAuthentication should be like link:/files/validation_examples/401-PeerAuth.yaml[this, window="_blank"].
 
 ==== Severity
 
@@ -332,7 +332,7 @@ include::/data/files/validation_examples/008.yaml[]
 ==== See Also
 
 https://github.com/kiali/kiali/tree/master/business/checkers/destinationrules/disabled_namespacewide_mtls_checker.go[Validator source code, window="_blank"] +
-https://istio.io/docs/tasks/security/authentication/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-model[Globally enabling Istio mutual TLS, window="_blank"]
+https://istio.io/docs/tasks/security/authentication/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-mode[Globally enabling Istio mutual TLS, window="_blank"]
 
 '''
 
@@ -436,7 +436,7 @@ include::/data/files/validation_examples/401.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/master/business/checkers/meshpolicies/mesh_mtls_checker.go[Validator source code, window="_blank"] +
+https://github.com/kiali/kiali/tree/v1.17/business/checkers/meshpolicies/mesh_mtls_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/tasks/security/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-mode[Globally enabling Istio mutual TLS, window="_blank"]
 
 [#peerauthentication]
@@ -465,7 +465,7 @@ include::/data/files/validation_examples/301.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/master/business/checkers/policies/namespace_mtls_checker.go[Validator source code, window="_blank"] +
+https://github.com/kiali/kiali/tree/v1.17/business/checkers/policies/namespace_mtls_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/tasks/security/authentication/authn-policy/#enable-mutual-tls-per-namespace-or-workload[Enabling Istio mutual TLS namespace-wide, window="_blank"]
 
 '''
@@ -612,8 +612,8 @@ include::/data/files/validation_examples/402.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/master/business/checkers/meshpolicies/mesh_mtls_checker.go[Validator source code, window="_blank"] +
-https://maistra.io/docs/examples/mesh-wide_mtls[Globally enabling Istio mutual TLS, window="_blank"]
+https://github.com/kiali/kiali/tree/v1.17/business/checkers/meshpolicies/mesh_mtls_checker.go[Validator source code, window="_blank"] +
+https://istio.io/docs/tasks/security/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-mode[Globally enabling Istio mutual TLS, window="_blank"]
 
 
 [#serviceroles]
@@ -640,8 +640,8 @@ include::/data/files/validation_examples/501.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/blob/master/business/checkers/authorization/service_checker.go[Validator source code, window="_blank"] +
-https://istio.io/docs/reference/config/authorization/istio.rbac.v1alpha1/#AccessRule[Istio documentation, window="_blank"]
+https://github.com/kiali/kiali/blob/v1.25/business/checkers/authorization/service_checker.go[Validator source code, window="_blank"] +
+https://istio.io/v1.3/docs/reference/config/authorization/istio.rbac.v1alpha1/#AccessRule[Istio documentation, window="_blank"]
 
 '''
 
@@ -666,8 +666,8 @@ include::/data/files/validation_examples/502.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/blob/master/business/checkers/authorization/service_checker.go[Validator source code, window="_blank"] +
-https://istio.io/docs/reference/config/authorization/istio.rbac.v1alpha1/#AccessRule[Istio documentation, window="_blank"]
+https://github.com/kiali/kiali/blob/v1.25/business/checkers/authorization/service_checker.go[Validator source code, window="_blank"] +
+https://istio.io/v1.3/docs/reference/config/authorization/istio.rbac.v1alpha1/#AccessRule[Istio documentation, window="_blank"]
 
 '''
 
@@ -692,8 +692,8 @@ include::/data/files/validation_examples/601.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/blob/master/business/checkers/authorization/service_binding_checker.go[Validator source code, window="_blank"] +
-https://istio.io/docs/reference/config/authorization/istio.rbac.v1alpha1/#ServiceRoleBinding[Istio documentation, window="_blank"]
+https://github.com/kiali/kiali/blob/v1.25/business/checkers/authorization/service_binding_checker.go[Validator source code, window="_blank"] +
+https://istio.io/v1.3/docs/reference/config/authorization/istio.rbac.v1alpha1/#ServiceRoleBinding[Istio documentation, window="_blank"]
 
 [#sidecars]
 == Sidecars

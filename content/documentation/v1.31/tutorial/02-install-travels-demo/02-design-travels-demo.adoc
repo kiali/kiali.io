@@ -28,7 +28,7 @@ Each service can provide an independent quote and the _travels_ service must the
 
 Additionally, some users, like _registered_ users, can have access to special discounts, managed as well by an external service.
 
-Service relations between namespaces can be described in the following diagram:
+[[_travel_portal_and_travel_agency_flow]]Service relations between namespaces can be described in the following diagram:
 
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/02-02-travels-demo-design.png" title="Travels Demo Design">

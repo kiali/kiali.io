@@ -3,7 +3,7 @@ title: "I see the following informative message: \"certificate signed by unknown
 weight: 70
 ---
 :icons: font
-:imagesdir: /images/faq/tracing/
+:imagesdir: /images/documentation/tracing/
 :linkattrs:
 
 image::untrusted_certificate.png[Unstrusted certificate]
