@@ -4,7 +4,7 @@
 #
 # Requires:
 # - a github oauth token with public_repo and read:org scopes for kiali
-# - python (tested with 2.7.17)
+# - python (tested with 3.8.7)
 #
 # usage: $ python relnotes <version: vX.Y.Z> <projectNumber: int> <githubOauthToken>
 #
@@ -14,7 +14,7 @@ import requests
 import sys
 
 if len(sys.argv) != 4:
-    print 'usage: $ python relnotes.py <version: X.Y.Z> <projectNumber: int> <githubOauthToken>'
+    print( 'usage: $ python relnotes.py <version: X.Y.Z> <projectNumber: int> <githubOauthToken>' )
     exit
 
 version = sys.argv[1]
