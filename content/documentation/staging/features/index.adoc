@@ -642,8 +642,8 @@ These actions are located under the Istio Config page.
 ++++
 <div style="display: flex;">
  <span style="margin: 0 auto;">
-  <a class="image-popup-fit-height" href="/images/documentation/features/create-istio-config-v1.22.0.png" title="Service Details Actions">
-   <img src="/images/documentation/features/create-istio-config-v1.22.0.png" style="width: 1333px;display:inline;margin: 0 auto;" />
+  <a class="image-popup-fit-height" href="/images/documentation/features/create-istio-config-v1.32.0.png" title="Create Istio Config">
+   <img src="/images/documentation/features/create-istio-config-v1.32.0.png" style="width: 1333px;display:inline;margin: 0 auto;" />
   </a>
  </span>
 </div>
@@ -651,23 +651,39 @@ These actions are located under the Istio Config page.
 
 ==== Istio Security Forms
 
-Kiali allows creation of AuthorizationPolicy, PeerAuthentication and RequestAuthentication Istio resources from the Create New Istio Config forms:
+Kiali allows creation of Istio AuthorizationPolicy resources:
+
+++++
+<div style="display: flex;">
+ <span style="margin: 0 auto;">
+  <a class="image-popup-fit-height" href="/images/documentation/features/form-authorization-policy-v1.32.0.png" title="AuthorizationPolicy">
+   <img src="/images/documentation/features/form-authorization-policy-v1.32.0.png" style="width: 1333px;display:inline;margin: 0 auto;" />
+  </a>
+ </span>
+</div>
+++++
+
+{empty} +
+Istio PeerAuthentication resources:
 
 ++++
 <div style="display: flex;">
     <span style="margin: 0 auto;">
-      <a class="image-popup-fit-height" href="/images/documentation/features/form-authorization-policy-v1.22.0.png" title="Custom JVM Metrics">
-          <img src="/images/documentation/features/form-authorization-policy-v1.22.0.png" style="width: 660px; display:inline;margin: 0 auto;" />
-      </a>
-      <a class="image-popup-fit-height" href="/images/documentation/features/form-peer-authentication-v1.22.0.png" title="Custom Vertx Metrics">
-          <img src="/images/documentation/features/form-peer-authentication-v1.22.0.png" style="width: 660px; display:inline;margin: 0 auto;" />
+      <a class="image-popup-fit-height" href="/images/documentation/features/form-peer-authentication-v1.32.0.png" title="PeerAuthentication">
+          <img src="/images/documentation/features/form-peer-authentication-v1.32.0.png" style="width: 1333px; display:inline;margin: 0 auto;" />
       </a>
     </span>
 </div>
+++++
+
+{empty} +
+Istio RequestAuthentication resources:
+
+++++
 <div style="display: flex;">
     <span style="margin: 0 auto;">
-      <a class="image-popup-fit-height" href="/images/documentation/features/form-request-authentication-v1.22.0.png" title="Custom JVM Metrics">
-          <img src="/images/documentation/features/form-request-authentication-v1.22.0.png" style="width: 660px; display:inline;margin: 0 auto;" />
+      <a class="image-popup-fit-height" href="/images/documentation/features/form-request-authentication-v1.32.0.png" title="RequestAuthentication">
+          <img src="/images/documentation/features/form-request-authentication-v1.32.0.png" style="width: 1333px; display:inline;margin: 0 auto;" />
       </a>
     </span>
 </div>
@@ -675,16 +691,41 @@ Kiali allows creation of AuthorizationPolicy, PeerAuthentication and RequestAuth
 
 ==== Istio Traffic Forms
 
-Kiali uses Istio Wizards to generate Istio Traffic config for a specific Service, but Kiali also allows creation of Gateway and Sidecar Istio resources for more generic scenarios:
+Kiali uses Istio Wizards to generate Istio Traffic config for a specific Service, but Kiali also allows creation of Gateway, ServiceEntry and Sidecar Istio resources for more generic scenarios.
+
+Istio Gateway resources:
 
 ++++
 <div style="display: flex;">
     <span style="margin: 0 auto;">
-      <a class="image-popup-fit-height" href="/images/documentation/features/form-sidecar-v1.22.0.png" title="Custom JVM Metrics">
-          <img src="/images/documentation/features/form-sidecar-v1.22.0.png" style="width: 660px; display:inline;margin: 0 auto;" />
+      <a class="image-popup-fit-height" href="/images/documentation/features/form-gateway-v1.32.0.png" title="Gateway">
+          <img src="/images/documentation/features/form-gateway-v1.32.0.png" style="width: 1333px; display:inline;margin: 0 auto;" />
       </a>
-      <a class="image-popup-fit-height" href="/images/documentation/features/form-gateway-v1.22.0.png" title="Custom Vertx Metrics">
-          <img src="/images/documentation/features/form-gateway-v1.22.0.png" style="width: 660px; display:inline;margin: 0 auto;" />
+    </span>
+</div>
+++++
+
+{empty} +
+Istio ServiceEntry resources:
+
+++++
+<div style="display: flex;">
+    <span style="margin: 0 auto;">
+      <a class="image-popup-fit-height" href="/images/documentation/features/form-serviceentry-v1.32.0.png" title="ServiceEntry">
+          <img src="/images/documentation/features/form-serviceentry-v1.32.0.png" style="width: 1333px; display:inline;margin: 0 auto;" />
+      </a>
+    </span>
+</div>
+++++
+
+{empty} +
+Istio Sidecar resources:
+
+++++
+<div style="display: flex;">
+    <span style="margin: 0 auto;">
+      <a class="image-popup-fit-height" href="/images/documentation/features/form-sidecar-v1.32.0.png" title="Sidecar">
+          <img src="/images/documentation/features/form-sidecar-v1.32.0.png" style="width: 1333px; display:inline;margin: 0 auto;" />
       </a>
     </span>
 </div>
