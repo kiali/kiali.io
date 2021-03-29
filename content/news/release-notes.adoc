@@ -15,6 +15,40 @@ For additional information check our https://www.youtube.com/channel/UCcm2NzDN_U
 
 toc::[]
 
+== 1.32.0
+Sprint Release: March 26th, 2021
+
+Features:
+
+* https://github.com/kiali/kiali/issues/2281[Add Focus Animation when using back arrow from zoomed graph view]
+* https://github.com/kiali/kiali/issues/3763[Add support for ServiceEntry objects from Create New Istio Config form]
+* https://github.com/kiali/kiali/issues/3807[move to different operator base image quay repo]
+* https://github.com/kiali/kiali/issues/3781[Update the "Running Standalone" section in the README]
+* https://github.com/kiali/kiali/issues/3707[mTLS locks confusion when mTLS is strict at mesh-level]
+* https://github.com/kiali/kiali/issues/3794[Broken link to version requirements in the readme]
+* https://github.com/kiali/kiali/issues/3526[(multi-cluster) Discover other Kiali instances and provide a way to jump to those other instances]
+* https://github.com/kiali/kiali/issues/3722[Move to golang 1.16]
+* https://github.com/kiali/kiali/issues/3769[DaemonSet workloads seem broken]
+* https://github.com/kiali/kiali/issues/3682[Istio component status - cover the scenario where users sets the replicas to 0]
+* https://github.com/kiali/kiali/issues/2731[Links to grafana dashboards from overview page]
+* https://github.com/kiali/kiali/issues/2060[Smooth out Kiali Charts]
+* https://github.com/kiali/kiali/issues/3673[Improve Graph generation/Better handle single requests that generate multiple destination telemetry entries]
+* https://github.com/kiali/kiali/issues/2759[Filter by Istio Type Dropdown - Put a scroll in dropdown values]
+
+Fixes:
+
+* https://github.com/kiali/kiali/issues/3812[(helm) server chart doesn't have namespace in the dashboard templates]
+* https://github.com/kiali/kiali/issues/3761[Create HTTPS Gateways from IstioConfig Form misses TLS settings]
+* https://github.com/kiali/kiali/issues/3762[OIDC Auth Redirect not working]
+* https://github.com/kiali/kiali/issues/3755[Traffic Animation missed when switched from Graph type]
+* https://github.com/kiali/kiali/issues/3787[(Performance) Significant performance drop on /api/namespaces/graph endpoint]
+* https://github.com/kiali/kiali/issues/3782[Cannot load the graph: deployments.apps "istiod" not found]
+* https://github.com/kiali/kiali/issues/3776[Uppercase app label crashes app detail view - Kiali v1.31]
+* https://github.com/kiali/kiali/issues/3760[(operator) conversion of node_selector to snake_case prevents us from targeting specific nodes]
+* https://github.com/kiali/kiali/issues/3693[Metrics Tab don't load unless Traces tab is loaded first]
+* https://github.com/kiali/kiali/issues/3756[Overview List View does not show config status]
+* https://github.com/kiali/kiali/issues/3757[Overview Health Filter Broken]
+
 == 1.31.0
 Sprint Release: March 5th, 2021
 
