@@ -8,6 +8,7 @@ weight: 60
 * Follow our https://twitter.com/kialiproject[twitter] account.
 * Watch our videos using https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w[youtube].
 * Chat by joining our https://webchat.freenode.net/?channels=%23kiali[IRC] channel in freenode.
+* Join https://istio.slack.com/[Istio Slack] and add the #kiali channel.
 * Post in our
 https://groups.google.com/g/kiali-users[users] and
 https://groups.google.com/g/kiali-dev[developers] groups at google groups.
