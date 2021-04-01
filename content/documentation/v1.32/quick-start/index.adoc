@@ -19,7 +19,7 @@ weight: 2
 :imagesdir: /images/quickinstall/
 :sectlinks:
 
-icon:lightbulb[size=1x]{nbsp} This page is intended for users installing Kiali for the first time. These instructions are not recommended to install Kiali in production environments. In the case of custom installations, visit the link:{{< ref "/documentation/v1.32/installation-guide" >}}[installation guide].
+icon:lightbulb[size=1x]{nbsp} This page is intended for users installing Kiali for the first time. These instructions are not recommended to install Kiali in production environments. In the case of custom installations, visit the link:{{< ref "installation-guide" >}}[installation guide].
 
 icon:lightbulb[size=1x]{nbsp} Before attempting to install Kiali, please review the link:../installation-guide/#_prerequisites[prerequisites].
 
@@ -63,7 +63,7 @@ helm install \
 
 icon:bullhorn[size=1x]{nbsp} If you get a validation error, you may have to pass the option `--disable-openapi-validation` (this is needed on OpenShift 4.5, for example).
 
-Kiali will be able to access all existing and future namespaces. See link:{{< ref "/documentation/v1.32/installation-guide#_namespace_management" >}}[Namespace Management] for more information if you want to change that behavior.
+Kiali will be able to access all existing and future namespaces. See link:{{< ref "installation-guide#_namespace_management" >}}[Namespace Management] for more information if you want to change that behavior.
 
 To uninstall, use helm and then remove Kiali's Monitoring Dashboards CRD:
 
@@ -91,4 +91,4 @@ The credentials you use to log into Kiali depend on the authentication strategy 
 
 == More installation details
 
-Find more detailed information on installing Kiali see the link:{{< ref "/documentation/v1.32/installation-guide" >}}[installation guide].
+Find more detailed information on installing Kiali see the link:{{< ref "installation-guide" >}}[installation guide].
