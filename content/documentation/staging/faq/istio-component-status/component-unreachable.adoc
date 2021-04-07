@@ -4,6 +4,27 @@ weight: 2
 ---
 :icons: font
 
-One component is `Unreachable` when Kiali receives a 4xx or 5xx response code when calling to the component's service.
+Kiali considers one component as `Unreachable` when the component responds to a GET request with a 4xx or 5xx response code.
 
-The component service url is specified in the https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml[Kiali CR]. Make sure that Kiali has access to that URL.
+The URL where Kiali sends a GET request to is the same one as it is used for the consumption of the component. However, Kiali allows you to set a specific URL to consume for health check purposes in the `computer_status.health_check_url` setting.
+
+In this example, Kiali uses the Prometheus `url` for both metrics consumption and health check.
+[source,yaml]
+----
+external_services:
+  prometheus:
+    url: "http://prometheus.istio-system:9090"
+----
+
+In case that URL doesn't return 2XX/3XX to GET requests, you can use the following settings to specify which health check URL Kiali should use.
+[source,yaml]
+----
+external_services:
+  prometheus:
+    url: "http://prometheus.istio-system:9090"
+    component_status:
+      health_check_url: "http://prometheus.istio-system:9090/healthz"
+----
+
+Please check the https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml[Kiali CR] for more information. Each external service component has its own `component_status` section with different settings to tailor.
+
