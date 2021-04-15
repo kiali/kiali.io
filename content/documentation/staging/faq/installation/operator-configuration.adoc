@@ -1,5 +1,5 @@
 ---
-title: How to Configure Some Operator Features At Runtime
+title: How to configure some operator features at runtime
 weight: 3
 ---
 :icons: font
