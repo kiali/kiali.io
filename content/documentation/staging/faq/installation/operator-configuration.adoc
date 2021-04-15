@@ -40,7 +40,7 @@ ENV_VALUE="/opt/ansible/ansible-profiler.cfg"
 kubectl -n ${OPERATOR_NAMESPACE} set env deploy/kiali-operator "${ENV_NAME}=${ENV_VALUE}"
 ```
 
-- If you installed the operator via OLM, you must set this environment variable within the operator's CSV and let OLM propagate the new environment variable value down to the operator deployment (this command assumes you are on OpenShift and as such uses `oc` - if you are on Kubernetes, substitute all the `oc` references to `kubectl`):
+- If you installed the operator via OLM, you must set this environment variable within the operator's CSV and let OLM propagate the new environment variable value down to the operator deployment (this command assumes you are on OpenShift and as such uses `oc` - if you are on a non-OpenShift Kubernetes environment, substitute all the `oc` references to `kubectl`):
 ```
 oc -n ${OPERATOR_NAMESPACE} patch $(oc -n ${OPERATOR_NAMESPACE} get csv -o name | grep kiali) --type=json -p "[{'op':'replace','path':"/spec/install/spec/deployments/0/spec/template/spec/containers/0/env/$(oc -n ${OPERATOR_NAMESPACE} get $(oc -n ${OPERATOR_NAMESPACE} get csv -o name | grep kiali) -o jsonpath='{.spec.install.spec.deployments[0].spec.template.spec.containers[0].env[*].name}' | tr ' ' '\n' | cat --number | grep ${ENV_NAME} | cut -f 1 | xargs echo -n | cat - <(echo "-1") | bc)/value",'value':"\"${ENV_VALUE}\""}]"
 ```
