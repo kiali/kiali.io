@@ -295,9 +295,9 @@ recommended.
 
 === Using with Google Cloud Platform / GKE OAuth2
 
-If you are already using Google Cloud Platform (GCP) and products such as
-Google Kubernetes Engine (GKE) then it is very easy to integrate with Kiali's
-OpenID.
+If you are using Google Cloud Platform (GCP) and its products such as
+Google Kubernetes Engine (GKE), it should be straightforward to configure Kiali's OpenID
+strategy to authenticate using your Google credentials.
 
 First, you'll need to go to your GCP Project and to the Credentials screen which
 is available at `(Menu Icon) > APIs & Services > Credentials`.
@@ -362,4 +362,3 @@ data:
 
 Once all these settings are complete just set your Kiali CR and the Kiali secret to your cluster. You may need to
 refresh your Kiali Pod to _set_ the Secret if you add the Secret after the Kiali pod is created.
-
