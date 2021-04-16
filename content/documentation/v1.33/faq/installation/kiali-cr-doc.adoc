@@ -1,0 +1,11 @@
+---
+title: What values can be set in the Kiali CR?
+weight: 1
+---
+:icons: font
+
+A Kiali CR is used to tell the Kiali Operator how and where to install a Kiali Server in your cluster. You can install one or more Kiali Servers by creating one Kiali CR for each Kiali Server you want the Operator to install and manage. Deleting a Kiali CR will uninstall its associted Kiali Server.
+
+All the settings that you can define in a Kiali CR are link:https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml[fully documented here.] If you are using a specific version of the Operator, the Kiali CR that is valid for that version can be found in the version tag within the github repository (e.g. Operator v1.25.0 supported link:https://github.com/kiali/kiali-operator/blob/v1.25.0/deploy/kiali/kiali_cr.yaml[these Kiali CR settings]).
+
+Note that that example Kiali CR is formatted in such a way that if you uncomment a line (by deleting the line's leading `#` character), that line's setting will be at the appropriate indentation level. This allows you to create an initial Kiali CR by simply uncommenting lines of the settings you want to define. The comments are also specifically laid out in such a way that each major top-level group of settings are in their own major comment section, and each value in each commented setting is the default value (so if you do not define that setting yourself, you will know what its default value is). 
