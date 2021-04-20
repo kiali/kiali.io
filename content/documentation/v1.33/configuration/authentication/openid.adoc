@@ -39,7 +39,7 @@ link:https://github.com/kiali/kiali-operator/blob/7dafc469c95d4307ebd03c515a87c7
 signing key] is 16, 24 or 32 byte long. If you setup a signing key of a
 different size, Kiali will only be capable of using the _implicit flow_. If you
 install Kiali via the operator and don't set a custom signing key, the operator
-should create a 16 byte long signing key.  
+should create a 16 byte long signing key.
 
 icon:bullhorn[size=1x]{nbsp} We recommend using the _authorization code flow_.
 
@@ -292,3 +292,73 @@ your signing key for Kiali is not a standard size (16, 24 or 32 bytes long).
 Enabling the `Implicit Flow Enabled` option of the client will make the problem
 go away, but be aware that the implicit flow is less secure, and not
 recommended.
+
+=== Using with Google Cloud Platform / GKE OAuth2
+
+If you are using Google Cloud Platform (GCP) and its products such as
+Google Kubernetes Engine (GKE), it should be straightforward to configure Kiali's OpenID
+strategy to authenticate using your Google credentials.
+
+First, you'll need to go to your GCP Project and to the Credentials screen which
+is available at `(Menu Icon) > APIs & Services > Credentials`.
+
+image::/images/documentation/authentication/gcp-credentials-screen.png[Credentials Screen on in GCP Project]
+
+On the Credentials screen you can select to create a new OAuth client ID.
+
+image::/images/documentation/authentication/gcp-select-oauth.png[Select OAuth on Credentials Screen]
+
+icon:bullhorn[size=1x]{nbsp} If you've never setup the OAuth consent screen you will need to
+do that before you can create an OAuth client ID. On screen you'll have multiple
+warnings and prompts to walk you through this.
+
+On the _Create OAuth client ID_ screen, set the _Application type_ to `Web Application`
+and enter a name for your key.
+
+image::/images/documentation/authentication/gcp-select-web-app.png[Select Web Application]
+
+Then enter in the _Authorized Javascript origins_ and _Authorized redirect URIs_ for your project.
+You can enter in `localhost` as appropriate during testing. You can also enter multiple URIs as appropriate.
+
+image::/images/documentation/authentication/gcp-enter-urls.png[Enter URLs]
+
+After clicking _Create_ you'll be shown your newly minted client id and secret. These are important
+and needed for your Kiali CR yaml and Kiali secrets files.
+
+image::/images/documentation/authentication/gcp-get-credentials.png[Get Credentials]
+
+You'll need to update your Kiali CR file to include the following `auth` block.
+
+[source,yaml]
+----
+spec:
+  auth:
+    strategy: "openid"
+    openid:
+      client_id: "<your client id from GCP>"
+      disable_rbac: true
+      issuer_uri: "https://accounts.google.com"
+      scopes: ["openid", "email"]
+      username_claim: "email"
+----
+
+icon:bullhorn[size=1x]{nbsp} Don't get creative here. The `issuer_uri` should be `https://accounts.google.com`.
+
+Finally you will need to create a secret, if you don't have one already, that sets the `oidc-secret` for the openid flow.
+
+[source,yaml]
+----
+apiVersion: v1
+kind: Secret
+metadata:
+  name: kiali
+  namespace: istio-system
+  labels:
+    app: kiali
+type: Opaque
+data:
+  oidc-secret: "<base64 encode your client secret from GCP and enter here>"
+----
+
+Once all these settings are complete just set your Kiali CR and the Kiali secret to your cluster. You may need to
+refresh your Kiali Pod to _set_ the Secret if you add the Secret after the Kiali pod is created.
