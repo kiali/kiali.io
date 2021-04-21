@@ -449,12 +449,12 @@ spec:
   auth:
     strategy: "openid"
     openid:
-      client_id: <your Kiali application client id from Azure>
+      client_id: "<your Kiali application client id from Azure>"
       issuer_uri: https://login.microsoftonline.com/<your AAD tenant id>/v2.0
       username_claim: preferred_username
       api_token: access_token
       additional_request_params:
-        resource: 6dae42f8-4368-4678-94ff-3960e28e3630
+        resource: "6dae42f8-4368-4678-94ff-3960e28e3630"
 ----
 
 You can find your `client_id` and `tenant_id` in the Overview page of the Kiali
