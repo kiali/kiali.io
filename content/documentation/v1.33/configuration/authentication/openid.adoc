@@ -73,7 +73,7 @@ similar alternative. If you don't need RBAC, just configure Kiali accordingly.
 As nobody in the Kiali team has access to Azure, contributions for improved
 Azure support will be appreciated.
 
-== Set-up with RBAC support
+== [[setup-with-rbac]]Set-up with RBAC support
 
 Assuming you already have a working Kubernetes cluster with OpenId integration
 (or a working alternative like `kube-oidc-proxy`), you should already had
@@ -275,6 +275,40 @@ spec:
       https_proxy: https://USERNAME:PASSWORD@10.0.0.1:8080/
 ----
 
+=== Passing additional options to the identity provider
+
+When users click on the _Login_ button on Kiali, a redirection occurs to the
+authentication page of the external identity provider. Kiali sends a fixed set
+of parameters to the identity provider to enable authentication. If you need to
+add an additional set of parameters to your identity provider, you can use the
+`additional_request_params` setting of the Kiali CR, which accepts key-value
+pairs. For example:
+
+[source,yaml]
+----
+spec:
+  auth:
+    openid:
+      additional_request_params:
+        prompt: login
+----
+
+The `prompt` parameter is a
+link:https://openid.net/specs/openid-connect-core-1_0.html#AuthRequest[standard
+OpenID parameter]. When the `login` value is passed in this parameter, the
+identity provider is instructed to ask for user credentials regardless if the
+user already has an active session because of a previous login in some other
+system.
+
+If your OpenId provider supports other non-standard parameters, you can specify
+the ones you need in this `additional_request_params` setting.
+
+Take into account that you should *not* add the `client_id`, `response_type`,
+`redirect_uri`, `scope`, `nonce` nor `state` parameters to this list. These are
+already in use by Kiali and some already have a dedicated setting.
+
+== Provider-specific instructions
+
 === Using with Keycloak
 
 When using OpenId with Keycloak, you will need to enable the `Standard Flow Enabled`
@@ -362,3 +396,68 @@ data:
 
 Once all these settings are complete just set your Kiali CR and the Kiali secret to your cluster. You may need to
 refresh your Kiali Pod to _set_ the Secret if you add the Secret after the Kiali pod is created.
+
+=== Using with Azure: AKS and AAD
+
+icon:bullhorn[size=1x]{nbsp} The OpenID authentication strategy can be used
+with Azure Kubernetes Service (AKS) and Azure Active Directory (AAD) with Kiali
+versions 1.33 and later. Prior Kiali versions work only without RBAC support.
+
+AKS has support for a feature named _AKS-managed Azure Active Directory_, which
+enables integration between AKS and AAD. This has the advantage that users can
+use their AAD credentials to access AKS clusters and you can use Kubernetes
+RBAC features to assign privileges to AAD users.
+
+However, Azure is implementing this integration via the
+link:https://kubernetes.io/docs/reference/access-authn-authz/authentication/#webhook-token-authentication[Kubernetes
+Webhook Token Authentication] rather than via the
+link:https://kubernetes.io/docs/reference/access-authn-authz/authentication/#openid-connect-tokens[Kubernetes
+OpenID Connect Tokens authentication] (see
+link:https://docs.microsoft.com/en-us/azure/aks/concepts-identity#azure-ad-integration[the
+Azure AD integration section in AKS Concepts documentation]). Because of this
+difference, authentication in AKS behaves slightly different from a standard
+OpenID setup, but Kiali's OpenID authentication strategy can still be used with
+full RBAC support by following the next steps.
+
+First, enable the AAD integration on your AKS cluster. See the
+link:https://docs.microsoft.com/en-us/azure/aks/managed-aad[official AKS
+documentation to learn how]. Once it is enabled, your AKS panel should show the
+following:
+
+image::/images/documentation/authentication/azure-managed-aad-enabled.png[AKS-managed AAD is enabled,700]
+
+Create a web application for Kiali in your Azure AD panel:
+
+* Go to _AAD > App Registration_, create an application with redirect url like `\https://<your-kiali-url>`
+* Go to _Certificates & secrets_ and create a client secret.
+** After creating the client secret, take note of the provided secret. Create a
+   Kubernetes secret in your cluster as mentioned in the <<setup-with-rbac,Set-up
+   with RBAC support>> section.
+* Go to _API Permissions_ and press the _Add a permission_ button. In the new page that appears, switch to the
+  _APIs my organization uses_ tab.
+** Type the following ID in the search field:
+  `6dae42f8-4368-4678-94ff-3960e28e3630` (this is a shared ID for all Azure
+clusters). And select the resulting entry.
+** Select the _Delegated permissions_ square.
+** Select the `user.read` permission.
+
+Then, create or modify your Kiali CR and include the following settings:
+
+[source,yaml]
+----
+spec:
+  auth:
+    strategy: "openid"
+    openid:
+      client_id: <your Kiali application client id from Azure>
+      issuer_uri: https://login.microsoftonline.com/<your AAD tenant id>/v2.0
+      username_claim: preferred_username
+      api_token: access_token
+      additional_request_params:
+        resource: 6dae42f8-4368-4678-94ff-3960e28e3630
+----
+
+You can find your `client_id` and `tenant_id` in the Overview page of the Kiali
+App registration that you just created. See this documentation for more
+information:
+https://docs.microsoft.com/en-us/azure/digital-twins/how-to-create-app-registration#collect-client-id-and-tenant-id
