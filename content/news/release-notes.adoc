@@ -15,6 +15,44 @@ For additional information check our https://www.youtube.com/channel/UCcm2NzDN_U
 
 toc::[]
 
+== 1.33.1
+Patch Release: April 20th, 2021
+
+Sprint Release: April 16th, 2021
+
+Notes:
+
+Kiali v1.33.1 replaces v1.33.0.  Kiali v1.33.0 should not be used due to https://github.com/kiali/kiali/issues/3913[this bug].
+
+Features:
+
+* https://github.com/kiali/kiali/issues/3874[OpenID integration issue with large tokens (caused by a long list of groups)]
+* https://github.com/kiali/kiali/issues/3878[does Kiali need patch permission for pods/proxy?]
+* https://github.com/kiali/kiali/issues/3631[Possibility to overwrite component status url]
+* https://github.com/kiali/kiali/issues/3717[Remove graph navigations to details page for nodes not present in current cluster]
+* https://github.com/kiali/kiali/issues/3884[document how to enable operator features like profiler and other things]
+* https://github.com/kiali/kiali/issues/3877[does Kiali need access to HPA resources?]
+* https://github.com/kiali/kiali/issues/3696[Link to Application's Full Screen Graph From Application Page]
+* https://github.com/kiali/kiali/issues/3865[(operator) do not allow ad hoc images in Kiali CR]
+* https://github.com/kiali/kiali/issues/3535[Add tooltip on "Missing Sidecar" message]
+* https://github.com/kiali/kiali/issues/3675[Graph UX enhancements for namespace and cluster boxing]
+* https://github.com/kiali/kiali/issues/3346[Showing deep dive envoy config at workload level]
+* https://github.com/kiali/kiali/issues/3836[Update "secret" comments in sample Kiali CR]
+* https://github.com/kiali/kiali/issues/2775[Metrics page: more details & links from spans]
+* https://github.com/kiali/kiali/issues/3826[Update cache for workloads]
+* https://github.com/kiali/kiali/issues/3622[Migrate front-end to Yarn 2]
+
+Fixes:
+
+* https://github.com/kiali/kiali/issues/3913[Cannot read property 'Kubernetes' of undefined in UI]
+* https://github.com/kiali/kiali/issues/3896[Graph error: Namespace is not accessible for Kiali]
+* https://github.com/kiali/kiali/issues/3725[Istio gateway not found when deployed as DaemonSet]
+* https://github.com/kiali/kiali/issues/3818[DR with wrong host - Link is shown in details.]
+* https://github.com/kiali/kiali/issues/3861[Block icon is displayed when standing on the info for display options]
+* https://github.com/kiali/kiali/issues/3844[In Metrics spans disappear in mouseOver]
+* https://github.com/kiali/kiali/issues/3814[Span detail can't be open when navigating from Graph]
+* https://github.com/kiali/kiali/issues/3843[(docs) fix faq to explain what prometheus query to test with]
+
 == 1.32.0
 Sprint Release: March 26th, 2021
 
