@@ -440,6 +440,10 @@ Create a web application for Kiali in your Azure AD panel:
 clusters). And select the resulting entry.
 ** Select the _Delegated permissions_ square.
 ** Select the `user.read` permission.
+* Go to _Authentication_ and make sure that the _Access tokens_ checkbox is ticked.
+
+image::/images/documentation/authentication/azure-access-token-ticked.png[Access tokens enabled]
+
 
 Then, create or modify your Kiali CR and include the following settings:
 
@@ -450,7 +454,7 @@ spec:
     strategy: "openid"
     openid:
       client_id: "<your Kiali application client id from Azure>"
-      issuer_uri: https://login.microsoftonline.com/<your AAD tenant id>/v2.0
+      issuer_uri: "https://sts.windows.net/<your AAD tenant id>/"
       username_claim: preferred_username
       api_token: access_token
       additional_request_params:
