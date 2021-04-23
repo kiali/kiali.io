@@ -432,7 +432,11 @@ Create a web application for Kiali in your Azure AD panel:
 * Go to _Certificates & secrets_ and create a client secret.
 ** After creating the client secret, take note of the provided secret. Create a
    Kubernetes secret in your cluster as mentioned in the <<setup-with-rbac,Set-up
-   with RBAC support>> section.
+   with RBAC support>> section. Please, note that the suggested name for the
+   Kubernetes Secret is `kiali`. If you want to customize the secret name, you
+   will have to specify your custom name in the Kiali CR. See the
+   link:https://github.com/kiali/kiali-operator/blob/5e364ee48c08a1bdd200172b47f08b2ed0369c25/deploy/kiali/kiali_cr.yaml#L342-L347[comments
+   for the `secret_name` configuration in the sample Kiali CR].
 * Go to _API Permissions_ and press the _Add a permission_ button. In the new page that appears, switch to the
   _APIs my organization uses_ tab.
 ** Type the following ID in the search field:
