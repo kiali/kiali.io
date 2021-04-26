@@ -288,7 +288,7 @@ The Kiali CR tells the Kiali Operator which namespaces are accessible to Kiali. 
 
 The specified namespaces are those that have service mesh components to be observed by Kiali. Additionally, the namespace to which Kiali is installed must be accessible (typically the same namespace as Istio). Each list entry can be a regex matched against all namespaces the operator can see. If not set in the Kiali CR, then the default behavior makes all current namespaces accessible except for some internal namespaces that should typically be ignored.
 
-icon:bullhorn[size=1x]{nbsp} If you install multiple Kiali instances in the cluster, they must be configured with completely independent sets of accessible namespaces. In other words, a namespace must only ever appear in the `accessible_namespaces` list for at most one Kiali instance.
+icon:bullhorn[size=1x]{nbsp} When installing multiple Kiali instances into a single cluster, `accessible_namespaces` must be mutually exclusive. In other words, a namespace must appear in at most one `accessible_namespaces` list. Regular expressions must not have overlapping patterns.
 
 As an example, if Kiali is to be installed in the istio-system namespace, and is expected to monitor all namespaces prefixed with `mycorp_` the setting would be:
 
@@ -300,9 +300,7 @@ deployment:
   - mycorp_.*
 ----
 
-icon:lightbulb[size=1x]{nbsp} If `accessible_namespaces` has an entry with the special value of `+++**+++` (two asterisks), it denotes that Kiali be given access to all namespaces that exist or will be created in the future via a single cluster role. Note that only a single Kiali instance in the cluster should be configured with this special value of `+++**+++`. If multiple Kiali instances are configured with this special value, the Kiali instances may not work correctly.
-
-icon:bullhorn[size=1x]{nbsp} Only a single Kiali instance in the cluster should be configured with this special value of `+++**+++`. If multiple Kiali instances are configured with this special value, the Kiali instances may not work correctly.
+icon:lightbulb[size=1x]{nbsp} A cluster can have at most one Kiali instance with `accessible_namespaces` set to the special value of `+++**+++` (two asterisks). This denotes that Kiali be given access to all namespaces that currently exist, or that will be created in the future, via a single cluster role. This can be in addition to Kiali instances configured with explicit, mutually exclusive namespaces, as mentioned above.
 
 icon:bullhorn[size=1x]{nbsp} If the operator was installed via Helm but not installed with the option `clusterRoleCreator: true` then you cannot later edit the Kiali CR and change accessible_namespaces to `+++**+++`. You must reinstall the operator so that it can be granted the additional permissions required (`--set clusterRoleCreator=true`). Note that by default the Kiali Operator Helm Chart will install the operator with `clusterRoleCreator` set to `true`.
 
