@@ -288,6 +288,8 @@ The Kiali CR tells the Kiali Operator which namespaces are accessible to Kiali. 
 
 The specified namespaces are those that have service mesh components to be observed by Kiali. Additionally, the namespace to which Kiali is installed must be accessible (typically the same namespace as Istio). Each list entry can be a regex matched against all namespaces the operator can see. If not set in the Kiali CR, then the default behavior makes all current namespaces accessible except for some internal namespaces that should typically be ignored.
 
+icon:bullhorn[size=1x]{nbsp} If you install multiple Kiali instances in the cluster, they must be configured with completely independent sets of accessible namespaces. In other words, a namespace must only ever appear in the `accessible_namespaces` list for at most one Kiali instance.
+
 As an example, if Kiali is to be installed in the istio-system namespace, and is expected to monitor all namespaces prefixed with `mycorp_` the setting would be:
 
 [source,yaml]
@@ -298,7 +300,9 @@ deployment:
   - mycorp_.*
 ----
 
-icon:lightbulb[size=1x]{nbsp} If `accessible_namespaces` has an entry with the special value of `+++**+++` (two asterisks), it denotes that Kiali be given access to all namespaces that exist or will be created in the future via a single cluster role. 
+icon:lightbulb[size=1x]{nbsp} If `accessible_namespaces` has an entry with the special value of `+++**+++` (two asterisks), it denotes that Kiali be given access to all namespaces that exist or will be created in the future via a single cluster role. Note that only a single Kiali instance in the cluster should be configured with this special value of `+++**+++`. If multiple Kiali instances are configured with this special value, the Kiali instances may not work correctly.
+
+icon:bullhorn[size=1x]{nbsp} Only a single Kiali instance in the cluster should be configured with this special value of `+++**+++`. If multiple Kiali instances are configured with this special value, the Kiali instances may not work correctly.
 
 icon:bullhorn[size=1x]{nbsp} If the operator was installed via Helm but not installed with the option `clusterRoleCreator: true` then you cannot later edit the Kiali CR and change accessible_namespaces to `+++**+++`. You must reinstall the operator so that it can be granted the additional permissions required (`--set clusterRoleCreator=true`). Note that by default the Kiali Operator Helm Chart will install the operator with `clusterRoleCreator` set to `true`.
 
