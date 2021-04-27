@@ -401,11 +401,11 @@ refresh your Kiali Pod to _set_ the Secret if you add the Secret after the Kiali
 
 icon:bullhorn[size=1x]{nbsp} The OpenID authentication strategy can be used
 with Azure Kubernetes Service (AKS) and Azure Active Directory (AAD) with Kiali
-versions 1.33 and later. Prior Kiali versions work only without RBAC support.
+versions 1.33 and later. Prior Kiali versions do not support RBAC on Azure.
 
 AKS has support for a feature named _AKS-managed Azure Active Directory_, which
 enables integration between AKS and AAD. This has the advantage that users can
-use their AAD credentials to access AKS clusters and you can use Kubernetes
+use their AAD credentials to access AKS clusters and can also use Kubernetes
 RBAC features to assign privileges to AAD users.
 
 However, Azure is implementing this integration via the
@@ -428,7 +428,7 @@ image::/images/documentation/authentication/azure-managed-aad-enabled.png[AKS-ma
 
 Create a web application for Kiali in your Azure AD panel:
 
-* Go to _AAD > App Registration_, create an application with redirect url like `\https://<your-kiali-url>`
+* Go to _AAD > App Registration_, create an application with a redirect url like `\https://<your-kiali-url>`
 * Go to _Certificates & secrets_ and create a client secret.
 ** After creating the client secret, take note of the provided secret. Create a
    Kubernetes secret in your cluster as mentioned in the <<setup-with-rbac,Set-up
