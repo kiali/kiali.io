@@ -275,13 +275,17 @@ In general, Kiali tries to maintain compatability between at least the two most 
 
 For https://istio.io/latest/docs/setup/upgrade/canary/[Canary upgrades]:
 
-. Deploy the upgraded https://istio.io/latest/docs/setup/upgrade/canary/#control-plane[istio control-plane].
+. Deploy the upgraded https://istio.io/latest/docs/setup/upgrade/canary/#control-plane[Istio control-plane].
 . Update the Kiali Server configuration to point to the new Istio deployment. These fields need to be updated:
 - `spec.external_services.istio.config_map_name` to the new Istio configmap revision.
 - `spec.external_services.istio.istiod_deployment_name` to the new istio deployment revision.
 - `spec.external_services.istio.istio_sidecar_injector_config_map_name` to the new istio sidecar injector configmap revision.
 
-If you are using the *kiali-operator*, update the Kiali CR configuration:
+How you update these fields depends on how you have deployed Kiali.
+
+===== Operator
+
+If you are using the kiali-operator, update the Kiali CR configuration:
 
 [source,bash]
 ----
@@ -292,7 +296,9 @@ If you are using the *kiali-operator*, update the Kiali CR configuration:
 
 Wait until the operator restarts the Kiali Server and then verify everything is working correctly.
 
-If you are using the `kiali-server` *Helm Chart*, set the Helm Chart values: 
+===== Helm Chart - Kiali Server
+
+If you are using the `kiali-server` Helm Chart, set the Helm Chart values: 
 
 [source,bash]
 ----
@@ -305,7 +311,7 @@ If you are using the `kiali-server` *Helm Chart*, set the Helm Chart values:
     kiali-server kiali-server
 ----
 
-Restart the Kiali pod to pickup the new configmap changes.
+Then restart the Kiali pod to pickup the new configmap changes.
 
 [source,bash]
 ----
@@ -318,7 +324,7 @@ Restart the Kiali pod to pickup the new configmap changes.
 
 When upgrading Kiali using the operator, it's recommended to keep the operator version in sync with the Kiali version. The best way to do this is to ensure that your Kiali CR's `spec.deployment.image_version` field is set to `operator_version` (this is the default if this value is left unset) then upgrade the operator version. When the operator upgrade completes, the operator will upgrade the Kiali Server image version to match its own image version.
 
-==== Helm Chart - kiali-server
+==== Helm Chart - Kiali Server
 
 If you are managing the Kiali Server through the Helm Chart and not with the operator, you can upgrade Kiali by upgrading the version of the `kiali-server` Helm Chart.
 
