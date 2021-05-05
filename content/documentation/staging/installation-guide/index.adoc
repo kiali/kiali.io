@@ -316,7 +316,7 @@ Restart the Kiali pod to pickup the new configmap changes.
 
 ==== Operator
 
-When upgrading Kiali using the operator, it's recommended to keep the operator version in sync with the Kiali version. The best way to do this is to ensure that your Kiali CR's `spec.deployment.image_version` field is set to `operator_version` (the default if it is unset) then upgrade the operator version. When the operator upgrade completes, the operator will upgrade the Kiali Server image version to match its own image version.
+When upgrading Kiali using the operator, it's recommended to keep the operator version in sync with the Kiali version. The best way to do this is to ensure that your Kiali CR's `spec.deployment.image_version` field is set to `operator_version` (this is the default if this value is left unset) then upgrade the operator version. When the operator upgrade completes, the operator will upgrade the Kiali Server image version to match its own image version.
 
 ==== Helm Chart - kiali-server
 
