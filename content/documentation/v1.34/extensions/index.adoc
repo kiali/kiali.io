@@ -1,0 +1,160 @@
+---
+title: "Extensions"
+date: 2020-02-10T11:20:21+02:00
+draft: false
+type: "documentation"
+weight: 7
+---
+
+:linkattrs:
+:sectlinks:
+
+= Extensions
+:sectnums:
+:toc: left
+toc::[]
+:toc-title: Extensions
+:keywords: Kiali Documentation Extensions Addons
+:icons: font
+:imagesdir: /images/documentation/extensions
+
+== What is a Kiali Extension ?
+
+The Istio ecosystem is expanding and there are an increasing number of components providing additional functionality to enrich Service Mesh technology.
+
+Additionally, Kiali project is adding features in the areas of Observability, Analysis, Validation and Management of Istio.
+
+An Extension is a mechanism and guideline to integrate third party components inside Kiali.
+
+== Examples of Kiali Extensions
+
+Imagine that you develop a new project to provide extra capabilities on top of Istio.
+Your project deploys extra components into the Istio Control Plane and the typical way to interact with your project is via the CLI.
+
+A Kiali Extension could be used to:
+
+- Manage specific configuration of your project in a separate section.
+- Enrich Kiali Actions adding new operations for your project.
+- Augment Kiali views to include specific results on graph, metrics or details.
+- Integrate your project in the Istio ecosystem using Kiali as first class User Interface dashboard.
+
+Kiali currently offers integration for 3scale API Management.
+In the following sections we will illustrate the guidelines using Kiali 3scale extension as an example.
+
+== Kiali Back-End Guideline
+
+An Extension will typically require changes in the Kiali back-end and front-end.
+
+=== Update Kiali Configuration
+
+An Extension should always be enabled/disabled via Kiali configuration.
+
+Add your new Extension config in Kiali:
+
+image::config_go.png[Kiali config.go]
+{nbsp}
+
+Document the config in the operator:
+
+image::kiali_cr_yaml.png[Kiali CR yaml]
+{nbsp}
+
+Don't forget to add the default values:
+
+image::main_yaml.png[Kiali CR Defaults yaml]
+{nbsp}
+
+Add the Extension to the Public Config that will be read by the Kiali front-end:
+
+image::public_config_yaml.png[Kiali Public config.go]
+{nbsp}
+
+icon:lightbulb[size=1x]{nbsp}Kiali config is private to the back-end process, only a few values are needed in the front-end project.
+
+An Extension will implement a "feature flag" pattern, so an "enabled" field is needed to implement a conditional render.
+
+=== Add Extension logic
+
+Implement the extension logic under the business package (including tests).
+
+Existing extensions can be good templates for naming examples and code organization.
+
+Also under the business package you will find examples about how to interact with the Kubernetes API and other external services.
+
+image::business_go.png[Business package]
+{nbsp}
+
+Expose the business package with handlers to wrap HTTP requests/responses.
+
+image::handlers_go.png[Handlers package]
+{nbsp}
+
+Update new routes for the Extension handlers.
+
+image::routes_go.png[Kiali Routes.go]
+{nbsp}
+
+icon:lightbulb[size=1x]{nbsp}Update swagger doc for the new routes. Otherwise Kiali CI prevents merging code without proper documentation.
+
+== Kiali Front-End Guideline
+
+An Extension may add a new section to Kiali or augment an existing feature. We use the 3scale extension as an example of both use cases.
+
+=== Map Back-End Services into Front-End
+
+To make them available to the front-end code, add the Extension's endpoints into the API mapping.
+
+image::api_ts.png[API.ts]
+{nbsp}
+
+Map the models returned by the back-end into UI types:
+
+image::model_ts.png[Extension Model.ts]
+
+=== Add Extension Pages
+
+Extension Pages should be added under the pages/extensions folder:
+
+image::extensions_organization.png[Extensions pages]
+{nbsp}
+
+A list/detail pattern is being implemented with the 3scale example extension. It can be used as template for other extensions.
+
+List pattern:
+
+image::list_page.png[List Page]
+{nbsp}
+
+Details pattern:
+
+image::details_page.png[Details Page]
+{nbsp}
+
+=== Enable Extension in Navigation
+
+Add Extension Menu Items and Routes:
+
+image::extension_menu.png[Extension Menu and Routes]
+{nbsp}
+
+And add logic to enable the Extension in Kiali Menu and RenderPage component:
+
+image::enable_extension_menu.png[Enable Extension Menu]
+{nbsp}
+
+image::render_page.png[RenderPage Component]
+{nbsp}
+
+=== Augment Kiali Features
+
+Actions or Tabs on existing features should always be rendered conditionally based on the configuration. Backend calls should be made only if the extension is enabled.
+
+image::extension_call.png[Conditional Extension Call]
+
+== Refactoring
+
+Kiali is an active project and is constantly evolving.
+Adding a new Extension may trigger the need to refactor existing code in order to accommodate new use cases, or provide a more robust abstraction. Do not hesitate to contact a Kiali maintainer with your proposal! It will help to understand the scenario and how we can coordinate best to include your work.
+
+
+
