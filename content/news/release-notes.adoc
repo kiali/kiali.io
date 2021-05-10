@@ -15,6 +15,50 @@ For additional information check our https://www.youtube.com/channel/UCcm2NzDN_U
 
 toc::[]
 
+== 1.34.0
+Sprint Release: May 7th, 2021
+
+Features:
+
+* https://github.com/kiali/kiali/issues/3907[Refine message for remote Kiali]
+* https://github.com/kiali/kiali/issues/3958[Improve Application/Workloads/Services list pages layout]
+* https://github.com/kiali/kiali/issues/3888[Update "Visualizing your Mesh" Istio documentation]
+* https://github.com/kiali/kiali/issues/3145[Add an entry in the FAQ about when a namespace is not listed in Kiali]
+* https://github.com/kiali/kiali/issues/3944[Medium post for Kiali v1.31 to v1.33]
+* https://github.com/kiali/kiali/issues/3635[Structure the subview in the Envoy Config modal]
+* https://github.com/kiali/kiali/issues/3574[More friendly error messages in OIDC authorization-code flow]
+* https://github.com/kiali/kiali/issues/1794[Move the state phase to an icon]
+* https://github.com/kiali/kiali/issues/3294[(OpenId) AKS + AAD integration with Kiali's OpenId]
+* https://github.com/kiali/kiali/issues/3892[Kiali reconciliation is still very slow when having hundreds of namespaces in accessible_namespaces]
+* https://github.com/kiali/kiali/issues/3817[Workload/Service Overview tabs: Move subtables to cards]
+* https://github.com/kiali/kiali/issues/3491[Publish the Kiali API docs to Github Pages]
+* https://github.com/kiali/kiali/issues/3879[More cluster badging needed]
+* https://github.com/kiali/kiali/issues/3874[OpenID integration issue with large tokens (caused by a long list of groups)]
+
+Fixes:
+
+* https://github.com/kiali/kiali/issues/3982[UI crash in GraphToolbar]
+* https://github.com/kiali/kiali/issues/3960[Rename "Target Protocol" to "Target Port" in ServiceEntry wizard]
+* https://github.com/kiali/kiali/issues/3974[Application Traffic - some outbound traffic is not shown]
+* https://github.com/kiali/kiali/issues/3966[Potential regression in one of the k8s APIs]
+* https://github.com/kiali/kiali/issues/3964[fatal error: concurrent map read and map write on IsNamespaceCached]
+* https://github.com/kiali/kiali/issues/3976[(operator) make sure we use community.kubernetes.k8s tasks correctly]
+* https://github.com/kiali/kiali/issues/3973[Application details - Workloads are shown wrongly]
+* https://github.com/kiali/kiali/issues/3938[Service entries should be assigned to the same cluster as the relevant service]
+* https://github.com/kiali/kiali/issues/3968[need to change the default kiali server image installed by the operator]
+* https://github.com/kiali/kiali/issues/3955[Show cluster names when the number of cluster is > 1]
+* https://github.com/kiali/kiali/issues/3830[Workload_health_replica_set endpoint error]
+* https://github.com/kiali/kiali/issues/3939[Service tracing tab display options resulting in error ]
+* https://github.com/kiali/kiali/issues/3917[Idle nodes are not synced with traffic nodes]
+* https://github.com/kiali/kiali/issues/3936[kiali controlplane role still exists even after removing the CR]
+* https://github.com/kiali/kiali/issues/3873[Incoming/Outgoing traffic seems incorrect on NS detail]
+* https://github.com/kiali/kiali/issues/3923[The istio-sidecar-injector config map name should be configurable]
+* https://github.com/kiali/kiali/issues/3821[Need to specify namespace in error message "Graph not loading: configmaps "istio" not found']
+* https://github.com/kiali/kiali/issues/3921[(helm) server helm chart for affinity is wrong]
+* https://github.com/kiali/kiali/issues/3913[Cannot read property 'Kubernetes' of undefined in UI]
+* https://github.com/kiali/kiali/issues/3911[Graph navigation fails]
+* https://github.com/kiali/kiali/issues/3896[Graph error: Namespace is not accessible for Kiali]
+
 == 1.33.1
 Patch Release: April 20th, 2021
 
