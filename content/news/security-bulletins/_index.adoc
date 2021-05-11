@@ -24,4 +24,9 @@ Disclosed security vulnerabilities and their mitigation.
 |1.26.0, 1.26.1, 1.26.2, 1.27.0, 1.28.0, 1.28.1, 1.29.0, 1.29.1, 1.30.0
 |Authentication bypass when using the `openid` login strategy.
 
+|link:/news/security-bulletins/kiali-security-003[KIALI-SECURITY-003]
+|May 11, 2021
+|prior to 1.33.0
+|Installation into ad-hoc namespaces.
+
 |===
