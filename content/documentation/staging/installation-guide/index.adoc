@@ -269,7 +269,7 @@ Note that even if this fixes the hang problem, you may still have remnants of th
 
 === Upgrading Istio
 
-In general, Kiali tries to maintain compatability between at least the two most recent minor versions of Istio e.g. Kiali 1.26.0 is compatible with both Istio 1.7 and 1.8. If you are upgrading one minor version of Istio, before upgrading Istio, upgrade Kiali to the most recent version that supports that version of Istio. See the link:#_version_compatibility[version compatability] section for more details on which versions are supported. 
+In general, Kiali tries to maintain compatibility between at least two most recent minor versions of Istio e.g. Kiali 1.26.0 is compatible with both Istio 1.7 and 1.8. If you are upgrading one minor version of Istio, before upgrading Istio, upgrade Kiali to the most recent version that supports that version of Istio. See the link:#_version_compatibility[version compatibility] section for more details on which versions are supported. 
 
 ==== Canary
 
