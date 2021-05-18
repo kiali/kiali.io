@@ -407,7 +407,7 @@ api:
 
 ==== Namespace Selectors
 
-Kiali supports an optional label selector for namespaces which is used to fetch a subset of the available namespaces. Setting this value is especially useful when you set `spec.deployment.accessible_namespaces` to `["+++**+++"]` but you want to filter some namespaces out of view within the UI.
+To fetch a subset of the available namespaces, Kiali supports an optional label selector. This selector is especially useful when `spec.deployment.accessible_namespaces` is set to `["+++**+++"]` but you want to reduce the namespaces presented in the UI's namespace list.
 
 The label selector is defined in the Kiali CR setting `spec.api.namespaces.label_selector`.
 
@@ -422,14 +422,14 @@ api:
 
 For further information on how this label_selector interacts with `spec.deployment.accessible_namespaces` read the https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml[technical documentation].
 
-To label a namespace, you can use the following command, for more information see the link:https://kubernetes.io/docs/concepts/overview/working-with-objects/labels[official documentation]
+To label a namespace you can use the following command. For more information see the link:https://kubernetes.io/docs/concepts/overview/working-with-objects/labels[official documentation].
 
 [source,bash]
 ----
   kubectl label namespace my-namespace kiali-enabled=true
 ----
 
-Note that when using multiple service meshes (i.e. multiple control planes) in the same cluster, you will want to set the label selector's value to a value unique to each mesh. This is so each mesh's Kiali instance will only select those namespaces within that mesh (a kind of "soft-multitenancy", if you will). Because you normally set `spec.deployment.accessible_namespaces` to a specific set of namespaces (i.e. not `["+++**+++"]`) when running in this kind of "soft-multitenancy" mode, you do not have to do anything with this `label_selector`. This is because the default value of `label_selector` will be defined as `kiali.io/member-of: <spec.istio_namespace>` if the `spec.deployment.accessible_namespaces` is set to something other than the "all namespaces" value `["+++**+++"]`. This allows you to have multiple control planes in the same cluster and have each control plane contain its own Kiali instance. If you set your own Kiali instance name in the Kiali CR (i.e. you set `spec.deployment.instance_name` to something other than `kiali`), the default label will be `kiali.io/<spec.deployment.instance_name>.member-of: <spec.istio_namespace>`.
+Note that when deploying multiple control planes in the same cluster, you will want to set the label selector's value unique to each control plane. This allows each Kiali instance to select only the namespaces relevant to each control plane. Because in this "soft-multitenancy" mode `spec.deployment.accessible_namespaces` is typically set to an explicit set of namespaces (i.e. not `["+++**+++"]`), you do not have to do anything with this `label_selector`. This is because the default value of `label_selector` is `kiali.io/member-of: <spec.istio_namespace>` when `spec.deployment.accessible_namespaces` is not set to the "all namespaces" value `["+++**+++"]`. This allows you to have multiple control planes in the same cluster, with each control plane having its own Kiali instance. If you set your own Kiali instance name in the Kiali CR (i.e. you set `spec.deployment.instance_name` to something other than `kiali`), then the default label will be `kiali.io/<spec.deployment.instance_name>.member-of: <spec.istio_namespace>`.
 
 === Installing Multiple Instances of Kiali
 
