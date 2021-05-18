@@ -193,7 +193,7 @@ The Kiali Operator watches the Kiali CR. Creating, updating, or removing a Kiali
 
 To create an initial Kiali CR file it is recommended to copy the fully documented link:https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml[example Kiali CR YAML file]. Edit that file being careful to maintain proper formatting, and save it to a local file such as `my-kiali-cr.yaml`.
 
-icon:lightbulb[size=1x]{nbsp} It is important to understand the `deployment.accessible_namespaces` setting in the CR. See link:#_accessible_namespaces[Accessible Namespaces] for more information.
+icon:lightbulb[size=1x]{nbsp} It is important to understand the `spec.deployment.accessible_namespaces` setting in the CR. See link:#_accessible_namespaces[Accessible Namespaces] for more information.
 
 icon:bullhorn[size=1x]{nbsp} The Kiali ConfigMap will be managed by the Kiali Operator and should *not* be manually edited.
 
@@ -338,7 +338,7 @@ However, there are certain use-cases in which you want the Kiali Operator to ins
 
 === Customize the Kiali UI web context root
 
-By default, when installed on OpenShift, the Kiali UI is deployed to the root context path of "/", for example `https://kiali-istio-system.<your_cluster_domain_or_ip>/`. In some situations, such as when you want to serve the Kiali UI along with other apps under the same host name, for example, `example.com/kiali`, `example.com/app1`, you can edit the Kiali CR and provide a different value for `web_root`. The path must begin with a `/` and not end with a `/` (e.g. `/kiali` or `/mykiali`).
+By default, when installed on OpenShift, the Kiali UI is deployed to the root context path of "/", for example `https://kiali-istio-system.<your_cluster_domain_or_ip>/`. In some situations, such as when you want to serve the Kiali UI along with other apps under the same host name, for example, `example.com/kiali`, `example.com/app1`, you can edit the Kiali CR and provide a different value for `spec.server.web_root`. The path must begin with a `/` and not end with a `/` (e.g. `/kiali` or `/mykiali`).
 
 An example of custom web root:
 
@@ -346,19 +346,17 @@ An example of custom web root:
 ----
 server:
   web_root: /kiali
-  ...
 ----
 
 The above is the default when Kiali is installed on Kubernetes - so to access the Kiali UI on Kubernetes you access it at the root context path of `/kiali`.
 
-You can also set the FQDN and port for the resulting service (in case you are using an Istio VirtualService or a kubernetes ingress that does not set the proper params) on the same key, with the names `web_fqdn` and `web_port`, as shown in the example:
+You can also set the FQDN and port for the resulting service (in case you are using an Istio VirtualService or a kubernetes ingress that does not set the proper params) using the settings `spec.server.web_fqdn` and `spec.server.web_port`, as shown in the example:
 
 [source,yaml]
 ----
 server:
   web_fqdn: mykiali.mydomain.com
   web_port: 443
-  ...
 ----
 
 === Namespace Management
@@ -392,49 +390,54 @@ Maistra supports multi-tenancy and the `accessible_namespaces` extends that feat
 
 The Kiali CR tells the Kiali Operator which accessible namespaces should be excluded from the list of namespaces provided by the API and UI. This can be useful if wildcards are used when specifying link:#_accessible_namespaces[Accessible Namespaces]. This setting has no effect on namespace accessibility. It is only a filter, not security-related.
 
-For example, if my accessible_namespaces include "mycorp_.*" but I don't want to see test namespaces, I could add to the default entries:
+For example, if my accessible_namespaces include `mycorp_.*` but I don't want to see test namespaces, I could add to the default entries:
 
 [source,yaml]
 ----
-namespaces:
-  exclude:
-    - istio-operator
-    - kiali-operator
-    - ibm.*
-    - kube.*
-    - openshift.*
-    - mycorp_test.*
+api:
+  namespaces:
+    exclude:
+      - istio-operator
+      - kiali-operator
+      - ibm.*
+      - kube.*
+      - openshift.*
+      - mycorp_test.*
 ----
 
 ==== Namespace Selectors
 
-Kiali supports an optional label selector for namespaces which is used to fetch a subset of the available namespaces.
+To fetch a subset of the available namespaces, Kiali supports an optional label selector. This selector is especially useful when `spec.deployment.accessible_namespaces` is set to `["+++**+++"]` but you want to reduce the namespaces presented in the UI's namespace list.
 
-The label selector is defined under the namespaces definition.
+The label selector is defined in the Kiali CR setting `spec.api.namespaces.label_selector`.
 
 The example below selects all namespaces that have a label `kiali-enabled: true`:
 
 [source,yaml]
 ----
-namespaces:
-  label_selector: kiali-enabled=true
+api:
+  namespaces:
+    label_selector: kiali-enabled=true
 ----
 
-For further information on how the `label_selector` interacts with `deployment.accessible_namespaces` read the https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml[technical documentation].
+For further information on how this label_selector interacts with `spec.deployment.accessible_namespaces` read the https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml[technical documentation].
 
-To label a namespace, you can use the following command, for more information see the :link:https://kubernetes.io/docs/concepts/overview/working-with-objects/labels[official documentation]
+To label a namespace you can use the following command. For more information see the link:https://kubernetes.io/docs/concepts/overview/working-with-objects/labels[official documentation].
 
 [source,bash]
 ----
-  kubectl label namespace xxx kiali-enabled=true
+  kubectl label namespace my-namespace kiali-enabled=true
 ----
 
-Note that when using multiple service meshes (i.e. multiple control planes) in the same cluster, you will want to set the label selector's value to a value unique to each mesh. This is so each mesh's Kiali instance will only select those namespaces within that mesh.
+Note that when deploying multiple control planes in the same cluster, you will want to set the label selector's value unique to each control plane. This allows each Kiali instance to select only the namespaces relevant to each control plane. Because in this "soft-multitenancy" mode `spec.deployment.accessible_namespaces` is typically set to an explicit set of namespaces (i.e. not `["+++**+++"]`), you do not have to do anything with this `label_selector`. This is because the default value of `label_selector` is `kiali.io/member-of: <spec.istio_namespace>` when `spec.deployment.accessible_namespaces` is not set to the "all namespaces" value `["+++**+++"]`. This allows you to have multiple control planes in the same cluster, with each control plane having its own Kiali instance. If you set your own Kiali instance name in the Kiali CR (i.e. you set `spec.deployment.instance_name` to something other than `kiali`), then the default label will be `kiali.io/<spec.deployment.instance_name>.member-of: <spec.istio_namespace>`.
 
-For an example of using Kiali in this kind of soft multi-tenancy mode, see the [Maistra](https://github.com/Maistra/istio-operator) project.
+=== Installing Multiple Instances of Kiali
 
-This is the reason why this `label_selector` will be defined by default to the value of `kiali.io/member-of: <istio_namespace>` if the `deployment.accessible_namespaces` is set to something other than the "all namespaces" value `['**']`. This allows you to have multiple control planes in the same cluster and have each control plane contain its own Kiali instance.
+By installing a single Kiali operator in your cluster, you can install multiple instances of Kiali by simply creating multiple Kiali CRs. For example, if you have two Istio control planes in namespaces `istio-system` and `istio-system2`, you can put a Kiali CR in each of those namespaces to install a Kiali instance in each control plane.
 
+If you wish to install multiple Kiali instances in the same namespace, or if you need the Kiali instance to have different resource names than the default of `kiali`, you can specify `spec.deployment.instance_name` in your Kiali CR. The value for that setting will be used to create a unique instance of Kiali using that instance name rather than the default `kiali`. One use-case for this is to be able to have unique Kiali service names across multiple Kiali instances in order to be able to use certain routers/load balancers that require unique service names.
+
+icon:bullhorn[size=1x]{nbsp} Since the `spec.deployment.instance_name` field is used for the Kiali resource names, including the Service name, you must ensure the value you assign this setting follows the https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#dns-label-names[Kubernetes DNS Label Name rules,window="_blank"]. If it does not, the operator will abort the installation. And note that because Kiali uses this as a prefix (it may append additional characters for some resource names) its length is limited to 40 characters.
 
 === Reducing Permissions in OpenShift
 
@@ -464,7 +467,6 @@ You can alternatively tell the Kiali Operator to install Kiali in "view only" mo
 ----
 deployment:
   view_only_mode: true
-  ...
 ----
 
 This allows Kiali to read service mesh resources found in the cluster, but it does not allow Kiali to add, modify, or delete them.
