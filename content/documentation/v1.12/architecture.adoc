@@ -100,7 +100,7 @@ services, destination rules, route rules, gateways, and quotas.
 
 Jaeger is optional. When available, Kiali will be able to direct the user to
 Jaeger's tracing data. If you need this feature, make sure Kiali is
-https://github.com/kiali/kiali#jaeger[properly configured for Jaeger
+link:{{< ref "./distributed-tracing/#_configuration" >}}[properly configured for Jaeger
 integration].
 
 Tracing data will be available only if
