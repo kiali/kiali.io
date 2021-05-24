@@ -150,7 +150,7 @@ The pod annotation for Kiali is: `kiali.io/runtimes: quarkus`
 
 === Spring Boot
 
-Three dashboards are provided: one for JVM memory / threads, another for JVM buffer pools and the last one for Tomcat metrics. The expected metrics come from link:https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-metrics.html#production-ready-metrics-export-prometheus[Spring Boot Actuator for Prometheus]. Example with maven:
+Three dashboards are provided: one for JVM memory / threads, another for JVM buffer pools and the last one for Tomcat metrics. The expected metrics come from link:https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.metrics.export.prometheus[Spring Boot Actuator for Prometheus]. Example with maven:
 
 ```xml
     <dependency>
