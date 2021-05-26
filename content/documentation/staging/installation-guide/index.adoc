@@ -166,6 +166,8 @@ $ helm install \
 
 icon:lightbulb[size=1x]{nbsp} To install a specific version X.Y.Z, simply pass `--version X.Y.Z` to the helm command
 
+icon:lightbulb[size=1x]{nbsp} All Kiali CR settings have analogous helm values. Anything under Kiali CR `spec` can usually be specified via a helm `--set` option when using the kiali-server helm chart. For example, the Kiali CR setting `spec.server.web_fqdn` has an analogous value when using the kiali-server helm chart that you can set via `--set server.web_fdqn=<your value>`. If you do not use the kiali-server helm chart but instead you want to install the Kiali operator using the kiali-operator helm chart, and you want that helm chart to also install a Kiali CR for you, that's done under the `cr` value. For example, the Kiali CR setting `spec.server.web_fqdn` can be set via `--set cr.spec.server.web_fqdn=<your value>` (of course, this assumes you also use `--set cr.create=true` which tells the kiali-operator helm chart to create the Kiali CR for you).
+
 This installation method gives Kiali access to existing namespaces as well as namespaces created later. See link:#_namespace_management[Namespace Management] for more information if you want to change that behavior.
 
 ==== Operator-Only Install
