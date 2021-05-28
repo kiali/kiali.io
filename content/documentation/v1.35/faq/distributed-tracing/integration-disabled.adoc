@@ -1,0 +1,13 @@
+---
+title: Why do I see an external link instead of Kiali's own Tracing page?
+weight: 70
+---
+:icons: font
+:imagesdir: /images/faq/tracing/
+:linkattrs:
+
+image::traces-external-link.png[Jaeger integration disabled]
+
+On the Application detail page, the Traces tab might redirect to Jaeger via an external link instead of showing the Kiali Tracing view. It happens when you have the `url` field configured, but not `in_cluster_url`, which means the Kiali backend will not be able to connect to Jaeger.
+
+To fix it, configure `in_cluster_url` in link:https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml[Kiali CR, window="_blank"] or ConfigMap.
