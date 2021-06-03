@@ -15,6 +15,39 @@ For additional information check our https://www.youtube.com/channel/UCcm2NzDN_U
 
 toc::[]
 
+== 1.35.0
+Sprint Release: May 28th, 2021
+
+Features:
+
+* https://github.com/kiali/kiali/issues/1404[Enhance visualization of label validation]
+* https://github.com/kiali/kiali/issues/4027[Use Istiod service registry for Kiali Istio validations]
+* https://github.com/kiali/kiali/issues/3708[Introduce Graph Find/Hide preset expressions]
+* https://github.com/kiali/kiali/issues/3934[Ability to disable logout / add custom logout url]
+* https://github.com/kiali/kiali/issues/4015[Cache EnvoyFilter objects]
+* https://github.com/kiali/kiali/issues/4025[Add support for WorkloadGroup]
+* https://github.com/kiali/kiali/issues/4018[(helm) get server helm chart to work with deployment.instance_name like operator]
+* https://github.com/kiali/kiali/issues/3891[Phase out publication of kiali-ui to NPM]
+* https://github.com/kiali/kiali/issues/3920[override service name in kiali operator]
+* https://github.com/kiali/kiali/issues/4023[Further lock down kiali server pod security]
+* https://github.com/kiali/kiali/issues/3810[Modify manifests to use readOnlyRootFilesystem]
+* https://github.com/kiali/kiali/issues/2884[how to handle istio canary updates (multiple control planes in the same namespace)]
+* https://github.com/kiali/kiali/issues/4000[Using source/destination service principal in hide expressions]
+
+Fixes:
+
+* https://github.com/kiali/kiali/issues/4014[REST API panic if no Prometheus]
+* https://github.com/kiali/kiali/issues/4031[Kiali UI - Request Routing Wizard does not update weights]
+* https://github.com/kiali/kiali/issues/4019[User with admin role cannot list configs]
+* https://github.com/kiali/kiali/issues/4010[Fix helm-charts release pipeline - missing "v" prefix]
+* https://github.com/kiali/kiali/issues/4030[(operator) be able to reconcile Kiali CR that was last reconciled by an older operator]
+* https://github.com/kiali/kiali/issues/3977[Istio gateway pod logs are not treated as Envoy proxy logs]
+* https://github.com/kiali/kiali/issues/3837[Workload filter for Istio Config not working correctly]
+* https://github.com/kiali/kiali/issues/3798[Service Entry displayed in a different namespace in the graph]
+* https://github.com/kiali/kiali/issues/3947[Multi-cluster discovery leads to time out while fetching server configs, blocking access]
+* https://github.com/kiali/kiali/issues/3983[Mini-graph not updating after Action wizard]
+* https://github.com/kiali/kiali/issues/3995[Should not warn about unreachable remote kialis unless a remote kiali is discovered.]
+
 == 1.34.0
 Sprint Release: May 7th, 2021
 
