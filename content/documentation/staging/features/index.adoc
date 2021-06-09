@@ -308,10 +308,9 @@ The service detail view shows request and response metrics for inbound traffic.
 {empty} +
 
 ==== Detail: Custom Dashboards
-Kiali comes with default dashboards for several runtimes, including Go, Node.js, Spring Boot, Thorntail, and Vert.x.
+Kiali comes with built-in dashboards for several runtimes, including Go, Envoy, Node.js, and others.
 
-These dashboards are simple Kubernetes resources, so you can use your favorite tool to create, modify or delete them.
-As they are defined as plain YAML or JSON files, so it's easy to keep them in source control like Git, track their changes, and share them.
+You can create custom dashboards for your own applications by defining them within the Kiali CR field `spec.custom_dashboards`.
 
 Check out the link:/documentation/staging/runtimes-monitoring/[documentation page, window=_blank] to learn more about it.
 ++++

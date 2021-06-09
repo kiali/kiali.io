@@ -249,7 +249,6 @@ After you have successfully deleted the Kiali CRs, then you can uninstall the Ki
 [source,bash]
 ----
   helm uninstall --namespace kiali-operator kiali-operator
-  kubectl delete crd monitoringdashboards.monitoring.kiali.io
   kubectl delete crd kialis.kiali.io
 ----
 
