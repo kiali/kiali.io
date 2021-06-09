@@ -65,12 +65,11 @@ icon:bullhorn[size=1x]{nbsp} If you get a validation error, you may have to pass
 
 Kiali will be able to access all existing and future namespaces. See link:{{< ref "/documentation/staging/installation-guide#_namespace_management" >}}[Namespace Management] for more information if you want to change that behavior.
 
-To uninstall, use helm and then remove Kiali's Monitoring Dashboards CRD:
+To uninstall, use helm:
 
 [source,bash]
 ----
 helm uninstall --namespace istio-system kiali-server
-kubectl delete crd monitoringdashboards.monitoring.kiali.io
 ----
 
 
