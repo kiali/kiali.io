@@ -89,17 +89,17 @@ spec:
         kiali.io/dashboards: vertx-server
 ```
 
-_kiali.io/dashboards_ is a comma-separated list of dashboards that Kiali will look for. It must match the name of the custom resource.
+_kiali.io/dashboards_ is a comma-separated list of dashboard names that Kiali will look for. Each name in the list must match the name of a built-in dashboard or the name of a custom dashboard as defined in the Kial CR's `spec.custom_dashboards`.
 
-== Default dashboards
+== Built-in dashboards
 
-Kiali comes with a set of default dashboards for various runtimes.
+Kiali comes with a set of built-in dashboards for various runtimes.
 
 === Go
 
 Contains metrics such as the number of threads, goroutines, and heap usage. The expected metrics are provided by the link:https://prometheus.io/docs/guides/go-application/[Prometheus Go client].
 
-Example to expose default Go metrics:
+Example to expose built-in Go metrics:
 
 ```go
         http.Handle("/metrics", promhttp.Handler())
@@ -227,18 +227,15 @@ The pod annotation for Kiali with the full list of dashboards is: `kiali.io/dash
 
 == Create new dashboards
 
-The default dashboards described above are just examples of what we can have. It's pretty easy to create new ones.
+The built-in dashboards described above are just some of what you can have. It's pretty easy to create new ones.
 
-When installing Kiali, a new CRD is installed in the system: _monitoringdashboard.monitoring.kiali.io_. It declares the resource kind _MonitoringDashboard_. Here's what this resource looks like:
+When installing Kiali, you define your own custom dashboards in the Kiali CR `spec.custom_dashboards` field. Here's an example of what it looks like:
 
 ```yaml
-apiVersion: "monitoring.kiali.io/v1alpha1"
-kind: MonitoringDashboard
-metadata:
-  name: vertx-custom
-spec:
-  runtime: Vert.x
+custom_dashboards:
+- name: vertx-custom
   title: Vert.x Metrics
+  runtime: Vert.x
   discoverOn: "vertx_http_server_connections"
   items:
   - chart:
@@ -270,9 +267,9 @@ spec:
       version: var-version
 ```
 
-The *name* field (from metadata) corresponds to what you can set in pods annotation link:#pods-annotations[`kiali.io/runtimes`].
+The *name* field corresponds to what you can set in the pod annotation link:#pods-annotations[`kiali.io/dashboards`].
 
-Spec fields definitions are:
+The rest of the field definitions are:
 
 * *runtime*: optional, name of the related runtime. It will be displayed on the corresponding Workload Details page. If omitted no name is displayed.
 * *title*: dashboard title, displayed as a tab in Application or Workloads Details
@@ -310,19 +307,7 @@ In Kiali, labels for grouping are aggregated in the top toolbar, so if the same 
 For instance labels named "id" for both memory spaces and buffer pools would better be named "space_id" and "pool_id". If you have control on label names, it's an important aspect to take into consideration.
 Else, it is up to you to organize dashboards with that in mind, eventually splitting them into smaller ones to resolve clashes.
 
-Dashboard resources are added in Kubernetes just like any other resource:
-
-```bash
-kubectl apply -f mydashboard.yml
-```
-
-Or for OpenShift:
-
-```bash
-oc apply -f mydashboard.yml
-```
-
-To make the dashboard resources available cluster-wide, just create them in Kiali namespace (usually _istio-system_). Else, they will be available only for applications or workloads of the same namespace. In the case where the same dashboard name exists in a specific namespace and in Kiali namespace, the former takes precedence.
+icon:lightbulb[size=2x]{nbsp} *Modifying Built-in Dashboards*: If you want to modify or remove a built-in dashboard, you can set its new definition in the Kiali CR's `spec.custom_dashboards`. Simply define a custom dashboard with the same name as the built-in dashboard. To remove a built-in dashboard so Kiali doesn't use it, simply define a custom dashboard by defining only its name with no other data associated with it (e.g. in `spec.custom_dashboards` you add a list item that has `- name: <name of built-in dashboard to remove>`.
 
 [#units]
 == Units
