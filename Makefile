@@ -5,13 +5,6 @@ VERSION ?= v1.36.0
 HUGO_VERSION ?= 0.53
 CONTAINER_RUNTIME ?= docker
 
-# muffet - checks for broken links - you have to have hugo running for this to work
-muffet:
-	@if ! curl -s --fail http://localhost:1313 > /dev/null ; then echo "You must start a Hugo local server!"; exit 1; fi
-	@mkdir -p $(CURDIR)/output/muffet
-	@ if [ ! -f $(CURDIR)/output/muffet/bin/muffet ] ; then GOPATH=$(CURDIR)/output/muffet go get -u github.com/raviqqe/muffet; fi
-	@$(CURDIR)/output/muffet/bin/muffet --exclude \#\!\(forum\|msg\)\/kiali-\(dev\|users\)\/? --exclude https?:\/\/localhost:20001\/? --exclude \/documentation\/developer-api --exclude libera http://localhost:1313/
-
 # This is not supposed to be run locally, prefer using `serve` instead.
 build:
 	gem install asciidoctor -v 1.5.6.1
