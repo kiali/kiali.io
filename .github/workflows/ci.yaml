@@ -50,5 +50,6 @@ jobs:
           URL_IGNORE="$URL_IGNORE,/^https:\/\/github.com\/kiali\/kiali\/issues\/\d+/"
           URL_IGNORE="$URL_IGNORE,/^https:\/\/github.com\/kiali\/kiali\/tree\/v\d+\.\d+\//"
           URL_IGNORE="$URL_IGNORE,/^https:\/\/github.com\/kiali\/kiali\/blob\/v\d+\.\d+\//"
+          URL_IGNORE="$URL_IGNORE,/.*web.libera.chat.*/"
           htmlproofer --assume-extension --check-external-hash --empty_alt_ignore --url-ignore "$URL_IGNORE" ./public
 
