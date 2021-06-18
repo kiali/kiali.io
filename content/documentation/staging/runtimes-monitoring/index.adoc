@@ -30,15 +30,17 @@ If you are using the demo Istio installation with addons, your Prometheus instan
 
 === Using another Prometheus instance
 
-You can use a different instance of Prometheus for these metrics, as opposed to Istio metrics. It can be configured from the _Kiali CR_ when using the Kiali operator, or _ConfigMap_ otherwise:
+You can use a different instance of Prometheus for these metrics, as opposed to Istio metrics. This second Prometheus instance can be configured from the _Kiali CR_ when using the Kiali operator, or _ConfigMap_ otherwise:
 
 ```yaml
 # ...
 external_services:
   custom_dashboards:
     prometheus:
-      url: URL_TO_SERVER
+      url: URL_TO_PROMETHEUS_SERVER_FOR_CUSTOM_DASHBOARDS
     namespace_label: kubernetes_namespace
+  prometheus:
+    url: URL_TO_PROMETHEUS_SERVER_FOR_ISTIO_METRICS
 # ...
 ```
 
