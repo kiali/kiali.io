@@ -1,0 +1,14 @@
+---
+title: "Install the Travels Demo application"
+date: 2018-06-20T19:04:38+02:00
+draft: false
+weight: 2
+---
+
+:linkattrs:
+:toc: macro
+:toc-title: Kiali Tutorial
+:toclevels: 4
+:keywords: Kiali Tutorial Travels Demo
+:icons: font
+:imagesdir: /images/tutorial/

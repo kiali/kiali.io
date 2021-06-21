@@ -1,0 +1,9 @@
+---
+title: How can I add one component to the list?
+weight: 3
+---
+:icons: font
+
+If you are interested in adding one more component to the Istio Component Status tooltip, you have the option to add one new component into the https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml[Kiali CR], under the `external_services.istio.component_status` field.
+
+For each component there, you will need to specify the `app` label of the deployment's pods, the namespace and whether is a core component or add-on.
