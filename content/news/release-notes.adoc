@@ -15,6 +15,37 @@ For additional information check our https://www.youtube.com/channel/UCcm2NzDN_U
 
 toc::[]
 
+== 1.36.0
+Sprint Release: June 18th, 2021
+
+Features:
+
+* https://github.com/kiali/kiali/issues/4005[Connect Listeners and Routes in the Envoy Config modal]
+* https://github.com/kiali/kiali/issues/4109[remove istio_component_namespaces config]
+* https://github.com/kiali/kiali/issues/3948[Research Metrics tab main layout]
+* https://github.com/kiali/kiali/issues/2897[Display throughput on the graph edges]
+* https://github.com/kiali/kiali/issues/4008[Move Envoy Details to Workload Details]
+* https://github.com/kiali/kiali/issues/3529[Pod table should reflect any container crash]
+* https://github.com/kiali/kiali/issues/4057[Consolidate Dashboards CRDs into main Kiali config, also handled via Kiali Operator]
+* https://github.com/kiali/kiali/issues/4069[convert community OLM metadata to new bundle format]
+* https://github.com/kiali/kiali/issues/1477[Add to graph indicator for Kiali scenarios]
+* https://github.com/kiali/kiali/issues/3912[move the support for old versions to CRD v1 when appropriate]
+* https://github.com/kiali/kiali/issues/3244[Internal metrics revisit]
+
+Fixes:
+
+* https://github.com/kiali/kiali/issues/4009[Difference between App and Workload healths - causing inconsistency in Overview]
+* https://github.com/kiali/kiali/issues/3904[Wrong Health info at Service level]
+* https://github.com/kiali/kiali/issues/4087[Trace graph tooltip truncates long hostnames]
+* https://github.com/kiali/kiali/issues/4076[Circuit Breaker Badge is missing in the Graph]
+* https://github.com/kiali/kiali/issues/4079[clean up hack/istio/bookinfo* resources]
+* https://github.com/kiali/kiali/issues/3583[Health popover disappearing]
+* https://github.com/kiali/kiali/issues/3706[(helm)(operator) do not use deprecated Ingress kind - update to latest apiVersion]
+* https://github.com/kiali/kiali/issues/4058[Graph replay health is not correct]
+* https://github.com/kiali/kiali/issues/4062[Molecule tests broken for podman 3]
+* https://github.com/kiali/kiali/issues/4049[Possible false positive reported as violating KIA0202]
+* https://github.com/kiali/kiali/issues/3586[horizontal scroll problem on graph side panel trace tab detail]
+
 == 1.35.0
 Sprint Release: May 28th, 2021
 
