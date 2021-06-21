@@ -258,9 +258,9 @@ spec:
 icon:bullhorn[size=1x]{nbsp} You should use self-signed certificates only for
 testing purposes.
 
-However, if your organiation or internal network has a internal trusted
+However, if your organization or internal network has an internal trusted
 certificate authority (CA), and your OpenID server is using a certificate
-isued by this CA, you can configure Kiali to trust certificates from this CA,
+issued by this CA, you can configure Kiali to trust certificates from this CA,
 rather than disabling verification. For this, create a ConfigMap named
 `kiali-cabundle` containing the root CA certificate (the public component)
 under the `openid-server-ca.crt` key:
