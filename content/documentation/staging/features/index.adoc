@@ -601,6 +601,10 @@ Show actions navigate from a *Namespace* to its specific Graph, Applications, Wo
 
 When https://istio.io/latest/docs/setup/additional-setup/sidecar-injection[Automatic Sidecar Injection] is enabled in the cluster, a *Namespace* can be labeled to enable/disable the injection webhook, controlling whether new deployments will automatically have a sidecar.
 
+==== Canary Istio upgrade
+
+When https://istio.io/latest/docs/setup/upgrade/canary[Istio Canary revision] is installed, a *Namespace* can be labeled to that canary revision, so the sidecar of canary revision will be injected into workloads of the namespace.
+
 ==== Security: Traffic Policies
 
 Kiali can generate Traffic Policies based on the traffic for a namespace.
