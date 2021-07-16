@@ -311,6 +311,76 @@ Else, it is up to you to organize dashboards with that in mind, eventually split
 
 icon:lightbulb[size=2x]{nbsp} *Modifying Built-in Dashboards*: If you want to modify or remove a built-in dashboard, you can set its new definition in the Kiali CR's `spec.custom_dashboards`. Simply define a custom dashboard with the same name as the built-in dashboard. To remove a built-in dashboard so Kiali doesn't use it, simply define a custom dashboard by defining only its name with no other data associated with it (e.g. in `spec.custom_dashboards` you add a list item that has `- name: <name of built-in dashboard to remove>`.
 
+=== Create new dashboards per namespace or workload
+
+The custom dashboards defined at Kiali CR are available per all namespaces.
+
+Additionally, new custom dashboards can be created for a given namespace or workload, using the `dashboards.kiali.io/templates` annotation.
+
+This is an example where a "Custom Envoy" dashboard will be available for all applications and workloads for the `default` namespace:
+
+```yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: default
+  annotations:
+    dashboards.kiali.io/templates: |
+      - name: custom_envoy
+        title: Custom Envoy
+        discoverOn: "envoy_server_uptime"
+        items:
+          - chart:
+              name: "Pods uptime"
+              spans: 12
+              metricName: "envoy_server_uptime"
+              dataType: "raw"
+```
+
+This other example will create an additional "Active Listeners" dashboard only on `details-v1` workload:
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: details-v1
+  labels:
+    app: details
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: details
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: details
+        version: v1
+      annotations:
+        dashboards.kiali.io/templates: |
+          - name: envoy_listeners
+            title: Active Listeners
+            discoverOn: "envoy_listener_manager_total_listeners_active"
+            items:
+              - chart:
+                  name: "Total Listeners"
+                  spans: 12
+                  metricName: "envoy_listener_manager_total_listeners_active"
+                  dataType: "raw"
+    spec:
+      serviceAccountName: bookinfo-details
+      containers:
+      - name: details
+        image: docker.io/istio/examples-bookinfo-details-v1:1.16.2
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 9080
+        securityContext:
+          runAsUser: 1000
+```
+
 [#units]
 == Units
 
