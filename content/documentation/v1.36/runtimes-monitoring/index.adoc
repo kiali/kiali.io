@@ -313,7 +313,7 @@ icon:lightbulb[size=2x]{nbsp} *Modifying Built-in Dashboards*: If you want to mo
 
 === Create new dashboards per namespace or workload
 
-The custom dashboards defined at Kiali CR are available per all namespaces.
+The custom dashboards defined in the Kiali CR are available for all workloads in all namespaces.
 
 Additionally, new custom dashboards can be created for a given namespace or workload, using the `dashboards.kiali.io/templates` annotation.
 
