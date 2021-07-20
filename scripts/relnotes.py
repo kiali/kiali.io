@@ -1,3 +1,5 @@
+#!/bin/python
+
 # Generates Simple Release Notes for Kiali given a release version and Sprint Project.
 # The output can then be clipped into kiali.io/content/news/release-notes.adoc as the
 # base for that version's release notes.
@@ -6,7 +8,7 @@
 # - a github oauth token with public_repo and read:org scopes for kiali
 # - python (tested with 3.8.7)
 #
-# usage: $ python relnotes <version: vX.Y.Z> <projectNumber: int> <githubOauthToken>
+# usage: $ ./relnotes <version: vX.Y.Z> <projectNumber: int> <githubOauthToken>
 #
 
 import re
@@ -14,7 +16,7 @@ import requests
 import sys
 
 if len(sys.argv) != 4:
-    print( 'usage: $ python relnotes.py <version: X.Y.Z> <projectNumber: int> <githubOauthToken>' )
+    print( 'usage: > ./relnotes.py <version: X.Y.Z> <projectNumber: int> <githubOauthToken>' )
     exit
 
 version = sys.argv[1]

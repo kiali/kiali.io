@@ -1,12 +1,12 @@
-# Generates Simple Release Notes for Kiali given a release version and Sprint Project.
-# The output can then be clipped into kiali.io/content/news/release-notes.adoc as the
-# base for that version's release notes.
+#!/bin/python
+
+# Looks for backports since a previous patch release.
 #
 # Requires:
 # - a github oauth token with public_repo and read:org scopes for kiali
 # - python (tested with 3.8.7)
 #
-# usage: $ python relnotes <version: vX.Y.Z> <projectNumber: int> <githubOauthToken>
+# usage: > ./backports.py <releaseBranch: string (e.g. v1.36)> <sincePatch: int (e.g. 1)> <numProjects: int (e.g. 3 for PRs in last 3 projects)> <githubOauthToken>
 #
 
 import re
@@ -14,7 +14,7 @@ import requests
 import sys
 
 if len(sys.argv) != 5:
-    print( '\nUSAGE: $ python relnotes.py <releaseBranch: string (e.g. v1.36)> <sincePatch: int (e.g. 1)> <numProjects: int (e.g. 3 for PRs in last 3 projects)> <githubOauthToken>' )
+    print( '\nUSAGE: > ./backports.py <releaseBranch: string (e.g. v1.36)> <sincePatch: int (e.g. 1)> <numProjects: int (e.g. 3 for PRs in last 3 projects)> <githubOauthToken>' )
     sys.exit()
 
 releaseBranch = sys.argv[1]
