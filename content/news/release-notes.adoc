@@ -15,6 +15,31 @@ For additional information check our https://www.youtube.com/channel/UCcm2NzDN_U
 
 toc::[]
 
+== v1.37.0
+Sprint Release: July 9th, 2021
+
+Features:
+
+* https://github.com/kiali/kiali/issues/3988[Support for custom istio injection labels and values]
+* https://github.com/kiali/kiali/issues/3596[Metrics page: select all/none filter]
+* https://github.com/kiali/kiali/issues/4067[Add Gateway/VirtualService hostnames in Service details]
+* https://github.com/kiali/kiali/issues/2932[Add gateway validation to VirtualServices]
+* https://github.com/kiali/kiali/issues/1446[Services list should show when a VirtualService/DestinationRule is applied]
+* https://github.com/kiali/kiali/issues/1952[Unify style attribute for config validation icons]
+* https://github.com/kiali/kiali/issues/1833[(multi-cluster) Enhance support for mesh deployment models]
+* https://github.com/kiali/kiali/issues/1369[Add help icon in Wizards]
+* https://github.com/kiali/kiali/issues/4050[Support for custom CA certificates in OpenID authentication]
+
+Fixes:
+
+* https://github.com/kiali/kiali/issues/4162[The namespaces that begins with `kube` are hidden but those should be OK]
+* https://github.com/kiali/kiali/issues/4134[Repeated queries on CustomMetrics]
+* https://github.com/kiali/kiali/issues/4131[kiali Cannot load the graph "invalid character 'd' looking for beginning of value"]
+* https://github.com/kiali/kiali/issues/4130[Duplicated application container on Workload Logs tab]
+* https://github.com/kiali/kiali/issues/4106[Metrics Settings are kept but not applied when switching metrics tabs]
+* https://github.com/kiali/kiali/issues/4120[(perf) pr #3975 introduced perf regression for /api/namespaces/bookinfo/services/details/graph endpoint]
+* https://github.com/kiali/kiali/issues/3221[Tooltip span not available]
+
 == 1.36.0
 Sprint Release: June 18th, 2021
 
