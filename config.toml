@@ -97,6 +97,12 @@ ignoreFiles = [ "\\.ignore$" ]
               url = "/documentation/latest/configuration/rbac"
               weight = 3
               parent="doc_configuration"
+          [[menu.main]]
+              identifier = "doc_vm"
+              name = "VM Workloads"
+              url = "/documentation/latest/configuration/vm"
+              weight = 4
+              parent="doc_configuration"
       [[menu.main]]
           identifier = "validations"
           name = "Validations"
