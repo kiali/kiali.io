@@ -1,0 +1,14 @@
+---
+title: How can I inject an Istio sidecar in the Kiali pod?
+weight: 4
+---
+:icons: font
+
+By default, Kiali will not have an link:https://istio.io/latest/docs/setup/additional-setup/sidecar-injection/[Istio sidecar]. If you wish to deploy the Kiali pod with a sidecar, you simply have to define the `sidecar.istio.io/inject=true` label in the `spec.deployment.pod_labels` setting in the Kiali CR. For example:
+
+```yaml
+spec:
+  deployment:
+    pod_labels:
+      sidecar.istio.io/inject: "true"
+```
