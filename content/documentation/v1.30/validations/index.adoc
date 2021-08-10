@@ -810,7 +810,7 @@ include::/data/files/validation_examples/102.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/no_host_checker.go[Validator source code, window="_blank"] +
+https://github.com/kiali/kiali/tree/master/business/checkers/virtualservices/no_host_checker.go[Validator source code, window="_blank"] +
 https://istio.io/docs/reference/config/networking/destination-rule/#DestinationRule[Destination rule documentation, window="_blank"] +
 
 '''
@@ -836,7 +836,7 @@ include::/data/files/validation_examples/101.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/no_gateway_checker.go[Validator source code, window="_blank"]
+https://github.com/kiali/kiali/tree/master/business/checkers/virtualservices/no_gateway_checker.go[Validator source code, window="_blank"]
 
 '''
 
@@ -862,7 +862,7 @@ include::/data/files/validation_examples/103.yaml[]
 ==== See Also
 
 https://github.com/istio/istio/blob/0e9cecab053aab744a7c3a731aacb07fd794d5f9/pilot/pkg/model/validation.go#L1628[Istio validation for route types, window="_blank"] +
-https://github.com/kiali/kiali/blob/master/business/checkers/virtual_services/no_host_checker.go[Validator source code, window="_blank"]
+https://github.com/kiali/kiali/blob/master/business/checkers/virtualservices/no_host_checker.go[Validator source code, window="_blank"]
 
 '''
 
@@ -888,7 +888,7 @@ include::/data/files/validation_examples/106.yaml[]
 ==== See Also
 https://istio.io/docs/reference/config/networking/virtual-service/#HTTPRouteDestination[Istio documentation about HTTP Route Destination struct, window="_blank"] +
 https://istio.io/docs/reference/config/networking/virtual-service/#RouteDestination[Istio documentation about Route Destination struct, window="_blank"] +
-https://github.com/kiali/kiali/blob/master/business/checkers/virtual_services/route_checker.go[Validator source code, window="_blank"]
+https://github.com/kiali/kiali/blob/master/business/checkers/virtualservices/route_checker.go[Validator source code, window="_blank"]
 
 '''
 
@@ -916,7 +916,7 @@ include::/data/files/validation_examples/111.yaml[]
 ==== See Also
 https://istio.io/docs/reference/config/networking/virtual-service/#HTTPRouteDestination[Istio documentation about HTTP Route Destination struct, window="_blank"] +
 https://istio.io/docs/reference/config/networking/virtual-service/#RouteDestination[Istio documentation about Route Destination struct, window="_blank"] +
-https://github.com/kiali/kiali/blob/master/business/checkers/virtual_services/route_checker.go[Validator source code, window="_blank"]
+https://github.com/kiali/kiali/blob/master/business/checkers/virtualservices/route_checker.go[Validator source code, window="_blank"]
 
 '''
 
@@ -942,7 +942,7 @@ include::/data/files/validation_examples/104.yaml[]
 ==== See Also
 
 https://istio.io/docs/ops/best-practices/traffic-management/#split-virtual-services[Istio documentation: Split large virtual services and destination rules into multiple resources, window="_blank"]
-https://github.com/kiali/kiali/blob/master/business/checkers/virtual_services/single_host_checker.go[Validator source code, window="_blank"]
+https://github.com/kiali/kiali/blob/master/business/checkers/virtualservices/single_host_checker.go[Validator source code, window="_blank"]
 
 '''
 
@@ -968,7 +968,7 @@ include::/data/files/validation_examples/105.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/subset_presence_checker.go[Validator source code, window="_blank"]
+https://github.com/kiali/kiali/tree/master/business/checkers/virtualservices/subset_presence_checker.go[Validator source code, window="_blank"]
 
 '''
 
@@ -988,7 +988,7 @@ include::/data/files/validation_examples/112.yaml[]
 
 ==== See Also
 
-https://github.com/kiali/kiali/tree/master/business/checkers/virtual_services/no_gateway_checker.go[Validator source code, window="_blank"]
+https://github.com/kiali/kiali/tree/master/business/checkers/virtualservices/no_gateway_checker.go[Validator source code, window="_blank"]
 
 [#generic]
 
