@@ -1,8 +1,13 @@
 #!/bin/python
 
 # Generates Simple Release Notes for Kiali given a release version and Sprint Project.
+#
 # The output can then be clipped into kiali.io/content/news/release-notes.adoc as the
 # base for that version's release notes.
+#
+# The project number is the github index number for the sprint's github project.
+# For example, Sprint 61 for v1.39 had a project URL of https://github.com/orgs/kiali/projects/34
+# so the projectNumber to pass in is "34".
 #
 # Requires:
 # - a github oauth token with public_repo and read:org scopes for kiali
@@ -74,6 +79,7 @@ releaseDatePattern = re.compile('^.*Ends:\s*([^\n]*).*$', re.DOTALL)
 releaseDate = releaseDatePattern.match(project["body"])
 
 print("\nRelease Notes for {}, Project: {}".format(version, projectName))
+print("Add the below text to: content/news/release-notes.adoc")
 print("------------Clip Below This Line----------------")
 print("== {}".format(version))
 print("Sprint Release: {}".format([releaseDate.group(1),"Unknown"][releaseDate is None]))
