@@ -175,6 +175,8 @@ Subsets can override the global settings defined in the DR for a host.
 
 If the host is not found, Istio ignores the defined rules.
 
+If the not found subset is not referenced in any Virtual Service, the severity of this error is changed to Info.
+
 ==== Resolution
 
 Correct the host to point to a correct service, in this namespace or with FQDN to other namespaces, or deploy the missing service to the mesh. If the hostname is equal to the one used otherwise in the DR, consider removing the duplicate host resolution.
