@@ -13,7 +13,7 @@ spec:
       sidecar.istio.io/inject: "true"
 ```
 
-If you are utilizing CNI in your Istio environment (for example, on OpenShift), Istio will not allow sidecars to work when injected in pods deployed in the control plane namespace, e.g. `istio-system`. link:https://istio.io/latest/docs/setup/additional-setup/cni/#identifying-pods-requiring-traffic-redirection[(1)]link:https://github.com/istio/istio/issues/34560[(2)]link:https://preliminary.istio.io/latest/docs/ops/diagnostic-tools/cni/#diagnose-pod-start-up-failure[(3)]. In this case, you must deploy Kiali in its own separate namespace. On OpenShift, you can do this using the following instructions.
+If you are utilizing CNI in your Istio environment (for example, on OpenShift), Istio will not allow sidecars to work when injected in pods deployed in the control plane namespace, e.g. `istio-system`. link:https://istio.io/v1.10/docs/setup/additional-setup/cni/#identifying-pods-requiring-traffic-redirection[(1)]link:https://github.com/istio/istio/issues/34560[(2)]link:https://preliminary.istio.io/latest/docs/ops/diagnostic-tools/cni/#diagnose-pod-start-up-failure[(3)]. In this case, you must deploy Kiali in its own separate namespace. On OpenShift, you can do this using the following instructions.
 
 Determine what namespace you want to install Kiali and create it. Give the proper permissions to Kiali. Create the necessary NetworkAttachmentDefinition. Finally, create the Kiali CR that will tell the operator to install Kiali in this new namespace, making sure to add the proper sidecar injection label as explained earlier.
 
