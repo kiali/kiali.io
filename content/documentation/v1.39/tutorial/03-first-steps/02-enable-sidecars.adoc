@@ -1,0 +1,34 @@
+---
+title: Enable Sidecars
+weight: 32
+---
+:icons: font
+:sectlinks:
+:linkattrs:
+
+In this tutorial, we will add namespaces and workloads into the ServiceMesh individually step by step.
+
+This will help you to understand how Istio sidecar proxies work and how applications can use Istio's features.
+
+We are going to start with the *control* workload deployed into the *travel-control* namespace:
+
+NOTE: *Step 1:* Enable Auto Injection on the *travel-control* namespace
+++++
+<a class="image-popup-fit-height" href="/images/tutorial/03-02-travel-control-namespace.png" title="Enable Auto Injection per Namespace">
+    <img src="/images/tutorial/03-02-travel-control-namespace.png" style="display:block;margin: 0 auto;" />
+</a>
+++++
+
+NOTE: *Step 2:* Enable Auto Injection for *control* workload
+++++
+<a class="image-popup-fit-height" href="/images/tutorial/03-02-control-workload.png" title="Enable Auto Injection per Workkload">
+    <img src="/images/tutorial/03-02-control-workload.png" style="display:block;margin: 0 auto;" />
+</a>
+++++
+
+{nbsp} +
+Understanding what happened:
+
+https://istio.io/latest/docs/setup/additional-setup/sidecar-injection/[(i) Sidecar Injection, window="_blank"]
+
+https://istio.io/latest/docs/ops/configuration/mesh/injection-concepts/[(ii) Injection Concepts, window="_blank"]
