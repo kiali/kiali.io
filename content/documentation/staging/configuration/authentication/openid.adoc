@@ -73,7 +73,8 @@ similar alternative. If you don't need RBAC, just configure Kiali accordingly.
 As nobody in the Kiali team has access to Azure, contributions for improved
 Azure support will be appreciated.
 
-== [[setup-with-rbac]]Set-up with RBAC support
+== Set-up with RBAC support
+[[setup-with-rbac]]
 
 Assuming you already have a working Kubernetes cluster with OpenId integration
 (or a working alternative like `kube-oidc-proxy`), you should already had
@@ -206,6 +207,7 @@ equivalent option if you are using a replacement or reverse proxy of the API
 server. Else, any user-friendly claim will be OK as it is purely informational.
 
 === Configuring requested scopes
+[[configure-scopes]]
 
 By default, Kiali will request access to the `openid`, `profile` and `email`
 standard scopes. If you need a different set of scopes, you can set the
@@ -240,6 +242,37 @@ spec:
     openid:
       authentication_timeout: 60 # Wait only one minute.
 ----
+
+=== Configuring allowed domains
+
+Some identity providers use a shared login and regardless of configuring your
+own application under your domain (or organization account), login can succeed
+even if the user that is logging in does not belong to your account or
+organization. Google is an example of this kind of provider.
+
+To prevent foreign users from logging into your Kiali instance, you can
+configure a list of allowed domains:
+
+[source,yaml]
+----
+spec:
+  auth:
+    openid:
+      allowed_domains:
+      - example.com
+      - foo.com
+----
+
+The e-mail reported by the identity provider is used for the validation. Login
+will be allowed if the domain part of the e-mail is listed as an allowed
+domain; else, the user will be rejected. Naturally, you will need to
+<<configure-scopes,configure the `email` scope to be requested>>.
+
+There is a special case: some identity providers include a `hd` claim in the
+`id_token`. If this claim is present, this is used instead of extracting the
+domain from the user e-mail.  For example, Google Workspace (aka G Suite)
+link:https://developers.google.com/identity/protocols/oauth2/openid-connect#an-id-tokens-payload[includes
+this `hd` claim for hosted domains].
 
 === Using an OpenID provider with a self-signed certificate
 
