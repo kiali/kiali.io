@@ -15,6 +15,24 @@ For additional information check our https://www.youtube.com/channel/UCcm2NzDN_U
 
 toc::[]
 
+== 1.39.0
+Sprint Release: August 20th, 2021
+
+Features:
+
+* https://github.com/kiali/kiali/issues/4230[generate metrics for validators]
+* https://github.com/kiali/kiali/issues/3895[(molecule) run molecule tests using a KinD cluster]
+* https://github.com/kiali/kiali/issues/4147[Remote cluster functionality should be configurable]
+* https://github.com/kiali/kiali/issues/2596[Update Kiali UI to latest Node.js LTS version]
+* https://github.com/kiali/kiali/issues/4195[Add a Molecule test to verify Grafana integration]
+* https://github.com/kiali/kiali/issues/3241[(operator) perform true "can_i" check to confirm the operator has correct permissions]
+
+Fixes:
+
+* https://github.com/kiali/kiali/issues/4289[grafana-test fails - cannot look up grafana url successfull]
+* https://github.com/kiali/kiali/issues/4255[route created by operator doesn't seem right]
+* https://github.com/kiali/kiali/issues/4238[Jaeger traces & spans fetching error]
+
 == 1.38
 
 === 1.38.1
