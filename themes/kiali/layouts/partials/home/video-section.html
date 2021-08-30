@@ -1,0 +1,98 @@
+{{- $maxVids := 1 }}
+{{- $expTimestamp := div now.Unix 6000 }}
+{{- $sprintURL    := printf "https://api.rss2json.com/v1/api.json?timestamp=%d&rss_url=https://www.youtube.com/feeds/videos.xml?playlist_id=PLgwrCYrAkQYOHIeGukEZUmNRGbqI9uwpi" $expTimestamp }}
+{{- $json         := getJSON $sprintURL }}
+{{- $vids         := first $maxVids $json.items }}
+
+<section id="video-getting-started" class="video-section">
+    <h1>
+       Latest videos
+        <span class="go-to-videos-link">
+          <a href="https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w" target="_blank">
+            Kiali on YouTube
+            <span class="fas fa-external-link-alt"/>
+          </a>
+        </span>
+    </h1>
+
+    <div id="videos" class="new-embed-video-links">
+      {{ range $vids }}
+        {{ $link    := .link }}
+        {{ $img     := .thumbnail }}
+        {{ $title   := .title }}
+        {{ $dateRaw := .pubDate }}
+        {{ $vidId   := index (split .guid ":") 2 }}
+        {{ $date    := dateFormat "January 2, 2006" $dateRaw }}
+
+        <div class="video-card">
+            <header class="video-header">
+              <span class="video-text">Community Meeting: {{ $date }}</span>
+                <span class=" video-text video-icon"><span class="fas fa-video"/></span>
+            </header>
+            <p class="video-text video-title">{{ $title }}</p>
+            <iframe class="video-iframe-links" src="https://www.youtube.com/embed/{{ $vidId }}"></iframe>
+        </div>
+      {{ end }}
+
+      <div class="video-card">
+          <header class="video-header">
+            <span class="video-text">Getting Started: August 26, 2020</span>
+            <span class=" video-text video-icon"><span class="fas fa-video"/></span>
+          </header>
+          <p class="video-text video-title">Kiali Helm Chart Install (Istio 1.7)</p>
+          <iframe class="video-iframe-links" src="https://www.youtube.com/embed/ht9M_GW7k6c"></iframe>
+          <p class="video-text video-text-footer">Mike Thompson</p>
+        </div>
+        
+      <div class="video-card">
+          <header class="video-header">
+            <span class="video-text">Feature: August 26, 2020</span>
+            <span class=" video-text video-icon"><span class="fas fa-video"/></span>
+          </header>
+          <p class="video-text video-title">Kiali Enable Istio Auto-injection</p>
+          <iframe class="video-iframe-links" src="https://www.youtube.com/embed/3mvo_RcoFqc"></iframe>
+          <p class="video-text video-text-footer">Mike Thompson</p>
+      </div>
+
+      <div class="video-card">
+          <header class="video-header">
+            <span class="video-text">Feature: August 26, 2020</span>
+            <span class=" video-text video-icon"><span class="fas fa-video"/></span>
+          </header>
+          <p class="video-text video-title">Workloads Logs Enhancements</p>
+          <iframe class="video-iframe-links" src="https://www.youtube.com/embed/Elj1r5qzre8"></iframe>
+          <p class="video-text video-text-footer">Mike Thompson</p>
+      </div>
+
+      <div class="video-card">
+          <header class="video-header">
+            <span class="video-text">Feature: August 6, 2020</span>
+            <span class=" video-text video-icon"><span class="fas fa-video"/></span>
+          </header>
+          <p class="video-text video-title">Kiali In-Graph Tracing</p>
+          <iframe class="video-iframe-links" src="https://www.youtube.com/embed/z7cZDPV9Ge0"></iframe>
+          <p class="video-text video-text-footer">Joel Takvorian</p>
+      </div>
+
+      <div class="video-card">
+          <header class="video-header">
+            <span class="video-text">Feature: July 29, 2020</span>
+            <span class=" video-text video-icon"><span class="fas fa-video"/></span>
+          </header>
+          <p class="video-text video-title">Kiali working with mTLS</p>
+          <iframe class="video-iframe-links" src="https://www.youtube.com/embed/OCXMU5IjOMM"></iframe>
+          <p class="video-text video-text-footer">Xavier Canal i Masjuan</p>
+      </div>
+
+      <div class="video-card">
+          <header class="video-header">
+            <span class="video-text">Feature: July 29, 2020</span>
+            <span class=" video-text video-icon"><span class="fas fa-video"/></span>
+          </header>
+          <p class="video-text video-title">Kiali Replay</p>
+          <iframe class="video-iframe-links" src="https://www.youtube.com/embed/CC_dl4zSZiU"></iframe>
+          <p class="video-text video-text-footer">John Mazzitelli</p>
+      </div>        
+    </div>
+
+</section>
