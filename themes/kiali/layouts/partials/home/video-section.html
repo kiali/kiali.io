@@ -9,15 +9,14 @@
 {{- $sprintVids   := first $sprintVids $sprintJson.items }}
 
 <section id="video-getting-started" class="video-section">
-    <h1>
-       Latest videos
-        <span class="go-to-videos-link">
-          <a href="https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w" target="_blank">
-            Kiali on YouTube
-            <span class="fas fa-external-link-alt"/>
-          </a>
-        </span>
-    </h1>
+    <h3>Latest videos</h3>
+    <div class="go-to-videos-link">
+      <a href="https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w" target="_blank">
+        Kiali on YouTube
+        <span class="fas fa-external-link-alt"/>
+      </a>
+    </div>
+    <br/>
 
     <div id="videos" class="new-embed-video-links">
       {{ range $sprintVids }}
