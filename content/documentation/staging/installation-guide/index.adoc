@@ -545,7 +545,7 @@ By default the secrets listed are:
 secretReader: ['cacerts', 'istio-ca-secret']
 ----
 
-When installing the operator with OLM there is no way to update the operator permissions after installing it, the solution is to manually update the cluster role used by the operator as follows:
+When installing the operator with OLM there is no way to pre-configure the operator permissions prior to installing the operator. The solution is to manually update the cluster role used by the operator as follows:
 
 [source,bash]
 ----
