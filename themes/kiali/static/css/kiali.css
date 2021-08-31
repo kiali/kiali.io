@@ -348,12 +348,10 @@ body > header nav ul ul {
 
 body > header div.search-container {
   margin-top: var(--kiali-pink-spacing);
-  position: relative;
 }
 
 body > header div.search-container input {
-  padding-left: 46px;
-  padding-right: 36px;
+  padding-left: 40px;
   border: none;
   border-bottom: 1px solid #006eb3;
   color: #006eb3;
@@ -362,7 +360,6 @@ body > header div.search-container input {
   font-weight: 300;
   font-size: 18px;
   height: 47px;
-  width: 100%;
 }
 
 body > header div.search-container input::placeholder {
@@ -381,9 +378,8 @@ body > header div.search-container input:focus {
 }
 
 body > header div.search-container i.search-icon {
-  position: absolute;
-  left: 16px;
-  top: 14px;
+  position: relative;
+  left: 30px;
   color: #006eb3;
   font-size: 18px;
   pointer-events: none;
@@ -409,6 +405,12 @@ body > header div.search-container input:valid {
 
 body > header div.search-container input:valid ~ i.search-icon {
   color: #030303;
+}
+
+body > header div.social {
+  position: fixed;
+  top: 1%;
+  right: 20px;
 }
 
 /* Masthead [Desktop view] */

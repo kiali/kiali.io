@@ -11,15 +11,22 @@
         <label class="main-nav-sandwich-icon" for="main-nav-sandwich" onclick></label>
         {{ partial "masthead_nav.html" .Site.Menus.main }}
       </nav>
-        <div class="search-container">
-            <form novalidate method="GET" action="https://cse.google.com/cse" autocomplete="on">
-                <input type="hidden" name="cx" value="015704640858869259522:6stg794nppg"/>
-                <input name="q" type="text" required title="Google this site..." placeholder="Search"/>
-                <i class="fas fa-search search-icon"></i>
-                <i class="fas fa-times-circle close-icon"></i>
-            </form>
-        </div>
+      <div class="search-container">
+        <form novalidate method="GET" action="https://cse.google.com/cse" autocomplete="on">
+          <input type="hidden" name="cx" value="015704640858869259522:6stg794nppg"/>
+          <i class="fas fa-search search-icon"></i>
+          <input name="q" type="text" required title="Google this site..." placeholder="Search"/>
+          <i class="fas fa-times-circle close-icon"></i>
+        </form>
+      </div>
       <div style="clear: both"></div>
+    </div>
+    <div class="social">
+      <a href="https://github.com/kiali" title="Kiali project on Github" target="_blank" class="fab fa-github"></a>
+      &nbsp;
+      <a href="https://istio.slack.com/archives/CJVRXB09F"  title="Kiali channel on Istio Slack" target="_blank" class="fab fa-slack"></a>
+      &nbsp;
+      <a href="https://twitter.com/kialiproject" title="Kiali on Twitter" target="_blank" class="fab fa-twitter"></a>
     </div>
     <div id="masthead-shadow"></div>
   </header>
