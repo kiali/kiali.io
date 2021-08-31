@@ -477,7 +477,9 @@ If you wish to install multiple Kiali instances in the same namespace, or if you
 
 icon:bullhorn[size=1x]{nbsp} Since the `spec.deployment.instance_name` field is used for the Kiali resource names, including the Service name, you must ensure the value you assign this setting follows the https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#dns-label-names[Kubernetes DNS Label Name rules,window="_blank"]. If it does not, the operator will abort the installation. And note that because Kiali uses this as a prefix (it may append additional characters for some resource names) its length is limited to 40 characters.
 
-=== Reducing Permissions in OpenShift
+=== Updating Permissions
+
+==== Reducing Permissions in OpenShift
 
 By default, Kiali will run with its cluster role. It provides some read-write capabilities so Kiali can add, modify, or delete some service mesh resources to perform tasks such as adding and modifying Istio destination rules in any namespace.
 
@@ -499,7 +501,11 @@ Then you will need to grant the `kiali` role in the namespace of your choosing:
   oc adm policy add-role-to-user kiali system:serviceaccount:istio-system:kiali-service-account -n ${NAMESPACE}
 ----
 
-You can alternatively tell the Kiali Operator to install Kiali in "view only" mode (this does work for either OpenShift or Kubernetes). You do this by setting the `view_only_mode` to `true` in the Kiali CR:
+You can alternatively tell the Kiali Operator to install Kiali in "view only" mode. Check the following section for configuring it.
+
+==== View Only Mode
+
+To install Kiali in "view only" mode (this does work for either OpenShift or Kubernetes) set the `view_only_mode` to `true` in the Kiali CR:
 
 [source,yaml]
 ----
@@ -509,6 +515,44 @@ deployment:
 
 This allows Kiali to read service mesh resources found in the cluster, but it does not allow Kiali to add, modify, or delete them.
 
+==== Secrets Permissions
+
+Kiali and its operator have reduced permissions for handling secrets due to security reasons.
+
+For some features like link:/documentation/staging/features/#_certificates_information_indicators[Certificates Information Indicators], read permissions for specific secrets in the control plane namespace might be required.
+
+As the following configuration in Kiali CR indicates, the feature will require read permissions for two secrets:
+
+[source,yaml]
+----
+spec:
+  kiali_feature_flags:
+    certificates_information_indicators:
+      enabled: true
+      secrets:
+      - dns.example1-service-account
+      - dns.example2-service-account
+----
+
+These permissions can be configured in two different ways depending on how you install the operator.
+
+When installing the operator using the Helm chart, set the property `secretReader`. Secrets listed in this property will be allowed to be read by the operator and subsequently by Kiali.
+
+By default the secrets listed are:
+
+[source,yaml]
+----
+secretReader: ['cacerts', 'istio-ca-secret']
+----
+
+When installing the operator with OLM there is no way to update the operator permissions after installing it, the solution is to manually update the cluster role used by the operator as follows:
+
+[source,bash]
+----
+kubectl patch $(kubectl get clusterroles -o name | grep kiali-operator) --type "json" -p '[{"op":"add","path":"/rules/0","value":{"apiGroups":[""],"resources":["secrets"],"verbs":["get"],"resourceNames":["secret-name-to-be-read"]}}]'
+----
+
+Where the `secret-name-to-be-read` needs to be replaced by the secret name you want the operator to read.
 
 === Development Install
 
