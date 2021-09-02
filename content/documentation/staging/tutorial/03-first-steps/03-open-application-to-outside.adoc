@@ -36,7 +36,23 @@ And we will add a simple entry to the `/etc/hosts` of the tutorial machine with 
 ...
 ----
 
-Then from this machine, the url `control.travel-control.istio-cluster.org` will resolve to the External IP of the Ingress Gateway of Istio.
+Then, from this machine, the url `control.travel-control.istio-cluster.org` will resolve to the External IP of the Ingress Gateway of Istio.
+
+icon:bullhorn[size=1x]{nbsp} OpenShift does not provide the Kubernetes Service EXTERNAL-IP for "LoadBalancer" TYPE. Instead, you can expose the istio-ingressgateway service.
+
+For OpenShift we will expose the Ingress gateway as a service:
+
+[source,bash]
+----
+$ oc expose service istio-ingressgateway -n istio-system
+$ oc get routes -n istio-system
+NAME                   HOST/PORT                                  PATH   SERVICES               PORT    TERMINATION          WILDCARD
+istio-ingressgateway   <YOUR_ROUTE_HOST>                                 istio-ingressgateway   http2                        None
+----
+
+Then, from this machine, the host <YOUR_ROUTE_HOST> will resolve to the External IP of the Ingress Gateway of Istio. For OpenShift we will
+not define a DNS entry, instead, where you see `control.travel-control.istio-cluster.org` in the steps below, subsitute the value of <YOUR_ROUTE_HOST>.
+
 
 NOTE: *Step 2:* Use the Request Routing Wizard on the *control* service to generate a traffic rule
 ++++
@@ -46,7 +62,7 @@ NOTE: *Step 2:* Use the Request Routing Wizard on the *control* service to gener
 ++++
 
 {nbsp} +
-Use "Add Rule" button to add a default rule where any request will be routed to the *control* workload.
+Use "Add Route Rule" button to add a default rule where any request will be routed to the *control* workload.
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/03-03-request-routing.png" title="Routing Rule">
     <img src="/images/tutorial/03-03-request-routing.png" style="display:block;margin: 0 auto;" />
