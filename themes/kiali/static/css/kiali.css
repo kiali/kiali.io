@@ -390,9 +390,8 @@ body > header div.search-container i.close-icon {
 }
 
 body > header div.search-container input:valid ~ i.close-icon {
-  position: absolute;
-  right: 16px;
-  top: 16px;
+  position: relative;
+  right: 30px;
   font-size: 15px;
   display:inline-block;
   cursor: pointer;
@@ -407,10 +406,9 @@ body > header div.search-container input:valid ~ i.search-icon {
   color: #030303;
 }
 
-body > header div.social {
-  position: fixed;
-  top: 1%;
-  right: 20px;
+body > header span.social {
+  position: relative;
+  left: 25px;
 }
 
 /* Masthead [Desktop view] */
