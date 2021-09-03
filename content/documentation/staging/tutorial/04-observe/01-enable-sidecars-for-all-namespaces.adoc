@@ -30,7 +30,8 @@ NOTE: *Step 2:* Enable proxy injection in *travel-portal* and *travel-agency* na
 
 In the First Steps of this tutorial we didn't inject the sidecar proxies on purpose to show a scenario where only some workloads may have sidecars.
 
-Typically, Istio users annotate namespaces before the deployment to allow Istio to automatically add the sidecar when the application is rolled out into the cluster.
+Typically, Istio users annotate namespaces before the deployment to allow Istio to automatically add the sidecar when the application is rolled out into the cluster. Perform
+the following commands:
 
 [source,bash]
 ----

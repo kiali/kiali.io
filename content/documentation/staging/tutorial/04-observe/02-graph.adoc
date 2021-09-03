@@ -6,13 +6,13 @@ weight: 41
 :sectlinks:
 :linkattrs:
 
-The graph provides a powerful set of link:../features/#_graph[Graph Features, window="_blank"] to visualize the topology of the service mesh.
+The graph provides a powerful set of link:../features/#_graph[Graph Features, window="_blank"] to visualize the traffic topology of the service mesh.
 
 In this step, we will show how to use the Graph to show relevant information in the context of the Travels Demo application.
 
 Our goal will be to identify the most critical service of the demo application.
 
-NOTE: *Step 1:* Select all *travel-* namespaces in the graph and enable *Request Distribution* edge labels in the Display Options
+NOTE: *Step 1:* Select all *travel-* namespaces in the graph and enable *Traffic Distribution* edge labels in the Display Options:
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/04-02-graph-request-distribution.png" title="Graph Request Distribution">
     <img src="/images/tutorial/04-02-graph-request-distribution.png" style="display:block;margin: 0 auto;" />
@@ -22,7 +22,7 @@ NOTE: *Step 1:* Select all *travel-* namespaces in the graph and enable *Request
 {nbsp} +
 Review the status of the mesh, everything seems healthy, but also note that *hotels* service has more load compared to other services inlcuded in the *travel-agency* namespace.
 
-NOTE: *Step 2:* Select the *hotels* service, use the graph side-panel to select a trace from the Traces tab
+NOTE: *Step 2:* Select the *hotels* service, use the graph side-panel to select a trace from the Traces tab:
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/04-02-hotels-normal-trace.png" title="Hotels Normal Trace">
     <img src="/images/tutorial/04-02-hotels-normal-trace.png" style="display:block;margin: 0 auto;" />
@@ -47,4 +47,4 @@ NOTE: *Step 3:* Select the main *travels* application and double-click to zoom i
 
 {nbsp} +
 The graph can focus on an element to study a particular context in detail. +
-Note that a contextual menu is available using the right click button to easily shortcut the navigation to other sections.
+Note that a contextual menu is available using right-click, to easily shortcut the navigation to other sections.
