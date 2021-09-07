@@ -406,11 +406,6 @@ body > header div.search-container input:valid ~ i.search-icon {
   color: #030303;
 }
 
-body > header span.social {
-  position: relative;
-  left: 25px;
-}
-
 /* Masthead [Desktop view] */
 @media only screen and (min-width: 1050px) {
   body > header > div:first-child {
