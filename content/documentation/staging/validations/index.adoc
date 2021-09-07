@@ -992,6 +992,16 @@ include::/data/files/validation_examples/112.yaml[]
 
 https://github.com/kiali/kiali/tree/master/business/checkers/virtualservices/no_gateway_checker.go[Validator source code, window="_blank"]
 
+'''
+
+=== KIA1109 - When gateway is not set, the default gateway (mesh) is used, which applies the rule to all sidecars in the mesh
+
+A virtual service might not have any gateway set. In this case the default gateway (mesh) might be used, and the rule would be applied to all sidecars in the mesh. Kiali shows info message on these virtuel services.
+
+==== See Also
+
+https://github.com/kiali/kiali/tree/master/business/checkers/virtualservices/no_gateway_checker.go[Validator source code, window="_blank"]
+
 [#generic]
 
 == Generic
