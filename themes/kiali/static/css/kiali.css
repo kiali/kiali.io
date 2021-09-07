@@ -3,7 +3,7 @@
 :root {
   --kiali-dark-green-spacing: 8px;
   --kiali-blue-spacing: 24px;
-  --kiali-bright-green-spacing: 80px;
+  --kiali-bright-green-spacing: 70px;
   --kiali-orange-spacing: 48px;
   --kiali-pink-spacing: 16px;
   --kiali-red-spacing: 32px;
@@ -119,8 +119,8 @@ main > :first-child {
     padding-left: var(--kiali-yellow-spacing);
     padding-right: var(--kiali-yellow-spacing);
 
-    margin-top: var(--kiali-orange-spacing);
-    margin-bottom: var(--kiali-orange-spacing);
+    margin-top: var(--kiali-pink-spacing);
+    margin-bottom: var(--kiali-pink-spacing);
   }
 
   main > :first-child {
