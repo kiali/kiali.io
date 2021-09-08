@@ -36,7 +36,7 @@ Issue tracking is also enabled for other Kiali repositories, like link:https://g
 
 There are several ways to contact, and be part of, the Kiali community:
 
-* link:https://istio.slack.com/[Istio Slack] has a dedicated _#kiali_ channel. This is the best place to get both Kiali and Istio eyes on a question or comment. Learn how to join Istio Slack by visiting the _link:https://istio.io/about/community/join/[Getting Involved_ page of Istio's web site].
+* link:https://istio.slack.com/[Istio Slack] has a dedicated _#kiali_ channel. This is the best place to get both Kiali and Istio eyes on a question or comment. Learn how to join Istio Slack by visiting the _link:https://istio.io/latest/get-involved/[Get Involved_] page of Istio's web site.
 * The link:https://web.libera.chat?channels=#kiali[#kiali IRC channel at Libera]. Join us for IRC chat, a great place for informal questions or comments!
 * The link:https://github.com/kiali/kiali/discussions[Kiali Github Discussions]. Want to ask a more detailed question? To start or join a discussion, this is the place!
 * The link:https://discuss.istio.io/c/policies-and-telemetry/kiali[Istio policies-and-telemetry on Discuss], where there is a dedicated Kiali _topic_.

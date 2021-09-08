@@ -7,12 +7,10 @@
   {{- $latestPost   := index $json.items 1 }}
 
   <section id="blog-latest" data-lastpubat="{{ $latestPost.pubDate }}">
-    <h1>
-      Latest in our blog
-    </h1>
+    <h3>Latest blogs</h3>
     <div id="go-to-blog-link">
       <a href="https://medium.com/kialiproject" target="_blank">
-        Go to blog
+        Kiali on Medium
         <span class="fas fa-external-link-alt" />
       </a>
     </div>
