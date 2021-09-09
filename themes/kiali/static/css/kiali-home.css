@@ -127,6 +127,10 @@ section#hero p.buttons {
   max-width: 100%;
 }
 
+section#about div {
+  margin-bottom: 10px;
+}
+
 /* Features block styles */
 div#features-blocks {
   display: flex;

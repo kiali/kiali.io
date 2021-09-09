@@ -451,7 +451,7 @@ body > header div.search-container input:valid ~ i.search-icon {
   body > header nav > ul > li:last-child {
     padding-right: 0;
   }
-  
+
   body > header nav > ul > li:hover,
   body > header nav > ul > li:focus-within,
   body > header nav > ul > li:focus {
