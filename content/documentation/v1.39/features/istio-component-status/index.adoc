@@ -1,0 +1,24 @@
+---
+title: "Istio Component Status"
+date: 2018-06-20T19:04:38+02:00
+draft: false
+weight: 9
+---
+
+The Istio service mesh architecture is comprised of several components, from istiod to Jaeger. Each component must work as expected for the mesh to work well overall. Kiali regularly checks the status of each Istio component to ensure the mesh is healthy.
+
+++++
+<div style="display: flex;">
+ <span style="margin: 0 auto;">
+  <a class="image-popup-fit-height" href="/images/documentation/features/istio-components-1.24.png" title="Istio components status: components not healthy or found">
+   <img src="/images/documentation/features/istio-components-1.24.png" style="width: 660px;display:inline;margin: 0 auto;" />
+  </a>
+ </span>
+</div>
+++++
+
+A component *status* will be one of: `Not found`, `Unreachable`, `Not healthy` and `Healthy`. The `Not found` status means that Kiali is not able to find the deployment. The `Unreachable` status means that Kiali hasn't been succesfuly able to communicate with the component (Prometheus, Grafana and Jaeger). The `Not healthy` status means that the deployment doesn't have the desired amount of replicas running. The `Healthy` status is when the component is not in the previous ones, plus, healthy components won't be shown in the list.
+
+Regarding the *severity* of each component, there are only to options: `core` or `add-on`. The `core` components are those shown as errors (in red) whereas the `add-ons` are displayed as warnings (in orange).
+
+By default, Kiali checks the following components installed in the control plane namespace: istiod, ingress, egress; and prometheus, grafana and jaeger accessible thought their services.

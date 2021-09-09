@@ -3,7 +3,7 @@ title: "Validations"
 date: 2020-02-17T14:53:00+02:00
 draft: false
 type: "documentation"
-weight: 10
+weight: 5
 ---
 
 :sectnums:
@@ -17,8 +17,28 @@ toc::[]
 :icons: font
 :imagesdir: /images/documentation/overview/
 
-[#authorizationpolicies]
 :numbered!:
+== Validations Overview
+
+Kiali performs a set of validations to the most common Istio Objects such as Destination Rules, Service Entries, and Virtual Services. Those validations are done in addition to the existing ones performed by Istio's Galley component. Most validations are done inside a single namespace only, any exceptions, such as gateways, are properly documented.
+
+Galley validations are mostly syntactic validations based on the object syntax analysis of Istio objects while Kiali validations are mostly semantic validations between different Istio objects. Kiali validations are based on the runtime status of your service mesh, Galley validations are static ones and doesn't take into account what is configured in the mesh.
+
+++++
+<div style="display: flex;">
+ <span style="margin: 0 auto;">
+  <a class="image-popup-fit-height" href="/images/documentation/features/config-validation-v1.22.0.png" title="Istio Config Validation">
+   <img src="/images/documentation/features/config-validation-v1.22.0.png" style="width: 1333px;display:inline;margin: 0 auto;" />
+  </a>
+ </span>
+</div>
+++++
+
+{empty} +
+
+Check the complete list of validations for further information.
+
+[#authorizationpolicies]
 == AuthorizationPolicy
 === KIA0101 - Namespace not found for this rule
 
@@ -174,6 +194,8 @@ Istio applies traffic rules for services after the routing has happened. These c
 Subsets can override the global settings defined in the DR for a host.
 
 If the host is not found, Istio ignores the defined rules.
+
+If the not found subset is not referenced in any Virtual Service, the severity of this error is changed to Info.
 
 ==== Resolution
 

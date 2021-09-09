@@ -36,60 +36,103 @@ ignoreFiles = [ "\\.ignore$" ]
       url = "/documentation/latest/quick-start"
       weight = 2
   [[menu.main]]
-      identifier = "main_features"
-      name = "Features"
-      url = "/documentation/latest/features"
-      weight = 3
-  [[menu.main]]
       identifier = "tutorial"
       name = "Tutorial"
       url = "/documentation/latest/tutorial"
-      weight = 4
+      weight = 3
   [[menu.main]]
       identifier = "main_contribute"
       name = "Contribute"
       url = "/contribute"
-      weight = 5
+      weight = 4
   [[menu.main]]
       identifier = "main_doc"
       name = "Documentation"
       url = "/documentation"
-      weight = 6
-      [[menu.main]]
-          identifier = "doc_features"
-          name = "Features"
-          url = "/documentation/latest/features"
-          weight = 1
-          parent="main_doc"
+      weight = 5
       [[menu.main]]
           identifier = "doc_installation_guide"
           name = "Installation Guide"
           url = "/documentation/latest/installation-guide"
-          weight = 2
+          weight = 1
           parent="main_doc"
       [[menu.main]]
-          identifier = "doc_architecture"
-          name = "Architecture"
-          url = "/documentation/latest/architecture"
-          weight = 3
+          identifier = "doc_features"
+          name = "Features"
+          url = "/documentation/latest/features"
+          weight = 2
           parent="main_doc"
+        [[menu.main]]
+          identifier = "topology"
+          name = "Topology"
+          url = "/documentation/latest/features/topology"
+          weight = 1
+          parent="doc_features"
+        [[menu.main]]
+          identifier = "health"
+          name = "Health"
+          url = "/documentation/latest/features/health"
+          weight = 2
+          parent="doc_features"
+        [[menu.main]]
+          identifier = "details"
+          name = "Details"
+          url = "/documentation/latest/features/details"
+          weight = 3
+          parent="doc_features"
+        [[menu.main]]
+          identifier = "tracing"
+          name = "Tracing"
+          url = "/documentation/latest/features/tracing"
+          weight = 4
+          parent="doc_features"
+        [[menu.main]]
+            identifier = "validations"
+            name = "Validations"
+            url = "/documentation/latest/features/validations"
+            weight = 5
+            parent="doc_features"
+        [[menu.main]]
+           identifier = "wizards"
+           name = "Wizards"
+           url = "/documentation/latest/features/wizards"
+           weight = 6
+           parent="doc_features"
+        [[menu.main]]
+           identifier = "configuration"
+           name = "Configuration"
+           url = "/documentation/latest/features/configuration"
+           weight = 7
+           parent="doc_features"
+        [[menu.main]]
+           identifier = "security"
+           name = "Security"
+           url = "/documentation/latest/features/security"
+           weight = 8
+           parent="doc_features"
+        [[menu.main]]
+           identifier = "istio-component-status"
+           name = "Istio Status"
+           url = "/documentation/latest/features/istio-component-status"
+           weight = 9
+           parent="doc_features"
+        [[menu.main]]
+           identifier = "multi-cluster"
+           name = "Multi-cluster"
+           url = "/documentation/latest/features/multi-cluster"
+           weight = 10
+           parent="doc_features"
       [[menu.main]]
           identifier = "doc_configuration"
           name = "Configuration"
           url = "/documentation/latest/configuration"
-          weight = 4
+          weight = 3
           parent="main_doc"
           [[menu.main]]
               identifier = "doc_authentication"
               name = "Authentication"
               url = "/documentation/latest/configuration/authentication"
               weight = 1
-              parent="doc_configuration"
-          [[menu.main]]
-              identifier = "doc_health"
-              name = "Health"
-              url = "/documentation/latest/configuration/health"
-              weight = 2
               parent="doc_configuration"
           [[menu.main]]
               identifier = "doc_rbac"
@@ -104,34 +147,16 @@ ignoreFiles = [ "\\.ignore$" ]
               weight = 4
               parent="doc_configuration"
       [[menu.main]]
-          identifier = "validations"
-          name = "Validations"
-          url = "/documentation/latest/validations"
-          weight = 5
-          parent="main_doc"
-      [[menu.main]]
-          identifier = "doc_runtimes"
-          name = "Custom Dashboards"
-          url = "/documentation/latest/runtimes-monitoring"
-          weight = 6
-          parent="main_doc"
-      [[menu.main]]
-          identifier = "doc_tracing"
-          name = "Distributed Tracing"
-          url = "/documentation/latest/distributed-tracing"
-          weight = 7
-          parent="main_doc"
-      [[menu.main]]
-          identifier = "doc_extensions"
-          name = "Extensions"
-          url = "/documentation/latest/extensions"
-          weight = 8
+          identifier = "doc_architecture"
+          name = "Architecture"
+          url = "/documentation/latest/architecture"
+          weight = 3
           parent="main_doc"
       [[menu.main]]
           identifier = "doc_glossary"
           name = "Glossary"
           url = "/documentation/latest/glossary"
-          weight = 10
+          weight = 4
           parent="main_doc"
           [[menu.main]]
               identifier = "concepts"
@@ -161,4 +186,4 @@ ignoreFiles = [ "\\.ignore$" ]
       identifier = "main_faq"
       name = "FAQ"
       url = "/documentation/latest/faq"
-      weight = 7
+      weight = 6

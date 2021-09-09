@@ -1,25 +1,36 @@
 ---
-title: "Health Configuration"
-date: 2019-03-06T13:55:38+02:00
+title: "Health"
+date: 2018-06-20T19:04:38+02:00
 draft: false
-type: "documentation"
-weight: 5
+weight: 2
 ---
 
-:linkattrs:
-:sectlinks:
-
-= Health Configuration
 :sectnums:
+:sectlinks:
+:linkattrs:
 :toc: left
+:toclevels: 2
 toc::[]
-:toc-title: Custom Health
-:keywords: Kiali Documentation Health
+:toc-title: Health
+:keywords: Kiali Documentation
 :icons: font
-:imagesdir: /images/documentation/health-configuration/
+:imagesdir: /images/documentation/overview/
 
+:numbered!:
 
 == Health
+Colors in the graph represent the health of your service mesh. A node colored red or orange might need attention. The color of an edge between components represents the health of the requests between those components. The node shape indicates the type of component such as services, workloads, or apps.
+
+The health of nodes and edges is refreshed automatically based on the user's preference. The graph can also be paused to examine a particular state, or replayed to re-examine a particular time period.
+++++
+<a class="image-popup-fit-height" href="/images/documentation/features/graph-health-v1.22.0.png" title="Visualize the health of your mesh">
+    <img src="/images/documentation/features/graph-health-thumb-v1.22.0.png" style="display:block;margin: 0 auto;" />
+</a>
+++++
+
+{empty} +
+
+== Health Configuration
 
 Kiali calculates health by combining the individual health of several indicators, such as pods and request traffic.  The _global health_ of a resource reflects the most severe health of its indicators.
 
@@ -378,16 +389,16 @@ After Kiali adds default configuration we have the following (Debug Info Kiali):
 What are we applying?
 
 - For namespace alpha, all resources
-  - Protocol http if % requests with error code 404 are >= 10 then FAILURE, if they are > 0 then DEGRADED
-  - Protocol http if % requests with others error codes are> 0 then FAILURE.
+- Protocol http if % requests with error code 404 are >= 10 then FAILURE, if they are > 0 then DEGRADED
+- Protocol http if % requests with others error codes are> 0 then FAILURE.
 
 - For namespace beta, all resources
-  - Protocol http if % requests with error code 4xx are >= 40 then FAILURE, if they are >= 30 then DEGRADED
-  - Protocol http if % requests with error code 5xx are > 0 then FAILURE
+- Protocol http if % requests with error code 4xx are >= 40 then FAILURE, if they are >= 30 then DEGRADED
+- Protocol http if % requests with error code 5xx are > 0 then FAILURE
 
 - For other namespaces kiali apply defaults.
-  - Protocol http if % requests with error code 5xx are >= 20 then FAILURE, if they are >= 0.1 then DEGRADED
-  - Protocol grpc if % requests with error code match /^[1-9]$|^1[0-6]$/ are >= 20 then FAILURE, if they are >= 0.1 then DEGRADED
+- Protocol http if % requests with error code 5xx are >= 20 then FAILURE, if they are >= 0.1 then DEGRADED
+- Protocol grpc if % requests with error code match /^[1-9]$|^1[0-6]$/ are >= 20 then FAILURE, if they are >= 0.1 then DEGRADED
 
 
 

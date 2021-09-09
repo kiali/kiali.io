@@ -1,0 +1,27 @@
+---
+title: "Features"
+aliases:
+- /features/
+- /documentation/v1.39/overview/
+date: 2018-06-20T19:04:38+02:00
+draft: false
+type: "features"
+weight: 1
+---
+
+:sectlinks:
+:linkattrs:
+:toc: macro
+:toc-title: Kiali Features
+:toclevels: 4
+:keywords: Kiali Features
+:icons: font
+:imagesdir: /images/documentation/features/
+
+Kiali helps you define, validate, and observe the connections and microservices of your Istio service mesh.
+
+Kiali works with Istio in Kubernetes distributions. It visualizes the service mesh topology and provides visibility into features like request routing, circuit breakers, request rates, latency and more. Kiali offers insights about the mesh components at different levels, from abstract Applications to Services and Workloads.
+
+Kiali also helps to manage the Service Mesh providing Wizards to apply common traffic patterns and automatically generate Istio configuration.
+
+toc::[]
