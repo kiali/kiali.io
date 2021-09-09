@@ -61,7 +61,7 @@ The "Outlier Detection" will eject a host from the connection pool if there is m
 
 NOTE: *Step 3:* Study the behavior of the Circuit Breaker in the *travels* service
 
-In the *loadtester* workload Graph we can see that the *travels* service's Circuit Breaker accepts some, but fails most, connections.
+In the *loadtester* versioned-app Graph we can see that the *travels* service's Circuit Breaker accepts some, but fails most, connections.
 
 Remember, that these connections are stopped by the proxy on the *loadtester* side. That "fail sooner" pattern prevents overloading the network.
 
