@@ -66,32 +66,3 @@ The following is an example of viewing the default case:
 Note that displaying this configuration requires permissions to read secrets (*istio-ca-secret* by default, possibly *cacerts* or any secret configured when using DNS certificates).
 
 Having this permissions may concern users. For this reason, this feature is implemented as a feature flag and not only can be disabled, avoiding any extra permissions to read secrets, but also a list of secrets can be configured to explicitly grant read permissions for some secrets in the control plane namespace. For more information, check the link:/documentation/staging/installation-guide/#_secrets_permissions[secret permissions] section.
-
-== Certificates Information Indicators
-
-In some situations, it would be useful to get information about the certificates used by internal mTLS, for example:
-
-* Know whether the default CA is used or if there is another CA configured
-* Check the certificates issuer and their validity timestamps to troubleshoot any issue with certificates
-
-The certificates shown depends on how Istio is configured. The following cases are possible:
-
-* Using Istio CA certificates (default), the information shown is from a secret named *istio-ca-secret*
-* Using https://istio.io/latest/docs/tasks/security/cert-management/plugin-ca-cert/[Plug in CA certificates, window=_blank], the information shown is from a secret named *cacerts*
-* Using https://istio.io/latest/docs/tasks/security/cert-management/dns-cert/[DNS certificates, window=_blank], the information shown is from reading many secrets found in Istio configuration
-
-The following is an example of viewing the default case:
-
-++++
-<div style="display: flex;">
- <span style="margin: 0 auto;">
-  <a class="image-popup-fit-height" href="/images/documentation/features/certificates-information-indicators.png" title="Certificates information">
-   <img src="/images/documentation/features/certificates-information-indicators.png" style="width: 1333px;display:inline;margin: 0 0 15px 0;" />
-  </a>
- </span>
-</div>
-++++
-
-Note that displaying this configuration requires permissions to read secrets (*istio-ca-secret* by default, possibly *cacerts* or any secret configured when using DNS certificates).
-
-Having this permissions may concern users. For this reason, this feature is implemented as a feature flag and not only can be disabled, avoiding any extra permissions to read secrets, but also a list of secrets can be configured to explicitly grant read permissions for some secrets in the control plane namespace. For more information, check the link:/documentation/staging/installation-guide/#_secrets_permissions[secret permissions] section.

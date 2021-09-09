@@ -451,12 +451,7 @@ body > header div.search-container input:valid ~ i.search-icon {
   body > header nav > ul > li:last-child {
     padding-right: 0;
   }
-
-  body > header nav > ul > li {
-    padding: var(--kiali-pink-spacing) var(--kiali-pink-spacing) var(--kiali-dark-green-spacing);
-    line-height: 31px;
-  }
-
+  
   body > header nav > ul > li:hover,
   body > header nav > ul > li:focus-within,
   body > header nav > ul > li:focus {
@@ -557,10 +552,6 @@ body > header div.search-container input:valid ~ i.search-icon {
   body > header nav > ul > li {
     padding: 40px var(--kiali-pink-spacing);
     line-height: 31px;
-  }
-
-  body > header div.search-container {
-    margin-left: auto;
   }
 }
 
