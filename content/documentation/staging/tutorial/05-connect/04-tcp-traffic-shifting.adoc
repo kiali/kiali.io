@@ -52,7 +52,7 @@ NOTE: *Step 3:* Examine Traffic Shifting distribution from the *travels-agency* 
 ++++
 
 {nbsp} +
-Note that TCP telemetry has different types of metrics, as "Request Distribution" is only available for HTTP/gRPC services, for this service we need to use "Request Rate" to evaluate the distribution of data between *mysqldb* workloads.
+Note that TCP telemetry has different types of metrics, as "Traffic Distribution" is only available for HTTP/gRPC services, for this service we need to use "Traffic Rate" to evaluate the distribution of data (bytes-per-second) between *mysqldb* workloads.
 
 NOTE: *Step 4:* Compare *mysqldb* workload and study new indexes proposed in *mysqldb-v2* and *mysqldb-v3*
 
