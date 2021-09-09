@@ -35,9 +35,10 @@ We will simulate the following:
 
 NOTE: *Step 2:* Examine Traffic Shifting distribution from the *travels-agency* Graph
 
-Note that Istio doesn't report telemetry (or flag) mirrored traffic from source proxy.
-
-Then in the Graph the *travels* edge to *travels-v3* workload should be marked as grey, meaning no traffic (note: the Show Idle Edges Display option must be enabled to see the grey edges).
+Note that Istio does not report mirrored traffic telemetry from the source proxy. It is reported from the destination proxy, 
+although it is not flagged as mirrored, and therefore an edge from *travels* to the *travels-v3* workload will appear in the graph.
+Note the traffic rates reflect the expected ratio of 80/20 between *travels-v1* and *travels-v2*, with *travels-v3* at about
+half of that total.
 
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/05-07-mirrored-graph.png" title="Mirrored Graph">
@@ -46,6 +47,7 @@ Then in the Graph the *travels* edge to *travels-v3* workload should be marked a
 ++++
 
 {nbsp} +
+
 This can be examined better using the "Source" and "Destination" metrics from the "Inbound Metrics" tab.
 
 The "Source" proxy, in this case the proxies injected into the workloads of *travel-portal* namespace, won't report telemetry for *travels-v3* mirrored workload.
