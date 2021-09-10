@@ -17,5 +17,5 @@ Kiali determines the mTLS percentage for the edges via the `connection_security_
 Prometheus telemetry. Note that this is destination telemetry (i.e. `reporter="destination"`).
 
 For more on the masthead indicator, the graph security option, and other Kiali security features see
-https://kiali.io/documentation/latest/features/#_security[Security Features].
+https://kiali.io/documentation/v1.24/features/#_security[Security Features].
 
