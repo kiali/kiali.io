@@ -33,7 +33,6 @@ Features:
 
 Fixes:
 
-* https://github.com/kiali/kiali/issues/4345[operator breaks if user uses string instead  of boolean for some settings]
 * https://github.com/kiali/kiali/issues/4218[(validations) Don't show KIA0203 when there are no VS referencing the DR subset]
 * https://github.com/kiali/kiali/issues/4298[Kiali Operator: Pods attempt to use auth secret when external service disabled]
 * https://github.com/kiali/kiali/issues/4302[Not able to build Molecule image]
