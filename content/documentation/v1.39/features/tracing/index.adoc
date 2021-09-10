@@ -14,7 +14,6 @@ toc::[]
 :toc-title: Details
 :keywords: Kiali Documentation
 :icons: font
-:imagesdir: /images/documentation/overview/
 
 :numbered!:
 == Traces
@@ -73,7 +72,7 @@ Configuring an external URL for Jaeger will enable links from Kiali to Jaeger UI
 
 Once this URL is set, Kiali will show an additional item to the main menu:
 
-image::menu_external_link.png[Distributed Tracing View]
+image::/images/documentation/tracing/menu_external_link.png[Distributed Tracing View]
 
 icon:bullhorn[size=2x]{nbsp} You may have `url` configured and not `in_cluster_url`, for instance, if Jaeger is not accessible from Kiali pod. In this situation, Kiali will not show its own traces chart but will display external links to the Jaeger UI instead.
 

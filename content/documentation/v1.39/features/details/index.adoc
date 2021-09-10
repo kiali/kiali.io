@@ -147,7 +147,6 @@ Kiali comes with built-in dashboards for several runtimes, including Go, Envoy, 
 
 You can create custom dashboards for your own applications by defining them within the Kiali CR field `spec.custom_dashboards`.
 
-Check out the link:/documentation/v1.39/runtimes-monitoring/[documentation page, window=_blank] to learn more about it.
 ++++
 <div style="display: flex;">
     <span style="margin: 0 auto;">
