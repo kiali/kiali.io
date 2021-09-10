@@ -127,8 +127,8 @@ section#hero p.buttons {
   max-width: 100%;
 }
 
-section#about div {
-  margin-bottom: 10px;
+section#about p#about-description {
+  margin-bottom: 20px;
 }
 
 /* Features block styles */
