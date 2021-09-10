@@ -1,9 +1,0 @@
----
-title: One component is 'Unreachable' but I can see it running. What can I do?
-weight: 2
----
-:icons: font
-
-One component is `Unreachable` when Kiali receives a 4xx or 5xx response code when calling to the component's service.
-
-The component service url is specified in the https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml[Kiali CR]. Make sure that Kiali has access to that URL.

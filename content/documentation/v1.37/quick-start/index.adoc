@@ -6,7 +6,7 @@ aliases:
 - /getting-started
 - /gettingstarted
 - /documentation/getting-started
-- /documentation/latest/getting-started
+- /documentation/v1.37/getting-started
 draft: false
 weight: 2
 ---

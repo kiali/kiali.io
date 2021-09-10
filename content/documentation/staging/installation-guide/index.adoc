@@ -519,7 +519,7 @@ This allows Kiali to read service mesh resources found in the cluster, but it do
 
 Kiali and its operator have reduced permissions for handling secrets due to security reasons.
 
-For some features like link:/documentation/staging/features/#_certificates_information_indicators[Certificates Information Indicators], read permissions for specific secrets in the control plane namespace might be required.
+For some features like link:/documentation/staging/features/istio-component-status/#_certificates_information_indicators[Certificates Information Indicators], read permissions for specific secrets in the control plane namespace might be required.
 
 As the following configuration in Kiali CR indicates, the feature will require read permissions for two secrets:
 

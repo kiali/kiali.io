@@ -759,7 +759,7 @@ The table below lists the current health indicators and whether the indicator su
 
 === Traffic Health
 
-Kiali establishes reasonable defaults for determining the health of request traffic. But when the defaults are not appropriate Kiali offers a way to customize the thresholding used to determine degraded or failing request traffic for resources (service, workload, app...). See the link:/documentation/latest/configuration/health/[Health Configuration documentation] for more detail.
+Kiali establishes reasonable defaults for determining the health of request traffic. But when the defaults are not appropriate Kiali offers a way to customize the thresholding used to determine degraded or failing request traffic for resources (service, workload, app...). See the link:/documentation/v1.38/configuration/health/[Health Configuration documentation] for more detail.
 
 ++++
 <div style="display: flex;">
