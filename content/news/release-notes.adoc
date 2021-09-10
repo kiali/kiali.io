@@ -15,6 +15,33 @@ For additional information check our https://www.youtube.com/channel/UCcm2NzDN_U
 
 toc::[]
 
+== 1.40.0
+Sprint Release: September 10th, 2021
+
+Features:
+
+* https://github.com/kiali/kiali/issues/4314[Support exportTo validation in VirtualServices]
+* https://github.com/kiali/kiali/issues/4184[Add graph Factory Reset button]
+* https://github.com/kiali/kiali/issues/1433[Add help tooltip in the metrics tab]
+* https://github.com/kiali/kiali/issues/1440[Add info/tooltip on virtual service that doesn't have a gateways section]
+* https://github.com/kiali/kiali/issues/4268[Support the new istio injection label]
+* https://github.com/kiali/kiali/issues/1577[Add indication if certificates are managed by Citadel or external tool]
+* https://github.com/kiali/kiali/issues/4220[Distinguish between VM based workloads and pod based workloads on the graph]
+* https://github.com/kiali/kiali/issues/4223[Identify and label WorkloadEntry graph nodes]
+* https://github.com/kiali/kiali/issues/4196[ci-kind-molecule-tests.sh should support installing OLM and testing with OLM-installed operator]
+* https://github.com/kiali/kiali/issues/4259[Docs and scripts regarding secrets and service accounts might need to be updated]
+
+Fixes:
+
+* https://github.com/kiali/kiali/issues/4218[(validations) Don't show KIA0203 when there are no VS referencing the DR subset]
+* https://github.com/kiali/kiali/issues/4298[Kiali Operator: Pods attempt to use auth secret when external service disabled]
+* https://github.com/kiali/kiali/issues/4302[Not able to build Molecule image]
+* https://github.com/kiali/kiali/issues/4325[Metrics charts can be too thin]
+* https://github.com/kiali/kiali/issues/3840[Some graph settings do not have query parms - can't bookmark pages]
+* https://github.com/kiali/kiali/issues/4202[Workload's page Actions dropdown is clickable in view_only_mode ]
+* https://github.com/kiali/kiali/issues/4290[CRUD Permissions on events]
+* https://github.com/kiali/kiali/issues/3927[Kiali Login error when Prometheus fails to start]
+
 == 1.39.0
 Sprint Release: August 20th, 2021
 
