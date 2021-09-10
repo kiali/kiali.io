@@ -6,9 +6,9 @@ weight: 13
 :sectlinks:
 :linkattrs:
 
-Istio ships a specific Kiali version as an addon.
+Istio defines a specific Kiali version as an addon.
 
-In this tutorial we are going to update Kiali to the latest version released.
+In this tutorial we are going to update Kiali to the latest release version.
 
 Assuming you have installed the addons following the https://istio.io/latest/docs/setup/getting-started/[Istio Getting Started, window="_blank"] guide, you can uninstall Kiali with the command:
 

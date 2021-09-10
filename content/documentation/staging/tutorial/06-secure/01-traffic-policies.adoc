@@ -26,7 +26,7 @@ If we have followed the previous tutorial steps, we need to undeploy it from the
 
 [source,bash]
 ----
-kubectl apply -f <(curl -L https://raw.githubusercontent.com/kiali/demos/master/travels/travel_loadtester.yaml) -n travel-portal
+kubectl delete -f <(curl -L https://raw.githubusercontent.com/kiali/demos/master/travels/travel_loadtester.yaml) -n travel-portal
 ----
 
 We should validate that telemetry has updated the *travel-portal* namespace and "Security" can be enabled in the Graph Display options.
@@ -64,6 +64,8 @@ NOTE: *Step 3:* Deploy the *loadtester* portal in the *travel-portal* namespace
 
 If the *loadtester* workload uses a different ServiceAccount then, when it's deployed, it won't comply with the AuthorizationPolicy rules defined in the previous step.
 
+icon:bullhorn[size=1x]{nbsp} OpenShift users may need to also add the associated loadtester serviceaccount to the necessary securitycontextcontraints.
+
 [source,bash]
 ----
 kubectl apply -f <(curl -L https://raw.githubusercontent.com/kiali/demos/master/travels/travel_loadtester.yaml) -n travel-portal
@@ -78,7 +80,7 @@ Now, *travels* workload will reject requests made by *loadtester* workload and t
 ++++
 
 {nbsp} +
-This can also be verified in the details page using the Outbound Metrics tab grouped by response code.
+This can also be verified in the details page using the Outbound Metrics tab grouped by response code (only the 403 line is present).
 
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/06-01-loadtester-denied-metrics.png" title="Loadtester Denied Metrics">

@@ -16,6 +16,8 @@ NOTE: *Step 1:* Deploy a new *loadtester* portal in the *travel-portal* namespac
 
 In this example we are going to deploy a new workload that will simulate an important increase in the load of the system.
 
+icon:bullhorn[size=1x]{nbsp} OpenShift users may need to also add the associated loadtester serviceaccount to the necessary securitycontextcontraints.
+
 [source,bash]
 ----
 kubectl apply -f <(curl -L https://raw.githubusercontent.com/kiali/demos/master/travels/travel_loadtester.yaml) -n travel-portal
@@ -43,7 +45,7 @@ But in a real scenario an unexpected increase in the load of a service like this
 
 NOTE: *Step 2:* Use the Traffic Shifting Wizard on *travels* service to generate a traffic rule
 
-Use the "Traffic Shifting" Wizard to distribute traffic to the *travels* workloads and use the "Advanced Options" to add a "Circuit Breaker" to the scenario.
+Use the "Traffic Shifting" Wizard to distribute traffic (evenly) to the *travels* workloads and use the "Advanced Options" to add a "Circuit Breaker" to the scenario.
 
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/05-06-traffic-shifting-circuit-breaker.png" title="Traffic Shifting with Circuit Breaker">
@@ -59,9 +61,9 @@ The "Outlier Detection" will eject a host from the connection pool if there is m
 
 NOTE: *Step 3:* Study the behavior of the Circuit Breaker in the *travels* service
 
-In the *loadbalancer* workload Graph we can see that the *travels* service's Circuit Breaker accepts some, but fails most, connections.
+In the *loadtester* versioned-app Graph we can see that the *travels* service's Circuit Breaker accepts some, but fails most, connections.
 
-Remember, that these connections are stopped by the proxy on the *loadbalancer* side. That "fail sooner" pattern prevents overloading the network.
+Remember, that these connections are stopped by the proxy on the *loadtester* side. That "fail sooner" pattern prevents overloading the network.
 
 Using the Graph we can select the failed edge, check the Flags tab, and see that those requests are closed by the Circuit breaker.
 

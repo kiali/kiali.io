@@ -47,7 +47,6 @@ In our example, let's say that *travels* service ("Service A" in the Istio diagr
 
 The *travels* workload proxy has the Fault Injection configuration so it will perform the call to the *hotels* service and will apply the delay on the *travels* workload side (this is reported as *source* telemetry).
 
-{nbsp} +
 We can see in the *hotels* telemetry reported by the *source* (the *travels* proxy) that there is a visible gap showing 5 second delay in the request duration.
 
 ++++

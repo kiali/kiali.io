@@ -52,7 +52,7 @@ Add a second rule to match any request and create the scenario. With this config
 
 NOTE: *Step 3:* Review the impact of the request timeout in the *travels* service
 
-When the scenario is created, the Graph will show how requests coming from *voyages.fr* start to fail due to the requests timeout introduced.
+Create the rule. The Graph will show how requests coming from *voyages.fr* start to fail, due to the request timeout introduced.
 
 Requests coming from other portals work without failures but are degraded by the *hotels* delay.
 
@@ -68,6 +68,14 @@ This scenario can be visualized in detail if we examine the "Inbound Metrics" an
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/05-05-voyages-rule-metrics.png" title="Travels Inbound Metrics">
     <img src="/images/tutorial/05-05-voyages-rule-metrics.png" style="display:block;margin: 0 auto;" />
+</a>
+++++
+
+{nbsp} +
+
+++++
+<a class="image-popup-fit-height" href="/images/tutorial/05-05-voyages-rule-metrics-2.png" title="Travels Inbound Metrics">
+    <img src="/images/tutorial/05-05-voyages-rule-metrics-2.png" style="display:block;margin: 0 auto;" />
 </a>
 ++++
 

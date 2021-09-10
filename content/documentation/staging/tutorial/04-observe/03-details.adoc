@@ -24,7 +24,8 @@ An *application* is an abstract group of workloads and services labeled with the
 
 From Service Mesh perspective this concept is significant as telemetry and tracing signals are mainly grouped by "application" even if multiple workloads are involved.
 
-At this point of the tutorial, the *travels* application is quite simple, just a *travels-v1* workload exposed through the *travels* service.
+At this point of the tutorial, the *travels* application is quite simple, just a *travels-v1* workload exposed through the *travels* service. Navigate to the
+*travels-v1* workload detail by clicking the link in the *travels* application overview.
 
 ++++
 <a class="image-popup-fit-height" href="/images/tutorial/04-03-travels-v1-workload.png" title="Travels-v1 Workload">
@@ -40,17 +41,26 @@ NOTE: *Step 2:* Examine *Outbound Metrics* of *travels-v1* workload
 ++++
 
 {nbsp} +
-The Metrics tab provides a powerful visualization of telemetry collected by the Istio proxy sidecar.
+The Metrics tab provides a powerful visualization of telemetry collected by the Istio proxy sidecar. It presents a dashboard of charts, each of which can be
+expanded for closer inspection. Expand the *Request volume* chart:
+++++
+<a class="image-popup-fit-height" href="/images/tutorial/04-03-travels-v1-metrics-request-volume.png" title="Travels-v1 Request Volume Chart">
+    <img src="/images/tutorial/04-03-travels-v1-metrics-request-volume.png" style="display:block;margin: 0 auto;" />
+</a>
+++++
 
-Metrics Settings provides multiple predefined criteria out-of-the-box, as well as possibility to correlate metrics and tracing spans in a single chart.
+{nbsp} +
+Metrics Settings provides multiple predefined criteria out-of-the-box.  Additionally, enable the *spans* checkbox to correlate metrics and tracing spans
+in a single chart.
 
 We can see in the context of the Travels application, the *hotels* service request volume differs from that of the other *travel-agency* services.
 
-The Request Duration chart also shows that there is no suspicious delay, so probably this asymmetric volume is part of the application business' logic.
+By examining the Request Duration chart also shows that there is no suspicious delay, so probably this asymmetric volume is part of the application business' logic.
 
 NOTE: *Step 3:* Review *Logs* of *travels-v1* workload
 
-The Logs tab combines the application container log with the Istio sidecar proxy log.
+The Logs tab provides a unified view of application container logs with the Istio sidecar proxy logs. It also offers a *spans* checkbox, providing
+a correlated view of both logs and tracing, helping identify spans of interest.
 
 From the application container log we can spot that there are two main business methods: *GetDestinations* and *GetTravelQuote*.
 
