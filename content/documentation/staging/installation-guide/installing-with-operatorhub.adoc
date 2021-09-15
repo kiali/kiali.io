@@ -1,0 +1,49 @@
+---
+title: "Installation with the OperatorHub"
+date: 2021-09-12T00:00:00+00:00
+draft: false
+weight: 25
+---
+
+:toc: macro
+:toclevels: 4
+:toc-title: In this section:
+:icons: font
+:sectlinks:
+:linkattrs:
+
+toc::[]
+
+== Introduction
+
+The link:https://operatorhub.io/[OperatorHub] is a website that contains a
+catalog of
+link:https://kubernetes.io/docs/concepts/extend-kubernetes/operator/[Kubernetes
+Operators]. Its aim is to be the central location to find Operators.
+
+The OperatorHub relies in the
+link:https://github.com/operator-framework/operator-lifecycle-manager[Operator
+Lifecycle Manager (OLM)] to install, manage and update Operators on any Kubernetes
+cluster.
+
+The Kiali Operator is being published to the OperatorHub. So, you can use the
+OLM to install and manage the Kiali Operator installation.
+
+== Installing the Kiali Operator using the OLM
+
+Go to the Kiali Operator page in the OperatorHub: https://operatorhub.io/operator/kiali.
+
+You will see an _Install_ button at the right of the page. Press it and you
+will be presented with the installation instructions. Follow these instructions
+to install and manage the Kiali Operator installation using OLM.
+
+== Installing the Kiali Operator in OpenShift
+
+The OperatorHub is bundled in the OpenShift console. To install the Kiali
+Operator, simply go to the OperatorHub in the OpenShift console and search for
+the Kiali Operator. Then, click on the _Install_ button and follow the
+instruction on the screen.
+
+Afterwards, you can link:#_create_or_edit_the_kiali_cr[create the Kiali CR] to
+install Kiali.
+

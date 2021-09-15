@@ -604,3 +604,65 @@ body > header div.search-container input:valid ~ i.search-icon {
 #footer-netlify {
   float: right;
 }
+
+/* Admonitions */
+div.admonitionblock table {
+  border: 0;
+  font-size: 0.8em;
+}
+
+div.admonitionblock td.content {
+  border: 2px dashed var(--kiali-card-border-color);
+  border-left: 0;
+  background-color: var(--kiali-secondary-bg-color);
+}
+
+/* Caution */
+div.admonitionblock.caution td.icon {
+  background-color: purple;
+}
+
+div.admonitionblock i.icon-caution::before {
+  content: "";
+  color: white;
+}
+
+/* Important */
+div.admonitionblock.important td.icon {
+  background-color: red;
+}
+
+div.admonitionblock i.icon-important::before {
+  content: "";
+  color: white;
+}
+
+/* Note */
+div.admonitionblock.note td.icon {
+  background-color: var(--kiali-font-color-secondary);
+}
+
+div.admonitionblock i.icon-note::before {
+  content: "";
+  color: white;
+}
+
+/* Tip*/
+div.admonitionblock.tip td.icon {
+  background-color: green;
+}
+
+div.admonitionblock i.icon-tip::before {
+  content: "";
+  color: white;
+}
+
+/* Warning */
+div.admonitionblock.warning td.icon {
+  background-color: #fbd259;
+}
+
+div.admonitionblock i.icon-warning::before {
+  content: "";
+}
+
