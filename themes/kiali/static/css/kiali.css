@@ -275,7 +275,7 @@ body > header #masthead-shadow {
 body > header nav {
   min-height: 47px;
   margin-left: auto;
-  margin-right: var(--kiali-orange-spacing)
+  margin-right: var(--kiali-orange-spacing);
 }
 
 /* Masthead::Navigation small width (mobile) */
@@ -323,6 +323,7 @@ body > header nav ul {
   list-style: none;
   font-size: 22px;
   margin-bottom: 0;
+  white-space: nowrap;
 }
 
 body > header nav li {

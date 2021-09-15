@@ -56,6 +56,42 @@ ignoreFiles = [ "\\.ignore$" ]
           url = "/documentation/latest/installation-guide"
           weight = 1
           parent="main_doc"
+          [[menu.main]]
+              identifier = "doc_install_prereq"
+              name = "Prerequisites"
+              url = "/documentation/latest/installation-guide/prerequisites"
+              weight = 10
+              parent="doc_installation_guide"
+          [[menu.main]]
+              identifier = "doc_install_helm"
+              name = "Install with Helm"
+              url = "/documentation/latest/installation-guide/install-with-helm"
+              weight = 20
+              parent="doc_installation_guide"
+          [[menu.main]]
+              identifier = "doc_install_olm"
+              name = "Install with the OperatorHub"
+              url = "/documentation/latest/installation-guide/installing-with-operatorhub"
+              weight = 30
+              parent="doc_installation_guide"
+          [[menu.main]]
+              identifier = "doc_install_cr"
+              name = "Using the Kiali CR"
+              url = "/documentation/latest/installation-guide/creating-updating-kiali-cr"
+              weight = 40
+              parent="doc_installation_guide"
+          [[menu.main]]
+              identifier = "doc_install_accessing"
+              name = "Accessing and exposing Kiali"
+              url = "/documentation/latest/installation-guide/accessing-kiali"
+              weight = 50
+              parent="doc_installation_guide"
+          [[menu.main]]
+              identifier = "doc_install_advanced"
+              name = "Advanced options"
+              url = "/documentation/latest/installation-guide/advanced-install-options"
+              weight = 60
+              parent="doc_installation_guide"
       [[menu.main]]
           identifier = "doc_features"
           name = "Features"
@@ -132,19 +168,25 @@ ignoreFiles = [ "\\.ignore$" ]
               identifier = "doc_authentication"
               name = "Authentication"
               url = "/documentation/latest/configuration/authentication"
-              weight = 1
+              weight = 10
+              parent="doc_configuration"
+          [[menu.main]]
+              identifier = "doc_ns_mgmt"
+              name = "Namespace Management"
+              url = "/documentation/latest/configuration/namespace-management"
+              weight = 20
               parent="doc_configuration"
           [[menu.main]]
               identifier = "doc_rbac"
               name = "RBAC"
               url = "/documentation/latest/configuration/rbac"
-              weight = 3
+              weight = 30
               parent="doc_configuration"
           [[menu.main]]
               identifier = "doc_vm"
               name = "VM Workloads"
               url = "/documentation/latest/configuration/vm"
-              weight = 4
+              weight = 40
               parent="doc_configuration"
       [[menu.main]]
           identifier = "doc_architecture"
