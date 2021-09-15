@@ -10,18 +10,18 @@ draft: false
 :sectlinks:
 :linkattrs:
 
-The recommended way to deploy Kiali is via the Kiali Operator.
+The next few sections describe the different installation methods available for installing Kiali.
+
+The recommended way to deploy Kiali is via the Kiali Operator, either using Helm Charts or using the OperatorHub.
 
 The Kiali Operator is a link:https://coreos.com/operators/[Kubernetes Operator]
 and manages your Kiali installation. It watches the _Kiali Custom Resource_
-(Kiali CR), a YAML file that holds the deployment configuration. When you
-modify the Kiali CR, the operator deploys, updates, or removes Kiali as needed.
+(Kiali CR), a YAML file that holds the deployment configuration.
 
-The next few sections describe the different installation methods available for installing Kiali.
-
-Before you install Kiali, you will want to know which authentication strategy Kiali should use (this determines how users are to log into Kiali). See the link:{{< ref "../configuration/authentication" >}}[authentication configuration page].
-
-NOTE: It is only necessary to install the Kiali Operator once. After the operator is installed you only need to create or edit the Kiali CR (see link:#_create_or_edit_the_kiali_cr[Create or Edit the Kiali CR]). All resources created by the Kiali Operator should *not* be manually edited.  As soon as the Kiali operator is installed and running, there is no need to again perform one of the installations below.
+NOTE: It is only necessary to install the Kiali Operator once. After the
+operator is installed you only need to link:{{< relref
+"creating-updating-kiali-cr" >}}[create or edit a Kiali CR]. All resources
+created by the Kiali Operator should *not* be manually edited.
 
 IMPORTANT: If you previously installed Kiali through some other mechanism, *you
 must uninstall it first* using that original mechanism's uninstall procedures.
@@ -29,30 +29,6 @@ There is no migration path between older installation mechanisms and the
 install mechanisms explained in this documentation.
 
 ////
-=== Create or Edit the Kiali CR
-
-The Kiali Operator watches the Kiali CR. Creating, updating, or removing a Kiali CR will trigger the Kiali Operator to install, update, or remove Kiali. This assumes the Kiali Operator has already been installed.
-
-To create an initial Kiali CR file it is recommended to copy the fully documented link:https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml[example Kiali CR YAML file]. Edit that file being careful to maintain proper formatting, and save it to a local file such as `my-kiali-cr.yaml`.
-
-icon:lightbulb[size=1x]{nbsp} It is important to understand the `spec.deployment.accessible_namespaces` setting in the CR. See link:#_accessible_namespaces[Accessible Namespaces] for more information.
-
-icon:bullhorn[size=1x]{nbsp} The Kiali ConfigMap will be managed by the Kiali Operator and should *not* be manually edited.
-
-To install Kiali, create the Kiali CR using the local file by running a command similar to this (note: the typical Kiali CR is normally installed in the Istio control plane namespace):
-
-[source,bash]
-----
-  kubectl apply -f my-kiali-cr.yaml -n istio-system
-----
-
-To update Kiali, edit and save the existing Kiali CR; for example:
-
-[source,bash]
-----
-  kubectl edit kiali kiali -n istio-system
-----
-
 
 
 == Upgrade
@@ -103,80 +79,6 @@ Then restart the Kiali pod to pickup the new configmap changes.
 ----
   kubectl rollout restart deployments kiali -n istio-system
 ----
-
-== Additional Notes
-
-=== Namespace Management
-
-==== Accessible Namespaces
-
-The Kiali CR tells the Kiali Operator which namespaces are accessible to Kiali. It is specified in the CR via the `accessible_namespaces` setting under the main `deployment` section.
-
-The specified namespaces are those that have service mesh components to be observed by Kiali. Additionally, the namespace to which Kiali is installed must be accessible (typically the same namespace as Istio). Each list entry can be a regex matched against all namespaces the operator can see. If not set in the Kiali CR, then the default behavior makes all current namespaces accessible except for some internal namespaces that should typically be ignored.
-
-icon:bullhorn[size=1x]{nbsp} When installing multiple Kiali instances into a single cluster, `accessible_namespaces` must be mutually exclusive. In other words, a namespace must appear in at most one `accessible_namespaces` list. Regular expressions must not have overlapping patterns.
-
-As an example, if Kiali is to be installed in the istio-system namespace, and is expected to monitor all namespaces prefixed with `mycorp_` the setting would be:
-
-[source,yaml]
-----
-deployment:
-  accessible_namespaces:
-  - istio-system
-  - mycorp_.*
-----
-
-icon:lightbulb[size=1x]{nbsp} A cluster can have at most one Kiali instance with `accessible_namespaces` set to the special value of `+++**+++` (two asterisks). This denotes that Kiali be given access to all namespaces that currently exist, or that will be created in the future, via a single cluster role. This can be in addition to Kiali instances configured with explicit, mutually exclusive namespaces, as mentioned above.
-
-icon:bullhorn[size=1x]{nbsp} If the operator was installed via Helm but not installed with the option `clusterRoleCreator: true` then you cannot later edit the Kiali CR and change accessible_namespaces to `+++**+++`. You must reinstall the operator so that it can be granted the additional permissions required (`--set clusterRoleCreator=true`). Note that by default the Kiali Operator Helm Chart will install the operator with `clusterRoleCreator` set to `true`.
-
-Maistra supports multi-tenancy and the `accessible_namespaces` extends that feature to Kiali. However, explicit naming of accessible namespaces can benefit non-Maistra installations as well - with it Kiali does not need cluster roles and the Kiali Operator does not need permissions to create cluster roles.
-
-
-==== Excluded Namespaces
-
-The Kiali CR tells the Kiali Operator which accessible namespaces should be excluded from the list of namespaces provided by the API and UI. This can be useful if wildcards are used when specifying link:#_accessible_namespaces[Accessible Namespaces]. This setting has no effect on namespace accessibility. It is only a filter, not security-related.
-
-For example, if my accessible_namespaces include `mycorp_.*` but I don't want to see test namespaces, I could add to the default entries:
-
-[source,yaml]
-----
-api:
-  namespaces:
-    exclude:
-      - istio-operator
-      - kiali-operator
-      - ibm.*
-      - kube.*
-      - openshift.*
-      - mycorp_test.*
-----
-
-==== Namespace Selectors
-
-To fetch a subset of the available namespaces, Kiali supports an optional label selector. This selector is especially useful when `spec.deployment.accessible_namespaces` is set to `["+++**+++"]` but you want to reduce the namespaces presented in the UI's namespace list.
-
-The label selector is defined in the Kiali CR setting `spec.api.namespaces.label_selector`.
-
-The example below selects all namespaces that have a label `kiali-enabled: true`:
-
-[source,yaml]
-----
-api:
-  namespaces:
-    label_selector: kiali-enabled=true
-----
-
-For further information on how this label_selector interacts with `spec.deployment.accessible_namespaces` read the https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml[technical documentation].
-
-To label a namespace you can use the following command. For more information see the link:https://kubernetes.io/docs/concepts/overview/working-with-objects/labels[official documentation].
-
-[source,bash]
-----
-  kubectl label namespace my-namespace kiali-enabled=true
-----
-
-Note that when deploying multiple control planes in the same cluster, you will want to set the label selector's value unique to each control plane. This allows each Kiali instance to select only the namespaces relevant to each control plane. Because in this "soft-multitenancy" mode `spec.deployment.accessible_namespaces` is typically set to an explicit set of namespaces (i.e. not `["+++**+++"]`), you do not have to do anything with this `label_selector`. This is because the default value of `label_selector` is `kiali.io/member-of: <spec.istio_namespace>` when `spec.deployment.accessible_namespaces` is not set to the "all namespaces" value `["+++**+++"]`. This allows you to have multiple control planes in the same cluster, with each control plane having its own Kiali instance. If you set your own Kiali instance name in the Kiali CR (i.e. you set `spec.deployment.instance_name` to something other than `kiali`), then the default label will be `kiali.io/<spec.deployment.instance_name>.member-of: <spec.istio_namespace>`.
 
 === Updating Permissions
 

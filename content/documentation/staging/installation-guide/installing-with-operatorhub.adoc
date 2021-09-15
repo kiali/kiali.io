@@ -2,7 +2,7 @@
 title: "Installation with the OperatorHub"
 date: 2021-09-12T00:00:00+00:00
 draft: false
-weight: 25
+weight: 30
 ---
 
 :toc: macro
@@ -37,6 +37,9 @@ You will see an _Install_ button at the right of the page. Press it and you
 will be presented with the installation instructions. Follow these instructions
 to install and manage the Kiali Operator installation using OLM.
 
+Afterwards, you can link:{{< ref creating-updating-kiali-cr >}}[create the
+Kiali CR] to install Kiali.
+
 == Installing the Kiali Operator in OpenShift
 
 The OperatorHub is bundled in the OpenShift console. To install the Kiali
@@ -44,6 +47,6 @@ Operator, simply go to the OperatorHub in the OpenShift console and search for
 the Kiali Operator. Then, click on the _Install_ button and follow the
 instruction on the screen.
 
-Afterwards, you can link:#_create_or_edit_the_kiali_cr[create the Kiali CR] to
-install Kiali.
+Afterwards, you can link:{{< ref creating-updating-kiali-cr >}}[create the
+Kiali CR] to install Kiali.
 

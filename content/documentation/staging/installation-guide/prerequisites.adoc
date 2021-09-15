@@ -121,6 +121,7 @@ $ oc login -u system:admin
 
 TIP: For most commands listed on this documentation, the Kubernetes CLI command `kubectl` is used to interact with the cluster environment. On OpenShift you can simply replace `kubectl` with `oc`, unless otherwise noted.
 
+[[google-prereqs]]
 === Google Cloud Private Cluster 
 
 Private clusters on Google Cloud have network restrictions. Kiali needs your cluster's firewall to allow access from the Kubernetes API to the Istio Control Plane namespace, for both the `8080` and `15000` ports.

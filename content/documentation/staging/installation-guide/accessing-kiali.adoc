@@ -2,7 +2,7 @@
 title: "Accessing and exposing Kiali"
 date: 2021-09-12T00:00:00+00:00
 draft: false
-weight: 30
+weight: 50
 ---
 
 :toc: macro
@@ -106,9 +106,9 @@ spec:
 
 If you
 link:https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/#enable-the-ingress-controller[enabled
-the Ingress controller], as mentioned in the previous section, the default
-Ingress resource created by the installation should be enough to access Kiali.
-The following command should open Kiali in your default web browser:
+the Ingress controller], the default Ingress resource created by the
+installation (mentioned in the previous section) should be enough to access
+Kiali. The following command should open Kiali in your default web browser:
 
 [source, bash]
 ----
@@ -132,7 +132,7 @@ Once the Kiali operator to updates the installation, you should be able to use
 the `kubectl get svc -n istio-system kiali` command to retrieve the external
 address (or port) to access Kiali. For example, in the following output Kiali
 is assigned the IP `192.168.49.201`, which means that you can access Kiali by
-visiting \http://192.168.49.201 in a browser:
+visiting \http://192.168.49.201:20001 in a browser:
 
 
 [source,text]
@@ -147,12 +147,12 @@ If you want to take advantage of Istio's infrastructure, you can expose Kiali
 using an Istio Ingress Gateway. The Istio documentation provides a
 link:https://istio.io/latest/docs/tasks/observability/gateways/[good guide
 explaining how to expose the sample add-ons]. Even if the Istio guide is
-focused on the sample add-ons, you can use it to learn how to expose Kiali
-through an Istio Ingress Gateway.
+focused on the sample add-ons, the steps are the same to expose a Kiali
+installed using this link:{{< relref "_index.adoc" >}}[Installation guide].
 
 == Accessing Kiali in OpenShift
 
-By default, installation exposes Kiali through a route. The following command
+By default, installation exposes Kiali through a Route. The following command
 should open Kiali in your default web browser:
 
 [source, bash]
