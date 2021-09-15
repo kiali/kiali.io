@@ -77,6 +77,6 @@ Run the following command:
 kubectl port-forward svc/kiali 20001:20001 -n istio-system
 ----
 
-Then, access Kiali by visiting https://localhost:2001/ in your preferred web browser.
+Then, access Kiali by visiting \https://localhost:2001/ in your preferred web browser.
 
 
