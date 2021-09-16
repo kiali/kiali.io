@@ -3,6 +3,7 @@ public
 Gemfile.lock
 .bundle
 vendor
+old
 
 # IntelliJ
 .idea/
