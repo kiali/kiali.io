@@ -40,7 +40,7 @@ oc port-forward svc/kiali 20001:20001 -n istio-system
 kubectl port-forward svc/kiali 20001:20001 -n istio-system
 ----
 
-These commands will block. Access Kiali by visiting `\https://localhost:2001/` in
+These commands will block. Access Kiali by visiting `\https://localhost:20001/` in
 your preferred web browser.
 
 CAUTION: Please note that this method exposes Kiali *only* to the local machine, no external users.  You must
