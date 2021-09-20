@@ -10,9 +10,9 @@ draft: false
 :sectlinks:
 :linkattrs:
 
-The next few sections describe the different installation methods available for installing Kiali.
+The next few sections describe the different installation methods available for Kiali.
 
-The recommended way to deploy Kiali is via the Kiali Operator, either using Helm Charts or using the OperatorHub.
+The recommended way to deploy Kiali is via the Kiali Operator, either using Helm Charts or OperatorHub.
 
 The Kiali Operator is a link:https://coreos.com/operators/[Kubernetes Operator]
 and manages your Kiali installation. It watches the _Kiali Custom Resource_
@@ -20,11 +20,11 @@ and manages your Kiali installation. It watches the _Kiali Custom Resource_
 
 NOTE: It is only necessary to install the Kiali Operator once. After the
 operator is installed you only need to link:{{< relref
-"creating-updating-kiali-cr" >}}[create or edit a Kiali CR]. All resources
-created by the Kiali Operator should *not* be manually edited.
+"creating-updating-kiali-cr" >}}[create or edit the Kiali CR]. *Never* manually
+edit resources created by the Kiali Operator.
 
-IMPORTANT: If you previously installed Kiali through some other mechanism, *you
-must uninstall it first* using that original mechanism's uninstall procedures.
+IMPORTANT: If you previously installed Kiali via a different mechanism, *you
+must first uninstall Kiali* using the original mechanism's uninstall procedures.
 There is no migration path between older installation mechanisms and the
 install mechanisms explained in this documentation.
 
@@ -84,9 +84,10 @@ Then restart the Kiali pod to pickup the new configmap changes.
 
 ==== Secrets Permissions
 
-Kiali and its operator have reduced permissions for handling secrets due to security reasons.
+For security reasons, Kiali and its operator have reduced permissions for handling secrets.
 
-For some features like link:/documentation/staging/features/istio-component-status/#_certificates_information_indicators[Certificates Information Indicators], read permissions for specific secrets in the control plane namespace might be required.
+For some features, like link:/documentation/staging/features/istio-component-status/#_certificates_information_indicators[Certificates Information Indicators], read permissions may be required for specific secrets in the control plane namespace.
+
 
 As the following configuration in Kiali CR indicates, the feature will require read permissions for two secrets:
 
@@ -103,7 +104,8 @@ spec:
 
 These permissions can be configured in two different ways depending on how you install the operator.
 
-When installing the operator using the Helm chart, set the property `secretReader`. Secrets listed in this property will be allowed to be read by the operator and subsequently by Kiali.
+When installing the operator via the Helm chart, set the property `secretReader`. The Kiali operator, and subsequently Kiali, will be allowed to read secrets listed in this property.
+
 
 By default the secrets listed are:
 
@@ -112,12 +114,12 @@ By default the secrets listed are:
 secretReader: ['cacerts', 'istio-ca-secret']
 ----
 
-When installing the operator with OLM there is no way to pre-configure the operator permissions prior to installing the operator. The solution is to manually update the cluster role used by the operator as follows:
+When installing the operator via OLM there is no way to pre-configure the operator permissions prior to its installation. The solution is to manually update the cluster role used by the operator, as follows:
 
 [source,bash]
 ----
 kubectl patch $(kubectl get clusterroles -o name | grep kiali-operator) --type "json" -p '[{"op":"add","path":"/rules/0","value":{"apiGroups":[""],"resources":["secrets"],"verbs":["get"],"resourceNames":["secret-name-to-be-read"]}}]'
 ----
 
-Where the `secret-name-to-be-read` needs to be replaced by the secret name you want the operator to read.
+Replace `secret-name-to-be-read` with the secret name you want the operator to read.
 ////

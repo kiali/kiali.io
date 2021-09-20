@@ -16,21 +16,19 @@ toc::[]
 
 == Introduction
 
-Once Kiali is succesfully installed, you can use your favorite method to access
-or expose Kiali. For your convenience, this page describes a few methods to
-expose or access Kiali.
+After Kiali is succesfully installed you will need to make Kiali accessible to users.  This page describes some popular methods of exposing Kiali for use.
 
-If you will be using your own exposure method, you may need to
-<<route-configs,set some configurations>> to make Kiali aware about how users
-are reaching Kiali.
+If exposing Kiali in a custom way,  you may need to
+<<route-configs,set some configurations>> to make Kiali aware of how users
+will access Kiali.
 
 NOTE: The examples on this page assume that you followed the link:{{< ref
-"../installation-guide" >}}[Installation guide] to install Kiali and that you
+"../installation-guide" >}}[Installation guide] to install Kiali, and that you
 installed Kiali in the `istio-system` namespace.
 
 == Accessing Kiali using port forwarding
 
-TIP: This method should work in any Kubernetes cluster kind.
+TIP: This method should work in any kind of Kubernetes cluster.
 
 You can use port-forwarding to access Kiali by running any of these commands:
 
@@ -45,9 +43,8 @@ kubectl port-forward svc/kiali 20001:20001 -n istio-system
 These commands will block. Access Kiali by visiting `\https://localhost:2001/` in
 your preferred web browser.
 
-CAUTION: Please note that this method is not exposing Kiali to any user. It is
-only making it available in your machine, given that you have enough privileges
-to perform port forwarding.
+CAUTION: Please note that this method exposes Kiali *only* to the local machine, no external users.  You must
+have the necessary privileges to perform port forwarding.
 
 [[ingress-access]]
 == Accessing Kiali through an Ingress

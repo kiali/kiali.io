@@ -29,17 +29,17 @@ metadata:
   name: kiali
 ----
 
-Assuming you saved the previous YAML to a file named `my-kiali-cr.yaml`, you
-create the resource in the `istio-system` namespace with the following command:
+Assuming you saved the previous YAML to a file named `my-kiali-cr.yaml`, and that you are
+installing Kiali in the same default namespace as Istio, create the resource with the following command:
 
 [source,bash]
 ----
 $ kubectl apply -f my-kiali-cr.yaml -n istio-system
 ----
 
-TIP: Typically, the Kiali CR is created in the Istio namespace. Thus, also Kiali is installed in this namespace.
+TIP:  Often, but not always, Kiali is installed in the same namespace as Istio, thus the Kiali CR is also created in the Istio namespace.
 
-Once created, the Kiali Operator will process the resource and perform Kiali
+Once created, the Kiali Operator should shortly be notified and will process the resource,  performing the Kiali
 installation. You can check installation progress by inspecting the `status` attribute of the created Kiali CR:
 
 [source,bash]
@@ -74,14 +74,13 @@ Status:
 Events:        <none>
 ----
 
-IMPORTANT: All resources created by the Kiali Operator are managed by the
-Operator and should *not* be manually edited.
+IMPORTANT: *Never* manually edit resources created by the Kiali Operator, only the Kiali CR.
 
 We recommended to download the
 link:https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml[example
 Kiali CR YAML file] that is available in the Operator's GitHub repository. This
 example file contains and describes all available settings. Then, edit the
-downloaded file being careful to maintain proper formatting.
+downloaded file being *very careful* to maintain proper formatting.  Incorrect indentation is a common problem!
 
 NOTE: The link in the previous paragraph is for the example Kiali CR hosted in
 GitHub, in the `master` branch. Use GitHub's branch selector to see the example

@@ -1,5 +1,5 @@
 ---
-title: "Installation with Helm"
+title: "Installation via Helm"
 date: 2021-09-12T00:00:00+00:00
 draft: false
 weight: 20
@@ -17,8 +17,8 @@ toc::[]
 == Introduction
 
 link:https://helm.sh/[Helm] is a popular tool that lets you manage Kubernetes
-applications. Applications are defined in a package named _Helm chart_ which
-contain all resources that are needed to run an application.
+applications. Applications are defined in a package named _Helm chart_, which
+contains all of the resources needed to run an application.
 
 Kiali has a Helm Charts Repository at
 link:https://kiali.org/helm-charts[https://kiali.org/helm-charts]. Two Helm

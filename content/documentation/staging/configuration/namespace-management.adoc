@@ -17,25 +17,25 @@ toc::[]
 == Introduction
 
 The default Kiali installation (as mentioned in the link:{{< relref
-"../installation-guide" >}}[Installation guide]) gives access to Kiali to all
+"../installation-guide" >}}[Installation guide]) gives Kiali access to all
 namespaces available in the cluster.
 
-It is possible to restrict Kiali to some desired namespaces by providing a list
+It is possible to restrict Kiali to a set of desired namespaces by providing a list
 of the ones you want, excluding the ones you don't want, or filtering by a
-label selector. You can use a combination of all these three options.
+label selector. You can use a combination of these options.
 
 == Accessible Namespaces
 
-You can configure which namespaces are accessible and can be observed through
-Kiali. You can use regex expressions which will be matched against all
-namespaces the operator can see. If not set in the Kiali CR, then the default
-behavior makes accessible all namespaces in the cluster, except for a
-predefined set where cluster's system workloads are deployed.
+You can configure which namespaces are accessible and observable through
+Kiali. You can use regex expressions which will be matched against the operator's
+visible namespaces. If not set in the Kiali CR, the default
+makes accessible all cluster namespaces, with the exception of
+a predefined set of the cluster's system workloads.
 
-The list of accessible namespaces  is specified in the Kiali CR via the
-`accessible_namespaces` setting under the main `deployment` section. As an
+The list of accessible namespaces is specified in the Kiali CR via the
+`accessible_namespaces` setting, under the main `deployment` section. As an
 example, if Kiali is to be installed in the `istio-system` namespace, and is
-expected to monitor all namespaces prefixed with `mycorp_` the setting would
+expected to monitor all namespaces prefixed with `mycorp_`, the setting would
 be:
 
 [source,yaml]
@@ -48,7 +48,7 @@ spec:
 ----
 
 IMPORTANT: As you can see in the example, the namespace where Kiali is
-installed must be listed as accessible (typically the same namespace as Istio).
+installed must be listed as accessible (often, but not always, the same namespace as Istio).
 
 This configuration accepts the special pattern `accessible_namespaces: "**"`
 which denotes that Kiali is given access to all namespaces in the cluster. 
