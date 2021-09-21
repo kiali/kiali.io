@@ -4,6 +4,11 @@ weight: 3
 ---
 :icons: font
 
+CAUTION: First, read link:{{< relref
+"../../installation-guide/install-with-helm#managing-installation-config"
+>}}[Managing configuration of Helm installations in the Installation guide] to
+check if that method works for your case.
+
 Once the Kiali Operator is installed, you can change some of its configuration at runtime in order to utilize certain features that the Kiali Operator provides. These features are configured via environment variables defined in the operator's deployment.
 
 icon:bullhorn[size=1x]{nbsp} Only a user with admin permissions can configure these environment variables. You must make sure you know what you are doing before attempting to modify these environment variables. Doing things incorrectly may break the Kiali Operator.
