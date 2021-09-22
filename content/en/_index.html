@@ -1,47 +1,131 @@
 +++
-title = "Goldydocs"
-linkTitle = "Goldydocs"
+title = "Kiali"
+linkTitle = "Kiali"
 
 +++
 
-{{< blocks/cover title="Welcome to Goldydocs: A Docsy Example Project!" image_anchor="top" height="full" color="orange" >}}
-<div class="mx-auto">
-	<a class="btn btn-lg btn-primary mr-3 mb-4" href="{{< relref "/docs" >}}">
-		Learn More <i class="fas fa-arrow-alt-circle-right ml-2"></i>
-	</a>
-	<a class="btn btn-lg btn-secondary mr-3 mb-4" href="https://github.com/google/docsy-example">
-		Download <i class="fab fa-github ml-2 "></i>
-	</a>
-	<p class="lead mt-5">Porridge temperature assessment - in the cloud!</p>
-	{{< blocks/link-down color="info" >}}
-</div>
+{{< blocks/cover title="The Console for Istio Service Mesh" image_anchor="top" height="min" color="orange" >}}
+    <a href="/documentation/latest/quick-start" class="btn btn-lg btn-primary mr-3 mb-4">
+      Get started with Kiali
+    </a>
+    <a class="btn btn-lg btn-secondary mr-3 mb-4" href="#blog-latest">
+      See latest blog posts and videos
+    </a>
 {{< /blocks/cover >}}
 
 
-{{% blocks/lead color="primary" %}}
-Goldydocs provides a single web UI providing visibility into porridge temperature, chair size, and bed softness metrics! You can even find out who's been eating **your** porridge.
-
-(Sadly, Goldydocs isn't a real project, but you can use this site as an example to create your own real websites with [Docsy](http://docsy.dev))
+{{% blocks/lead  color="white" %}}
+    Kiali is a management console for Istio service mesh. It provides robust
+    observability for your running mesh, letting you quickly identify issues and
+    then troubleshoot those issues.  Kiali offers in-depth traffic topology, health
+    grades, powerful dashboards, and lets you drill into component detail.
+    Kiali offers correlated views of metrics, logs and tracing, as well as strong
+    validations to pinpoint configuration issues.  Kiali provides several
+    wizards to help you add services to the mesh, define traffic routing, gateways, policies
+    and more.  Kiali includes Grafana and Jaeger integrations.
 {{% /blocks/lead %}}
 
-{{< blocks/section color="dark" >}}
-{{% blocks/feature icon="fa-lightbulb" title="New chair metrics!" %}}
-The Goldydocs UI now shows chair size metrics by default.
+{{< blocks/section color="primary" >}}
+    <h3>Kiali Features</h3>
 
-Please follow this space for updates!
-{{% /blocks/feature %}}
+    <div id="features-blocks">
+      <a href="{{ "documentation/latest/features/topology" | relURL }}">
+        <div>
+          <h2><img src="img/topology.svg" alt="" />Topology</h2>
+          <p>See your services<br />communicate</p>
+        </div>
+      </a>
 
+      <a href="{{ "documentation/latest/features/health" | relURL }}">
+        <div>
+          <h2><img src="img/health.svg" alt="" />Health</h2>
+          <p>Quickly identify<br />issues</p>
+        </div>
+      </a>
 
-{{% blocks/feature icon="fab fa-github" title="Contributions welcome!" url="https://github.com/google/docsy-example" %}}
-We do a [Pull Request](https://github.com/google/docsy-example/pulls) contributions workflow on **GitHub**. New users are always welcome!
-{{% /blocks/feature %}}
+      <a href="{{ "documentation/latest/features/details" | relURL }}">
+        <div>
+          <h2><img src="img/metrics.svg" alt="" />Details</h2>
+          <p>Examine details, logs and metrics<br /></p>
+        </div>
+      </a>
 
+      <a href="{{ "documentation/latest/features/tracing" | relURL }}">
+        <div>
+          <h2><img src="img/tracing.svg" alt="" />Tracing</h2>
+          <p>Follow requests with<br />Jaeger Distributed Tracing</p>
+        </div>
+      </a>
 
-{{% blocks/feature icon="fab fa-twitter" title="Follow us on Twitter!" url="https://twitter.com/docsydocs" %}}
-For announcement of latest features etc.
-{{% /blocks/feature %}}
+      <a href="{{ "documentation/latest/features/validations" | relURL }}">
+        <div>
+          <h2><img src="img/validations.svg" alt="" />Validations</h2>
+          <p>Detect advanced<br />misconfigurations</p>
+        </div>
+      </a>
 
+      <a href="{{ "documentation/latest/features/wizards" | relURL }}">
+        <div>
+          <h2><img src="img/wizards.svg" alt="" />Wizards</h2>
+          <p>Easily configure Istio<br />routing</p>
+        </div>
+      </a>
 
+      <a href="{{ "documentation/latest/features/configuration" | relURL }}">
+        <div>
+          <h2><img src="img/configuration.svg" alt="" />Configuration</h2>
+          <p>See and edit Istio<br />custom resource YAML</p>
+        </div>
+      </a>
+
+      <div class="more-coming">
+        <p><img src="img/more.svg" alt="" /></p>
+        <h2>More to come...</h2>
+      </div>
+    </div>
+{{< blocks/section >}}
+
+{{< blocks/section color="light" >}}
+{{- $maxBlogPosts := 10 }}
+{{/*expTimestamp: expire content every 1hour (6000s)*/}}
+{{- $expTimestamp := div now.Unix 6000 }}
+{{- $mediumURL    := printf "https://api.rss2json.com/v1/api.json?timestamp=%d&rss_url=https://medium.com/feed/kialiproject" $expTimestamp }}
+{{- $json         := getJSON $mediumURL }}
+{{- $posts        := first $maxBlogPosts $json.items }}
+{{- $latestPost   := index $json.items 1 }}
+
+  <section id="blog-latest" data-lastpubat="{{ $latestPost.pubDate }}">
+    <h3>Latest blogs</h3>
+    <div id="go-to-blog-link">
+      <a href="https://medium.com/kialiproject" target="_blank">
+        Kiali on Medium
+        <span class="fas fa-external-link-alt" />
+      </a>
+    </div>
+
+    <div id="blog-blocks">
+      {{ range $posts }}
+        {{ $link    := .link }}
+        {{ $img     := .thumbnail }}
+        {{ $title   := .title }}
+        {{ $author  := .author }}
+        {{ $dateRaw := .pubDate }}
+        {{ $date    := dateFormat "January 2, 2006" $dateRaw }}
+        {{ $summary := .content | plainify | truncate 150 }}
+
+        <a href="{{ $link }}" title="{{ $title }}" target="_blank">
+          <div>
+            <header>
+              <div>{{ $date }}</div>
+              <div><span class="fas fa-book" /></div>
+            </header>
+            <h1>{{ $title }}</h1>
+            <p>{{ $author }}</p>
+          </div>
+        </a>
+      {{ end }}
+    </div>
+  </section>
 {{< /blocks/section >}}
 
 

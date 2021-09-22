@@ -113,7 +113,8 @@ github_project_repo = "https://github.com/kiali/kiali"
 # github_branch= "main"
 
 # Google Custom Search Engine ID. Remove or comment out to disable search.
-gcs_engine_id = "d72aa9b2712488cc3"
+# TODO - this should change, currently just testing using engine under jay.shaughnessy@gmail.com
+gcs_engine_id = "d327b13652f5c528e"
 
 # Enable Algolia DocSearch
 algolia_docsearch = false
@@ -123,6 +124,8 @@ offlineSearch = false
 
 # Enable syntax highlighting and copy buttons on code blocks with Prism
 prism_syntax_highlighting = false
+
+kiali_maxBlogPosts = 10
 
 # User interface configuration
 [params.ui]
@@ -191,4 +194,3 @@ enable = false
 	url = "https://github.com/kiali"
 	icon = "fab fa-github"
         desc = "Kiali on Github"
-
