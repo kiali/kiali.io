@@ -1,0 +1,117 @@
+---
+title: Open Travels Demo to outside traffic
+weight: 33
+---
+:icons: font
+:sectlinks:
+:linkattrs:
+
+The *control* workload now has an Istio sidecar proxy injected but this application is not accessible from the outside.
+
+In this step we are going to expose the *control* service using an Istio Ingress Gateway which will map a path to a route at the edge of the mesh.
+
+NOTE: *Step 1:* Create a DNS entry for the *control* service associated with the External IP of the Istio Ingress
+
+icon:bullhorn[size=1x]{nbsp} This step depends on the platform you have chosen, please review https://istio.io/latest/docs/setup/getting-started/#determining-the-ingress-ip-and-ports[Determining the Ingress IP and Ports, window="_blank"] for more details.
+
+icon:bullhorn[size=1x]{nbsp} There are multiple ways to create a DNS entry depending of the platform, servers or services that you are using.
+
+icon:bullhorn[size=1x]{nbsp} Kubernetes Service EXTERNAL-IP for "LoadBalancer" TYPE is provided in minikube plaform using the https://minikube.sigs.k8s.io/docs/handbook/accessing/#using-minikube-tunnel[minikube tunnel, window="_blank"] tool.
+
+For minikube we will check the External IP of the Ingress gateway:
+
+[source,bash]
+----
+$ kubectl get services/istio-ingressgateway -n istio-system
+NAME                   TYPE           CLUSTER-IP     EXTERNAL-IP    PORT(S)                                                                      AGE
+istio-ingressgateway   LoadBalancer   10.101.6.144   10.101.6.144   15021:30757/TCP,80:32647/TCP,443:30900/TCP,31400:30427/TCP,15443:31072/TCP   19h
+----
+
+And we will add a simple entry to the `/etc/hosts` of the tutorial machine with the desired DNS entry:
+
+[source,bash]
+----
+...
+10.101.6.144 control.travel-control.istio-cluster.org
+...
+----
+
+Then, from this machine, the url `control.travel-control.istio-cluster.org` will resolve to the External IP of the Ingress Gateway of Istio.
+
+icon:bullhorn[size=1x]{nbsp} OpenShift does not provide the Kubernetes Service EXTERNAL-IP for "LoadBalancer" TYPE. Instead, you can expose the istio-ingressgateway service.
+
+For OpenShift we will expose the Ingress gateway as a service:
+
+[source,bash]
+----
+$ oc expose service istio-ingressgateway -n istio-system
+$ oc get routes -n istio-system
+NAME                   HOST/PORT                                  PATH   SERVICES               PORT    TERMINATION          WILDCARD
+istio-ingressgateway   <YOUR_ROUTE_HOST>                                 istio-ingressgateway   http2                        None
+----
+
+Then, from this machine, the host <YOUR_ROUTE_HOST> will resolve to the External IP of the Ingress Gateway of Istio. For OpenShift we will
+not define a DNS entry, instead, where you see `control.travel-control.istio-cluster.org` in the steps below, subsitute the value of <YOUR_ROUTE_HOST>.
+
+
+NOTE: *Step 2:* Use the Request Routing Wizard on the *control* service to generate a traffic rule
+++++
+<a class="image-popup-fit-height" href="/images/tutorial/03-03-service-actions.png" title="Request Routing Wizard">
+    <img src="/images/tutorial/03-03-service-actions.png" style="display:block;margin: 0 auto;" />
+</a>
+++++
+
+{nbsp} +
+Use "Add Route Rule" button to add a default rule where any request will be routed to the *control* workload.
+++++
+<a class="image-popup-fit-height" href="/images/tutorial/03-03-request-routing.png" title="Routing Rule">
+    <img src="/images/tutorial/03-03-request-routing.png" style="display:block;margin: 0 auto;" />
+</a>
+++++
+
+{nbsp} +
+Use the Advanced Options and add a gateway with host `control.travel-control.istio-cluster.org` and create the Istio config.
+++++
+<a class="image-popup-fit-height" href="/images/tutorial/03-03-create-gateway.png" title="Create Gateway">
+    <img src="/images/tutorial/03-03-create-gateway.png" style="display:block;margin: 0 auto;" />
+</a>
+++++
+
+{nbsp} +
+Verify the Istio configuration generated.
+++++
+<a class="image-popup-fit-height" href="/images/tutorial/03-03-istio-config.png" title="Istio Config">
+    <img src="/images/tutorial/03-03-istio-config.png" style="display:block;margin: 0 auto;" />
+</a>
+++++
+
+NOTE: *Step 3:* Test the *control* service by pointing your browser to `\http://control.travel-control.istio-cluster.org`
+++++
+<a class="image-popup-fit-height" href="/images/tutorial/03-03-test-gateway.png" title="Test Gateway">
+    <img src="/images/tutorial/03-03-test-gateway.png" style="display:block;margin: 0 auto;" />
+</a>
+++++
+
+NOTE: *Step 4:* Review *travel-control* namespace in Kiali
+++++
+<a class="image-popup-fit-height" href="/images/tutorial/03-03-travel-control-graph.png" title="Travel Control Graph">
+    <img src="/images/tutorial/03-03-travel-control-graph.png" style="display:block;margin: 0 auto;" />
+</a>
+++++
+
+{nbsp} +
+Understanding what happened:
+
+. External traffic enters into the cluster through a Gateway
+. Traffic is routed to the *control* service through a VirtualService
+. Kiali Graph visualizes the traffic telemetry reported from the *control* sidecar proxy
+.. Only the *travel-control* namespace is part of the mesh
+
+https://istio.io/latest/docs/reference/config/networking/gateway/[(i) Istio Gateway, window="_blank"]
+
+https://istio.io/latest/docs/reference/config/networking/virtual-service/[(ii) Istio Virtual Service, window="_blank"]
+
+
+
+
+

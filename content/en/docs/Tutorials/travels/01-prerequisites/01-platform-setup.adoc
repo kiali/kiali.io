@@ -1,0 +1,23 @@
+---
+title: Platform Setup
+weight: 11
+---
+:icons: font
+:sectlinks:
+:linkattrs:
+
+This tutorial assumes you will have access to a Kubernetes cluster with Istio installed.
+
+This tutorial has been tested using:
+
+- a https://istio.io/latest/docs/setup/platform-setup/minikube/[Minikube, window="_blank"] installation.
+- an https://istio.io/latest/docs/setup/platform-setup/openshift/[OpenShift, window="_blank"] installation.
+
+icon:bullhorn[size=1x]{nbsp} Platform dependent tasks will be indicated with a special note like this.
+
+icon:bullhorn[size=1x]{nbsp} This tutorial has been tested using __minikube v1.16.0__, __istio 1.8.1__ and __kiali v1.28.0__
+
+icon:bullhorn[size=1x]{nbsp} This tutorial has been tested using __openshift v4.8.3__, __istio 1.11.0__ and __kiali v1.39.0__
+
+
+

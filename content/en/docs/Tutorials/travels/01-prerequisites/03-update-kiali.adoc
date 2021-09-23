@@ -1,0 +1,30 @@
+---
+title: Update Kiali
+weight: 13
+---
+:icons: font
+:sectlinks:
+:linkattrs:
+
+Istio defines a specific Kiali version as an addon.
+
+In this tutorial we are going to update Kiali to the latest release version.
+
+Assuming you have installed the addons following the https://istio.io/latest/docs/setup/getting-started/[Istio Getting Started, window="_blank"] guide, you can uninstall Kiali with the command:
+
+[source,bash]
+----
+kubectl delete -f ${ISTIO_HOME}/samples/addons/kiali.yaml --ignore-not-found
+----
+
+There are multiple ways to install a recent version of Kiali, this tutorial follows the link:../quick-start/#_install_via_kiali_server_helm_chart[Quick Start, window="_blank"] using Helm Chart.
+
+[source,bash]
+----
+helm install \
+  --namespace istio-system \
+  --set auth.strategy="anonymous" \
+  --repo https://kiali.org/helm-charts \
+  kiali-server \
+  kiali-server
+----

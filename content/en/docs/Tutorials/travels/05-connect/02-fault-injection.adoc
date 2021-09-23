@@ -1,0 +1,79 @@
+---
+title: Fault Injection
+weight: 51
+---
+:icons: font
+:sectlinks:
+:linkattrs:
+
+The link:../tutorial/#02-graph[Observe, window="_blank"] step has spotted that the *hotels* service has additional traffic compared with other services deployed in the *travel-agency* namespace.
+
+Also, this service becomes critical in the main business logic. It is responsible for querying all available destinations, presenting them to the user, and getting a quote for the selected destination.
+
+This also means that the *hotels* service may be one of the weakest points of the Travels Demo application.
+
+This step will show how to test the resilience of the Travels Demo application by injecting faults into the *hotels* service and then observing how the application reacts to this scenario.
+
+NOTE: *Step 1:* Use the Fault Injection Wizard on *hotels* service to inject a delay
+
+++++
+<a class="image-popup-fit-height" href="/images/tutorial/05-02-fault-injection-action.png" title="Fault Injection Action">
+    <img src="/images/tutorial/05-02-fault-injection-action.png" style="display:block;margin: 0 auto;" />
+</a>
+++++
+
+{nbsp} +
+Select an HTTP Delay and specify the "Delay percentage" and "Fixed Delay" values. The default values will introduce a 5 seconds delay into 100% of received requests.
+
+++++
+<a class="image-popup-fit-height" href="/images/tutorial/05-02-http-delay.png" title="HTTP Delay">
+    <img src="/images/tutorial/05-02-http-delay.png" style="display:block;margin: 0 auto;" />
+</a>
+++++
+
+NOTE: *Step 2:* Understanding *source* and *destination* metrics
+
+Telemetry is collected from proxies and it is labeled with information about the *source* and *destination* workloads.
+
+In our example, let's say that *travels* service ("Service A" in the Istio diagram below) invokes the *hotels* service ("Service B" in the diagram). *Travels* is the "source" workload and *hotels* is the "destination" workload. The *travels* proxy will report telemetry from the source perspective and *hotels* proxy will report telemetry from the destination perspective. Let's look at the latency reporting from both perspectives.
+
+++++
+<a class="image-popup-fit-height" href="/images/tutorial/05-02-istio-architecture.png" title="Istio Architecture">
+    <img src="/images/tutorial/05-02-istio-architecture.png" style="display:block;margin: 0 auto;" />
+</a>
+++++
+
+{nbsp} +
+
+The *travels* workload proxy has the Fault Injection configuration so it will perform the call to the *hotels* service and will apply the delay on the *travels* workload side (this is reported as *source* telemetry).
+
+We can see in the *hotels* telemetry reported by the *source* (the *travels* proxy) that there is a visible gap showing 5 second delay in the request duration.
+
+++++
+<a class="image-popup-fit-height" href="/images/tutorial/05-02-source-metrics.png" title="Source Metrics">
+    <img src="/images/tutorial/05-02-source-metrics.png" style="display:block;margin: 0 auto;" />
+</a>
+++++
+
+{nbsp} +
+But as the Fault Injection delay is applied on the source proxy (*travels*), the destination proxy (*hotels*) is unaffected and its destination telemetry show no delay.
+
+++++
+<a class="image-popup-fit-height" href="/images/tutorial/05-02-destination-metrics.png" title="Destination Metrics">
+    <img src="/images/tutorial/05-02-destination-metrics.png" style="display:block;margin: 0 auto;" />
+</a>
+++++
+
+NOTE: *Step 3:* Study the impact of the *travels* service delay
+
+The injected delay is propagated from the *travels* service to the downstream services deployed on *travel-portal* namespace, degrading the overall response time. But the downstream services are unaware, operate normally, and show a green status.
+
+++++
+<a class="image-popup-fit-height" href="/images/tutorial/05-02-degraded-response-time.png" title="Degraded Response Time">
+    <img src="/images/tutorial/05-02-degraded-response-time.png" style="display:block;margin: 0 auto;" />
+</a>
+++++
+
+NOTE: *Step 4:* Update or delete Istio Configuration
+
+As part of this step you can update the Fault Injection scenario to test different delays. When finished, you can delete the generated Istio config for the *hotels* service.
