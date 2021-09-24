@@ -4,6 +4,8 @@
     <h1>{{ .Name }}</h1>
   </header>
 
+  {{ template "find-sidenav" . }}
+
   <main>
     {{ .Content }}
 
@@ -11,9 +13,7 @@
       <h1>{{ default "Index" .Params.indexTitle }}</h1>
 
       <ul>
-        {{ $pagesOfSection := (where .Site.Pages.ByWeight "Section" .Section) }}
-        {{ $childPages := (where (where $pagesOfSection "Parent" "!=" nil) "Parent.File.Path" .File.Path) }}
-        {{ range $childPages }}
+        {{ range (union .Pages .Sections).ByWeight }}
           {{ if not (strings.HasSuffix .Permalink "/documentation/latest/") }}
           <li>
             <a href="{{ .Permalink }}">{{ .Name }}</a>
@@ -26,3 +26,29 @@
 </article>
 {{ end }}
 
+{{ define "find-sidenav" }}
+  {{ if .Params.sideNav }}
+    <nav>
+      {{ .Title }}
+      <hr />
+      {{ template "side-nav" . }}
+    </nav>
+  {{ else }}
+    {{ if .Parent }}
+      {{ template "find-sidenav" .Parent }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ define "side-nav" }}
+<ul>
+{{ range (union .Pages .Sections).ByWeight }}
+  <li>
+    <a href="{{ .Permalink }}">{{ .Name }}</a>
+    {{ if or (ne (len .Pages) 0) (ne (len .Sections) 0) }}
+      {{ template "side-nav" . }}
+    {{ end }}
+  </li>
+{{ end }}
+</ul>
+{{ end }}

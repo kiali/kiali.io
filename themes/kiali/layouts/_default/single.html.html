@@ -9,8 +9,37 @@
       <h1>{{ .Page.Title }}</h1>
     </header>
 
+    {{ template "find-sidenav" . }}
+
     <main>
       {{ .Content }}
     </main>
   </article>
+{{ end }}
+
+{{ define "find-sidenav" }}
+  {{ if .Params.sideNav }}
+    <nav>
+      {{ .Title }}
+      <hr />
+      {{ template "side-nav" . }}
+    </nav>
+  {{ else }}
+    {{ if .Parent }}
+      {{ template "find-sidenav" .Parent }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ define "side-nav" }}
+<ul>
+{{ range (union .Pages .Sections).ByWeight }}
+  <li>
+    <a href="{{ .Permalink }}">{{ .Name }}</a>
+    {{ if or (ne (len .Pages) 0) (ne (len .Sections) 0) }}
+      {{ template "side-nav" . }}
+    {{ end }}
+  </li>
+{{ end }}
+</ul>
 {{ end }}

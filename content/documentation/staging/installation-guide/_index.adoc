@@ -4,6 +4,7 @@ aliases:
 - /installation-guide/
 date: 2019-03-20T09:04:38+02:00
 draft: false
+sideNav: true
 ---
 
 :icons: font
