@@ -8,13 +8,8 @@ weight: 1
 :sectnums:
 :sectlinks:
 :linkattrs:
-:toc: left
-:toclevels: 2
-toc::[]
-:toc-title: Topology
 :keywords: Kiali Documentation
 :icons: font
-:imagesdir: /images/documentation/overview/
 
 :numbered!:
 

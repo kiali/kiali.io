@@ -1,0 +1,24 @@
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: ServiceRole
+metadata:
+  name: details-reviews-viewer
+  namespace: default
+spec:
+  rules:
+  - services: ["details.bookinfo.svc.cluster.local", "reviews.bookinfo.svc.cluster.local"]
+    methods: ["GET"]
+    constraints:
+      - key: "destination.labels[version]"
+        values: ["v1"]
+---
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: ServiceRoleBinding
+metadata:
+  name: bind-details-reviews
+  namespace: bookinfo
+spec:
+  subjects:
+  - user: "cluster.local/ns/bookinfo/sa/bookinfo-productpage"
+  roleRef:
+    kind: ServiceRole
+    name: "details-reviews-viewer"

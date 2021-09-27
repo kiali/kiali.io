@@ -1,0 +1,27 @@
+apiVersion: "security.istio.io/v1beta1"
+kind: "PeerAuthentication"
+metadata:
+  name: "productpage"
+  namespace: "bookinfo"
+spec:
+  selector:
+    matchLabels:
+      app: productpage
+  mtls:
+    mode: STRICT
+---
+apiVersion: "security.istio.io/v1beta1"
+kind: "PeerAuthentication"
+metadata:
+  name: "productpage-disable-80"
+  namespace: "bookinfo"
+spec:
+  selector:
+    matchLabels:
+      app: productpage
+      version: v1
+  mtls:
+    mode: STRICT
+  portLevelMtls:
+    80:
+      mode: DISABLE

@@ -57,7 +57,7 @@ icon:exclamation-triangle[] Warning
 
 [source, yaml]
 ----
-include::/data/files/validation_examples/801.yaml[]
+include::themes/docsy/static/files/validation_examples/801.yaml[]
 ----
 
 ==== See Also
@@ -85,7 +85,7 @@ icon:exclamation-triangle[] Warning
 
 [source, yaml]
 ----
-include::/data/files/validation_examples/802.yaml[]
+include::themes/docsy/static/files/validation_examples/802.yaml[]
 ----
 
 ==== See Also
@@ -114,7 +114,7 @@ icon:exclamation-circle[] Error
 
 [source, yaml]
 ----
-include::/data/files/validation_examples/804.yaml[]
+include::themes/docsy/static/files/validation_examples/804.yaml[]
 ----
 
 ==== See Also
@@ -147,7 +147,7 @@ icon:exclamation-triangle[] Warning
 
 [source, yaml]
 ----
-include::/data/files/validation_examples/001.yaml[]
+include::themes/docsy/static/files/validation_examples/001.yaml[]
 ----
 
 ==== See Also
@@ -177,7 +177,7 @@ icon:times-circle[] Error
 
 [source, yaml]
 ----
-include::/data/files/validation_examples/002.yaml[]
+include::themes/docsy/static/files/validation_examples/002.yaml[]
 ----
 
 ==== See Also
@@ -211,7 +211,7 @@ icon:times-circle[] Error
 
 [source, yaml]
 ----
-include::/data/files/validation_examples/003.yaml[]
+include::themes/docsy/static/files/validation_examples/003.yaml[]
 ----
 
 ==== See Also
@@ -240,7 +240,7 @@ icon:exclamation-triangle[] Warning
 
 [source, yaml]
 ----
-include::/data/files/validation_examples/005.yaml[]
+include::themes/docsy/static/files/validation_examples/005.yaml[]
 ----
 
 ==== See Also
@@ -267,7 +267,7 @@ icon:times-circle[] Error
 
 [source, yaml]
 ----
-include::/data/files/validation_examples/004.yaml[]
+include::themes/docsy/static/files/validation_examples/004.yaml[]
 ----
 
 ==== See Also
@@ -296,7 +296,7 @@ icon:times-circle[] Error
 
 [source, yaml]
 ----
-include::/data/files/validation_examples/006.yaml[]
+include::themes/docsy/static/files/validation_examples/006.yaml[]
 ----
 
 ==== See Also
@@ -321,7 +321,7 @@ icon:times-circle[] Error
 
 [source, yaml]
 ----
-include::/data/files/validation_examples/007.yaml[]
+include::themes/docsy/static/files/validation_examples/007.yaml[]
 ----
 
 ==== See Also
@@ -348,7 +348,7 @@ icon:times-circle[] Error
 
 [source, yaml]
 ----
-include::/data/files/validation_examples/008.yaml[]
+include::themes/docsy/static/files/validation_examples/008.yaml[]
 ----
 
 ==== See Also
@@ -396,7 +396,7 @@ icon:exclamation-triangle[] Warning
 
 [source, yaml]
 ----
-include::/data/files/validation_examples/201.yaml[]
+include::themes/docsy/static/files/validation_examples/201.yaml[]
 ----
 
 ==== See Also
@@ -424,7 +424,7 @@ icon:exclamation-triangle[] Warning
 
 [source, yaml]
 ----
-include::/data/files/validation_examples/202.yaml[]
+include::themes/docsy/static/files/validation_examples/202.yaml[]
 ----
 
 ==== See Also
@@ -453,7 +453,7 @@ icon:times-circle[] Error
 
 [source, yaml]
 ----
-include::/data/files/validation_examples/401.yaml[]
+include::themes/docsy/static/files/validation_examples/401.yaml[]
 ----
 
 ==== See Also
@@ -482,7 +482,7 @@ icon:times-circle[] Error
 
 [source, yaml]
 ----
-include::/data/files/validation_examples/301.yaml[]
+include::themes/docsy/static/files/validation_examples/301.yaml[]
 ----
 
 ==== See Also
@@ -511,7 +511,7 @@ icon:times-circle[] Error
 
 [source, yaml]
 ----
-include::/data/files/validation_examples/305.yaml[]
+include::themes/docsy/static/files/validation_examples/305.yaml[]
 ----
 
 ==== See Also
@@ -539,7 +539,7 @@ icon:times-circle[] Error
 
 [source, yaml]
 ----
-include::/data/files/validation_examples/306.yaml[]
+include::themes/docsy/static/files/validation_examples/306.yaml[]
 ----
 
 ==== See Also
@@ -566,7 +566,7 @@ icon:times-circle[] Error
 
 [source, yaml]
 ----
-include::/data/files/validation_examples/701.yaml[]
+include::themes/docsy/static/files/validation_examples/701.yaml[]
 ----
 
 ==== See Also
@@ -595,14 +595,14 @@ Invalid example with port definitions unmatched:
 
 [source, yaml]
 ----
-include::/data/files/validation_examples/702.yaml[]
+include::themes/docsy/static/files/validation_examples/702.yaml[]
 ----
 
 Valid example using targetPort definition matching:
 
 [source, yaml]
 ----
-include::/data/files/validation_examples/703.yaml[]
+include::themes/docsy/static/files/validation_examples/703.yaml[]
 ----
 
 ==== See Also
@@ -629,7 +629,7 @@ icon:times-circle[] Error
 
 [source, yaml]
 ----
-include::/data/files/validation_examples/402.yaml[]
+include::themes/docsy/static/files/validation_examples/402.yaml[]
 ----
 
 ==== See Also
@@ -657,7 +657,7 @@ icon:times-circle[] Error
 
 [source, yaml]
 ----
-include::/data/files/validation_examples/501.yaml[]
+include::themes/docsy/static/files/validation_examples/501.yaml[]
 ----
 
 ==== See Also
@@ -683,7 +683,7 @@ icon:times-circle[] Error
 
 [source, yaml]
 ----
-include::/data/files/validation_examples/502.yaml[]
+include::themes/docsy/static/files/validation_examples/502.yaml[]
 ----
 
 ==== See Also
@@ -709,7 +709,7 @@ icon:times-circle[] Error
 
 [source, yaml]
 ----
-include::/data/files/validation_examples/601.yaml[]
+include::themes/docsy/static/files/validation_examples/601.yaml[]
 ----
 
 ==== See Also
@@ -739,7 +739,7 @@ icon:times-circle[] Error
 
 [source, yaml]
 ----
-include::/data/files/validation_examples/903.yaml[]
+include::themes/docsy/static/files/validation_examples/903.yaml[]
 ----
 
 ==== See Also
@@ -770,7 +770,7 @@ icon:exclamation-triangle[] Warning
 
 [source, yaml]
 ----
-include::/data/files/validation_examples/904.yaml[]
+include::themes/docsy/static/files/validation_examples/904.yaml[]
 ----
 
 ==== See Also
@@ -798,7 +798,7 @@ icon:exclamation-triangle[] Warning
 
 [source, yaml]
 ----
-include::/data/files/validation_examples/906.yaml[]
+include::themes/docsy/static/files/validation_examples/906.yaml[]
 ----
 
 ==== See Also
@@ -827,7 +827,7 @@ icon:times-circle[] Error
 
 [source, yaml]
 ----
-include::/data/files/validation_examples/102.yaml[]
+include::themes/docsy/static/files/validation_examples/102.yaml[]
 ----
 
 ==== See Also
@@ -853,7 +853,7 @@ icon:times-circle[] Error
 
 [source, yaml]
 ----
-include::/data/files/validation_examples/101.yaml[]
+include::themes/docsy/static/files/validation_examples/101.yaml[]
 ----
 
 ==== See Also
@@ -878,7 +878,7 @@ icon:times-circle[] Error
 
 [source, yaml]
 ----
-include::/data/files/validation_examples/103.yaml[]
+include::themes/docsy/static/files/validation_examples/103.yaml[]
 ----
 
 ==== See Also
@@ -904,7 +904,7 @@ icon:exclamation-triangle[] Warning
 
 [source, yaml]
 ----
-include::/data/files/validation_examples/106.yaml[]
+include::themes/docsy/static/files/validation_examples/106.yaml[]
 ----
 
 ==== See Also
@@ -932,7 +932,7 @@ icon:exclamation-triangle[] Warning
 
 [source, yaml]
 ----
-include::/data/files/validation_examples/111.yaml[]
+include::themes/docsy/static/files/validation_examples/111.yaml[]
 ----
 
 ==== See Also
@@ -958,7 +958,7 @@ icon:exclamation-triangle[] Warning
 
 [source, yaml]
 ----
-include::/data/files/validation_examples/104.yaml[]
+include::themes/docsy/static/files/validation_examples/104.yaml[]
 ----
 
 ==== See Also
@@ -985,7 +985,7 @@ icon:times-circle[] Error
 
 [source, yaml]
 ----
-include::/data/files/validation_examples/105.yaml[]
+include::themes/docsy/static/files/validation_examples/105.yaml[]
 ----
 
 ==== See Also
@@ -1005,7 +1005,7 @@ Move the nomenclature of the gateways into the supported Istio form: <gateway na
 
 [source, yaml]
 ----
-include::/data/files/validation_examples/112.yaml[]
+include::themes/docsy/static/files/validation_examples/112.yaml[]
 ----
 
 ==== See Also
@@ -1038,7 +1038,7 @@ icon:exclamation-circle[] Error
 
 [source, yaml]
 ----
-include::/data/files/validation_examples/302.yaml[]
+include::themes/docsy/static/files/validation_examples/302.yaml[]
 ----
 
 ==== See Also
@@ -1066,7 +1066,7 @@ icon:exclamation-circle[] Error
 
 [source, yaml]
 ----
-include::/data/files/validation_examples/303.yaml[]
+include::themes/docsy/static/files/validation_examples/303.yaml[]
 ----
 
 ==== See Also
@@ -1091,7 +1091,7 @@ icon:exclamation-triangle[] Warning
 
 [source, yaml]
 ----
-include::/data/files/validation_examples/304.yaml[]
+include::themes/docsy/static/files/validation_examples/304.yaml[]
 ----
 
 ==== See Also

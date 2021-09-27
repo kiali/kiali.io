@@ -1,0 +1,17 @@
+apiVersion: "security.istio.io/v1beta1"
+kind: "PeerAuthentication"
+metadata:
+  name: "default"
+  namespace: "bookinfo"
+spec:
+  mtls:
+    mode: STRICT
+---
+apiVersion: "security.istio.io/v1beta1"
+kind: "PeerAuthentication"
+metadata:
+  name: "duplicate"
+  namespace: "bookinfo"
+spec:
+  mtls:
+    mode: STRICT

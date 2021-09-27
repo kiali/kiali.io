@@ -1,0 +1,29 @@
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+ name: httpbin
+ namespace: default
+spec:
+ selector:
+   matchLabels:
+     app: httpbin
+     version: v1
+ rules:
+ - from:
+   - source:
+       principals: ["cluster.local/ns/default/sa/sleep"]
+   - source:
+       namespaces:
+         - default
+         - non-existing # warning
+         - unexisting # warning
+   to:
+   - operation:
+       methods: ["GET"]
+       paths: ["/info*"]
+   - operation:
+       methods: ["POST"]
+       paths: ["/data"]
+   when:
+   - key: request.auth.claims[iss]
+     values: ["https://accounts.google.com"]
