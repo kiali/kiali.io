@@ -58,7 +58,7 @@ travels-v1      1/1     1            1           96s
 
 ### Travel Portal namespace
 
-The Travels Demo application simulates two business domains organized in different namespaces.
+The Travel Demo application simulates two business domains organized in different namespaces.
 
 In a first namespace called *travel-portal* there will be deployed several travel shops, where users can search for and book flights, hotels, cars or insurance.
 
@@ -80,7 +80,7 @@ Additionally, some users, like _registered_ users, can have access to special di
 
 Service relations between namespaces can be described in the following diagram:
 
-<a class="image-popup-fit-height" href="/images/tutorial/02-02-travels-demo-design.png" title="Travels Demo Design">
+<a class="image-popup-fit-height" href="/images/tutorial/02-02-travels-demo-design.png" title="Travel Demo Design">
     <img src="/images/tutorial/02-02-travels-demo-design.png" style="display:block;margin: 0 auto;" />
 </a>
 
@@ -100,6 +100,6 @@ The *travel-control* namespace runs a *business dashboard* with two key features
 * Allow setting changes for every travel shop simulator (traffic ratio, device, user and type of travel).
 * Provide a *business* view of the total requests generated from the *travel-portal* namespace to the *travel-agency* services, organized by business criteria as grouped per shop, per type of traffic and per city.
 
-<a class="image-popup-fit-height" href="/images/tutorial/02-02-travels-dashboard.png" title="Travels Dashboard">
+<a class="image-popup-fit-height" href="/images/tutorial/02-02-travels-dashboard.png" title="Travel Dashboard">
     <img src="/images/tutorial/02-02-travels-dashboard.png" style="display:block;margin: 0 auto;" />
 </a>

@@ -6,7 +6,7 @@ weight: 99
 :sectlinks:
 :linkattrs:
 
-To uninstall the Travels Demo application perform the following commands:
+To uninstall the Travel Demo application perform the following commands:
 
 [source,bash]
 ----

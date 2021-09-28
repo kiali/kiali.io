@@ -69,7 +69,7 @@ Verify updated telemetry for *travel-portal* and *travel-agency* namespaces
 
 The graph provides a powerful set of [Graph Features]({{< ref "/docs/Features/topology" >}}) to visualize the traffic topology of the service mesh.
 
-In this step, we will show how to use the Graph to show relevant information in the context of the Travels Demo application.
+In this step, we will show how to use the Graph to show relevant information in the context of the Travel Demo application.
 
 Our goal will be to identify the most critical service of the demo application.
 

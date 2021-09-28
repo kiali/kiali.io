@@ -39,7 +39,7 @@ As there is no specific routing defined, when there are multiple workloads for *
 </a>
 
 {{% alert title="Step 2" color="success" %}}
-Investigate the http headers used by the Travels Demo application
+Investigate the http headers used by the Travel Demo application
 {{% /alert %}}
 The [Traffic Management](https://istio.io/latest/docs/concepts/traffic-management/#routing-rules) features of Istio allow you to define [Matching Conditions](https://istio.io/latest/docs/concepts/traffic-management/#match-condition) for dynamic request routing.
 
@@ -157,9 +157,9 @@ The [Observe]({{< relref "./04-observe/#graph-walkthrough" >}}) step has spotted
 
 Also, this service becomes critical in the main business logic. It is responsible for querying all available destinations, presenting them to the user, and getting a quote for the selected destination.
 
-This also means that the *hotels* service may be one of the weakest points of the Travels Demo application.
+This also means that the *hotels* service may be one of the weakest points of the Travel Demo application.
 
-This step will show how to test the resilience of the Travels Demo application by injecting faults into the *hotels* service and then observing how the application reacts to this scenario.
+This step will show how to test the resilience of the Travel Demo application by injecting faults into the *hotels* service and then observing how the application reacts to this scenario.
 
 {{% alert title="Step 1" color="success" %}}
 Use the Fault Injection Wizard on *hotels* service to inject a delay
@@ -470,7 +470,7 @@ The *loadtester* workload will try to create 50 concurrent connections to the *t
 
 </br>
 
-The Travels Demo application is capable of handling this load and in a first look it doesn't show unhealthy status.
+The Travel Demo application is capable of handling this load and in a first look it doesn't show unhealthy status.
 
 <a class="image-popup-fit-height" href="/images/tutorial/05-06-loadtester-details.png" title="Loadtester Details">
     <img src="/images/tutorial/05-06-loadtester-details.png" style="display:block;margin: 0 auto;" />
