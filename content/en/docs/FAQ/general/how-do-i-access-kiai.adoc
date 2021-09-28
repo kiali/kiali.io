@@ -1,0 +1,7 @@
+---
+title: How do I access Kiali UI?
+weight: 10
+---
+:icons: font
+
+See link:{{< ref "../../installation-guide/accessing-kiali" >}}[Accessing Kiali in the Installation guide].

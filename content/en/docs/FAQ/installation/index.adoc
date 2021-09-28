@@ -1,0 +1,15 @@
+---
+title: "Installation"
+date: 2020-10-21T00:00:00+00:00
+draft: false
+weight: 6
+layout: faq
+---
+
+:linkattrs:
+:toc: macro
+:toc-title: Installation FAQ
+:toclevels: 4
+:keywords: Kiali faq istio installation
+:icons: font
+:imagesdir: /images/faq/installation/
