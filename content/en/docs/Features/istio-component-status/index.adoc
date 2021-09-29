@@ -65,4 +65,38 @@ The following is an example of viewing the default case:
 
 Note that displaying this configuration requires permissions to read secrets (*istio-ca-secret* by default, possibly *cacerts* or any secret configured when using DNS certificates).
 
-Having this permissions may concern users. For this reason, this feature is implemented as a feature flag and not only can be disabled, avoiding any extra permissions to read secrets, but also a list of secrets can be configured to explicitly grant read permissions for some secrets in the control plane namespace. For more information, check the link:/documentation/staging/installation-guide/#_secrets_permissions[secret permissions] section.
+Having these permissions may concern users. For this reason, this feature is implemented as a feature flag and not only can be disabled, avoiding any extra permissions to read secrets, but also a list of secrets can be configured to explicitly grant read permissions for some secrets in the control plane namespace. By default, this feature is enabled with a Kiali CR configuration equivalent to the following:
+
+[source,yaml]
+----
+spec:
+  kiali_feature_flags:
+    certificates_information_indicators:
+      enabled: true
+      secrets:
+      - cacerts
+      - istio-ca-secret
+----
+
+You can extend this default configuration with additional secrets, remove secrets you don't want, or disable the feature.
+
+If you add additional secrets, the Kiali operator _also_ needs the same privileges in order to configure Kiali successfully. If you used the [Helm Charts]({{< ref "/docs/installation/installation-guide/install-with-helm" >}}) to install the operator, specify the `secretReader` value with the required secrets:
+
+[source,bash]
+----
+$ helm install \
+    --namespace kiali-operator \
+    --create-namespace \
+    --set "secretReader={cacerts,istio-ca-secret}"
+    kiali-operator \
+    kiali/kiali-operator
+----
+
+If you installed the operator via the [OperatorHub]({{< ref "/docs/installation/installation-guide/installing-with-operatorhub" >}}) you need to update the operator privileges as a post-installation step, as follows:
+
+[source,bash]
+----
+$ kubectl patch $(kubectl get clusterroles -o name | grep kiali-operator) --type "json" -p '[{"op":"add","path":"/rules/0","value":{"apiGroups":[""],"resources":["secrets"],"verbs":["get"],"resourceNames":["secret-name-to-be-read"]}}]'
+----
+
+Replace `secret-name-to-be-read` with the secret name you want the operator to read and restart the Kiali operator pod after running the previous command.

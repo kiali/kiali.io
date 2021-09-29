@@ -16,6 +16,31 @@ weight: 60
 
 toc::[]
 
+== Multiple Istio control planes in the same cluster
+
+Currently, Kiali can manage only one Istio control plane. However, there are
+certain cases where you may have more than one Istio control plane in your
+cluster. One of such cases is when performing a
+https://istio.io/latest/docs/setup/upgrade/canary/[Canary upgrade of Istio].
+
+In these cases, you will need to configure in Kiali which control plane you
+want to manage. This is done by configuring the name of the components of the
+control plane. This is configured in the Kiali CR and the default values are
+the following:
+
+[source,yaml]
+----
+spec:
+  external_services:
+    istio:
+      config_map_name: "istio"
+      istiod_deployment_name: "istiod"
+      istio_sidecar_injector_config_map_name: "istio-sidecar-injector"
+----
+
+If you want to manage both Istio control planes, simply install two Kiali
+instances and point each one to a different Istio control plane.
+
 == Installing a Kiali Server of a different version than the Operator
 
 When you install the Kiali Operator, it will be configured to install a Kiali

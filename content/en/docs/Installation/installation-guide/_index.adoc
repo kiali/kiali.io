@@ -6,120 +6,24 @@ date: 2019-03-20T09:04:38+02:00
 draft: false
 ---
 
-:icons: font
-:sectlinks:
-:linkattrs:
-
 The next few sections describe the different installation methods available for Kiali.
 
 The recommended way to deploy Kiali is via the Kiali Operator, either using Helm Charts or OperatorHub.
 
-The Kiali Operator is a link:https://coreos.com/operators/[Kubernetes Operator]
+The Kiali Operator is a [Kubernetes Operator](https://coreos.com/operators/)
 and manages your Kiali installation. It watches the _Kiali Custom Resource_
 (Kiali CR), a YAML file that holds the deployment configuration.
 
-NOTE: It is only necessary to install the Kiali Operator once. After the
-operator is installed you only need to link:{{< relref
-"creating-updating-kiali-cr" >}}[create or edit the Kiali CR]. *Never* manually
+{{% alert color="success" %}}
+It is only necessary to install the Kiali Operator once. After the
+operator is installed you only need to [create or edit the Kiali CR]({{< relref "creating-updating-kiali-cr" >}}). *Never* manually
 edit resources created by the Kiali Operator.
+{{% /alert %}}
 
-IMPORTANT: If you previously installed Kiali via a different mechanism, *you
+{{% alert color="warning" %}}
+If you previously installed Kiali via a different mechanism, *you
 must first uninstall Kiali* using the original mechanism's uninstall procedures.
 There is no migration path between older installation mechanisms and the
 install mechanisms explained in this documentation.
+{{% /alert %}}
 
-////
-
-
-== Upgrade
-
-==== Canary
-
-For https://istio.io/latest/docs/setup/upgrade/canary/[Canary upgrades]:
-
-. Deploy the upgraded https://istio.io/latest/docs/setup/upgrade/canary/#control-plane[Istio control-plane].
-. Update the Kiali Server configuration to point to the new Istio deployment. These fields need to be updated:
-- `spec.external_services.istio.config_map_name` to the new Istio configmap revision.
-- `spec.external_services.istio.istiod_deployment_name` to the new istio deployment revision.
-- `spec.external_services.istio.istio_sidecar_injector_config_map_name` to the new istio sidecar injector configmap revision.
-
-How you update these fields depends on how you have deployed Kiali.
-
-===== Operator
-
-If you are using the kiali-operator, update the Kiali CR configuration:
-
-[source,bash]
-----
-  kubectl patch kialis kiali -n kiali-operator \
-    -p '{"spec": {"external_services": {"istio": {"config_map_name": "istio-canary", "istiod_deployment_name": "istiod-canary", "istio_sidecar_injector_config_map_name": "istio-sidecar-injector-canary"}}}}' \
-    --type=merge
-----
-
-Wait until the operator restarts the Kiali Server and then verify everything is working correctly.
-
-===== Helm Chart - Kiali Server
-
-If you are using the `kiali-server` Helm Chart, set the Helm Chart values: 
-
-[source,bash]
-----
-  helm upgrade \
-    --set external_services.istio.config_map_name=istio-canary \
-    --set external_services.istio.istio_sidecar_injector_config_map_name=istio-sidecar-injector-canary \
-    --set external_services.istio.istiod_deployment_name=istiod-canary \
-    --repo https://kiali.org/helm-charts \
-    --namespace istio-system \
-    kiali-server kiali-server
-----
-
-Then restart the Kiali pod to pickup the new configmap changes.
-
-[source,bash]
-----
-  kubectl rollout restart deployments kiali -n istio-system
-----
-
-=== Updating Permissions
-
-==== Secrets Permissions
-
-For security reasons, Kiali and its operator have reduced permissions for handling secrets.
-
-For some features, like link:/documentation/staging/features/istio-component-status/#_certificates_information_indicators[Certificates Information Indicators], read permissions may be required for specific secrets in the control plane namespace.
-
-
-As the following configuration in Kiali CR indicates, the feature will require read permissions for two secrets:
-
-[source,yaml]
-----
-spec:
-  kiali_feature_flags:
-    certificates_information_indicators:
-      enabled: true
-      secrets:
-      - dns.example1-service-account
-      - dns.example2-service-account
-----
-
-These permissions can be configured in two different ways depending on how you install the operator.
-
-When installing the operator via the Helm chart, set the property `secretReader`. The Kiali operator, and subsequently Kiali, will be allowed to read secrets listed in this property.
-
-
-By default the secrets listed are:
-
-[source,yaml]
-----
-secretReader: ['cacerts', 'istio-ca-secret']
-----
-
-When installing the operator via OLM there is no way to pre-configure the operator permissions prior to its installation. The solution is to manually update the cluster role used by the operator, as follows:
-
-[source,bash]
-----
-kubectl patch $(kubectl get clusterroles -o name | grep kiali-operator) --type "json" -p '[{"op":"add","path":"/rules/0","value":{"apiGroups":[""],"resources":["secrets"],"verbs":["get"],"resourceNames":["secret-name-to-be-read"]}}]'
-----
-
-Replace `secret-name-to-be-read` with the secret name you want the operator to read.
-////
