@@ -53,7 +53,7 @@ $ helm repo update
 
 ## Installing Kiali using the Kiali operator
 
-{{% alert color="error" %}}
+{{% alert color="danger" %}}
 This installation method gives Kiali access to existing namespaces as
 well as namespaces created later. See [Namespace Management]({{< ref "/docs/configuration/namespace-management" >}}) for more information.
 {{% /alert %}}
@@ -122,7 +122,8 @@ By installing a single Kiali operator in your cluster, you can install multiple 
 If you wish to install multiple Kiali instances in the same namespace, or if you need the Kiali instance to have different resource names than the default of `kiali`, you can specify `spec.deployment.instance_name` in your Kiali CR. The value for that setting will be used to create a unique instance of Kiali using that instance name rather than the default `kiali`. One use-case for this is to be able to have unique Kiali service names across multiple Kiali instances in order to be able to use certain routers/load balancers that require unique service names.
 
 {{% alert color="warning" %}}
-Since the `spec.deployment.instance_name` field is used for the Kiali resource names, including the Service name, you must ensure the value you assign this setting follows the [Kubernetes DNS Label Name rules](https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#dns-label-names). If it does not, the operator will abort the installation. And note that because Kiali uses this as a prefix (it may append additional characters for some resource names) its length is limited to 40 characters.{{% /alert %}}
+Since the `spec.deployment.instance_name` field is used for the Kiali resource names, including the Service name, you must ensure the value you assign this setting follows the [Kubernetes DNS Label Name rules](https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#dns-label-names). If it does not, the operator will abort the installation. And note that because Kiali uses this as a prefix (it may append additional characters for some resource names) its length is limited to 40 characters.
+{{% /alert %}}
 
 ## Standalone Kiali installation
 
@@ -258,7 +259,7 @@ For example:
 $ kubectl patch kiali kiali -n istio-system -p '{"metadata":{"finalizers": []}}' --type=merge
 ```
 
-{{% alert color="error" %}}
+{{% alert color="danger" %}}
 This forces deletion of the Kiali CR and will skip uninstallation of
 the Kiali Server. Remnants of the Kiali Server may still exist in your cluster
 which you will need to manually remove.
