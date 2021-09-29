@@ -5,28 +5,19 @@ draft: false
 weight: 20
 ---
 
-:toc: macro
-:toclevels: 4
-:toc-title: In this section:
-:icons: font
-:sectlinks:
-:linkattrs:
+## Introduction
 
-toc::[]
-
-== Introduction
-
-link:https://helm.sh/[Helm] is a popular tool that lets you manage Kubernetes
+[Helm](https://helm.sh/) is a popular tool that lets you manage Kubernetes
 applications. Applications are defined in a package named _Helm chart_, which
 contains all of the resources needed to run an application.
 
 Kiali has a Helm Charts Repository at
-link:https://kiali.org/helm-charts[https://kiali.org/helm-charts]. Two Helm
+https://kiali.org/helm-charts. Two Helm
 Charts are provided:
 
-* The `kiali-operator` Helm Chart installs the Kiali operator which in turn
+- The `kiali-operator` Helm Chart installs the Kiali operator which in turn
   installs Kiali when you create a Kiali CR.
-* The `kiali-server` Helm Chart installs a standalone Kiali without the need of
+- The `kiali-server` Helm Chart installs a standalone Kiali without the need of
   the Operator nor a Kiali CR.
 
 Although the `kiali-server` Helm Chart is actively maintained, it is only
@@ -35,43 +26,43 @@ the `kiali-operator` Helm Chart to install the Operator and then creating a
 Kiali CR to let the operator deploy Kiail.
 
 Make sure you have the `helm` command available by following the
-link:https://helm.sh/docs/intro/install/[Helm installation docs].
+[Helm installation docs](https://helm.sh/docs/intro/install/).
 
-NOTE: The Kiali Helm Charts have been tested only against Helm version 3. There
-is no guarantee that previous versions will work.
+{{% alert color="warning" %}}
+The Kiali Helm Charts have been tested only against Helm version 3. There is no guarantee that previous versions will work.
+{{% /alert %}}
 
-== Adding the Kiali Helm Charts repository
+## Adding the Kiali Helm Charts repository
 
 Add the Kiali Helm Charts repository with the following command:
 
-[source,bash]
-----
+```
 $ helm repo add kiali https://kiali.org/helm-charts
-----
+```
 
-NOTE: All `helm` commands in this page assume that you added the Kiali Helm Charts repository as shown.
+{{% alert color="warning" %}}
+All `helm` commands in this page assume that you added the Kiali Helm Charts repository as shown.
+{{% /alert %}}
 
 If you already added the repository, you may want to update your local cache to
 fetch latest definitions by running:
 
-[source,bash]
-----
+```
 $ helm repo update
-----
+```
 
-[[install-with-operator]]
-== Installing Kiali using the Kiali operator
+## Installing Kiali using the Kiali operator
 
-CAUTION: This installation method gives Kiali access to existing namespaces as
-well as namespaces created later. See link:{{< ref "/docs/configuration/namespace-management" >}}[Namespace
-Management] for more information.
+{{% alert color="error" %}}
+This installation method gives Kiali access to existing namespaces as
+well as namespaces created later. See [Namespace Management]({{< ref "/docs/configuration/namespace-management" >}}) for more information.
+{{% /alert %}}
 
-Once you added the Kiali Helm Charts repository, you can install the latest
+Once you've added the Kiali Helm Charts repository, you can install the latest
 Kiali Operator along with the latest Kiali server by running the following
 command:
 
-[source,bash]
-----
+```
 $ helm install \
     --set cr.create=true \
     --set cr.namespace=istio-system \
@@ -79,7 +70,7 @@ $ helm install \
     --create-namespace \
     kiali-operator \
     kiali/kiali-operator
-----
+```
 
 The `--namespace kiali-operator` and `--create-namespace` flags instructs to
 create the `kiali-operator` namespace (if needed), and deploy the Kiali
@@ -90,13 +81,14 @@ the Kiali operator starts, it will process it to deploy Kiali.
 
 The Kiali Operator Helm Chart is configurable. Check available options and default values by running:
 
-[source,bash]
-----
+```
 $ helm show values kiali/kiali-operator
-----
+```
 
-TIP: You can pass the `--version X.Y.Z` flag to the `helm install` and `helm
+{{% alert color="success" %}}
+You can pass the `--version X.Y.Z` flag to the `helm install` and `helm
 show values` commands to work with a specific version of Kiali.
+{{% /alert %}}
 
 The `kiali-operator` Helm Chart mirrors all settings of the Kiali CR as chart
 values that you can configure using regular `--set` flags. For example, the
@@ -104,46 +96,44 @@ Kiali CR has a `spec.namespace` setting which you can configure in the
 `kiali-operator` Helm Chart by passing the `--set cr.namespace` flag as
 shown in the previous `helm install` example.
 
-For more information about the Kiali CR, see the link:{{< ref
-creating-updating-kiali-cr >}}[Creating and updating the Kiali CR page].
+For more information about the Kiali CR, see the [Creating and updating the Kiali CR page]({{< ref creating-updating-kiali-cr >}}).
 
-=== Operator-Only Install
+### Operator-Only Install
 
 To install only the Kiali Operator, omit the `--set cr.create` and
 `--set cr.namespace` flags of the helm command previously shown. For example:
 
-[source,bash]
-----
+```
 $ helm install \
     --namespace kiali-operator \
     --create-namespace \
     kiali-operator \
     kiali/kiali-operator
-----
+```
 
 This will omit creation of the Kiali CR, which you will need to link:{{< ref
 creating-updating-kiali-cr >}}[create later to install Kiali Server].  This
 option is good if you plan to do large customizations to the installation.
 
-=== Installing Multiple Instances of Kiali
+### Installing Multiple Instances of Kiali
 
 By installing a single Kiali operator in your cluster, you can install multiple instances of Kiali by simply creating multiple Kiali CRs. For example, if you have two Istio control planes in namespaces `istio-system` and `istio-system2`, you can create a Kiali CR in each of those namespaces to install a Kiali instance in each control plane.
 
 If you wish to install multiple Kiali instances in the same namespace, or if you need the Kiali instance to have different resource names than the default of `kiali`, you can specify `spec.deployment.instance_name` in your Kiali CR. The value for that setting will be used to create a unique instance of Kiali using that instance name rather than the default `kiali`. One use-case for this is to be able to have unique Kiali service names across multiple Kiali instances in order to be able to use certain routers/load balancers that require unique service names.
 
-NOTE: Since the `spec.deployment.instance_name` field is used for the Kiali resource names, including the Service name, you must ensure the value you assign this setting follows the https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#dns-label-names[Kubernetes DNS Label Name rules,window="_blank"]. If it does not, the operator will abort the installation. And note that because Kiali uses this as a prefix (it may append additional characters for some resource names) its length is limited to 40 characters.
+{{% alert color="warning" %}}
+Since the `spec.deployment.instance_name` field is used for the Kiali resource names, including the Service name, you must ensure the value you assign this setting follows the [Kubernetes DNS Label Name rules](https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#dns-label-names). If it does not, the operator will abort the installation. And note that because Kiali uses this as a prefix (it may append additional characters for some resource names) its length is limited to 40 characters.{{% /alert %}}
 
-== Standalone Kiali installation
+## Standalone Kiali installation
 
 To install the Kiali Server without the operator, use the `kiali-server` Helm Chart:
 
-[source,bash]
-----
+```
 $ helm install \
     --namespace istio-system \
     kiali-server \
     kiali/kiali-server
-----
+```
 
 The `kiali-server` Helm Chart mirrors all settings of the Kiali CR as chart
 values that you can configure using regular `--set` flags. For example, the
@@ -151,39 +141,38 @@ Kiali CR has a `spec.server.web_fqdn` setting which you can configure in the
 `kiali-server` Helm Chart by passing the `--set server.web_fqdn` flag as
 follows:
 
-[source,bash]
-----
+```
 $ helm install \
     --namespace istio-system \
     --set server.web_fqdn=example.com \
     kiali-server \
     kiali/kiali-server
-----
+```
 
-== Upgrading Helm installations
+## Upgrading Helm installations
 
 If you want to upgrade to a newer Kiali version (or downgrade to older
 versions), you can use the regular `helm upgrade` commands. For example, the
 following command should upgrade the Kiali Operator to the latest version:
 
-[source,bash]
-----
+```
 $ helm upgrade \
     --namespace kiali-operator \
     --reuse-values \
     kiali-operator \
     kiali/kiali-operator
-----
+```
 
 WARNING: No migration paths are provided. However, Kiali is a stateless
 application and if the `helm upgrade` command fails, please uninstall the
 previous version and then install the new desired version.
 
-TIP: By upgrading the Kiali Operator, existent Kiali Server installations
+{{% alert color="success" %}}
+By upgrading the Kiali Operator, existent Kiali Server installations
 managed with a Kiali CR will also be upgraded once the updated operator starts.
+{{% /alert %}}
 
-[[managing-installation-config]]
-== Managing configuration of Helm installations
+## Managing configuration of Helm installations
 
 After installing either the `kiali-operator` or the `kiali-server` Helm Charts,
 you may be tempted to manually modify the created resources to modify the
@@ -192,20 +181,18 @@ installation.
 
 For example, assuming you have the following installation:
 
-[source,bash]
-----
+```
 $ helm list -n kiali-operator
 NAME            NAMESPACE       REVISION        UPDATED                                 STATUS          CHART                   APP VERSION
 kiali-operator  kiali-operator  1               2021-09-14 18:00:45.320351026 -0500 CDT deployed        kiali-operator-1.40.0   v1.40.0
-----
+```
 
 Notice that the current installation is version `1.40.0` of the
 `kiali-operator`.  Let's assume you want to use your own mirrors of the Kiali
 Operator container images. You can update your installation with the following
 command:
 
-[source,bash]
-----
+```
 $ helm upgrade \
     --namespace kiali-operator \
     --reuse-values \
@@ -214,28 +201,31 @@ $ helm upgrade \
     --version 1.40.0 \
     kiali-operator \
     kiali/kiali-operator
-----
+```
 
-IMPORTANT: Make sure that you specify the `--reuse-values` flag to take the
+{{% alert color="warning" %}}
+Make sure that you specify the `--reuse-values` flag to take the
 configuration of your current installation. Then, you only need to specify the
 new settings you want to change using `--set` flags.
+{{% /alert %}}
 
-IMPORTANT: Make sure that you specify the `--version X.Y.Z` flag with the
+{{% alert color="warning" %}}
+Make sure that you specify the `--version X.Y.Z` flag with the
 version of your current installation. Otherwise, you may end up upgrading to a
 new version.
+{{% /alert %}}
 
-== Uninstalling
+## Uninstalling
 
-=== Removing the Kiali operator and managed Kialis
+### Removing the Kiali operator and managed Kialis
 
 If you used the `kiali-operator` Helm chart, first you must ensure that all
 Kiali CRs are deleted. For example, the following command will agressively
 delete all Kiali CRs in your cluster:
 
-[source,bash]
-----
+```
 $ kubectl delete kiali --all --all-namespaces
-----
+```
 
 The previous command may take some time to finish while the Kiali operator
 removes all Kiali installations.
@@ -243,41 +233,42 @@ removes all Kiali installations.
 Then, remove the Kiali operator using a standard `helm uninstall` command. For
 example:
 
-[source,bash]
-----
+```
 $ helm uninstall --namespace kiali-operator kiali-operator
 $ kubectl delete crd kialis.kiali.io
-----
+```
 
-NOTE: You have to manually delete the `kialis.kiali.io` CRD because
-link:https://helm.sh/docs/topics/charts/#limitations-on-crds[Helm won't delete
-it.]
+{{% alert color="warning" %}}
+You have to manually delete the `kialis.kiali.io` CRD because
+[Helm won't delete it.](https://helm.sh/docs/topics/charts/#limitations-on-crds)
+{{% /alert %}}
 
-WARNING: If you fail to delete the Kiali CRs before uninstalling the operator,
+{{% alert color="warning" %}}
+If you fail to delete the Kiali CRs before uninstalling the operator,
 a proper cleanup may not be done.
+{{% /alert %}}
 
-
-==== Known problem: uninstall hangs (unable to delete the Kiali CR)
+#### Known problem: uninstall hangs (unable to delete the Kiali CR)
 
 Typically this happens if not all Kiali CRs are deleted prior to uninstalling
 the operator. To force deletion of a Kiali CR, you need to clear its finalizer.
 For example:
 
-[source,bash]
-----
+```
 $ kubectl patch kiali kiali -n istio-system -p '{"metadata":{"finalizers": []}}' --type=merge
-----
+```
 
-CAUTION: This forces deletion of the Kiali CR and will skip uninstallation of
+{{% alert color="error" %}}
+This forces deletion of the Kiali CR and will skip uninstallation of
 the Kiali Server. Remnants of the Kiali Server may still exist in your cluster
 which you will need to manually remove.
+{{% /alert %}}
 
-=== Removing standalone Kiali
+### Removing standalone Kiali
 
 If you installed a standalone Kiali by using the `kiali-server` Helm chart, use
 the standard `helm uninstall` commands. For example:
 
-[source,bash]
-----
+```
 $ helm uninstall --namespace istio-system kiali-server
-----
+```
