@@ -19,7 +19,7 @@ A communication endpoint is a type of communication network node. It is an inter
 
 ### Error Rate
 
-It's the percentage of errors in the traffic to a specific object for a [Rate Interval]({{< relref "#rate-interval" >}}).
+It's the percentage of errors in the traffic to a specific object for a [Rate Interval](#rate-interval).
 
 ### Gateway
 

@@ -7,11 +7,11 @@ weight: 1
 
 ### Application
 
-Is a logical grouping of [Workload]({{< relref "#workload" >}})s defined by the application labels that users apply to an object. In Istio it is defined by the [Label App]({{< relref "#label-app" >}}). [Istio Label Requirements](link:https://istio.io/docs/setup/kubernetes/spec-requirements/).
+Is a logical grouping of [Workload](#workload")s defined by the application labels that users apply to an object. In Istio it is defined by the [Label App](#label-app"). [Istio Label Requirements](link:https://istio.io/docs/setup/kubernetes/spec-requirements/).
 
 ### Application Name
 
-It's the name of the [Application]({{< relref "#application" >}}) deployed in your environment. This name is provided by the [Label App]({{< relref "#label-app" >}}) on the [Workload]({{< relref "#workload" >}}).
+It's the name of the [Application](#application) deployed in your environment. This name is provided by the [Label App](#label-app) on the [Workload](#workload).
 
 ### Deployment
 
@@ -19,11 +19,11 @@ A deployment is a replication controller based on a user defined template called
 
 ### Istio object/configuration Type
 
-This is the type specified in the Istio Config. This could be any of the following types: Gateway, [Virtual Service]({{< relref "#virtual-service" >}}), DestinationRule, ServiceEntry, Rule, Quota or QuotaSpecBinding.
+This is the type specified in the Istio Config. This could be any of the following types: Gateway, [Virtual Service](#virtual-service), DestinationRule, ServiceEntry, Rule, Quota or QuotaSpecBinding.
 
 ### Istio Sidecar
 
-For more information see the [Istio Sidecar]({{< relref "#istio-sidecar" >}}) definition in [Istio Sidecar Documentation](link:https://istio.io/v1.5/docs/reference/commands/sidecar-injector/).
+For more information see the Istio Sidecar definition in [Istio Sidecar Documentation](link:https://istio.io/v1.5/docs/reference/commands/sidecar-injector/).
 
 ### Label
 
@@ -33,7 +33,7 @@ An empty [label selector](link:https://kubernetes.io/docs/concepts/overview/work
 
 A null [label selector](link:https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) (which is only possible for optional selector fields) selects no objects.
 
-For example, Istio uses the [Label App]({{< relref "#label-app" >}}) & [Label Version]({{< relref "#label-version" >}}) on a [Workload]({{< relref "#workload" >}}) to specify the version and the application.
+For example, Istio uses the [Label App](#label-app) & [Label Version](#label-version) on a [Workload](#workload) to specify the version and the application.
 
 ### Label App
 
@@ -59,20 +59,17 @@ Ensures that a specified number of pod replicas are running at any one time.
 
 ### Service
 
-A [Service]({{< relref "#service" >}}) is an abstraction which defines a logical set of Pods and a policy by which to access them.  A Service is determined by a [Label]({{< relref "#label" >}}).
+A Service is an abstraction which defines a logical set of Pods and a policy by which to access them.  A Service is determined by a [Label](#label).
 
 ### Service Entry
 
-For more information see the [Service Entry]({{< relref "#service-entry" >}}) definition in [Istio Service Entry Documentation](link:https://istio.io/docs/reference/config/networking/service-entry).
+For more information see the Service Entry definition in [Istio Service Entry Documentation](link:https://istio.io/docs/reference/config/networking/service-entry).
 
 ### VirtualService
 
-For more information see the [Virtual Service]({{< relref "#virtual-service" >}}) definition in [Istio VirtualService Documentation](link:https://istio.io/docs/reference/config/networking/virtual-service).
+For more information see the Virtual Service definition in [Istio VirtualService Documentation](link:https://istio.io/docs/reference/config/networking/virtual-service).
 
 ### Workload
 
 For more information see the [Istio Workload definition](link:https://istio.io/help/glossary/#workload).
 
-### Workload Type
-
-It's the type of the [Workload]({{< relref "#workload" >}}), Kiali currently supports the [Deployment]({{< relref "#deployment" >}}) type.

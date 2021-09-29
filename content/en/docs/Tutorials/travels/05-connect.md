@@ -224,7 +224,7 @@ As part of this step you can update the Fault Injection scenario to test differe
 
 ## Traffic Shifting
 
-In the previous [Request Routing]({{< relref "#request-routing" >}}) step we have deployed two new versions of the *travels* service using the *travels-v2* and *travels-v3* workloads.
+In the previous [Request Routing](#request-routing) step we have deployed two new versions of the *travels* service using the *travels-v2* and *travels-v3* workloads.
 
 That scenario showed how Istio can route specific requests to specific workloads. It was configured such that each portal deployed in the *travel-portal* namespace (*travels.uk*, *viaggi.it* and *voyages.fr*) were routed to a specific *travels* workload (*travels-v1*, *travels-v2* and *travels-v3*).
 
@@ -360,7 +360,7 @@ As part of this step you can update the TCP Traffic Shifting scenario to test a 
 
 ## Request Timeouts
 
-In the [Fault Injection]({{< relref "#fault-injection" >}}) step we showed how we could introduce a delay in the critical *hotels* service and test the resilience of the application.
+In the [Fault Injection](#fault-injection) step we showed how we could introduce a delay in the critical *hotels* service and test the resilience of the application.
 
 The delay was propagated across services and Kiali showed how services accepted the delay without creating errors on the system.
 
@@ -372,7 +372,7 @@ This step will show how to add a request timeout for one of the portals deployed
 Use the Fault Injection Wizard on *hotels* service to inject a delay
 {{% /alert %}}
 
-Repeat the [Fault Injection]({{< relref "#fault-injection" >}}) step to add delay on *hotels* service.
+Repeat the [Fault Injection](#fault-injection) step to add delay on *hotels* service.
 
 {{% alert title="Step 2" color="success" %}}
 Use the Request Routing Wizard on *travels* service to add a route rule with delay for *voyages.fr*
@@ -542,8 +542,8 @@ Understanding what happened:
 
 This tutorial has shown several scenarios where Istio can route traffic to different versions in order to compare versions and evaluate which one works best.
 
-The [Traffic Shifting]({{< relref "#traffic-shifting" >}}) step was focused on *travels* service adding a new *travels-v2* and *travels-v3* workloads
-and the [TCP Traffic Shifting]({{< relref "#tcp-traffic-shifting" >}}) showed how this scenario can be used on TCP services like *mysqldb* service.
+The [Traffic Shifting](#traffic-shifting) step was focused on *travels* service adding a new *travels-v2* and *travels-v3* workloads
+and the [TCP Traffic Shifting](#tcp-traffic-shifting) showed how this scenario can be used on TCP services like *mysqldb* service.
 
 Mirroring (or shadowing) is a particular case of the Traffic Shifting scenario where the proxy sends a copy of live traffic to a mirrored service.
 
