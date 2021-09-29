@@ -52,4 +52,4 @@ The following is an example of viewing the default case:
 
 Note that displaying this configuration requires permissions to read secrets (*istio-ca-secret* by default, possibly *cacerts* or any secret configured when using DNS certificates).
 
-Having this permissions may concern users. For this reason, this feature is implemented as a feature flag and not only can be disabled, avoiding any extra permissions to read secrets, but also a list of secrets can be configured to explicitly grant read permissions for some secrets in the control plane namespace. For more information, check the link:/documentation/staging/installation-guide/#_secrets_permissions[secret permissions] section.
+Having this permissions may concern users. For this reason, this feature is implemented as a feature flag and not only can be disabled, avoiding any extra permissions to read secrets, but also a list of secrets can be configured to explicitly grant read permissions for some secrets in the control plane namespace. For more information, check the link:/documentation/v1.40/installation-guide/#_secrets_permissions[secret permissions] section.
