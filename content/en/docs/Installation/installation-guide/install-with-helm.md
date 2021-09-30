@@ -51,7 +51,7 @@ fetch latest definitions by running:
 $ helm repo update
 ```
 
-## Installing Kiali using the Kiali operator
+## Installing Kiali using the Kiali operator {#install-with-operator}
 
 {{% alert color="danger" %}}
 This installation method gives Kiali access to existing namespaces as

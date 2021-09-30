@@ -5,15 +5,7 @@ draft: false
 weight: 9
 ---
 
-:toc: macro
-:toc-title: In this section:
-:keywords: authentication openshift
-:icons: font
-:sectlinks:
-
-toc::[]
-
-== Introduction
+## Introduction
 
 The `openshift` authentication strategy is the preferred and default strategy
 when Kiali is deployed on an OpenShift cluster.
@@ -24,21 +16,20 @@ his OpenShift credentials, he will be redireted back to Kiali and will be
 logged in if the user has enough privileges.
 
 The `openshift` strategy takes advantage of the cluster's RBAC. See the
-link:{{< relref "../rbac" >}}[Role-based access control documentation] for more
+[Role-based access control documentation]({{< relref "../rbac" >}}) for more
 details.
 
-== Set-up
+## Set-up
 
 Since `openshift` is the default strategy when deploying Kiali in OpenShift,
 you shouldn't need to configure anything. If you want to be verbose, use the
 following configuration in the Kiali CR:
 
-[source,yaml]
-----
+```
 spec:
   auth:
     strategy: openshift
-----
+```
 
 The `openshift` strategy doesn't have any additional configuration. The Kiali
 operator will make sure to setup the needed OpenShift OAuth resources to register

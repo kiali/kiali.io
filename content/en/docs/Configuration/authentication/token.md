@@ -5,36 +5,26 @@ draft: false
 weight: 9
 ---
 
-:toc: macro
-:toc-title: In this section:
-:keywords: authentication token
-:icons: font
-:sectlinks:
-
-toc::[]
-
-== Introduction
+## Introduction
 
 The `token` authentication strategy allows a user to login to Kiali using the
 token of a Kubernetes ServiceAccount. This is similar to the
-link:https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/README.md#login-view[login
-view of Kubernetes Dashboard].
+[login view of Kubernetes Dashboard](https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/README.md#login-view).
 
-The `token` strategy takes advantage of the cluster's RBAC. See the link:{{<
-relref "../rbac" >}}[Role-based access control documentation] for more details.
+The `token` strategy takes advantage of the cluster's RBAC. See the [Role-based access control documentation]({{< relref "../rbac" >}})
+for more details.
 
-== Set-up
+## Set-up
 
 Since `token` is the default strategy when deploying Kiali in Kubernetes, you
 shouldn't need to configure anything, unless your cluster is OpenShift. If you
 want to be verbose or if you need to enable the `token` strategy in OpenShift,
 use the following configuration in the Kiali CR:
 
-[source,yaml]
-----
+```
 spec:
   auth:
     strategy: token
-----
+```
 
 The `token` strategy doesn't have any additional configuration.
