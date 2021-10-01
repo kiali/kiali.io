@@ -1,0 +1,15 @@
+---
+title: "Istio Component Status"
+date: 2020-10-26T18:04:38+02:00
+draft: false
+weight: 7
+layout: faq
+---
+
+:linkattrs:
+:toc: macro
+:toc-title: Kiali Known Issues FAQ
+:toclevels: 4
+:keywords: Kiali Known Issues
+:icons: font
+:imagesdir: /images/faq/istio-component-status/

@@ -1,0 +1,63 @@
+---
+title: Enable Sidecars in all workloads
+weight: 40
+---
+:icons: font
+:sectlinks:
+:linkattrs:
+
+An Istio sidecar proxy adds a workload into the mesh.
+
+Proxies connect with the control plane and provide https://istio.io/latest/about/service-mesh/#what-is-istio[Service Mesh functionality, window="_blank"].
+
+Automatically providing metrics, logs and traces is a major feature of the sidecar.
+
+In the previous steps we have added a sidecar only in the *travel-control* namespace's *control* workload.
+
+We have added new powerful features but the application is still missing visibility from other workloads.
+
+NOTE: *Step 1:* Switch to the Workload graph and select multiple namespaces to identify missing sidecars in the Travel Demo application
+++++
+<a class="image-popup-fit-height" href="/images/tutorial/04-01-missing-sidecars.png" title="Missing Sidecars">
+    <img src="/images/tutorial/04-01-missing-sidecars.png" style="display:block;margin: 0 auto;" />
+</a>
+++++
+
+{nbsp} +
+That *control* workload provides good visibility of its traffic, but telemetry is partially enabled, as *travel-portal* and *travel-agency* workloads don't have sidecar proxies.
+
+NOTE: *Step 2:* Enable proxy injection in *travel-portal* and *travel-agency* namespaces
+
+In the First Steps of this tutorial we didn't inject the sidecar proxies on purpose to show a scenario where only some workloads may have sidecars.
+
+Typically, Istio users annotate namespaces before the deployment to allow Istio to automatically add the sidecar when the application is rolled out into the cluster. Perform
+the following commands:
+
+[source,bash]
+----
+kubectl label namespace travel-agency istio-injection=enabled
+kubectl label namespace travel-portal istio-injection=enabled
+
+kubectl delete -f <(curl -L https://raw.githubusercontent.com/kiali/demos/master/travels/travel_agency.yaml) -n travel-agency
+kubectl delete -f <(curl -L https://raw.githubusercontent.com/kiali/demos/master/travels/travel_portal.yaml) -n travel-portal
+
+// Wait until all services, deployments and pods are deleted from the travel-agency and travel-portal namespaces
+
+kubectl apply -f <(curl -L https://raw.githubusercontent.com/kiali/demos/master/travels/travel_agency.yaml) -n travel-agency
+kubectl apply -f <(curl -L https://raw.githubusercontent.com/kiali/demos/master/travels/travel_portal.yaml) -n travel-portal
+----
+
+{nbsp} +
+Verify that *travel-control*, *travel-portal* and *travel-agency* workloads have sidecars deployed:
+++++
+<a class="image-popup-fit-height" href="/images/tutorial/04-01-updated-workloads.png" title="Updated Workloads">
+    <img src="/images/tutorial/04-01-updated-workloads.png" style="display:block;margin: 0 auto;" />
+</a>
+++++
+
+NOTE: *Step 3:* Verify updated telemetry for *travel-portal* and *travel-agency* namespaces
+++++
+<a class="image-popup-fit-height" href="/images/tutorial/04-01-updated-telemetry.png" title="Updated Telemetry">
+    <img src="/images/tutorial/04-01-updated-telemetry.png" style="display:block;margin: 0 auto;" />
+</a>
+++++

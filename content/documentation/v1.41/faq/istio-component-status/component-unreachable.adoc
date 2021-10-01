@@ -1,0 +1,28 @@
+---
+title: One component is 'Unreachable' but I can see it running. What can I do?
+weight: 2
+---
+:icons: font
+
+Kiali considers one component as `Unreachable` when the component responds to a GET request with a 4xx or 5xx response code.
+
+The URL where Kiali sends a GET request to is the same as it is used for the component consumption. However, Kiali allows you to set a specific URL for health check purposes: the `health_check_url` setting.
+
+In this example, Kiali uses the Prometheus `url` for both metrics consumption and health checks.
+[source,yaml]
+----
+external_services:
+  prometheus:
+    url: "http://prometheus.istio-system:9090"
+----
+
+In case that the `prometheus.url` endpoint doesn't return 2XX/3XX to GET requests, you can use the following settings to specify which health check URL Kiali should use:
+[source,yaml]
+----
+external_services:
+  prometheus:
+    health_check_url: "http://prometheus.istio-system:9090/healthz"
+    url: "http://prometheus.istio-system:9090"
+----
+
+Please check the https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml[Kiali CR] for more information. Each external service component has its own `health_check_url` and `is_core` setting to tailor the experience in the Istio Component Status feature.
