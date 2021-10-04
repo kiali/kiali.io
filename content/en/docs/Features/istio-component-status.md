@@ -5,24 +5,10 @@ draft: false
 weight: 9
 ---
 
-:sectnums:
-:sectlinks:
-:linkattrs:
-:toc: left
-:toclevels: 2
-toc::[]
-:toc-title: Istio Status
-:keywords: Kiali Documentation
-:icons: font
-:imagesdir: /images/documentation/overview/
-
-:numbered!:
-
-== Istio Component Status
+## Istio Component Status
 
 The Istio service mesh architecture is comprised of several components, from istiod to Jaeger. Each component must work as expected for the mesh to work well overall. Kiali regularly checks the status of each Istio component to ensure the mesh is healthy.
 
-++++
 <div style="display: flex;">
  <span style="margin: 0 auto;">
   <a class="image-popup-fit-height" href="/images/documentation/features/istio-components-1.24.png" title="Istio components status: components not healthy or found">
@@ -30,7 +16,6 @@ The Istio service mesh architecture is comprised of several components, from ist
   </a>
  </span>
 </div>
-++++
 
 A component *status* will be one of: `Not found`, `Unreachable`, `Not healthy` and `Healthy`. The `Not found` status means that Kiali is not able to find the deployment. The `Unreachable` status means that Kiali hasn't been succesfuly able to communicate with the component (Prometheus, Grafana and Jaeger). The `Not healthy` status means that the deployment doesn't have the desired amount of replicas running. The `Healthy` status is when the component is not in the previous ones, plus, healthy components won't be shown in the list.
 
@@ -38,7 +23,7 @@ Regarding the *severity* of each component, there are only to options: `core` or
 
 By default, Kiali checks the following components installed in the control plane namespace: istiod, ingress, egress; and prometheus, grafana and jaeger accessible thought their services.
 
-== Certificates Information Indicators
+## Certificates Information Indicators
 
 In some situations, it would be useful to get information about the certificates used by internal mTLS, for example:
 
@@ -53,7 +38,6 @@ The certificates shown depends on how Istio is configured. The following cases a
 
 The following is an example of viewing the default case:
 
-++++
 <div style="display: flex;">
  <span style="margin: 0 auto;">
   <a class="image-popup-fit-height" href="/images/documentation/features/certificates-information-indicators.png" title="Certificates information">
@@ -61,14 +45,12 @@ The following is an example of viewing the default case:
   </a>
  </span>
 </div>
-++++
 
 Note that displaying this configuration requires permissions to read secrets (*istio-ca-secret* by default, possibly *cacerts* or any secret configured when using DNS certificates).
 
 Having these permissions may concern users. For this reason, this feature is implemented as a feature flag and not only can be disabled, avoiding any extra permissions to read secrets, but also a list of secrets can be configured to explicitly grant read permissions for some secrets in the control plane namespace. By default, this feature is enabled with a Kiali CR configuration equivalent to the following:
 
-[source,yaml]
-----
+```yaml
 spec:
   kiali_feature_flags:
     certificates_information_indicators:
@@ -76,27 +58,25 @@ spec:
       secrets:
       - cacerts
       - istio-ca-secret
-----
+```
 
 You can extend this default configuration with additional secrets, remove secrets you don't want, or disable the feature.
 
 If you add additional secrets, the Kiali operator _also_ needs the same privileges in order to configure Kiali successfully. If you used the [Helm Charts]({{< ref "/docs/installation/installation-guide/install-with-helm" >}}) to install the operator, specify the `secretReader` value with the required secrets:
 
-[source,bash]
-----
+```bash
 $ helm install \
     --namespace kiali-operator \
     --create-namespace \
     --set "secretReader={cacerts,istio-ca-secret}"
     kiali-operator \
     kiali/kiali-operator
-----
+```
 
 If you installed the operator via the [OperatorHub]({{< ref "/docs/installation/installation-guide/installing-with-operatorhub" >}}) you need to update the operator privileges as a post-installation step, as follows:
 
-[source,bash]
-----
+```bash
 $ kubectl patch $(kubectl get clusterroles -o name | grep kiali-operator) --type "json" -p '[{"op":"add","path":"/rules/0","value":{"apiGroups":[""],"resources":["secrets"],"verbs":["get"],"resourceNames":["secret-name-to-be-read"]}}]'
-----
+```
 
 Replace `secret-name-to-be-read` with the secret name you want the operator to read and restart the Kiali operator pod after running the previous command.
