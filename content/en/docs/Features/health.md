@@ -5,82 +5,54 @@ draft: false
 weight: 2
 ---
 
-:sectnums:
-:sectlinks:
-:linkattrs:
-:toc: left
-:toclevels: 2
-toc::[]
-:toc-title: Health
-:keywords: Kiali Documentation
-:icons: font
-:imagesdir: /images/documentation/overview/
+## Health
 
-:numbered!:
-
-== Health
 Colors in the graph represent the health of your service mesh. A node colored red or orange might need attention. The color of an edge between components represents the health of the requests between those components. The node shape indicates the type of component such as services, workloads, or apps.
 
 The health of nodes and edges is refreshed automatically based on the user's preference. The graph can also be paused to examine a particular state, or replayed to re-examine a particular time period.
-++++
+
 <a class="image-popup-fit-height" href="/images/documentation/features/graph-health-v1.22.0.png" title="Visualize the health of your mesh">
     <img src="/images/documentation/features/graph-health-thumb-v1.22.0.png" style="display:block;margin: 0 auto;" />
 </a>
-++++
+</br>
 
-{empty} +
-
-== Health Configuration
+## Health Configuration
 
 Kiali calculates health by combining the individual health of several indicators, such as pods and request traffic.  The _global health_ of a resource reflects the most severe health of its indicators.
 
-=== Health Indicators
+### Health Indicators
 
 The table below lists the current health indicators and whether the indicator supports custom configuration for its health calculation.
 
-++++
-<div style="display: flex;">
-    <table style="width: 100%; border: 1px solid black">
-      <tr style="width: 100%; border: 1px solid black">
-        <th>Indicator</th>
-        <th>Supports Configuration</th>
-      </tr>
-      <tr style="width: 100%; border: 1px solid black">
-        <td>Pod Status</td><td>No</td>
-      </tr>
-      <tr style="width: 100%; border: 1px solid black">
-        <td>Traffic Health</td><td>Yes</td>
-      </tr>
-    </table>
-</div>
-++++
+|Indicator        |Supports Configuration   |
+|-----------------|---|
+|Pod Status       |No   |
+|Traffic Health   |Yes  |
 
-=== Icons and colors
+### Icons and colors
 
 Kiali use icons and colors to indicate the health of resources and associated request traffic.
 
-++++
 <div style="display: flex;">
-<ul>
-<li>
- <img src="/images/documentation/health-configuration/no_health.png" style="width: 40px;height: 40px" /> No Health Information (NA)
-</li>
-<li>
- <img src="/images/documentation/health-configuration/healthy.png" style="width: 40px;height: 40px" /> Healthy
-</li>
-<li>
- <img src="/images/documentation/health-configuration/degraded.png" style="width: 40px;height: 40px" /> Degraded
-</li>
-<li>
- <img src="/images/documentation/health-configuration/failure.png" style="width: 40px;height: 40px" /> Failure
-</li>
-</ul>
-  </div>
-++++
+  <ul>
+    <li>
+      <img src="/images/documentation/health-configuration/no_health.png" style="width: 40px;height: 40px" /> No Health Information (NA)
+    </li>
+    <li>
+      <img src="/images/documentation/health-configuration/healthy.png" style="width: 40px;height: 40px" /> Healthy
+    </li>
+    <li>
+      <img src="/images/documentation/health-configuration/degraded.png" style="width: 40px;height: 40px" /> Degraded
+    </li>
+    <li>
+      <img src="/images/documentation/health-configuration/failure.png" style="width: 40px;height: 40px" /> Failure
+    </li>
+  </ul>
+</div>
 
-=== Default Values
+### Default Values
 
-==== Request Traffic
+#### Request Traffic
 
 By default Kiali uses the traffic rate configuration shown below.  Application errors have minimal tolerance while client errors have a higher tolerance reflecting that some level of client errors is often normal (e.g. 404 Not Found):
 
@@ -115,72 +87,68 @@ So, for example, if the rate of application errors is >= 0.1% kiali will show `D
 # ...
 ```
 
-=== Configuration
+### Configuration
 
-Custom health configuration is specified in the Kiali CR. To see the supported configuration syntax for `health_config` visit link:https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml[Kiali CR].
+Custom health configuration is specified in the Kiali CR. To see the supported configuration syntax for `health_config` visit [Kiali CR](https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml).
 
 Kiali applies *the first matching rate configuration (namespace, kind, etc)* and calculates the status for each tolerance. The reported health will be the status with highest priority (see below).
 
-
-++++
-<table style="width: 100%; border: 1px solid black">
-<tr style="width: 100%; border: 1px solid black"><th>Rate Option</th><th>Definition</th><th>Default</th>
-<tr style="width: 100%; border: 1px solid black">
-<td>namespace</td><td>Matching Namespaces (regex)</td><td>".*" (match all)</td>
-</tr>
-<tr style="width: 100%; border: 1px solid black">
-<td>kind</td><td>Matching Resource Types (workload|app|service) (regex)</td><td>".*" (match all)</td>
-</tr>
-<tr style="width: 100%; border: 1px solid black">
-<td>name</td><td>Matching Resource Names (regex)</td><td>".*" (match all)</td>
+<table>
+<tr>
+  <th style="width: 150px">Rate Option</th><th>Definition</th><th>Default</th>
+<tr>
+  <td>namespace</td><td>Matching Namespaces (regex)</td><td>.* (match all)</td>
 </tr>
 <tr>
-<td rowspan="2">Tolerance</td><td colspan="2">Array of tolerances to apply.</td>
+  <td>kind</td><td>Matching Resource Types (workload|app|service) (regex)</td><td>.* (match all)</td>
 </tr>
 <tr>
-<td colspan="2">
- <table style="width: 100%; border: 1px solid black" >
-    <tr style="width: 100%; border: 1px solid black">
+  <td>name</td><td>Matching Resource Names (regex)</td><td>.* (match all)</td>
+</tr>
+<tr>
+  <td>Tolerance</td><td>Array of tolerances to apply.</td>
+</tr>
+<tr>
+    <table style="margin-left:40px">
+      <tr>
         <th>Tolerance Option</th>
         <th>Definition</th>
         <th>Default</th>
-    </tr>
-    <tr>
-      <td>code</td>
-      <td>Matching Response Status Codes (regex) [1]</td>
-      <td><strong>required</strong></td>
-    </tr>
-    <tr>
-      <td>direction</td>
-      <td>Matching Request Directions (inbound|outbound) (regex)</td>
-      <td>".*" (match all)</td>
-    </tr>
-    <tr>
-      <td>protocol</td>
-      <td>Matching Request Protocols (http|grpc) (regex)</td>
-      <td>".*" (match all)</td>
-    </tr>
-    <tr>
-      <td>degraded</td>
-      <td>Degraded Threshold(% matching requests >= value)</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <td>failure</td>
-      <td>Failure Threshold (% matching requests >= value)</td>
-      <td>0</td>
-    </tr>
- </table>
-</td>
+      </tr>
+      <tr>
+        <td>code</td>
+        <td>Matching Response Status Codes (regex) [1]</td>
+        <td><strong>required</strong></td>
+      </tr>
+      <tr>
+        <td>direction</td>
+        <td>Matching Request Directions (inbound|outbound) (regex)</td>
+        <td>.* (match all)</td>
+      </tr>
+      <tr>
+        <td>protocol</td>
+        <td>Matching Request Protocols (http|grpc) (regex)</td>
+        <td>.* (match all)</td>
+      </tr>
+      <tr>
+        <td>degraded</td>
+        <td>Degraded Threshold(% matching requests >= value)</td>
+        <td>0</td>
+      </tr>
+      <tr>
+        <td>failure</td>
+        <td>Failure Threshold (% matching requests >= value)</td>
+        <td>0</td>
+      </tr>
+    </table>
 </tr>
 </table>
-++++
+
 _[1] The status code typically depends on the request protocol. The special code **-**, a single dash, is used for requests that don't receive a response, and therefore no response code._
 
 Kiali reports traffic health with the following top-down status priority :
 
-++++
- <table style="width: 100%; border: 1px solid black" >
+ <table>
     <tr>
         <th>Priority</th>
         <th>Rule (value=% matching requests)</th>
@@ -213,15 +181,14 @@ Kiali reports traffic health with the following top-down status priority :
     </tr>
 
  </table>
-++++
 
-== Examples
+## Examples
 
 These examples use the repo _https://github.com/kiali/demos/tree/master/error-rates_.
 
-In this repo we can see 2 namespaces: alpha and beta (link:https://github.com/kiali/demos/tree/master/error-rates#error-rates-demo-design[Demo design]).
-++++
-<table style="width: 100%">
+In this repo we can see 2 namespaces: alpha and beta ([Demo design](https://github.com/kiali/demos/tree/master/error-rates#error-rates-demo-design)).
+
+<table>
 <tr style="text-align: center">
 <td>Alpha</td>
 </tr>
@@ -231,56 +198,24 @@ In this repo we can see 2 namespaces: alpha and beta (link:https://github.com/ki
 </td>
 </tr>
 </table>
-++++
 
-Where nodes return the responses (You can configure responses link:https://github.com/kiali/demos/tree/master/error-rates#configurable-error-rates[here] ):
 
-- link:https://github.com/kiali/demos/blob/master/error-rates/alpha.yaml[Alpha deployment]
-- link:https://github.com/kiali/demos/blob/master/error-rates/beta.yaml[Beta deployment]
+Where nodes return the responses (You can configure responses [here](https://github.com/kiali/demos/tree/master/error-rates#configurable-error-rates)):
 
-++++
-<table style="width: 100%; border: 1px solid black">
-<tr style="text-align: center; border: 1px solid black; background-color: #F0F0F0">
-<td style="border: 1px solid black" rowspan="2">App</td><td style="border: 1px solid black" colspan="2">Alpha/Beta</td>
-</tr>
-<tr style="text-align: center; background-color: #F0F0F0">
-<td style="text-align: center; border: 1px solid black"> Code </td>
-<td style="text-align: center; border: 1px solid black"> Rate </td>
-</tr>
-<tr>
-    <td style="text-align: center; border: 1px solid black" rowspan="2"> x-server</td>
-    <td style="text-align: center; border: 1px solid black"> 200</td>
-    <td style="text-align: center; border: 1px solid black"> 9</td>
-</tr>
-<tr>
-    <td style="text-align: center; border: 1px solid black"> 404</td>
-    <td style="text-align: center; border: 1px solid black"> 1  </td>
-</tr>
-<tr>
-    <td style="text-align: center; border: 1px solid black" rowspan="2"> y-server</td>
-    <td style="text-align: center; border: 1px solid black"> 200</td>
-    <td style="text-align: center; border: 1px solid black"> 9</td>
-</tr>
-<tr>
-    <td style="text-align: center; border: 1px solid black"> 500</td>
-    <td style="text-align: center; border: 1px solid black"> 1</td>
-</tr>
-<tr>
-    <td style="text-align: center; border: 1px solid black" rowspan="3"> z-server</td>
-    <td style="text-align: center; border: 1px solid black"> 200</td>
-    <td style="text-align: center; border: 1px solid black"> 8</td>
-</tr>
-<tr>
-    <td style="text-align: center; border: 1px solid black"> 201</td>
-    <td style="text-align: center; border: 1px solid black"> 1</td>
-</tr>
-<tr>
-    <td style="text-align: center; border: 1px solid black"> 202</td>
-    <td style="text-align: center; border: 1px solid black"> 1</td>
-</tr>
-</table>
-++++
+- [Alpha deployment](https://github.com/kiali/demos/blob/master/error-rates/alpha.yaml)
+- [Beta deployment](https://github.com/kiali/demos/blob/master/error-rates/beta.yaml)
 
+|App (alpha/beta)  |Code  |Rate   |
+|------------------|------|-------|
+|x-server          |200   |9   |
+|x-server          |404   |1   |
+|y-server          |200   |9   |
+|y-server          |500   |1   |
+|z-server          |200   |8   |
+|z-server          |201   |1   |
+|z-server          |201   |1   |
+
+<br/>
 The applied traffic rate configuration is:
 
 ```yaml
@@ -400,11 +335,8 @@ What are we applying?
 - Protocol http if % requests with error code 5xx are >= 20 then FAILURE, if they are >= 0.1 then DEGRADED
 - Protocol grpc if % requests with error code match /^[1-9]$|^1[0-6]$/ are >= 20 then FAILURE, if they are >= 0.1 then DEGRADED
 
-
-
-++++
- <table style="width: 100%; border: 1px solid black" >
-    <tr style="text-align: center;width: 100%; border: 1px solid black">
+ <table >
+    <tr style="text-align: center">
         <td> Alpha </td>
         <td> Beta </td>
     </tr>
@@ -413,4 +345,4 @@ What are we applying?
       <td><img src="/images/documentation/health-configuration/beta.png" style="width: 100%;height: 800px" /></td>
     </tr>
  </table>
-++++
+
