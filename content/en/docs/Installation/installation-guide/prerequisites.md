@@ -46,7 +46,7 @@ If you are running Red Hat OpenShift Service Mesh (RH OSSM), use only the bundle
 |n/a   |1.0   |n/a    |Service mesh control plane 1.0 is out of support.   |
 
 
-## Browser Version Requirements
+## Browser Version Requirements {#supported-browsers}
 
 Kiali requires a modern web browser and supports the last two versions of Chrome, Firefox, Safari or Edge.
 
@@ -73,7 +73,7 @@ $ oc login -u system:admin
 For most commands listed on this documentation, the Kubernetes CLI command `kubectl` is used to interact with the cluster environment. On OpenShift you can simply replace `kubectl` with `oc`, unless otherwise noted.
 {{% /alert %}}
 
-### Google Cloud Private Cluster 
+### Google Cloud Private Cluster {#google-prereqs}
 
 Private clusters on Google Cloud have network restrictions. Kiali needs your cluster's firewall to allow access from the Kubernetes API to the Istio Control Plane namespace, for both the `8080` and `15000` ports.
 
