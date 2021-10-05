@@ -17,7 +17,7 @@ want to manage. This is done by configuring the name of the components of the
 control plane. This is configured in the Kiali CR and the default values are
 the following:
 
-```
+```yaml
 spec:
   external_services:
     istio:
@@ -67,7 +67,7 @@ default.
 
 Then, when creating the Kiali CR, use the following attributes:
 
-```
+```yaml
 spec:
   deployment:
     image_name: your.custom.registry/owner/kiali-server-repo

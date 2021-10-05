@@ -30,7 +30,7 @@ means.
 
 To use the `anonymous` strategy, use the following configuration in the Kiali CR:
 
-```
+```yaml
 spec:
   auth:
     strategy: anonymous
@@ -70,7 +70,7 @@ setting the `view_only_mode` to `true` in the Kiali CR, which
 allows Kiali to read service mesh resources found in the cluster, but it does
 not allow any change:
 
-```
+```yaml
 spec:
   deployment:
     view_only_mode: true

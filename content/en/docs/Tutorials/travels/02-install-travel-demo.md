@@ -54,6 +54,7 @@ insurances-v1   1/1     1            1           96s
 mysqldb-v1      1/1     1            1           96s
 travels-v1      1/1     1            1           96s
 ```
+
 ## Understanding the demo application
 
 ### Travel Portal namespace

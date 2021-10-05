@@ -12,7 +12,7 @@ Kiali CR will trigger the Kiali Operator to install, update, or remove Kiali.
 The Operator provides comprehensive defaults for all properties of the Kiali
 CR. Hence, the minimal Kiali CR does not have a `spec`:
 
-```
+```yaml
 apiVersion: kiali.io/v1alpha1
 kind: Kiali
 metadata:

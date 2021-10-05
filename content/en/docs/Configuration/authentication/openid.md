@@ -105,7 +105,7 @@ your OpenId server, Kiali will fail to properly authenticate users.
 Then, to enable the OpenID Connect strategy, the minimal configuration you need to
 set in the Kiali CR is like the following:
 
-```
+```yaml
 spec:
   auth:
     strategy: openid
@@ -123,7 +123,7 @@ If these values don't match, users will fail to login to Kiali.
 If you are using a replacement or a reverse proxy for the Kubernetes API
 server, the minimal configuration is like the following:
 
-```
+```yaml
 spec:
   auth:
     strategy: openid
@@ -165,7 +165,7 @@ use the _authorization code flow_ (i.e. if your Kiali's signing key is neither
 Then, to enable the OpenID Connect strategy, the minimal configuration you need
 to set in the Kiali CR is like the following:
 
-```
+```yaml
 spec:
   auth:
     strategy: openid
@@ -189,7 +189,7 @@ the OpenID token and display it as the user name. You can customize which field
 to display as the user name by setting the `username_claim` attribute of the
 Kiali CR. For example:
 
-```
+```yaml
 spec:
   auth:
     openid:
@@ -207,7 +207,7 @@ By default, Kiali will request access to the `openid`, `profile` and `email`
 standard scopes. If you need a different set of scopes, you can set the
 `scopes` attribute in the Kiali CR. For example:
 
-```
+```yaml
 spec:
   auth:
     openid:
@@ -228,7 +228,7 @@ has elapsed, Kiali will reject authentication. You can adjust this timeout by
 setting the `authentication_timeout` with the number of seconds that Kiali
 should wait at most. For example:
 
-```
+```yaml
 spec:
   auth:
     openid:
@@ -241,7 +241,7 @@ If your OpenID provider is using a self-signed certificate, you can disable
 certificate validation by setting the `insecure_skip_verify_tls` to `true` in
 the Kiali CR:
 
-```
+```yaml
 spec:
   auth:
     openid:
@@ -260,7 +260,7 @@ rather than disabling verification. For this, create a ConfigMap named
 `kiali-cabundle` containing the root CA certificate (the public component)
 under the `openid-server-ca.crt` key:
 
-```
+```yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -281,7 +281,7 @@ do key validation, so you can configure it by setting the `http_proxy` and
 `https_proxy` keys in the Kiali CR. They use the same format as the `HTTP_PROXY`
 and `HTTPS_PROXY` environment variables.
 
-```
+```yaml
 spec:
   auth:
     openid:
@@ -298,7 +298,7 @@ add an additional set of parameters to your identity provider, you can use the
 `additional_request_params` setting of the Kiali CR, which accepts key-value
 pairs. For example:
 
-```
+```yaml
 spec:
   auth:
     openid:
@@ -378,7 +378,7 @@ and needed for your Kiali CR yaml and Kiali secrets files.
 
 You'll need to update your Kiali CR file to include the following `auth` block.
 
-```
+```yaml
 spec:
   auth:
     strategy: "openid"
@@ -395,7 +395,7 @@ Don't get creative here. The `issuer_uri` should be `https://accounts.google.com
 {{% /alert %}}
 
 Finally you will need to create a secret, if you don't have one already, that sets the `oidc-secret` for the openid flow.
-```
+```yaml
 apiVersion: v1
 kind: Secret
 metadata:
@@ -461,7 +461,7 @@ clusters). And select the resulting entry.
 
 Then, create or modify your Kiali CR and include the following settings:
 
-```
+```yaml
 spec:
   auth:
     strategy: "openid"

@@ -9,13 +9,13 @@ weight: 6
 ### Operator fails due to `cannot list resource "clusterroles"` error
 
 When the Kiali Operator installs a Kiali Server, the Operator will assign the Kiali Server the proper roles/rolebindings so the Kiali Server can access the appropriate namespaces.
-The Kiali Operator will check to see if the Kiali CR setting `deployment.accessible_namespaces` has a value of `['+++**+++']`. If it does, this means the Kiali Server is to
+The Kiali Operator will check to see if the Kiali CR setting `deployment.accessible_namespaces` has a value of `['**']`. If it does, this means the Kiali Server is to
 be given access to all namespaces in the cluster, including namespaces that will be created in the future. In this case, the Kiali Operator will create and assign
 ClusterRole/ClusterRoleBinding resources to the Kiali Server. But in order to do this, the Kiali Operator must itself be given permission to create those ClusterRole
 and ClusterRoleBinding resources. When you install the Kiali Operator via OLM, these permissions are automatically granted. However, if you installed the Kiali Operator
 with the [Operator Helm Chart](https://kiali.org/helm-charts/index.yaml), and if you did so with the value [`clusterRoleCreator`](https://github.com/kiali/helm-charts/blob/v1.25.0/kiali-operator/values.yaml#L33-L36)
 set to `false` then the Kiali Operator will not be given permission to create cluster roles. In this case, you will be unable to install a Kiali Server if your Kiali
-CR has `deployment.accessible_namespaces` set to `['+++**+++']` - you will get an error similar to this:
+CR has `deployment.accessible_namespaces` set to `['**']` - you will get an error similar to this:
 
 ```
 Failed to list rbac.authorization.k8s.io/v1, Kind=ClusterRole:
@@ -26,7 +26,7 @@ cannot list resource "clusterroles" in API group
 ```
 
 Thus, if you do not give the Kiali Operator the permission to create cluster roles, you must tell the Operator which specific namespaces the Kiali Server can
-access (you cannot use `['+++**+++']`). When specific namespaces are specified in `deployment.accessible_namespaces`, the Kiali Operator will create Role
+access (you cannot use `[**']`). When specific namespaces are specified in `deployment.accessible_namespaces`, the Kiali Operator will create Role
 and RoleBindings (not the "Cluster" kinds) and assign them to the Kiali Server.
 
 
@@ -74,8 +74,8 @@ OPERATOR_NAMESPACE="$(kubectl get deployments --all-namespaces  | grep kiali-ope
 
 - `ALLOW_AD_HOC_KIALI_NAMESPACE`: must be `true` or `false`. If `true`, the operator will be allowed to install the Kiali Server in any namespace, regardless of which namespace the Kiali CR is created. If `false`, the operator will only install the Kiali Server in the same namespace where the Kiali CR is created - any attempt to do otherwise will cause the operator to abort the Kiali Server installation.
 - `ALLOW_AD_HOC_KIALI_IMAGE`: must be `true` or `false`. If `true`, the operator will be allowed to install the Kiali Server with a custom container image as defined in the Kiali CR's `spec.deployment.image_name` and/or `spec.deployment.image_version`. If `false`, the operator will only install the Kiali Server with the default image. If a Kiali CR is created with `spec.deployment.image_name` or `spec.deployment.image_version` defined, the operator will abort the Kiali Server installation.
-- `ANSIBLE_DEBUG_LOGS`: must be `true` or `false`. When `true`, turns on debug logging within the Operator SDK. For details, see the link:https://sdk.operatorframework.io/docs/building-operators/ansible/development-tips/#viewing-the-ansible-logs[docs here].
-- `ANSIBLE_VERBOSITY_KIALI_KIALI_IO`: Controls how verbose the operator logs are - the higher the value the more output is logged. For details, see the link:https://sdk.operatorframework.io/docs/building-operators/ansible/reference/advanced_options/#ansible-verbosity[docs here].
+- `ANSIBLE_DEBUG_LOGS`: must be `true` or `false`. When `true`, turns on debug logging within the Operator SDK. For details, see the [docs here](https://sdk.operatorframework.io/docs/building-operators/ansible/development-tips/#viewing-the-ansible-logs).
+- `ANSIBLE_VERBOSITY_KIALI_KIALI_IO`: Controls how verbose the operator logs are - the higher the value the more output is logged. For details, see the [docs here](https://sdk.operatorframework.io/docs/building-operators/ansible/reference/advanced_options/#ansible-verbosity).
 - `ANSIBLE_CONFIG`: must be `/etc/ansible/ansible.cfg` or `/opt/ansible/ansible-profiler.cfg`. If set to `/opt/ansible/ansible-profiler.cfg` a profiler report will be dumped in the operator logs after each reconciliation run.
 
 3. Store the name of the environment variable you want to change in `$ENV_NAME`:
@@ -124,7 +124,7 @@ If you are utilizing CNI in your Istio environment (for example, on OpenShift), 
 
 Determine what namespace you want to install Kiali and create it. Give the proper permissions to Kiali. Create the necessary NetworkAttachmentDefinition. Finally, create the Kiali CR that will tell the operator to install Kiali in this new namespace, making sure to add the proper sidecar injection label as explained earlier.
 
-```bash
+```
 NAMESPACE="kialins"
 
 oc create namespace ${NAMESPACE}
@@ -158,7 +158,7 @@ EOM
 
 After the operator installs Kiali, confirm you have two containers in your pod. This indicates your Kiali pod has its proxy sidecar successfully injected.
 
-```bash
+```
 $ oc get pods -n ${NAMESPACE}
 NAME                    READY   STATUS    RESTARTS   AGE
 kiali-56bbfd644-nkhlw   2/2     Running   0          43s

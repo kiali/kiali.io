@@ -21,7 +21,7 @@ shouldn't need to configure anything, unless your cluster is OpenShift. If you
 want to be verbose or if you need to enable the `token` strategy in OpenShift,
 use the following configuration in the Kiali CR:
 
-```
+```yaml
 spec:
   auth:
     strategy: token

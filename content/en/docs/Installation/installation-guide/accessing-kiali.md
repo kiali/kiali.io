@@ -72,7 +72,7 @@ to Kiali only on a specific domain or path. To do this, you can [specify route s
 Alternatively, and for more advanced Ingress configurations, you can provide your own
 Ingress declaration in the Kiali CR. For example:
 
-```
+```yaml
 spec:
   deployment:
     override_ingress_yaml:
@@ -106,7 +106,7 @@ By default, the Kiali service is created with the `ClusterIP` type. To use a
 `LoadBalancer` or a `NodePort`, you can change the service type in the Kiali CR as
 follows:
 
-```
+```yaml
 spec:
   deployment:
     service_type: LoadBalancer
@@ -151,7 +151,7 @@ to specify that Kiali is being accessed under the
 `\https://apps.example.com:8080/dashboards/kiali` URI, you would need to set the
 following:
 
-```
+```yaml
 spec:
   server:
     web_fqdn: apps.example.com
@@ -194,7 +194,7 @@ exposing the Kiali serivce (like when using a `LoadBalancer` service type).
 It is possible to configure the listening ports of the Kiali service to use
 your preferred ones:
 
-```
+```yaml
 spec:
   server:
     port: 80 # Main port for accessing Kiali

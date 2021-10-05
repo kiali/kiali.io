@@ -49,7 +49,7 @@ The first is to have these endpoints (like `/health` or `/metrics`) exposed on a
 
 The second way is to modify Istio's Prometheus rule to explicitly exclude some requests based on the User Agent. This is the `Rule` resource named `promhttp` located in `istio-system`. To edit it:
 
-```bash
+```
 kubectl edit rule promhttp -n istio-system
 ```
 
@@ -126,7 +126,7 @@ To determine whether there is an actual bug it can be useful to look directly at
 by and stored in the Prometheus database.  Prometheus provides a basic console that can be opened
 using the [istioctl dashboard command](https://istio.io/latest/docs/reference/commands/istioctl/#istioctl-dashboard):
 
-```bash
+```
 > istioctl dashboard prometheus
 ```
 

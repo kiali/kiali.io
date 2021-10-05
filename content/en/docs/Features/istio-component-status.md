@@ -64,7 +64,7 @@ You can extend this default configuration with additional secrets, remove secret
 
 If you add additional secrets, the Kiali operator _also_ needs the same privileges in order to configure Kiali successfully. If you used the [Helm Charts]({{< ref "/docs/installation/installation-guide/install-with-helm" >}}) to install the operator, specify the `secretReader` value with the required secrets:
 
-```bash
+```
 $ helm install \
     --namespace kiali-operator \
     --create-namespace \
@@ -75,7 +75,7 @@ $ helm install \
 
 If you installed the operator via the [OperatorHub]({{< ref "/docs/installation/installation-guide/installing-with-operatorhub" >}}) you need to update the operator privileges as a post-installation step, as follows:
 
-```bash
+```
 $ kubectl patch $(kubectl get clusterroles -o name | grep kiali-operator) --type "json" -p '[{"op":"add","path":"/rules/0","value":{"apiGroups":[""],"resources":["secrets"],"verbs":["get"],"resourceNames":["secret-name-to-be-read"]}}]'
 ```
 

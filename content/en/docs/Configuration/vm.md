@@ -18,7 +18,7 @@ Kiali does not currently distinguish between pod-based and VM-based workloads no
 Once the Istio Proxy is running on a Virtual Machine, configuring Prometheus to scrape the VM's Istio Proxy metrics endpoint is the only configuration Kiali needs to display traffic for the VM-based workload.
 [Configuring Prometheus](https://prometheus.io/docs/prometheus/latest/configuration/configuration/) will vary between environments. Here is a very simple example of a Prometheus configuration that includes a job to scrape VM based workloads:
 
-```
+```yaml
 - job_name: bookinfo-vms
   honor_timestamps: true
   scrape_interval: 15s

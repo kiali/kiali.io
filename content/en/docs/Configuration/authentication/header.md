@@ -30,7 +30,7 @@ OpenID Connect, but cloud hosted clusters do not.  For clusters that don't suppo
 a token, the [impersonation](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#user-impersonation)
 headers can be injected by the reverse proxy.
 
-```
+```yaml
 spec:
   auth:
     strategy: header

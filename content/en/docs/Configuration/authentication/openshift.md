@@ -25,7 +25,7 @@ Since `openshift` is the default strategy when deploying Kiali in OpenShift,
 you shouldn't need to configure anything. If you want to be verbose, use the
 following configuration in the Kiali CR:
 
-```
+```yaml
 spec:
   auth:
     strategy: openshift

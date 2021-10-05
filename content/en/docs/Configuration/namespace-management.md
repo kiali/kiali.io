@@ -29,7 +29,7 @@ example, if Kiali is to be installed in the `istio-system` namespace, and is
 expected to monitor all namespaces prefixed with `mycorp_`, the setting would
 be:
 
-```
+```yaml
 spec:
   deployment:
     accessible_namespaces:
@@ -72,7 +72,7 @@ The Kiali CR tells the Kiali Operator which _accessible namespaces_ should be ex
 
 For example, if the `accessible_namespaces` configuration includes `mycorp_.*` but it is not desirable to see test namespaces, the following configuration can be used:
 
-```
+```yaml
 api:
   namespaces:
     exclude:
@@ -87,7 +87,7 @@ The label selector is defined in the Kiali CR setting `spec.api.namespaces.label
 
 The example below selects all namespaces that have a label `kiali-enabled: true`:
 
-```
+```yaml
 api:
   namespaces:
     label_selector: kiali-enabled=true
