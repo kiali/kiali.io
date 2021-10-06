@@ -321,6 +321,8 @@ section#blog-latest div#blog-blocks > a > div p {
   section#blog-latest div#blog-blocks {
     white-space: nowrap;
     overflow: auto;
+    display: flex;
+    flex-wrap: wrap;
   }
 }
 
