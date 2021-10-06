@@ -15,7 +15,7 @@ Kiali only supports FQDN and simple service names as host formats: for example _
 In the following example it should show the validation of "More than one Destination Rule for the same host subset combination". Because of the usage of the short name _reviews.bookinfo_ Kiali won't show the warning message on both destination rules.
 
 ```yaml
-{{% readfile file="/themes/docsy/static/files/validation_examples/001.yaml" %}}
+{{% readfile file="/static/files/validation_examples/001.yaml" %}}
 ```
 
 See the recomendation Istio gives regarding [host format](https://istio.io/docs/reference/config/networking/destination-rule/#DestinationRule):
