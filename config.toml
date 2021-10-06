@@ -157,7 +157,7 @@ sidebar_menu_compact = false
 # Set to true to hide the sidebar search box (the top nav search box will still be displayed if search is enabled)
 sidebar_search_disable = false
 # Set to true to make the sidebar foldable
-sidebar_menu_foldable = false
+sidebar_menu_foldable = true
 # Uncomment to specify a fixed unfold depth
 # sidebar_menu_unfold_depth = 1
 
@@ -216,15 +216,16 @@ enable = false
 	icon = "fab fa-github"
         desc = "Kiali on Github"
 
-# TODO Add your release versions here
+# Add your release versions here
+[[params.versions]]
+  version = "master"
+  url = "https://kiali.io"
+
 [[params.versions]]
   version = "latest"
   url = "localhost:1313"
 
 [[params.versions]]
-  version = "staging"
-  url = "localhost:1313"
+  version = "archive"
+  url = "https://kiali.io"
 
-[[params.versions]]
-  version = "v1.40"
-  url = "localhost:1313"
