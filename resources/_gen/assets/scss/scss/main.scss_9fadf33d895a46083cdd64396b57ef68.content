@@ -12141,7 +12141,9 @@ section#blog-latest div#blog-blocks > a > div p {
     margin: 0; }
   section#blog-latest div#blog-blocks {
     white-space: nowrap;
-    overflow: auto; } }
+    overflow: auto;
+    display: flex;
+    flex-wrap: wrap; } }
 
 @media only screen and (min-width: 1500px) {
   section#blog-latest {
