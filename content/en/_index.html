@@ -3,7 +3,17 @@ title = "Kiali"
 linkTitle = "Kiali"
 +++
 
-{{< blocks/cover title="The Console for Istio Service Mesh" image_anchor="top" height="min" color="orange" >}}
+<!-- Some style overrides to improve the look and spacing of the Docsy Feature shortcode" -->
+<style>
+      .mb-4 {
+        margin-bottom: 0.5rem !important;
+      }
+      .mb-5 {
+        margin-bottom: 2.0rem !important;
+      }
+</style>
+
+{{< blocks/cover title="The Console for Istio Service Mesh" image_anchor="top" height="min">}}
 <div class="mx-auto">
     <a href="/docs/installation/quick-start" class="btn btn-lg btn-primary mr-3 mb-4">
       Get started with Kiali
@@ -15,10 +25,9 @@ linkTitle = "Kiali"
 Manage, visualize, validate and troubleshoot your mesh!
 
 Kiali is a management console for Istio service mesh.  Kiali can be quickly installed as an Istio add-on, or trusted as a part of your production environment.  See below for more about what Kiali offers, or just     <a href="/docs/installation/quick-start">Get Started!</a>
-
 {{% /blocks/lead %}}
-{{< blocks/section color="dark" >}}
 
+{{< blocks/section height="min" color="dark">}}
   {{% blocks/feature icon="fa-project-diagram" title="Topology" url="docs/features/topology" %}}
   See your services communicate
   {{% /blocks/feature %}}
@@ -48,7 +57,7 @@ Kiali is a management console for Istio service mesh.  Kiali can be quickly inst
   {{% /blocks/feature %}}
 {{< /blocks/section >}}
 
-{{< blocks/section >}}
+{{< blocks/section height="min" >}}
   {{% blocks/feature icon="fab fa-github" title="Contributions welcome!" url="/contribute" %}}
   Kiali is an Open Source project.
 
