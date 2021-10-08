@@ -1,0 +1,34 @@
+{{- $maxVids := 3 }}
+{{- $expTimestamp := div now.Unix 6000 }}
+{{- $feedURL      := printf "https://api.rss2json.com/v1/api.json?timestamp=%d&rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=UCcm2NzDN_UCZKk2yYmOpc5w" $expTimestamp }}
+{{- $json         := getJSON $feedURL }}
+{{- $videos       := first $maxVids $json.items }}
+
+<h3 class="videos-header">
+  Latest
+  <a href="https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w" target="_blank">
+    videos on YouTube
+  </a>
+</h3>
+
+{{ range $videos }}
+  {{ $link    := .link }}
+  {{ $vidId   := index (split .guid ":") 2 }}
+  {{ $img     := .thumbnail }}
+  {{ $title   := .title | truncate 80 }}
+  {{ $dateRaw := .pubDate }}
+  {{ $date    := dateFormat "January 2, 2006" $dateRaw }}
+  <div class="col-lg-4 mb-5 mb-lg-0 text-center ">
+    <div class="video-card">
+      <figure>
+        <img src="{{ $img }}" alt="Thumbnail for {{ $title }}" width="250" height="125">
+      </figure>
+      <div class="video-card-body">
+        <div class="video-card-date">Published {{ $date }}</div>
+        <div class="video-card-title">{{ $title }}</div>
+        <p class="pt-0"><a href="{{ $link }}" target="_blank">Watch on YouTube</a></p>
+      </div>
+    </div>
+  </div>
+{{ end }}
+
