@@ -5,67 +5,48 @@ draft: false
 weight: 4
 ---
 
-## Traces
+Kiali offers a native integration with Jaeger for Distributed Tracing.  As such, users can access Jaeger's trace visualizations.  But more
+than that, Kiali incorporates tracing into several correlated views, making your investment in trace data even more valuable.
 
-Kiali has now a Span duration legend item on Service Metrics tab, when enabled, correlates Span and Metrics on the same chart.
+For a quick glimpse at Kiali tracing features, see below.  For a detailed explanation of tracing in Kiali, see this 3-part
+[Trace my mesh](https://medium.com/kialiproject/trace-my-mesh-part-1-3-35e252f9c6a9) blog series,
 
-<a class="image-popup-fit-height" href="/images/documentation/features/traces-metrics-v1.22.0.png" title="Metrics and Trace Spans">
-    <img src="/images/documentation/features/traces-metrics-thumb-v1.22.0.png" style="display: block; margin: 0 auto;" />
-</a>
 
-User can navigate to the traces tab to browse filtered traces for a given service in the time interval or to show details for a single trace.
+## Workload detail
 
-The tracing toolbar offers some control over the data to fetch, to facilitate the user experience. In the tracing view, as shown in the image below, it’s possible to select the traces interval, results limit, status code, errors, adjust time (expand results on time), last Xm traffic (Traces from last minutes) and refresh interval.
+When investigating a workload, click the _Traces_ tab to visualize your traces in a chart. When selecting a trace Kiali
+presents a tab for trace detail, and a tab for span details.  Kiali always tries to surface problem areas, Kiali uses a
+heatmap approach to help the user identify problem traces or spans.
 
-After selecting a trace, Kiali shows the information related to that trace like number of spans, spans grouped by operation name, duration, date.
+![Trace detail](/images/documentation/features/trace-detail.png)
 
-<div style="display: flex;">
-    <span style="margin: 0 auto;">
-      <a class="image-popup-fit-height" href="/images/documentation/features/traces-view-v1.22.0.png" title="Traces Timeline for a Service">
-          <img src="/images/documentation/features/traces-view-thumb-v1.22.0.png" style="width: 660px;display:inline;margin: 0 auto;" />
-      </a>
-      <a class="image-popup-fit-height" href="/images/documentation/features/traces-view-details-v1.22.0.png" title="Trace Details">
-          <img src="/images/documentation/features/traces-view-details-thumb-v1.22.0.png" style="width: 660px;display:inline;margin: 0 auto;" />
-      </a>
-    </span>
-</div>
+![Span detail](/images/documentation/features/trace-span-detail.png)
 
-## Jaeger Configuration
 
-### In cluster URL
+## Metric Correlation
 
-In order to fetch data from Jaeger, Kiali needs to get an URL that can be resolved from inside the cluster, typically using Kubernetes DNS. This is the `in_cluster_url` configuration. For instance, for a Jaeger service named `tracing` within `istio-system` namespace, Kiali config would be:
+Kiali offers span overlays on Metric charts.  The user can simply enable the `spans` option to generate the overlay.  Clicking any
+span will navigate back to the _Traces_ tab, focused on the trace of interest.
 
-```yaml
-  external_services:
-    tracing:
-      in_cluster_url: 'http://tracing.istio-system/jaeger'
-```
+![Metrics with Tracing](/images/documentation/features/trace-metric-overlay.png)
 
-{{% alert color="warning" %}}
-If you use the Kiali operator (recommended), this config can be set in the Kiali CR. But in most cases, the Kiali operator will set a valid default `in_cluster_url` so you wouldn't have to change anything. If you don't use the Kiali operator, this config can be set in Kiali config map.
-{{% /alert %}}
+## Graph Correlation
 
-### External URL
+Kiali users often use the [Graph Feature](#topology) to visualize their mesh traffic.  In the side panel, When selecting a graph node,
+the user will be presented with a _Traces_ tab, which lists available traces for the time period.  When selecting a trace the graph
+will display an overlay for the trace's spans.  And the side panel will display span details and offer links back to the trace detail
+views.
 
-Configuring an external URL for Jaeger will enable links from Kiali to Jaeger UI. This URL needs to be accessible from the browser (it's used for links generation). Example:
+![Graph with Tracing](/images/documentation/features/trace-graph-overlay.png)
 
-```yaml
-  external_services:
-    tracing:
-      in_cluster_url: 'http://tracing.istio-system/jaeger'
-      url: 'http://my-jaeger-host/jaeger'
-```
 
-Once this URL is set, Kiali will show an additional item to the main menu:
+## Logs Correlation
 
-![Distributed Tracing View](/images/documentation/tracing/menu_external_link.png)
+Kiali works to correlate the standard _pillars of observability_: traces, metrics and logs. Kiali can present a unified view of
+log and trace information, in this way letting users use logs to identify traces of interest.  When enabling the `spans` option
+Kiali adds trace entries to the workload logs view.  Below, in time-sorted order, the user is presented with a unified view of application
+logs (in white), Envoy proxy logs (in gold), and trace spaces (in blue).  Clicking a span of interest brings you to the detail
+view for the trace of interest.
 
-{{% alert color="warning" %}}
-You may have `url` configured and not `in_cluster_url`, for instance, if Jaeger is not accessible from Kiali pod. In this situation, Kiali will not show its own traces chart but will display external links to the Jaeger UI instead.
-{{% /alert %}}
-
-### Other configuration
-
-For advanced configuration on Jaeger integration, please refer to [the Kiali CR 'external_services.tracing' section](https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml). It is relevant for config map as well, if you don't use the Kiali operator.
+![Logs with Tracing](/images/documentation/features/trace-logs.png)
 
