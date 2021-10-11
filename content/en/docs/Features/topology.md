@@ -5,26 +5,25 @@ draft: false
 weight: 1
 ---
 
-The following observability features help you ensure your mesh is healthy or to quickly identify problem areas in operation. It combines topology, telemetry, traces, logs, events and definitions in a holistic view of your system.
+Kiali offers multiple ways for users to examine their mesh Topology.  Each combines several information types to help users quickly evaluate the health of their service architecture.
 
 ## Overview
 
-Kiali provides a summary page of the Service Mesh namespaces and the status of their Applications, Workloads and Services.
+Kiali's default page is the topology _Overview_.  It presents a high-level view of the namespaces accessible to Kiali, for this user.  It combines service and application information, along with telemetry, validations and health, to provide a holistic summary of system behvior.  The _Overview_ page provides numerous filtering, sorting and presentation options.  From here users can perform namespace-level Actions, or quickly navigate to more detailed views.
 
-<a class="image-popup-fit-height" href="/images/documentation/features/overview-v1.22.0.png" title="Visualize your service mesh topology">
-    <img src="/images/documentation/features/overview-thumb-v1.22.0.png" style="display:block;margin: 0 auto;" />
-</a>
+![Topology namespace overview](/images/documentation/features/topology-overview.png)
+
 
 ## Graph
-The graph provides a powerful way to visualize the topology of your service mesh. It shows you which services communicate with each other and the traffic rates and latencies between them, which helps you visually identify problem areas and quickly pinpoint issues. Kiali provides graphs that show a high-level view of service interactions, a low level view of workloads, or a logical view of applications.
 
-The graph also shows which services are configured with virtual services and circuit breakers. It identifies security issues by identifying traffic not configured as expected. You can observe the traffic flow between components by watching the animation or viewing the metrics.
+The Kiali _Graph_ offers a powerful visualization of your mesh traffic.  The topology combines real-time request traffic with your Istio configuration information to present immediate insight into the behavior of service mesh, allowing you to quickly pinpoint issues.  Multiple _Graph Types_ allow you to visualize traffic as a high-level service topology, a low-level workload topology, or as an application-level topology.
+
+Graph nodes are decorated with a variety of information, pointing out various route routing options like virtual services and service entries, as well as special configuration like fault-injection and circuit breakers.  It can identify mTLS issues, latency issues, error traffic and more.  The _Graph_ is highly configurable, can show traffic animation, and has powerful Find and Hide abilities.
 
 You can configure the graph to show the namespaces and data that are important to you, and display it in the way that best meets your needs.
 
-<a class="image-popup-fit-height" href="/images/documentation/features/graph-overview-v1.22.0.png" title="Visualize your service mesh topology">
-    <img src="/images/documentation/features/graph-overview-thumb-v1.22.0.png" style="display:block;margin: 0 auto;" />
-</a>
+![Topology graph](/images/documentation/features/topology-graph.png)
+
 
 ### Health
 
@@ -32,35 +31,33 @@ Colors in the graph represent the health of your service mesh. A node colored re
 
 The health of nodes and edges is refreshed automatically based on the user's preference. The graph can also be paused to examine a particular state, or replayed to re-examine a particular time period.
 
-<a class="image-popup-fit-height" href="/images/documentation/features/graph-health-v1.22.0.png" title="Visualize the health of your mesh">
-    <img src="/images/documentation/features/graph-health-thumb-v1.22.0.png" style="display:block;margin: 0 auto;" />
-</a>
+![Topology graph health](/images/documentation/features/topology-graph-health.png)
 
-### Node Detail
-You can drill down into one selected component, whether it's a service, a workload, or an application. Kiali offers detail graphs for any node you choose.
-
-Double click on a graph node and you can see a detailed view centered on that component. It shows you only the incoming requests being served and the outgoing requests being made - all from the point-of-view of that component's telemetry.
-
-You can jump back to the main graph and continue where you left off.
-
-<a class="image-popup-fit-height" href="/images/documentation/features/graph-detailed-v1.22.0.png" title="Focus your graph on a selected component">
-    <img src="/images/documentation/features/graph-detailed-thumb-v1.22.0.png" style="display:block;margin: 0 auto;" />
-</a>
 
 ### Side-Panel
 
-Want to get a quick summary of anything in the graph? Select any node with a single-click and the side panel provides a brief summary for that component. This includes:
+The collapsible side-panel summarizes the current graph selection, or the graph as a whole.  A single-click will select the node, edge, or box of interest.  The side panel provides:
 
-* **Charts** showing traffic and response times
-* **Health** details
-* **Links** to fully-detailed pages
-* **Response Code** breakdowns.
+* **Charts** showing traffic and response times.
+* **Health** details.
+* **Links** to fully-detailed pages.
+* **Response Code** and Host breakdowns.
+* **Traces** involving the selected component.
 
-Or, click the graph background and the side panel to view an overall summary for the entire graph.
+![Topology graph side-panel app](/images/documentation/features/topology-graph-sidepanel.png)
+![Topology graph side-panel service](/images/documentation/features/topology-graph-sidepanel-2.png)
+![Topology graph side-panel workload](/images/documentation/features/topology-graph-sidepanel-3.png)
 
-<a class="image-popup-fit-height" href="/images/documentation/features/graph-side-panel-v1.22.0.png" title="Quick summary of a selected component">
-    <img src="/images/documentation/features/graph-side-panel-thumb-v1.22.0.png" style="display:block;margin: 0 auto;" />
-</a>
+
+### Node Detail
+
+A single-click selects a graph node.  A double-click drills in to show the node's _Detail Graph_.  The node detail graph visualizes traffic from the point-of-view of that node, meaning
+it shows only the traffic reported by that node's Istio proxy.
+
+You can return back to the main graph, or double-click to change to a different node's detail graph.
+
+![Topology graph node detail](/images/documentation/features/topology-graph-node-detail.png)
+
 
 ### Traffic Animation
 
@@ -70,13 +67,12 @@ For HTTP traffic, circles represent successful requests while red diamonds repre
 
 TCP traffic is represented by offset circles where the speed of the circles indicates the traffic speed.
 
-<a class="video-popup" href="/images/documentation/features/kiali_traffic_animation-v1.22.0.mp4" title="Visualize your traffic flow">
-    <video autoplay muted loop width="1333px" src="/images/documentation/features/kiali_traffic_animation_thumb-v1.22.0.mp4" style="display:block;margin:0 auto;" />
-</a>
+![Topology graph animation](/images/documentation/features/topology-graph-node-animation.gif)
+
 
 ### Graph Types
 
-Kiali offers four different graph renderings of the mesh telemetry. Each graph type provides a different view of the traffic.
+Kiali offers four different traffic-graph renderings:
 
 * The **workload** graph provides the a detailed view of communication between workloads.
 
@@ -86,42 +82,18 @@ Kiali offers four different graph renderings of the mesh telemetry. Each graph t
 
 * The **service** graph provides a high-level view, which aggregates all traffic for defined services.
 
-<div style="display: flex;">
-    <span style="margin: 0 auto;">
-      <a class="image-popup-fit-height" href="/images/documentation/features/graph-type-app-v1.22.0.png" title="Visualize Apps">
-          <img src="/images/documentation/features/graph-type-app-thumb-v1.22.0.png" style="width: 660px; display:inline;margin: 0 auto;" />
-      </a>
-      <a class="image-popup-fit-height" href="/images/documentation/features/graph-type-service-v1.22.0.png" title="Visualize Services">
-          <img src="/images/documentation/features/graph-type-service-thumb-v1.22.0.png" style="width: 660px; display:inline;margin: 0 auto;" />
-      </a>
-    </span>
-</div>
-<div style="display: flex;">
-    <span style="margin: 0 auto;">
-      <a class="image-popup-fit-height" href="/images/documentation/features/graph-type-version-app-v1.22.0.png" title="Visualize Versioned Apps">
-          <img src="/images/documentation/features/graph-type-version-app-thumb-v1.22.0.png" style="width: 660px; display:inline;margin: 0 auto;" />
-      </a>
-      <a class="image-popup-fit-height" href="/images/documentation/features/graph-type-workload-v1.22.0.png" title="Visualize Workloads">
-          <img src="/images/documentation/features/graph-type-workload-thumb-v1.22.0.png" style="width: 660px; display:inline;margin: 0 auto;" />
-      </a>
-    </span>
-</div>
+![Topology graph type workload](/images/documentation/features/topology-graph-type-workload.png)
+![Topology graph type app](/images/documentation/features/topology-graph-type-app.png)
+![Topology graph type versioned app](/images/documentation/features/topology-graph-type-versioned-app.png)
+![Topology graph service](/images/documentation/features/topology-graph-type-service.png)
+
 
 ### Replay
 
-Graph replay is a new feature that lets you examine the past state of your service mesh.
+Graph replay allows you to replay traffic from a selected past time-period.  This gives you a chance to thoroughly examine a time period of interest, or share it with a co-worker.  The graph is fully bookmarkable, including replay.
 
-<div id="replay-video" style="display:flex;align-items: center; justify-items: center;">
-  <iframe
-    width="1333"
-    height="704"
-    style="display:block;margin:0 auto;"
-    src="https://www.youtube.com/embed/CC_dl4zSZiU"
-    frameborder="0"
-    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-    allowfullscreen>
-  </iframe>
-</div>
+{{< youtube CC_dl4zSZiU >}}
+
 
 ### Operation Nodes
 
@@ -133,7 +105,5 @@ Because operation nodes represent aggregate traffic they are not compatible with
 
 Operation nodes are represented as pentagons in the Kiali graph:
 
-<a class="image-popup-fit-height" href="/images/documentation/features/graph-operations-v1.22.0.png" title="Operation Nodes">
-    <img src="/images/documentation/features/graph-operations-v1.22.0.png" style="width: 1333px; display:block;margin: 0 auto;" />
-</a>
+![Topology graph operation](/images/documentation/features/topology-graph-operation.png)
 
