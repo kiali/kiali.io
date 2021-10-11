@@ -1,5 +1,6 @@
 ---
-title: "Tracing"
+title: Tracing
+description: How Kiali integrates Distributed Tracing with Jaeger.
 date: 2018-06-20T19:04:38+02:00
 draft: false
 weight: 4
