@@ -1,8 +1,6 @@
 ---
 title: Tracing
 description: How Kiali integrates Distributed Tracing with Jaeger.
-date: 2018-06-20T19:04:38+02:00
-draft: false
 weight: 4
 ---
 
@@ -12,6 +10,7 @@ than that, Kiali incorporates tracing into several correlated views, making your
 For a quick glimpse at Kiali tracing features, see below.  For a detailed explanation of tracing in Kiali, see this 3-part
 [Trace my mesh](https://medium.com/kialiproject/trace-my-mesh-part-1-3-35e252f9c6a9) blog series,
 
+</br>
 
 ## Workload detail
 
@@ -23,6 +22,7 @@ heatmap approach to help the user identify problem traces or spans.
 
 ![Span detail](/images/documentation/features/trace-span-detail.png)
 
+</br>
 
 ## Metric Correlation
 
@@ -30,6 +30,8 @@ Kiali offers span overlays on Metric charts.  The user can simply enable the `sp
 span will navigate back to the _Traces_ tab, focused on the trace of interest.
 
 ![Metrics with Tracing](/images/documentation/features/trace-metric-overlay.png)
+
+</br>
 
 ## Graph Correlation
 
@@ -40,6 +42,7 @@ views.
 
 ![Graph with Tracing](/images/documentation/features/trace-graph-overlay.png)
 
+</br>
 
 ## Logs Correlation
 

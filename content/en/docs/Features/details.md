@@ -1,11 +1,8 @@
 ---
-title: "Details"
-date: 2018-06-20T19:04:38+02:00
-draft: false
+title: Detail Views
+description: Kiali provides list and detail views for your mesh components.
 weight: 3
 ---
-
-## Detail Views
 
 Kiali provides filtered list views of all your service mesh definitions. Each view provides health, details, YAML definitions and links to help you visualize your mesh. There are list and detail views for:
 
@@ -14,60 +11,39 @@ Kiali provides filtered list views of all your service mesh definitions. Each vi
 * Services
 * Workloads
 
-<div style="display: flex;">
-    <span style="margin: 0 auto;">
-      <a class="image-popup-fit-height" href="/images/documentation/features/app-list-v1.22.0.png" title="List Apps">
-          <img src="/images/documentation/features/app-list-thumb-v1.22.0.png" style="width: 660px; display:inline;margin: 0 auto;" />
-      </a>
-      <a class="image-popup-fit-height" href="/images/documentation/features/workload-list-v1.22.0.png" title="List Workloads">
-          <img src="/images/documentation/features/workload-list-thumb-v1.22.0.png" style="width: 660px; display:inline;margin: 0 auto;" />
-      </a>
-    </span>
-</div>
-<div style="display: flex;">
-    <span style="margin: 0 auto;">
-      <a class="image-popup-fit-height" href="/images/documentation/features/service-list-v1.22.0.png" title="List Services">
-          <img src="/images/documentation/features/service-list-thumb-v1.22.0.png" style="width: 660px; display:inline;margin: 0 auto;" />
-      </a>
-      <a class="image-popup-fit-height" href="/images/documentation/features/istio-list-v1.22.0.png" title="List Istio Config">
-          <img src="/images/documentation/features/istio-list-thumb-v1.22.0.png" style="width: 660px; display:inline;margin: 0 auto;" />
-      </a>
-    </span>
-</div>
+![Detail list apps](/images/documentation/features/detail-list-app.png)
+![Detail list workload](/images/documentation/features/detail-list-service.png)
+![Detail list workload](/images/documentation/features/detail-list-workload.png)
+![Detail list workload](/images/documentation/features/detail-list-config.png)
+
+</br>
+
+Selecting an object from the list will bring you to its detail page.  For Istio Config, Kiali will present its YAML, along with contextual validation information. Other mesh components present a variety of Tabs.
 
 ## Overview Tab
 
-The overview tab provides detail information, a contextual graph and health overview for a specific Application, Workload or Service.
+Overview is the default Tab for any detail page.  The overview tab provides detailed information, including health status, and a detailed mini-graph of the current traffic involving the component.  The full set of tabs, as well as the detailed information, varies based on the component type.
 
-For each type of element, Kiali adds additional features.
+Each Overview provides:
 
-In the Workload Overview, Kiali performs several validations on workload configuration:
+* links to related components and linked Istio configuration.
+* health status.
+* validation information.
+* an Action menu for actions that can be taken on the component.
+  * several [Wizards](#wizards) are available.
 
-* Are Istio sidecars deployed?
-* Are proper *app* and *version* labels assigned?
+And also type-specfic information.  For example:
 
-Workload detail shows the services for which the workload in handling requests, and the pods backing them.
+* Service detail includes Network information.
+* Workload detail provides backing Pod information.
 
-The Service Overview shows the workloads running the service. It also shows the Istio traffic routing configuration, VirtualServices and DestinationRules associated with the service.
+![Detail list workload](/images/documentation/features/detail-overview-app.png)
+![Detail list workload](/images/documentation/features/detail-overview-service.png)
+![Detail list workload](/images/documentation/features/detail-overview-workload.png)
 
-Kiali provides access to YAML definitions and allows modification and deletion access for authorized users. It provides wizards to assist in common configurations and performs additional validation on VirtualServices to detect misconfigured routes.
-
-<div style="display: flex;">
- <span style="margin: 0 auto;">
-  <a class="image-popup-fit-height" href="/images/documentation/features/overview-app-v1.22.0.png" title="App Overview">
-    <img src="/images/documentation/features/overview-app-thumb-v1.22.0.png" style="width: 660px; display:inline;margin: 0 auto;" />
-  </a>
-  <a class="image-popup-fit-height" href="/images/documentation/features/overview-workload-v1.22.0.png" title="Workload Overview">
-    <img src="/images/documentation/features/overview-workload-thumb-v1.22.0.png" style="width: 660px; display:inline;margin: 0 auto;" />
-  </a>
-  <a class="image-popup-fit-height" href="/images/documentation/features/overview-service-v1.22.0.png" title="Service Overview">
-    <img src="/images/documentation/features/overview-service-thumb-v1.22.0.png" style="width: 660px; display:inline;margin: 0 auto;" />
-  </a>
- </span>
-</div>
 </br>
 
-Both Workload and Service detail can be customized to some extent, by adding additional details supplied as annotations. This is done through the `additional_display_details` field in [the Kiali CR or ConfigMap](https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml).
+Both Workload and Service detail can be customized to some extent, by adding additional details supplied as annotations. This is done through the `additional_display_details` field in [the Kiali CR](https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml).
 
  <a class="image-popup-fit-height" href="/images/documentation/features/additional-details-v1.28.0.png" title="Additional details">
   <img src="/images/documentation/features/additional-details-v1.28.0.png" style="display:block;margin: 0 auto;" />
