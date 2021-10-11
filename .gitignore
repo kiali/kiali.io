@@ -2,6 +2,7 @@ output
 public
 Gemfile.lock
 .bundle
+resources
 vendor
 
 # IntelliJ
