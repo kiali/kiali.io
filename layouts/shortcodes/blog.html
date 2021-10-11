@@ -1,4 +1,4 @@
-{{- $maxBlogPosts := 10 }}
+{{- $maxBlogPosts := 3 }}
 {{/*expTimestamp: expire content every 1hour (6000s)*/}}
 {{- $expTimestamp := div now.Unix 6000 }}
 {{- $mediumURL    := printf "https://api.rss2json.com/v1/api.json?timestamp=%d&rss_url=https://medium.com/feed/kialiproject" $expTimestamp }}
@@ -6,36 +6,34 @@
 {{- $posts        := first $maxBlogPosts $json.items }}
 {{- $latestPost   := index $json.items 1 }}
 
-  <section id="blog-latest" data-lastpubat="{{ $latestPost.pubDate }}">
-    <h3>Latest blogs</h3>
-    <div id="go-to-blog-link">
-      <a href="https://medium.com/kialiproject" target="_blank">
-        Kiali on Medium
-        <span class="fas fa-external-link-alt" />
-      </a>
-    </div>
+<h3 class="blog-header">
+  Latest
+  <a href="https://medium.com/kialiproject" target="_blank">
+    blog posts on Medium
+  </a>
+</h3>
 
-    <div id="blog-blocks">
-      {{ range $posts }}
-        {{ $link    := .link }}
-        {{ $img     := .thumbnail }}
-        {{ $title   := .title }}
-        {{ $author  := .author }}
-        {{ $dateRaw := .pubDate }}
-        {{ $date    := dateFormat "January 2, 2006" $dateRaw }}
-        {{ $summary := .content | plainify | truncate 150 }}
-
-        <a href="{{ $link }}" title="{{ $title }}" target="_blank">
-          <div>
-            <header>
-              <div>{{ $date }}</div>
-              <div><span class="fas fa-book" /></div>
-            </header>
-            <h1>{{ $title }}</h1>
-            <p>{{ $author }}</p>
-          </div>
-        </a>
-      {{ end }}
+{{ range $posts }}
+  {{ $link    := .link }}
+  {{ $img     := .thumbnail }}
+  {{ $title   := .title }}
+  {{ $author  := .author }}
+  {{ $dateRaw := .pubDate }}
+  {{ $date    := dateFormat "January 2, 2006" $dateRaw }}
+  {{ $summary := .content | plainify | truncate 200 }}
+  <div class="col-lg-4 mb-5 mb-lg-0 text-center ">
+    <div class="blog-card">
+      <figure>
+        <img src="{{ $img }}" alt="Thumbnail for {{ $title }}" width="250" height="125">
+      </figure>
+      <div class="blog-card-body">
+        <div class="blog-card-date">Posted {{ $date }}</div>
+        <div class="blog-card-title">{{ $title }}</div>
+        <div class="blog-card-author">{{ $author }}</div>
+        <div class="blog-card-summary">{{ $summary }}</div>
+        <p class="pt-0"><a href="{{ $link }}" aria-label="{{ T "ui_read_more"}} - {{ $title }}" target="_blank">{{ T "ui_read_more"}} …</a></p>
+      </div>
     </div>
-  </section>
+  </div>
+{{ end }}
 
