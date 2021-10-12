@@ -33,12 +33,12 @@ ignoreFiles = [ "\\.ignore$" ]
   [[menu.main]]
       identifier = "main_quickstart"
       name = "Quick Start"
-      url = "/documentation/latest/quick-start"
+      url = "/documentation/v1.41/quick-start"
       weight = 2
   [[menu.main]]
       identifier = "tutorial"
       name = "Tutorial"
-      url = "/documentation/latest/tutorial"
+      url = "/documentation/v1.41/tutorial"
       weight = 3
   [[menu.main]]
       identifier = "main_contribute"
@@ -53,127 +53,127 @@ ignoreFiles = [ "\\.ignore$" ]
       [[menu.main]]
           identifier = "doc_installation_guide"
           name = "Installation Guide"
-          url = "/documentation/latest/installation-guide"
+          url = "/documentation/v1.41/installation-guide"
           weight = 1
           parent="main_doc"
       [[menu.main]]
           identifier = "doc_features"
           name = "Features"
-          url = "/documentation/latest/features"
+          url = "/documentation/v1.41/features"
           weight = 2
           parent="main_doc"
         [[menu.main]]
           identifier = "topology"
           name = "Topology"
-          url = "/documentation/latest/features/topology"
+          url = "/documentation/v1.41/features/topology"
           weight = 1
           parent="doc_features"
         [[menu.main]]
           identifier = "health"
           name = "Health"
-          url = "/documentation/latest/features/health"
+          url = "/documentation/v1.41/features/health"
           weight = 2
           parent="doc_features"
         [[menu.main]]
           identifier = "details"
           name = "Details"
-          url = "/documentation/latest/features/details"
+          url = "/documentation/v1.41/features/details"
           weight = 3
           parent="doc_features"
         [[menu.main]]
           identifier = "tracing"
           name = "Tracing"
-          url = "/documentation/latest/features/tracing"
+          url = "/documentation/v1.41/features/tracing"
           weight = 4
           parent="doc_features"
         [[menu.main]]
             identifier = "validations"
             name = "Validations"
-            url = "/documentation/latest/features/validations"
+            url = "/documentation/v1.41/features/validations"
             weight = 5
             parent="doc_features"
         [[menu.main]]
            identifier = "wizards"
            name = "Wizards"
-           url = "/documentation/latest/features/wizards"
+           url = "/documentation/v1.41/features/wizards"
            weight = 6
            parent="doc_features"
         [[menu.main]]
            identifier = "configuration"
            name = "Configuration"
-           url = "/documentation/latest/features/configuration"
+           url = "/documentation/v1.41/features/configuration"
            weight = 7
            parent="doc_features"
         [[menu.main]]
            identifier = "security"
            name = "Security"
-           url = "/documentation/latest/features/security"
+           url = "/documentation/v1.41/features/security"
            weight = 8
            parent="doc_features"
         [[menu.main]]
            identifier = "istio-component-status"
            name = "Istio Status"
-           url = "/documentation/latest/features/istio-component-status"
+           url = "/documentation/v1.41/features/istio-component-status"
            weight = 9
            parent="doc_features"
         [[menu.main]]
            identifier = "multi-cluster"
            name = "Multi-cluster"
-           url = "/documentation/latest/features/multi-cluster"
+           url = "/documentation/v1.41/features/multi-cluster"
            weight = 10
            parent="doc_features"
       [[menu.main]]
           identifier = "doc_configuration"
           name = "Configuration"
-          url = "/documentation/latest/configuration"
+          url = "/documentation/v1.41/configuration"
           weight = 3
           parent="main_doc"
           [[menu.main]]
               identifier = "doc_authentication"
               name = "Authentication"
-              url = "/documentation/latest/configuration/authentication"
+              url = "/documentation/v1.41/configuration/authentication"
               weight = 1
               parent="doc_configuration"
           [[menu.main]]
               identifier = "doc_rbac"
               name = "RBAC"
-              url = "/documentation/latest/configuration/rbac"
+              url = "/documentation/v1.41/configuration/rbac"
               weight = 3
               parent="doc_configuration"
           [[menu.main]]
               identifier = "doc_vm"
               name = "VM Workloads"
-              url = "/documentation/latest/configuration/vm"
+              url = "/documentation/v1.41/configuration/vm"
               weight = 4
               parent="doc_configuration"
       [[menu.main]]
           identifier = "doc_architecture"
           name = "Architecture"
-          url = "/documentation/latest/architecture"
+          url = "/documentation/v1.41/architecture"
           weight = 3
           parent="main_doc"
       [[menu.main]]
           identifier = "doc_glossary"
           name = "Glossary"
-          url = "/documentation/latest/glossary"
+          url = "/documentation/v1.41/glossary"
           weight = 4
           parent="main_doc"
           [[menu.main]]
               identifier = "concepts"
               name = "Concepts"
-              url = "/documentation/latest/glossary/concepts"
+              url = "/documentation/v1.41/glossary/concepts"
               weight = 1
               parent="doc_glossary"
           [[menu.main]]
               identifier = "observability"
               name = "Observability"
-              url = "/documentation/latest/glossary/observability"
+              url = "/documentation/v1.41/glossary/observability"
               weight = 2
               parent="doc_glossary"
           [[menu.main]]
               identifier = "networking"
               name = "Networking"
-              url = "/documentation/latest/glossary/networking"
+              url = "/documentation/v1.41/glossary/networking"
               weight = 3
               parent="doc_glossary"
       [[menu.main]]
@@ -185,5 +185,5 @@ ignoreFiles = [ "\\.ignore$" ]
   [[menu.main]]
       identifier = "main_faq"
       name = "FAQ"
-      url = "/documentation/latest/faq"
+      url = "/documentation/v1.41/faq"
       weight = 6
