@@ -1,13 +1,11 @@
 ---
-title: "Configuration"
+title: "Istio Configuration"
 date: 2018-06-20T19:04:38+02:00
 draft: false
 weight: 7
 ---
 
 Kiali is more than observability, it also helps you to configure, update and validate your Istio service mesh.
-
-## Istio Configuration
 
 The Istio configuration view provides advanced filtering and navigation for Istio configuration objects such as Virtual Services and Gateways.
 Kiali provides inline config edition and powerful semantic validation for Istio resources.
