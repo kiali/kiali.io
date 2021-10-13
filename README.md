@@ -28,12 +28,11 @@ To run the server, you need to run the following on a terminal:
 make serve
 ```
 
-{{% alert title="Docker" color="warning" %}}
-If you are using docker, you need to set `DORP` when starting the server, as such:
-```
-make -e DORP=docker make serve
-```
-{{% alert %}}
+> :warning: 
+> If you are using Docker, you need to set `DORP` when starting the server; e.g:
+> ```
+> make -e DORP=docker make serve
+> ```
 
 If everything is working as expected, you should see something like this:
 
