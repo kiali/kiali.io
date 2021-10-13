@@ -12,7 +12,6 @@ Kiali's default page is the topology _Overview_.  It presents a high-level view 
 
 ![Topology namespace overview](/images/documentation/features/topology-overview.png)
 
-</br>
 
 ## Graph
 
@@ -24,8 +23,6 @@ You can configure the graph to show the namespaces and data that are important t
 
 ![Topology graph](/images/documentation/features/topology-graph.png)
 
-</br>
-
 ### Health
 
 Colors in the graph represent the health of your service mesh. A node colored red or orange might need attention. The color of an edge between components represents the health of the requests between those components. The node shape indicates the type of component such as services, workloads, or apps.
@@ -33,8 +30,6 @@ Colors in the graph represent the health of your service mesh. A node colored re
 The health of nodes and edges is refreshed automatically based on the user's preference. The graph can also be paused to examine a particular state, or replayed to re-examine a particular time period.
 
 ![Topology graph health](/images/documentation/features/topology-graph-health.png)
-
-</br>
 
 ### Side-Panel
 
@@ -50,8 +45,6 @@ The collapsible side-panel summarizes the current graph selection, or the graph 
 ![Topology graph side-panel service](/images/documentation/features/topology-graph-sidepanel-2.png)
 ![Topology graph side-panel workload](/images/documentation/features/topology-graph-sidepanel-3.png)
 
-</br>
-
 ### Node Detail
 
 A single-click selects a graph node.  A double-click drills in to show the node's _Detail Graph_.  The node detail graph visualizes traffic from the point-of-view of that node, meaning
@@ -60,8 +53,6 @@ it shows only the traffic reported by that node's Istio proxy.
 You can return back to the main graph, or double-click to change to a different node's detail graph.
 
 ![Topology graph node detail](/images/documentation/features/topology-graph-node-detail.png)
-
-</br>
 
 ### Traffic Animation
 
@@ -72,8 +63,6 @@ For HTTP traffic, circles represent successful requests while red diamonds repre
 TCP traffic is represented by offset circles where the speed of the circles indicates the traffic speed.
 
 ![Topology graph animation](/images/documentation/features/topology-graph-node-animation.gif)
-
-</br>
 
 ### Graph Types
 
@@ -92,15 +81,13 @@ Kiali offers four different traffic-graph renderings:
 ![Topology graph type versioned app](/images/documentation/features/topology-graph-type-versioned-app.png)
 ![Topology graph service](/images/documentation/features/topology-graph-type-service.png)
 
-</br>
-
 ### Replay
 
 Graph replay allows you to replay traffic from a selected past time-period.  This gives you a chance to thoroughly examine a time period of interest, or share it with a co-worker.  The graph is fully bookmarkable, including replay.
 
 {{< youtube CC_dl4zSZiU >}}
 
-</br>
+<br />
 
 ### Operation Nodes
 

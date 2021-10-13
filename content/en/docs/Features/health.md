@@ -11,10 +11,8 @@ Colors in the graph represent the health of your service mesh. A node colored re
 
 The health of nodes and edges is refreshed automatically based on the user's preference. The graph can also be paused to examine a particular state, or replayed to re-examine a particular time period.
 
-<a class="image-popup-fit-height" href="/images/documentation/features/graph-health-v1.22.0.png" title="Visualize the health of your mesh">
-    <img src="/images/documentation/features/graph-health-thumb-v1.22.0.png" style="display:block;margin: 0 auto;" />
-</a>
-</br>
+![Visualize the health of your mesh](/images/documentation/features/graph-health-thumb-v1.22.0.png "Visualize the health of your mesh")
+
 
 ## Health Configuration
 

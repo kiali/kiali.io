@@ -14,13 +14,7 @@ Kiali v1.29 introduces experimental support for advanced deployment models. The 
 ## List View: Mesh Discovery
 Kiali will attempt to discover the clusters configured in the mesh.  And it will identify the *home* cluster, meaning the cluster on which it is installed and from which it presents its traffic, traces and Istio config.  In the following example there are two clusters defined in the mesh, _Kukulcan_ and _Tzotz_.  Kukulcan is identified as the home cluster in three places: the browser tab (not shown), the masthead, and with a star icon in the clusters list:
 
-<div style="display: flex;">
- <span style="margin: 0 auto;">
-  <a class="image-popup-fit-height" href="/images/documentation/features/multi-cluster-mesh-v1.29.png" title="Mesh list view">
-   <img src="/images/documentation/features/multi-cluster-mesh-v1.29.png" style="width: 660px;display:inline;margin: 0 auto;" />
-  </a>
- </span>
-</div>
+![Mesh list view](/images/documentation/features/multi-cluster-mesh-v1.29.png "Mesh list view")
 
 ## Graph View: Cluster and Namespace Boxing
 
@@ -28,11 +22,5 @@ Starting in v1.8 Istio provides cluster names in the traffic telemetry for multi
 
 Each new box type supports selection and will provide a side-panel summary of traffic.  Below we see a Bookinfo traffic graph for when Bookinfo services are deployed across the Kukulcan and Tzotz clusters. The Kukulcan cluster box is selected. Because Kukulcan is the Kiali home cluster, you see traffic from the perspective of Kukulcan. Note that you do not see the internal traffic on Tzotz (the requests from Reviews to Ratings service).  To see traffic from the Tzotz cluster point of view, you would open a Kiali session on Tzotz, assuming you have privileges.
 
-<div style="display: flex;">
- <span style="margin: 0 auto;">
-  <a class="image-popup-fit-height" href="/images/documentation/features/multi-cluster-graph-v1.29.png" title="Multi-cluster traffic graph">
-   <img src="/images/documentation/features/multi-cluster-graph-v1.29.png" style="width: 660px;display:inline;margin: 0 auto;" />
-  </a>
- </span>
-</div>
+![Multi-cluster traffic graph](/images/documentation/features/multi-cluster-graph-v1.29.png "Multi-cluster traffic graph")
 

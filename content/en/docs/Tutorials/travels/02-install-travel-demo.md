@@ -81,9 +81,7 @@ Additionally, some users, like _registered_ users, can have access to special di
 
 Service relations between namespaces can be described in the following diagram:
 
-<a class="image-popup-fit-height" href="/images/tutorial/02-02-travels-demo-design.png" title="Travel Demo Design">
-    <img src="/images/tutorial/02-02-travels-demo-design.png" style="display:block;margin: 0 auto;" />
-</a>
+![Travel Demo Design](/images/tutorial/02-02-travels-demo-design.png "Travel Demo Design")
 
 #### Travel Portal and Travel Agency flow
 
@@ -101,6 +99,5 @@ The *travel-control* namespace runs a *business dashboard* with two key features
 * Allow setting changes for every travel shop simulator (traffic ratio, device, user and type of travel).
 * Provide a *business* view of the total requests generated from the *travel-portal* namespace to the *travel-agency* services, organized by business criteria as grouped per shop, per type of traffic and per city.
 
-<a class="image-popup-fit-height" href="/images/tutorial/02-02-travels-dashboard.png" title="Travel Dashboard">
-    <img src="/images/tutorial/02-02-travels-dashboard.png" style="display:block;margin: 0 auto;" />
-</a>
+![Travel Dashboard](/images/tutorial/02-02-travels-dashboard.png "Travel Dashboard")
+

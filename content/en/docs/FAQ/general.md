@@ -112,7 +112,7 @@ Kiali currently requires the following metrics and attributes (note, this assume
 |istio_tcp_received_bytes_total              |used in metrics displays   |
 |istio_tcp_sent_bytes_total                  |used throughout Kiali and the primary metric for tcp traffic graph generation   |
 
-</br>
+<br />
 
 |Attribute      |Metric                               |Notes|
 |---------------|-------------------------------------|-----|

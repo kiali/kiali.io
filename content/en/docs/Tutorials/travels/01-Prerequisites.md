@@ -76,7 +76,5 @@ There are other alternatives to expose Kiali or other Addons in Istio. Check [Re
 
 After the *Prerequisites* you should be able to access Kiali. Verify its version by clicking the "?" icon and selecting "About":
 
-<a class="image-popup-fit-height" href="/images/tutorial/01-04-access-kiali-v1.39.0.png" title="Verify Kiali Access">
-    <img src="/images/tutorial/01-04-access-kiali-v1.39.0.png" style="display:block;margin: 0 auto;" />
-</a>
+![Verify Kiali Access](/images/tutorial/01-04-access-kiali-v1.39.0.png "Verify Kiali Access")
 

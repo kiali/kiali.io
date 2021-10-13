@@ -41,7 +41,6 @@ In some situations you can see a lot of connections from an "Unknown" node to yo
 From the Graph page, you can filter them out by typing `node = unknown` in the _Graph Hide_ input box.
 
 ![Graph Hide](/images/documentation/faq/graph/graph-hide.png)
-</br>
 
 For a more definitive solution, there are several ways to prevent Istio from gathering this kind of telemetry.
 

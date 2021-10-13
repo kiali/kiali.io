@@ -33,9 +33,7 @@ kubectl delete -f <(curl -L https://raw.githubusercontent.com/kiali/demos/master
 
 We should validate that telemetry has updated the *travel-portal* namespace and "Security" can be enabled in the Graph Display options.
 
-<a class="image-popup-fit-height" href="/images/tutorial/06-01-travel-portal-graph.png" title="Travel Portal Graph">
-    <img src="/images/tutorial/06-01-travel-portal-graph.png" style="display:block;margin: 0 auto;" />
-</a>
+![Travel Portal Graph](/images/tutorial/06-01-travel-portal-graph.png "Travel Portal Graph")
 
 {{% alert title="Step 2" color="success" %}}
 Create Authorization Policies for current traffic for *travel-agency* namespace
@@ -47,17 +45,11 @@ Every workload in the cluster uses a [Service Account](https://kubernetes.io/doc
 
 This information is propagated into the Istio Telemetry and Kiali can use it to define a set of AuthorizationPolicy rules using the "Create Traffic Policies" action located in the Overview page.
 
-<a class="image-popup-fit-height" href="/images/tutorial/06-01-create-traffic-policies.png" title="Create Traffic Policies">
-    <img src="/images/tutorial/06-01-create-traffic-policies.png" style="display:block;margin: 0 auto;" />
-</a>
-
-</br>
+![Create Traffic Policies](/images/tutorial/06-01-create-traffic-policies.png "Create Traffic Policies")
 
 This will generate a main DENY ALL rule to protect the whole namespace, and an individual ALLOW rule per workload identified in the telemetry.
 
-<a class="image-popup-fit-height" href="/images/tutorial/06-01-travel-agency-authorization-policies.png" title="Travel Agency Authorization Policies">
-    <img src="/images/tutorial/06-01-travel-agency-authorization-policies.png" style="display:block;margin: 0 auto;" />
-</a>
+![Travel Agency Authorization Policies](/images/tutorial/06-01-travel-agency-authorization-policies.png "Travel Agency Authorization Policies")
 
 {{% alert title="Step 3" color="success" %}}
 Deploy the *loadtester* portal in the *travel-portal* namespace
@@ -75,25 +67,15 @@ kubectl apply -f <(curl -L https://raw.githubusercontent.com/kiali/demos/master/
 
 Now, *travels* workload will reject requests made by *loadtester* workload and that situation will be reflected in Graph:
 
-<a class="image-popup-fit-height" href="/images/tutorial/06-01-loadtester-denied.png" title="Loadtester Denied">
-    <img src="/images/tutorial/06-01-loadtester-denied.png" style="display:block;margin: 0 auto;" />
-</a>
-
-</br>
+![Loadtester Denied](/images/tutorial/06-01-loadtester-denied.png "Loadtester Denied")
 
 This can also be verified in the details page using the Outbound Metrics tab grouped by response code (only the 403 line is present).
 
-<a class="image-popup-fit-height" href="/images/tutorial/06-01-loadtester-denied-metrics.png" title="Loadtester Denied Metrics">
-    <img src="/images/tutorial/06-01-loadtester-denied-metrics.png" style="display:block;margin: 0 auto;" />
-</a>
-
-</br>
+![Loadtester Denied Metrics](/images/tutorial/06-01-loadtester-denied-metrics.png "Loadtester Denied Metrics")
 
 Inspecting the Logs tab confirms that *loadtester* workload is getting a HTTP 403 Forbidden response from *travels* workloads, as expected.
 
-<a class="image-popup-fit-height" href="/images/tutorial/06-01-loadtester-logs.png" title="Loadtester Logs">
-    <img src="/images/tutorial/06-01-loadtester-logs.png" style="display:block;margin: 0 auto;" />
-</a>
+![Loadtester Logs](/images/tutorial/06-01-loadtester-logs.png "Loadtester Logs")
 
 {{% alert title="Step 4" color="success" %}}
 Update *travels-v1* AuthorizationPolicy to allow *loadtester* ServiceAccount
@@ -103,25 +85,15 @@ AuthorizationPolicy resources are defined per workload using matching selectors.
 
 As part of the example, we can show how a ServiceAccount can be added into an existing rule to allow traffic from *loadtester* workload into the *travels-v1* workload only.
 
-<a class="image-popup-fit-height" href="/images/tutorial/06-01-authorizationpolicy-edit.png" title="AuthorizationPolicy Edit">
-    <img src="/images/tutorial/06-01-authorizationpolicy-edit.png" style="display:block;margin: 0 auto;" />
-</a>
-
-</br>
+![AuthorizationPolicy Edit](/images/tutorial/ "AuthorizationPolicy Edit")
 
 As expected, now we can see that *travels-v1* workload accepts requests from all *travel-portal* namespace workloads, but *travels-v2* and *travels-v3* continue rejecting requests from *loadtester* source.
 
-<a class="image-popup-fit-height" href="/images/tutorial/06-01-travels-v1-authorizationpolicy.png" title="Travels v1 AuthorizationPolicy">
-    <img src="/images/tutorial/06-01-travels-v1-authorizationpolicy.png" style="display:block;margin: 0 auto;" />
-</a>
-
-</br>
+![Travels v1 AuthorizationPolicy](/images/tutorial/06-01-travels-v1-authorizationpolicy.png "Travels v1 AuthorizationPolicy")
 
 Using "Outbound Metrics" tab from the *loadtester* workload we can group per "Remote version" and "Response code" to get a detailed view of this AuthorizationPolicy change.
 
-<a class="image-popup-fit-height" href="/images/tutorial/06-01-loadtester-authorized-metrics.png" title="Travels v1 AuthorizationPolicy">
-    <img src="/images/tutorial/06-01-loadtester-authorized-metrics.png" style="display:block;margin: 0 auto;" />
-</a>
+![Travels v1 AuthorizationPolicy](/images/tutorial/06-01-loadtester-authorized-metrics.png "Travels v1 AuthorizationPolicy")
 
 {{% alert title="Step 5" color="success" %}}
 Update or delete Istio Configuration

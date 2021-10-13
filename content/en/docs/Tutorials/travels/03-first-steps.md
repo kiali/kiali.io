@@ -13,25 +13,15 @@ In that case, the application won't connect to the control plane and won't take 
 
 In Kiali, we will see the new namespaces in the overview page:
 
-<a class="image-popup-fit-height" href="/images/tutorial/03-01-overview.png" title="Overview">
-    <img src="/images/tutorial/03-01-overview.png" style="display:block;margin: 0 auto;" />
-</a>
-
-<br/>
+![Overview](/images/tutorial/03-01-overview.png "Overview")
 
 But we won't see any traffic in the graph page for any of these new namespaces:
 
-<a class="image-popup-fit-height" href="/images/tutorial/03-01-empty-graph.png" title="Empty Graph">
-    <img src="/images/tutorial/03-01-empty-graph.png" style="display:block;margin: 0 auto;" />
-</a>
-
-<br/>
+![Empty Graph](/images/tutorial/03-01-empty-graph.png "Empty Graph")
 
 If we examine the Applications, Workloads or Services page, it will confirm that there are missing sidecars:
 
-<a class="image-popup-fit-height" href="/images/tutorial/03-01-missing-sidecar.png" title="Missing Sidecar">
-    <img src="/images/tutorial/03-01-missing-sidecar.png" style="display:block;margin: 0 auto;" />
-</a>
+![Missing Sidecar](/images/tutorial/03-01-missing-sidecar.png "Missing Sidecar")
 
 ## Enable Sidecars
 
@@ -44,20 +34,14 @@ We are going to start with the *control* workload deployed into the *travel-cont
 {{% alert title="Step 1" color="success" %}}
 Enable Auto Injection on the *travel-control* namespace
 {{% /alert %}}
-<a class="image-popup-fit-height" href="/images/tutorial/03-02-travel-control-namespace.png" title="Enable Auto Injection per Namespace">
-    <img src="/images/tutorial/03-02-travel-control-namespace.png" style="display:block;margin: 0 auto;" />
-</a>
 
-<br/>
+![Enable Auto Injection per Namespace](/images/tutorial/03-02-travel-control-namespace.png "Enable Auto Injection per Namespace")
 
 {{% alert title="Step 2" color="success" %}}
 Enable Auto Injection for *control* workload
 {{% /alert %}}
-<a class="image-popup-fit-height" href="/images/tutorial/03-02-control-workload.png" title="Enable Auto Injection per Workkload">
-    <img src="/images/tutorial/03-02-control-workload.png" style="display:block;margin: 0 auto;" />
-</a>
 
-<br/>
+![Enable Auto Injection per Workkload](/images/tutorial/03-02-control-workload.png "Enable Auto Injection per Workkload")
 
 Understanding what happened:
 
@@ -122,49 +106,32 @@ not define a DNS entry, instead, where you see `control.travel-control.istio-clu
 {{% alert title="Step 2" color="success" %}}
 Use the Request Routing Wizard on the *control* service to generate a traffic rule
 {{% /alert %}}
-<a class="image-popup-fit-height" href="/images/tutorial/03-03-service-actions.png" title="Request Routing Wizard">
-    <img src="/images/tutorial/03-03-service-actions.png" style="display:block;margin: 0 auto;" />
-</a>
 
-</br>
+![Request Routing Wizard](/images/tutorial/03-03-service-actions.png "Request Routing Wizard")
 
 Use "Add Route Rule" button to add a default rule where any request will be routed to the *control* workload.
 
-<a class="image-popup-fit-height" href="/images/tutorial/03-03-request-routing.png" title="Routing Rule">
-    <img src="/images/tutorial/03-03-request-routing.png" style="display:block;margin: 0 auto;" />
-</a>
-
-</br>
+![Routing Rule](/images/tutorial/03-03-request-routing.png "Routing Rule")
 
 Use the Advanced Options and add a gateway with host `control.travel-control.istio-cluster.org` and create the Istio config.
 
-<a class="image-popup-fit-height" href="/images/tutorial/03-03-create-gateway.png" title="Create Gateway">
-    <img src="/images/tutorial/03-03-create-gateway.png" style="display:block;margin: 0 auto;" />
-</a>
-
-</br>
+![Create Gateway](/images/tutorial/03-03-create-gateway.png "Create Gateway")
 
 Verify the Istio configuration generated.
 
-<a class="image-popup-fit-height" href="/images/tutorial/03-03-istio-config.png" title="Istio Config">
-    <img src="/images/tutorial/03-03-istio-config.png" style="display:block;margin: 0 auto;" />
-</a>
+![Istio Config](/images/tutorial/03-03-istio-config.png "Istio Config")
 
 {{% alert title="Step 3" color="success" %}}
 Test the *control* service by pointing your browser to `\http://control.travel-control.istio-cluster.org`
 {{% /alert %}}
-<a class="image-popup-fit-height" href="/images/tutorial/03-03-test-gateway.png" title="Test Gateway">
-    <img src="/images/tutorial/03-03-test-gateway.png" style="display:block;margin: 0 auto;" />
-</a>
+
+![Test Gateway](/images/tutorial/03-03-test-gateway.png "Test Gateway")
 
 {{% alert title="Step 4" color="success" %}}
 Review *travel-control* namespace in Kiali
 {{% /alert %}}
-<a class="image-popup-fit-height" href="/images/tutorial/03-03-travel-control-graph.png" title="Travel Control Graph">
-    <img src="/images/tutorial/03-03-travel-control-graph.png" style="display:block;margin: 0 auto;" />
-</a>
 
-</br>
+![Travel Control Graph](/images/tutorial/03-03-travel-control-graph.png "Travel Control Graph")
 
 Understanding what happened:
 
