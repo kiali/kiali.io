@@ -2,15 +2,12 @@
 title: Undeploy the Travel Demo
 weight: 99
 ---
-:icons: font
-:sectlinks:
-:linkattrs:
 
 To uninstall the Travel Demo application perform the following commands:
 
-[source,bash]
-----
+```
 kubectl delete namespace travel-agency
 kubectl delete namespace travel-portal
 kubectl delete namespace travel-control
-----
+```
+

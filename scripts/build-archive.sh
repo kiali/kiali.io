@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# TODO- THIS NEEDS TO BE UPDATED FOR THE NEW DOCSY WEBSITE!!!!
+exit
+
 set -xe
 
 tag="${1%.0}"
