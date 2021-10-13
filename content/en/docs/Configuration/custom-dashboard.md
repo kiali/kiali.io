@@ -45,7 +45,7 @@ custom_dashboards:
       version: var-version
 ```
 
-The *name* field corresponds to what you can set in the pod annotation #pods-annotations[`kiali.io/dashboards`].
+The *name* field corresponds to what you can set in the pod annotation [kiali.io/dashboards](#pod-annotations).
 
 The rest of the field definitions are:
 
@@ -79,7 +79,7 @@ The rest of the field definitions are:
   * *name*: name of the related dashboard in the external system (e.g. name of a Grafana dashboard)
   * *type*: link type, currently only _grafana_ is allowed
   * *variables*: a set of variables that can be injected in the URL. For instance, with something like _namespace: var-namespace_ and _app: var-app_, an URL to a Grafana dashboard that manages _namespace_ and _app_ variables would look like:
-_\http://grafana-server:3000/d/xyz/my-grafana-dashboard?var-namespace=some-namespace&var-app=some-app_. The available variables in this context are *namespace*, *app* and *version*.
+`http://grafana-server:3000/d/xyz/my-grafana-dashboard?var-namespace=some-namespace&var-app=some-app`. The available variables in this context are *namespace*, *app* and *version*.
 
 {{% alert color="warning" %}}
 *Label clash*: you should try to avoid labels clashes within a dashboard.
@@ -214,7 +214,7 @@ It is important to preserve label mapping, so that Kiali can filter by _app_ and
         target_label: kubernetes_namespace
 ```
 
-## Pod Annotations and Auto-discovery {#pods-annotations}
+## Pod Annotations and Auto-discovery {#pod-annotations}
 
 Application pods must be annotated for the Prometheus scraper, for example, within a _Deployment_ definition:
 
