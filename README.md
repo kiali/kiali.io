@@ -28,12 +28,8 @@ To run the server, you need to run the following on a terminal:
 make serve
 ```
 
-{{% alert title="Podman" color="warning" %}}
-If you are using podman, you need to set `CONTAINER_RUNTIME` when starting the server, as such:
-```
-CONTAINER_RUNTIME=podman make serve
-```
-{{% /alert %}}
+{{% alert title="Docker" color="warning" %}}
+If you are using docker, you need to set `DORP` when starting the server, as such:
 
 If everything is working as expected, you should see something like this:
 
