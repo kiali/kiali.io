@@ -1,16 +1,4 @@
-output
+node_modules
 public
-Gemfile.lock
-.bundle
 resources
-vendor
 
-# IntelliJ
-.idea/
-
-# Emacs
-*~
-\#*\#
-
-# Vim
-*.swp
