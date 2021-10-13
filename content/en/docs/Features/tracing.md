@@ -10,7 +10,7 @@ than that, Kiali incorporates tracing into several correlated views, making your
 For a quick glimpse at Kiali tracing features, see below.  For a detailed explanation of tracing in Kiali, see this 3-part
 [Trace my mesh](https://medium.com/kialiproject/trace-my-mesh-part-1-3-35e252f9c6a9) blog series,
 
-</br>
+<br />
 
 ## Workload detail
 
@@ -19,10 +19,8 @@ presents a tab for trace detail, and a tab for span details.  Kiali always tries
 heatmap approach to help the user identify problem traces or spans.
 
 ![Trace detail](/images/documentation/features/trace-detail.png)
-
 ![Span detail](/images/documentation/features/trace-span-detail.png)
 
-</br>
 
 ## Metric Correlation
 
@@ -31,7 +29,6 @@ span will navigate back to the _Traces_ tab, focused on the trace of interest.
 
 ![Metrics with Tracing](/images/documentation/features/trace-metric-overlay.png)
 
-</br>
 
 ## Graph Correlation
 
@@ -42,7 +39,6 @@ views.
 
 ![Graph with Tracing](/images/documentation/features/trace-graph-overlay.png)
 
-</br>
 
 ## Logs Correlation
 

@@ -11,16 +11,8 @@ Kiali gives support to better understand how mTLS is used in Istio meshes. Find 
 
 At the right side of the Masthead, Kiali shows a lock when the mesh has strictly enabled `mTLS` for the whole service mesh. It means that all the communications in the mesh uses `mTLS`.
 
-<div style="display: flex;">
- <span style="margin: 0 auto">
-  <a class="image-popup-fit-height" href="/images/documentation/features/masthead-mtls-v1.22.0.png" title="mTLS mesh-wide enabled strictly">
-   <img src="/images/documentation/features/masthead-mtls-v1.22.0.png" style="width: 660px;display:inline;margin: 0 auto;" />
-  </a>
-  <a class="image-popup-fit-height" href="/images/documentation/features/masthead-mtls-hollow-v1.22.0.png" title="Custom Vertx Metrics">
-   <img src="/images/documentation/features/masthead-mtls-hollow-v1.22.0.png" style="width: 660px; display:inline;margin: 0 auto;" />
-  </a>
- </span>
-</div>
+![mTLS mesh-wide enabled strictly](/images/documentation/features/masthead-mtls-v1.22.0.png "mTLS mesh-wide enabled strictly")
+![Custom Vertx Metrics](/images/documentation/features/masthead-mtls-hollow-v1.22.0.png "Custom Vertx Metrics")
 
 Kiali shows a hollow lock when either the mesh is configured in `PERMISSIVE` mode or there is a misconfiguration in the mesh-wide `mTLS` configuration.
 
@@ -28,13 +20,7 @@ Kiali shows a hollow lock when either the mesh is configured in `PERMISSIVE` mod
 
 The overview page shows all the available namespaces with aggregated data. Besides the health and validations, Kiali shows also the `mTLS` status at namespace-wide. Similar to the masthead, it shows a lock when strict `mTLS` is enabled or a hollow lock when permissive.
 
-<div style="display: flex;">
- <span style="margin: 0 auto;">
-  <a class="image-popup-fit-height" href="/images/documentation/features/overview-mtls-v1.22.0.png" title="Overview page: showing mTLS at namespace-wide">
-   <img src="/images/documentation/features/overview-mtls-v1.22.0.png" style="width: 660px;display:inline;margin: 0 auto;" />
-  </a>
- </span>
-</div>
+![Overview page: showing mTLS at namespace-wide](/images/documentation/features/overview-mtls-v1.22.0.png "Overview page: showing mTLS at namespace-wide")
 
 ## Graph
 
@@ -42,23 +28,11 @@ The `mTLS` method is used to establish communication between microservices. In t
 
 Enable the option in the `Display` dropdown, select the `security` badge.
 
-<div style="display: flex;">
- <span style="margin: 0 auto;">
-  <a class="image-popup-fit-height" href="/images/documentation/features/graph-mtls-v1.22.0.png" title="Graph shows edges which uses mTLS">
-   <img src="/images/documentation/features/graph-mtls-v1.22.0.png" style="width: 1333px;display:inline;margin: 0 auto;" />
-  </a>
- </span>
-</div>
+![Graph shows edges which uses mTLS](/images/documentation/features/graph-mtls-v1.22.0.png "Graph shows edges which uses mTLS")
 
 ## Validations
 
 Kiali has different validations to help troubleshoot configurations related to `mTLS` such as `DestinationRules` and `PeerAuthentications`.
 
-<div style="display: flex;">
- <span style="margin: 0 auto;">
-  <a class="image-popup-fit-height" href="/images/documentation/features/validations-mtls-v1.22.0.png" title="Validation supporting mTLS configuration">
-   <img src="/images/documentation/features/validations-mtls-v1.22.0.png" style="width: 1333px;display:inline;margin: 0 auto;" />
-  </a>
- </span>
-</div>
+![Validation supporting mTLS configuration](/images/documentation/features/validations-mtls-v1.22.0.png "Validation supporting mTLS configuration")
 

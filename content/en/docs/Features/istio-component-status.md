@@ -9,13 +9,7 @@ weight: 9
 
 The Istio service mesh architecture is comprised of several components, from istiod to Jaeger. Each component must work as expected for the mesh to work well overall. Kiali regularly checks the status of each Istio component to ensure the mesh is healthy.
 
-<div style="display: flex;">
- <span style="margin: 0 auto;">
-  <a class="image-popup-fit-height" href="/images/documentation/features/istio-components-1.24.png" title="Istio components status: components not healthy or found">
-   <img src="/images/documentation/features/istio-components-1.24.png" style="width: 660px;display:inline;margin: 0 auto;" />
-  </a>
- </span>
-</div>
+![Istio components status: components not healthy or found](/images/documentation/features/istio-components-1.24.png "Istio components status: components not healthy or found")
 
 A component *status* will be one of: `Not found`, `Unreachable`, `Not healthy` and `Healthy`. The `Not found` status means that Kiali is not able to find the deployment. The `Unreachable` status means that Kiali hasn't been succesfuly able to communicate with the component (Prometheus, Grafana and Jaeger). The `Not healthy` status means that the deployment doesn't have the desired amount of replicas running. The `Healthy` status is when the component is not in the previous ones, plus, healthy components won't be shown in the list.
 
@@ -38,13 +32,7 @@ The certificates shown depends on how Istio is configured. The following cases a
 
 The following is an example of viewing the default case:
 
-<div style="display: flex;">
- <span style="margin: 0 auto;">
-  <a class="image-popup-fit-height" href="/images/documentation/features/certificates-information-indicators.png" title="Certificates information">
-   <img src="/images/documentation/features/certificates-information-indicators.png" style="width: 1333px;display:inline;margin: 0 0 15px 0;" />
-  </a>
- </span>
-</div>
+![Certificates information](/images/documentation/features/certificates-information-indicators.png "Certificates information")
 
 Note that displaying this configuration requires permissions to read secrets (*istio-ca-secret* by default, possibly *cacerts* or any secret configured when using DNS certificates).
 

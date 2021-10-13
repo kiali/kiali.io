@@ -16,7 +16,6 @@ Kiali provides filtered list views of all your service mesh definitions. Each vi
 ![Detail list workload](/images/documentation/features/detail-list-workload.png)
 ![Detail list Istio config](/images/documentation/features/detail-list-config.png)
 
-<br />
 Selecting an object from the list will bring you to its detail page.  For Istio Config, Kiali will present its YAML, along with contextual validation information. Other mesh components present a variety of Tabs.
 
 ## Overview Tab
@@ -40,26 +39,22 @@ And also type-specfic information.  For example:
 ![Detail overview service](/images/documentation/features/detail-overview-service.png)
 ![Detail overview workload](/images/documentation/features/detail-overview-workload.png)
 
-<br />
 Both Workload and Service detail can be customized to some extent, by adding additional details supplied as annotations. This is done through the `additional_display_details` field in [the Kiali CR](https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml).
 
 ![Detail overview additional details](/images/documentation/features/detail-overview-additional-details.png)
 
-<br />
 ## Traffic
 
 The Traffic Tab presents a service, app, or workload's Inbound and Outbound traffic in a table-oriented way:
 
 ![Detail traffic](/images/documentation/features/detail-traffic.png)
 
-<br />
 ## Logs
 
 Workload detail offers a special Logs tab.  Kiali offers a special _unified_ logs view that lets users correlate app and proxy logs.  It can also add-in trace span information to help identify important traces based on associated logging. More powerful features include substring or regex Show/Hide, full-screen, and the ability to set proxy log level without a pod restart.
 
 ![Detail logs](/images/documentation/features/detail-logs.png)
 
-<br />
 ## Metrics
 
 Each detail view provides _Inbound Metrics_ and/or _Outbound Metrics_ tabs, offering predefined metric dashboards. The dashboards provided are tailored to the relevant application, workload or service level. Application and workload detail views show request and response metrics such as volume, duration, size, or tcp traffic.  The service detail view shows request and response metrics for inbound traffic only.
@@ -69,7 +64,6 @@ Kiali allows the user to customize the charts by choosing the charted dimensions
 ![Detail metric inbound](/images/documentation/features/detail-metrics-in.png)
 ![Detail metrics outbound](/images/documentation/features/detail-metrics-out.png)
 
-<br />
 ## Traces
 
 Each detail view provides a _Traces_ tab with a native integration with Jaeger.  For more, see [Tracing]({{< relref "./tracing" >}}).
@@ -89,7 +83,6 @@ The most important built-in dashboard is for Envoy.  Kiali offers the _Envoy_ ta
 
 ![Detail Envoy](/images/documentation/features/detail-envoy.png)
 
-<br />
 Istio's Envoy sidecars supply [some internal metrics](https://www.envoyproxy.io/docs/envoy/latest/configuration/upstream/cluster_manager/cluster_stats), that can be viewed in Kiali. They are different than the metrics reported by Istio Telemetry, which Kiali uses extensively. Some of Envoy's metrics may be redundant.
 
 Note that the enabled Envoy metrics can be tuned, as explained in the [Istio documentation](https://istio.io/docs/ops/telemetry/envoy-stats/): it's possible to get more metrics using the `statsInclusionPrefixes` annotation. Make sure you include `cluster_manager` and `listener_manager` as they are required.

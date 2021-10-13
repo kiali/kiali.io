@@ -222,10 +222,6 @@ enable = false
   url = "https://kiali.io"
 
 [[params.versions]]
-  version = "latest"
-  url = "localhost:1313"
-
-[[params.versions]]
-  version = "archive"
-  url = "https://kiali.io"
+  version = "pre-v1.41"
+  url = "https://pre-v1-41.kiali.io"
 

@@ -11,14 +11,7 @@ Kiali performs a set of validations to the most common Istio Objects such as Des
 
 Galley validations are mostly syntactic validations based on the object syntax analysis of Istio objects while Kiali validations are mostly semantic validations between different Istio objects. Kiali validations are based on the runtime status of your service mesh, Galley validations are static ones and doesn't take into account what is configured in the mesh.
 
-<div style="display: flex;">
- <span style="margin: 0 auto;">
-  <a class="image-popup-fit-height" href="/images/documentation/features/config-validation-v1.22.0.png" title="Istio Config Validation">
-   <img src="/images/documentation/features/config-validation-v1.22.0.png" style="width: 1333px;display:inline;margin: 0 auto;" />
-  </a>
- </span>
-</div>
-</br>
+![Istio Config Validation](/images/documentation/features/config-validation-v1.22.0.png "Istio Config Validation")
 
 Check the complete list of validations for further information.
 
