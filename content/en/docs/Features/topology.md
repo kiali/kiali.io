@@ -1,8 +1,6 @@
 ---
 title: Topology
 description: How Kiali visualizes the mesh topology.
-date: 2018-06-20T19:04:38+02:00
-draft: false
 weight: 1
 ---
 
@@ -14,6 +12,7 @@ Kiali's default page is the topology _Overview_.  It presents a high-level view 
 
 ![Topology namespace overview](/images/documentation/features/topology-overview.png)
 
+</br>
 
 ## Graph
 
@@ -25,6 +24,7 @@ You can configure the graph to show the namespaces and data that are important t
 
 ![Topology graph](/images/documentation/features/topology-graph.png)
 
+</br>
 
 ### Health
 
@@ -34,6 +34,7 @@ The health of nodes and edges is refreshed automatically based on the user's pre
 
 ![Topology graph health](/images/documentation/features/topology-graph-health.png)
 
+</br>
 
 ### Side-Panel
 
@@ -49,6 +50,7 @@ The collapsible side-panel summarizes the current graph selection, or the graph 
 ![Topology graph side-panel service](/images/documentation/features/topology-graph-sidepanel-2.png)
 ![Topology graph side-panel workload](/images/documentation/features/topology-graph-sidepanel-3.png)
 
+</br>
 
 ### Node Detail
 
@@ -59,6 +61,7 @@ You can return back to the main graph, or double-click to change to a different 
 
 ![Topology graph node detail](/images/documentation/features/topology-graph-node-detail.png)
 
+</br>
 
 ### Traffic Animation
 
@@ -70,6 +73,7 @@ TCP traffic is represented by offset circles where the speed of the circles indi
 
 ![Topology graph animation](/images/documentation/features/topology-graph-node-animation.gif)
 
+</br>
 
 ### Graph Types
 
@@ -88,6 +92,7 @@ Kiali offers four different traffic-graph renderings:
 ![Topology graph type versioned app](/images/documentation/features/topology-graph-type-versioned-app.png)
 ![Topology graph service](/images/documentation/features/topology-graph-type-service.png)
 
+</br>
 
 ### Replay
 
@@ -95,6 +100,7 @@ Graph replay allows you to replay traffic from a selected past time-period.  Thi
 
 {{< youtube CC_dl4zSZiU >}}
 
+</br>
 
 ### Operation Nodes
 
