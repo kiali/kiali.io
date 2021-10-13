@@ -5,11 +5,6 @@ ARG HUGO_VERSION
 VOLUME /site
 WORKDIR /site
 
-# Avoid startup errors about missing AsciiDoctor
-ARG ASCIIDOCTOR_VERSION=2.0.10
-RUN microdnf -y install ruby
-RUN gem install --no-document "asciidoctor:${ASCIIDOCTOR_VERSION}"
-
 # Download, untar, and install Hugo
 RUN microdnf -y install tar shadow-utils git nodejs \
  && microdnf clean all
