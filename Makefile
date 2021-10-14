@@ -1,3 +1,4 @@
+# Make sure this Hugo version is compatible with the one defined in netlify.toml
 HUGO_VERSION ?= 0.75.0
 DORP ?= podman
 KIALI_HUGO_IMAGE ?= kiali/hugo:latest

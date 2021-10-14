@@ -59,12 +59,15 @@ Press Ctrl+C to stop
 
 The server should be available on [http://localhost:1313](http://localhost:1313). Some files might not be supported for live reload. If, for some reason, you are not seeing your changes appearing you may need to restart the server.
 
+## Upgrading Hugo version
+
+The current version of Hugo used to build the site is defined in [netlify.toml](./netlify.toml) and in the [Makefile](./Makefile). Make sure the versions defined in both places are the same or, at minimum, compatible.
+
+When upgrading to a new version of Hugo, change the versions in both files mentioned above and then rebuild your dev container image by passing in `-e FORCE_BUILD=true` when running make (e.g. `make -e FORCE_BUILD=true serve`).
 
 ## Documentation Versioning
 
 The documentation is versioned using a branch strategy.  The `master` branch holds all new content.  On each Kiali release `master` will be captured in a versioned branch.  This typically happens every three weeks.
-
-The versioning/release script can be found on `scripts/build-archive.sh`.
 
 ## Production Deployment
 
