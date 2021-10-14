@@ -47,7 +47,7 @@ in each commented setting is the default value (so if you do not define that set
 
 ### How to configure some operator features at runtime
 
-{{% alert color="error" %}}
+{{% alert color="danger" %}}
 First, read 
 [Managing configuration of Helm installations in the Installation guide]({{< ref "/docs/installation/installation-guide/install-with-helm#managing-installation-config" >}}) to
 check if that method works for your case.
