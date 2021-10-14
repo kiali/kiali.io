@@ -1,21 +1,21 @@
 {
-  "name": "tech-doc-hugo",
+  "name": "kiali-doc-hugo",
   "version": "0.0.1",
-  "description": "Hugo theme for technical documentation.",
+  "description": "Kiali technical documentation.",
   "main": "none.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/google/docsy-example.git"
+    "url": "git+https://github.com/kiali/kiali.io.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Kiali",
+  "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/google/docsy-example/issues"
+    "url": "https://github.com/kiali/kiali/issues"
   },
-  "homepage": "https://github.com/google/docsy-example#readme",
+  "homepage": "https://kiali.io",
   "dependencies": {},
   "devDependencies": {
     "autoprefixer": "^9.8.6",
