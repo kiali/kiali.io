@@ -5,7 +5,7 @@ draft: false
 weight: 6
 ---
 
-## Authorization Policies
+## Authorization Policies and Sidecars
 
 [Security](https://istio.io/latest/docs/concepts/security/) is one of the main pillars of Istio features.
 
@@ -15,7 +15,9 @@ In this tutorial we will show how Kiali can use telemetry information to create 
 
 Istio telemetry aggregates the ServiceAccount information used in the workloads communication. This information can be used to define authorization policies that deny and allow actions on future live traffic communication status.
 
-This step will show how we can define authorization policies for the *travel-agency* namespace in the Travel Demo application, for all existing traffic in a given time period.
+Additionally, Istio sidecars can be created to limit the hosts with which a given workload can communicate. This improves traffic control, and also reduces the [memory footprint](https://istio.io/latest/docs/ops/deployment/performance-and-scalability/#cpu-and-memory) of the proxies.
+
+This step will show how we can define authorization policies for the *travel-agency* namespace, in the Travel Demo application, for all existing traffic in a given time period.
 
 Once authorization policies are defined, a new workload will be rejected if it doesn't match the security rules defined.
 
@@ -36,20 +38,32 @@ We should validate that telemetry has updated the *travel-portal* namespace and 
 ![Travel Portal Graph](/images/tutorial/06-01-travel-portal-graph.png "Travel Portal Graph")
 
 {{% alert title="Step 2" color="success" %}}
-Create Authorization Policies for current traffic for *travel-agency* namespace
+Create Authorization Policies, and Istio Sidecars, for current traffic for *travel-agency* namespace
 {{% /alert %}}
 
 Every workload in the cluster uses a [Service Account](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/).
 
 *travels.uk*, *viaggi.it* and *voyages.fr* workloads use the default *cluster.local/ns/travel-portal/sa/default* ServiceAccount defined automatically per namespace.
 
-This information is propagated into the Istio Telemetry and Kiali can use it to define a set of AuthorizationPolicy rules using the "Create Traffic Policies" action located in the Overview page.
+This information is propagated into the Istio Telemetry and Kiali can use it to define a set of AuthorizationPolicy rules, and Istio Sidecars.
+
+The Sidecars restrict the list of hosts with which each workload can communicate, based on the current traffic.
+
+The "Create Traffic Policies" action, located in the Overview page, will create these definitions.
 
 ![Create Traffic Policies](/images/tutorial/06-01-create-traffic-policies.png "Create Traffic Policies")
 
 This will generate a main DENY ALL rule to protect the whole namespace, and an individual ALLOW rule per workload identified in the telemetry.
 
 ![Travel Agency Authorization Policies](/images/tutorial/06-01-travel-agency-authorization-policies.png "Travel Agency Authorization Policies")
+
+It will create also an individual Sidecar per workload, each of them containing the set of hosts.
+
+![Travel Agency Sidecars](/images/tutorial/06-01-travel-agency-sidecars.png "Travel Agency Sidecars")
+
+As an example, we can see that for the *travels-v1* workload, the following list of hosts are added to the sidecar.
+
+![Travels V1 Sidecar](/images/tutorial/06-01-travels-v1-sidecars.png "Travels V1 Sidecar")
 
 {{% alert title="Step 3" color="success" %}}
 Deploy the *loadtester* portal in the *travel-portal* namespace
@@ -85,7 +99,7 @@ AuthorizationPolicy resources are defined per workload using matching selectors.
 
 As part of the example, we can show how a ServiceAccount can be added into an existing rule to allow traffic from *loadtester* workload into the *travels-v1* workload only.
 
-![AuthorizationPolicy Edit](/images/tutorial/ "AuthorizationPolicy Edit")
+![AuthorizationPolicy Edit](/images/tutorial/06-01-authorizationpolicy-edit.png "AuthorizationPolicy Edit")
 
 As expected, now we can see that *travels-v1* workload accepts requests from all *travel-portal* namespace workloads, but *travels-v2* and *travels-v3* continue rejecting requests from *loadtester* source.
 
@@ -96,8 +110,18 @@ Using "Outbound Metrics" tab from the *loadtester* workload we can group per "Re
 ![Travels v1 AuthorizationPolicy](/images/tutorial/06-01-loadtester-authorized-metrics.png "Travels v1 AuthorizationPolicy")
 
 {{% alert title="Step 5" color="success" %}}
+Verify the proxies clusters list is limited by the Sidecars
+{{% /alert %}}
+
+According to [Istio Sidecar](https://istio.io/latest/docs/reference/config/networking/sidecar/) documentation, Istio configures all mesh sidecar proxies to reach every mesh workload. After the sidecars are created, the list of hosts is reduced according to the current traffic. To verify this, we can look for the clusters configured in each proxy.
+
+As an example, looking into the *cars-v1* workload, we can see that there is a reduced number of clusters with which the proxy can communicate.
+
+![Cars v1 clusters](/images/tutorial/06-01-cars-v1-clusters.png "Cars v1 clusters")
+
+{{% alert title="Step 6" color="success" %}}
 Update or delete Istio Configuration
 {{% /alert %}}
 
-As part of this step you can update the AuthorizationPolicies generated for the *travel-agency* namespace, and experiment with more security rules, or you can delete the generated Istio config for the namespace.
+As part of this step, you can update the AuthorizationPolicies and Istio Sidecars generated for the *travel-agency* namespace, and experiment with more security rules. Or, you can delete the generated Istio config for the namespace.
 
