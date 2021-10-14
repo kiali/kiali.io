@@ -31,6 +31,7 @@ supported Istio versions.
 |1.7    |1.22.1 to 1.25.x  |Istio 1.7 istioctl will no longer install Kiali. Use the Istio samples/addons all-in-one yaml or the Kiali Helm Chart for quick demo installs. Istio 1.7 is out of support.   |
 |1.6    |1.18.1 to 1.21.x  |Istio 1.6 introduces CRD and Config changes, Kiali 1.17 is recommended for Istio < 1.6.   |
 
+<br />
 
 ### Maistra Version Compatibility
 
@@ -38,13 +39,14 @@ supported Istio versions.
 If you are running Red Hat OpenShift Service Mesh (RH OSSM), use only the bundled version of Kiali.
 {{% /alert %}}
 
-|<div style="width:50px">Maistra</div>|<div style="width:75px">SMCP CR</div>|<div style="width:50px">Kiali</div>|Notes|
+|<div style="width:70px">Maistra</div>|<div style="width:75px">SMCP CR</div>|<div style="width:50px">Kiali</div>|Notes|
 |---|---|---|---|
 |2.0   |2.0   |1.24   |Using Maistra 2.0 to install service mesh control plane 2.0 requires Kiali Operator v1.36. Other operator versions are not compatible.   |
 |2.0   |1.1   |1.12   |Using Maistra 2.0 to install service mesh control plane 1.1 requires Kiali Operator v1.36. Other operator versions are not compatible.   |
 |1.1   |1.1   |1.12   |Using Maistra 1.1 to install service mesh control plane 1.1 requires Kiali Operator v1.36. Other operator versions are not compatible.   |
 |n/a   |1.0   |n/a    |Service mesh control plane 1.0 is out of support.   |
 
+<br />
 
 ## Browser Version Requirements {#supported-browsers}
 
