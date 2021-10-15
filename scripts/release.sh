@@ -72,12 +72,25 @@ fi
 CURRENT_VERSION=$(echo ${CURRENT_VERSION} | sed -E 's/(v[0-9]+\.[0-9]+)\.[0-9]+/\1/')
 CURRENT_VERSION_WITH_DASHES="${CURRENT_VERSION//./-}"
 
+# Prepare the new params.versions to be added to the config.toml within the staging branch
+NEXT_PARAMS_VERSIONS_PLACEHOLDER="## NEXT PARAMS.VERSIONS PLACEHOLDER"
+NEW_PARAMS_VERSIONS=$(cat <<EOM
+${NEXT_PARAMS_VERSIONS_PLACEHOLDER}
+
+[[ params.versions ]]
+  version = "${CURRENT_VERSION}"
+  url = "https://${CURRENT_VERSION_WITH_DASHES}.kiali.io"
+EOM
+)
+
 echo "===== SETTINGS"
 echo CURRENT_BRANCH=$CURRENT_BRANCH
 echo CURRENT_VERSION=$CURRENT_VERSION
 echo CURRENT_VERSION_WITH_DASHES=$CURRENT_VERSION_WITH_DASHES
 echo REMOTE_NAME=$REMOTE_NAME
 echo STAGING_BRANCH=$STAGING_BRANCH
+printf "NEW_PARAMS_VERSIONS:\n${NEW_PARAMS_VERSIONS}\n"
+echo "===== SETTINGS"
 
 echo "===== Fetch the remote content"
 git fetch ${REMOTE_NAME}
@@ -85,12 +98,24 @@ git fetch ${REMOTE_NAME}
 echo "===== Create a new version branch named [${CURRENT_VERSION}] based on branch [${CURRENT_BRANCH}]"
 git checkout -b ${CURRENT_VERSION} ${REMOTE_NAME}/${CURRENT_BRANCH}
 
-echo "===== Setting the base URL for the branch [${CURRENT_VERSION}]"
+echo "===== Set baseURL in config.toml for the branch [${CURRENT_VERSION}]"
 sed -i "s/baseURL = .*/baseURL = \"https:\/\/${CURRENT_VERSION_WITH_DASHES}.kiali.io\"/" config.toml
 git commit -am "Set base URL for branch: ${CURRENT_VERSION}"
 
 echo "===== Push the new version branch [${CURRENT_VERSION}] to remote [${REMOTE_NAME}]"
 git push ${REMOTE_NAME} ${CURRENT_VERSION}
+
+echo "===== Create a new branch named [${STAGING_BRANCH}] (or switch to it if it already exists)"
+git checkout -b ${STAGING_BRANCH} ${REMOTE_NAME}/${STAGING_BRANCH} || git checkout ${STAGING_BRANCH}
+
+echo "===== Add new params.versions in config.toml for version [${CURRENT_VERSION}] in the branch [${STAGING_BRANCH}]"
+NEW_PARAMS_VERSIONS="${NEW_PARAMS_VERSIONS//\//\\/}"
+NEW_PARAMS_VERSIONS="${NEW_PARAMS_VERSIONS//$'\n'/\\n}"
+sed -i "s/${NEXT_PARAMS_VERSIONS_PLACEHOLDER}/${NEW_PARAMS_VERSIONS}/" config.toml
+git commit -am "Add params.versions: ${CURRENT_VERSION}"
+
+echo "===== Push the branch [${STAGING_BRANCH}] to remote [${REMOTE_NAME}]"
+git push ${REMOTE_NAME} ${STAGING_BRANCH}
 
 echo "===== Create a new branch named [${CURRENT_BRANCH}] (or switch to it if it already exists)"
 git checkout -b ${CURRENT_BRANCH} ${REMOTE_NAME}/${CURRENT_BRANCH} || git checkout ${CURRENT_BRANCH}
@@ -98,7 +123,7 @@ git checkout -b ${CURRENT_BRANCH} ${REMOTE_NAME}/${CURRENT_BRANCH} || git checko
 echo "===== Reset branch [${CURRENT_BRANCH}] to the content of branch [${STAGING_BRANCH}] from remote [${REMOTE_NAME}]"
 git reset --hard ${REMOTE_NAME}/${STAGING_BRANCH}
 
-echo "===== Setting the base URL for the branch [${CURRENT_BRANCH}]"
+echo "===== Set baseURL in config.toml for the branch [${CURRENT_BRANCH}]"
 sed -i "s/baseURL = .*/baseURL = \"https:\/\/kiali.io\"/" config.toml
 git commit -am "Set base URL for branch: ${CURRENT_BRANCH}"
 
