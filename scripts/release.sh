@@ -7,7 +7,8 @@ if [ -z "${1:-}" ]; then
   exit 1
 fi
 
-CURRENT_VERSION="${1}"
+# Because the version is used as part of the base image, the version should have dots converted to dashes
+CURRENT_VERSION="${1//./-}"
 REMOTE_NAME="${REMOTE_NAME:-origin}"
 CURRENT_BRANCH="${CURRENT_BRANCH:-current}"
 STAGING_BRANCH="${STAGING_BRANCH:-staging}"
