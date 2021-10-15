@@ -220,6 +220,8 @@ enable = false
   version = "current"
   url = "https://kiali.io"
 
+## NEXT PARAMS.VERSIONS PLACEHOLDER
+
 [[params.versions]]
   version = "v1.40"
   url = "https://pre-v1-41.kiali.io/documentation/v1.40"
