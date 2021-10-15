@@ -106,7 +106,7 @@ echo "===== Push the new version branch [${CURRENT_VERSION}] to remote [${REMOTE
 git push ${REMOTE_NAME} ${CURRENT_VERSION}
 
 echo "===== Create a new branch named [${STAGING_BRANCH}] (or switch to it if it already exists)"
-git checkout -b ${STAGING_BRANCH} ${REMOTE_NAME}/${STAGING_BRANCH} || git checkout ${STAGING_BRANCH}
+git checkout -b ${STAGING_BRANCH} ${REMOTE_NAME}/${STAGING_BRANCH} || (git checkout ${STAGING_BRANCH} && git reset --hard ${REMOTE_NAME}/${STAGING_BRANCH})
 
 echo "===== Add new params.versions in config.toml for version [${CURRENT_VERSION}] in the branch [${STAGING_BRANCH}]"
 NEW_PARAMS_VERSIONS="${NEW_PARAMS_VERSIONS//\//\\/}"
