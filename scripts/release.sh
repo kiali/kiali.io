@@ -26,7 +26,10 @@ Valid options:
       the versioned documentation (see --current-version).
       Default: "${DEFAULT_CURRENT_BRANCH}"
   -cv|--current-version
-      A new version branch will be created with the name of this version string ("vX.Y.Z").
+      A new version branch will be created with the name of this version string.
+      Note that it is expected that this be in the form of "vX.Y.Z" but only the "vX.Y" portion
+      will be used by this script. However, if the "Z" number is anything other than "0" this script will abort.
+      In other words, this script will not release patch-level documentation.
       This new version branch will be a copy of the "current" branch.
       Default: <undefined>
   -rn|--remote-name
@@ -58,7 +61,15 @@ if [ -z "${REMOTE_NAME:-}" ]; then
   exit 1
 fi
 
+# Require vX.Y.Z with Z == 0.
+if ! [[ ${CURRENT_VERSION} =~ ^v[0-9]+\.[0-9]+\.0$ ]]; then
+  echo "ERROR! You must specify --current-version in the form of vX.Y.Z where X and Y are numbers and Z is 0: ${CURRENT_VERSION}"
+  exit 1
+fi
+
+# Only use the vX.Y portion of the version string (strip the patch number).
 # Because the version is used as part of the base image, the version for the base image URL should have dots converted to dashes
+CURRENT_VERSION=$(echo ${CURRENT_VERSION} | sed -E 's/(v[0-9]+\.[0-9]+)\.[0-9]+/\1/')
 CURRENT_VERSION_WITH_DASHES="${CURRENT_VERSION//./-}"
 
 echo "===== SETTINGS"
