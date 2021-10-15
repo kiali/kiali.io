@@ -2,17 +2,71 @@
 
 set -eu
 
-if [ -z "${1:-}" ]; then
-  echo "ERROR! Pass in a version string"
+DEFAULT_CURRENT_BRANCH="current"
+DEFAULT_STAGING_BRANCH="staging"
+
+while [[ $# -gt 0 ]]; do
+  key="$1"
+  case $key in
+    -cb|--current-branch)  CURRENT_BRANCH="$2";  shift;shift ;;
+    -cv|--current-version) CURRENT_VERSION="$2"; shift;shift ;;
+    -rn|--remote-name)     REMOTE_NAME="$2";     shift;shift ;;
+    -sb|--staging-branch)  STAGING_BRANCH="$2";  shift;shift ;;
+    -h|--help)
+      cat <<HELPMSG
+
+$0 [option...]
+
+Releases the new documentation by creating a new version branch based on the current branch, and
+making the current branch then based on the staging branch.
+
+Valid options:
+  -cb|--current-branch
+      The name of the branch containing the current documentation. This branch will be the basis for
+      the versioned documentation (see --current-version).
+      Default: "${DEFAULT_CURRENT_BRANCH}"
+  -cv|--current-version
+      A new version branch will be created with the name of this version string ("vX.Y.Z").
+      This new version branch will be a copy of the "current" branch.
+      Default: <undefined>
+  -rn|--remote-name
+      The name of the git remote where the branches are located. This is typically "origin".
+      Default: <undefined>
+  -sb|--staging-branch
+      The name of the branch containing the content that will become the current version of the documentation.
+      Default: "${DEFAULT_STAGING_BRANCH}"
+HELPMSG
+      exit 1
+      ;;
+    *)
+      echo "Unknown argument [$key]. Aborting."
+      exit 1
+      ;;
+  esac
+done
+
+: ${CURRENT_BRANCH:=${DEFAULT_CURRENT_BRANCH}}
+: ${STAGING_BRANCH:=${DEFAULT_STAGING_BRANCH}}
+
+if [ -z "${CURRENT_VERSION:-}" ]; then
+  echo "ERROR! You must specify a --current-version."
+  exit 1
+fi
+
+if [ -z "${REMOTE_NAME:-}" ]; then
+  echo "ERROR! You must specify a --remote-name."
   exit 1
 fi
 
 # Because the version is used as part of the base image, the version for the base image URL should have dots converted to dashes
-CURRENT_VERSION="${1}"
 CURRENT_VERSION_WITH_DASHES="${CURRENT_VERSION//./-}"
-REMOTE_NAME="${REMOTE_NAME:-origin}"
-CURRENT_BRANCH="${CURRENT_BRANCH:-current}"
-STAGING_BRANCH="${STAGING_BRANCH:-staging}"
+
+echo "===== SETTINGS"
+echo CURRENT_BRANCH=$CURRENT_BRANCH
+echo CURRENT_VERSION=$CURRENT_VERSION
+echo CURRENT_VERSION_WITH_DASHES=$CURRENT_VERSION_WITH_DASHES
+echo REMOTE_NAME=$REMOTE_NAME
+echo STAGING_BRANCH=$STAGING_BRANCH
 
 echo "===== Fetch the remote content"
 git fetch ${REMOTE_NAME}
