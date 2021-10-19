@@ -94,8 +94,8 @@ services, destination rules, route rules, gateways, and quotas.
 
 Jaeger is optional. When available, Kiali will be able to direct the user to
 Jaeger's tracing data. If you need this feature, make sure Kiali is
-link:{{< ref "docs/features/tracing" >}}[properly configured for Jaeger
-integration].
+[properly configured for Jaeger
+integration]({{< ref "docs/features/tracing" >}}).
 
 Tracing data will be available only if
 [Istio's distributed tracing](https://istio.io/docs/tasks/telemetry/distributed-tracing/) is enabled. 
