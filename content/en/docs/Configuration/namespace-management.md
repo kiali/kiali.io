@@ -68,7 +68,7 @@ and the Kiali Operator does not need permissions to create cluster roles.
 
 ## Excluded Namespaces
 
-The Kiali CR tells the Kiali Operator which _accessible namespaces_ should be excluded from the list of namespaces provided by the API and UI. This can be useful if wildcards are used when specifying link:#_accessible_namespaces[Accessible Namespaces]. This setting has no effect on namespace accessibility. It is only a filter, not security-related.
+The Kiali CR tells the Kiali Operator which _accessible namespaces_ should be excluded from the list of namespaces provided by the API and UI. This can be useful if wildcards are used when specifying [Accessible Namespaces]({{< ref "#accessible-namespaces" >}}). This setting has no effect on namespace accessibility. It is only a filter, not security-related.
 
 For example, if the `accessible_namespaces` configuration includes `mycorp_.*` but it is not desirable to see test namespaces, the following configuration can be used:
 
@@ -95,7 +95,7 @@ api:
 
 For further information on how this label_selector interacts with `spec.deployment.accessible_namespaces` read the [technical documentation](https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml).
 
-To label a namespace you can use the following command. For more information see the link:https://kubernetes.io/docs/concepts/overview/working-with-objects/labels[Kubernete's official documentation].
+To label a namespace you can use the following command. For more information see the [Kubernete's official documentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels).
 
 ```
   kubectl label namespace my-namespace kiali-enabled=true

@@ -111,8 +111,7 @@ $ helm install \
     kiali/kiali-operator
 ```
 
-This will omit creation of the Kiali CR, which you will need to link:{{< ref
-creating-updating-kiali-cr >}}[create later to install Kiali Server].  This
+This will omit creation of the Kiali CR, which you will need to [create later to install Kiali Server]({{< ref creating-updating-kiali-cr >}}).  This
 option is good if you plan to do large customizations to the installation.
 
 ### Installing Multiple Instances of Kiali

@@ -7,7 +7,7 @@ weight: 1
 
 ### Application
 
-Is a logical grouping of [Workload](#workload")s defined by the application labels that users apply to an object. In Istio it is defined by the [Label App](#label-app"). [Istio Label Requirements](link:https://istio.io/docs/setup/kubernetes/spec-requirements/).
+Is a logical grouping of [Workload](#workload")s defined by the application labels that users apply to an object. In Istio it is defined by the [Label App](#label-app"). [Istio Label Requirements](https://istio.io/docs/setup/kubernetes/spec-requirements/).
 
 ### Application Name
 
@@ -23,15 +23,15 @@ This is the type specified in the Istio Config. This could be any of the followi
 
 ### Istio Sidecar
 
-For more information see the Istio Sidecar definition in [Istio Sidecar Documentation](link:https://istio.io/v1.5/docs/reference/commands/sidecar-injector/).
+For more information see the Istio Sidecar definition in [Istio Sidecar Documentation](https://istio.io/v1.5/docs/reference/commands/sidecar-injector/).
 
 ### Label
 
 It's a user-created tag to identify a set of objects.
 
-An empty [label selector](link:https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) (that is, one with zero requirements) selects every object in the collection.
+An empty [label selector](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) (that is, one with zero requirements) selects every object in the collection.
 
-A null [label selector](link:https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) (which is only possible for optional selector fields) selects no objects.
+A null [label selector](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) (which is only possible for optional selector fields) selects no objects.
 
 For example, Istio uses the [Label App](#label-app) & [Label Version](#label-version) on a [Workload](#workload) to specify the version and the application.
 
@@ -63,13 +63,13 @@ A Service is an abstraction which defines a logical set of Pods and a policy by 
 
 ### Service Entry
 
-For more information see the Service Entry definition in [Istio Service Entry Documentation](link:https://istio.io/docs/reference/config/networking/service-entry).
+For more information see the Service Entry definition in [Istio Service Entry Documentation](https://istio.io/docs/reference/config/networking/service-entry).
 
 ### VirtualService
 
-For more information see the Virtual Service definition in [Istio VirtualService Documentation](link:https://istio.io/docs/reference/config/networking/virtual-service).
+For more information see the Virtual Service definition in [Istio VirtualService Documentation](https://istio.io/docs/reference/config/networking/virtual-service).
 
 ### Workload
 
-For more information see the [Istio Workload definition](link:https://istio.io/help/glossary/#workload).
+For more information see the [Istio Workload definition](https://istio.io/help/glossary/#workload).
 

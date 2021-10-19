@@ -80,7 +80,7 @@ Note that you can configure the logger in the Kiali Server via these settings in
 
 * `log_format` supports "text" and "json".
 * `log_level` supports "trace", "debug", "info", "warn", "error", "fatal".
-* `time_field_format` supports a link:https://golang.org/pkg/time/[golang time format]
+* `time_field_format` supports a [golang time format](https://golang.org/pkg/time/)
 * `sampler_rate` defines a basic log sampler setting as an integer. With this setting every "sampler_rate"-th message will be logged. By default, every message is logged.
 
 For example,
