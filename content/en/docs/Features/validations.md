@@ -1,19 +1,13 @@
 ---
-title: "Validations"
-date: 2020-02-17T14:53:00+02:00
-draft: false
+title: "Validation"
 weight: 5
 ---
 
-## Validations Overview
+Kiali performs a set of validations on your Istio Objects, such as Destination Rules, Service Entries, and Virtual Services. Kiali's validations go above and beyond what Istio offers.  Where Istio offers mainly static checks for well-formed definitions, Kiali performs semantic validations to ensure that the definitions make sense, across objects, and in some cases even across namespaces.  Kiali validations are based on the runtime status of your service mesh.
 
-Kiali performs a set of validations to the most common Istio Objects such as Destination Rules, Service Entries, and Virtual Services. Those validations are done in addition to the existing ones performed by Istio's Galley component. Most validations are done inside a single namespace only, any exceptions, such as gateways, are properly documented.
+![Istio Config Validation](/images/documentation/features/istio-config-validation.png "Istio Config Validation")
 
-Galley validations are mostly syntactic validations based on the object syntax analysis of Istio objects while Kiali validations are mostly semantic validations between different Istio objects. Kiali validations are based on the runtime status of your service mesh, Galley validations are static ones and doesn't take into account what is configured in the mesh.
-
-![Istio Config Validation](/images/documentation/features/config-validation-v1.22.0.png "Istio Config Validation")
-
-Check the complete list of validations for further information.
+The complete list of validations:
 
 ## AuthorizationPolicy {#authorizationpolicies}
 
