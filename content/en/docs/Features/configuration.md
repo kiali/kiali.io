@@ -64,7 +64,7 @@ Kiali also has Wizards available from the Overview page, and many details pages,
 
 #### Overview Wizards
 
-The Overview page has namespace-specific action for creating traffic policies:
+The Overview page has namespace-specific actions for creating traffic policies:
 
 ![Overview Actions](/images/documentation/features/overview-actions.png "Overview Actions")
 
