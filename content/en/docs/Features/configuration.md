@@ -1,63 +1,75 @@
 ---
 title: "Istio Configuration"
-date: 2018-06-20T19:04:38+02:00
-draft: false
 weight: 7
 ---
 
 Kiali is more than observability, it also helps you to configure, update and validate your Istio service mesh.
 
-The Istio configuration view provides advanced filtering and navigation for Istio configuration objects such as Virtual Services and Gateways.
-Kiali provides inline config edition and powerful semantic validation for Istio resources.
+The Istio configuration view provides advanced filtering and navigation for Istio configuration objects, such as Virtual Services and Gateways.
+Kiali provides inline config editing and powerful semantic validation for Istio resources.
 
-![Istio Config List](/images/documentation/features/config-list-v1.22.0.png "Istio Config List")
+![Istio Config List](/images/documentation/features/istio-config-list.png "Istio Config List")
 
 ## Validations
 
-Kiali performs a set of validations to the most common Istio Objects such as Destination Rules, Service Entries, and Virtual Services. Those validations are done in addition to the existing ones performed by Istio's Galley component. Most validations are done inside a single namespace only, any exceptions, such as gateways, are properly documented.
+Kiali performs a set of validations on your Istio Objects, such as Destination Rules, Service Entries, and Virtual Services. Kiali's validations go above and beyond what Istio offers.  Where Istio offers mainly static checks for well-formed definitions, Kiali performs semantic validations to ensure that the definitions make sense, across objects, and in some cases even across namespaces.  Kiali validations are based on the runtime status of your service mesh.
 
-Galley validations are mostly syntactic validations based on the object syntax analysis of Istio objects while Kiali validations are mostly semantic validations between different Istio objects. Kiali validations are based on the runtime status of your service mesh, Galley validations are static ones and doesn't take into account what is configured in the mesh.
+Check the complete [list of validations]({{< relref "validations" >}}) for further information.
 
-Check the complete [list of validations](#validations) for further information.
+![Istio Config Validation](/images/documentation/features/istio-config-validation.png "Istio Config Validation")
 
-![Istio Config Validation](/images/documentation/features/config-validation-v1.22.0.png "Istio Config Validation")
+## Wizards
 
-## Istio Forms
+Kiali Wizards provide a way to apply an Istio service mesh pattern, letting Kiali generate the Istio Configuration.
+Wizards are launched from Kiali's Action menus, located across the UI on relevant pages.  Wizards can create and update
+Istio Config for Routing, Gateways, Security scenarios and more.
 
-Istio Wizards provide a way to apply a Service Mesh pattern and let Kiali to generate the Istio Configuration.
-Kiali also offers actions to create Istio Config for Gateways and Security scenarios.
+### Istio Config Page Wizards
 
-These actions are located under the Istio Config page.
+These Create Actions are available on the Istio Config page:
 
-![Create Istio Config](/images/documentation/features/create-istio-config-v1.32.0.png "Create Istio Config")
+![Istio Config Create Actions](/images/documentation/features/istio-config-actions.png "Istio Config Create Actions")
 
-### Istio Security Forms
+#### Authorization Wizards
 
 Kiali allows creation of Istio AuthorizationPolicy resources:
 
-![AuthorizationPolicy](/images/documentation/features/form-authorization-policy-v1.32.0.png "AuthorizationPolicy")
+![AuthorizationPolicy](/images/documentation/features/istio-config-wizard-authpolicy.png "AuthorizationPolicy")
 
 Istio PeerAuthentication resources:
 
-![PeerAuthentication](/images/documentation/features/form-peer-authentication-v1.32.0.png "PeerAuthentication")
+![PeerAuthentication](/images/documentation/features/istio-config-wizard-peerauth.png "PeerAuthentication")
 
 Istio RequestAuthentication resources:
 
-![RequestAuthentication](/images/documentation/features/form-request-authentication-v1.32.0.png "RequestAuthentication")
+![RequestAuthentication](/images/documentation/features/istio-config-wizard-requestauth.png "RequestAuthentication")
 
-### Istio Traffic Forms
+#### Traffic Wizards
 
-Kiali uses Istio Wizards to generate Istio Traffic config for a specific Service, but Kiali also allows creation of Gateway, ServiceEntry and Sidecar Istio resources for more generic scenarios.
+Kiali also allows creation of Istio Gateway resources.
 
-Istio Gateway resources:
-
-![Gateway](/images/documentation/features/form-gateway-v1.32.0.png "Gateway")
+![Gateway](/images/documentation/features/istio-config-wizard-gateway.png "Gateway")
 
 Istio ServiceEntry resources:
 
-![ServiceEntry](/images/documentation/features/form-serviceentry-v1.32.0.png "ServiceEntry")
+![ServiceEntry](/images/documentation/features/istio-config-wizard-serviceentry.png "ServiceEntry")
 
 Istio Sidecar resources:
 
-![Sidecar](/images/documentation/features/form-sidecar-v1.32.0.png "Sidecar")
+![Sidecar](/images/documentation/features/istio-config-wizard-sidecar.png "Sidecar")
 
+###  Other Kiali Wizards
+
+Kiali also has Wizards available from the Overview page, and many details pages, such as Service Detail to create routing rules. The Kiali [Travel Tutorial]({{< ref "/docs/tutorials/travels" >}}) goes into several of these wizards.
+
+#### Overview Wizards
+
+The Overview page has namespace-specific actions for creating traffic policies:
+
+![Overview Actions](/images/documentation/features/overview-actions.png "Overview Actions")
+
+#### Service Wizards
+
+The Service Detail page offers several wizards to create traffic control config:
+
+![Service Actions](/images/documentation/features/service-actions.png "Service Actions")
