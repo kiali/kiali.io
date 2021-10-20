@@ -1,8 +1,8 @@
 ---
-title: "Jaeger / Distributed Tracing"
+title: "Distributed Tracing / Jaeger"
 date: 2018-06-20T19:04:38+02:00
 draft: false
-weight: 100
+weight: 20
 ---
 
 Below are some commonly used configuration options for Kiali's Jaeger integration for Tracing.

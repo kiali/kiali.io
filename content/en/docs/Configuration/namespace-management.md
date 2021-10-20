@@ -2,7 +2,7 @@
 title: "Namespace Management"
 date: 2021-09-12T00:00:00+00:00
 draft: false
-weight: 20
+weight: 30
 ---
 
 ## Introduction
