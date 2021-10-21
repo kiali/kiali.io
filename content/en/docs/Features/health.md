@@ -1,6 +1,6 @@
 ---
 title: "Health"
-weight: 2
+description: "How Kiali reflects your Service Mesh Health."
 ---
 
 Kiali help users know whether their service mesh is healthy. This includes the health of the mesh infrastructure itself, and the deployed application services.
@@ -10,6 +10,8 @@ Kiali help users know whether their service mesh is healthy. This includes the h
 Users can quickly confirm the health of their infrastructure by looking at the Kiali Masthead. If Kiali detects any health issues with the infrastructure of the mesh it will show an indication in the masthead, severity will be reflected via color, and hovring will show the detail:
 
 ![Masthead Health](/images/documentation/features/health-masthead.png "Masthead Health")
+
+For more detail on how Kiali tracks the Istio infrastructure status, see the [Istio Status Feature]({{< relref "./istio-component-status" >}}).
 
 ## Overview Health
 

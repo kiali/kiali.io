@@ -1,7 +1,5 @@
 ---
-title: "Installation via Helm"
-date: 2021-09-12T00:00:00+00:00
-draft: false
+title: "Install via Helm"
 weight: 20
 ---
 

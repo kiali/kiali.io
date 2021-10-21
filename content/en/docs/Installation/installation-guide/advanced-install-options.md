@@ -1,7 +1,6 @@
 ---
-title: "Advanced installation options"
-date: 2021-09-12T00:00:00+00:00
-draft: false
+title: "Advanced Install"
+description: "Advanced installation options"
 weight: 60
 ---
 

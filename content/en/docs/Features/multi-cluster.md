@@ -1,8 +1,6 @@
 ---
-title: "Advanced Mesh Deployment and Multi-cluster support"
-date: 2018-06-20T19:04:38+02:00
-draft: false
-weight: 10
+title: "Multi-cluster Deployment"
+description: "Advanced Mesh Deployment and Multi-cluster support."
 ---
 
 A basic Istio mesh deployment has a single control plane with a single data plane, deployed on a single Kubernetes cluster. But Istio supports a variety of advanced 

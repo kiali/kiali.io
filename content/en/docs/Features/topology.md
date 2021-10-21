@@ -1,7 +1,6 @@
 ---
 title: Topology
 description: How Kiali visualizes the mesh topology.
-weight: 1
 ---
 
 Kiali offers multiple ways for users to examine their mesh Topology.  Each combines several information types to help users quickly evaluate the health of their service architecture.

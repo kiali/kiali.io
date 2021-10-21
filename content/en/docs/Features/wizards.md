@@ -1,8 +1,5 @@
 ---
 title: "Wizards"
-date: 2018-06-20T19:04:38+02:00
-draft: false
-weight: 6
 ---
 
 Kiali is more than observability, it also helps you to configure, update and validate your Istio service mesh.

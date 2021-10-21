@@ -1,8 +1,5 @@
 ---
 title: "Security"
-date: 2018-06-20T19:04:38+02:00
-draft: false
-weight: 8
 ---
 
 Kiali gives support to better understand how mTLS is used in Istio meshes. Find those helpers in the graph, the masthead menu, the overview page and specific validations.

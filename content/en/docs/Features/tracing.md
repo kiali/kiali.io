@@ -1,7 +1,6 @@
 ---
 title: Tracing
 description: How Kiali integrates Distributed Tracing with Jaeger.
-weight: 4
 ---
 
 Kiali offers a native integration with Jaeger for Distributed Tracing.  As such, users can access Jaeger's trace visualizations.  But more
