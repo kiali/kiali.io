@@ -8,7 +8,7 @@ A service mesh simplifies application services by deferring the non-business log
 
 ![Istio component status](/images/documentation/features/istio-status-masthead.png "Istio component status")
 
-A component *status* will be one of: `Not found`, `Not ready`, `Unreachable`, `Not healthy` and `Healthy`. `Not found` means that Kiali is not able to find the deployment. `Not ready` means no pods are running.  `Unreachable` means that Kiali hasn't been succesfuly able to communicate with the component (Prometheus, Grafana and Jaeger). `Not healthy` means that the deployment doesn't have the desired amount of replicas running. Otherwise, the component is `Healthy` and it won't be shown in the list.
+A component *status* will be one of: `Not found`, `Not ready`, `Unreachable`, `Not healthy` and `Healthy`. `Not found` means that Kiali is not able to find the deployment. `Not ready` means no pods are running.  `Unreachable` means that Kiali hasn't been successfully able to communicate with the component (Prometheus, Grafana and Jaeger). `Not healthy` means that the deployment doesn't have the desired amount of replicas running. Otherwise, the component is `Healthy` and it won't be shown in the list.
 
 Regarding the *severity* of each component, there are only to options: `core` or `add-on`. The `core` components are those shown as errors (in red) whereas the `add-ons` are displayed as warnings (in orange).
 
