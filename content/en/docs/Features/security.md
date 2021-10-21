@@ -8,8 +8,8 @@ Kiali gives support to better understand how mTLS is used in Istio meshes. Find 
 
 At the right side of the Masthead, Kiali shows a lock when the mesh has strictly enabled `mTLS` for the whole service mesh. It means that all the communications in the mesh uses `mTLS`.
 
-![mTLS mesh-wide enabled strictly](/images/documentation/features/masthead-mtls-v1.22.0.png "mTLS mesh-wide enabled strictly")
-![Custom Vertx Metrics](/images/documentation/features/masthead-mtls-hollow-v1.22.0.png "Custom Vertx Metrics")
+![mTLS mesh-wide strict](/images/documentation/features/security-masthead-mtls.png "mTLS mesh-wide strict")
+![mTLS mesh-wide permissive](/images/documentation/features/security-masthead-mtls-hollow.png "mTLS mesh-wide permissive")
 
 Kiali shows a hollow lock when either the mesh is configured in `PERMISSIVE` mode or there is a misconfiguration in the mesh-wide `mTLS` configuration.
 
@@ -17,7 +17,7 @@ Kiali shows a hollow lock when either the mesh is configured in `PERMISSIVE` mod
 
 The overview page shows all the available namespaces with aggregated data. Besides the health and validations, Kiali shows also the `mTLS` status at namespace-wide. Similar to the masthead, it shows a lock when strict `mTLS` is enabled or a hollow lock when permissive.
 
-![Overview page: showing mTLS at namespace-wide](/images/documentation/features/overview-mtls-v1.22.0.png "Overview page: showing mTLS at namespace-wide")
+![Overview: Namespace mTLS](/images/documentation/features/security-overview-mtls.png "Overview: Namespace mTLS")
 
 ## Graph
 
@@ -25,11 +25,11 @@ The `mTLS` method is used to establish communication between microservices. In t
 
 Enable the option in the `Display` dropdown, select the `security` badge.
 
-![Graph shows edges which uses mTLS](/images/documentation/features/graph-mtls-v1.22.0.png "Graph shows edges which uses mTLS")
+![Graph: Edge mTLS](/images/documentation/features/security-graph-mtls.png "Graph: Edge mTLS")
 
 ## Validations
 
 Kiali has different validations to help troubleshoot configurations related to `mTLS` such as `DestinationRules` and `PeerAuthentications`.
 
-![Validation supporting mTLS configuration](/images/documentation/features/validations-mtls-v1.22.0.png "Validation supporting mTLS configuration")
+![Validation supporting mTLS configuration](/images/documentation/features/security-config-validation.png "Validation supporting mTLS configuration")
 
