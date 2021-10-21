@@ -7,13 +7,13 @@ Kiali help users know whether their service mesh is healthy. This includes the h
 
 ## Service Mesh Infrastructure Health
 
-Users can quickly confirm the health of their infrastructure by looking at the Kiali Masthead. If Kiali detects any health issues with the infstructure of the mesh it will show an indication in the masthead, severity will be reflected via color, and hovring will show the detail:
+Users can quickly confirm the health of their infrastructure by looking at the Kiali Masthead. If Kiali detects any health issues with the infrastructure of the mesh it will show an indication in the masthead, severity will be reflected via color, and hovring will show the detail:
 
 ![Masthead Health](/images/documentation/features/health-masthead.png "Masthead Health")
 
 ## Overview Health
 
-The default Kiali page is an Overview Dashboard.  This view will quickly allow you to identify namespaces with issues.  It provides a summary of configuration health, component health and request traffic health.  The component health is selectable via a dropdown and the page offers various filter, sort and preentation options:
+The default Kiali page is an Overview Dashboard.  This view will quickly allow you to identify namespaces with issues.  It provides a summary of configuration health, component health and request traffic health.  The component health is selectable via a dropdown and the page offers various filter, sort and presentation options:
 
 ![Overview Health](/images/documentation/features/health-overview.png "Overview Health")
 
@@ -63,5 +63,5 @@ Kiali uses icons and colors to indicate the health of resources and associated r
 
 ### Custom Request Health
 
-There are times when Kiali's default thresholds for traffic health do not work well for a particular situation.  For example, at times 404 response codes are expected.  Kiali heas the ability to set powerful, fine-grained overrides for health configuration.  For details, see [Traffic Health Configuration]({{< ref "docs/configuration/health" >}}).
+There are times when Kiali's default thresholds for traffic health do not work well for a particular situation.  For example, at times 404 response codes are expected.  Kiali has the ability to set powerful, fine-grained overrides for health configuration.  For details, see [Traffic Health Configuration]({{< ref "docs/configuration/health" >}}).
 
