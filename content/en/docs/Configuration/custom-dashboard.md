@@ -1,6 +1,6 @@
 ---
 title: "Custom Dashboards"
-weight: 90
+weight: 10
 ---
 
 [Custom Dashboards]({{< ref "/docs/features/details#custom-dash" >}}) require some configuration to work properly.

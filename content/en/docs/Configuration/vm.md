@@ -2,7 +2,7 @@
 title: "Virtual Machine workloads"
 date: 2021-07-26T00:00:00+02:00
 draft: false
-weight: 40
+weight: 60
 ---
 
 ## Introduction
