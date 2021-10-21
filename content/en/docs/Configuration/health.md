@@ -14,7 +14,7 @@ By default Kiali uses the traffic rate configuration shown below.  Application e
 * For _http_ protocol 4xx are client errors and 5xx codes are application errors.
 * For _grpc_ protocol all 1-16 are errors (0 is success).
 
-So, for example, if the rate of application errors is >= 0.1% kiali will show `Degraded` health and if > 10% will show `Failure` health.
+So, for example, if the rate of application errors is >= 0.1% Kiali will show `Degraded` health and if > 10% will show `Failure` health.
 
 ```yaml
 # ...
@@ -61,7 +61,7 @@ Kiali applies *the first matching rate configuration (namespace, kind, etc)* and
   <td>name</td><td>Matching Resource Names (regex)</td><td>.* (match all)</td>
 </tr>
 <tr>
-  <td>Tolerance</td><td>Array of tolerances to apply.</td>
+  <td>tolerance</td><td>Array of tolerances to apply.</td>
 </tr>
 <tr>
     <table style="margin-left:40px">
@@ -139,7 +139,7 @@ Kiali reports traffic health with the following top-down status priority :
 
 ## Examples
 
-These examples use the repo _https://github.com/kiali/demos/tree/master/error-rates_.
+These examples use the repo https://github.com/kiali/demos/tree/master/error-rates.
 
 In this repo we can see 2 namespaces: alpha and beta ([Demo design](https://github.com/kiali/demos/tree/master/error-rates#error-rates-demo-design)).
 
@@ -286,7 +286,7 @@ What are we applying?
 - Protocol http if % requests with error code 4xx are >= 40 then FAILURE, if they are >= 30 then DEGRADED
 - Protocol http if % requests with error code 5xx are > 0 then FAILURE
 
-- For other namespaces kiali apply defaults.
+- For other namespaces Kiali will apply the defaults.
 - Protocol http if % requests with error code 5xx are >= 20 then FAILURE, if they are >= 0.1 then DEGRADED
 - Protocol grpc if % requests with error code match /^[1-9]$|^1[0-6]$/ are >= 20 then FAILURE, if they are >= 0.1 then DEGRADED
 
