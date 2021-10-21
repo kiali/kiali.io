@@ -12,7 +12,7 @@ A component *status* will be one of: `Not found`, `Not ready`, `Unreachable`, `N
 
 Regarding the *severity* of each component, there are only to options: `core` or `add-on`. The `core` components are those shown as errors (in red) whereas the `add-ons` are displayed as warnings (in orange).
 
-By default, Kiali checks that the following `core` components are installed and running in the control plane namespace: istiod, ingress, egress. And that the following `add-ons` are available: prometheus, grafana and jaeger.
+By default, Kiali checks that the `core` components "istiod", "ingress", and "egress" are installed and running in the control plane namespace, and that the `add-ons` "prometheus", "grafana" and "jaeger" are available.
 
 ## Certificate Information Indicators
 
