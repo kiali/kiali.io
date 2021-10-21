@@ -1,7 +1,6 @@
 ---
 title: Detail Views
 description: Kiali provides list and detail views for your mesh components.
-weight: 3
 ---
 
 Kiali provides filtered list views of all your service mesh definitions. Each view provides health, details, YAML definitions and links to help you visualize your mesh. There are list and detail views for:

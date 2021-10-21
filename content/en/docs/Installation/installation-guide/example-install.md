@@ -1,7 +1,5 @@
 ---
-title: "Example Installation"
-date: 2021-10-20:00:00+00:00
-draft: false
+title: "Example Install"
 weight: 70
 ---
 

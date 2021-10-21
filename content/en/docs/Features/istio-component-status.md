@@ -1,38 +1,35 @@
 ---
-title: "Istio Status"
-date: 2018-06-20T19:04:38+02:00
-draft: false
-weight: 9
+title: "Istio Component Status"
+linkTitle: "Istio Status"
+description: "How Kiali monitors your Istio infrastructure."
 ---
 
-## Istio Component Status
+A service mesh simplifies application services by deferring the non-business logic to the mesh. But for healthy applications the service mesh infrastructure must also be running normally.  Kiali monitors the multiple components that make up the service mesh, letting you know if there is an underlying problem.
 
-The Istio service mesh architecture is comprised of several components, from istiod to Jaeger. Each component must work as expected for the mesh to work well overall. Kiali regularly checks the status of each Istio component to ensure the mesh is healthy.
+![Istio component status](/images/documentation/features/istio-status-masthead.png "Istio component status")
 
-![Istio components status: components not healthy or found](/images/documentation/features/istio-components-1.24.png "Istio components status: components not healthy or found")
+A component *status* will be one of: `Not found`, `Not ready`, `Unreachable`, `Not healthy` and `Healthy`. `Not found` means that Kiali is not able to find the deployment. `Not ready` means no pods are running.  `Unreachable` means that Kiali hasn't been successfully able to communicate with the component (Prometheus, Grafana and Jaeger). `Not healthy` means that the deployment doesn't have the desired amount of replicas running. Otherwise, the component is `Healthy` and it won't be shown in the list.
 
-A component *status* will be one of: `Not found`, `Unreachable`, `Not healthy` and `Healthy`. The `Not found` status means that Kiali is not able to find the deployment. The `Unreachable` status means that Kiali hasn't been succesfuly able to communicate with the component (Prometheus, Grafana and Jaeger). The `Not healthy` status means that the deployment doesn't have the desired amount of replicas running. The `Healthy` status is when the component is not in the previous ones, plus, healthy components won't be shown in the list.
+Regarding the *severity* of each component, there are only two options: `core` or `add-on`. The `core` components are those shown as errors (in red) whereas the `add-ons` are displayed as warnings (in orange).
 
-Regarding the *severity* of each component, there are only to options: `core` or `add-on`. The `core` components are those shown as errors (in red) whereas the `add-ons` are displayed as warnings (in orange).
+By default, Kiali checks that the `core` components "istiod", "ingress", and "egress" are installed and running in the control plane namespace, and that the `add-ons` "prometheus", "grafana" and "jaeger" are available.
 
-By default, Kiali checks the following components installed in the control plane namespace: istiod, ingress, egress; and prometheus, grafana and jaeger accessible thought their services.
+## Certificate Information Indicators
 
-## Certificates Information Indicators
+In some situations, it is useful to get information about the certificates used by internal mTLS, for example:
 
-In some situations, it would be useful to get information about the certificates used by internal mTLS, for example:
-
-* Know whether the default CA is used or if there is another CA configured
-* Check the certificates issuer and their validity timestamps to troubleshoot any issue with certificates
+* Know whether the default CA is used or if there is another CA configured.
+* Check the certificates issuer and their validity timestamps to troubleshoot any issue with certificates.
 
 The certificates shown depends on how Istio is configured. The following cases are possible:
 
-* Using Istio CA certificates (default), the information shown is from a secret named *istio-ca-secret*
-* Using https://istio.io/latest/docs/tasks/security/cert-management/plugin-ca-cert/[Plug in CA certificates, window=_blank], the information shown is from a secret named *cacerts*
-* Using https://istio.io/latest/docs/tasks/security/cert-management/dns-cert/[DNS certificates, window=_blank], the information shown is from reading many secrets found in Istio configuration
+* Using Istio CA certificates (default), the information shown is from a secret named *istio-ca-secret*.
+* Using [Plug in CA certificates](https://istio.io/latest/docs/tasks/security/cert-management/plugin-ca-cert/), the information shown is from a secret named *cacerts*.
+* Using [DNS certificates](https://istio.io/latest/docs/tasks/security/cert-management/dns-cert/), the information shown is from reading many secrets found in Istio configuration.
 
 The following is an example of viewing the default case:
 
-![Certificates information](/images/documentation/features/certificates-information-indicators.png "Certificates information")
+![Certificates information](/images/documentation/features/istio-status-certificate-info-indicators.png "Certificates information")
 
 Note that displaying this configuration requires permissions to read secrets (*istio-ca-secret* by default, possibly *cacerts* or any secret configured when using DNS certificates).
 

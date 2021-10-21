@@ -1,7 +1,6 @@
 ---
-title: "Creating and updating the Kiali CR"
-date: 2021-09-12T00:00:00+00:00
-draft: false
+title: "The Kiali CR"
+description: "Creating and updating the Kiali CR"
 weight: 40
 ---
 

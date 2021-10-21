@@ -1,6 +1,6 @@
 ---
 title: "Istio Configuration"
-weight: 7
+description: "Using Kiali to generate Istio mesh-wide configuration."
 ---
 
 Kiali is more than observability, it also helps you to configure, update and validate your Istio service mesh.

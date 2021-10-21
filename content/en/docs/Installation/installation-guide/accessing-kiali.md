@@ -1,7 +1,6 @@
 ---
-title: "Accessing and exposing Kiali"
-date: 2021-09-12T00:00:00+00:00
-draft: false
+title: "Accessing Kiali"
+description: "Accessing and exposing Kiali"
 weight: 50
 ---
 
