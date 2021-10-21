@@ -6,7 +6,7 @@ description: "How Kiali monitors your Istio infrastructure."
 
 A service mesh simplifies application services by deferring the non-business logic to the mesh. But for healthy applications the service mesh infrastructure must also be running normally.  Kiali monitors the multiple components that make up the service mesh, letting you know if there is an underlying problem.
 
-![Istio components status: components not healthy or found](/images/documentation/features/istio-components-1.24.png "Istio components status: components not healthy or found")
+![Istio component status](/images/documentation/features/istio-status-masthead.png "Istio component status")
 
 A component *status* will be one of: `Not found`, `Not ready`, `Unreachable`, `Not healthy` and `Healthy`. `Not found` means that Kiali is not able to find the deployment. `Not ready` means no pods are running.  `Unreachable` means that Kiali hasn't been succesfuly able to communicate with the component (Prometheus, Grafana and Jaeger). `Not healthy` means that the deployment doesn't have the desired amount of replicas running. Otherwise, the component is `Healthy` and it won't be shown in the list.
 
