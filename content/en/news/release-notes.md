@@ -1,12 +1,33 @@
 ---
 title: "Release Notes"
-date: 2020-03-23T18:17:04-03:00
-draft: false
 type: docs
 weight: 1
 ---
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
+
+## 1.42.0
+Sprint Release: October 22nd, 2021
+
+Features:
+
+* [Migrate to Docsy for kiali.io theme](https://github.com/kiali/kiali/issues/4395)
+* [Add strong type mapping in Istio Kiali model](https://github.com/kiali/kiali/issues/1372)
+* [Show mirroring info or badge on the graph](https://github.com/kiali/kiali/issues/4383)
+* [Add a "Trendlines" option in the metrics tab](https://github.com/kiali/kiali/issues/2997)
+* [Show gateway in istio config](https://github.com/kiali/kiali/issues/4326)
+* [Add Sidecars on  "Create Traffic Policies" namespace action](https://github.com/kiali/kiali/issues/3394)
+* [Ability to pass custom headers to httputil.Post](https://github.com/kiali/kiali/issues/4377)
+* [Add hostAliases field to kiali deployment manifests](https://github.com/kiali/kiali/issues/4403)
+* [Kiali Istio dashboards incompatible with thanos-query](https://github.com/kiali/kiali/issues/4303)
+
+Fixes:
+
+* [URL parameters not persisted in inbound/outbound metric tabs](https://github.com/kiali/kiali/issues/4420)
+* [Include Mesh Gateway in Create Traffic Routing - causes failure](https://github.com/kiali/kiali/issues/4416)
+* [Potential Memory Leak in UI AuthenticationController](https://github.com/kiali/kiali/issues/4265)
+* [More Sidecars on Configuration](https://github.com/kiali/kiali/issues/4437)
+* [ "missing span root" in graph side panel ](https://github.com/kiali/kiali/issues/4407)
 
 ## 1.41.0
 Sprint Release: October 1st, 2021
