@@ -77,10 +77,10 @@ Kiali uses the API of the container application platform (cluster API) in order
 to fetch and resolve service mesh configurations.
 
 Container application platforms where Kiali is known to work are
-http://www.okd.io/[OKD] and http://kubernetes.io/[Kubernetes]. Kiali shoud also
+[OKD](https://www.okd.io/index.html) and [Kubernetes](http://kubernetes.io/). Kiali shoud also
 work on the derivatives of these platforms. If you want to learn the cluster
-API, check the https://docs.okd.io/latest/rest_api/index.html[OKD REST API
-reference] and the
+API, check the [OKD REST API
+reference](https://docs.okd.io/latest/rest_api/index.html) and the
 [Kubernetes API reference](https://kubernetes.io/docs/reference/kubernetes-api/).
 
 Kiali queries the cluster API to retrieve, for example, definitions for 
@@ -95,7 +95,7 @@ services, destination rules, route rules, gateways, and quotas.
 Jaeger is optional. When available, Kiali will be able to direct the user to
 Jaeger's tracing data. If you need this feature, make sure Kiali is
 [properly configured for Jaeger
-integration]({{< ref "docs/features/tracing" >}}).
+integration]({{< ref "/docs/features/tracing" >}}).
 
 Tracing data will be available only if
 [Istio's distributed tracing](https://istio.io/docs/tasks/telemetry/distributed-tracing/) is enabled. 

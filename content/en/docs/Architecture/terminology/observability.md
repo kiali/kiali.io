@@ -7,7 +7,7 @@ draft: false
 ### Envoy
 
 A proxy that Istio starts for each pod in the service mesh.
-For more information see the [Istio Envoy Documentation]https://istio.io/docs/ops/deployment/architecture/#envoy).
+For more information see the [Istio Envoy Documentation](https://istio.io/docs/ops/deployment/architecture/#envoy).
 
 ### Envoy Health
 
