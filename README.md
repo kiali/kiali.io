@@ -13,7 +13,7 @@ The website is written using markdown, the [Docsy](https://www.docsy.dev/) theme
 To run the website locally, you will need:
 
 * [Podman](https://podman.io) or [Docker](https://docker.io)
-* https://www.gnu.org/software/make/[GNU Make]
+* [GNU Make](https://www.gnu.org/software/make/)
 
 Generally `podman` is easier to setup.
 
