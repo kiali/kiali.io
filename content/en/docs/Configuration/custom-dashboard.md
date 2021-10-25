@@ -1,6 +1,6 @@
 ---
 title: "Custom Dashboards"
-weight: 10
+description: "Configuring additional, non-default dashboards."
 ---
 
 [Custom Dashboards]({{< ref "/docs/features/details#custom-dash" >}}) require some configuration to work properly.

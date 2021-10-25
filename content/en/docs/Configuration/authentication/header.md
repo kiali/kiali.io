@@ -1,8 +1,7 @@
 ---
 title: "Header strategy"
-date: 2021-01-08T00:00:00+02:00
-draft: false
-weight: 9
+linktitle: "Header"
+description: "Run Kiali behind a reverse proxy responsible for injecting the user's token, or a token with impersonation."
 ---
 
 ## Introduction

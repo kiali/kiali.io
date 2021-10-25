@@ -1,8 +1,6 @@
 ---
 title: "Virtual Machine workloads"
-date: 2021-07-26T00:00:00+02:00
-draft: false
-weight: 60
+description: "Ensuring Kiali can visualize a VM WorkloadEntry."
 ---
 
 ## Introduction

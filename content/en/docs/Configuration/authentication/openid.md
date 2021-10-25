@@ -1,8 +1,7 @@
 ---
 title: "OpenID Connect strategy"
-date: 2020-08-25T00:00:00+02:00
-draft: false
-weight: 9
+linktitle: "OpenID Connect"
+description: "Access Kiali requiring authentication through a third-party _OpenID Connect_ provider."
 ---
 
 ## Introduction

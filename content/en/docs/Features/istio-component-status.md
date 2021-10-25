@@ -1,5 +1,5 @@
 ---
-title: "Istio Component Status"
+title: "Istio Infrastructure Status"
 linkTitle: "Istio Status"
 description: "How Kiali monitors your Istio infrastructure."
 ---

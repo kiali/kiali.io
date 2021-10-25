@@ -1,5 +1,6 @@
 ---
 title: "Example Install"
+description: "Installing two Kiali servers via the Kiali Operator."
 weight: 70
 ---
 

@@ -1,7 +1,6 @@
 ---
 title: "Traffic Health"
-description: "Configuration of Request Traffic Health"
-weight: 50
+description: "Customizing Health for Request Traffic."
 ---
 
 There are times when Kiali's default thresholds for traffic health do not work well for a particular situation.  For example, at times 404 response codes are expected.  Kiali heas the ability to set powerful, fine-grained overrides for health configuration.
