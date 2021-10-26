@@ -1,18 +1,14 @@
 ---
 title: "Role-based access control"
-date: 2020-08-25T00:00:00+02:00
-draft: false
-weight: 40
+description: "Configuring RBAC based on the authentication strategy."
 ---
 
 ## Introduction
 
-Kiali supports role-based access control (RBAC) when you are using either the
-`openid`, `openshift` or `token` authentication strategies.
+Kiali supports role-based access control (RBAC) when using any authentication strategy other than `anonymous`.
 
-If you are using the `anonymous` strategy, RBAC isn't supported, but you still
-can limit privileges if your cluster is OpenShift. See the
-[access control section in Anonymous strategy ]({{< relref "./authentication/anonymous#access-control" >}}).
+Although the `anonymous` strategy does not support RBAC, you can still limit privileges if using an OpenShift cluster. See the
+[access control section in Anonymous strategy]({{< relref "./authentication/anonymous#access-control" >}}).
 
 Kiali uses the RBAC capabilities of the underlying cluster. Thus, RBAC is
 accomplished by using the standard RBAC features of the cluster, which is
@@ -27,9 +23,10 @@ translates to:
 
 |Authentication Strategy|Access To|
 |------------|------------------|
+|`header`    |resources granted to the user of the header-supplied token|
 |`openid`    |resources granted to the user of the third-party authentication system|
 |`openshift` |resources granted to the OpenShift user|
-|`token`     |resources granted to the ServiceAccount whose token was used to login|
+|`token`     |resources granted to the ServiceAccount token used to login|
 
 For example, if you are using the `token` strategy, you would grant
 cluster-wide privileges to a ServiceAccount with this command:
