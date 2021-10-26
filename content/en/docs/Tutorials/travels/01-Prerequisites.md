@@ -27,7 +27,7 @@ This tutorial has been tested using:
 
 ## Install Istio
 
-Once you have your Kubernetes cluster ready, follow the [Istio Getting Started, window="_blank"](https://istio.io/latest/docs/setup/getting-started/) to install and setup a demo profile that will be used in this tutorial.
+Once you have your Kubernetes cluster ready, follow the [Istio Getting Started](https://istio.io/latest/docs/setup/getting-started/) to install and setup a demo profile that will be used in this tutorial.
 
 {{% alert color="warning" %}}
 Determining ingress IP and ports and creating DNS entries will be necessary in the following steps.
@@ -54,7 +54,7 @@ Assuming you have installed the addons following the [Istio Getting Started](htt
 
 `kubectl delete -f ${ISTIO_HOME}/samples/addons/kiali.yaml --ignore-not-found`
 
-There are multiple ways to install a recent version of Kiali, this tutorial follows the [Quick Start using Helm Chart]({{< ref "/docs/Installation/quick-start#_install_via_helm" >}}).
+There are multiple ways to install a recent version of Kiali, this tutorial follows the [Quick Start using Helm Chart]({{< ref "/docs/Installation/quick-start#install-via-helm" >}}).
 
 ```
 helm install \
