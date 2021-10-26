@@ -20,6 +20,17 @@ heatmap approach to help the user identify problem traces or spans.
 ![Trace detail](/images/documentation/features/trace-detail.png)
 ![Span detail](/images/documentation/features/trace-span-detail.png)
 
+### Heatmaps
+
+A heatmap that you see in the Workload's Tracing tab is a matrix that compares a specific trace's request duration against duration metrics aggregated over time.
+
+![Heatmap](/images/documentation/features/tracing-heatmap.png "Heatmap")
+
+Each trace has a corresponding heatmap matrix. Each cell in the matrix corresponds to a specific metric aggregate; the value and color of a cell represents the difference between that metric and the duration of the matrix's associated trace.
+
+For example, the top-right cell of the heatmap above shows that the duration of the request represented by the trace (5.96ms) was 17.5ms faster than the 99th percentile of all inbound requests to the workload within the last 10 minutes.
+
+The color of a cell will range between red and green; the more green a cell is, the faster the duration of the trace was compared to the aggregate metric data. A red cell indicates the associated trace was much slower compared to the aggregate metric data and so examining that trace could help detect a potential bottleneck or problem.
 
 ## Metric Correlation
 
