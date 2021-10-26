@@ -16,6 +16,7 @@ RUN tar xzvf /hugo.tar.gz -C / \
 
 # Stuff for docsy
 RUN npm -g -D install postcss postcss-cli autoprefixer
+RUN npm prune
 
 # Confirm hugo binary is available and show its version
 RUN hugo version

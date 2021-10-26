@@ -21,3 +21,8 @@ build-hugo: .prepare-force-build
 .PHONY: serve
 serve: build-hugo
 	@${DORP} run -t -i --sig-proxy=true --rm -v "$(shell pwd)":/site:z -w /site -p 1313:1313 ${KIALI_HUGO_IMAGE} hugo serve --baseURL "http://localhost:1313/" --bind 0.0.0.0 --disableFastRender
+
+## build-site: Builds the site - used for CI
+.PHONY: build-site
+build-site: build-hugo
+	@${DORP} run -t -i --rm -v "$(shell pwd)":/site:z -w /site ${KIALI_HUGO_IMAGE} /bin/bash -c "hugo"
