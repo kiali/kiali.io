@@ -1,6 +1,6 @@
 ---
 title: "Accessing Kiali"
-description: "Accessing and exposing Kiali"
+description: "Accessing and exposing the Kiali UI."
 weight: 50
 ---
 

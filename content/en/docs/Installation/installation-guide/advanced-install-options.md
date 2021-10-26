@@ -1,6 +1,6 @@
 ---
 title: "Advanced Install"
-description: "Advanced installation options"
+description: "Advanced installation options."
 weight: 60
 ---
 

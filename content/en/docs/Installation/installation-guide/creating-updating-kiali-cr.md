@@ -1,6 +1,6 @@
 ---
 title: "The Kiali CR"
-description: "Creating and updating the Kiali CR"
+description: "Creating and updating the Kiali CR."
 weight: 40
 ---
 

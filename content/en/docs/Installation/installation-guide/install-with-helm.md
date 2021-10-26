@@ -1,5 +1,6 @@
 ---
 title: "Install via Helm"
+description: "Using Helm to install the Kiali Operator or Server."
 weight: 20
 ---
 

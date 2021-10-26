@@ -1,8 +1,7 @@
 ---
 title: "Token strategy"
-date: 2020-08-25T00:00:00+02:00
-draft: false
-weight: 9
+linktitle: "Token"
+description: "Access Kiali requiring a Kubernetes ServiceAccount token."
 ---
 
 ## Introduction
