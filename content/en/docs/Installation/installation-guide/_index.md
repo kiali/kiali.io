@@ -1,12 +1,9 @@
 ---
 title: "Installation Guide"
-aliases:
-- /installation-guide/
-date: 2019-03-20T09:04:38+02:00
-draft: false
+description: "Installing Kiali for production."
 ---
 
-The next few sections describe the different installation methods available for Kiali.
+This section describes the production installation methods available for Kiali.
 
 The recommended way to deploy Kiali is via the Kiali Operator, either using Helm Charts or OperatorHub.
 

@@ -1,13 +1,6 @@
 ---
 title: "Quick Start"
-date: 2019-03-20T09:04:38+02:00
-aliases:
-- /quick-start
-- /getting-started
-- /gettingstarted
-- /documentation/getting-started
-- /documentation/latest/getting-started
-draft: false
+description: "Installing Kiali for demo or evaluation."
 weight: 1
 ---
 

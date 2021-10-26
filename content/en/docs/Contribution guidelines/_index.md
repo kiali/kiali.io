@@ -1,9 +1,8 @@
 ---
 title: "Contribution Guidelines"
 linkTitle: "Contribution Guidelines"
+description: "How to contribute to Kiali."
 weight: 10
-description: >
-  How to contribute to Kiali
 ---
 
 ## Contributing to the Docs

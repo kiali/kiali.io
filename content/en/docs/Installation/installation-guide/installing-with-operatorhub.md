@@ -1,5 +1,6 @@
 ---
 title: "Install via OperatorHub"
+description: "Using OperatorHub to install the Kiali Operator."
 weight: 30
 ---
 

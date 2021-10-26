@@ -1,7 +1,6 @@
 ---
 title: "Configuration"
-date: 2020-08-25T00:00:00+02:00
-draft: false
-weight: 3
+description: "How to configure Kiali to fit your needs."
+weight: 2
 ---
 
