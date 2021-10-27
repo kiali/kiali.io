@@ -5,6 +5,9 @@ ARG HUGO_VERSION
 VOLUME /site
 WORKDIR /site
 
+# Required when running htmlproof
+ENV LANG=C.UTF-8
+
 # Install dependencies needed for hugo
 RUN microdnf -y install tar shadow-utils git nodejs
 
