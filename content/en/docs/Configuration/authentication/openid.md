@@ -56,17 +56,6 @@ strategy by using
 reverse proxy that handles the OpenID authentication and forwards the
 authenticated requests to the Kubernetes API.
 
-{{% alert title="Azure" color="warning" %}}
-Several Azure users have reported that OpenId
-authentication is not working correctly even after enabling Azure AD
-integration in AKS clusters. As of now, if you need RBAC, you will need to
-fallback to using
-[`kube-oidc-proxy`](https://github.com/jetstack/kube-oidc-proxy) or a
-similar alternative. If you don't need RBAC, just configure Kiali accordingly.
-As nobody in the Kiali team has access to Azure, contributions for improved
-Azure support will be appreciated.
-{{% /alert %}}
-
 ## Set-up with RBAC support {#setup-with-rbac}
 
 Assuming you already have a working Kubernetes cluster with OpenId integration
@@ -200,7 +189,7 @@ If you enabled RBAC, you will want the `username_claim` attribute to match the
 equivalent option if you are using a replacement or reverse proxy of the API
 server. Else, any user-friendly claim will be OK as it is purely informational.
 
-### Configuring requested scopes
+### Configuring requested scopes {#configure-scopes}
 
 By default, Kiali will request access to the `openid`, `profile` and `email`
 standard scopes. If you need a different set of scopes, you can set the
@@ -233,6 +222,36 @@ spec:
     openid:
       authentication_timeout: 60 # Wait only one minute.
 ```
+
+### Configuring allowed domains
+
+Some identity providers use a shared login and regardless of configuring your
+own application under your domain (or organization account), login can succeed
+even if the user that is logging in does not belong to your account or
+organization. Google is an example of this kind of provider.
+
+To prevent foreign users from logging into your Kiali instance, you can
+configure a list of allowed domains:
+
+```yaml
+spec:
+  auth:
+    openid:
+      allowed_domains:
+      - example.com
+      - foo.com
+```
+
+The e-mail reported by the identity provider is used for the validation. Login
+will be allowed if the domain part of the e-mail is listed as an allowed
+domain; else, the user will be rejected. Naturally, you will need to
+[configure the `email` scope to be requested](#configure-scopes).
+
+There is a special case: some identity providers include a `hd` claim in the
+`id_token`. If this claim is present, this is used instead of extracting the
+domain from the user e-mail.  For example, Google Workspace (aka G Suite)
+[includes this `hd` claim for hosted
+domains](https://developers.google.com/identity/protocols/oauth2/openid-connect#an-id-tokens-payload).
 
 ### Using an OpenID provider with a self-signed certificate
 
@@ -442,8 +461,8 @@ Create a web application for Kiali in your Azure AD panel:
 1. Go to _AAD > App Registration_, create an application with a redirect url like `\https://<your-kiali-url>`
 2. Go to _Certificates & secrets_ and create a client secret.
    1. After creating the client secret, take note of the provided secret. Create a
-   Kubernetes secret in your cluster as mentioned in the <<setup-with-rbac,Set-up
-   with RBAC support>> section. Please, note that the suggested name for the
+   Kubernetes secret in your cluster as mentioned in the [Set-up
+   with RBAC support](#setup-with-rbac) section. Please, note that the suggested name for the
    Kubernetes Secret is `kiali`. If you want to customize the secret name, you
    will have to specify your custom name in the Kiali CR. See the
    [comments for the `secret_name` configuration in the sample Kiali CR](https://github.com/kiali/kiali-operator/blob/5e364ee48c08a1bdd200172b47f08b2ed0369c25/deploy/kiali/kiali_cr.yaml#L342-L347).
