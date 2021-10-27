@@ -22,7 +22,26 @@ build-hugo: .prepare-force-build
 serve: build-hugo
 	@${DORP} run -t -i --sig-proxy=true --rm -v "$(shell pwd)":/site:z -w /site -p 1313:1313 ${KIALI_HUGO_IMAGE} hugo serve --baseURL "http://localhost:1313/" --bind 0.0.0.0 --disableFastRender
 
-## build-site: Builds the site - used for CI
-.PHONY: build-site
-build-site: build-hugo
-	@${DORP} run -t -i --rm -v "$(shell pwd)":/site:z -w /site ${KIALI_HUGO_IMAGE} /bin/bash -c "hugo"
+# Ignore hash anchors (#) that go nowhere.
+# Ignore some links to Kiali repositories. These are ignored because there are lots of links
+# to Kiali repositories and, because of that, the checker reaches the max GitHub request limit and
+# we get throttled which results in errors because of 429 HTTP error codes.
+# So, we ignore some URLs that are probably safe to ignore:
+# 1. URLs to specific pulls; i.e. of the form https://github.com/kiali/kiali/pull/1234
+# 2. URLs to specific issues; i.e. of the form https://github.com/kiali/kiali/issues/1234
+# 3. URLs to a folder in repository in a branch; i.e. of the form https://github.com/kiali/kiali/tree/v1.24/whatever
+#   - We only ignore links to branches, because it's so-so stable. Master branch
+#     is unsafe because files are moved, renamed, etc.
+# 4. URLs to a folder in repository in a branch; i.e. of the form https://github.com/kiali/kiali/blob/v1.24/whatever
+#   - Same reasoning as previous point.
+URL_IGNORE=\#$\
+          ,/^https:\/\/github.com\/kiali\/kiali\/pull\/\d+/$\
+          ,/^https:\/\/github.com\/kiali\/kiali\/issues\/\d+/$\
+          ,/^https:\/\/github.com\/kiali\/kiali\/tree\/v\d+\.\d+\//$\
+          ,/^https:\/\/github.com\/kiali\/kiali\/blob\/v\d+\.\d+\//$\
+          ,/.*web.libera.chat.*/
+## validate-site: Builds the site and validates the pages. This is used for CI
+.PHONY: validate-site
+validate-site: build-hugo
+	${DORP} run -t -i --rm -v "$(shell pwd)":/site:z -w /site ${KIALI_HUGO_IMAGE} /bin/bash -c "hugo && htmlproofer --assume-extension --check-external-hash --empty_alt_ignore --url-ignore \"${URL_IGNORE}\" ./public"
+
