@@ -5,7 +5,7 @@ ARG HUGO_VERSION
 VOLUME /site
 WORKDIR /site
 
-# Required when running htmlproof
+# Required when running htmlproofer
 ENV LANG=C.UTF-8
 
 # Install dependencies needed for hugo
