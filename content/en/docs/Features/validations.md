@@ -218,7 +218,7 @@ If the PeerAuthentication is not found or doesn't exist and the mesh-wide Destin
 This validation appears only when autoMtls is disabled.
 
 #### Resolution
-Add a PeerAuthentication within the `istio-system` namespace without specifying targets but setting peers mtls mode to STRICT or PERMISSIVE. The PeerAuthentication should be like [this](/files/validation_examples/401-PeerAuth.yaml).
+Add a PeerAuthentication within the `istio-system` namespace without specifying targets but setting peers mtls mode to STRICT or PERMISSIVE. The PeerAuthentication should be like [this](/files/validation_examples/401.yaml).
 
 #### Severity
 
@@ -391,7 +391,7 @@ If the DestinationRule is not found or doesn't exist and the PeerAuthentication 
 This validation appears only when autoMtls is disabled.
 
 #### Resolution
-Add a DestinationRule with "*.cluster" host and ISTIO_MUTUAL as tls trafficPolicy mode. The DestinationRule should be like [this](https://github.com/kiali/kiali.io/blob/master/data/files/validation_examples/004.yaml).
+Add a DestinationRule with "*.cluster" host and ISTIO_MUTUAL as tls trafficPolicy mode. The DestinationRule should be like [this](/files/validation_examples/004.yaml).
 
 #### Severity
 
@@ -419,7 +419,7 @@ If the DestinationRule is not found or doesn't exist in the namespace and the na
 This validation appears only when autoMtls is disabled.
 
 #### Resolution
-Add a DestinationRule with "*.namespace.svc.cluster.local" host and ISTIO_MUTUAL as tls trafficPolicy mode. The DestinationRule should be like [this](https://github.com/kiali/kiali.io/blob/master/data/files/validation_examples/006.yaml).
+Add a DestinationRule with "*.namespace.svc.cluster.local" host and ISTIO_MUTUAL as tls trafficPolicy mode. The DestinationRule should be like [this](/files/validation_examples/006.yaml).
 
 #### Severity
 
@@ -559,7 +559,7 @@ Maistra has the ability to define mTLS communications at mesh level. In order to
 If the DestinationRule is not found or doesn't exist and the ServiceMeshPolicy is on STRICT mode, all the communication returns 500 errors.
 
 #### Resolution
-Add a DestinationRule named as default with "*.cluster" host and ISTIO_MUTUAL as tls trafficPolicy mode. The DestinationRule should be like [this](https://github.com/kiali/kiali.io/blob/master/data/files/validation_examples/004.yaml).
+Add a DestinationRule named as default with "*.cluster" host and ISTIO_MUTUAL as tls trafficPolicy mode. The DestinationRule should be like [this](/files/validation_examples/004.yaml).
 
 #### Severity
 

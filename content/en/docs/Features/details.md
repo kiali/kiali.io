@@ -78,7 +78,7 @@ Kiali comes with built-in dashboards for several runtimes, including Envoy, Go, 
 
 #### Envoy
 
-The most important built-in dashboard is for Envoy.  Kiali offers the _Envoy_ tab for many workloads.  The Envoy tab is actually a [Built-In Dashboard](#built-in), but it is very common as it applies to any workload injected with, or that is itself, an Envoy proxy.  Being able to inspect the Envoy proxy is invaluable when troublshooting your mesh.  The Envoy tab itself offers five subtabs, exposing a wealth of information.
+The most important built-in dashboard is for Envoy.  Kiali offers the _Envoy_ tab for many workloads.  The Envoy tab is actually a [Built-In Dashboard](#built-in-dash), but it is very common as it applies to any workload injected with, or that is itself, an Envoy proxy.  Being able to inspect the Envoy proxy is invaluable when troublshooting your mesh.  The Envoy tab itself offers five subtabs, exposing a wealth of information.
 
 ![Detail Envoy](/images/documentation/features/detail-envoy.png)
 

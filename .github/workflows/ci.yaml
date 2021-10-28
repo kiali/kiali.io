@@ -2,54 +2,17 @@ name: CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [ staging ]
   pull_request:
-    branches: [ master ]
+    branches: [ staging ]
 
 jobs:
 
   build:
-    name: Build and verify
+    name: Build and validate
     runs-on: ubuntu-20.04
     steps:
       - name: Check out code
         uses: actions/checkout@v2
-      - name: Set Hugo vesrion
-        id: hugo-version
-        run: |
-          HUGO_VERSION=$(grep '^HUGO_VERSION' Makefile | awk -F '=' '{ gsub(" ", "", $2); print $2}')
-          echo "::set-output name=HUGO_VERSION::${HUGO_VERSION}"
-      - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v2
-        with:
-          hugo-version: '${{ steps.hugo-version.outputs.HUGO_VERSION }}'
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 2.7
-      - name: Build
-        run: make build
-      - name: Verify
-        run: |
-          gem install html-proofer
-          # Ignore hash anchors. These anchors go nowhere. I don't know why this is ignored.
-          # They are in the original PoC, so there must be a reason: https://github.com/kiali/kiali.io/pull/227
-          URL_IGNORE='#'
-          # Ignore some links to Kiali repositories. These are ignored because there are lots of links
-          # to Kiali repositories and, because of that, the checker reaches the max GitHub request limit and
-          # we got throttled. As a result, errors can be issued because of 429 HTTP error codes.
-          # So, we ignore some URLs that are probably safe to ignore:
-          # 1. URLs to specific pulls; i.e. of the form https://github.com/kiali/kiali/pull/1234
-          # 2. URLs to specific issues; i.e. of the form https://github.com/kiali/kiali/issues/1234
-          # 3. URLs to a folder in repository in a branch; i.e. of the form https://github.com/kiali/kiali/tree/v1.24/whatever
-          #   - We only ignore links to branches, because it's so-so stable. Master branch
-          #     is unsafe because files are moved, renamed, etc.
-          # 4. URLs to a folder in repository in a branch; i.e. of the form https://github.com/kiali/kiali/blob/v1.24/whatever
-          #   - Same reasoning as previous point.
-          URL_IGNORE="$URL_IGNORE,/^https:\/\/github.com\/kiali\/kiali\/pull\/\d+/"
-          URL_IGNORE="$URL_IGNORE,/^https:\/\/github.com\/kiali\/kiali\/issues\/\d+/"
-          URL_IGNORE="$URL_IGNORE,/^https:\/\/github.com\/kiali\/kiali\/tree\/v\d+\.\d+\//"
-          URL_IGNORE="$URL_IGNORE,/^https:\/\/github.com\/kiali\/kiali\/blob\/v\d+\.\d+\//"
-          URL_IGNORE="$URL_IGNORE,/.*web.libera.chat.*/"
-          htmlproofer --assume-extension --check-external-hash --empty_alt_ignore --url-ignore "$URL_IGNORE" ./public
-
+      - name: Validate
+        run: make validate-site

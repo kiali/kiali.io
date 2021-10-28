@@ -49,7 +49,7 @@ visiting this URL in your web browser:
 `https://_your_ingress_ip_or_domain_/kiali`.
 
 To find your Ingress IP or domain name, as per
-[the Kubernetes documentation](https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/#create-an-ingress-resource),
+[the Kubernetes documentation](https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/#create-an-ingress),
 try the following command (doesn't work if using Minikube):
 
 ```
