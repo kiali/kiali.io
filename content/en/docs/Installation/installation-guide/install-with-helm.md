@@ -171,7 +171,7 @@ By upgrading the Kiali Operator, existent Kiali Server installations
 managed with a Kiali CR will also be upgraded once the updated operator starts.
 {{% /alert %}}
 
-## Managing configuration of Helm installations
+## Managing configuration of Helm installations {#managing-installation-config}
 
 After installing either the `kiali-operator` or the `kiali-server` Helm Charts,
 you may be tempted to manually modify the created resources to modify the

@@ -42,7 +42,7 @@ span will navigate back to the _Traces_ tab, focused on the trace of interest.
 
 ## Graph Correlation
 
-Kiali users often use the [Graph Feature](#topology) to visualize their mesh traffic.  In the side panel, When selecting a graph node,
+Kiali users often use the [Graph Feature]({{< relref "./topology" >}}) to visualize their mesh traffic.  In the side panel, When selecting a graph node,
 the user will be presented with a _Traces_ tab, which lists available traces for the time period.  When selecting a trace the graph
 will display an overlay for the trace's spans.  And the side panel will display span details and offer links back to the trace detail
 views.

@@ -77,10 +77,9 @@ Kiali uses the API of the container application platform (cluster API) in order
 to fetch and resolve service mesh configurations.
 
 Container application platforms where Kiali is known to work are
-[OKD](https://www.okd.io/index.html) and [Kubernetes](http://kubernetes.io/). Kiali shoud also
+[OKD](https://www.okd.io) and [Kubernetes](http://kubernetes.io). Kiali shoud also
 work on the derivatives of these platforms. If you want to learn the cluster
-API, check the [OKD REST API
-reference](https://docs.okd.io/latest/rest_api/index.html) and the
+API, check the [OKD REST API reference](https://docs.okd.io/latest/rest_api) and the
 [Kubernetes API reference](https://kubernetes.io/docs/reference/kubernetes-api/).
 
 Kiali queries the cluster API to retrieve, for example, definitions for 
