@@ -43,5 +43,5 @@ URL_IGNORE=\#$\
 ## validate-site: Builds the site and validates the pages. This is used for CI
 .PHONY: validate-site
 validate-site: build-hugo
-	${DORP} run -t -i --rm -v "$(shell pwd)":/site:z -w /site ${KIALI_HUGO_IMAGE} /bin/bash -c "hugo && htmlproofer --assume-extension --check-external-hash --empty_alt_ignore --url-ignore \"${URL_IGNORE}\" ./public"
+	${DORP} run -t -i --rm -v "$(shell pwd)":/site:z -w /site ${KIALI_HUGO_IMAGE} /bin/bash -c "npm prune && hugo && htmlproofer --assume-extension --check-external-hash --empty_alt_ignore --url-ignore \"${URL_IGNORE}\" ./public"
 
