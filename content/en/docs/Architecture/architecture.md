@@ -1,8 +1,6 @@
 ---
 title: "Architecture"
-date: 2018-09-03T14:39:48-05:00
-draft: false
-weight: 1
+description: "Overview of the Kiali architecture."
 ---
 
 ## Kiali architecture

@@ -1,10 +1,7 @@
 ---
 title: "Installation"
-date: 2020-10-21T00:00:00+00:00
-draft: false
-weight: 6
+description: "Questions about Kiali installation options or issues."
 ---
-
 
 ### Operator fails due to `cannot list resource "clusterroles"` error
 

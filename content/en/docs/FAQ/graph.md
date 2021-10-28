@@ -1,8 +1,6 @@
 ---
 title: "Graph"
-date: 2018-06-20T19:04:38+02:00
-draft: false
-weight: 2
+description: "Questions about Kiali's graph, mini-graph, node-detail-graph, or general topology views."
 ---
 
 

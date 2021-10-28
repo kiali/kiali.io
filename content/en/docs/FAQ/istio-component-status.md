@@ -1,8 +1,6 @@
 ---
 title: "Istio Component Status"
-date: 2020-10-26T18:04:38+02:00
-draft: false
-weight: 7
+description: "Questions about Kiali's Istio infrastructure health checks."
 ---
 
 
