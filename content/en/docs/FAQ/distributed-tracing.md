@@ -1,8 +1,6 @@
 ---
 title: "Distributed Tracing"
-date: 2020-07-15T00:00:00+00:00
-draft: false
-weight: 3
+description: "Questions about the Jaeger integration."
 ---
 
 ### Why is Jaeger unreachable or Kiali showing the error "Could not fetch traces"?

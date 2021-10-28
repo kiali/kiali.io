@@ -1,7 +1,6 @@
 ---
 title: "Install Travel Demo"
-date: 2018-06-20T19:04:38+02:00
-draft: false
+description: "Installing and understanding the tutorial demo."
 weight: 2
 ---
 

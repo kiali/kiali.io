@@ -1,7 +1,6 @@
 ---
 title: "Observe"
-date: 2018-06-20T19:04:38+02:00
-draft: false
+description: "Observability with Kiali: graphs, metrics, logs, tracing..."
 weight: 4
 ---
 

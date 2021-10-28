@@ -1,8 +1,6 @@
 ---
 title: "Validations"
-date: 2019-12-11T09:04:38+02:00
-draft: false
-weight: 4
+description: "Questions about Kiali Validations."
 ---
 
 

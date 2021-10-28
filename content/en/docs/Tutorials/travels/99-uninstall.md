@@ -1,5 +1,6 @@
 ---
 title: Uninstall Travel Demo
+description: "Wrap up the tutorial."
 weight: 99
 ---
 
