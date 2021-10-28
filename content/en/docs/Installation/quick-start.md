@@ -25,7 +25,7 @@ To uninstall:
 kubectl delete -f ${ISTIO_HOME}/samples/addons/kiali.yaml --ignore-not-found
 ```
 
-## Install via Helm 
+## Install via Helm {#install-via-helm}
 
 {{% alert color="warning" %}}
 Only Helm v3 has been tested. Previous Helm versions may or may not work.
