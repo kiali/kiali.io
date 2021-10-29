@@ -40,12 +40,12 @@ As you can see in the example, the namespace where Kiali is
 installed must be listed as accessible (often, but not always, the same namespace as Istio).
 {{% /alert %}}
 
-This configuration accepts the special pattern `accessible_namespaces: "**"`
+This configuration accepts the special pattern `accessible_namespaces: ["**"]`
 which denotes that Kiali is given access to all namespaces in the cluster. 
 
 {{% alert color="warning" %}}
 If you install the operator using the [Helm Charts]({{< ref "/docs/installation/installation-guide/install-with-helm#install-with-operator" >}}), 
-to be able to use the special pattern `accessible_namespaces: "**"`,
+to be able to use the special pattern `accessible_namespaces: ["**"]`,
 you must specify the `--set clusterRoleCreator=true` flag when invoking `helm
 install`.
 {{% /alert %}}
@@ -56,7 +56,7 @@ set must be matched by only one Kiali CR. Regular expressions must not have
 overlapping patterns.
 
 {{% alert color="warning" %}}
-A cluster can have at most one Kiali instance with the special pattern `accessible_namespaces: "**"`.
+A cluster can have at most one Kiali instance with the special pattern `accessible_namespaces: ["**"]`.
 {{% /alert %}}
 
 Maistra supports multi-tenancy and the `accessible_namespaces` extends that
@@ -79,7 +79,7 @@ api:
 
 ## Namespace Selectors
 
-To fetch a subset of the available namespaces, Kiali supports an optional Kubernetes label selector. This selector is especially useful when `spec.deployment.accessible_namespaces` is set to `["+++**+++"]` but you want to reduce the namespaces presented in the UI's namespace list.
+To fetch a subset of the available namespaces, Kiali supports an optional Kubernetes label selector. This selector is especially useful when `spec.deployment.accessible_namespaces` is set to `["**"]` but you want to reduce the namespaces presented in the UI's namespace list.
 
 The label selector is defined in the Kiali CR setting `spec.api.namespaces.label_selector`.
 
@@ -99,5 +99,5 @@ To label a namespace you can use the following command. For more information see
   kubectl label namespace my-namespace kiali-enabled=true
 ```
 
-Note that when deploying multiple control planes in the same cluster, you will want to set the label selector's value unique to each control plane. This allows each Kiali instance to select only the namespaces relevant to each control plane. Because in this "soft-multitenancy" mode `spec.deployment.accessible_namespaces` is typically set to an explicit set of namespaces (i.e. not `["+++**+++"]`), you do not have to do anything with this `label_selector`. This is because the default value of `label_selector` is `kiali.io/member-of: <spec.istio_namespace>` when `spec.deployment.accessible_namespaces` is not set to the "all namespaces" value `["+++**+++"]`. This allows you to have multiple control planes in the same cluster, with each control plane having its own Kiali instance. If you set your own Kiali instance name in the Kiali CR (i.e. you set `spec.deployment.instance_name` to something other than `kiali`), then the default label will be `kiali.io/<spec.deployment.instance_name>.member-of: <spec.istio_namespace>`.
+Note that when deploying multiple control planes in the same cluster, you will want to set the label selector's value unique to each control plane. This allows each Kiali instance to select only the namespaces relevant to each control plane. Because in this "soft-multitenancy" mode `spec.deployment.accessible_namespaces` is typically set to an explicit set of namespaces (i.e. not `["**"]`), you do not have to do anything with this `label_selector`. This is because the default value of `label_selector` is `kiali.io/member-of: <spec.istio_namespace>` when `spec.deployment.accessible_namespaces` is not set to the "all namespaces" value `["**"]`. This allows you to have multiple control planes in the same cluster, with each control plane having its own Kiali instance. If you set your own Kiali instance name in the Kiali CR (i.e. you set `spec.deployment.instance_name` to something other than `kiali`), then the default label will be `kiali.io/<spec.deployment.instance_name>.member-of: <spec.istio_namespace>`.
 
