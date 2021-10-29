@@ -40,12 +40,12 @@ As you can see in the example, the namespace where Kiali is
 installed must be listed as accessible (often, but not always, the same namespace as Istio).
 {{% /alert %}}
 
-This configuration accepts the special pattern `accessible_namespaces: "**"`
+This configuration accepts the special pattern `accessible_namespaces: ["**"]`
 which denotes that Kiali is given access to all namespaces in the cluster. 
 
 {{% alert color="warning" %}}
 If you install the operator using the [Helm Charts]({{< ref "/docs/installation/installation-guide/install-with-helm#install-with-operator" >}}), 
-to be able to use the special pattern `accessible_namespaces: "**"`,
+to be able to use the special pattern `accessible_namespaces: ["**"]`,
 you must specify the `--set clusterRoleCreator=true` flag when invoking `helm
 install`.
 {{% /alert %}}
@@ -56,7 +56,7 @@ set must be matched by only one Kiali CR. Regular expressions must not have
 overlapping patterns.
 
 {{% alert color="warning" %}}
-A cluster can have at most one Kiali instance with the special pattern `accessible_namespaces: "**"`.
+A cluster can have at most one Kiali instance with the special pattern `accessible_namespaces: ["**"]`.
 {{% /alert %}}
 
 Maistra supports multi-tenancy and the `accessible_namespaces` extends that
