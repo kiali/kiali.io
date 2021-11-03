@@ -32,7 +32,7 @@ Either remove the namespace from the list, correct if there is any typo or creat
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/blob/master/business/checkers/authorization/namespace_method_checker.go)
+- [Validator source code](https://github.com/kiali/kiali/blob/v1.42.0/business/checkers/authorization/namespace_method_checker.go)
 - [Istio documentation](https://istio.io/docs/reference/config/security/authorization-policy)
 - [Definition of a source](https://istio.io/docs/reference/config/security/authorization-policy/#Source)
 
@@ -85,7 +85,7 @@ Either remove the host from the list, correct if there is any typo or deploy a n
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/blob/master/business/checkers/authorization/no_host_checker.go)
+- [Validator source code](https://github.com/kiali/kiali/blob/v1.42.0/business/checkers/authorization/no_host_checker.go)
 - [AuthorizationPolicy documentation](https://istio.io/docs/reference/config/security/authorization-policy)
 - [Definition of the operations field](https://istio.io/docs/reference/config/security/authorization-policy/#Operation)
 - [Service association requirement](https://istio.io/docs/ops/deployment/requirements)
@@ -117,7 +117,7 @@ Either merge the settings to a single DR or split the subsets in such a way that
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/destinationrules/multi_match_checker.go)
+- [Validator source code](https://github.com/kiali/kiali/tree/v1.42.0/business/checkers/destinationrules/multi_match_checker.go)
 - [Destination rule documentation](https://istio.io/docs/reference/config/networking/destination-rule/#DestinationRule)
 - [Istio source code for merging](https://github.com/istio/istio/blob/0e9cecab053aab744a7c3a731aacb07fd794d5f9/pilot/pkg/model/push_context.go#L879)
 - [Istio documentation: Split large virtual services and destination rules into multiple resources](https://istio.io/docs/ops/best-practices/traffic-management/#split-virtual-services)
@@ -145,7 +145,7 @@ Correct the host to point to a correct service, in this namespace or with FQDN t
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/destinationrules/no_dest_checker.go)
+- [Validator source code](https://github.com/kiali/kiali/tree/v1.42.0/business/checkers/destinationrules/no_dest_checker.go)
 - [Destination rule documentation](https://istio.io/docs/reference/config/networking/destination-rule/#DestinationRule)
 
 
@@ -178,7 +178,7 @@ Also, verify that the labels are correctly matching a workload with the intended
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/destinationrules/no_dest_checker.go)
+- [Validator source code](https://github.com/kiali/kiali/tree/v1.42.0/business/checkers/destinationrules/no_dest_checker.go)
 - [Destination rule documentation](https://istio.io/docs/reference/config/networking/destination-rule/#DestinationRule)
 
 
@@ -206,7 +206,7 @@ Merging the TLS settings to one of the DestinationRules is the only way to fix t
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/destinationrules/traffic_policy_checker.go)
+- [Validator source code](https://github.com/kiali/kiali/tree/v1.42.0/business/checkers/destinationrules/traffic_policy_checker.go)
 
 
 
@@ -232,7 +232,7 @@ Add a PeerAuthentication within the `istio-system` namespace without specifying 
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/destinationrules/meshwide_mtls_checker.go)
+- [Validator source code](https://github.com/kiali/kiali/tree/v1.42.0/business/checkers/destinationrules/meshwide_mtls_checker.go)
 - [Globally enabling Istio mutual TLS](https://istio.io/docs/tasks/security/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-mode)
 
 
@@ -258,7 +258,7 @@ Add a PeerAuthentication without specifying targets but setting mTLS mode to STR
 ```
 
 #### See Also
-- [Validator source code](https://github.com/kiali/kiali/blob/master/business/checkers/destinationrules/namespacewide_mtls_checker.go)
+- [Validator source code](https://github.com/kiali/kiali/blob/v1.42.0/business/checkers/destinationrules/namespacewide_mtls_checker.go)
 - [Enabling Istio mutual TLS per namespace](https://istio.io/docs/tasks/security/authn-policy/#enable-mutual-tls-per-namespace-or-workload)
 
 
@@ -282,7 +282,7 @@ Kiali has found that there is a DestinationRule sending traffic without mTLS aut
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/destinationrules/disabled_namespacewide_mtls_checker.go)
+- [Validator source code](https://github.com/kiali/kiali/tree/v1.42.0/business/checkers/destinationrules/disabled_namespacewide_mtls_checker.go)
 - [Enabling Istio mutual TLS per namespace](https://istio.io/docs/tasks/security/authentication/authn-policy/#enable-mutual-tls-per-namespace-or-workload)
 
 
@@ -308,7 +308,7 @@ There are two ways to fix this situation. You can either change the PeerAuthenti
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/destinationrules/disabled_namespacewide_mtls_checker.go)
+- [Validator source code](https://github.com/kiali/kiali/tree/v1.42.0/business/checkers/destinationrules/disabled_namespacewide_mtls_checker.go)
 - [Globally enabling Istio mutual TLS](https://istio.io/docs/tasks/security/authentication/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-mode)
 
 
@@ -352,7 +352,7 @@ Remove the duplicate gateway entries or merge the two gateway definitions into a
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/gateways/multi_match_checker.go)
+- [Validator source code](https://github.com/kiali/kiali/tree/v1.42.0/business/checkers/gateways/multi_match_checker.go)
 - [Istio Gateway documentation](https://istio.io/docs/reference/config/networking/gateway/)
 
 
@@ -378,7 +378,7 @@ Deploy the missing workload or fix the selector to target a correct location.
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/blob/master/business/checkers/gateways/selector_checker.go)
+- [Validator source code](https://github.com/kiali/kiali/blob/v1.42.0/business/checkers/gateways/selector_checker.go)
 - [Istio documentation for gateways](https://istio.io/docs/reference/config/networking/v1alpha3/gateway/#Gateway)
 
 ## Mesh Policies {#meshpolicies}
@@ -460,7 +460,7 @@ You can either change the namespace/mesh-wide Destination Rule to `DISABLE` mode
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/blob/master/business/checkers/peerauthentications/disabled_namespacewide_checker.go)
+- [Validator source code](https://github.com/kiali/kiali/blob/v1.42.0/business/checkers/peerauthentications/disabled_namespacewide_checker.go)
 - [PeerAuthentication reference](https://istio.io/docs/reference/config/security/peer_authentication)
 
 
@@ -487,7 +487,7 @@ You can either change the mesh-wide Destination Rule to `DISABLE` mode or change
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/blob/master/business/checkers/peerauthentications/disabled_meshwide_checker.go)
+- [Validator source code](https://github.com/kiali/kiali/blob/v1.42.0/business/checkers/peerauthentications/disabled_meshwide_checker.go)
 - [PeerAuthentication reference](https://istio.io/docs/reference/config/security/peer_authentication)
 
 
@@ -513,7 +513,7 @@ Rename the service port name field to follow the form and the traffic flows corr
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/blob/master/business/checkers/services/port_mapping_checker.go)
+- [Validator source code](https://github.com/kiali/kiali/blob/v1.42.0/business/checkers/services/port_mapping_checker.go)
 - [Istio documentation port naming convention](https://istio.io/docs/ops/deployment/requirements)
 
 
@@ -547,7 +547,7 @@ Valid example using targetPort definition matching:
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/blob/master/business/checkers/services/port_mapping_checker.go)
+- [Validator source code](https://github.com/kiali/kiali/blob/v1.42.0/business/checkers/services/port_mapping_checker.go)
 - [Kubernetes services](https://kubernetes.io/docs/concepts/services-networking/service/#defining-a-service)
 
 
@@ -677,7 +677,7 @@ Make sure the host has the `namespace/dnsName` format. See more info in the docu
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/sidecars/egress_listener_checker.go)
+- [Validator source code](https://github.com/kiali/kiali/tree/v1.42.0/business/checkers/sidecars/egress_listener_checker.go)
 - [Sidecar EgressListener documentation](https://istio.io/docs/reference/config/networking/sidecar/#IstioEgressListener)
 
 
@@ -707,7 +707,7 @@ Make sure there is a service, virtual service or service entry matching with the
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/sidecars/egress_listener_checker.go)
+- [Validator source code](https://github.com/kiali/kiali/tree/v1.42.0/business/checkers/sidecars/egress_listener_checker.go)
 - [Sidecar EgressListener documentation](https://istio.io/docs/reference/config/networking/sidecar/#IstioEgressListener)
 
 
@@ -734,7 +734,7 @@ Make sure you don't have the `workloadSelector` in this global sidecar resource.
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/sidecars/global_checker.go)
+- [Validator source code](https://github.com/kiali/kiali/tree/v1.42.0/business/checkers/sidecars/global_checker.go)
 - [Sidecar documentation: second warning](https://istio.io/docs/reference/config/networking/sidecar)
 
 
@@ -762,7 +762,7 @@ Correct the host to point to a correct service (in this namespace or with FQDN t
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/virtualservices/no_host_checker.go)
+- [Validator source code](https://github.com/kiali/kiali/tree/v1.42.0/business/checkers/virtualservices/no_host_checker.go)
 - [Destination rule documentation](https://istio.io/docs/reference/config/networking/destination-rule/#DestinationRule)
 
 
@@ -787,7 +787,7 @@ Fix the possible gateway field to target all necessary gateways or remove the fi
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/virtualservices/no_gateway_checker.go)
+- [Validator source code](https://github.com/kiali/kiali/tree/v1.42.0/business/checkers/virtualservices/no_gateway_checker.go)
 
 
 
@@ -812,7 +812,7 @@ This appears to be a configuration error. Fix the definition.
 #### See Also
 
 - [Istio validation for route types](https://github.com/istio/istio/blob/0e9cecab053aab744a7c3a731aacb07fd794d5f9/pilot/pkg/model/validation.go#L1628)
-- [Validator source code](https://github.com/kiali/kiali/blob/master/business/checkers/virtualservices/no_host_checker.go)
+- [Validator source code](https://github.com/kiali/kiali/blob/v1.42.0/business/checkers/virtualservices/no_host_checker.go)
 
 
 
@@ -837,7 +837,7 @@ Either remove the weight field or you might want to add another RouteDestination
 #### See Also
 - [Istio documentation about HTTP Route Destination struct](https://istio.io/docs/reference/config/networking/virtual-service/#HTTPRouteDestination)
 - [Istio documentation about Route Destination struct](https://istio.io/docs/reference/config/networking/virtual-service/#RouteDestination)
-- [Validator source code](https://github.com/kiali/kiali/blob/master/business/checkers/virtualservices/route_checker.go)
+- [Validator source code](https://github.com/kiali/kiali/blob/v1.42.0/business/checkers/virtualservices/route_checker.go)
 
 
 
@@ -864,7 +864,7 @@ Make sure there is only one reference to the same subset for each RouteDestinati
 #### See Also
 - [Istio documentation about HTTP Route Destination struct](https://istio.io/docs/reference/config/networking/virtual-service/#HTTPRouteDestination)
 - [Istio documentation about Route Destination struct](https://istio.io/docs/reference/config/networking/virtual-service/#RouteDestination)
-- [Validator source code](https://github.com/kiali/kiali/blob/master/business/checkers/virtualservices/route_checker.go)
+- [Validator source code](https://github.com/kiali/kiali/blob/v1.42.0/business/checkers/virtualservices/route_checker.go)
 
 
 
@@ -889,7 +889,7 @@ This is a valid configuration only if two VirtualServices share the same host bu
 #### See Also
 
 - [Istio documentation: Split large virtual services and destination rules into multiple resources](https://istio.io/docs/ops/best-practices/traffic-management/#split-virtual-services)
-- [Validator source code](https://github.com/kiali/kiali/blob/master/business/checkers/virtualservices/single_host_checker.go)
+- [Validator source code](https://github.com/kiali/kiali/blob/v1.42.0/business/checkers/virtualservices/single_host_checker.go)
 
 
 
@@ -914,7 +914,7 @@ Fix the routes that points to a non existing subsets. It might be fixing a typo 
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/virtualservices/subset_presence_checker.go)
+- [Validator source code](https://github.com/kiali/kiali/tree/v1.42.0/business/checkers/virtualservices/subset_presence_checker.go)
 
 
 
@@ -933,7 +933,7 @@ Move the nomenclature of the gateways into the supported Istio form: <gateway na
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/virtualservices/no_gateway_checker.go)
+- [Validator source code](https://github.com/kiali/kiali/tree/v1.42.0/business/checkers/virtualservices/no_gateway_checker.go)
 
 
 ## Generic {#generic}
@@ -964,7 +964,7 @@ The natural solution is to merge both objects. In case there are different behav
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/common/multi_match_selector_checker.go)
+- [Validator source code](https://github.com/kiali/kiali/tree/v1.42.0/business/checkers/common/multi_match_selector_checker.go)
 
 
 ### KIA0003 - More than one object applied to the same workload
@@ -990,7 +990,7 @@ The first approach would be to merge both objects into one if possible. The seco
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/common/workload_selector_checker.go)
+- [Validator source code](https://github.com/kiali/kiali/tree/v1.42.0/business/checkers/common/workload_selector_checker.go)
 
 
 
@@ -1014,4 +1014,4 @@ There are three scenarios: either change the labels to match an existing workloa
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/common/workload_selector_checker.go)
+- [Validator source code](https://github.com/kiali/kiali/tree/v1.42.0/business/checkers/common/workload_selector_checker.go)
