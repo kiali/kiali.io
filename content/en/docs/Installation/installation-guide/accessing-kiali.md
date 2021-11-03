@@ -32,7 +32,7 @@ oc port-forward svc/kiali 20001:20001 -n istio-system
 kubectl port-forward svc/kiali 20001:20001 -n istio-system
 ```
 
-These commands will block. Access Kiali by visiting `\https://localhost:20001/` in
+These commands will block. Access Kiali by visiting `https://localhost:20001/` in
 your preferred web browser.
 
 {{% alert color="danger" %}}
@@ -42,15 +42,36 @@ have the necessary privileges to perform port forwarding.
 
 ## Accessing Kiali through an Ingress {#ingress-access}
 
-By default, the installation exposes Kiali creating an
-[Ingress resource](https://github.com/kiali/kiali-operator/blob/master/roles/default/kiali-deploy/templates/kubernetes/ingress.yaml).
-Find out your Ingress IP or domain name and use it to access Kiali by
-visiting this URL in your web browser:
-`https://_your_ingress_ip_or_domain_/kiali`.
+You can configure Kiali to be installed with an
+[Ingress resource](https://github.com/kiali/kiali-operator/blob/master/roles/default/kiali-deploy/templates/kubernetes/ingress.yaml)
+defined, allowing you to access
+the Kiali UI through the Ingress. By default, an Ingress will not be created. You can
+enable a simple Ingress by setting `spec.deployment.ingress.enabled` to `true` in the Kiali
+CR (a similar setting for the server Helm chart is available if you elect to install Kiali
+via Helm as opposed to the Kiali Operator).
 
-To find your Ingress IP or domain name, as per
+Exposing Kiali externally through this `spec.deployment.ingress` mechanism is a
+convenient way of exposing Kiali externally but it will not necessarily work or
+be the best way to do it because the way in which you should expose Kiali
+externally will be highly dependent on your specific cluster environment and
+how services are exposed generally for that environment.
+
+{{% alert color="info" %}}
+When installing on an OpenShift cluster, an OpenShift Route will be installed (not an Ingress).
+This Route *will* be installed by default unless you explicitly
+disable it via `spec.deployment.ingress.enabled: false`. Note that the Route is required
+if you configure Kiali to use the auth strategy of `openshift` (which is the default
+auth strategy Kiali will use when installed on OpenShift).
+{{% /alert %}}
+
+The default Ingress that is created will be configured for a typical NGinx implementation. If you have your own
+Ingress implementation you want to use, you can override the default configuration through
+the settings `spec.deployment.ingress.override_yaml` and `spec.deployment.ingress.class_name`.
+More details on customizing the Ingress can be found below.
+
+The Ingress IP or domain name should then be used to access the Kiali UI. To find your Ingress IP or domain name, as per
 [the Kubernetes documentation](https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/#create-an-ingress),
-try the following command (doesn't work if using Minikube):
+try the following command (though this may not work if using Minikube without the ingress addon):
 
 ```
 kubectl get ingress kiali -n istio-system -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
@@ -58,40 +79,48 @@ kubectl get ingress kiali -n istio-system -o jsonpath='{.status.loadBalancer.ing
 
 If it doesn't work, unfortunately, it depends on how and where you had setup
 your cluster. There are several Ingress controllers available and some cloud
-providers have their own controller or preferred exposure method. Please, check
+providers have their own controller or preferred exposure method. Check
 the documentation of your cloud provider. You may need to customize the
-pre-installed Ingress rule, or to expose Kiali using a different method.
+pre-installed Ingress rule or expose Kiali using a different method.
 
 ### Customizing the Ingress resource
 
-By default, a catch-all Ingress resource is created to route traffic to Kiali.
-Most likely, you will need a more specific Ingress resource that routes traffic
+The created Ingress resource will route traffic to Kiali regardless of the domain in the URL.
+You may need a more specific Ingress resource that routes traffic
 to Kiali only on a specific domain or path. To do this, you can [specify route settings](#route-configs).
 
 Alternatively, and for more advanced Ingress configurations, you can provide your own
 Ingress declaration in the Kiali CR. For example:
 
+{{% alert color="info" %}}
+When installing on an OpenShift cluster, the `deployment.ingress.override_yaml` will be applied
+to the created Route. The `deployment.ingress.class_name` is ignored on OpenShift.
+{{% /alert %}}
+
 ```yaml
 spec:
   deployment:
-    override_ingress_yaml:
-      metadata:
-        annotations:
-          nginx.ingress.kubernetes.io/secure-backends: "true"
-          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-      spec:
-        rules:
-        - http:
-            paths:
-            - path: /kiali
-              backend:
-                serviceName: kiali
-                servicePort: 20001
+    ingress:
+      class_name: "nginx"
+      enabled: true
+      override_yaml:
+        metadata:
+          annotations:
+            nginx.ingress.kubernetes.io/secure-backends: "true"
+            nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+        spec:
+          rules:
+          - http:
+              paths:
+              - path: /kiali
+                backend:
+                  serviceName: kiali
+                  servicePort: 20001
 ```
 
 ## Accessing Kiali in Minikube
 
-If you [enabled the Ingress controller]https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/#enable-the-ingress-controller,
+If you [enabled the Ingress controller](https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/#enable-the-ingress-controller),
 the default Ingress resource created by the installation (mentioned in the previous section) should be enough to access
 Kiali. The following command should open Kiali in your default web browser:
 
@@ -111,11 +140,11 @@ spec:
     service_type: LoadBalancer
 ```
 
-Once the Kiali operator to updates the installation, you should be able to use
+Once the Kiali operator updates the installation, you should be able to use
 the `kubectl get svc -n istio-system kiali` command to retrieve the external
 address (or port) to access Kiali. For example, in the following output Kiali
 is assigned the IP `192.168.49.201`, which means that you can access Kiali by
-visiting \http://192.168.49.201:20001 in a browser:
+visiting `http://192.168.49.201:20001` in a browser:
 
 ```
 NAME    TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S)                          AGE
@@ -132,7 +161,7 @@ installed using this [Installation guide]({{< ref "/docs/installation/installati
 
 ## Accessing Kiali in OpenShift
 
-By default, installation exposes Kiali through a Route. The following command
+By default, Kiali is exposed through a Route if installed on OpenShift. The following command
 should open Kiali in your default web browser:
 
 ```
@@ -141,13 +170,13 @@ xdg-open https://$(oc get routes -n istio-system kiali -o jsonpath='{.spec.host}
 
 ## Specifying route settings {#route-configs}
 
-Either if you are using your own exposure method, or if you are using one of
+If you are using your own exposure method or if you are using one of
 the methods mentioned in this page, you may need to configure the route that is
 being used to access Kiali.
 
 In the Kiali CR, route settings are broken in several attributes. For example,
 to specify that Kiali is being accessed under the
-`\https://apps.example.com:8080/dashboards/kiali` URI, you would need to set the
+`https://apps.example.com:8080/dashboards/kiali` URI, you would need to set the
 following:
 
 ```yaml
@@ -159,10 +188,10 @@ spec:
     web_schema: https
 ```
 
-If you are letting the installation to create an [Ingress resource for you](#ingress-access),
+If you are letting the installation create an [Ingress resource for you](#ingress-access),
 the Ingress will be adjusted to match these route settings.
-If you are using your own exposure method, this is only making Kiali aware
-about what is its public endpoint.
+If you are using your own exposure method, these spec.server settings are only making Kiali aware
+of what its public endpoint is.
 
 It is possible to omit these settings and Kiali may be able to discover some of
 these configurations, depending on your exposure method. For example, if you
@@ -179,7 +208,7 @@ Kubernetes and `/` for OpenShift.
 
 {{% alert color="warning" %}}
 Usually, these settings can be omitted. However, a few features require
-that the Kiali's public route can be properly discovered or that is properly
+that the Kiali's public route be properly discoverable or that it is properly
 configured; most notably, the [OpenID authentication]({{< ref "/docs/configuration/authentication/openid" >}}).
 {{% /alert %}}
 
@@ -187,7 +216,7 @@ configured; most notably, the [OpenID authentication]({{< ref "/docs/configurati
 
 {{% alert color="success" %}}
 Usually, these settings need to be changed only if you are directly
-exposing the Kiali serivce (like when using a `LoadBalancer` service type).
+exposing the Kiali service (like when using a `LoadBalancer` service type).
 {{% /alert %}}
 
 It is possible to configure the listening ports of the Kiali service to use
