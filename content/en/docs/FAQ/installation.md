@@ -42,7 +42,7 @@ The comments are also specifically laid out in such a way that each major top-le
 in each commented setting is the default value (so if you do not define that setting yourself, you will know what its default value is). 
 
 
-### How to configure some operator features at runtime
+### How to configure some operator features at runtime {#operator-configuration}
 
 {{% alert color="danger" %}}
 First, read 
