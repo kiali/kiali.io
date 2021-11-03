@@ -46,9 +46,15 @@ You can configure Kiali to be installed with an
 [Ingress resource](https://github.com/kiali/kiali-operator/blob/master/roles/default/kiali-deploy/templates/kubernetes/ingress.yaml)
 defined, allowing you to access
 the Kiali UI through the Ingress. By default, an Ingress will not be created. You can
-enable the Ingress by setting `spec.deployment.ingress.enabled` to `true` in the Kiali
+enable a simple Ingress by setting `spec.deployment.ingress.enabled` to `true` in the Kiali
 CR (a similar setting for the server Helm chart is available if you elect to install Kiali
 via Helm as opposed to the Kiali Operator).
+
+Exposing Kiali externally through this `spec.deployment.ingress` mechanism is a
+convenient way of exposing Kiali externally but it will not necessarily work or
+be the best way to do it because the way in which you should expose Kiali
+externally will be highly dependent on your specific cluster environment and
+how services are exposed generally for that environment.
 
 {{% alert color="info" %}}
 When installing on an OpenShift cluster, an OpenShift Route will be installed (not an Ingress).
