@@ -12,6 +12,11 @@ else
 	@$(eval FORCE_BUILD ?= $(shell podman inspect ${KIALI_HUGO_IMAGE} > /dev/null 2>&1 || echo "true"))
 endif
 
+## Deletes the directories that are auto-generated
+.PHONY: clean
+clean:
+	rm -rf ./node_modules ./public ./resources
+
 ## build-hugo: Builds the hugo image if necessary. You can force a rebuild by setting the environment variable "FORCE_BUILD=true".
 .PHONY: build-hugo
 build-hugo: .prepare-force-build
@@ -34,11 +39,17 @@ serve: build-hugo
 #     is unsafe because files are moved, renamed, etc.
 # 4. URLs to a folder in repository in a branch; i.e. of the form https://github.com/kiali/kiali/blob/v1.24/whatever
 #   - Same reasoning as previous point.
+# 5. URLs to kiali.io and kiali to edit doc files or create new doc files or create new issues
+# 6. URLs to kiali.io commits
 URL_IGNORE=\#$\
           ,/^https:\/\/github.com\/kiali\/kiali\/pull\/\d+/$\
           ,/^https:\/\/github.com\/kiali\/kiali\/issues\/\d+/$\
-          ,/^https:\/\/github.com\/kiali\/kiali\/tree\/v\d+\.\d+\//$\
-          ,/^https:\/\/github.com\/kiali\/kiali\/blob\/v\d+\.\d+\//$\
+          ,/^https:\/\/github.com\/kiali\/kiali\/tree\/v\d+\.\d+(\.\d+)?\//$\
+          ,/^https:\/\/github.com\/kiali\/kiali\/blob\/v\d+\.\d+(\.\d+)?\//$\
+          ,/^https:\/\/github.com\/kiali\/kiali\.io\/edit\//$\
+          ,/^https:\/\/github.com\/kiali\/kiali\.io\/new\//$\
+          ,/^https:\/\/github.com\/kiali\/kiali\/issues\/new/$\
+          ,/^https:\/\/github.com\/kiali\/kiali\.io\/commit\//$\
           ,/.*web.libera.chat.*/
 ## validate-site: Builds the site and validates the pages. This is used for CI
 .PHONY: validate-site

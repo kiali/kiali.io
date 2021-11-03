@@ -36,6 +36,6 @@ If you've found a problem in the docs, but you're not sure how to fix it yoursel
 
 ## Contributing to the Code
 
-For code contribution see the kiali project's [CONTRIBUTING](https://github.com/kiali/kiali/blob/master/CONTRIBUTING.md) page.
+For code contribution see the kiali project's [CONTRIBUTING](https://github.com/kiali/kiali/blob/v1.42.0/CONTRIBUTING.md) page.
 
 

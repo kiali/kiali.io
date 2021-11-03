@@ -83,8 +83,8 @@ option, the `ClusterRole` will be named `kiali-viewer` instead of `kiali`.
 {{% /alert %}}
 
 Alternatively, check in the Kiali Operator source code. See either the
-[Kubernetes role.yaml template file](https://github.com/kiali/kiali-operator/blob/master/roles/default/kiali-deploy/templates/kubernetes/role.yaml), or the
-[OpenShift role.yaml template file](https://github.com/kiali/kiali-operator/blob/master/roles/default/kiali-deploy/templates/openshift/role.yaml).
+[Kubernetes role.yaml template file](https://github.com/kiali/kiali-operator/blob/v1.42.0/roles/default/kiali-deploy/templates/kubernetes/role.yaml), or the
+[OpenShift role.yaml template file](https://github.com/kiali/kiali-operator/blob/v1.42.0/roles/default/kiali-deploy/templates/openshift/role.yaml).
 
 You can use this `ClusterRole` to assign privileges to users requiring access
 to Kiali. You can assign privileges either in one namespace, which will result in
