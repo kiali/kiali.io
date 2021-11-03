@@ -85,7 +85,8 @@ pre-installed Ingress rule or expose Kiali using a different method.
 
 ### Customizing the Ingress resource
 
-The created catch-all Ingress resource will route traffic to Kiali. You may need a more specific Ingress resource that routes traffic
+The created Ingress resource will route traffic to Kiali regardless of the domain in the URL.
+You may need a more specific Ingress resource that routes traffic
 to Kiali only on a specific domain or path. To do this, you can [specify route settings](#route-configs).
 
 Alternatively, and for more advanced Ingress configurations, you can provide your own
