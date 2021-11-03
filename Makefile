@@ -40,7 +40,7 @@ serve: build-hugo
 # 4. URLs to a folder in repository in a branch; i.e. of the form https://github.com/kiali/kiali/blob/v1.24/whatever
 #   - Same reasoning as previous point.
 # 5. URLs to kiali.io and kiali to edit doc files or create new doc files or create new issues
-# 5. URLs to kiali.io commits
+# 6. URLs to kiali.io commits
 URL_IGNORE=\#$\
           ,/^https:\/\/github.com\/kiali\/kiali\/pull\/\d+/$\
           ,/^https:\/\/github.com\/kiali\/kiali\/issues\/\d+/$\
