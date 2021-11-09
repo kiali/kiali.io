@@ -1,23 +1,25 @@
 ---
 title: "Deployment Configuration"
-description: "[TODO]"
+description: >
+  This page describes simple configuration options related to the deployment (not tied to features),
+  like configuring the installation namespace, logger settings, resource limits and 
+  scheduling options for the Kiali pod.
 weight: 30
 ---
 
-<!--
-* Namespace management: http://localhost:1313/docs/configuration/namespace-management/
-* Authentication: http://localhost:1313/docs/configuration/authentication/
-* Custom dashboards: http://localhost:1313/docs/configuration/custom-dashboard/
-* ingress: {}
-* service_type: ""
+There are other deployment-related settings, but are more complex and are described in dedicated pages:
+* [Authentication]({{< relref "../Configuration/authentication" >}})
+* [Customization of the Ingress resource]({{< relref
+  "installation-guide/accessing-kiali#ingress-access" >}})
+* [Customization of the service type service type (LoadBalancer or
+  NodePort)]({{< relref "installation-guide/accessing-kiali#accessing-kiali-through-a-loadbalancer-or-a-nodeport" >}})
+* [Namespace management (configuring namespaces accessible and visible to
+  Kiali)]({{< relref "../Configuration/namespace-management" >}})
 
-```yaml
-spec:
-  identity:
-    cert_file:
-    private_key_file:
-```
--->
+{{% alert title="Note" color="info" %}} All examples on this page are focused
+on the Kiali CR; i.e. when you use the Kiali operator to install Kiali. Rember
+that Helm charts mirror all these configurations.
+{{% /alert %}}
 
 ## Specifying Kiali installation namespace and Istio namespace
 
@@ -42,7 +44,8 @@ spec:
 ## Log level and log format configuration
 
 By default, Kiali will print up to `INFO`-level messages in simple text format.
-You can change the log level, output format, and time format as follows:
+You can change the log level, output format, and time format as in the
+following example:
 
 ```yaml
 spec:
@@ -74,8 +77,8 @@ spec:
 
 The `instance_name` will be used as a prefix for all created Kiali resources.
 The exception is the `kiali-signing-key` secret which will always have the same
-if you don't specify a custom secret name,  and will be shared on all
-deployments of the same namespace.
+and will be shared on all deployments of the same namespace, unless you specify
+a custom secret name.
 
 {{% alert title="Note" color="warning" %}}
 Since the `instance_name` will be used as a name prefix in resources, it must
@@ -91,7 +94,8 @@ uninstall Kiali and re-install with the desired `instance_name`.
 
 ## Configuring resource requests and limits
 
-You can set the amount of resources available to Kiali using the `spec.deployment.resources` attribute. For example:
+You can set the amount of resources available to Kiali using the
+`spec.deployment.resources` attribute, like in the following example:
 
 ```yaml
 spec:
@@ -112,11 +116,10 @@ for more details about possible configurations.
 ## Custom labels and annotations on the Kiali pod and service
 
 Although some labels and annotations are set on the Kiali pod and on its
-service (depending on configurations), you can add additional labels and
-annotations. For the pod, use the `spec.deployment.pod_labels` and
-`spec.deployment.pod_annotations` attributes. For the service, you can only add
-annotations using the `spec.deployment.service_annotations` attribute. For
-example:
+service (depending on configurations), you can add additional ones. For the
+pod, use the `spec.deployment.pod_labels` and `spec.deployment.pod_annotations`
+attributes. For the service, you can only add annotations using the
+`spec.deployment.service_annotations` attribute. For example:
 
 ```yaml
 spec:
@@ -147,8 +150,8 @@ The `installation_tag` is any human readable text of your desire.
 
 ### Configuring replicas and automatic scaling
 
-By default, only one replica of Kiali is deployed. I needed, you can change the
-replica count with the following configuration:
+By default, only one replica of Kiali is deployed. If needed, you can change the
+replica count like in the following example:
 
 ```yaml
 spec:
@@ -157,8 +160,8 @@ spec:
 ```
 
 If you prefer automatic scaling, creation of an `HorizontalPodAutoscaler`
-resource is supported. For example, set the following configuration to
-automatically scale Kiali based on CPU utilization:
+resource is supported. For example, the following configuration automatically
+scales Kiali based on CPU utilization:
 
 ```yaml
 spec:
@@ -174,8 +177,7 @@ spec:
 {{% alert title="Note" color="warning" %}}
 You must omit the `scaleTargetRef` field of the HPA spec, because this field
 will be populated by the Kiali operator (or by Helm) depending on other
-configuration. Also, the HPA spec you provide is not validated. Make sure you
-provide a valid HPA spec for installation to succeed.
+configuration.
 {{% /alert %}}
 
 Read the [Kubernetes Horizontal Pod Autoscaler
@@ -185,36 +187,11 @@ to learn more about the HPA.
 ### Allocating the Kiali pod to specific nodes of the cluster
 
 You can constraint the Kiali pod to run on a specific set of nodes by using
-[the
+some of the standard Kubernetes scheduler configurations.
+
+The simplest option is to use [the
 `nodeSelector`](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector)
-or the [affinity/anti-affinity
-native](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity)
-Kubernetes features. In case you want to schedule Kiali to run on a node with
-taints, you can configure
-[tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/).
-
-The Kiali CR has the following attributes to configure the scheduling of the
-Kiali pod:
-
-```yaml
-spec:
-  deployment:
-    node_selector:
-      {...label set...}
-    affinity:
-      node:
-        {...your nodeAffinity spec...}
-      pod:
-        {...your podAffinity spec...}
-      pod_anti:
-        {...your podantiaffinity spec...}
-   tolerations:
-     {...your tolerations list...}
-      
-```
-
-For example, if you want to configure scheduing using `nodeSelector` labels,
-you can specify the following in the Kiali CR:
+configuration which you can configure like in the following example:
 
 ```yaml
 spec:
@@ -223,8 +200,10 @@ spec:
       worker-type: infra
 ```
 
-If you prefer to use _node affinity_, the following is a configuration example
-that has the same effec as the previous `nodeSelector` configuration:
+You can also use the [affinity/anti-affinity native Kubernetes
+feature](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity)
+if you prefer its more expressive syntax, or if you need more complex matching
+rules. The following is an example for configuring node affinity:
 
 ```yaml
 spec:
@@ -240,6 +219,10 @@ spec:
               - infra
 ```
 
+Similarly, you can also configure pod affinity and pod anti-affinity using the
+`spec.deployment.affinity.pod` and `spec.deployment.affinity.pod_anti`
+attributes.
+
 Finally, if you want to run Kiali in a node with taints, the following is an
 example to configure tolerations:
 
@@ -251,13 +234,6 @@ spec:
       operator: "Exists"
       effect: "NoSchedule"
 ```
-
-{{% alert title="Note" color="warning" %}}
-Any scheduling configurations you set will be copied as is to the Kiali
-Deployment and are not validated. Thus, make sure you specify valid
-configurations. Invalid configurations may lead to installation failure, or to
-the inhability to start the Kiali pod.
-{{% /alert %}}
 
 Read the following Kubernetes documentation to learn more about these configurations:
 - [Assigning Pods to Nodes](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/)
