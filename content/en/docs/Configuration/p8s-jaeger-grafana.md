@@ -1,6 +1,9 @@
 ---
-title: "Distributed Tracing / Jaeger"
-description: "Configuring Kiali's Jaeger integration."
+title: "Prometheus, Jaeger and Grafana"
+description: >
+  Prometheus and Grafana are primary data sources for Kiali. This page
+  describes how to configure Kiali to communicate with these dependencies. A
+  minimalistic Grafana integration is also available.
 ---
 
 
@@ -15,10 +18,11 @@ can't reach it, Kiali won't work properly.
 
 By default, Kiali assumes that Prometheus is available at the URL of the form
 `http://prometheus.<istio_namespace_name>:9090`, which is the usual case if you
-are using the Prometheus Istio add-on. If your Prometheus instance has a
-different service name or is installed to a different namespace, you must
-manually provide the endpoint where it is available, like in the following
-example:
+are using [the Prometheus Istio
+add-on](https://istio.io/latest/docs/ops/integrations/prometheus/#option-1-quick-start).
+If your Prometheus instance has a different service name or is installed to a
+different namespace, you must manually provide the endpoint where it is
+available, like in the following example:
 
 ```yaml
 spec:
@@ -53,8 +57,8 @@ spec:
 
 ### Compatibility with Prometheus-like servers
 
-Although Kiali assumes and is tested against Prometheus, there are <abbr
-title="Time series databases">TSDBs</abbr> that can be used as Prometheus
+Although Kiali assumes a Prometheus server and is tested against it, there are
+<abbr title="Time series databases">TSDBs</abbr> that can be used as Prometheus
 replacement despite not implementing the full Prometheus API. 
 
 Community users have faced two issues when using Prometheus-like TSDBs:
@@ -86,8 +90,10 @@ providing an enhanced experience.
 
 By default, Kiali will try to reach Jaeger at the GRPC-enabled URL of the form
 `http://tracing.<istio_namespace_name>:16685/jaeger`, which is the usual case
-if you are using the Jaeger Istio add-on. If this endpoint is unreachable,
-Kiali will disable features that use distributed tracing data.
+if you are using [the Jaeger Istio
+add-on](https://istio.io/latest/docs/ops/integrations/jaeger/#option-1-quick-start).
+If this endpoint is unreachable, Kiali will disable features that use
+distributed tracing data.
 
 If your Jaeger instance has a different service name or is installed to a
 different namespace, you must manually provide the endpoint where it is
@@ -118,4 +124,28 @@ expose Jaeger outside the cluster.
 
 ## Grafana configuration
 
-[TODO]
+Istio provides [preconfigured Grafana
+dashboards](https://istio.io/latest/docs/ops/integrations/grafana/) for the
+most relevant metrics of the mesh. Although Kiali offers similar views in its
+metrics dashboards, it is not in Kiali's goals to provide the advanced querying
+options nor the highly customizable settings that are available in Grafana.
+Thus, it is recommended that you use Grafana if you need those advanced
+options.
+
+Kiali can provide a direct link from its metric dashboards to the equivalent or
+most similar Grafana dashboard, which is convenient if you need the powerful
+Grafana options. For these links to appear in Kiali you need to manually
+configure what is the Grafana URL, like in the following example:
+
+
+```yaml
+spec:
+  external_services:
+    grafana:
+      enabled: true
+      # Grafana service name is "grafana" and is in the "telemetry" namespace.
+      in_cluster_url: 'http://grafana.telemetry:3000/'
+      # Public facing URL of Grafana
+      url: 'http://my-ingress-host/grafana'
+```
+
