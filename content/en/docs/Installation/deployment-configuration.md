@@ -255,3 +255,20 @@ in the Kubernetes
 documentation](https://kubernetes.io/docs/concepts/scheduling-eviction/pod-priority-preemption/).
 
 
+## Adding host aliases to the Kiali pod
+
+If you need to provide some static hostname resolution in the Kiali pod, you
+can use [HostAliases to add entries to the `/etc/hosts`
+file](https://kubernetes.io/docs/tasks/network/customize-hosts-file-for-pods/)
+of the Kiali pod, like in the following example:
+
+```yaml
+spec:
+  deployment:
+   host_aliases:
+   - ip: 192.168.1.100
+     hostnames:
+     - "foo.local"
+     - "bar.local"
+```
+

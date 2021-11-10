@@ -3,42 +3,119 @@ title: "Distributed Tracing / Jaeger"
 description: "Configuring Kiali's Jaeger integration."
 ---
 
-Below are some commonly used configuration options for Kiali's Jaeger integration for Tracing.
 
-For advanced tracing integration, you can also refer to [the Kiali CR `external_services.tracing` section](https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml).  For Helm installations, it is valid for the config map as well.
+## Prometheus configuration
 
+Kiali *requires* Prometheus to generate the
+[topology graph]({{< relref "../Features/topology" >}}),
+[show metrics]({{< relref "../Features/details#metrics" >}}),
+[calculate health]({{< relref "../Features/health" >}}) and
+for several other features. If Prometheus is missing or Kiali
+can't reach it, Kiali won't work properly.
 
-## In-Cluster URL
-
-In order to fully integrate with Jaeger, Kiali needs a URL that can be resolved from inside the cluster, typically using Kubernetes DNS. This is the `in_cluster_url` configuration. For instance, for a Jaeger service named `tracing`, within `istio-system` namespace, Kiali config would be:
+By default, Kiali assumes that Prometheus is available at the URL of the form
+`http://prometheus.<istio_namespace_name>:9090`, which is the usual case if you
+are using the Prometheus Istio add-on. If your Prometheus instance has a
+different service name or is installed to a different namespace, you must
+manually provide the endpoint where it is available, like in the following
+example:
 
 ```yaml
+spec:
   external_services:
-    tracing:
-      in_cluster_url: 'http://tracing.istio-system/jaeger'
+    prometheus:
+      # Prometheus service name is "metrics" and is in the "telemetry" namespace
+      url: "http://metrics.telemetry:9090/"
 ```
 
-{{% alert color="success" %}}
-If you use the Kiali operator (recommended), this config can be set in the Kiali CR. But in most cases, the Kiali operator will set a valid default `in_cluster_url` so you wouldn't have to change anything. If you don't use the Kiali operator, this config can be set in Kiali config map.
+{{% alert title="Note" color="info" %}}
+Notice that you don't need to expose Prometheus outside the cluster. It is
+enough to provide the Kubernetes internal service URL.
 {{% /alert %}}
 
-## External URL
-
-When not using an In-Cluster configuration, Kiali can be configuring with an external URL. This can be useful, for example, if Jaeger is not accessible from the Kiali pod. Doing so will enable links from Kiali to the Jaeger UI. This URL needs to be accessible from the browser (it's used for links generation). Example:
+Kiali maintains an internal cache of some Prometheus queries to improve
+performance (mainly, the queries to calculate Health indicators). It
+would be very rare to see data delays, but should you notice any delays you may
+tune caching parameters to values that work better for your environment. These
+are the default values:
 
 ```yaml
+spec:
+  external_services:
+    prometheus:
+      cache_enabled: true
+      # Per-query expiration in seconds
+      cache_duration: 10
+      # Global cache expiration in seconds. Think of it as
+      # the "reset" or "garbage collection" interval.
+      cache_expiration: 300
+```
+
+### Compatibility with Prometheus-like servers
+
+Although Kiali assumes and is tested against Prometheus, there are <abbr
+title="Time series databases">TSDBs</abbr> that can be used as Prometheus
+replacement despite not implementing the full Prometheus API. 
+
+Community users have faced two issues when using Prometheus-like TSDBs:
+* Kiali may report that the TSDB is unreachable, and/or
+* Kiali may show empty metrics if the TSBD does no implement the `/api/v1/status/config`.
+
+To fix these issues, you may need to provide a custom health check endpoint for
+the TSDB and/or manually provide the configurations that Kiali reads from the
+`/api/v1/status/config` API endpoint:
+
+```yaml
+spec:
+  external_services:
+    prometheus:
+      # Fix the "Unreachable" metrics server warning.
+      health_check_url: "http://custom-tsdb-health-check-url"
+      # Fix for the empty metrics dashboards
+      thanos_proxy:
+        enabled: true
+        retention_period: "7d"
+        scrape_interval: "30s"
+```
+
+## Jaeger configuration
+
+Jaeger is a _highly recommended_ service because [Kiali uses distributed
+tracing data for several features]({{< relref "../Features/tracing" >}}),
+providing an enhanced experience.
+
+By default, Kiali will try to reach Jaeger at the GRPC-enabled URL of the form
+`http://tracing.<istio_namespace_name>:16685/jaeger`, which is the usual case
+if you are using the Jaeger Istio add-on. If this endpoint is unreachable,
+Kiali will disable features that use distributed tracing data.
+
+If your Jaeger instance has a different service name or is installed to a
+different namespace, you must manually provide the endpoint where it is
+available, like in the following example:
+
+```yaml
+spec:
   external_services:
     tracing:
-      in_cluster_url: 'http://tracing.istio-system/jaeger'
+      # Enabled by default. Kiali will anyway fallback to disabled if
+      # Jaeger is unreachable.
+      enabled: true
+      # Jaeger service name is "tracing" and is in the "telemetry" namespace.
+      # Make sure the URL you provide corresponds to the GRPC enabled endpoint
+      # if you set "use_grpc" to true.
+      in_cluster_url: 'http://tracing.telemetry/jaeger'
+      use_grpc: false
+      # Public facing URL of Jaeger
       url: 'http://my-jaeger-host/jaeger'
 ```
 
-{{% alert color="warning" %}}
-When using `url` and not `in_cluster_url`, Kiali will not be able to show its native tracing charts, but instead will display external links to the Jaeger UI.
-{{% /alert %}}
+Minimally, you must provide `spec.external_services.tracing.in_cluster_url` to
+enable Kiali features that use distributed tracing data. However, Kiali can
+provide contextual links that users can use to jump to the Jaeger console to
+inspect tracing data more in deep. For these links to be available you need to
+set the `spec.external_services.tracing.url` which may mean that you should
+expose Jaeger outside the cluster.
 
-Once this URL is set, Kiali will show an additional item to the main menu:
+## Grafana configuration
 
-![Distributed Tracing View](/images/documentation/configuration/trace-external.png)
-
-
+[TODO]
