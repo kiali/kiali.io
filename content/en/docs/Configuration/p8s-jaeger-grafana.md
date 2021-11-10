@@ -1,7 +1,7 @@
 ---
 title: "Prometheus, Jaeger and Grafana"
 description: >
-  Prometheus and Grafana are primary data sources for Kiali. This page
+  Prometheus and Jaeger are primary data sources for Kiali. This page
   describes how to configure Kiali to communicate with these dependencies. A
   minimalistic Grafana integration is also available.
 ---
