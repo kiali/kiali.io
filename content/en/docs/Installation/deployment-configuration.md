@@ -76,7 +76,7 @@ spec:
 ```
 
 The `instance_name` will be used as a prefix for all created Kiali resources.
-The exception is the `kiali-signing-key` secret which will always have the same
+The exception is the `kiali-signing-key` secret which will always have the same name
 and will be shared on all deployments of the same namespace, unless you specify
 a custom secret name.
 
@@ -186,7 +186,7 @@ to learn more about the HPA.
 
 ### Allocating the Kiali pod to specific nodes of the cluster
 
-You can constraint the Kiali pod to run on a specific set of nodes by using
+You can constrain the Kiali pod to run on a specific set of nodes by using
 some of the standard Kubernetes scheduler configurations.
 
 The simplest option is to use [the
@@ -241,7 +241,7 @@ Read the following Kubernetes documentation to learn more about these configurat
 
 ### Priority class of the Kiali pod
 
-If you are using priority classess in your cluster, you can specify the
+If you are using priority classes in your cluster, you can specify the
 priority class that will be set on the Kiali pod. For example:
 
 ```yaml

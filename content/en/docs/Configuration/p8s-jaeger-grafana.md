@@ -63,7 +63,7 @@ replacement despite not implementing the full Prometheus API.
 
 Community users have faced two issues when using Prometheus-like TSDBs:
 * Kiali may report that the TSDB is unreachable, and/or
-* Kiali may show empty metrics if the TSBD does no implement the `/api/v1/status/config`.
+* Kiali may show empty metrics if the TSBD does not implement the `/api/v1/status/config`.
 
 To fix these issues, you may need to provide a custom health check endpoint for
 the TSDB and/or manually provide the configurations that Kiali reads from the
@@ -118,7 +118,7 @@ spec:
 Minimally, you must provide `spec.external_services.tracing.in_cluster_url` to
 enable Kiali features that use distributed tracing data. However, Kiali can
 provide contextual links that users can use to jump to the Jaeger console to
-inspect tracing data more in deep. For these links to be available you need to
+inspect tracing data more in depth. For these links to be available you need to
 set the `spec.external_services.tracing.url` which may mean that you should
 expose Jaeger outside the cluster.
 
