@@ -1,5 +1,5 @@
 ---
-title: "Istio environment"
+title: "Istio Environment"
 description: >
   Kiali's default configuration matches settings present in [Istio's
   installation configuration profiles](https://istio.io/latest/docs/setup/additional-setup/config-profiles/).
@@ -26,7 +26,7 @@ spec:
     version_label_name: "version"
 ```
 
-{{% alert title="Warning" color="warning" %}}
+{{% alert color="warning" %}}
 Although Istio lets you use different labels on different pods, Kiali can only
 use a single set.
 
@@ -56,7 +56,7 @@ spec:
 
 Istio's _root namespace_ is the namespace where you can create some resources
 to define default Istio configurations and adapt Istio behavior to your
-environment. For more information of this Istio configuration, check the [Istio
+environment. For more information on this Istio configuration, check the [Istio
 docs Global Mesh options
 page](https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/) and
 search for "rootNamespace".
@@ -112,7 +112,7 @@ spec:
     istio_upgrade_action: true
 ```
 
-{{% alert title="Warning" color="warning" %}}
+{{% alert color="warning" %}}
 Please note that Kiali will use _revision labels_ to control sidecar injection
 policy only when canary upgrade support is enabled; else, non-revision labels
 are used. Make sure you finish the canary upgrade before turning off the canary
