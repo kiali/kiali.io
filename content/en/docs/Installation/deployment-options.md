@@ -1,27 +1,27 @@
 ---
-title: "Deployment Configuration"
+title: "Deployment Options"
 description: >
-  This page describes simple configuration options related to the deployment (not tied to features),
-  like configuring the installation namespace, logger settings, resource limits and 
-  scheduling options for the Kiali pod.
+  Simple configuration options related to the Kiali deployment, like the
+  installation namespace, logger settings, resource limits and scheduling options
+  for the Kiali pod.
 weight: 30
 ---
 
-There are other deployment-related settings, but are more complex and are described in dedicated pages:
+There are other, more complex deployment settings, described in dedicated pages:
 * [Authentication]({{< relref "../Configuration/authentication" >}})
 * [Customization of the Ingress resource]({{< relref
   "installation-guide/accessing-kiali#ingress-access" >}})
-* [Customization of the service type service type (LoadBalancer or
+* [Customization of the service type (LoadBalancer or
   NodePort)]({{< relref "installation-guide/accessing-kiali#accessing-kiali-through-a-loadbalancer-or-a-nodeport" >}})
 * [Namespace management (configuring namespaces accessible and visible to
   Kiali)]({{< relref "../Configuration/namespace-management" >}})
 
-{{% alert title="Note" color="info" %}} All examples on this page are focused
-on the Kiali CR; i.e. when you use the Kiali operator to install Kiali. Rember
+{{% alert color="success" %}} All examples on this page are focused
+on the Kiali CR (when installing via the Kiali operator). Remember
 that Helm charts mirror all these configurations.
 {{% /alert %}}
 
-## Specifying Kiali installation namespace and Istio namespace
+## Kiali and Istio installation namespaces
 
 By default, the Kiali operator installs Kiali in the same namespace where the Kiali CR is created. However, it is possible to specify a different namespace for installation:
 
@@ -41,7 +41,7 @@ spec:
   istio_namespace: "istio-system"
 ```
 
-## Log level and log format configuration
+## Log level and format
 
 By default, Kiali will print up to `INFO`-level messages in simple text format.
 You can change the log level, output format, and time format as in the
@@ -64,7 +64,7 @@ function of the Go language](https://pkg.go.dev/time#pkg-constants).
 The `json` format is useful if you are parsing logs of your applications for
 further processing.
 
-## Configuring an instance name (multiple Kialis on the same cluster)
+## Kiali instance name
 
 If you plan to install more than one Kiali instance on the same cluster, you
 may need to configure an instance name to avoid conflicts on created resources:
@@ -80,19 +80,19 @@ The exception is the `kiali-signing-key` secret which will always have the same 
 and will be shared on all deployments of the same namespace, unless you specify
 a custom secret name.
 
-{{% alert title="Note" color="warning" %}}
+{{% alert color="warning" %}}
 Since the `instance_name` will be used as a name prefix in resources, it must
 follow [Kubernetes naming
 constraints](https://kubernetes.io/docs/concepts/overview/working-with-objects/names/).
 {{% /alert %}}
 
-{{% alert title="Note" color="warning" %}}
+{{% alert color="warning" %}}
 Since Kubernetes resources cannot be renamed, you cannot change the
 `instance_name` of an existing Kiali installation. The workaround is to
 uninstall Kiali and re-install with the desired `instance_name`.
 {{% /alert %}}
 
-## Configuring resource requests and limits
+## Resource requests and limits
 
 You can set the amount of resources available to Kiali using the
 `spec.deployment.resources` attribute, like in the following example:
@@ -132,7 +132,7 @@ spec:
       a8r.io/documentation: "https://kiali.io/docs/installation/deployment-configuration"
 ```
 
-## Customizing Kiali's page title (browser title bar)
+## Kiali page title (browser title bar)
 
 If you have several Kiali installations and you are using them at the same
 time, there are good chances that you will want to identify each Kiali by
@@ -146,9 +146,9 @@ spec:
 
 The `installation_tag` is any human readable text of your desire.
 
-## Configuring settings for the Kubernetes scheduler
+## Kubernetes scheduler settings 
 
-### Configuring replicas and automatic scaling
+### Replicas and automatic scaling
 
 By default, only one replica of Kiali is deployed. If needed, you can change the
 replica count like in the following example:
@@ -174,7 +174,7 @@ spec:
         targetCPUUtilizationPercentage: 80
 ```
 
-{{% alert title="Note" color="warning" %}}
+{{% alert color="warning" %}}
 You must omit the `scaleTargetRef` field of the HPA spec, because this field
 will be populated by the Kiali operator (or by Helm) depending on other
 configuration.
@@ -253,7 +253,6 @@ spec:
 For more information about priority classes, read [Pod Priority and Preemption
 in the Kubernetes
 documentation](https://kubernetes.io/docs/concepts/scheduling-eviction/pod-priority-preemption/).
-
 
 ## Adding host aliases to the Kiali pod
 

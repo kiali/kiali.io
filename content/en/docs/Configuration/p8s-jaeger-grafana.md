@@ -32,7 +32,7 @@ spec:
       url: "http://metrics.telemetry:9090/"
 ```
 
-{{% alert title="Note" color="info" %}}
+{{% alert color="success" %}}
 Notice that you don't need to expose Prometheus outside the cluster. It is
 enough to provide the Kubernetes internal service URL.
 {{% /alert %}}
@@ -107,10 +107,10 @@ spec:
       # Jaeger is unreachable.
       enabled: true
       # Jaeger service name is "tracing" and is in the "telemetry" namespace.
-      # Make sure the URL you provide corresponds to the GRPC enabled endpoint
-      # if you set "use_grpc" to true.
-      in_cluster_url: 'http://tracing.telemetry/jaeger'
-      use_grpc: false
+      # Make sure the URL you provide corresponds to the non-GRPC enabled endpoint
+      # if you set "use_grpc" to false.
+      in_cluster_url: 'http://tracing.telemetry:16685/jaeger'
+      use_grpc: true
       # Public facing URL of Jaeger
       url: 'http://my-jaeger-host/jaeger'
 ```
@@ -128,7 +128,7 @@ Istio provides [preconfigured Grafana
 dashboards](https://istio.io/latest/docs/ops/integrations/grafana/) for the
 most relevant metrics of the mesh. Although Kiali offers similar views in its
 metrics dashboards, it is not in Kiali's goals to provide the advanced querying
-options nor the highly customizable settings that are available in Grafana.
+options, nor the highly customizable settings, that are available in Grafana.
 Thus, it is recommended that you use Grafana if you need those advanced
 options.
 
@@ -136,7 +136,6 @@ Kiali can provide a direct link from its metric dashboards to the equivalent or
 most similar Grafana dashboard, which is convenient if you need the powerful
 Grafana options. For these links to appear in Kiali you need to manually
 configure what is the Grafana URL, like in the following example:
-
 
 ```yaml
 spec:
