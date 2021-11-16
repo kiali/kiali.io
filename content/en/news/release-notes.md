@@ -6,6 +6,50 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 1.43.0
+Sprint Release: November 12nd, 2021
+
+Features:
+
+* [Allow Kiali Graphs to show EgressGateway traffic to ServiceEntry](https://github.com/kiali/kiali/issues/3765)
+* [(Feature Request) Support mounting existing secret into Kiali Pod](https://github.com/kiali/kiali/issues/4468)
+* [Calculate graph importance score](https://github.com/kiali/kiali/issues/2888)
+* [Validations - Ensure ServiceEntry has WorkloadEntry addresses](https://github.com/kiali/kiali/issues/4339)
+* [Support getting the root namespace from Istio configuration](https://github.com/kiali/kiali/issues/4448)
+* [ingress created by Kiali CR does not include ingress class - need new deployment.ingress setting](https://github.com/kiali/kiali/issues/4342)
+
+Please note this introduces a backward-incompatible change. Users with the prior ingress settings defined in their Kiali CR will need to make an update.  Other users are not affected. The previous ingress settings were:
+
+```yaml
+deployment:
+  ingress_enabled: <true|false>
+  override_ingress_yaml:
+    ...the override yaml here...
+```
+
+This has been changed to the following:
+
+```yaml
+deployment:
+  ingress:
+    enabled: <true|false>
+    override_yaml:
+      ...the override yaml here...
+```
+
+* [Update kiali.io docs to Kiali 1.36+](https://github.com/kiali/kiali/issues/4118)
+* [Google OIDC allowed domains](https://github.com/kiali/kiali/issues/4288)
+* [Include ServiceAccount info across console](https://github.com/kiali/kiali/issues/2201)
+* [Add information about Istio overhead ](https://github.com/kiali/kiali/issues/3703)
+
+Fixes:
+
+* [Workload Entry graph nodes display only "latest" version](https://github.com/kiali/kiali/issues/4206)
+* [Kiali Documentation link from Master Head seems broken](https://github.com/kiali/kiali/issues/4478)
+* [Crash in onCopy button in Envoy tab editors](https://github.com/kiali/kiali/issues/4445)
+* ["More than one Gateway for the same host port combination" even with different ports](https://github.com/kiali/kiali/issues/4466)
+* [Workload pod proxy logs shows details for Envoy app logging](https://github.com/kiali/kiali/issues/4356)
+
 ## 1.42.0
 Sprint Release: October 22nd, 2021
 
