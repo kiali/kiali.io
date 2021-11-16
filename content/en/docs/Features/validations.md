@@ -517,6 +517,30 @@ Rename the service port name field to follow the form and the traffic flows corr
 - [Istio documentation port naming convention](https://istio.io/docs/ops/deployment/requirements)
 
 
+### KIA0602 - Port appProtocol must follow <protocol> form
+
+Istio also optionally supports the appProtocol in service ports, following the form of 'protocol'. When port name field does not contain the protocol the appProtocol field is considered as a protocol. If the naming does not match this form, Istio treats all the traffic TCP instead of the defined protocol in the definition.
+
+#### Resolution
+
+Rename the service port appProtocol field to follow the form and the traffic flows correctly.
+
+#### Severity
+
+<i class="fas fa-times-circle"></i> Error
+
+#### Example
+
+```yaml
+{{% readfile file="/static/files/validation_examples/602.yaml" %}}
+```
+
+#### See Also
+
+- [Validator source code](https://github.com/kiali/kiali/blob/v1.42.0/business/checkers/services/port_mapping_checker.go)
+- [Istio documentation protocol selection](https://istio.io/latest/docs/ops/configuration/traffic-management/protocol-selection)
+
+
 ## Services {#services}
 
 ### KIA0701 - Deployment exposing same port as Service not found
