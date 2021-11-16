@@ -2,6 +2,7 @@
 title: "Token strategy"
 linktitle: "Token"
 description: "Access Kiali requiring a Kubernetes ServiceAccount token."
+weight: 50
 ---
 
 ## Introduction
@@ -26,4 +27,5 @@ spec:
     strategy: token
 ```
 
-The `token` strategy doesn't have any additional configuration.
+The `token` strategy doesn't have any additional configuration other than the
+[session expiration time]({{< relref "session-configs" >}}).

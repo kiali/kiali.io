@@ -2,6 +2,7 @@
 title: "Anonymous strategy"
 linktitle: "Anonymous"
 description: "Access Kiali with no authentication."
+weight: 10
 ---
 
 ## Introduction

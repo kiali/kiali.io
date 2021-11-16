@@ -2,6 +2,7 @@
 title: "OpenShift strategy"
 linktitle: "OpenShift"
 description: "Access Kiali requiring OpenShift authentication."
+weight: 40
 ---
 
 ## Introduction
