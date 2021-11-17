@@ -50,7 +50,7 @@ URL_IGNORE=\#$\
           ,/^https:\/\/github.com\/kiali\/kiali\.io\/edit\//$\
           ,/^https:\/\/github.com\/kiali\/kiali\.io\/new\//$\
           ,/^https:\/\/github.com\/kiali\/kiali\.io\/commit\//$\
-                    ,/^https:\/\/github.com\/kiali\/kiali\.io\/issues\/new/$\
+          ,/^https:\/\/github.com\/kiali\/kiali\.io\/issues\/new/$\
           ,/.*web.libera.chat.*/
 ## validate-site: Builds the site and validates the pages. This is used for CI
 .PHONY: validate-site
