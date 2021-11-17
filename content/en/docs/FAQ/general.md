@@ -6,22 +6,18 @@ description: "Questions about Kiali architecture, access, perf, etc..."
 
 ### Why is the Workload or Application Detail page so slow or not responding?
 
-We have identified a performance issue that happens while visiting the Workload or Application detail page, related to discovering metrics in order to show custom dashboards. This issue was originally reported [here](https://github.com/kiali/kiali/issues/3660) and is now tracked [there](https://github.com/kiali/kiali/issues/3704).
+We have identified a performance issue that happens while visiting the Workload or Application detail page, related to discovering metrics in order to show custom dashboards. Both Kiali and Prometheus may run out of memory.
 
-To summarize, Kiali might be very slow to fetch some metrics from Prometheus, it might even run out of memory, and so does Prometheus.
-
-The immediate workaround you can take in that situation is to disable dashboards discovery from config:
+The immediate workaround is to disable dashboards discovery:
 
 ```yaml
+spec:
   external_services:
     custom_dashboards:
       discovery_enabled: "false"
 ```
 
-But we would also recommend that you consider a more robust setup for Prometheus, like the one described [in this Istio guide](https://istio.io/latest/docs/ops/best-practices/observability/#using-prometheus-for-production-scale-monitoring) (see also this [Kiali blog post](https://medium.com/kialiproject/kiali-with-production-scale-prometheus-c53ddfa20570)), in order to decrease the metrics cardinality.
-
-As explained in [the tracking issue](https://github.com/kiali/kiali/issues/3704), a modification of the Prometheus API should soon be available and, hopefully, would allow Kiali to get what it needs at a much lower cost.
-
+It's also recommended to consider a more robust setup for Prometheus, like the one described [in this Istio guide](https://istio.io/latest/docs/ops/best-practices/observability/#using-prometheus-for-production-scale-monitoring) (see also this [Kiali blog post](https://medium.com/kialiproject/kiali-with-production-scale-prometheus-c53ddfa20570)), in order to decrease the metrics cardinality.
 
 ### What do I need to run Kiali in a private cluster?
 
@@ -34,11 +30,6 @@ Check section Google Kubernetes Engine (GKE) Private Cluster requirements in the
 {{% alert color="success" %}}
 Open an [issue](https://github.com/kiali/kiali/issues/new/choose) if you have a private cluster with a different provider than GKE. We'll try to accommodate your scenario and document it for future users.
 {{% /alert %}}
-
-
-### How do I access Kiali UI?
-
-See [Accessing Kiali in the Installation guide]({{< ref "/docs/installation/installation-guide/accessing-kiali" >}}).
 
 ### Does Kiali support Internet Explorer?
 
@@ -57,6 +48,7 @@ a bug, or need a feature, you can _vote_ (using emojis) for any existing bug or 
 [GitHub Issues](https://github.com/kiali/kiali/issues). This will help us prioritize the most
 needed fixes or enhancements.  You can also create a new issue.
 
+See also the [Community page]({{< relref "../../Community" >}}) which lists more contact channels.
 
 ### How do I obtain the logs for Kiali?
 
@@ -74,25 +66,7 @@ KIALI_SERVER_NAMESPACE="istio-system"
 kubectl logs -n ${KIALI_SERVER_NAMESPACE} $(kubectl get pod -l app=kiali -n ${KIALI_SERVER_NAMESPACE} -o name)
 ```
 
-Note that you can configure the logger in the Kiali Server via these settings in the  Kiali CR:
-
-* `log_format` supports "text" and "json".
-* `log_level` supports "trace", "debug", "info", "warn", "error", "fatal".
-* `time_field_format` supports a [golang time format](https://golang.org/pkg/time/)
-* `sampler_rate` defines a basic log sampler setting as an integer. With this setting every "sampler_rate"-th message will be logged. By default, every message is logged.
-
-For example,
-
-```yaml
-spec:
-  deployment:
-    logger:
-      log_level: info
-      log_format: text
-      sampler_rate: "1"
-      time_field_format: "2006-01-02T15:04:05Z07:00"
-```
-
+Note that you can [configure the logger in the Kiali Server]({{< relref "../Installation/deployment-options#log-level-and-format" >}}).
 
 ### Which Istio metrics and attributes are required by Kiali?
 
@@ -220,34 +194,6 @@ Kiali currently requires the following metrics and attributes (note, this assume
 |                                  |istio_tcp_sent_bytes_total ||
 
 
-### What are the minimum privileges to login when using RBAC?
-
-The `get namespace` privilege is required for Kiali login when using an
-RBAC-enabled authentication strategy.  The user needs the privilege in at least
-one namespace.  The Kiali Operator will provide a `ClusterRole` named either
-`kiali` or `kiali-viewer` with the needed privilege.  Users can be bound to
-this role.
-
-When using a customized `Role` or `ClusterRole` then the following rule is
-required for Kiali login:
-
-```yaml
-apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
-metadata:
-  name: custom-kiali-role
-rules:
-- apiGroups: [""]
-  resources:
-  - namespaces
-  verbs:
-  - get
-```
-
-Although required for login, this privilege is not sufficient for Kiali
-to function well in general.
-
-
 ### What is the License?
 
 See [here](https://github.com/kiali/kiali/blob/master/LICENSE) for the Kiali license.
@@ -255,7 +201,7 @@ See [here](https://github.com/kiali/kiali/blob/master/LICENSE) for the Kiali lic
 
 ### Why isn't my namespace in the Namespace Selection dropdown?
 
-When deploying Kiali with the Kiali operator, by default some namespaces are [excluded](https://github.com/kiali/kiali-operator/blob/v1.33/roles/default/kiali-deploy/defaults/main.yml#L24-L28) from the list of namespaces provided by the API and UI. Kiali filters out these namespaces and you will not see them in the Namespace Selection dropdown. You can adjust which namespaces are excluded by setting the `spec.api.namespaces.exclude` field on the Kiali CR.
+When deploying Kiali with the Kiali operator, by default some namespaces are [excluded](https://github.com/kiali/kiali-operator/blob/v1.33/roles/default/kiali-deploy/defaults/main.yml#L24-L28) from the list of namespaces provided by the API and UI. Kiali filters out these namespaces and you will not see them in the Namespace Selection dropdown. [You can adjust which namespaces are excluded]({{< relref "../Configuration/namespace-management/#excluded-namespaces" >}}) by setting the `spec.api.namespaces.exclude` field on the Kiali CR.
 
 In addition, you must ensure that Kiali has access to the namespaces you are interested in by setting the `spec.deployment.accessible_namespaces` field on the Kiali CR accordingly. Setting `spec.api.namespaces.exclude` alone does not give Kiali access to the namespaces. See the [Namespace Management]({{< ref "/docs/configuration/namespace-management" >}}) guide for more information.
 

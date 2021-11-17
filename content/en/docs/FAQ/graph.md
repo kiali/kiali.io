@@ -40,21 +40,7 @@ From the Graph page, you can filter them out by typing `node = unknown` in the _
 
 ![Graph Hide](/images/documentation/faq/graph/graph-hide.png)
 
-For a more definitive solution, there are several ways to prevent Istio from gathering this kind of telemetry.
-
-The first is to have these endpoints (like `/health` or `/metrics`) exposed on a different port and server than your main application, and to _not_ declare this port in your _Pod_'s container definition as _containerPort_. This way, the requests will be completely ignored by the Istio proxy, as mentioned in [Istio documentation](https://istio.io/v1.9/docs/ops/configuration/mesh/app-health-check/#liveness-and-readiness-probes-using-the-http-request-approach) (at the bottom of that page).
-
-The second way is to modify Istio's Prometheus rule to explicitly exclude some requests based on the User Agent. This is the `Rule` resource named `promhttp` located in `istio-system`. To edit it:
-
-```
-kubectl edit rule promhttp -n istio-system
-```
-
-Then locate the `match` field under `spec` section. Change it to filter out, for instance, the Kubernetes probes:
-
-```yaml
-match: (context.protocol == "http" || context.protocol == "grpc") && (match((request.useragent | "-"), "kube-probe*") == false)
-```
+For a more definitive solution, you could have these endpoints (like `/health` or `/metrics`) exposed on a different port and server than your main application, and to _not_ declare this port in your _Pod_'s container definition as _containerPort_. This way, the requests will be completely ignored by the Istio proxy, as mentioned in [Istio documentation](https://istio.io/v1.6/docs/ops/configuration/mesh/app-health-check/#liveness-and-readiness-probes-with-http-request-option) (at the bottom of that page).
 
 ### Why do I have missing edges? {#missing-edges}
 

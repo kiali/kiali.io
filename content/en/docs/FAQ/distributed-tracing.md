@@ -13,7 +13,7 @@ While on any Tracing page, error "Could not fetch traces" is displayed:
 
 ![Could not fetch traces](/images/documentation/faq/tracing/could-not-fetch-traces.png)
 
-Apparently, Kiali is unable to connect to Jaeger. Make sure tracing is correctly configured in the Kiali custom resource or ConfigMap ([View full CR description](https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml)).
+Apparently, Kiali is unable to connect to Jaeger. Make sure [tracing is correctly configured in the Kiali CR]({{< relref "../Configuration/p8s-jaeger-grafana#jaeger-configuration" >}}).
 
 ```yaml
       tracing:
@@ -25,7 +25,7 @@ Apparently, Kiali is unable to connect to Jaeger. Make sure tracing is correctly
         use_grpc: true
 ```
 
-You need especially to pay attention to the `in_cluster_url` field, which is how Kiali backend contacts the Jaeger service. In general, this URL is written using Kubernetes domain names in the form of `http://service.namespace`, plus eventually a path.
+You need especially to pay attention to the `in_cluster_url` field, which is how Kiali backend contacts the Jaeger service. In general, this URL is written using Kubernetes domain names in the form of `http://service.namespace`, plus a path.
 
 If you're not sure about this URL, try to find your Jaeger service and its exposed ports:
 
@@ -44,7 +44,7 @@ $ kubectl exec -n istio-system -it kiali-556fdb8ff5-p6l2n -- curl http://tracing
 {"data":null,"total":0,"limit":0,"offset":0,"errors":[{"code":400,"msg":"parameter 'service' is required"}]}
 ```
 
-If you see some returning JSON as in the above example, congrats, it should be well configured!
+If you see some returning JSON as in the above example, that should be the URL that you must configure.
 
 If instead of that you see some blocks of mixed HTML/Javascript mentioning JaegerUI, then probably the host+port are correct but the path isn't.
 
@@ -61,7 +61,7 @@ If for some reason the GRPC connection fails and you think it shouldn't (e.g. yo
 
 ### Why can't I see any external link to Jaeger?
 
-In addition to the embedded integration that Kiali provides with Jaeger, it is possible to show external links to the Jaeger UI. To do so, the external URL must be configured in the [Kiali CR](https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml) or ConfigMap (field `url`).
+In addition to the embedded integration that Kiali provides with Jaeger, it is possible to show external links to the Jaeger UI. To do so, the external URL must be configured in the [Kiali CR](https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml).
 
 ```yaml
     tracing:
@@ -82,7 +82,7 @@ When configured, this URL will be used to generate a couple of links to Jaeger w
 
 On the Application detail page, the Traces tab might redirect to Jaeger via an external link instead of showing the Kiali Tracing view. It happens when you have the `url` field configured, but not `in_cluster_url`, which means the Kiali backend will not be able to connect to Jaeger.
 
-To fix it, configure `in_cluster_url` in [Kiali CR](https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml) or ConfigMap.
+To fix it, configure `in_cluster_url` in [Kiali CR](https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml).
 
 
 ### Why do I see "Missing root span" for the root span of some span details on Traces tab?
@@ -90,3 +90,4 @@ To fix it, configure `in_cluster_url` in [Kiali CR](https://github.com/kiali/kia
 ![Missing root span](/images/documentation/faq/tracing/missing-root-span.png)
 
 In Traces tab, while clicking on a trace, it shows the details of that trace and information about spans. These details also include the root span information. But for the traces for traffic that is not comming from ingress-gateway, the root span information is not available in Jaeger, thus Kiali is displaying "Missing root span" for those traces' details and tooltips in Traces tab and in Graph pages.
+

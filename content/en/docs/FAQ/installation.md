@@ -32,11 +32,13 @@ and RoleBindings (not the "Cluster" kinds) and assign them to the Kiali Server.
 A Kiali CR is used to tell the Kiali Operator how and where to install a Kiali Server in your cluster. You can install one or more Kiali Servers by creating
 one Kiali CR for each Kiali Server you want the Operator to install and manage. Deleting a Kiali CR will uninstall its associted Kiali Server.
 
-All the settings that you can define in a Kiali CR are [fully documented here](https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml).
+Most options are described in the pages of the [Installation]({{< relref "../Installation" >}}) and [Configuration]({{< relref "../Configuration" >}}) sections of the documentation.
+
+If you cannot find some configuration, check the [template of the Kiali CR](https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml) available in Kiali's GitHub repository, which briefly describes all available options.
 If you are using a specific version of the Operator, the Kiali CR that is valid for that version can be found in the version tag within the github repository
 (e.g. Operator v1.25.0 supported [these Kiali CR settings](https://github.com/kiali/kiali-operator/blob/v1.25.0/deploy/kiali/kiali_cr.yaml)).
 
-Note that that example Kiali CR is formatted in such a way that if you uncomment a line (by deleting the line's leading `#` character), that line's setting
+Note that that Kiali CR template is formatted in such a way that if you uncomment a line (by deleting the line's leading `#` character), that line's setting
 will be at the appropriate indentation level. This allows you to create an initial Kiali CR by simply uncommenting lines of the settings you want to define.
 The comments are also specifically laid out in such a way that each major top-level group of settings are in their own major comment section, and each value
 in each commented setting is the default value (so if you do not define that setting yourself, you will know what its default value is). 
