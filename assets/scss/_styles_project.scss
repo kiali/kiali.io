@@ -1,0 +1,8 @@
+/*
+Hide the "create documentation issue" links and defer "create project issue".  Kiali puts all issues under the project.
+- The two lines below do the same thing, the top line is for our current version of Docsy.  The bottom
+  line is the newer, preferred way.  TODO: remove top line when we update Docsy.
+*/
+.td-page-meta > a:nth-child(3) { display: none !important; }
+.td-page-meta--issue { display: none !important; }
+
