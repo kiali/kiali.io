@@ -4,7 +4,7 @@ description: "Session timeout and signing key configuration"
 weight: 60
 ---
 
-There are two settings that are available for the users session. The first one
+There are two settings that are available for the user's session. The first one
 is the **session expiration time**, which is only applicable to
 [token]({{< relref "token" >}}) and [header]({{< relref "header" >}})
 authentication strategies:
@@ -20,9 +20,9 @@ The session expiration time is the amount of time before the user is asked to
 extend his session by another cycle. It does not matter if the user is actively
 using Kiali, the user will be asked if the session should be extended.
 
-The second available option is the **signing key** configuration which is unset by
-default, meaning that a random 16-characters long signing key will be generated
-and stored to a secret named `kiali-signing-key` in Kiali's installation
+The second available option is the **signing key** configuration, which is unset by
+default, meaning that a random 16-character signing key will be generated
+and stored to a secret named `kiali-signing-key`, in Kiali's installation
 namespace:
 
 ```yaml
@@ -65,7 +65,7 @@ spec:
 ```
 
 {{% alert color="danger" %}}
-It is possible to specify the signing key directly in the Kiali CR in the
+It is possible to specify the signing key directly in the Kiali CR, in the
 `spec.login_token.signing_key` attribute. However, this should be only for
 testing purposes. The signing key is sensitive and should be treated like a
 password that must be protected.
