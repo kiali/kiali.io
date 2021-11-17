@@ -64,6 +64,14 @@ function of the Go language](https://pkg.go.dev/time#pkg-constants).
 The `json` format is useful if you are parsing logs of your applications for
 further processing.
 
+In Kiali, there are some special logs called _audit logs_ that are emitted each time a user creates, updates or deletes a resource through Kiali. Audit logs are INFO-level messages and are enabled by default. If audit logs are too verbose, you can disable them without reducing the log level as follows:
+
+```yaml
+spec:
+  server:
+    audit_log: false
+```
+
 ## Kiali instance name
 
 If you plan to install more than one Kiali instance on the same cluster, you
@@ -76,9 +84,10 @@ spec:
 ```
 
 The `instance_name` will be used as a prefix for all created Kiali resources.
-The exception is the `kiali-signing-key` secret which will always have the same name
-and will be shared on all deployments of the same namespace, unless you specify
-a custom secret name.
+The exception is the [`kiali-signing-key` secret]({{< relref
+"../Configuration/authentication/session-configs" >}}) which will always have
+the same name and will be shared on all deployments of the same namespace,
+unless you specify a custom secret name.
 
 {{% alert color="warning" %}}
 Since the `instance_name` will be used as a name prefix in resources, it must
@@ -270,4 +279,51 @@ spec:
      - "foo.local"
      - "bar.local"
 ```
+
+## HTTP server
+
+Kiali is served over HTTP. You can configure a few options of the HTTP server.
+The following are the defaults, but you can change them to suit your needs.
+
+```yaml
+spec:
+  server:
+    # Listen/bind address of the HTTP server. By default it is empty, which means to
+    # listen on all interfaces.
+    address: ""
+
+    # Listening port of the HTTP server. If you change it, also Kiali's Kubernetes
+    # Service is affected to use this port.
+    port: 20001
+
+    # Use GZip compression for responses larger than 1400 bytes. You may want to disable
+    # compression if you are exposing Kiali via a reverse proxy that is already
+    # doing compression.
+    gzip_enabled: true
+
+    # For development purposes only. Controls if "Cross-Origin Resourse Sharing" is
+    # enabled. 
+    cors_allow_all: false
+```
+
+There is one additional `spec.server.web_root` option that affects the HTTP
+server, but that one is described in the [_Specifying route settings_ section
+of the Instalation guide.]({{< relref "../Installation/installation-guide/accessing-kiali#route-configs" >}})
+
+## Metrics server
+
+Kiali emits metrics that can be collected by Prometheus. Most of these metrics
+are performance measurements.
+
+The metrics server is enabled by default and listens on port 9090:
+
+```yaml
+spec:
+  server:
+    metrics_enabled: true
+    metrics_port: 9090
+```
+
+The bind address is the same as the HTTP server. Thus, make sure that the HTTP
+Server and the metrics server are not configured to the same port.
 

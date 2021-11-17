@@ -2,6 +2,7 @@
 title: "Header strategy"
 linktitle: "Header"
 description: "Run Kiali behind a reverse proxy responsible for injecting the user's token, or a token with impersonation."
+weight: 20
 ---
 
 ## Introduction

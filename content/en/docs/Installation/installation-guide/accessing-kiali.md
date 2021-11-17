@@ -151,6 +151,11 @@ NAME    TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S)                
 kiali   LoadBalancer   10.105.236.127   192.168.49.201   20001:31966/TCP,9090:30128/TCP   34d
 ```
 
+If you are using the `LoadBalancer` service type to directly expose the Kiali
+service, you may want to check the available options for the
+[HTTP Server]({{<relref "../deployment-options#http-server" >}}) and
+[Metrics server]({{< relref "../deployment-options#metrics-server" >}}).
+
 ## Accessing Kiali through an Istio Ingress Gateway
 
 If you want to take advantage of Istio's infrastructure, you can expose Kiali
@@ -211,21 +216,4 @@ Usually, these settings can be omitted. However, a few features require
 that the Kiali's public route be properly discoverable or that it is properly
 configured; most notably, the [OpenID authentication]({{< ref "/docs/configuration/authentication/openid" >}}).
 {{% /alert %}}
-
-## Configuring listening ports
-
-{{% alert color="success" %}}
-Usually, these settings need to be changed only if you are directly
-exposing the Kiali service (like when using a `LoadBalancer` service type).
-{{% /alert %}}
-
-It is possible to configure the listening ports of the Kiali service to use
-your preferred ones:
-
-```yaml
-spec:
-  server:
-    port: 80 # Main port for accessing Kiali
-    metrics_port: 8080
-```
 

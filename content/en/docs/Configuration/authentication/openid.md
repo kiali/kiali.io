@@ -2,6 +2,7 @@
 title: "OpenID Connect strategy"
 linktitle: "OpenID Connect"
 description: "Access Kiali requiring authentication through a third-party _OpenID Connect_ provider."
+weight: 30
 ---
 
 ## Introduction
@@ -24,7 +25,7 @@ _implicit flow_ of the [OpenId Connect spec](https://openid.net/connect/).
 
 If you want to enable usage of the OpenId's _authorization code flow_, make
 sure that the
-[Kiali's signing key](https://github.com/kiali/kiali-operator/blob/7dafc469c95d4307ebd03c515a87c7f84eb64da7/deploy/kiali/kiali_cr.yaml#L746-L754)
+[Kiali's signing key]({{< relref "session-configs" >}})
 is 16, 24 or 32 byte long. If you setup a signing key of a
 different size, Kiali will only be capable of using the _implicit flow_. If you
 install Kiali via the operator and don't set a custom signing key, the operator
