@@ -67,10 +67,19 @@ Events:        <none>
 *Never* manually edit resources created by the Kiali Operator, only the Kiali CR.
 {{% /alert %}}
 
-We recommended to download the [example Kiali CR YAML file](https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml)
-that is available in the Operator's GitHub repository. This
-example file contains and describes all available settings. Then, edit the
-downloaded file being *very careful* to maintain proper formatting.  Incorrect indentation is a common problem!
+You may want to check the [example install page]({{< relref "example-install"
+>}}) to see some examples where the Kiali CR has a `spec` and to better
+understand its structre. Most available attributes of the Kiali CR are
+described in the pages of the [Installation]({{< relref "../" >}}) and
+[Configuration]({{< relref "../../Configuration" >}}) sections of the
+documentation.
+
+Alternatively, a [Kiali CR YAML template
+file](https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml)
+is available in the Operator's GitHub repository. This template file contains
+and describes all available settings. You can download it and edit it being
+*very careful* to maintain proper formatting. Incorrect indentation is a common
+problem!
 
 {{% alert color="warning" %}}
 The link in the previous paragraph is for the example Kiali CR hosted in
