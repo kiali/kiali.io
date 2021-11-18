@@ -35,14 +35,14 @@ post](https://medium.com/kialiproject/kiali-release-1-40-features-update-78f19fd
 
 ## Default metrics duration and refresh interval
 
-Most Kiali pages show a _metrics per refresh_ and a _refresh interval_
+Most Kiali pages show _metrics per refresh_ and _refresh interval_
 drop-downs. These are located at the top-right of the page.
 
-The _metrics per refresh_ specifies the time range back from the current
+_Metrics per refresh_ specifies the time range back from the current
 instant to fetch metrics and/or distributed tracing data. By default, a
 1-minute time range is selected.
 
-The _refresh interval_ specifies how often Kiali will automatically refresh the
+_Refresh interval_ specifies how often Kiali will automatically refresh the
 data shown. By default, Kiali refreshes data every 15 seconds.
 
 ```yaml
@@ -64,7 +64,7 @@ By default, when Kiali is accessed by the first time, on most Kiali pages users
 will need to use the namespace drop-down to choose namespaces they want to view
 data from. The selection will be persisted on reloads.
 
-However, it is possible to configure a set of predefined selection of
+However, it is possible to configure a predefined selection of
 namespaces, like in the following example:
 
 ```yaml
@@ -110,17 +110,17 @@ spec:
 
 Hopefully, the attributes to configure this feature are self-explanatory.
 
-Note that by providing your own presets, you would be overriding the default
+Note that by providing your own presets, you will be overriding the default
 configuration. Make sure to include any default presets that you need in case
 you provide your own configuration.
 
-## Graph default sources for traffic rates
+## Graph default traffic rates
 
 Traffic rates in the graph are fetched from Istio telemetry and there are
 several [metric sources](https://istio.io/latest/docs/reference/config/metrics/)
 that can be used.
 
-In the graph page, you can select the rates source using the _Traffic_
+In the graph page, you can select the traffic rate metrics using the _Traffic_
 drop-down (next to the _Namespaces_ drop-down). By default, _Requests_ is
 selected for GRPC and HTTP protocols, and _Sent bytes_ is selected for the TCP
 protocol, but you can change the default selection:
