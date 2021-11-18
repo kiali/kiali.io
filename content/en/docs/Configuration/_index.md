@@ -4,7 +4,7 @@ description: "How to configure Kiali to fit your needs."
 weight: 2
 ---
 
-The pages in this _Configuration_ section describes most available options for
+The pages in this _Configuration_ section describe most available options for
 managing and customizing your Kiali installation.
 
 Unless noted, it is assumed that you are using the Kiali operator and that you
@@ -36,11 +36,10 @@ spec:
 ```
 
 Then, you can save the finished YAML file and apply it with `kubectl apply -f`.
+
 It is recommended that you read
 _[The Kiali CR]({{< relref "../Installation/installation-guide/creating-updating-kiali-cr" >}})_
 and the _[Example Install]({{< relref "../Installation/installation-guide/example-install" >}})_
 pages of the Installation Guide for more information about using the Kiali CR.
-Also, make sure to check the [Kiali CR YAML template
-file](https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml)
-available in the Operator's GitHub repository which has a reference of all
-available options.
+
+Also, for reference, the [Kiali CR YAML template file](https://github.com/kiali/kiali operator/blob/master/deploy/kiali/kiali_cr.yaml) documents all available options.
