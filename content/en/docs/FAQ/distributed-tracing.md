@@ -83,3 +83,10 @@ When configured, this URL will be used to generate a couple of links to Jaeger w
 On the Application detail page, the Traces tab might redirect to Jaeger via an external link instead of showing the Kiali Tracing view. It happens when you have the `url` field configured, but not `in_cluster_url`, which means the Kiali backend will not be able to connect to Jaeger.
 
 To fix it, configure `in_cluster_url` in [Kiali CR](https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml) or ConfigMap.
+
+
+### Why do I see "Missing root span" for the root span of some span details on Traces tab?
+
+![Missing root span](/images/documentation/faq/tracing/missing-root-span.png)
+
+In Traces tab, while clicking on a trace, it shows the details of that trace and information about spans. These details also include the root span information. But for the traces for traffic that is not comming from ingress-gateway, the root span information is not available in Jaeger, thus Kiali is displaying "Missing root span" for those traces' details and tooltips in Traces tab and in Graph pages.
