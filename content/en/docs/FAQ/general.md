@@ -228,3 +228,20 @@ To include them, update the list of [excluded_workloads](https://github.com/kial
 
 An empty list will tell Kiali to query all type of known controllers.
 
+### Why Health is not available for services using TCP protocol?
+
+{{% alert color="warning" %}}
+This refers to _Service_ resources. Not _Workloads_, nor _Applications_.
+{{% /alert %}}
+
+Health for Services is calculated based on success rate of traffic. The traffic
+of HTTP and GRPC protocols is request based and it is possible to inspect each
+request to check and extract response codes to determine how many requests
+succeeded and how many erred.
+
+However, HTTP is a widely known protocol. Applications may use other less known
+protocols to communicate. For these cases, Istio logs the traffic as raw TCP
+(an opaque sequence of bytes) and is not analyzed. Thus, for Kiali it is not
+possible to know if any traffic have failed or succeeded and reports Health as
+unavailable.
+
