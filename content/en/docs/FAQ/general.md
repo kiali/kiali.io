@@ -239,9 +239,9 @@ of HTTP and GRPC protocols is request based and it is possible to inspect each
 request to check and extract response codes to determine how many requests
 succeeded and how many erred.
 
-However, HTTP is a widely known protocol. Applications may use other less knwon
+However, HTTP is a widely known protocol. Applications may use other less known
 protocols to communicate. For these cases, Istio logs the traffic as raw TCP
-(an opaque sequence of bytes) and is not analized. Thus, for Kiali it is not
+(an opaque sequence of bytes) and is not analyzed. Thus, for Kiali it is not
 possible to know if any traffic have failed or succeeded and reports Health as
 unavailable.
 
