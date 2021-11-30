@@ -35,6 +35,30 @@ For example, Istio lets you use the `app` label in one pod and the
 correctly. However, you will have no way to configure Kiali for this case.
 {{% /alert %}}
 
+## Monitoring port of the IstioD pod
+
+Kiali connects directly to the IstioD pod (not the Service) to check for its
+health. By default, the connection is done to port 15014 which is the default
+monitoring port of the IstioD pod.
+
+Under some circumstances, you may need to change the monitoring port of the
+IstioD pod to something else. For example, when running IstioD in [_host
+network mode_](https://kubernetes.io/docs/concepts/cluster-administration/networking/#the-kubernetes-network-model)
+the network is shared between several pods, requiring to change listening ports
+of some pods to prevent conflicts.
+
+It is possible to map the newly chosen monitoring port of the IstioD pod in the
+related Service to let other services continue working normally. However, since
+Kiali connects directly to the IstioD pod, you need to configure the assigned
+monitoring port in the Kiali CR:
+
+```yaml
+spec:
+  external_services:
+    istio:
+      istiod_pod_monitoring_port: 15014
+```
+
 ## Multi-cluster support
 
 Kiali has [experimental support for Istio multi-cluster installations]({{< relref "../Features/multi-cluster" >}})
