@@ -866,14 +866,14 @@ Either remove the weight field or you might want to add another RouteDestination
 
 
 
-### KIA1105 - This subset is already referenced in another route destination
+### KIA1105 - This host subset combination is already referenced in another route destination
 
-Istio allows you to apply rules over the traffic targetting to a specific service. In order to achieve that, it is necessary to add those rules into either _http_, _tcp_ or _tls_ fields in a VirtualService. In each field it is possible to specify rules for redirection or forwarding traffic. Those rules are the _RouteDestination_ and _HTTPRouteDestination_ structs. Each structs defines where the traffic is shifted to using the _subset_ field.
-This warning message refers to the fact of referencing one subset more than one time within the same route. Galley, Istio module in charge of configuration validation, allows the subset duplicity. However, the mesh it might become broken when there are different duplicates. Also, the presented warning might help spoting a typo.
+Istio allows you to apply rules over the traffic targetting to a specific service. In order to achieve that, it is necessary to add those rules into either _http_, _tcp_ or _tls_ fields in a VirtualService. In each field it is possible to specify rules for redirection or forwarding traffic. Those rules are the _RouteDestination_ and _HTTPRouteDestination_ structs. Each structs defines where the traffic is shifted to using _host_ and _subset_ fields.
+This warning message refers to the fact of referencing one host subset combination more than one time within the same route. Galley, Istio module in charge of configuration validation, allows host subset combination duplicity. However, the mesh it might become broken when there are different duplicates. Also, the presented warning might help spoting a typo.
 
 #### Resolution
 
-Make sure there is only one reference to the same subset for each RouteDestination. Either [HTTPRouteDestination](https://istio.io/docs/reference/config/networking/virtual-service/#HTTPRouteDestination) or [RouteDestination](https://istio.io/docs/reference/config/networking/virtual-service/#RouteDestination).
+Make sure there is only one reference to the same host subset combination for each RouteDestination. Either [HTTPRouteDestination](https://istio.io/docs/reference/config/networking/virtual-service/#HTTPRouteDestination) or [RouteDestination](https://istio.io/docs/reference/config/networking/virtual-service/#RouteDestination).
 
 #### Severity
 
