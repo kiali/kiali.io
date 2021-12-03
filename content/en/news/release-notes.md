@@ -6,6 +6,27 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 1.44.0
+Sprint Release: December 3rd, 2021
+
+Features:
+
+* [Correct graph edge for Pod to Pod communication using destination_workload](https://github.com/kiali/kiali/issues/4488)
+* [Make istiod ports configurable in kiali](https://github.com/kiali/kiali/issues/4462)
+* [Support rootNamespace: administrative namespace for istio config](https://github.com/kiali/kiali/issues/3062)
+* [Support rootNamespace in Peer Authentication validations](https://github.com/kiali/kiali/issues/4450)
+* [Support rootNamespace in Sidecar validations](https://github.com/kiali/kiali/issues/4449)
+* [access ingress_enabled for now to support older CRs](https://github.com/kiali/kiali/issues/4510)
+* [Include an explanation about the lack of health information for TCP services (like a database)](https://github.com/kiali/kiali/issues/3786)
+* [(operator) implement best practice guidelines to support multi-tenant installations](https://github.com/kiali/kiali/issues/4485)
+* [Upgrade kubernetes/client-go version and update beta interfaces for workloads](https://github.com/kiali/kiali/issues/4042)
+
+Fixes:
+
+* [KIA1105: Virtual service routes may not point to any subset](https://github.com/kiali/kiali/issues/4458)
+* [Possible memory leak in /api/istio/status endpoint](https://github.com/kiali/kiali/issues/4527)
+* [Documentation doesn't show how to configure Kiali](https://github.com/kiali/kiali/issues/3858)
+
 ## 1.43.0
 Sprint Release: November 12nd, 2021
 
