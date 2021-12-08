@@ -42,4 +42,4 @@ _[The Kiali CR]({{< relref "../Installation/installation-guide/creating-updating
 and the _[Example Install]({{< relref "../Installation/installation-guide/example-install" >}})_
 pages of the Installation Guide for more information about using the Kiali CR.
 
-Also, for reference, the [Kiali CR YAML template file](https://github.com/kiali/kiali operator/blob/master/deploy/kiali/kiali_cr.yaml) documents all available options.
+Also, for reference, the [Kiali CR YAML template file](https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml) documents all available options.
