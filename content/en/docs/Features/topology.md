@@ -63,6 +63,14 @@ TCP traffic is represented by offset circles where the speed of the circles indi
 
 ![Topology graph animation](/images/documentation/features/topology-graph-node-animation.gif)
 
+### Ranking
+
+Nodes can be ranked in the graph based on pre-defined criteria such as 'number of inbound edges'. Combined with the find/hide feature, this allows you to quickly highlight or filter for important workloads, services, and applications.
+
+Rankings are normalized to fit between 1..100 and nodes may tie with each other in rank. Ranking starts at 1 for the top ranked nodes so when ranking nodes based on 'number of inbound edges', the node(s) with the most inbound edges would have rank 1. Node(s) with the second most inbound edges would have rank 2. Each selected criteria contributes equally to a node's ranking. Although 100 rankings are possible, only the required number of rankings are assigned, starting at 1.
+
+![Topology graph ranking](/images/documentation/features/topology-graph-ranking.png)
+
 ### Graph Types
 
 Kiali offers four different traffic-graph renderings:
