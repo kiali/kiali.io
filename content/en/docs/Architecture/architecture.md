@@ -67,7 +67,7 @@ Currently, Kiali relies on [Istio's default metrics](https://istio.io/latest/doc
 set. Make sure that these default metrics are always in place.
 Some metric customization is possible as long as the Kiali requirements are
 still met.  For the current list of required metrics see
-[this FAQ entry]({{< ref "/docs/faq/general/#which-istio-metrics-and-attributes-are-required-by-kiali" >}}).
+[this FAQ entry]({{< ref "/docs/faq/general" >}}).
 
 ## Cluster API
 
