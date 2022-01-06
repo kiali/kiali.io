@@ -36,7 +36,7 @@ First, the Kiali Operator will be installed in the `kiali-operator` namespace us
 
 ```bash
 $ helm repo add kiali https://kiali.org/helm-charts
-$ helm repo update kiali
+$ helm repo update
 $ helm install \
     --namespace kiali-operator \
     --create-namespace \
