@@ -111,7 +111,7 @@ $ kubectl get kiali kiali -n istio-system -o jsonpath='{.status}' | jq
   },
   "progress": {
     "duration": "0:00:20",
-    "message": "7. Finished all resource creation"
+    "message": "6. Finished all resource creation"
   }
 }
 ```
