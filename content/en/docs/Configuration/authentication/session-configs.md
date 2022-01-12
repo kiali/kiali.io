@@ -54,6 +54,10 @@ data:
   key: "<your signing key encoded in base64>"
 ```
 
+{{% alert color="info" %}}
+The signing key must be 16, 24 or 32 bytes length. Otherwise, Kiali will fail to start.
+{{% /alert %}}
+
 If you prefer a different secret name for the signing key and/or a different
 key-value pair of the secret, you can specify your preferred names in the Kiali
 CR:
