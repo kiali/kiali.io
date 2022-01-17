@@ -6,6 +6,35 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 1.45.0
+Sprint Release: January 14th, 2022
+
+Features:
+
+* [Hide graph labels that are too small to read](https://github.com/kiali/kiali/issues/4521)
+* [Add preview mode in overview page](https://github.com/kiali/kiali/issues/4433)
+* [Graph: Correctly badge service nodes with the VS/Route icon](https://github.com/kiali/kiali/issues/4541)
+* [(graph) Enable namespace and cluster boxing by default](https://github.com/kiali/kiali/issues/4547)
+* [tests should use latest minikube and dex to keep up to date](https://github.com/kiali/kiali/issues/4582)
+* [Support `exportTo` validation in ServicesEntries](https://github.com/kiali/kiali/issues/4316)
+* [(operator) update operator to base image 1.10.1 (4.9)](https://github.com/kiali/kiali/issues/4540)
+
+Fixes:
+
+* [Jaeger http legacy protocol has problems in master](https://github.com/kiali/kiali/issues/4636)
+* [Adjust font style in trace details comparison map](https://github.com/kiali/kiali/issues/4588)
+* [fast click `Idle Nodes` (or other graph display options) can break UI](https://github.com/kiali/kiali/issues/4638)
+* [Missing "KIA1106 More than one Virtual Service for same host" for cross-namespace cases](https://github.com/kiali/kiali/issues/4652)
+* [Minigraph navigation broken](https://github.com/kiali/kiali/issues/4589)
+* ["KIA1102 VirtualService is pointing to a non-existent gateway" shown only once.](https://github.com/kiali/kiali/issues/4645)
+* [Wrong KIA1106 "More than one Virtual Service for same host"](https://github.com/kiali/kiali/issues/4641)
+* [Number of regex.Compile() calls in multi_match_checker scales quadratically with hosts checked](https://github.com/kiali/kiali/issues/4592)
+* ["Could not fetch services list" Error in Service view when selecting some namespaces](https://github.com/kiali/kiali/issues/4570)
+* [Molecule "api-test" failure in graph generation on ossm 2.1](https://github.com/kiali/kiali/issues/4246)
+* [Validations and TLS Endpoints Very Slow](https://github.com/kiali/kiali/issues/4224)
+* [Reconciliation may fail when removing a namespace from a cluster immediately after removing it from spec.deployment.accessible_namespaces](https://github.com/kiali/kiali/issues/3949)
+* [k8s service appProtocol is no reflected in config checks](https://github.com/kiali/kiali/issues/4486)
+
 ## 1.44.0
 Sprint Release: December 3rd, 2021
 
