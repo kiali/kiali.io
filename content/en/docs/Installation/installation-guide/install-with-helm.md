@@ -22,7 +22,7 @@ Charts are provided:
 Although the `kiali-server` Helm Chart is actively maintained, it is only
 provided for convenience. The recommended method to install Kiali is by using
 the `kiali-operator` Helm Chart to install the Operator and then creating a
-Kiali CR to let the operator deploy Kiail.
+Kiali CR to let the operator deploy Kiali.
 
 Make sure you have the `helm` command available by following the
 [Helm installation docs](https://helm.sh/docs/intro/install/).
