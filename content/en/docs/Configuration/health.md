@@ -43,7 +43,7 @@ So, for example, if the rate of application errors is >= 0.1% Kiali will show `D
 
 ## Custom Configuration
 
-Custom health configuration is specified in the Kiali CR. To see the supported configuration syntax for `health_config` visit [Kiali CR](https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml).
+Custom health configuration is specified in the Kiali CR. To see the supported configuration syntax for `health_config` see the [Kiali CR Reference](/docs/configuration/kialis.kiali.io/#.spec.health_config).
 
 Kiali applies *the first matching rate configuration (namespace, kind, etc)* and calculates the status for each tolerance. The reported health will be the status with highest priority (see below).
 

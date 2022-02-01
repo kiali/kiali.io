@@ -205,7 +205,7 @@ When deploying Kiali with the Kiali operator, by default some namespaces are [ex
 
 In addition, you must ensure that Kiali has access to the namespaces you are interested in by setting the `spec.deployment.accessible_namespaces` field on the Kiali CR accordingly. Setting `spec.api.namespaces.exclude` alone does not give Kiali access to the namespaces. See the [Namespace Management]({{< ref "/docs/configuration/namespace-management" >}}) guide for more information.
 
-Kiali also caches namespaces by default for [10 seconds](https://github.com/kiali/kiali-operator/blob/v1.33/deploy/kiali/kiali_cr.yaml#L745-L749). If the cache is enabled, it might take up to the `spec.kubernetes_config.cache_token_namespace_duration` in order for a newly added namespace to be seen by Kiali.
+Kiali also [caches namespaces](/docs/configuration/kialis.kiali.io/#.spec.kubernetes_config.cache_token_namespace_duration) by default for [10 seconds](https://github.com/kiali/kiali-operator/blob/76a9eac29fb942f199db1d0233c5135049d1f1b1/crd-docs/cr/kiali.io_v1alpha1_kiali.yaml#L397). If the cache is enabled, it might take up to the `spec.kubernetes_config.cache_token_namespace_duration` in order for a newly added namespace to be seen by Kiali.
 
 
 ### Workload "is not found as" messages
@@ -214,7 +214,7 @@ Kiali queries *Deployment* ,*ReplicaSet*, *ReplicationController*, *DeploymentCo
 *Deployment*, *ReplicaSet* and *StatefulSet* are always queried, but _ReplicationController_, _DeploymentConfig_, _Job_ and _CronJobs_
 are excluded by default for performance reasons.
 
-To include them, update the list of [excluded_workloads](https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml#L687) from the Kiali config.
+To include them, update the list of [excluded_workloads](/docs/configuration/kialis.kiali.io/#.spec.kubernetes_config.excluded_workloads) from the Kiali config.
 
 ```yaml
 #    ---

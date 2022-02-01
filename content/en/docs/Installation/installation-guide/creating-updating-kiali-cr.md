@@ -4,7 +4,7 @@ description: "Creating and updating the Kiali CR."
 weight: 40
 ---
 
-The Kiali Operator watches the _Kiali Custom Resource_ (Kiali CR), a YAML file
+The Kiali Operator watches the _Kiali Custom Resource_ ([Kiali CR](/docs/configuration/kialis.kiali.io)), a YAML file
 that holds the deployment configuration. Creating, updating, or removing a
 Kiali CR will trigger the Kiali Operator to install, update, or remove Kiali.
 
@@ -69,23 +69,10 @@ Events:        <none>
 
 You may want to check the [example install page]({{< relref "example-install"
 >}}) to see some examples where the Kiali CR has a `spec` and to better
-understand its structre. Most available attributes of the Kiali CR are
+understand its structure. Most available attributes of the Kiali CR are
 described in the pages of the [Installation]({{< relref "../" >}}) and
 [Configuration]({{< relref "../../Configuration" >}}) sections of the
-documentation.
-
-Alternatively, a [Kiali CR YAML template
-file](https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml)
-is available in the Operator's GitHub repository. This template file contains
-and describes all available settings. You can download it and edit it being
-*very careful* to maintain proper formatting. Incorrect indentation is a common
-problem!
-
-{{% alert color="warning" %}}
-The link in the previous paragraph is for the example Kiali CR hosted in
-GitHub, in the `master` branch. Use GitHub's branch selector to see the example
-file that matches the Kiali Operator version that you are using.
-{{% /alert %}}
+documentation. For a complete list, see the [Kiali CR Reference](/docs/configuration/kialis.kiali.io).
 
 {{% alert color="danger" %}}
 It is important to understand the `spec.deployment.accessible_namespaces` setting in the CR. See the
@@ -100,3 +87,4 @@ the resource using the usual Kubernetes tools:
 $ kubectl edit kiali kiali -n istio-system
 ```
 
+To confirm your Kiali CR is valid, you can utilize the [Kiali CR validation tool](/docs/configuration/kialis.kiali.io/#validating-your-kiali-cr).

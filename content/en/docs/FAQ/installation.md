@@ -34,15 +34,8 @@ one Kiali CR for each Kiali Server you want the Operator to install and manage. 
 
 Most options are described in the pages of the [Installation]({{< relref "../Installation" >}}) and [Configuration]({{< relref "../Configuration" >}}) sections of the documentation.
 
-If you cannot find some configuration, check the [template of the Kiali CR](https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml) available in Kiali's GitHub repository, which briefly describes all available options.
-If you are using a specific version of the Operator, the Kiali CR that is valid for that version can be found in the version tag within the github repository
-(e.g. Operator v1.25.0 supported [these Kiali CR settings](https://github.com/kiali/kiali-operator/blob/v1.25.0/deploy/kiali/kiali_cr.yaml)).
-
-Note that that Kiali CR template is formatted in such a way that if you uncomment a line (by deleting the line's leading `#` character), that line's setting
-will be at the appropriate indentation level. This allows you to create an initial Kiali CR by simply uncommenting lines of the settings you want to define.
-The comments are also specifically laid out in such a way that each major top-level group of settings are in their own major comment section, and each value
-in each commented setting is the default value (so if you do not define that setting yourself, you will know what its default value is). 
-
+If you cannot find some configuration, check the [Kiali CR Reference](/docs/configuration/kialis.kiali.io), which briefly describes all available options along with an example CR and all default values.
+If you are using a specific version of the Operator prior to 1.46, the Kiali CR that is valid for that version can be found in the version tag within the github repository (e.g. Operator v1.25.0 supported [these Kiali CR settings](https://github.com/kiali/kiali-operator/blob/v1.25.0/deploy/kiali/kiali_cr.yaml)).
 
 ### How to configure some operator features at runtime {#operator-configuration}
 

@@ -197,7 +197,7 @@ external_services:
 # ...
 ```
 
-For more details on this configuration, such as Prometheus authentication options, [check this page](https://github.com/kiali/kiali-operator/blob/76242369299c35db350119516c6db6fd87f47822/deploy/kiali/kiali_cr.yaml#L452-L470).
+For more details on this configuration, such as Prometheus authentication options, [check the Kiali CR Reference page](/docs/configuration/kialis.kiali.io/#.spec.external_services.custom_dashboards).
 
 You must make sure that this Prometheus instance is correctly configured to scrape your application pods and generates labels that Kiali will understand. Please refer to
 [this documentation](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kubernetes_sd_config) to setup the `kubernetes_sd_config` section. As a reference,

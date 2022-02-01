@@ -38,7 +38,7 @@ And also type-specfic information.  For example:
 ![Detail overview service](/images/documentation/features/detail-overview-service.png)
 ![Detail overview workload](/images/documentation/features/detail-overview-workload.png)
 
-Both Workload and Service detail can be customized to some extent, by adding additional details supplied as annotations. This is done through the `additional_display_details` field in [the Kiali CR](https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml).
+Both Workload and Service detail can be customized to some extent, by adding additional details supplied as annotations. This is done through the `additional_display_details` field in [the Kiali CR](/docs/configuration/kialis.kiali.io/#.spec.additional_display_details).
 
 ![Detail overview additional details](/images/documentation/features/detail-overview-additional-details.png)
 

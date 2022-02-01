@@ -61,7 +61,7 @@ If for some reason the GRPC connection fails and you think it shouldn't (e.g. yo
 
 ### Why can't I see any external link to Jaeger?
 
-In addition to the embedded integration that Kiali provides with Jaeger, it is possible to show external links to the Jaeger UI. To do so, the external URL must be configured in the [Kiali CR](https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml).
+In addition to the embedded integration that Kiali provides with Jaeger, it is possible to show external links to the Jaeger UI. To do so, the external URL must be configured in the [Kiali CR](/docs/configuration/kialis.kiali.io/#.spec.external_services.tracing.url).
 
 ```yaml
     tracing:
@@ -82,7 +82,7 @@ When configured, this URL will be used to generate a couple of links to Jaeger w
 
 On the Application detail page, the Traces tab might redirect to Jaeger via an external link instead of showing the Kiali Tracing view. It happens when you have the `url` field configured, but not `in_cluster_url`, which means the Kiali backend will not be able to connect to Jaeger.
 
-To fix it, configure `in_cluster_url` in [Kiali CR](https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml).
+To fix it, configure `in_cluster_url` in the [Kiali CR](/docs/configuration/kialis.kiali.io/#.spec.external_services.tracing.in_cluster_url).
 
 
 ### Why do I see "Missing root span" for the root span of some span details on Traces tab?
