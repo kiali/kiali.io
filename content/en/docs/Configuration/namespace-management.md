@@ -91,7 +91,7 @@ api:
     label_selector: kiali-enabled=true
 ```
 
-For further information on how this `api.namespaces.label_selector` interacts with `spec.deployment.accessible_namespaces` read the [Kiali CR Reference documentation](/docs/configuration/kialis.kiali.io/#v1alpha1-.spec.api.namespaces.label_selector).
+For further information on how this `api.namespaces.label_selector` interacts with `spec.deployment.accessible_namespaces` read the [Kiali CR Reference documentation](/docs/configuration/kialis.kiali.io/#.spec.api.namespaces.label_selector).
 
 To label a namespace you can use the following command. For more information see the [Kubernete's official documentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels).
 
