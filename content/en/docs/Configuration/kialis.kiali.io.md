@@ -466,6 +466,7 @@ For additional help in using this validation tool, pass it the `--help` option.
 
 <div class="property depth-0">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec">.spec</h3>
 </div>
 <div class="property-body">
@@ -484,6 +485,7 @@ For additional help in using this validation tool, pass it the `--help` option.
 
 <div class="property depth-1">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.additional_display_details">.spec.additional_display_details</h3>
 </div>
 <div class="property-body">
@@ -509,6 +511,7 @@ For additional help in using this validation tool, pass it the `--help` option.
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.additional_display_details[*]">.spec.additional_display_details[*]</h3>
 </div>
 <div class="property-body">
@@ -522,6 +525,7 @@ For additional help in using this validation tool, pass it the `--help` option.
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.additional_display_details[*].annotation">.spec.additional_display_details[*].annotation</h3>
 </div>
 <div class="property-body">
@@ -540,6 +544,7 @@ For additional help in using this validation tool, pass it the `--help` option.
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.additional_display_details[*].icon_annotation">.spec.additional_display_details[*].icon_annotation</h3>
 </div>
 <div class="property-body">
@@ -558,6 +563,7 @@ For additional help in using this validation tool, pass it the `--help` option.
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.additional_display_details[*].title">.spec.additional_display_details[*].title</h3>
 </div>
 <div class="property-body">
@@ -576,6 +582,7 @@ For additional help in using this validation tool, pass it the `--help` option.
 
 <div class="property depth-1">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.api">.spec.api</h3>
 </div>
 <div class="property-body">
@@ -589,6 +596,7 @@ For additional help in using this validation tool, pass it the `--help` option.
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.api.namespaces">.spec.api.namespaces</h3>
 </div>
 <div class="property-body">
@@ -607,6 +615,7 @@ For additional help in using this validation tool, pass it the `--help` option.
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.api.namespaces.exclude">.spec.api.namespaces.exclude</h3>
 </div>
 <div class="property-body">
@@ -625,6 +634,7 @@ For additional help in using this validation tool, pass it the `--help` option.
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.api.namespaces.exclude[*]">.spec.api.namespaces.exclude[*]</h3>
 </div>
 <div class="property-body">
@@ -638,6 +648,7 @@ For additional help in using this validation tool, pass it the `--help` option.
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.api.namespaces.label_selector">.spec.api.namespaces.label_selector</h3>
 </div>
 <div class="property-body">
@@ -668,6 +679,7 @@ is the namespace where Kiali is to be installed.</p>
 
 <div class="property depth-1">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.auth">.spec.auth</h3>
 </div>
 <div class="property-body">
@@ -681,6 +693,7 @@ is the namespace where Kiali is to be installed.</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.auth.openid">.spec.auth.openid</h3>
 </div>
 <div class="property-body">
@@ -699,6 +712,7 @@ is the namespace where Kiali is to be installed.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.auth.openid.additional_request_params">.spec.auth.openid.additional_request_params</h3>
 </div>
 <div class="property-body">
@@ -712,6 +726,7 @@ is the namespace where Kiali is to be installed.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.auth.openid.allowed_domains">.spec.auth.openid.allowed_domains</h3>
 </div>
 <div class="property-body">
@@ -725,6 +740,7 @@ is the namespace where Kiali is to be installed.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.auth.openid.allowed_domains[*]">.spec.auth.openid.allowed_domains[*]</h3>
 </div>
 <div class="property-body">
@@ -738,6 +754,7 @@ is the namespace where Kiali is to be installed.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.auth.openid.api_proxy">.spec.auth.openid.api_proxy</h3>
 </div>
 <div class="property-body">
@@ -751,6 +768,7 @@ is the namespace where Kiali is to be installed.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.auth.openid.api_proxy_ca_data">.spec.auth.openid.api_proxy_ca_data</h3>
 </div>
 <div class="property-body">
@@ -764,6 +782,7 @@ is the namespace where Kiali is to be installed.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.auth.openid.api_token">.spec.auth.openid.api_token</h3>
 </div>
 <div class="property-body">
@@ -777,6 +796,7 @@ is the namespace where Kiali is to be installed.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.auth.openid.authentication_timeout">.spec.auth.openid.authentication_timeout</h3>
 </div>
 <div class="property-body">
@@ -790,6 +810,7 @@ is the namespace where Kiali is to be installed.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.auth.openid.authorization_endpoint">.spec.auth.openid.authorization_endpoint</h3>
 </div>
 <div class="property-body">
@@ -803,6 +824,7 @@ is the namespace where Kiali is to be installed.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.auth.openid.client_id">.spec.auth.openid.client_id</h3>
 </div>
 <div class="property-body">
@@ -816,6 +838,7 @@ is the namespace where Kiali is to be installed.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.auth.openid.disable_rbac">.spec.auth.openid.disable_rbac</h3>
 </div>
 <div class="property-body">
@@ -829,6 +852,7 @@ is the namespace where Kiali is to be installed.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.auth.openid.http_proxy">.spec.auth.openid.http_proxy</h3>
 </div>
 <div class="property-body">
@@ -842,6 +866,7 @@ is the namespace where Kiali is to be installed.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.auth.openid.https_proxy">.spec.auth.openid.https_proxy</h3>
 </div>
 <div class="property-body">
@@ -855,6 +880,7 @@ is the namespace where Kiali is to be installed.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.auth.openid.insecure_skip_verify_tls">.spec.auth.openid.insecure_skip_verify_tls</h3>
 </div>
 <div class="property-body">
@@ -868,6 +894,7 @@ is the namespace where Kiali is to be installed.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.auth.openid.issuer_uri">.spec.auth.openid.issuer_uri</h3>
 </div>
 <div class="property-body">
@@ -881,6 +908,7 @@ is the namespace where Kiali is to be installed.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.auth.openid.scopes">.spec.auth.openid.scopes</h3>
 </div>
 <div class="property-body">
@@ -894,6 +922,7 @@ is the namespace where Kiali is to be installed.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.auth.openid.scopes[*]">.spec.auth.openid.scopes[*]</h3>
 </div>
 <div class="property-body">
@@ -907,6 +936,7 @@ is the namespace where Kiali is to be installed.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.auth.openid.username_claim">.spec.auth.openid.username_claim</h3>
 </div>
 <div class="property-body">
@@ -920,6 +950,7 @@ is the namespace where Kiali is to be installed.</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.auth.openshift">.spec.auth.openshift</h3>
 </div>
 <div class="property-body">
@@ -938,6 +969,7 @@ is the namespace where Kiali is to be installed.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.auth.openshift.client_id_prefix">.spec.auth.openshift.client_id_prefix</h3>
 </div>
 <div class="property-body">
@@ -956,6 +988,7 @@ is the namespace where Kiali is to be installed.</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.auth.strategy">.spec.auth.strategy</h3>
 </div>
 <div class="property-body">
@@ -990,6 +1023,7 @@ Authorization header and potentially impersonation headers.</li>
 
 <div class="property depth-1">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.custom_dashboards">.spec.custom_dashboards</h3>
 </div>
 <div class="property-body">
@@ -1031,6 +1065,7 @@ empty dashboard.</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.custom_dashboards[*]">.spec.custom_dashboards[*]</h3>
 </div>
 <div class="property-body">
@@ -1044,6 +1079,7 @@ empty dashboard.</p>
 
 <div class="property depth-1">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment">.spec.deployment</h3>
 </div>
 <div class="property-body">
@@ -1057,6 +1093,7 @@ empty dashboard.</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.accessible_namespaces">.spec.deployment.accessible_namespaces</h3>
 </div>
 <div class="property-body">
@@ -1075,6 +1112,7 @@ empty dashboard.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.accessible_namespaces[*]">.spec.deployment.accessible_namespaces[*]</h3>
 </div>
 <div class="property-body">
@@ -1088,6 +1126,7 @@ empty dashboard.</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.additional_service_yaml">.spec.deployment.additional_service_yaml</h3>
 </div>
 <div class="property-body">
@@ -1106,6 +1145,7 @@ empty dashboard.</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.affinity">.spec.deployment.affinity</h3>
 </div>
 <div class="property-body">
@@ -1124,6 +1164,7 @@ empty dashboard.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.affinity.node">.spec.deployment.affinity.node</h3>
 </div>
 <div class="property-body">
@@ -1137,6 +1178,7 @@ empty dashboard.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.affinity.pod">.spec.deployment.affinity.pod</h3>
 </div>
 <div class="property-body">
@@ -1150,6 +1192,7 @@ empty dashboard.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.affinity.pod_anti">.spec.deployment.affinity.pod_anti</h3>
 </div>
 <div class="property-body">
@@ -1163,6 +1206,7 @@ empty dashboard.</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.custom_secrets">.spec.deployment.custom_secrets</h3>
 </div>
 <div class="property-body">
@@ -1196,6 +1240,7 @@ An example configuration is,</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.custom_secrets[*]">.spec.deployment.custom_secrets[*]</h3>
 </div>
 <div class="property-body">
@@ -1209,6 +1254,7 @@ An example configuration is,</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.custom_secrets[*].mount">.spec.deployment.custom_secrets[*].mount</h3>
 </div>
 <div class="property-body">
@@ -1227,6 +1273,7 @@ An example configuration is,</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.custom_secrets[*].name">.spec.deployment.custom_secrets[*].name</h3>
 </div>
 <div class="property-body">
@@ -1245,6 +1292,7 @@ An example configuration is,</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.custom_secrets[*].optional">.spec.deployment.custom_secrets[*].optional</h3>
 </div>
 <div class="property-body">
@@ -1263,6 +1311,7 @@ An example configuration is,</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.host_aliases">.spec.deployment.host_aliases</h3>
 </div>
 <div class="property-body">
@@ -1292,6 +1341,7 @@ A typical way to configure this setting is,</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.host_aliases[*]">.spec.deployment.host_aliases[*]</h3>
 </div>
 <div class="property-body">
@@ -1305,6 +1355,7 @@ A typical way to configure this setting is,</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.host_aliases[*].hostnames">.spec.deployment.host_aliases[*].hostnames</h3>
 </div>
 <div class="property-body">
@@ -1318,6 +1369,7 @@ A typical way to configure this setting is,</p>
 
 <div class="property depth-5">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.host_aliases[*].hostnames[*]">.spec.deployment.host_aliases[*].hostnames[*]</h3>
 </div>
 <div class="property-body">
@@ -1331,6 +1383,7 @@ A typical way to configure this setting is,</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.host_aliases[*].ip">.spec.deployment.host_aliases[*].ip</h3>
 </div>
 <div class="property-body">
@@ -1344,6 +1397,7 @@ A typical way to configure this setting is,</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.hpa">.spec.deployment.hpa</h3>
 </div>
 <div class="property-body">
@@ -1371,6 +1425,7 @@ A typical way to configure HPA for Kiali is,</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.hpa.api_version">.spec.deployment.hpa.api_version</h3>
 </div>
 <div class="property-body">
@@ -1389,6 +1444,7 @@ A typical way to configure HPA for Kiali is,</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.hpa.spec">.spec.deployment.hpa.spec</h3>
 </div>
 <div class="property-body">
@@ -1407,6 +1463,7 @@ A typical way to configure HPA for Kiali is,</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.image_digest">.spec.deployment.image_digest</h3>
 </div>
 <div class="property-body">
@@ -1425,6 +1482,7 @@ A typical way to configure HPA for Kiali is,</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.image_name">.spec.deployment.image_name</h3>
 </div>
 <div class="property-body">
@@ -1443,6 +1501,7 @@ A typical way to configure HPA for Kiali is,</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.image_pull_policy">.spec.deployment.image_pull_policy</h3>
 </div>
 <div class="property-body">
@@ -1461,6 +1520,7 @@ A typical way to configure HPA for Kiali is,</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.image_pull_secrets">.spec.deployment.image_pull_secrets</h3>
 </div>
 <div class="property-body">
@@ -1479,6 +1539,7 @@ A typical way to configure HPA for Kiali is,</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.image_pull_secrets[*]">.spec.deployment.image_pull_secrets[*]</h3>
 </div>
 <div class="property-body">
@@ -1492,6 +1553,7 @@ A typical way to configure HPA for Kiali is,</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.image_version">.spec.deployment.image_version</h3>
 </div>
 <div class="property-body">
@@ -1526,6 +1588,7 @@ operator itself was configured.</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.ingress">.spec.deployment.ingress</h3>
 </div>
 <div class="property-body">
@@ -1544,6 +1607,7 @@ operator itself was configured.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.ingress.additional_labels">.spec.deployment.ingress.additional_labels</h3>
 </div>
 <div class="property-body">
@@ -1562,6 +1626,7 @@ operator itself was configured.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.ingress.class_name">.spec.deployment.ingress.class_name</h3>
 </div>
 <div class="property-body">
@@ -1580,6 +1645,7 @@ operator itself was configured.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.ingress.enabled">.spec.deployment.ingress.enabled</h3>
 </div>
 <div class="property-body">
@@ -1598,6 +1664,7 @@ operator itself was configured.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.ingress.override_yaml">.spec.deployment.ingress.override_yaml</h3>
 </div>
 <div class="property-body">
@@ -1645,6 +1712,7 @@ Example,</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.ingress.override_yaml.metadata">.spec.deployment.ingress.override_yaml.metadata</h3>
 </div>
 <div class="property-body">
@@ -1658,6 +1726,7 @@ Example,</p>
 
 <div class="property depth-5">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.ingress.override_yaml.metadata.annotations">.spec.deployment.ingress.override_yaml.metadata.annotations</h3>
 </div>
 <div class="property-body">
@@ -1671,6 +1740,7 @@ Example,</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.ingress.override_yaml.spec">.spec.deployment.ingress.override_yaml.spec</h3>
 </div>
 <div class="property-body">
@@ -1684,6 +1754,7 @@ Example,</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.instance_name">.spec.deployment.instance_name</h3>
 </div>
 <div class="property-body">
@@ -1702,6 +1773,7 @@ Example,</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.logger">.spec.deployment.logger</h3>
 </div>
 <div class="property-body">
@@ -1720,6 +1792,7 @@ Example,</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.logger.log_format">.spec.deployment.logger.log_format</h3>
 </div>
 <div class="property-body">
@@ -1738,6 +1811,7 @@ Example,</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.logger.log_level">.spec.deployment.logger.log_level</h3>
 </div>
 <div class="property-body">
@@ -1756,6 +1830,7 @@ Example,</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.logger.sampler_rate">.spec.deployment.logger.sampler_rate</h3>
 </div>
 <div class="property-body">
@@ -1774,6 +1849,7 @@ Example,</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.logger.time_field_format">.spec.deployment.logger.time_field_format</h3>
 </div>
 <div class="property-body">
@@ -1792,6 +1868,7 @@ Example,</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.namespace">.spec.deployment.namespace</h3>
 </div>
 <div class="property-body">
@@ -1810,6 +1887,7 @@ Example,</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.node_selector">.spec.deployment.node_selector</h3>
 </div>
 <div class="property-body">
@@ -1828,6 +1906,7 @@ Example,</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.pod_annotations">.spec.deployment.pod_annotations</h3>
 </div>
 <div class="property-body">
@@ -1846,6 +1925,7 @@ Example,</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.pod_labels">.spec.deployment.pod_labels</h3>
 </div>
 <div class="property-body">
@@ -1868,6 +1948,7 @@ An example use for this setting is to inject an Istio sidecar such as,</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.priority_class_name">.spec.deployment.priority_class_name</h3>
 </div>
 <div class="property-body">
@@ -1886,6 +1967,7 @@ An example use for this setting is to inject an Istio sidecar such as,</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.replicas">.spec.deployment.replicas</h3>
 </div>
 <div class="property-body">
@@ -1904,6 +1986,7 @@ An example use for this setting is to inject an Istio sidecar such as,</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.resources">.spec.deployment.resources</h3>
 </div>
 <div class="property-body">
@@ -1931,6 +2014,7 @@ limits:
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.secret_name">.spec.deployment.secret_name</h3>
 </div>
 <div class="property-body">
@@ -1949,6 +2033,7 @@ limits:
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.service_annotations">.spec.deployment.service_annotations</h3>
 </div>
 <div class="property-body">
@@ -1967,6 +2052,7 @@ limits:
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.service_type">.spec.deployment.service_type</h3>
 </div>
 <div class="property-body">
@@ -1985,6 +2071,7 @@ limits:
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.tolerations">.spec.deployment.tolerations</h3>
 </div>
 <div class="property-body">
@@ -2003,6 +2090,7 @@ limits:
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.tolerations[*]">.spec.deployment.tolerations[*]</h3>
 </div>
 <div class="property-body">
@@ -2016,6 +2104,7 @@ limits:
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.verbose_mode">.spec.deployment.verbose_mode</h3>
 </div>
 <div class="property-body">
@@ -2034,6 +2123,7 @@ limits:
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.version_label">.spec.deployment.version_label</h3>
 </div>
 <div class="property-body">
@@ -2060,6 +2150,7 @@ When empty, its default will be determined as follows,</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.deployment.view_only_mode">.spec.deployment.view_only_mode</h3>
 </div>
 <div class="property-body">
@@ -2078,6 +2169,7 @@ When empty, its default will be determined as follows,</p>
 
 <div class="property depth-1">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services">.spec.external_services</h3>
 </div>
 <div class="property-body">
@@ -2111,6 +2203,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.custom_dashboards">.spec.external_services.custom_dashboards</h3>
 </div>
 <div class="property-body">
@@ -2129,6 +2222,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.custom_dashboards.discovery_auto_threshold">.spec.external_services.custom_dashboards.discovery_auto_threshold</h3>
 </div>
 <div class="property-body">
@@ -2147,6 +2241,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.custom_dashboards.discovery_enabled">.spec.external_services.custom_dashboards.discovery_enabled</h3>
 </div>
 <div class="property-body">
@@ -2165,6 +2260,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.custom_dashboards.enabled">.spec.external_services.custom_dashboards.enabled</h3>
 </div>
 <div class="property-body">
@@ -2183,6 +2279,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.custom_dashboards.is_core">.spec.external_services.custom_dashboards.is_core</h3>
 </div>
 <div class="property-body">
@@ -2201,6 +2298,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.custom_dashboards.namespace_label">.spec.external_services.custom_dashboards.namespace_label</h3>
 </div>
 <div class="property-body">
@@ -2219,6 +2317,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.custom_dashboards.prometheus">.spec.external_services.custom_dashboards.prometheus</h3>
 </div>
 <div class="property-body">
@@ -2237,6 +2336,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.custom_dashboards.prometheus.auth">.spec.external_services.custom_dashboards.prometheus.auth</h3>
 </div>
 <div class="property-body">
@@ -2255,6 +2355,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-5">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.custom_dashboards.prometheus.auth.ca_file">.spec.external_services.custom_dashboards.prometheus.auth.ca_file</h3>
 </div>
 <div class="property-body">
@@ -2273,6 +2374,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-5">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.custom_dashboards.prometheus.auth.insecure_skip_verify">.spec.external_services.custom_dashboards.prometheus.auth.insecure_skip_verify</h3>
 </div>
 <div class="property-body">
@@ -2291,6 +2393,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-5">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.custom_dashboards.prometheus.auth.password">.spec.external_services.custom_dashboards.prometheus.auth.password</h3>
 </div>
 <div class="property-body">
@@ -2309,6 +2412,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-5">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.custom_dashboards.prometheus.auth.token">.spec.external_services.custom_dashboards.prometheus.auth.token</h3>
 </div>
 <div class="property-body">
@@ -2327,6 +2431,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-5">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.custom_dashboards.prometheus.auth.type">.spec.external_services.custom_dashboards.prometheus.auth.type</h3>
 </div>
 <div class="property-body">
@@ -2345,6 +2450,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-5">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.custom_dashboards.prometheus.auth.use_kiali_token">.spec.external_services.custom_dashboards.prometheus.auth.use_kiali_token</h3>
 </div>
 <div class="property-body">
@@ -2363,6 +2469,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-5">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.custom_dashboards.prometheus.auth.username">.spec.external_services.custom_dashboards.prometheus.auth.username</h3>
 </div>
 <div class="property-body">
@@ -2381,6 +2488,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.custom_dashboards.prometheus.cache_duration">.spec.external_services.custom_dashboards.prometheus.cache_duration</h3>
 </div>
 <div class="property-body">
@@ -2399,6 +2507,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.custom_dashboards.prometheus.cache_enabled">.spec.external_services.custom_dashboards.prometheus.cache_enabled</h3>
 </div>
 <div class="property-body">
@@ -2417,6 +2526,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.custom_dashboards.prometheus.cache_expiration">.spec.external_services.custom_dashboards.prometheus.cache_expiration</h3>
 </div>
 <div class="property-body">
@@ -2435,6 +2545,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.custom_dashboards.prometheus.custom_headers">.spec.external_services.custom_dashboards.prometheus.custom_headers</h3>
 </div>
 <div class="property-body">
@@ -2453,6 +2564,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.custom_dashboards.prometheus.health_check_url">.spec.external_services.custom_dashboards.prometheus.health_check_url</h3>
 </div>
 <div class="property-body">
@@ -2471,6 +2583,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.custom_dashboards.prometheus.is_core">.spec.external_services.custom_dashboards.prometheus.is_core</h3>
 </div>
 <div class="property-body">
@@ -2489,6 +2602,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.custom_dashboards.prometheus.thanos_proxy">.spec.external_services.custom_dashboards.prometheus.thanos_proxy</h3>
 </div>
 <div class="property-body">
@@ -2507,6 +2621,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-5">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.custom_dashboards.prometheus.thanos_proxy.enabled">.spec.external_services.custom_dashboards.prometheus.thanos_proxy.enabled</h3>
 </div>
 <div class="property-body">
@@ -2525,6 +2640,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-5">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.custom_dashboards.prometheus.thanos_proxy.retention_period">.spec.external_services.custom_dashboards.prometheus.thanos_proxy.retention_period</h3>
 </div>
 <div class="property-body">
@@ -2543,6 +2659,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-5">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.custom_dashboards.prometheus.thanos_proxy.scrape_interval">.spec.external_services.custom_dashboards.prometheus.thanos_proxy.scrape_interval</h3>
 </div>
 <div class="property-body">
@@ -2561,6 +2678,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.custom_dashboards.prometheus.url">.spec.external_services.custom_dashboards.prometheus.url</h3>
 </div>
 <div class="property-body">
@@ -2579,6 +2697,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.grafana">.spec.external_services.grafana</h3>
 </div>
 <div class="property-body">
@@ -2597,6 +2716,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.grafana.auth">.spec.external_services.grafana.auth</h3>
 </div>
 <div class="property-body">
@@ -2615,6 +2735,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.grafana.auth.ca_file">.spec.external_services.grafana.auth.ca_file</h3>
 </div>
 <div class="property-body">
@@ -2633,6 +2754,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.grafana.auth.insecure_skip_verify">.spec.external_services.grafana.auth.insecure_skip_verify</h3>
 </div>
 <div class="property-body">
@@ -2651,6 +2773,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.grafana.auth.password">.spec.external_services.grafana.auth.password</h3>
 </div>
 <div class="property-body">
@@ -2669,6 +2792,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.grafana.auth.token">.spec.external_services.grafana.auth.token</h3>
 </div>
 <div class="property-body">
@@ -2687,6 +2811,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.grafana.auth.type">.spec.external_services.grafana.auth.type</h3>
 </div>
 <div class="property-body">
@@ -2705,6 +2830,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.grafana.auth.use_kiali_token">.spec.external_services.grafana.auth.use_kiali_token</h3>
 </div>
 <div class="property-body">
@@ -2723,6 +2849,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.grafana.auth.username">.spec.external_services.grafana.auth.username</h3>
 </div>
 <div class="property-body">
@@ -2741,6 +2868,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.grafana.dashboards">.spec.external_services.grafana.dashboards</h3>
 </div>
 <div class="property-body">
@@ -2759,6 +2887,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.grafana.dashboards[*]">.spec.external_services.grafana.dashboards[*]</h3>
 </div>
 <div class="property-body">
@@ -2772,6 +2901,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-5">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.grafana.dashboards[*].name">.spec.external_services.grafana.dashboards[*].name</h3>
 </div>
 <div class="property-body">
@@ -2790,6 +2920,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-5">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.grafana.dashboards[*].variables">.spec.external_services.grafana.dashboards[*].variables</h3>
 </div>
 <div class="property-body">
@@ -2803,6 +2934,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-6">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.grafana.dashboards[*].variables.app">.spec.external_services.grafana.dashboards[*].variables.app</h3>
 </div>
 <div class="property-body">
@@ -2821,6 +2953,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-6">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.grafana.dashboards[*].variables.namespace">.spec.external_services.grafana.dashboards[*].variables.namespace</h3>
 </div>
 <div class="property-body">
@@ -2839,6 +2972,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-6">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.grafana.dashboards[*].variables.service">.spec.external_services.grafana.dashboards[*].variables.service</h3>
 </div>
 <div class="property-body">
@@ -2857,6 +2991,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-6">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.grafana.dashboards[*].variables.workload">.spec.external_services.grafana.dashboards[*].variables.workload</h3>
 </div>
 <div class="property-body">
@@ -2875,6 +3010,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.grafana.enabled">.spec.external_services.grafana.enabled</h3>
 </div>
 <div class="property-body">
@@ -2893,6 +3029,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.grafana.health_check_url">.spec.external_services.grafana.health_check_url</h3>
 </div>
 <div class="property-body">
@@ -2911,6 +3048,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.grafana.in_cluster_url">.spec.external_services.grafana.in_cluster_url</h3>
 </div>
 <div class="property-body">
@@ -2929,6 +3067,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.grafana.is_core">.spec.external_services.grafana.is_core</h3>
 </div>
 <div class="property-body">
@@ -2947,6 +3086,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.grafana.url">.spec.external_services.grafana.url</h3>
 </div>
 <div class="property-body">
@@ -2965,6 +3105,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.istio">.spec.external_services.istio</h3>
 </div>
 <div class="property-body">
@@ -2983,6 +3124,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.istio.component_status">.spec.external_services.istio.component_status</h3>
 </div>
 <div class="property-body">
@@ -3001,6 +3143,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.istio.component_status.components">.spec.external_services.istio.component_status.components</h3>
 </div>
 <div class="property-body">
@@ -3019,6 +3162,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-5">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.istio.component_status.components[*]">.spec.external_services.istio.component_status.components[*]</h3>
 </div>
 <div class="property-body">
@@ -3032,6 +3176,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-6">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.istio.component_status.components[*].app_label">.spec.external_services.istio.component_status.components[*].app_label</h3>
 </div>
 <div class="property-body">
@@ -3050,6 +3195,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-6">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.istio.component_status.components[*].is_core">.spec.external_services.istio.component_status.components[*].is_core</h3>
 </div>
 <div class="property-body">
@@ -3068,6 +3214,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-6">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.istio.component_status.components[*].is_proxy">.spec.external_services.istio.component_status.components[*].is_proxy</h3>
 </div>
 <div class="property-body">
@@ -3086,6 +3233,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-6">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.istio.component_status.components[*].namespace">.spec.external_services.istio.component_status.components[*].namespace</h3>
 </div>
 <div class="property-body">
@@ -3104,6 +3252,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.istio.component_status.enabled">.spec.external_services.istio.component_status.enabled</h3>
 </div>
 <div class="property-body">
@@ -3122,6 +3271,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.istio.config_map_name">.spec.external_services.istio.config_map_name</h3>
 </div>
 <div class="property-body">
@@ -3140,6 +3290,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.istio.envoy_admin_local_port">.spec.external_services.istio.envoy_admin_local_port</h3>
 </div>
 <div class="property-body">
@@ -3158,6 +3309,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.istio.istio_canary_revision">.spec.external_services.istio.istio_canary_revision</h3>
 </div>
 <div class="property-body">
@@ -3176,6 +3328,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.istio.istio_canary_revision.current">.spec.external_services.istio.istio_canary_revision.current</h3>
 </div>
 <div class="property-body">
@@ -3194,6 +3347,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.istio.istio_canary_revision.upgrade">.spec.external_services.istio.istio_canary_revision.upgrade</h3>
 </div>
 <div class="property-body">
@@ -3212,6 +3366,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.istio.istio_identity_domain">.spec.external_services.istio.istio_identity_domain</h3>
 </div>
 <div class="property-body">
@@ -3230,6 +3385,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.istio.istio_injection_annotation">.spec.external_services.istio.istio_injection_annotation</h3>
 </div>
 <div class="property-body">
@@ -3248,6 +3404,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.istio.istio_sidecar_annotation">.spec.external_services.istio.istio_sidecar_annotation</h3>
 </div>
 <div class="property-body">
@@ -3266,6 +3423,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.istio.istio_sidecar_injector_config_map_name">.spec.external_services.istio.istio_sidecar_injector_config_map_name</h3>
 </div>
 <div class="property-body">
@@ -3284,6 +3442,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.istio.istiod_deployment_name">.spec.external_services.istio.istiod_deployment_name</h3>
 </div>
 <div class="property-body">
@@ -3302,6 +3461,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.istio.istiod_pod_monitoring_port">.spec.external_services.istio.istiod_pod_monitoring_port</h3>
 </div>
 <div class="property-body">
@@ -3320,6 +3480,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.istio.root_namespace">.spec.external_services.istio.root_namespace</h3>
 </div>
 <div class="property-body">
@@ -3338,6 +3499,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.istio.url_service_version">.spec.external_services.istio.url_service_version</h3>
 </div>
 <div class="property-body">
@@ -3356,6 +3518,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.prometheus">.spec.external_services.prometheus</h3>
 </div>
 <div class="property-body">
@@ -3374,6 +3537,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.prometheus.auth">.spec.external_services.prometheus.auth</h3>
 </div>
 <div class="property-body">
@@ -3392,6 +3556,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.prometheus.auth.ca_file">.spec.external_services.prometheus.auth.ca_file</h3>
 </div>
 <div class="property-body">
@@ -3410,6 +3575,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.prometheus.auth.insecure_skip_verify">.spec.external_services.prometheus.auth.insecure_skip_verify</h3>
 </div>
 <div class="property-body">
@@ -3428,6 +3594,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.prometheus.auth.password">.spec.external_services.prometheus.auth.password</h3>
 </div>
 <div class="property-body">
@@ -3446,6 +3613,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.prometheus.auth.token">.spec.external_services.prometheus.auth.token</h3>
 </div>
 <div class="property-body">
@@ -3464,6 +3632,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.prometheus.auth.type">.spec.external_services.prometheus.auth.type</h3>
 </div>
 <div class="property-body">
@@ -3482,6 +3651,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.prometheus.auth.use_kiali_token">.spec.external_services.prometheus.auth.use_kiali_token</h3>
 </div>
 <div class="property-body">
@@ -3500,6 +3670,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.prometheus.auth.username">.spec.external_services.prometheus.auth.username</h3>
 </div>
 <div class="property-body">
@@ -3518,6 +3689,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.prometheus.cache_duration">.spec.external_services.prometheus.cache_duration</h3>
 </div>
 <div class="property-body">
@@ -3536,6 +3708,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.prometheus.cache_enabled">.spec.external_services.prometheus.cache_enabled</h3>
 </div>
 <div class="property-body">
@@ -3554,6 +3727,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.prometheus.cache_expiration">.spec.external_services.prometheus.cache_expiration</h3>
 </div>
 <div class="property-body">
@@ -3572,6 +3746,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.prometheus.custom_headers">.spec.external_services.prometheus.custom_headers</h3>
 </div>
 <div class="property-body">
@@ -3590,6 +3765,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.prometheus.health_check_url">.spec.external_services.prometheus.health_check_url</h3>
 </div>
 <div class="property-body">
@@ -3608,6 +3784,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.prometheus.is_core">.spec.external_services.prometheus.is_core</h3>
 </div>
 <div class="property-body">
@@ -3626,6 +3803,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.prometheus.thanos_proxy">.spec.external_services.prometheus.thanos_proxy</h3>
 </div>
 <div class="property-body">
@@ -3644,6 +3822,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.prometheus.thanos_proxy.enabled">.spec.external_services.prometheus.thanos_proxy.enabled</h3>
 </div>
 <div class="property-body">
@@ -3662,6 +3841,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.prometheus.thanos_proxy.retention_period">.spec.external_services.prometheus.thanos_proxy.retention_period</h3>
 </div>
 <div class="property-body">
@@ -3680,6 +3860,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.prometheus.thanos_proxy.scrape_interval">.spec.external_services.prometheus.thanos_proxy.scrape_interval</h3>
 </div>
 <div class="property-body">
@@ -3698,6 +3879,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.prometheus.url">.spec.external_services.prometheus.url</h3>
 </div>
 <div class="property-body">
@@ -3716,6 +3898,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.tracing">.spec.external_services.tracing</h3>
 </div>
 <div class="property-body">
@@ -3734,6 +3917,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.tracing.auth">.spec.external_services.tracing.auth</h3>
 </div>
 <div class="property-body">
@@ -3752,6 +3936,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.tracing.auth.ca_file">.spec.external_services.tracing.auth.ca_file</h3>
 </div>
 <div class="property-body">
@@ -3770,6 +3955,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.tracing.auth.insecure_skip_verify">.spec.external_services.tracing.auth.insecure_skip_verify</h3>
 </div>
 <div class="property-body">
@@ -3788,6 +3974,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.tracing.auth.password">.spec.external_services.tracing.auth.password</h3>
 </div>
 <div class="property-body">
@@ -3806,6 +3993,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.tracing.auth.token">.spec.external_services.tracing.auth.token</h3>
 </div>
 <div class="property-body">
@@ -3824,6 +4012,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.tracing.auth.type">.spec.external_services.tracing.auth.type</h3>
 </div>
 <div class="property-body">
@@ -3842,6 +4031,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.tracing.auth.use_kiali_token">.spec.external_services.tracing.auth.use_kiali_token</h3>
 </div>
 <div class="property-body">
@@ -3860,6 +4050,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.tracing.auth.username">.spec.external_services.tracing.auth.username</h3>
 </div>
 <div class="property-body">
@@ -3878,6 +4069,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.tracing.enabled">.spec.external_services.tracing.enabled</h3>
 </div>
 <div class="property-body">
@@ -3896,6 +4088,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.tracing.in_cluster_url">.spec.external_services.tracing.in_cluster_url</h3>
 </div>
 <div class="property-body">
@@ -3914,6 +4107,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.tracing.is_core">.spec.external_services.tracing.is_core</h3>
 </div>
 <div class="property-body">
@@ -3932,6 +4126,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.tracing.namespace_selector">.spec.external_services.tracing.namespace_selector</h3>
 </div>
 <div class="property-body">
@@ -3950,6 +4145,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.tracing.url">.spec.external_services.tracing.url</h3>
 </div>
 <div class="property-body">
@@ -3968,6 +4164,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.tracing.use_grpc">.spec.external_services.tracing.use_grpc</h3>
 </div>
 <div class="property-body">
@@ -3986,6 +4183,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.tracing.whitelist_istio_system">.spec.external_services.tracing.whitelist_istio_system</h3>
 </div>
 <div class="property-body">
@@ -4004,6 +4202,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.external_services.tracing.whitelist_istio_system[*]">.spec.external_services.tracing.whitelist_istio_system[*]</h3>
 </div>
 <div class="property-body">
@@ -4022,6 +4221,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-1">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.health_config">.spec.health_config</h3>
 </div>
 <div class="property-body">
@@ -4040,6 +4240,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.health_config.rate">.spec.health_config.rate</h3>
 </div>
 <div class="property-body">
@@ -4053,6 +4254,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.health_config.rate[*]">.spec.health_config.rate[*]</h3>
 </div>
 <div class="property-body">
@@ -4066,6 +4268,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.health_config.rate[*].kind">.spec.health_config.rate[*].kind</h3>
 </div>
 <div class="property-body">
@@ -4084,6 +4287,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.health_config.rate[*].name">.spec.health_config.rate[*].name</h3>
 </div>
 <div class="property-body">
@@ -4102,6 +4306,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.health_config.rate[*].namespace">.spec.health_config.rate[*].namespace</h3>
 </div>
 <div class="property-body">
@@ -4120,6 +4325,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.health_config.rate[*].tolerance">.spec.health_config.rate[*].tolerance</h3>
 </div>
 <div class="property-body">
@@ -4138,6 +4344,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-5">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.health_config.rate[*].tolerance[*]">.spec.health_config.rate[*].tolerance[*]</h3>
 </div>
 <div class="property-body">
@@ -4151,6 +4358,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-6">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.health_config.rate[*].tolerance[*].code">.spec.health_config.rate[*].tolerance[*].code</h3>
 </div>
 <div class="property-body">
@@ -4169,6 +4377,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-6">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.health_config.rate[*].tolerance[*].degraded">.spec.health_config.rate[*].tolerance[*].degraded</h3>
 </div>
 <div class="property-body">
@@ -4187,6 +4396,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-6">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.health_config.rate[*].tolerance[*].direction">.spec.health_config.rate[*].tolerance[*].direction</h3>
 </div>
 <div class="property-body">
@@ -4205,6 +4415,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-6">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.health_config.rate[*].tolerance[*].failure">.spec.health_config.rate[*].tolerance[*].failure</h3>
 </div>
 <div class="property-body">
@@ -4223,6 +4434,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-6">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.health_config.rate[*].tolerance[*].protocol">.spec.health_config.rate[*].tolerance[*].protocol</h3>
 </div>
 <div class="property-body">
@@ -4241,6 +4453,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-1">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.identity">.spec.identity</h3>
 </div>
 <div class="property-body">
@@ -4259,6 +4472,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.identity.cert_file">.spec.identity.cert_file</h3>
 </div>
 <div class="property-body">
@@ -4277,6 +4491,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.identity.private_key_file">.spec.identity.private_key_file</h3>
 </div>
 <div class="property-body">
@@ -4295,6 +4510,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-1">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.installation_tag">.spec.installation_tag</h3>
 </div>
 <div class="property-body">
@@ -4313,6 +4529,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-1">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.istio_labels">.spec.istio_labels</h3>
 </div>
 <div class="property-body">
@@ -4331,6 +4548,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.istio_labels.app_label_name">.spec.istio_labels.app_label_name</h3>
 </div>
 <div class="property-body">
@@ -4349,6 +4567,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.istio_labels.injection_label_name">.spec.istio_labels.injection_label_name</h3>
 </div>
 <div class="property-body">
@@ -4367,6 +4586,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.istio_labels.injection_label_rev">.spec.istio_labels.injection_label_rev</h3>
 </div>
 <div class="property-body">
@@ -4385,6 +4605,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.istio_labels.version_label_name">.spec.istio_labels.version_label_name</h3>
 </div>
 <div class="property-body">
@@ -4403,6 +4624,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-1">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.istio_namespace">.spec.istio_namespace</h3>
 </div>
 <div class="property-body">
@@ -4421,6 +4643,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-1">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kiali_feature_flags">.spec.kiali_feature_flags</h3>
 </div>
 <div class="property-body">
@@ -4439,6 +4662,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kiali_feature_flags.certificates_information_indicators">.spec.kiali_feature_flags.certificates_information_indicators</h3>
 </div>
 <div class="property-body">
@@ -4457,6 +4681,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kiali_feature_flags.certificates_information_indicators.enabled">.spec.kiali_feature_flags.certificates_information_indicators.enabled</h3>
 </div>
 <div class="property-body">
@@ -4470,6 +4695,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kiali_feature_flags.certificates_information_indicators.secrets">.spec.kiali_feature_flags.certificates_information_indicators.secrets</h3>
 </div>
 <div class="property-body">
@@ -4483,6 +4709,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kiali_feature_flags.certificates_information_indicators.secrets[*]">.spec.kiali_feature_flags.certificates_information_indicators.secrets[*]</h3>
 </div>
 <div class="property-body">
@@ -4496,6 +4723,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kiali_feature_flags.clustering">.spec.kiali_feature_flags.clustering</h3>
 </div>
 <div class="property-body">
@@ -4514,6 +4742,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kiali_feature_flags.clustering.enabled">.spec.kiali_feature_flags.clustering.enabled</h3>
 </div>
 <div class="property-body">
@@ -4532,6 +4761,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kiali_feature_flags.istio_injection_action">.spec.kiali_feature_flags.istio_injection_action</h3>
 </div>
 <div class="property-body">
@@ -4550,6 +4780,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kiali_feature_flags.istio_upgrade_action">.spec.kiali_feature_flags.istio_upgrade_action</h3>
 </div>
 <div class="property-body">
@@ -4568,6 +4799,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kiali_feature_flags.ui_defaults">.spec.kiali_feature_flags.ui_defaults</h3>
 </div>
 <div class="property-body">
@@ -4586,6 +4818,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kiali_feature_flags.ui_defaults.graph">.spec.kiali_feature_flags.ui_defaults.graph</h3>
 </div>
 <div class="property-body">
@@ -4604,6 +4837,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kiali_feature_flags.ui_defaults.graph.find_options">.spec.kiali_feature_flags.ui_defaults.graph.find_options</h3>
 </div>
 <div class="property-body">
@@ -4622,6 +4856,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-5">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kiali_feature_flags.ui_defaults.graph.find_options[*]">.spec.kiali_feature_flags.ui_defaults.graph.find_options[*]</h3>
 </div>
 <div class="property-body">
@@ -4635,6 +4870,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-6">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kiali_feature_flags.ui_defaults.graph.find_options[*].description">.spec.kiali_feature_flags.ui_defaults.graph.find_options[*].description</h3>
 </div>
 <div class="property-body">
@@ -4653,6 +4889,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-6">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kiali_feature_flags.ui_defaults.graph.find_options[*].expression">.spec.kiali_feature_flags.ui_defaults.graph.find_options[*].expression</h3>
 </div>
 <div class="property-body">
@@ -4671,6 +4908,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kiali_feature_flags.ui_defaults.graph.hide_options">.spec.kiali_feature_flags.ui_defaults.graph.hide_options</h3>
 </div>
 <div class="property-body">
@@ -4689,6 +4927,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-5">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kiali_feature_flags.ui_defaults.graph.hide_options[*]">.spec.kiali_feature_flags.ui_defaults.graph.hide_options[*]</h3>
 </div>
 <div class="property-body">
@@ -4702,6 +4941,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-6">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kiali_feature_flags.ui_defaults.graph.hide_options[*].description">.spec.kiali_feature_flags.ui_defaults.graph.hide_options[*].description</h3>
 </div>
 <div class="property-body">
@@ -4720,6 +4960,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-6">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kiali_feature_flags.ui_defaults.graph.hide_options[*].expression">.spec.kiali_feature_flags.ui_defaults.graph.hide_options[*].expression</h3>
 </div>
 <div class="property-body">
@@ -4738,6 +4979,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kiali_feature_flags.ui_defaults.graph.traffic">.spec.kiali_feature_flags.ui_defaults.graph.traffic</h3>
 </div>
 <div class="property-body">
@@ -4756,6 +4998,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-5">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kiali_feature_flags.ui_defaults.graph.traffic.grpc">.spec.kiali_feature_flags.ui_defaults.graph.traffic.grpc</h3>
 </div>
 <div class="property-body">
@@ -4774,6 +5017,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-5">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kiali_feature_flags.ui_defaults.graph.traffic.http">.spec.kiali_feature_flags.ui_defaults.graph.traffic.http</h3>
 </div>
 <div class="property-body">
@@ -4792,6 +5036,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-5">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kiali_feature_flags.ui_defaults.graph.traffic.tcp">.spec.kiali_feature_flags.ui_defaults.graph.traffic.tcp</h3>
 </div>
 <div class="property-body">
@@ -4810,6 +5055,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kiali_feature_flags.ui_defaults.metrics_inbound">.spec.kiali_feature_flags.ui_defaults.metrics_inbound</h3>
 </div>
 <div class="property-body">
@@ -4838,6 +5084,7 @@ An example,</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kiali_feature_flags.ui_defaults.metrics_inbound.aggregations">.spec.kiali_feature_flags.ui_defaults.metrics_inbound.aggregations</h3>
 </div>
 <div class="property-body">
@@ -4851,6 +5098,7 @@ An example,</p>
 
 <div class="property depth-5">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kiali_feature_flags.ui_defaults.metrics_inbound.aggregations[*]">.spec.kiali_feature_flags.ui_defaults.metrics_inbound.aggregations[*]</h3>
 </div>
 <div class="property-body">
@@ -4864,6 +5112,7 @@ An example,</p>
 
 <div class="property depth-6">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kiali_feature_flags.ui_defaults.metrics_inbound.aggregations[*].display_name">.spec.kiali_feature_flags.ui_defaults.metrics_inbound.aggregations[*].display_name</h3>
 </div>
 <div class="property-body">
@@ -4877,6 +5126,7 @@ An example,</p>
 
 <div class="property depth-6">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kiali_feature_flags.ui_defaults.metrics_inbound.aggregations[*].label">.spec.kiali_feature_flags.ui_defaults.metrics_inbound.aggregations[*].label</h3>
 </div>
 <div class="property-body">
@@ -4890,6 +5140,7 @@ An example,</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kiali_feature_flags.ui_defaults.metrics_outbound">.spec.kiali_feature_flags.ui_defaults.metrics_outbound</h3>
 </div>
 <div class="property-body">
@@ -4918,6 +5169,7 @@ An example,</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kiali_feature_flags.ui_defaults.metrics_outbound.aggregations">.spec.kiali_feature_flags.ui_defaults.metrics_outbound.aggregations</h3>
 </div>
 <div class="property-body">
@@ -4931,6 +5183,7 @@ An example,</p>
 
 <div class="property depth-5">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kiali_feature_flags.ui_defaults.metrics_outbound.aggregations[*]">.spec.kiali_feature_flags.ui_defaults.metrics_outbound.aggregations[*]</h3>
 </div>
 <div class="property-body">
@@ -4944,6 +5197,7 @@ An example,</p>
 
 <div class="property depth-6">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kiali_feature_flags.ui_defaults.metrics_outbound.aggregations[*].display_name">.spec.kiali_feature_flags.ui_defaults.metrics_outbound.aggregations[*].display_name</h3>
 </div>
 <div class="property-body">
@@ -4957,6 +5211,7 @@ An example,</p>
 
 <div class="property depth-6">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kiali_feature_flags.ui_defaults.metrics_outbound.aggregations[*].label">.spec.kiali_feature_flags.ui_defaults.metrics_outbound.aggregations[*].label</h3>
 </div>
 <div class="property-body">
@@ -4970,6 +5225,7 @@ An example,</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kiali_feature_flags.ui_defaults.metrics_per_refresh">.spec.kiali_feature_flags.ui_defaults.metrics_per_refresh</h3>
 </div>
 <div class="property-body">
@@ -4988,6 +5244,7 @@ An example,</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kiali_feature_flags.ui_defaults.namespaces">.spec.kiali_feature_flags.ui_defaults.namespaces</h3>
 </div>
 <div class="property-body">
@@ -5006,6 +5263,7 @@ An example,</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kiali_feature_flags.ui_defaults.namespaces[*]">.spec.kiali_feature_flags.ui_defaults.namespaces[*]</h3>
 </div>
 <div class="property-body">
@@ -5019,6 +5277,7 @@ An example,</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kiali_feature_flags.ui_defaults.refresh_interval">.spec.kiali_feature_flags.ui_defaults.refresh_interval</h3>
 </div>
 <div class="property-body">
@@ -5037,6 +5296,7 @@ An example,</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kiali_feature_flags.validations">.spec.kiali_feature_flags.validations</h3>
 </div>
 <div class="property-body">
@@ -5055,6 +5315,7 @@ An example,</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kiali_feature_flags.validations.ignore">.spec.kiali_feature_flags.validations.ignore</h3>
 </div>
 <div class="property-body">
@@ -5073,6 +5334,7 @@ An example,</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kiali_feature_flags.validations.ignore[*]">.spec.kiali_feature_flags.validations.ignore[*]</h3>
 </div>
 <div class="property-body">
@@ -5091,6 +5353,7 @@ An example,</p>
 
 <div class="property depth-1">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kubernetes_config">.spec.kubernetes_config</h3>
 </div>
 <div class="property-body">
@@ -5109,6 +5372,7 @@ An example,</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kubernetes_config.burst">.spec.kubernetes_config.burst</h3>
 </div>
 <div class="property-body">
@@ -5127,6 +5391,7 @@ An example,</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kubernetes_config.cache_duration">.spec.kubernetes_config.cache_duration</h3>
 </div>
 <div class="property-body">
@@ -5145,6 +5410,7 @@ An example,</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kubernetes_config.cache_enabled">.spec.kubernetes_config.cache_enabled</h3>
 </div>
 <div class="property-body">
@@ -5163,6 +5429,7 @@ An example,</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kubernetes_config.cache_istio_types">.spec.kubernetes_config.cache_istio_types</h3>
 </div>
 <div class="property-body">
@@ -5181,6 +5448,7 @@ An example,</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kubernetes_config.cache_istio_types[*]">.spec.kubernetes_config.cache_istio_types[*]</h3>
 </div>
 <div class="property-body">
@@ -5194,6 +5462,7 @@ An example,</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kubernetes_config.cache_namespaces">.spec.kubernetes_config.cache_namespaces</h3>
 </div>
 <div class="property-body">
@@ -5212,6 +5481,7 @@ An example,</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kubernetes_config.cache_namespaces[*]">.spec.kubernetes_config.cache_namespaces[*]</h3>
 </div>
 <div class="property-body">
@@ -5225,6 +5495,7 @@ An example,</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kubernetes_config.cache_token_namespace_duration">.spec.kubernetes_config.cache_token_namespace_duration</h3>
 </div>
 <div class="property-body">
@@ -5243,6 +5514,7 @@ An example,</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kubernetes_config.excluded_workloads">.spec.kubernetes_config.excluded_workloads</h3>
 </div>
 <div class="property-body">
@@ -5261,6 +5533,7 @@ An example,</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kubernetes_config.excluded_workloads[*]">.spec.kubernetes_config.excluded_workloads[*]</h3>
 </div>
 <div class="property-body">
@@ -5274,6 +5547,7 @@ An example,</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.kubernetes_config.qps">.spec.kubernetes_config.qps</h3>
 </div>
 <div class="property-body">
@@ -5292,6 +5566,7 @@ An example,</p>
 
 <div class="property depth-1">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.login_token">.spec.login_token</h3>
 </div>
 <div class="property-body">
@@ -5305,6 +5580,7 @@ An example,</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.login_token.expiration_seconds">.spec.login_token.expiration_seconds</h3>
 </div>
 <div class="property-body">
@@ -5323,6 +5599,7 @@ An example,</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.login_token.signing_key">.spec.login_token.signing_key</h3>
 </div>
 <div class="property-body">
@@ -5341,6 +5618,7 @@ An example,</p>
 
 <div class="property depth-1">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.server">.spec.server</h3>
 </div>
 <div class="property-body">
@@ -5359,6 +5637,7 @@ An example,</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.server.address">.spec.server.address</h3>
 </div>
 <div class="property-body">
@@ -5377,6 +5656,7 @@ An example,</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.server.audit_log">.spec.server.audit_log</h3>
 </div>
 <div class="property-body">
@@ -5395,6 +5675,7 @@ An example,</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.server.cors_allow_all">.spec.server.cors_allow_all</h3>
 </div>
 <div class="property-body">
@@ -5413,6 +5694,7 @@ An example,</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.server.gzip_enabled">.spec.server.gzip_enabled</h3>
 </div>
 <div class="property-body">
@@ -5431,6 +5713,7 @@ An example,</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.server.observability">.spec.server.observability</h3>
 </div>
 <div class="property-body">
@@ -5449,6 +5732,7 @@ An example,</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.server.observability.metrics">.spec.server.observability.metrics</h3>
 </div>
 <div class="property-body">
@@ -5467,6 +5751,7 @@ An example,</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.server.observability.metrics.enabled">.spec.server.observability.metrics.enabled</h3>
 </div>
 <div class="property-body">
@@ -5485,6 +5770,7 @@ An example,</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.server.observability.metrics.port">.spec.server.observability.metrics.port</h3>
 </div>
 <div class="property-body">
@@ -5503,6 +5789,7 @@ An example,</p>
 
 <div class="property depth-3">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.server.observability.tracing">.spec.server.observability.tracing</h3>
 </div>
 <div class="property-body">
@@ -5521,6 +5808,7 @@ An example,</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.server.observability.tracing.collector_url">.spec.server.observability.tracing.collector_url</h3>
 </div>
 <div class="property-body">
@@ -5539,6 +5827,7 @@ An example,</p>
 
 <div class="property depth-4">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.server.observability.tracing.enabled">.spec.server.observability.tracing.enabled</h3>
 </div>
 <div class="property-body">
@@ -5557,6 +5846,7 @@ An example,</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.server.port">.spec.server.port</h3>
 </div>
 <div class="property-body">
@@ -5575,6 +5865,7 @@ An example,</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.server.web_fqdn">.spec.server.web_fqdn</h3>
 </div>
 <div class="property-body">
@@ -5593,6 +5884,7 @@ An example,</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.server.web_history_mode">.spec.server.web_history_mode</h3>
 </div>
 <div class="property-body">
@@ -5611,6 +5903,7 @@ An example,</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.server.web_port">.spec.server.web_port</h3>
 </div>
 <div class="property-body">
@@ -5629,6 +5922,7 @@ An example,</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.server.web_root">.spec.server.web_root</h3>
 </div>
 <div class="property-body">
@@ -5647,6 +5941,7 @@ An example,</p>
 
 <div class="property depth-2">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.server.web_schema">.spec.server.web_schema</h3>
 </div>
 <div class="property-body">
@@ -5665,6 +5960,7 @@ An example,</p>
 
 <div class="property depth-1">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.spec.version">.spec.version</h3>
 </div>
 <div class="property-body">
@@ -5698,6 +5994,7 @@ with the rest of the configuration and resources the operator will install).</p>
 
 <div class="property depth-0">
 <div class="property-header">
+<hr/>
 <h3 class="property-path" id="v1alpha1-.status">.status</h3>
 </div>
 <div class="property-body">
