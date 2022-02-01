@@ -1,56 +1,21 @@
 ---
-title: Kiali CRD Schema Reference
-linkTitle: Kiali CRD Schema Reference
+title: Kiali CR Reference
+linkTitle: Kiali CR Reference
 description: |
-  Custom resource definition (CRD) schema reference page for the Kiali CR (kind: kialis.kiali.io).
+  Reference page for the Kiali CR.
   The Kiali Operator will watch for resources of this type and install Kiali according to those resources' configurations.
-weight: 100
-crd:
-  name_camelcase: Kiali
-  name_plural: kialis
-  name_singular: kiali
-  group: kiali.io
-  technical_name: kialis.kiali.io
-  scope: Namespaced
-  source_repository: https://github.com/kiali/kiali-operator
-  source_repository_ref: master
-  versions:
-    - v1alpha1
-  topics:
-layout: crd
-owner:
-  - https://github.com/orgs/kiali/teams/maintainers
-aliases:
-  - /reference/cp-k8s-api/kialis.kiali.io/
 technical_name: kialis.kiali.io
 source_repository: https://github.com/kiali/kiali-operator
 source_repository_ref: master
 ---
 
-# Kiali
-
-<dl class="crd-meta">
-<dt class="fullname">Full name:</dt>
-<dd class="fullname">kialis.kiali.io</dd>
-<dt class="groupname">Group:</dt>
-<dd class="groupname">kiali.io</dd>
-<dt class="singularname">Singular name:</dt>
-<dd class="singularname">kiali</dd>
-<dt class="pluralname">Plural name:</dt>
-<dd class="pluralname">kialis</dd>
-<dt class="scope">Scope:</dt>
-<dd class="scope">Namespaced</dd>
-<dt class="versions">Versions:</dt>
-<dd class="versions"><a class="version" href="#v1alpha1" title="Show schema for version v1alpha1">v1alpha1</a></dd>
-</dl>
-
 
 
 <div class="crd-schema-version">
-<h2 id="v1alpha1">Version v1alpha1</h2>
 
 
-<h3 id="crd-example-v1alpha1">Example CR (all values shown here are the defaults unless otherwise noted)</h3>
+<h3 id="crd-example-v1alpha1">Example CR</h3>
+<em>(all values shown here are the defaults unless otherwise noted)</em>
 
 ```yaml
 apiVersion: kiali.io/v1alpha1
@@ -481,6 +446,20 @@ spec:
     web_schema: ""
 ```
 
+
+### Validating your Kiali CR
+
+A Kiali tool is available to allow you to check your own Kiali CR to ensure it is valid. Simply download [the validation script](https://raw.githubusercontent.com/kiali/kiali-operator/master/crd-docs/bin/validate-kiali-cr.sh) and run it, passing in the location of the Kiali CRD you wish to validate with (e.g. the latest version is found [here](https://raw.githubusercontent.com/kiali/kiali-operator/master/crd-docs/crd/kiali.io_kialis.yaml)) and the location of your Kiali CR. You must be connected to/logged into a cluster for this validation tool to work.
+
+For example, to validate a Kiali CR named `kiali` in the namespace `istio-system` using the latest version of the Kiali CRD, run the following:
+<pre>
+bash &lt;(curl -sL https://raw.githubusercontent.com/kiali/kiali-operator/master/crd-docs/bin/validate-kiali-cr.sh) \
+  -crd https://raw.githubusercontent.com/kiali/kiali-operator/master/crd-docs/crd/kiali.io_kialis.yaml \
+  --kiali-cr-name kiali \
+  -n istio-system
+</pre>
+
+For additional help in using this validation tool, pass it the `--help` option.
 
 <h3 id="property-details-v1alpha1">Properties</h3>
 
@@ -5711,6 +5690,24 @@ Note that if you explicitly set deployment.image_name and/or
 deployment.image_version you are responsible for ensuring those settings
 are compatible with this setting (i.e. the Kiali image must be compatible
 with the rest of the configuration and resources the operator will install).</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-0">
+<div class="property-header">
+<h3 class="property-path" id="v1alpha1-.status">.status</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>The processing status of this CR as reported by the Kiali operator.</p>
 
 </div>
 
