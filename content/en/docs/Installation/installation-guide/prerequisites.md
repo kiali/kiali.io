@@ -20,7 +20,7 @@ versions later than those posted in the below table may work, but such
 combinations are not tested and will not be supported. Known incompatibilities
 are noted in the compatibility table below.
 
-#### Istio Version Compatibility
+### Istio Version Compatibility
 
 {{% alert color="success" %}}
 It is always recommended that users run a supported version of Istio.
@@ -41,7 +41,7 @@ supported Istio versions.
 
 <br />
 
-#### Maistra Version Compatibility
+### Maistra Version Compatibility
 
 {{% alert title="OpenShift" color="warning" %}}
 If you are running Red Hat OpenShift Service Mesh (RH OSSM), use only the bundled version of Kiali.
