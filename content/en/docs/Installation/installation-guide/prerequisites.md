@@ -4,7 +4,15 @@ description: "Hardware and Software compatibility and requirements."
 weight: 10
 ---
 
-## Service Mesh Compatibility
+## Istio
+
+Before you install Kiali you must have already installed Istio along with its
+telemetry storage addon (i.e. Prometheus). You might also consider installing
+Istio's optional tracing addon (i.e. Jaeger) and optional Grafana addon but
+those are not required by Kiali. Refer to the
+[Istio documentation](https://istio.io/docs/setup/getting-started) for details.
+
+### Service Mesh Compatibility
 
 Each Kiali release is tested against the most recent Istio release. In general,
 Kiali tries to maintain compatibility with older Istio releases and Kiali
@@ -12,7 +20,7 @@ versions later than those posted in the below table may work, but such
 combinations are not tested and will not be supported. Known incompatibilities
 are noted in the compatibility table below.
 
-### Istio Version Compatibility
+#### Istio Version Compatibility
 
 {{% alert color="success" %}}
 It is always recommended that users run a supported version of Istio.
@@ -33,7 +41,7 @@ supported Istio versions.
 
 <br />
 
-### Maistra Version Compatibility
+#### Maistra Version Compatibility
 
 {{% alert title="OpenShift" color="warning" %}}
 If you are running Red Hat OpenShift Service Mesh (RH OSSM), use only the bundled version of Kiali.
