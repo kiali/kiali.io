@@ -43,7 +43,7 @@ monitoring port of the IstioD pod.
 
 Under some circumstances, you may need to change the monitoring port of the
 IstioD pod to something else. For example, when running IstioD in [_host
-network mode_](https://kubernetes.io/docs/concepts/cluster-administration/networking/#the-kubernetes-network-model)
+network mode_](https://kubernetes.io/docs/concepts/services-networking/)
 the network is shared between several pods, requiring to change listening ports
 of some pods to prevent conflicts.
 
