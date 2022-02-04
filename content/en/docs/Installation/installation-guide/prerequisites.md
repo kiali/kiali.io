@@ -61,7 +61,7 @@ supported Istio versions.
 If you are running Red Hat OpenShift Service Mesh (RH OSSM), use only the bundled version of Kiali.
 {{% /alert %}}
 
-|<div style="width:50px">OpenShift Service Mesh Version Compatibility</div>|<div style="width:125px">Kiali</div>|Notes|
+|<div style="width:70px">OSSM</div>|<div style="width:100px">Kiali</div>|Notes|
 |-------|------------------|---|
 |2.1   |1.36   |   |
 |2.0   |1.24 |   |
