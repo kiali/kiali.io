@@ -43,10 +43,6 @@ supported Istio versions.
 
 ### Maistra Version Compatibility
 
-{{% alert title="OpenShift" color="warning" %}}
-If you are running Red Hat OpenShift Service Mesh (RH OSSM), use only the bundled version of Kiali.
-{{% /alert %}}
-
 |<div style="width:70px">Maistra</div>|<div style="width:100px">SMCP CR</div>|<div style="width:50px">Kiali</div>|Notes|
 |---|---|---|---|
 |2.1   |2.1   |1.36   |Using Maistra 2.1 to install service mesh control plane 2.1 requires Kiali Operator v1.36. Other operator versions are not compatible.   |
@@ -56,6 +52,20 @@ If you are running Red Hat OpenShift Service Mesh (RH OSSM), use only the bundle
 |2.0   |1.1   |1.12   |Using Maistra 2.0 to install service mesh control plane 1.1 requires Kiali Operator v1.36. Other operator versions are not compatible.   |
 |1.1   |1.1   |1.12   |Using Maistra 1.1 to install service mesh control plane 1.1 requires Kiali Operator v1.36. Other operator versions are not compatible.   |
 |n/a   |1.0   |n/a    |Service mesh control plane 1.0 is out of support.   |
+
+<br />
+
+### OpenShift Service Mesh Version Compatibility
+
+{{% alert title="OpenShift" color="warning" %}}
+If you are running Red Hat OpenShift Service Mesh (RH OSSM), use only the bundled version of Kiali.
+{{% /alert %}}
+
+|<div style="width:70px">OSSM</div>|<div style="width:100px">Kiali</div>|Notes|
+|-------|------------------|---|
+|2.1   |1.36   |   |
+|2.0   |1.24 |   |
+|1.1   |1.12 |   |
 
 <br />
 
