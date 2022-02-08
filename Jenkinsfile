@@ -66,7 +66,7 @@ node('kiali-build && fedora') {
 
           def releasingVersion = bumpVersion("minor", lastReleasedVersion)
           echo "Resolved current website version: ${releasingVersion}"
-          sh "./scripts/release.sh -cv ${releasingVersion} -rn origin"
+          sh "./scripts/release.sh -cv ${releasingVersion} -rn origin -gd true"
         }
       }
     }
