@@ -4,12 +4,14 @@ set -eu
 
 DEFAULT_CURRENT_BRANCH="current"
 DEFAULT_STAGING_BRANCH="staging"
+DEFAULT_GENERATE_DOCS="true"
 
 while [[ $# -gt 0 ]]; do
   key="$1"
   case $key in
     -cb|--current-branch)  CURRENT_BRANCH="$2";  shift;shift ;;
     -cv|--current-version) CURRENT_VERSION="$2"; shift;shift ;;
+    -gd|--generate-docs)   GENERATE_DOCS="$2";   shift;shift ;;
     -rn|--remote-name)     REMOTE_NAME="$2";     shift;shift ;;
     -sb|--staging-branch)  STAGING_BRANCH="$2";  shift;shift ;;
     -h|--help)
@@ -32,6 +34,9 @@ Valid options:
       In other words, this script will not release patch-level documentation.
       This new version branch will be a copy of the "current" branch.
       Default: <undefined>
+  -gd|--generate-docs
+      If true, auto-generation of some documentation will be performed before the release is done.
+      Default: "${DEFAULT_GENERATE_DOCS}"
   -rn|--remote-name
       The name of the git remote where the branches are located. This is typically "origin".
       Default: <undefined>
@@ -50,6 +55,7 @@ done
 
 : ${CURRENT_BRANCH:=${DEFAULT_CURRENT_BRANCH}}
 : ${STAGING_BRANCH:=${DEFAULT_STAGING_BRANCH}}
+: ${GENERATE_DOCS:=${DEFAULT_GENERATE_DOCS}}
 
 if [ -z "${CURRENT_VERSION:-}" ]; then
   echo "ERROR! You must specify a --current-version."
@@ -94,6 +100,18 @@ echo "===== SETTINGS"
 
 echo "===== Fetch the remote content"
 git fetch ${REMOTE_NAME}
+
+if [ "${GENERATE_DOCS}" == "true" ]; then
+  echo "===== Create a new branch named [${STAGING_BRANCH}] (or switch to it if it already exists)"
+  git checkout -b ${STAGING_BRANCH} ${REMOTE_NAME}/${STAGING_BRANCH} || (git checkout ${STAGING_BRANCH} && git reset --hard ${REMOTE_NAME}/${STAGING_BRANCH})
+
+  echo "===== Generate the CRD schema documentation"
+  make gen-crd-doc
+  git commit -am "Auto-generated CRD schema documentation"
+
+  echo "===== Push the branch [${STAGING_BRANCH}] to remote [${REMOTE_NAME}]"
+  git push ${REMOTE_NAME} ${STAGING_BRANCH}
+fi
 
 echo "===== Create a new version branch named [${CURRENT_VERSION}] based on branch [${CURRENT_BRANCH}]"
 git checkout -b ${CURRENT_VERSION} ${REMOTE_NAME}/${CURRENT_BRANCH}
