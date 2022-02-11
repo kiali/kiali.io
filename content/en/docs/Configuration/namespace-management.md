@@ -35,16 +35,18 @@ spec:
     - mycorp_.*
 ```
 
+Note that the namespaces declared here (including any regex expressions) are evaluated and discovered at install time. Namespaces that do not exist at the time of install but are created later in the future will not be accessible by Kiali. For Kiali to be given access to namespaces created in the future, you must edit the Kiali CR and update the `accessible_namespaces` setting to include the new namespaces. The one exception is if you set `accessible_namespaces` to the special value `["**"]` - in that case, all namespaces (including any namespaces created in the future) will be accessible to Kiali.
+
 {{% alert color="warning" %}}
 As you can see in the example, the namespace where Kiali is
 installed must be listed as accessible (often, but not always, the same namespace as Istio).
 {{% /alert %}}
 
 This configuration accepts the special pattern `accessible_namespaces: ["**"]`
-which denotes that Kiali is given access to all namespaces in the cluster. 
+which denotes that Kiali is given access to all namespaces in the cluster, including any namespaces created in the future.
 
 {{% alert color="warning" %}}
-If you install the operator using the [Helm Charts]({{< ref "/docs/installation/installation-guide/install-with-helm#install-with-operator" >}}), 
+If you install the operator using the [Helm Charts]({{< ref "/docs/installation/installation-guide/install-with-helm#install-with-operator" >}}),
 to be able to use the special pattern `accessible_namespaces: ["**"]`,
 you must specify the `--set clusterRoleCreator=true` flag when invoking `helm
 install`.
