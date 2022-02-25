@@ -6,6 +6,45 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 1.47.0
+Sprint Release: February 25th, 2022
+
+Features:
+
+* [Allow dynamic markers on editor according to Istio config object](https://github.com/kiali/kiali/issues/4552)
+* [Introduce "preview" mode in Istio Config actions](https://github.com/kiali/kiali/issues/3577)
+* [Add Istio Config Preview under wizard actions under istio config page](https://github.com/kiali/kiali/issues/4733)
+* [Refactor Kiali Validations to better use the Istio registry information](https://github.com/kiali/kiali/issues/4382)
+* [Refactor Kiali Validations according to Istio Registry usage model for listing Configs and Services](https://github.com/kiali/kiali/issues/4528)
+* [Add Istio Config Preview under wizard actions under service details page](https://github.com/kiali/kiali/issues/4681)
+* [Add graph generator for creating mock graph data](https://github.com/kiali/kiali/pull/4658)
+
+Fixes:
+
+* [(operator) CSV should define skipRange](https://github.com/kiali/kiali/issues/4715)
+* [namespace excludes default regexes should only filter out namespaces that "starts-with" the patterns.](https://github.com/kiali/kiali/issues/4714)
+* [Fix "xxx is not found as xxx" issue](https://github.com/kiali/kiali/pull/4676)
+
+## 1.46.0
+Sprint Release: February 4th, 2022
+
+Features:
+
+* [Add prerequisites in quick-start kiali.io to try kiali](https://github.com/kiali/kiali/issues/4703)
+* [Create and sync namespace caches on startup](https://github.com/kiali/kiali/issues/4502)
+* [publish the auto-generated docs for the kiali cr](https://github.com/kiali/kiali/issues/4684)
+* [Instrument Kiali server with Jaeger](https://github.com/kiali/kiali/issues/4036)
+* [Deprecate Iter8 extension in favor of a new model](https://github.com/kiali/kiali/issues/4643)
+* [Validations: Support `exportTo` field](https://github.com/kiali/kiali/issues/3061)
+
+Fixes:
+
+* [Gateway Validation References - Contains self reference](https://github.com/kiali/kiali/issues/4675)
+* [invalid link in kiali.io doc page istio.md](https://github.com/kiali/kiali/issues/4673)
+* [Graph hide can hang browser when zoomed out enough to hide labels](https://github.com/kiali/kiali/issues/4666)
+* [auth is broken according to molecule tests](https://github.com/kiali/kiali/issues/4682)
+* [Trend lines feature broken in master](https://github.com/kiali/kiali/issues/4668)
+
 ## 1.45.0
 Sprint Release: January 14th, 2022
 
