@@ -39,11 +39,11 @@ spec:
   api:
     namespaces:
       exclude:
-      - "istio-operator"
-      - "kube-.*"
-      - "openshift.*"
-      - "ibm.*"
-      - "kiali-operator"
+      - "^istio-operator"
+      - "^kube-.*"
+      - "^openshift.*"
+      - "^ibm.*"
+      - "^kiali-operator"
       # default: label_selector is undefined
       label_selector: "kiali.io/member-of=istio-system"
 
@@ -393,8 +393,7 @@ spec:
       namespaces: ["istio-system"]
       refresh_interval: "15s"
     validations:
-      # default: ignore is an empty list
-      ignore: ["KIA0101"]
+      ignore: ["KIA1201"]
 
   kubernetes_config:
     burst: 200
@@ -5609,7 +5608,7 @@ An example,</p>
 </div>
 
 <div class="property-description">
-<p>The signing key used to generate tokens for user authentication. Because this is potentially sensitive, you have the option to store this value in a secret. If you store this signing key value in a secret, you must indicate what key in what secret by setting this value to a string in the form of <code>secret:&lt;secretName&gt;:&lt;secretKey&gt;</code>. If left as an empty string, a secret with a random signing key will be generated for you.</p>
+<p>The signing key used to generate tokens for user authentication. Because this is potentially sensitive, you have the option to store this value in a secret. If you store this signing key value in a secret, you must indicate what key in what secret by setting this value to a string in the form of <code>secret:&lt;secretName&gt;:&lt;secretKey&gt;</code>. If left as an empty string, a secret with a random signing key will be generated for you. The signing key must be 16, 24 or 32 byte long.</p>
 
 </div>
 
