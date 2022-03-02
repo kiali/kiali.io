@@ -18,7 +18,7 @@ gen-crd-doc:
 	mkdir -p ./tmp-crd-docs
 	curl -L https://raw.githubusercontent.com/kiali/kiali-operator/master/crd-docs/config/apigen-config.yaml -o ./tmp-crd-docs/apigen-config.yaml
 	curl -L https://raw.githubusercontent.com/kiali/kiali-operator/master/crd-docs/config/apigen-crd.template -o ./tmp-crd-docs/apigen-crd.template
-	${DORP} run -v ./content/en/docs/Configuration:/opt/crd-docs-generator/output -v ./tmp-crd-docs:/opt/crd-docs-generator/config quay.io/giantswarm/crd-docs-generator:0.9.0 --config /opt/crd-docs-generator/config/apigen-config.yaml
+	${DORP} run -v ./content/en/docs/Configuration:/opt/crd-docs-generator/output:Z -v ./tmp-crd-docs:/opt/crd-docs-generator/config:Z quay.io/giantswarm/crd-docs-generator:0.9.0 --config /opt/crd-docs-generator/config/apigen-config.yaml
 	rm -rf ./tmp-crd-docs
 
 ## Deletes the directories that are auto-generated
