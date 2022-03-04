@@ -31,9 +31,10 @@ supported Istio versions.
 
 |<div style="width:50px">Istio</div>|<div style="width:125px">Kiali</div>|Notes|
 |-------|------------------|---|
-|1.12   |1.42.0 or later   |   |
+|1.13   |1.45.1 or later   |   |
+|1.12   |1.42.0 to 1.44.x  |   |
 |1.11   |1.38.1 to 1.41.x  |   |
-|1.10   |1.34.1 to 1.37.x  |   |
+|1.10   |1.34.1 to 1.37.x  |Istio 1.10 is out of support. |
 |1.9    |1.29.1 to 1.33.x  |Istio 1.9 is out of support. |
 |1.8    |1.26.0 to 1.28.x  |Istio 1.8 removes all support for mixer/telemetry V1, as does Kiali 1.26.0. Use earlier versions of Kiali for mixer support.   |
 |1.7    |1.22.1 to 1.25.x  |Istio 1.7 istioctl will no longer install Kiali. Use the Istio samples/addons all-in-one yaml or the Kiali Helm Chart for quick demo installs. Istio 1.7 is out of support.   |
@@ -45,6 +46,9 @@ supported Istio versions.
 
 |<div style="width:70px">Maistra</div>|<div style="width:100px">SMCP CR</div>|<div style="width:50px">Kiali</div>|Notes|
 |---|---|---|---|
+|2.2   |2.2   |1.48   |Using Maistra 2.2 to install service mesh control plane 2.2 requires Kiali Operator v1.48. Other operator versions are not compatible.   |
+|2.2   |2.1   |1.36   |Using Maistra 2.2 to install service mesh control plane 2.1 requires Kiali Operator v1.48. Other operator versions are not compatible.   |
+|2.2   |2.0   |1.24   |Using Maistra 2.2 to install service mesh control plane 2.0 requires Kiali Operator v1.48. Other operator versions are not compatible.   |
 |2.1   |2.1   |1.36   |Using Maistra 2.1 to install service mesh control plane 2.1 requires Kiali Operator v1.36. Other operator versions are not compatible.   |
 |2.1   |2.0   |1.24   |Using Maistra 2.1 to install service mesh control plane 2.0 requires Kiali Operator v1.36. Other operator versions are not compatible.   |
 |2.1   |1.1   |1.12   |Using Maistra 2.1 to install service mesh control plane 1.1 requires Kiali Operator v1.36. Other operator versions are not compatible.   |
@@ -63,7 +67,8 @@ If you are running Red Hat OpenShift Service Mesh (RH OSSM), use only the bundle
 
 |<div style="width:70px">OSSM</div>|<div style="width:100px">Kiali</div>|Notes|
 |-------|------------------|---|
-|2.1   |1.36   |   |
+|2.2   |1.48 |   |
+|2.1   |1.36 |   |
 |2.0   |1.24 |   |
 |1.1   |1.12 |   |
 
