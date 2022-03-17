@@ -20,7 +20,7 @@ and the Istio registry.
 The `ENABLE_DEBUG_ON_HTTP` setting controls the relevant access. Istio suggests to disable this for security, but Kiali requires `ENABLE_DEBUG_ON_HTTP=true`,
 which is the default.
 
-For more information, see the [Istio documentation](https://istio.io/latest/docs/ops/best-practices/security/#control-plane) for more information.
+For more information, see the [Istio documentation](https://istio.io/latest/docs/ops/best-practices/security/#control-plane).
 
 
 ### Version Compatibility
