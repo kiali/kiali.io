@@ -12,15 +12,24 @@ Istio's optional tracing addon (i.e. Jaeger) and optional Grafana addon but
 those are not required by Kiali. Refer to the
 [Istio documentation](https://istio.io/docs/setup/getting-started) for details.
 
-### Service Mesh Compatibility
+### Enable the Debug Interface
+
+Like `istioctl`, Kiali makes use of Istio's port 8080 "Debug Interface". Despite the naming, this is required for accessing the status of the proxies
+and the Istio registry.
+
+The `ENABLE_DEBUG_ON_HTTP` setting controls the relevant access. Istio suggests to disable this for security, but Kiali requires `ENABLE_DEBUG_ON_HTTP=true`,
+which is the default.
+
+For more information, see the [Istio documentation](https://istio.io/latest/docs/ops/best-practices/security/#control-plane).
+
+
+### Version Compatibility
 
 Each Kiali release is tested against the most recent Istio release. In general,
 Kiali tries to maintain compatibility with older Istio releases and Kiali
 versions later than those posted in the below table may work, but such
 combinations are not tested and will not be supported. Known incompatibilities
 are noted in the compatibility table below.
-
-### Istio Version Compatibility
 
 {{% alert color="success" %}}
 It is always recommended that users run a supported version of Istio.
@@ -42,7 +51,7 @@ supported Istio versions.
 
 <br />
 
-### Maistra Version Compatibility
+## Maistra Version Compatibility
 
 |<div style="width:70px">Maistra</div>|<div style="width:100px">SMCP CR</div>|<div style="width:50px">Kiali</div>|Notes|
 |---|---|---|---|
@@ -59,7 +68,7 @@ supported Istio versions.
 
 <br />
 
-### OpenShift Service Mesh Version Compatibility
+## OpenShift Service Mesh Version Compatibility
 
 {{% alert title="OpenShift" color="warning" %}}
 If you are running Red Hat OpenShift Service Mesh (RH OSSM), use only the bundled version of Kiali.
@@ -74,7 +83,7 @@ If you are running Red Hat OpenShift Service Mesh (RH OSSM), use only the bundle
 
 <br />
 
-## Browser Version Requirements {#supported-browsers}
+## Browser Compatibility {#supported-browsers}
 
 Kiali requires a modern web browser and supports the last two versions of Chrome, Firefox, Safari or Edge.
 
