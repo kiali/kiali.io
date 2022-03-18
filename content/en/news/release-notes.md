@@ -6,6 +6,52 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 1.48.0
+Sprint Release: March 18th, 2022
+
+Features:
+
+* [Research a new Graph layout to support large topologies](https://github.com/kiali/kiali/issues/4601)
+* [Improve the side panel in the Istio Config editor](https://github.com/kiali/kiali/issues/4241)
+* [Reduce the number of requests to fetch health data on list pages](https://github.com/kiali/kiali/issues/4748)
+* [Improve the representation of edges and connections in large topologies](https://github.com/kiali/kiali/issues/4610)
+* [Add help messages for DestinationRules](https://github.com/kiali/kiali/issues/4554)
+* [Add help messages for RequestAuthentications](https://github.com/kiali/kiali/issues/4564)
+* [Add help messages for Gateways](https://github.com/kiali/kiali/issues/4556)
+* [Add help messages for AuthorizationPolicies](https://github.com/kiali/kiali/issues/4562)
+* [Add help messages for WorkloadGroups](https://github.com/kiali/kiali/issues/4561)
+* [Add help messages for WorkloadEntries](https://github.com/kiali/kiali/issues/4560)
+* [Add help messages for Sidecars](https://github.com/kiali/kiali/issues/4558)
+* [Add help messages for ServiceEntries](https://github.com/kiali/kiali/issues/4557)
+* [Add help messages for EnvoyFilters](https://github.com/kiali/kiali/issues/4555)
+* [Reduce the number of requests to fetch health data on detail pages](https://github.com/kiali/kiali/issues/4790)
+* [Research workload/service label filters on Graph](https://github.com/kiali/kiali/issues/4605)
+* [Add help messages for VirtualServices](https://github.com/kiali/kiali/issues/4559)
+* [Ensure all validations has object references](https://github.com/kiali/kiali/issues/2447)
+* [Base side panel redesign for Istio config objects](https://github.com/kiali/kiali/issues/4553)
+* [Improve crossnamespace Istio Gateways query in ServiceDetailsPage](https://github.com/kiali/kiali/issues/4692)
+* [Envoy metrics look broken](https://github.com/kiali/kiali/issues/4769)
+* [Develop a mock backend server for local UI work in scalability scenarios](https://github.com/kiali/kiali/issues/4585)
+* [feat(multitenancy): support additional metric label for prometheus](https://github.com/kiali/kiali/issues/4664)
+
+Fixes:
+
+* [Sidecar Validations - Workloads should be from local namespace](https://github.com/kiali/kiali/issues/4758)
+* [Gateway details warning - Missing validation reference](https://github.com/kiali/kiali/issues/4807)
+* [Kiali graph is not working with disabled Istio's /debug endpoints](https://github.com/kiali/kiali/issues/4798)
+* [Mismatched Node Graph Type breaks UI in Application](https://github.com/kiali/kiali/issues/4797)
+* [Misconfigured `istiod_deployment_name` causes a panic](https://github.com/kiali/kiali/issues/4788)
+* [Namespace with External Registry Service only - UI Error Loading services](https://github.com/kiali/kiali/issues/4720)
+* [Service List - Missing Configuration status](https://github.com/kiali/kiali/issues/4795)
+* ["Could not fetch services list" Error](https://github.com/kiali/kiali/issues/4793)
+* [KIA0003 for multiple Request Authentication](https://github.com/kiali/kiali/issues/4640)
+* [Duration dropdown showing invalid durations](https://github.com/kiali/kiali/issues/4784)
+* [Kiali shows KIA0701 for istio-system debug ports - but should not](https://github.com/kiali/kiali/issues/4764)
+* [Istio Config List - Configuration icon load inconsistency](https://github.com/kiali/kiali/issues/4766)
+* [cannot use a custom secret for Kiali identity](https://github.com/kiali/kiali/issues/4761)
+* [Improve protection against graph numbers that are actually string variables](https://github.com/kiali/kiali-ui/pull/2321)
+* [Fix time selection issue in replay custom startTime picker](https://github.com/kiali/kiali-ui/pull/2320)
+
 ## 1.47.0
 Sprint Release: February 25th, 2022
 
