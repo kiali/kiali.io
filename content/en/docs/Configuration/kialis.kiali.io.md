@@ -155,9 +155,12 @@ spec:
           - http:
               paths:
               - path: "/kiali"
+                pathType: Prefix
                 backend:
-                  serviceName: "kiali"
-                  servicePort: 20001
+                  service:
+                    name: "kiali"
+                    port: 
+                      number: 20001
     instance_name: "kiali"
     logger:
       log_level: "info"
@@ -204,7 +207,7 @@ spec:
       discovery_enabled: "auto"
       enabled: true
       is_core: false
-      namespace_label: "kubernetes_namespace"
+      namespace_label: "namespace"
       prometheus:
         auth:
           ca_file: ""
@@ -222,6 +225,10 @@ spec:
           customHeader1: "customHeader1Value"
         health_check_url: ""
         is_core: true
+        # default: query_scope is empty
+        query_scope:
+          mesh_id: "mesh-1"
+          cluster: "cluster-east"
         thanos_proxy:
           enabled: false
           retention_period: "7d"
@@ -264,9 +271,13 @@ spec:
         - app_label: "istio-ingressgateway"
           is_core: true
           is_proxy: true
+          # default: namespace is undefined
+          namespace: istio-system
         - app_label: "istio-egressgateway"
           is_core: false
           is_proxy: true
+          # default: namespace is undefined
+          namespace: istio-system
         enabled: true
       config_map_name: "istio"
       envoy_admin_local_port: 15000
@@ -299,6 +310,10 @@ spec:
         customHeader1: "customHeader1Value"
       health_check_url: ""
       is_core: true
+      # default: query_scope is empty
+      query_scope:
+        mesh_id: "mesh-1"
+        cluster: "cluster-east"
       thanos_proxy:
         enabled: false
         retention_period: "7d"
@@ -1263,7 +1278,7 @@ An example configuration is,</p>
 </div>
 
 <div class="property-description">
-<p>The file path location where the secret content will be mounted.</p>
+<p>The file path location where the secret content will be mounted. The custom secret cannot be mounted on a path that the operator will use to mount its secrets. Make sure you set your custom secret mount path to a unique, unused path. Paths such as <code>/kiali-configuration</code>, <code>/kiali-cert</code>, <code>/kiali-cabundle</code>, and <code>/kiali-secret</code> should not be used as mount paths for custom secrets because the operator may want to use one of those paths.</p>
 
 </div>
 
@@ -1282,7 +1297,7 @@ An example configuration is,</p>
 </div>
 
 <div class="property-description">
-<p>The name of the secret that is to be mounted to the Kiali pod&rsquo;s file system.</p>
+<p>The name of the secret that is to be mounted to the Kiali pod&rsquo;s file system. The name of the custom secret must not be the same name as one created by the operator. Names such as <code>kiali</code>, <code>kiali-cert-secret</code>, and <code>kiali-cabundle</code> should not be used as a custom secret name because the operator may want to create one with one of those names.</p>
 
 </div>
 
@@ -1699,9 +1714,12 @@ Example,</p>
     - http:
         paths:
         - path: /kiali
+          pathType: Prefix
           backend:
-            serviceName: kiali
-            servicePort: 20001
+            service
+              name: &quot;kiali&quot;
+              port: 
+                number: 20001
 </code></pre>
 
 </div>
@@ -2307,7 +2325,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The Prometheus label name used for identifying namespaces in metrics for custom dashboards. The default is <code>kubernetes_namespace</code> but it is quite common to use just <code>namespace</code> depending on your Prometheus configuration.</p>
+<p>The Prometheus label name used for identifying namespaces in metrics for custom dashboards. The default is <code>namespace</code> but you may want to use <code>kubernetes_namespace</code> depending on your Prometheus configuration.</p>
 
 </div>
 
@@ -2593,6 +2611,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property-description">
 <p>Used in the Components health feature. When true, the unhealthy scenarios will be raised as errors. Otherwise, they will be raised as a warning.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.custom_dashboards.prometheus.query_scope">.spec.external_services.custom_dashboards.prometheus.query_scope</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>A set of labelName/labelValue settings applied to every Prometheus query. Used to narrow unified metrics to only those scoped to the Kiali instance.</p>
 
 </div>
 
@@ -3242,7 +3279,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The namespace where the component is installed. It defaults to the Istio control plane namespace (e.g. <code>istio_namespace</code> setting. Note that the Istio documentation suggests you install the ingress and egress to different namespaces, so you most likely will want to explicitly set this namespace value for the ingress and egress components.</p>
+<p>The namespace where the component is installed. It defaults to the Istio control plane namespace (e.g. <code>istio_namespace</code>) setting. Note that the Istio documentation suggests you install the ingress and egress to different namespaces, so you most likely will want to explicitly set this namespace value for the ingress and egress components.</p>
 
 </div>
 
@@ -3794,6 +3831,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property-description">
 <p>Used in the Components health feature. When true, the unhealthy scenarios will be raised as errors. Otherwise, they will be raised as a warning.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.prometheus.query_scope">.spec.external_services.prometheus.query_scope</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>A set of labelName/labelValue settings applied to every Prometheus query. Used to narrow unified metrics to only those scoped to the Kiali instance.</p>
 
 </div>
 
