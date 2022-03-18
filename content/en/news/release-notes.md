@@ -13,7 +13,7 @@ Features:
 
 * [Research a new Graph layout to support large topologies](https://github.com/kiali/kiali/issues/4601)
 * [Improve the side panel in the Istio Config editor](https://github.com/kiali/kiali/issues/4241)
-* [ Reduce the number of requests to fetch health data on list pages](https://github.com/kiali/kiali/issues/4748)
+* [Reduce the number of requests to fetch health data on list pages](https://github.com/kiali/kiali/issues/4748)
 * [Improve the representation of edges and connections in large topologies](https://github.com/kiali/kiali/issues/4610)
 * [Add help messages for DestinationRules](https://github.com/kiali/kiali/issues/4554)
 * [Add help messages for RequestAuthentications](https://github.com/kiali/kiali/issues/4564)
