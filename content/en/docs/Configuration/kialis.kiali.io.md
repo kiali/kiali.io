@@ -113,6 +113,9 @@ spec:
                 values:
                 - S2
             topologyKey: topology.kubernetes.io/zone
+    # default: configmap_annotations is empty
+    configmap_annotations:
+      strategy.spinnaker.io/versioned: "false"
     # default: custom_secrets is an empty list
     custom_secrets:
     - name: "a-custom-secret"
@@ -369,6 +372,7 @@ spec:
       - "istio-ca-secret"
     clustering:
       enabled: true
+    disabled_features: []
     istio_injection_action: true
     istio_upgrade_action: false
     ui_defaults:
@@ -1212,6 +1216,25 @@ empty dashboard.</p>
 <div class="property-body">
 <div class="property-meta">
 <span class="property-type">(object)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.configmap_annotations">.spec.deployment.configmap_annotations</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>Custom annotations to be created on the Kiali ConfigMap.</p>
 
 </div>
 
@@ -4808,6 +4831,39 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property-description">
 <p>Flag to enable/disable clustering and federation related features.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.disabled_features">.spec.kiali_feature_flags.disabled_features</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>There may be some features that admins do not want to be accessible to users (even in &lsquo;view only&rsquo; mode). In this case, this setting allows you to disable one or more of those features entirely.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.disabled_features[*]">.spec.kiali_feature_flags.disabled_features[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
 
 </div>
 
