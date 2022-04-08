@@ -223,6 +223,10 @@ enable = false
 ## NEXT PARAMS.VERSIONS PLACEHOLDER
 
 [[ params.versions ]]
+  version = "v1.48"
+  url = "https://v1-48.kiali.io"
+
+[[ params.versions ]]
   version = "v1.47"
   url = "https://v1-47.kiali.io"
 
