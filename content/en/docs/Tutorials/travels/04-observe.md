@@ -37,13 +37,8 @@ the following commands:
 kubectl label namespace travel-agency istio-injection=enabled
 kubectl label namespace travel-portal istio-injection=enabled
 
-kubectl delete -f <(curl -L https://raw.githubusercontent.com/kiali/demos/master/travels/travel_agency.yaml) -n travel-agency
-kubectl delete -f <(curl -L https://raw.githubusercontent.com/kiali/demos/master/travels/travel_portal.yaml) -n travel-portal
-
-// Wait until all services, deployments and pods are deleted from the travel-agency and travel-portal namespaces
-
-kubectl apply -f <(curl -L https://raw.githubusercontent.com/kiali/demos/master/travels/travel_agency.yaml) -n travel-agency
-kubectl apply -f <(curl -L https://raw.githubusercontent.com/kiali/demos/master/travels/travel_portal.yaml) -n travel-portal
+kubectl rollout restart deploy -n travel-portal
+kubectl rollout restart deploy -n travel-agency
 ```
 
 <br />

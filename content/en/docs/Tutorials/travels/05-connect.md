@@ -128,7 +128,7 @@ Use the Fault Injection Wizard on *hotels* service to inject a delay
 
 ![Fault Injection Action](/images/tutorial/05-02-fault-injection-action.png "Fault Injection Action")
 
-Select an HTTP Delay and specify the "Delay percentage" and "Fixed Delay" values. The default values will introduce a 5 seconds delay into 100% of received uuests.
+Select an HTTP Delay and specify the "Delay percentage" and "Fixed Delay" values. The default values will introduce a 5 seconds delay into 100% of received requests.
 
 ![HTTP Delay](/images/tutorial/05-02-http-delay.png "HTTP Delay")
 
