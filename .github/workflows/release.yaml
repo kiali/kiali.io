@@ -3,13 +3,6 @@ name: Release
 on:
   workflow_dispatch:
     inputs:
-      release_type:
-        description: 'Release type'
-        required: true
-        default: 'auto'
-        type: choice
-        options:
-          - minor
       repository:
         description: Repository (in owner/repo format)
         required: true
@@ -26,7 +19,6 @@ jobs:
     name: Initialize
     runs-on: ubuntu-20.04
     outputs:
-      release_type: ${{ steps.release_type.outputs.release_type || github.event.inputs.release_type }}      
       releasing_version: ${{ steps.releasing_version.outputs.releasing_version }}      
     steps:
       - name: Checkout code
@@ -34,11 +26,6 @@ jobs:
         with:
           repository: ${{ github.event.inputs.repository }}
           ref: ${{ github.event.inputs.releasing_branch }}      
-      
-      - name: Determine release type
-        id: release_type        
-        run: |        
-          echo "::set-output name=release_type::${{ github.event.inputs.release_type }}"               
       
       - name: Determine releasing version        
         id: releasing_version
@@ -52,8 +39,6 @@ jobs:
       
       - name: Log information
         run: |
-          echo "Release type: ${{ steps.release_type.outputs.release_type }}"                  
-          
           echo "Releasing version: ${{ steps.releasing_version.outputs.releasing_version }}"
 
   release:
