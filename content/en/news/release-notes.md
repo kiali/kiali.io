@@ -6,6 +6,27 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 1.49.0
+Sprint Release: April 8th, 2022
+
+Features:
+
+* [Auth: Phase out usage of JWTs](https://github.com/kiali/kiali/issues/4542)
+* [Kiali UI and Kiali Server can point to a single commit](https://github.com/kiali/kiali/issues/4895)
+* [Add cypress UI tests around the Overview page](https://github.com/kiali/kiali/issues/4872)
+* [Update Prometheus client lib](https://github.com/kiali/kiali/issues/4884)
+* [Transfer frontend repo into kiali repo](https://github.com/kiali/kiali/issues/4825)
+* [Hack script to create a Kind cluster in CI](https://github.com/kiali/kiali/issues/4833)
+* [Feature flag to disable log browser](https://github.com/kiali/kiali/issues/4737)
+* [Support Gateways workloads in user namespaces](https://github.com/kiali/kiali/issues/3408)
+* [add the ability to add annotations to configmap.yaml](https://github.com/kiali/kiali/issues/4814)
+
+Fixes:
+
+* [ui crash with no gateways](https://github.com/kiali/kiali/issues/4892)
+* [UI messages at INFO level look just like ERROR level messages](https://github.com/kiali/kiali/issues/4871)
+* [fatal error: concurrent map writes](https://github.com/kiali/kiali/issues/4842)
+
 ## 1.48.0
 Sprint Release: March 18th, 2022
 
