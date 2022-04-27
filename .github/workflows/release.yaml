@@ -29,7 +29,7 @@ jobs:
           # The following command adds the .z part of the version          
           RAW_VERSION=$(echo "$CURRENT_VERSION.0")
           
-          echo "::set-output name=releasing_version::v$(./.github/workflows/util/bump.py minor $RAW_VERSION)"          
+          echo "::set-output name=releasing_version::$(./.github/workflows/util/bump.py minor $RAW_VERSION)"          
       
       - name: Log information
         run: |
