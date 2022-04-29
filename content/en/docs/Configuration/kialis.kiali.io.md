@@ -2220,7 +2220,7 @@ When empty, its default will be determined as follows,</p>
 
 <div class="property-description">
 <p>These external service configuration settings define how to connect to the external services
-like Prometheus, Grafana, and Jaoeger.</p>
+like Prometheus, Grafana, and Jaeger.</p>
 
 <p>Regarding sensitive values in the external_services &lsquo;auth&rsquo; sections:
 Some external services configured below support an &lsquo;auth&rsquo; sub-section in order to tell Kiali
