@@ -6,6 +6,28 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 1.50.0
+Sprint Release: April 29th, 2022
+
+Features:
+
+* [Add cypress UI tests around the Graph page Display menu](https://github.com/kiali/kiali/issues/4949)
+* [Add cypress UI tests around the Services List page](https://github.com/kiali/kiali/issues/4955)
+* [Improve Kiali server release pipeline using Github Actions](https://github.com/kiali/kiali/issues/4869)
+* [Improve Kiali operator release pipeline using Github Actions](https://github.com/kiali/kiali/issues/4870)
+* [Improve Helm charts release pipeline using Github Actions](https://github.com/kiali/kiali/issues/4992)
+* [Improve Kiali site release pipeline using Github Actions](https://github.com/kiali/kiali/issues/4993)
+
+Fixes:
+
+* [Remove Snyk and consolidate on GitHub Dependabot](https://github.com/kiali/kiali/pull/4915)
+* [Update operator's Ansible base image](https://github.com/kiali/kiali/issues/4953)
+* [Quite some logging](https://github.com/kiali/kiali/pull/4973)
+* [Clean expired clients](https://github.com/kiali/kiali/issues/4849)
+* [Minor Demo and Tutorial enhancements](https://github.com/kiali/demos/pull/46)
+* [Fix to Destination Rule validation (.svc)](https://github.com/kiali/kiali/issues/4975)
+* [Fix to Virtual Service YAML display](https://github.com/kiali/kiali/issues/4894)
+
 ## 1.49.0
 Sprint Release: April 8th, 2022
 
