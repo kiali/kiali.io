@@ -170,7 +170,7 @@ xdg-open http://$(minikube ip)/kialianon
 
 ## Reconfigure Kiali Server
 
-A Kial Server can be reconfigured by simply editing its Kiali CR. The Kiali Operator will perform all the necessary tasks to complete the reconfiguration and reboot the Kiali Server pod when necessary. For example, to change the web root for the Kiali Server:
+A Kiali Server can be reconfigured by simply editing its Kiali CR. The Kiali Operator will perform all the necessary tasks to complete the reconfiguration and reboot the Kiali Server pod when necessary. For example, to change the web root for the Kiali Server:
 
 ```bash
 $ kubectl patch kiali kiali -n istio-system --type merge --patch '{"spec":{"server":{"web_root":"/specialkiali"}}}'
