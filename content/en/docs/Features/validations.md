@@ -91,6 +91,34 @@ Either remove the host from the list, correct if there is any typo or deploy a n
 - [Service association requirement](https://istio.io/docs/ops/deployment/requirements)
 
 
+### KIA0106 - Service Account not found for this principal
+
+AuthorizationPolicy has a Source field, where specifies the source identities of a request.
+In a Source field it accepts the principals, a list of peer identities derived from the peer certificate. The peer identity is in the format of "<TRUST_DOMAIN>/ns/<NAMESPACE>/sa/<SERVICE_ACCOUNT>", for example, "cluster.local/ns/default/sa/productpage".
+
+A validation Error message on a principal value means, that the specified Service Account was not found in a given Namespace.
+
+#### Resolution
+
+Correct the principal to refer to existing Service Account, make sure that the value is in correct format without a typo.
+
+#### Severity
+
+<i class="fas fa-times-circle"></i> Error
+
+#### Example
+
+```yaml
+{{% readfile file="/static/files/validation_examples/806.yaml" %}}
+```
+
+#### See Also
+
+- [AuthorizationPolicy documentation](https://istio.io/docs/reference/config/security/authorization-policy)
+- [Definition of the Source field](https://istio.io/docs/reference/config/security/authorization-policy/#Source)
+- [Service association requirement](https://istio.io/docs/ops/deployment/requirements)
+
+
 ## Destination rules {#destinationrules}
 
 ### KIA0201 - More than one DestinationRules for the same host subset combination
