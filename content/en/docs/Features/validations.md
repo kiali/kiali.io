@@ -94,7 +94,7 @@ Either remove the host from the list, correct if there is any typo or deploy a n
 ### KIA0106 - Service Account not found for this principal
 
 AuthorizationPolicy has a Source field, where specifies the source identities of a request.
-In a Source field it accepts the principals, a list of peer identities derived from the peer certificate. The peer identity is in the format of "<TRUST_DOMAIN>/ns/<NAMESPACE>/sa/<SERVICE_ACCOUNT>", for example, "cluster.local/ns/default/sa/productpage".
+In a Source field it accepts the principals, a list of peer identities derived from the peer certificate. The peer identity is in the format of `<TRUST_DOMAIN>/ns/<NAMESPACE>/sa/<SERVICE_ACCOUNT>`, for example, `cluster.local/ns/default/sa/productpage`.
 
 A validation Error message on a principal value means, that the specified Service Account was not found in a given Namespace.
 
