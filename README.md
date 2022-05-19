@@ -7,6 +7,14 @@ This repository contains the source code for the [http://kiali.io](http://kiali.
 
 The website is written using markdown, the [Docsy](https://www.docsy.dev/) theme, and generated using [Hugo](https://gohugo.io). It is hosted on Github and deployed using netlify.
 
+## Table of Contents
+- [Requirements](#requirements)
+- [Configuring and Running](#configuring-and-running)
+- [Upgrading Hugo Version](#upgrading-hugo-version)
+- [Documentation Versioning](#documentation-versioning)
+- [Production Deployment](#production-deployment)
+- [Directory Structure](#directory-structure)
+- [License and Code of Conduct](#license-and-code-of-conduct)
 
 ## Requirements
 
