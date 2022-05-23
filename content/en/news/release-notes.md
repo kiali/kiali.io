@@ -6,6 +6,25 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 1.51.0
+Sprint Release: May 20th, 2022
+
+Features:
+
+* [add cypress tests for graph replay](https://github.com/kiali/kiali/issues/5084)
+* [Migrate e2e test suite to Golang](https://github.com/kiali/kiali/issues/4826)
+* [(cypress) UI tests around the Graph page Toolbars (otherwise not covered)](https://github.com/kiali/kiali/issues/4960)
+* [validation: authorization policy validation, principals not found](https://github.com/kiali/kiali/issues/4424)
+* [Make the Istio Config details poll explicit](https://github.com/kiali/kiali/issues/4936)
+* [Add cypress UI tests around the Workload List page](https://github.com/kiali/kiali/issues/4912)
+* [operator release pipeline needs to update createdAt field in CSVs](https://github.com/kiali/kiali/issues/5055)
+* [add creation of olm metadata to the new github release workflow](https://github.com/kiali/kiali/issues/5025)
+* [Investigate update of Patternfly to be compatible with OS Console](https://github.com/kiali/kiali/issues/4836)
+* [Investigate testing demos scripts on upstream + OpenShift platform](https://github.com/kiali/kiali/issues/5045)
+* [Schedule release pipelines](https://github.com/kiali/kiali/issues/5029)
+
+Fixes:
+
 ## 1.50.0
 Sprint Release: April 29th, 2022
 
