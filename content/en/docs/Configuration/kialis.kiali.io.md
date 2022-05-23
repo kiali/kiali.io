@@ -122,12 +122,18 @@ spec:
       mount: "/a-custom-secret-path"
       optional: true
     hpa:
-      api_version: "autoscaling/v2beta2"
+      api_version: "autoscaling/v2"
       # default: spec is empty
       spec:
         maxReplicas: 2
         minReplicas: 1
-        targetCPUUtilizationPercentage: 80
+        metrics:
+        - type: Resource
+          resource:
+            name: cpu
+            target:
+              type: Utilization
+              averageUtilization: 50
     # default: host_aliases is an empty list
     host_aliases:
     - ip: "192.168.1.100"
@@ -1448,11 +1454,17 @@ A typical way to configure this setting is,</p>
 A typical way to configure HPA for Kiali is,</p>
 
 <pre><code>hpa:
-  api_version: &quot;autoscaling/v2beta2&quot;
+  api_version: &quot;autoscaling/v2&quot;
   spec:
     maxReplicas: 2
     minReplicas: 1
-    targetCPUUtilizationPercentage: 80
+    metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 50
 </code></pre>
 
 </div>
@@ -1741,7 +1753,7 @@ Example,</p>
           backend:
             service
               name: &quot;kiali&quot;
-              port: 
+              port:
                 number: 20001
 </code></pre>
 
