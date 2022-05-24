@@ -22,6 +22,7 @@ Features:
 * [Investigate update of Patternfly to be compatible with OS Console](https://github.com/kiali/kiali/issues/4836)
 * [Investigate testing demos scripts on upstream + OpenShift platform](https://github.com/kiali/kiali/issues/5045)
 * [Schedule release pipelines](https://github.com/kiali/kiali/issues/5029)
+* [Update to use new HPA v2](https://github.com/kiali/kiali-operator/pull/536)
 
 Fixes:
 
