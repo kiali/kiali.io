@@ -589,7 +589,7 @@ Make sure that service port number is consistent with the protocol.
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/blob/v1.42.0/business/checkers/services/port_mapping_checker.go)
+- [Validator source code](https://github.com/kiali/kiali/blob/v1.51.0/business/checkers/services/port_mapping_checker.go)
 - [Istio documentation protocol selection](https://istio.io/latest/docs/ops/configuration/traffic-management/protocol-selection)
 
 
