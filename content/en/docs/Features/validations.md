@@ -569,6 +569,30 @@ Rename the service port appProtocol field to follow the form and the traffic flo
 - [Istio documentation protocol selection](https://istio.io/latest/docs/ops/configuration/traffic-management/protocol-selection)
 
 
+### KIA0603 - Port number must match the protocol
+
+When port number does not match the protocol. For instance, when the port protocol value is 'http' then the port number should be '80'.
+
+#### Resolution
+
+Make sure that service port number is consistent with the protocol.
+
+#### Severity
+
+<i class="fas fa-exclamation-triangle"></i> Warning
+
+#### Example
+
+```yaml
+{{% readfile file="/static/files/validation_examples/603.yaml" %}}
+```
+
+#### See Also
+
+- [Validator source code](https://github.com/kiali/kiali/blob/v1.42.0/business/checkers/services/port_mapping_checker.go)
+- [Istio documentation protocol selection](https://istio.io/latest/docs/ops/configuration/traffic-management/protocol-selection)
+
+
 ## Services {#services}
 
 ### KIA0701 - Deployment exposing same port as Service not found
