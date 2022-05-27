@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Jaeger Pod
+JAEGER_POD=$(kubectl get pod -n istio-system -l app=jaeger -o=jsonpath={.items[*].metadata.name})
+echo "Jaeger port-forward"
+echo "kubectl port-forward -n istio-system $P8S_POD 16686:16686"
+while true
+do
+    kubectl port-forward -n istio-system $JAEGER_POD 16686:16686
+    echo "Jaeger connection lost, re-starting port-forward"
+done

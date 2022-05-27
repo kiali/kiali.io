@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+echo "proxy status"
+ps -ef | grep proxy-start | grep -v grep
+ps -ef | grep proxy-istiod | grep -v grep
+ps -ef | grep proxy-jaeger | grep -v grep
+ps -ef | grep proxy-grafana | grep -v grep
+ps -ef | grep proxy-k8s | grep -v grep
+ps -ef | grep proxy-p8s | grep -v grep
+ps -ef | grep kubectl | grep -v grep

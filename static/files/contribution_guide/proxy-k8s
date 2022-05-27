@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+echo "Kubernetes Proxy"
+echo "kubectl proxy --port 8080"
+while true
+do
+    kubectl proxy --port 8080
+    echo "Kubectl proxy connection lost, re-starting proxy"
+done

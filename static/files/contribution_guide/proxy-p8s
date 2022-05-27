@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+P8S_POD=$(kubectl get pod -n istio-system -l app=prometheus -o=jsonpath={.items[*].metadata.name})
+echo "Prometheus port-forward"
+echo "kubectl port-forward -n istio-system $P8S_POD 19090:9090"
+while true
+do
+    kubectl port-forward -n istio-system $P8S_POD 19090:9090
+    echo "Prometheus connection lost, re-starting port-forward"
+done
+

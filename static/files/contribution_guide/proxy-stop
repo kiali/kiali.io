@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+echo "Kill proxy-start"
+ps -ef | grep proxy-start | grep -v grep | awk ' { print "kill -9 " $2 } ' | sh
+ps -ef | grep proxy-istiod | grep -v grep | awk ' { print "kill -9 " $2 } ' | sh
+ps -ef | grep proxy-jaeger | grep -v grep | awk ' { print "kill -9 " $2 } ' | sh
+ps -ef | grep proxy-k8s | grep -v grep | awk ' { print "kill -9 " $2 } ' | sh
+ps -ef | grep proxy-p8s | grep -v grep | awk ' { print "kill -9 " $2 } ' | sh
+ps -ef | grep proxy-grafana | grep -v grep | awk ' { print "kill -9 " $2 } ' | sh
+
+echo "Kill kubectl processes"
+ps -ef | grep kubectl | grep -v grep | awk ' { print "kill -9 " $2 } ' | sh

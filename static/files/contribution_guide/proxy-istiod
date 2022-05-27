@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+ISTIOD_POD=$(kubectl get pod -n istio-system -l app=istiod -o=jsonpath={.items[*].metadata.name})
+echo "IstioD port-forward"
+echo "kubectl port-forward -n istio-system $ISTIOD_POD 15014:15014"
+while true
+do
+    kubectl port-forward -n istio-system $ISTIOD_POD 15014:15014
+    echo "Istiod connection lost, re-starting port-forward"
+done
+

@@ -1,0 +1,101 @@
+api:
+  namespaces:
+    exclude:
+      - istio-operator
+      - kube.*
+      - openshift.*
+      - ibm.*
+      - kiali-operator
+    label_selector: ""
+server:
+  address: localhost
+  port: 8000
+  static_content_root_directory: /home/userTests/kiali-static-files
+in_cluster: false
+deployment:
+  accessible_namespaces: [ "**" ]
+extensions:
+  iter_8:
+    enabled: true
+external_services:
+  istio:
+    istio_canary_revision:
+      current: prod
+      upgrade: canary
+    url_service_version: http://localhost:15014/version
+    config_map_name: istio
+    istio_identity_domain: svc.cluster.local
+  prometheus:
+    url: http://localhost:19090
+    cache_enabled: true
+  tracing:
+    enabled: true
+    in_cluster_url: http://localhost:16685/jaeger
+    url: http://localhost:16686/jaeger
+    use_grpc: false
+    whitelist_istio_system:
+    - jaeger-query
+    - istio-ingressgateway
+    namespace: istio-system
+    port: 443
+    service: tracing
+    auth:
+      insecure_skip_verify: false
+      password: cTSM/77tNZ0yGw/ZJXkO7IObbemLJjFkCp4GuqLzXIgE8RWrJvWjFViv9Dpu0SguxD3N/oCUPJnyreoHuSCNZ9kFTrHgRl033waUpTAYZPCEzMPw9Rui5C3/o5x4bclHq0IQ8OGr5LuN2L1WCXrEo9iUntPMovbsP1Alqwh0LZ79ztIkObNBNniX1tuo0fM9O53QKSAjGBnK13LFjHC7wXo+mWw1fzHf9x4jib6UDbeuzHfugDS0Mtj4E9QDRHjpPUrh66dVib4kCJ4nMO19BuiIk+OgbNdhBhg3wn1fn7F6+d/i6Mbq/C/OJylSL6ewUVwIvIAmcRM/jdTqdz0w
+      type: basic
+      use_kiali_token: false
+      username: internal
+  grafana:
+    in_cluster_url: http://localhost:13000
+    url: http://localhost:13000
+    dashboards:
+      - name: "Istio Service Dashboard"
+        variables:
+          namespace: "var-namespace"
+          service: "var-service"
+      - name: "Istio Workload Dashboard"
+        variables:
+          namespace: "var-namespace"
+          workload: "var-workload"
+  custom_dashboards:
+    enabled: false
+#health_config:
+#  rate:
+#    - namespace: "alpha"
+#      tolerance:
+#        - code: "4XX"
+#          degraded: 30
+#          failure: 50
+#          protocol: "http"
+#        - code: "5XX"
+#          degraded: 30
+#          failure: 50
+#          protocol: "http"
+#    - namespace: "beta"
+#      tolerance:
+#        - code: "[4]\\d\\d"
+#          degraded: 30
+#          failure: 40
+#          protocol: "http"
+#        - code: "[5]\\d\\d"
+#          protocol: "http"
+auth:
+  strategy: anonymous
+login_token:
+  signing_key: test
+kubernetes_config:
+  cache_enabled: true
+  cache_duration: 300
+  cache_namespaces:
+    - bookinfo
+    - istio-system
+  cache_token_namespace_duration: 120
+  excluded_workloads: []
+kiali_feature_flags:
+  istio_injection_action: true
+  istio_upgrade_action: false
+istio_labels:
+  app_label_name: app
+  injection_label_name: istio-injection
+  injection_label_rev: istio.io/rev
+  version_label_name: version
