@@ -67,7 +67,7 @@ jobs:
         id: release_type
         run: |          
           DO_RELEASE=$(python minor.py)
-          if [[ $DO_RELEASE == "0" ]]
+          if [[ $DO_RELEASE == "1" ]]
           then
             echo "::set-output name=release_type::minor"
           else
