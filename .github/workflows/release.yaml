@@ -1,6 +1,9 @@
 name: Release
 
 on:
+  schedule:
+    # Every Monday at 19:00 (UTC)
+    - cron: '00 19 * * MON'
   workflow_dispatch:
     inputs:
       release_branch:
@@ -14,14 +17,65 @@ jobs:
     name: Initialize
     runs-on: ubuntu-20.04
     outputs:
+      release_type: ${{ steps.release_type.outputs.release_type }}
       releasing_version: ${{ steps.releasing_version.outputs.releasing_version }}      
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
         with:          
           ref: ${{ github.event.inputs.release_branch }}      
-      
-      - name: Determine releasing version        
+
+      - name: Prepare scripts
+        run: |
+          cat <<-EOF > bump.py
+          import sys
+          release_type = sys.argv[1]
+          version = sys.argv[2]
+          parts = version.split('.')
+          major = int(parts[0][1:])
+          minor = int(parts[1])
+          patch = int(parts[2])
+          if release_type == 'major':
+              major = major + 1
+              minor = 0
+              patch = 0
+          elif release_type == 'minor':
+              minor = minor + 1 
+              patch = 0
+          elif release_type == 'patch':
+              patch = patch + 1
+          print('.'.join(['v' + str(major), str(minor), str(patch)]))
+          EOF
+          
+          cat <<-EOF > minor.py
+          import datetime
+
+          # The base date can be any end of sprint from the past
+          base = int(datetime.datetime.strptime("24/04/2022", "%d/%m/%Y").timestamp())
+          now = int(datetime.datetime.now().timestamp())
+
+          diff = now - base
+
+          days_elapsed = int(diff / (24*60*60))
+          weeks_elapsed = int(days_elapsed / 7)
+          weeks_mod3 = int(weeks_elapsed % 3)
+
+          print(weeks_mod3)
+          EOF
+
+      - name: Determine release type
+        id: release_type
+        run: |          
+          DO_RELEASE=$(python minor.py)
+          if [[ $DO_RELEASE == "0" ]]
+          then
+            echo "::set-output name=release_type::minor"
+          else
+            echo "::set-output name=release_type::skip"
+          fi        
+
+      - name: Determine releasing version
+        if: ${{ steps.release_type.outputs.release_type != 'skip' }}
         id: releasing_version
         run: |
           CURRENT_VERSION=$(awk '/## NEXT/,/url/' config.toml | grep -o '\"v.*\"' | tr -d '\"' | xargs)
@@ -31,12 +85,16 @@ jobs:
           
           echo "::set-output name=releasing_version::$(./.github/workflows/util/bump.py minor $RAW_VERSION)"          
       
+      - name: Cleanup
+        run: rm bump.py minor.py
+
       - name: Log information
         run: |
           echo "Releasing version: ${{ steps.releasing_version.outputs.releasing_version }}"
-
+  
   release:
     name: Release
+    if: ${{ needs.initialize.outputs.release_type != 'skip' && ((github.event_name == 'schedule' && github.repository == 'kiali/kiali.io') || github.event_name != 'schedule') }}
     runs-on: ubuntu-20.04
     needs: [initialize]
     env:      
