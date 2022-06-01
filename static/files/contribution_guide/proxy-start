@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-echo "Starting proxies to k8s, p8s, istiod and jaeger using kubectl port-forward"
-./proxy-k8s &
-./proxy-p8s &
-./proxy-istiod &
-./proxy-jaeger &
-./proxy-grafana &

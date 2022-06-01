@@ -32,48 +32,12 @@ In this section it is explained how to set up a development environment:
 
 Before the setup, we will need to do a port-forward of the services that kiali is using.
 
-These are some example scripts to make this task easier, using kubectl port-forward:
-
-proxy_grafana: 
-```shell
-{{% readfile file="/static/files/contribution_guide/proxy-grafana" %}}
-```
-
-proxy_istiod:
-```shell
-{{% readfile file="/static/files/contribution_guide/proxy-istiod" %}}
-```
-
-proxy_jaeger:
-```shell
-{{% readfile file="/static/files/contribution_guide/proxy-jaeger" %}}
-```
-
-proxy_p8s:
-```shell
-{{% readfile file="/static/files/contribution_guide/proxy-p8s" %}}
-```
-
-proxy_start:
-```shell
-{{% readfile file="/static/files/contribution_guide/proxy-start" %}}
-```
-
-proxy_stop:
-```shell
-{{% readfile file="/static/files/contribution_guide/proxy-stop" %}}
-```
-
-proxy_status:
-```shell
-{{% readfile file="/static/files/contribution_guide/proxy-status" %}}
-```
-
-To do a port-forward for all the required services, we call proxy_start script:
+We can use the `hack/run-kiali.sh` script for this purpose. To run it following the above schema:
 
 ```shell
-./proxy_start
+./run-kiali.sh -pg 13000:3000 -pp 19090:9090 -app 8080 -es false -iu http://127.0.0.1:15014
 ```
+
 
 ### Local Configuration File
 
