@@ -1,7 +1,6 @@
 ---
-title: "Contribution Guidelines"
-linkTitle: "Contribution Guidelines"
-description: "How to contribute to Kiali."
+title: "How to Contribute"
+description: "Contribution guidelines to Kiali."
 weight: 10
 ---
 
