@@ -16,7 +16,7 @@ In the following example it should show the validation of "More than one Destina
 {{% readfile file="/static/files/validation_examples/001.yaml" %}}
 ```
 
-See the recomendation Istio gives regarding [host format](https://istio.io/docs/reference/config/networking/destination-rule/#DestinationRule):
+See the recomendation Istio gives regarding [host format](https://istio.io/docs/reference/config/networking/destination-rule):
 _"To avoid potential misconfigurations, it is recommended to always use fully qualified domain names over short names."_
 
 For best results with Kiali, you should use fully qualified domain names when specifying hosts.

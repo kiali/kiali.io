@@ -146,7 +146,7 @@ Either merge the settings to a single DR or split the subsets in such a way that
 #### See Also
 
 - [Validator source code](https://github.com/kiali/kiali/tree/v1.42.0/business/checkers/destinationrules/multi_match_checker.go)
-- [Destination rule documentation](https://istio.io/docs/reference/config/networking/destination-rule/#DestinationRule)
+- [Destination rule documentation](https://istio.io/docs/reference/config/networking/destination-rule)
 - [Istio source code for merging](https://github.com/istio/istio/blob/0e9cecab053aab744a7c3a731aacb07fd794d5f9/pilot/pkg/model/push_context.go#L879)
 - [Istio documentation: Split large virtual services and destination rules into multiple resources](https://istio.io/docs/ops/best-practices/traffic-management/#split-virtual-services)
 
@@ -174,7 +174,7 @@ Correct the host to point to a correct service, in this namespace or with FQDN t
 #### See Also
 
 - [Validator source code](https://github.com/kiali/kiali/tree/v1.42.0/business/checkers/destinationrules/no_dest_checker.go)
-- [Destination rule documentation](https://istio.io/docs/reference/config/networking/destination-rule/#DestinationRule)
+- [Destination rule documentation](https://istio.io/docs/reference/config/networking/destination-rule)
 
 
 
@@ -207,7 +207,7 @@ Also, verify that the labels are correctly matching a workload with the intended
 #### See Also
 
 - [Validator source code](https://github.com/kiali/kiali/tree/v1.42.0/business/checkers/destinationrules/no_dest_checker.go)
-- [Destination rule documentation](https://istio.io/docs/reference/config/networking/destination-rule/#DestinationRule)
+- [Destination rule documentation](https://istio.io/docs/reference/config/networking/destination-rule)
 
 
 
@@ -353,7 +353,7 @@ Validate that a subset is properly configured.
 
 #### See Also
 
-- [DestinationRule Subset](https://istio.io/latest/docs/reference/config/networking/destination-rule/#Subset)
+- [DestinationRule Subset](https://istio.io/latest/docs/reference/config/networking/destination-rule)
 
 
 ## Gateways {#gateways}
@@ -740,7 +740,7 @@ Correct the host to point to a correct service (in this namespace or with FQDN t
 #### See Also
 
 - [Validator source code](https://github.com/kiali/kiali/tree/v1.42.0/business/checkers/virtualservices/no_host_checker.go)
-- [Destination rule documentation](https://istio.io/docs/reference/config/networking/destination-rule/#DestinationRule)
+- [Destination rule documentation](https://istio.io/docs/reference/config/networking/destination-rule)
 
 
 
