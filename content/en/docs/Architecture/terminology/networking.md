@@ -49,4 +49,4 @@ For more information see the Source definition in the [Istio Glossary](https://i
 
 ### Subset
 
-For more information see the [Istio Subset Documentation](https://istio.io/docs/reference/config/networking/destination-rule/#Subset).
+For more information see the [Istio Subset Documentation](https://istio.io/docs/reference/config/networking/destination-rule).

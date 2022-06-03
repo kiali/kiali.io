@@ -399,9 +399,9 @@ Understanding what happened:
 
 [(i) Circuit Breaking](https://istio.io/latest/docs/tasks/traffic-management/circuit-breaking/)
 
-[(ii) Outlier Detection](https://istio.io/latest/docs/reference/config/networking/destination-rule/#OutlierDetection)
+[(ii) Outlier Detection](https://istio.io/latest/docs/reference/config/networking/destination-rule)
 
-[(iii) Connection Pool Settings](https://istio.io/latest/docs/reference/config/networking/destination-rule/#ConnectionPoolSettings)
+[(iii) Connection Pool Settings](https://istio.io/latest/docs/reference/config/networking/destination-rule)
 
 [(iv) Envoy's Circuit breaking Architecture](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/circuit_breaking)
 
