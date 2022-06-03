@@ -139,6 +139,7 @@ Kiali currently requires the following Istio metrics and attributes:
 |source_workload                   |all ||
 |source_workload_namespace         |all ||
 
+<br />
 
 Kiali currently requires the following Envoy metrics:
 
@@ -152,6 +153,7 @@ Kiali currently requires the following Envoy metrics:
 |envoy_server_memory_heap_size               |used in workload details|
 |envoy_server_uptime                         |used in workload details|
 
+<br />
 
 ### What is the License?
 
