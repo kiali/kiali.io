@@ -65,7 +65,7 @@ URL_IGNORE=\#$\
           ,/^http://tracing.istio-system.*/$\
           ,/^https://tracing-service.*/
 
-NEW_URLS=$(shell scripts/ignore_new_urls.sh)
+NEW_URLS=$(shell scripts/ignore_new_urls.sh 2> /dev/null)
 URL_IGNORE:=$(URL_IGNORE)$(NEW_URLS)
 
 ## validate-site: Builds the site and validates the pages. This is used for CI

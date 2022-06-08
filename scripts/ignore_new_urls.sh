@@ -13,8 +13,7 @@ main() {
   if [[ "$line" =~ .*"$SUB".* ]]; then
     SUBSTR=$(echo $line | sed 's,content/en/docs/,,g')
     PATTERN=$(echo "${SUBSTR%.*}")
-    URL=$(echo ",/.*${SUBSTR%.*}.*/")
-    URL=$(echo "$URL" | awk '{print tolower($0)}')
+    URL=$(echo ",/.*${SUBSTR%.*}.*/" | awk '{print tolower($0)}' | sed 's, ,-,g')
     EXCLUDE_URLS="$EXCLUDE_URLS$URL"
   fi;
   done <<< "$(git diff --name-only --diff-filter=ACR $MERGEBASE)"
