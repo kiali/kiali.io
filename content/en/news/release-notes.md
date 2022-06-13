@@ -6,6 +6,35 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 1.52.0
+Sprint Release: June 10th, 2022
+
+Features:
+
+* [Update beta interfaces for CronJob workloads](https://github.com/kiali/kiali/issues/4519)
+* [Adjust font style in charts options](https://github.com/kiali/kiali/issues/5168)
+* ["This subset's labels are not found in any matching host" - DestinationRule and ServiceEntry](https://github.com/kiali/kiali/issues/5131)
+* [Upgrade the Patternfly framework](https://github.com/kiali/kiali/issues/4260)
+* [Review conditional rendering in the kiosk mode](https://github.com/kiali/kiali/issues/5129)
+* [Add more mechanisms to provide OpenShift tokens to Kiali](https://github.com/kiali/kiali/issues/5127)
+* [Improve the upstream pipelines](https://github.com/kiali/kiali/issues/4827)
+* [UI tests around the Graph page Find/Hide](https://github.com/kiali/kiali/issues/5073)
+* [Kiali and Istio validation messages should be placed together](https://github.com/kiali/kiali/issues/4864)
+
+Fixes:
+
+* [Update font color on green/red labels for trace details](https://github.com/kiali/kiali/issues/5092)
+* [Toolbar icons misaligned ](https://github.com/kiali/kiali/issues/5148)
+* [Adjust Istio/Kiali version warnings](https://github.com/kiali/kiali/issues/5166)
+* [(e2e) TestAuthPolicyPrincipalsError test flaking](https://github.com/kiali/kiali/issues/5164)
+* [Envoy filter broken](https://github.com/kiali/kiali/issues/5161)
+* [(cypress) Sidecar injection tests sometimes fail](https://github.com/kiali/kiali/issues/5076)
+* [Fix find/hide toolbar alignment issues](https://github.com/kiali/kiali/issues/5125)
+* [Fix "info" icons in the yaml config editor](https://github.com/kiali/kiali/issues/5097)
+* [Multiple condition values under builder are displayed without comma to separate multiple values](https://github.com/kiali/kiali/issues/5111)
+* [operator aborts if cluster does not support default HPA version](https://github.com/kiali/kiali/issues/5115)
+* [Validations missing for few keys of authorization policy conditions](https://github.com/kiali/kiali/issues/5109)
+
 ## 1.51.0
 Sprint Release: May 20th, 2022
 
