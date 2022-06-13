@@ -25,7 +25,7 @@ The certificates shown depends on how Istio is configured. The following cases a
 
 * Using Istio CA certificates (default), the information shown is from a secret named *istio-ca-secret*.
 * Using [Plug in CA certificates](https://istio.io/latest/docs/tasks/security/cert-management/plugin-ca-cert/), the information shown is from a secret named *cacerts*.
-* Using [Custom CA with Kubernetes CSR](https://istio.io/latest/docs/tasks/security/cert-management/custom-ca-k8s/), the information shown is from a custom CA integrated with the Kubernetes CSR API.
+* Using [DNS certificates](https://istio.io/v1.13/docs/tasks/security/cert-management/dns-cert/), the information shown is from reading many secrets found in Istio configuration. *DNS certificates are not supported since Istio 1.14*
 
 The following is an example of viewing the default case:
 
