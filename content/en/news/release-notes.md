@@ -11,7 +11,6 @@ Sprint Release: June 10th, 2022
 
 Features:
 
-* [Define a structure for future plugins development](https://github.com/kiali/kiali/issues/4934)
 * [Update beta interfaces for CronJob workloads](https://github.com/kiali/kiali/issues/4519)
 * [Adjust font style in charts options](https://github.com/kiali/kiali/issues/5168)
 * ["This subset's labels are not found in any matching host" - DestinationRule and ServiceEntry](https://github.com/kiali/kiali/issues/5131)
