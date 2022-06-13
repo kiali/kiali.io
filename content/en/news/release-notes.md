@@ -15,7 +15,6 @@ Features:
 * [Update beta interfaces for CronJob workloads](https://github.com/kiali/kiali/issues/4519)
 * [Adjust font style in charts options](https://github.com/kiali/kiali/issues/5168)
 * ["This subset's labels are not found in any matching host" - DestinationRule and ServiceEntry](https://github.com/kiali/kiali/issues/5131)
-* [plugin should log its version (git commit or some build version)](https://github.com/kiali/openshift-servicemesh-plugin/issues/16)
 * [Upgrade the Patternfly framework](https://github.com/kiali/kiali/issues/4260)
 * [Review conditional rendering in the kiosk mode](https://github.com/kiali/kiali/issues/5129)
 * [Add more mechanisms to provide OpenShift tokens to Kiali](https://github.com/kiali/kiali/issues/5127)
