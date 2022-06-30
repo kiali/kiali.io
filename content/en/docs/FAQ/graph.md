@@ -4,6 +4,24 @@ description: "Questions about Kiali's graph, mini-graph, node-detail-graph, or g
 ---
 
 
+### Why is my graph empty? {#emptygraph}
+
+There are several reasons why a graph may be empty.  First, make sure you have selected at least one namespace.  Kiali will look for traffic into, out of, and within the selected namespaces.  Another reason is that Istio is not actually generating the expected telemetry.  This is typically an indication that workload pods have not been injected with the Istio sidecar proxy (Envoy proxy).  But it can also mean that there is an issue with Prometheus configuration, and it is not scraping metrics as expected.  To verify that telemetry is being reported to Prometheus, see [this FAQ entry](#queryprom).
+
+The primary reason a graph is empty is just that there is no measurable request traffic for the selected namespaces, for the selected time period.  Note that to generate a request rate, at least two requests must be recorded, and that Kiali only records request rates >= .01 request-per-minute.  Check your selection in the Duration dropdown, if it is small, like 1m, you may need to increase the time period to 5m or higher.
+
+You can enable the "Idle Edges" Display option to include request edges that previously had traffic, but not during the requested time period.  This is disabled by default to present a cleaner graph, but can be enabled to get a full picture of current and previous traffic.
+
+Older versions of Kiali may show an empty graph for shorter duration options, depending on the Prometheus `globalScrapeInterval` configuration setting.  For more, see [this FAQ entry](#scrapeduration).
+
+
+### Why is my Duration dropdown menu missing entries? {#scrapeduration}
+
+The Duration menu for the graph, and also other pages, does not display invalid options based on the Prometheus configuration.  Options greater than the `tsdbRetentionTime` do not make sense.  For example, if Prometheus stores 7 days of metrics then Kiali will not show Duration options greater than 7 days.
+
+More recently, Kiali also considers `globalScrapeInterval`.  Because request-rate calculation requires a minimum of two data-points, Duration options less than 2 times the `globalScrapeInterval` will not be shown.  For example, if Prometheus scrapes every 1m, the 1m Duration option will not be shown.  Note that the default `globalScrapeInterval` for Helm installs of Prometheus is 1m (at the time of this writing).
+
+
 ### Why are my TCP requests disconnected in the graph?
 
 Some users are surprised when requests are not connected in the graph.  This is normal Istio telemetry for TCP requests if mTLS is not enabled. For HTTP requests, the requests will be connected even without MTLS, because Istio uses headers to exchange workload metadata between source and destination.  With the disconnected telemetry you will see an edge from a workload to a terminal service node.  That's the first hop.  And then another edge from "Unknown" to the expected destination service/workload.  In the graph below, this can be seen for the requests from myapp to redis and mongodb:
@@ -11,7 +29,7 @@ Some users are surprised when requests are not connected in the graph.  This is 
 ![Disconnected graph for non-mTLS TCP requests](/images/documentation/faq/graph/disconnected-tcp.png)
 
 
-### Why my external HTTPS traffic is showing as TCP?
+### Why is my external HTTPS traffic showing as TCP?
 
 Istio can't recognize HTTPS request that go directly to the service, the reason is that these
 requests are encrypted and are recognized as TCP traffic.
@@ -27,7 +45,7 @@ The layout for Kiali Graph may render differently, depending on the data to disp
 to have a single layout that renders nicely in every situation.
 That's why Kiali offers a choice of several layout algorithms. However, we may still find some scenarios where none of the proposed algorithms offer a satisfying display.
 If Kiali doesn't render your graph layout in a satisfactory manner please switch to another layout option.
-This can be done from the _Graph Toolbar_ located on the bottom left of the graph.
+This can be done from the _Graph Toolbar_ located on the bottom left of the graph. Note that you can select different layouts for the whole graph, and for inside the namespace boxes.
 
 If Kiali doesn't produce a good graph for you, don't hesitate to [open an issue in GitHub](https://github.com/kiali/kiali/issues/new?template=bug_report.md) or reach out via the usual channels.
 

@@ -25,7 +25,7 @@ The certificates shown depends on how Istio is configured. The following cases a
 
 * Using Istio CA certificates (default), the information shown is from a secret named *istio-ca-secret*.
 * Using [Plug in CA certificates](https://istio.io/latest/docs/tasks/security/cert-management/plugin-ca-cert/), the information shown is from a secret named *cacerts*.
-* Using [DNS certificates](https://istio.io/latest/docs/tasks/security/cert-management/dns-cert/), the information shown is from reading many secrets found in Istio configuration.
+* Using [DNS certificates](https://istio.io/latest/docs/ops/integrations/certmanager/), the information shown is from reading many secrets found in Istio configuration.
 
 The following is an example of viewing the default case:
 
