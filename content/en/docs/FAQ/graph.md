@@ -12,7 +12,7 @@ The primary reason a graph is empty is just that there is no measurable request 
 
 You can enable the "Idle Edges" Display option to include request edges that previously had traffic, but not during the requested time period.  This is disabled by default to present a cleaner graph, but can be enabled to get a full picture of current and previous traffic.
 
-Older versions of Kiali may show an empty graph for shorter duration options, depending on the Prometheus globalScrapeInterval configuration setting.  For more, see [this FAQ entry](#scrapeduration).
+Older versions of Kiali may show an empty graph for shorter duration options, depending on the Prometheus `globalScrapeInterval` configuration setting.  For more, see [this FAQ entry](#scrapeduration).
 
 
 ### Why is my Duration dropdown menu missing entries? {#scrapeduration}
