@@ -19,7 +19,7 @@ Older versions of Kiali may show an empty graph for shorter duration options, de
 
 The Duration menu for the graph, and also other pages, does not display invalid options based on the Prometheus configuration.  Options greater than the tsdbRetentionTime do not make sense.  For example, if Prometheus stores 7 days of metrics then Kiali will not show Duration options greater than 7 days.
 
-More recently, Kiali also considers globalScrapeInterval.  Because request-rate calculation requires a minimum of two data-points, Duration options less than 2 times the globalScrapeInterval will not be shown.  For example, if Prometheus scrapes every 1m, the 1m Duration option will not be shown.  Note that the default globalScrapeInterval for Helm installs of Prometheus, is 1m (at the time of this writing).
+More recently, Kiali also considers `globalScrapeInterval`.  Because request-rate calculation requires a minimum of two data-points, Duration options less than 2 times the `globalScrapeInterval` will not be shown.  For example, if Prometheus scrapes every 1m, the 1m Duration option will not be shown.  Note that the default `globalScrapeInterval` for Helm installs of Prometheus is 1m (at the time of this writing).
 
 
 ### Why are my TCP requests disconnected in the graph?
