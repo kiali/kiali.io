@@ -91,6 +91,36 @@ Either remove the host from the list, correct if there is any typo or deploy a n
 - [Service association requirement](https://istio.io/docs/ops/deployment/requirements)
 
 
+### KIA0105 - This field requires mTLS to be enabled
+
+AuthorizationPolicy has a Source field, where specifies the source identities of a request.
+In a Source field it accepts the principals and the namespaces, which requires mTLS enabled.
+
+A validation Error message on a principals or namespaces fields means, that mTLS is not enabled.
+
+This validation appears only when autoMtls is disabled.
+
+#### Resolution
+Either remove this field or enable autoMtls.
+
+#### Severity
+
+<i class="fas fa-times-circle"></i> Error
+
+#### Example
+
+```yaml
+{{% readfile file="/static/files/validation_examples/805.yaml" %}}
+```
+
+#### See Also
+
+- [AuthorizationPolicy documentation](https://istio.io/docs/reference/config/security/authorization-policy)
+- [Definition of the Source field](https://istio.io/docs/reference/config/security/authorization-policy/#Source)
+- [Service association requirement](https://istio.io/docs/ops/deployment/requirements)
+- [Globally enabling Istio mutual TLS](https://istio.io/docs/tasks/security/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-mode)
+
+
 ### KIA0106 - Service Account not found for this principal
 
 AuthorizationPolicy has a Source field, where specifies the source identities of a request.
@@ -603,61 +633,7 @@ Valid example using targetPort definition matching:
 - [Kubernetes services](https://kubernetes.io/docs/concepts/services-networking/service/#defining-a-service)
 
 
-## ServiceMesh Policies {#servicemeshpolicies}
-
-### KIA0801 - Mesh-wide Destination Rule enabling mTLS is missing
-
-Maistra has the ability to define mTLS communications at mesh level. In order to do that, Maistra needs one DestinationRule and one ServiceMeshPolicy. The DestinationRule configures all the clients of the mesh to use mTLS protocol on their connections. The ServiceMeshPolicy defines what authentication methods can be accepted on the workload of the whole mesh.
-If the DestinationRule is not found or doesn't exist and the ServiceMeshPolicy is on STRICT mode, all the communication returns 500 errors.
-
-#### Resolution
-Add a DestinationRule named as default with "*.cluster" host and ISTIO_MUTUAL as tls trafficPolicy mode. The DestinationRule should be like [this](/files/validation_examples/004.yaml).
-
-#### Severity
-
-<i class="fas fa-times-circle"></i> Error
-
-#### Example
-
-```yaml
-{{% readfile file="/static/files/validation_examples/402.yaml" %}}
-```
-
-#### See Also
-
-- [Validator source code](https://github.com/kiali/kiali/tree/v1.17/business/checkers/meshpolicies/mesh_mtls_checker.go)
-- [Globally enabling Istio mutual TLS](https://istio.io/docs/tasks/security/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-mode)
-
-
 ## Sidecars {#sidecars}
-
-### KIA1003 - Invalid host format. 'namespace/dnsName' format expected
-
-The Sidecar resources are used for configuring the sidecar proxies in the service mesh. IstioEgressListener specifies the properties of an outbound traffic listener on the sidecar proxy attached to a workload instance.
-
-The hosts list is the list of hosts that will be exposed to the workload. Each host in the list must have the `namespace/dnsName` format.
-
-
-#### Resolution
-
-Make sure the host has the `namespace/dnsName` format. See more info in the documentation link right below.
-
-#### Severity
-
-<i class="fas fa-times-circle"></i> Error
-
-#### Example
-
-```yaml
-{{% readfile file="/static/files/validation_examples/903.yaml" %}}
-```
-
-#### See Also
-
-- [Validator source code](https://github.com/kiali/kiali/tree/v1.42.0/business/checkers/sidecars/egress_listener_checker.go)
-- [Sidecar EgressListener documentation](https://istio.io/docs/reference/config/networking/sidecar/#IstioEgressListener)
-
-
 
 ### KIA1004 - This host has no matching entry in the service registry
 
@@ -765,31 +741,6 @@ Fix the possible gateway field to target all necessary gateways or remove the fi
 #### See Also
 
 - [Validator source code](https://github.com/kiali/kiali/tree/v1.42.0/business/checkers/virtualservices/no_gateway_checker.go)
-
-
-
-### KIA1103 - VirtualService doesn't define any route protocol
-
-VirtualService is a defined set of rules for routing certain type of traffic to target destinations with rules. At least one, 'tcp', 'http' or 'tls' must be defined.
-
-#### Resolution
-
-This appears to be a configuration error. Fix the definition.
-
-#### Severity
-
-<i class="fas fa-times-circle"></i> Error
-
-#### Example
-
-```yaml
-{{% readfile file="/static/files/validation_examples/103.yaml" %}}
-```
-
-#### See Also
-
-- [Istio validation for route types](https://github.com/istio/istio/blob/0e9cecab053aab744a7c3a731aacb07fd794d5f9/pilot/pkg/model/validation.go#L1628)
-- [Validator source code](https://github.com/kiali/kiali/blob/v1.42.0/business/checkers/virtualservices/no_host_checker.go)
 
 
 
@@ -913,11 +864,55 @@ Move the nomenclature of the gateways into the supported Istio form: <gateway na
 - [Validator source code](https://github.com/kiali/kiali/tree/v1.42.0/business/checkers/virtualservices/no_gateway_checker.go)
 
 
+
+## WorkloadEntries {#workloadentries}
+
+### KIA1201 - Missing one or more addresses from matching WorkloadEntries
+
+This validation shows, that the address field's value of Workload Entry is not matching to any address of Service Entry.
+
+#### Resolution
+
+Add missing Service Entry which address will match the Workload Entry's address.
+
+#### Severity
+
+<i class="fas fa-exclamation-triangle"></i> Warning
+
+#### Example
+
+```yaml
+{{% readfile file="/static/files/validation_examples/1201.yaml" %}}
+```
+
+#### See Also
+
+- [Validator source code](https://github.com/kiali/kiali/tree/v1.52.0/business/checkers/serviceentries/workload_entry_address_match.go)
+
+
+## Workloads {#workloads}
+
+### KIA1301 - This workload is not covered by any authorization policy
+
+Istio Authorization Policy enables access control on workloads in the mesh. Auth Policy selector will match with workloads in the same namespace as the authorization policy. If the authorization policy is in the root namespace, the selector will additionally match with workloads in all namespaces.
+This validation shows, that the selector match did not happen.
+
+#### Resolution
+
+Add Autorization Policy which selector matches with Workload's label selector.
+
+#### Severity
+
+<i class="fas fa-exclamation-triangle"></i> Warning
+
+#### See Also
+
+- [Validator source code](https://github.com/kiali/kiali/tree/v1.52.0/business/checkers/workloads/uncovered_workload_checker.go)
+- [Istio documentation](https://istio.io/docs/reference/config/security/authorization-policy)
+- [Definition of a source](https://istio.io/docs/reference/config/security/authorization-policy/#Source)
+
+
 ## Generic {#generic}
-
-### KIA0001 - Unable to verify the validity, cross-namespace validation is not supported for this field
-
-In certain cases, Kiali is unable to validate the field since it spans another namespace to which the validator is not capable of looking at. In such cases, Kiali will mark this field with a grey icon indicating that the fields correctness could not be verified. This does not necessarily mean there is an error, but that the user should be careful and do the validation manually.
 
 ### KIA0002 - More than one selector-less object in the same namespace
 
@@ -992,3 +987,16 @@ There are three scenarios: either change the labels to match an existing workloa
 #### See Also
 
 - [Validator source code](https://github.com/kiali/kiali/tree/v1.42.0/business/checkers/common/workload_selector_checker.go)
+
+### KIA0005 - No matching namespace found or namespace is not accessible
+
+This validation error shows that the namespace where the config object is exported is not accessible or does not exist.
+
+#### Resolution
+
+Choose existing and accessible namespace to export to.
+
+#### Severity
+
+<i class="fas fa-times-circle"></i> Error
+
