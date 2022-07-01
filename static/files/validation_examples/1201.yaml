@@ -1,0 +1,34 @@
+apiVersion: networking.istio.io/v1beta1
+kind: WorkloadEntry
+metadata:
+  name: ratings-v1
+  namespace: bookinfo
+spec:
+  serviceAccount: ratings-vm
+  address: 3.3.3.3
+  labels:
+    app: ratings
+    version: v1
+  ports:
+    http: 9080
+---
+apiVersion: networking.istio.io/v1beta1
+kind: ServiceEntry
+metadata:
+  name: ratings-unmatching-address
+  namespace: bookinfo
+spec:
+  addresses:
+    - 4.4.4.4 # This IP is not in any WorkloadEntry. It needs 3.3.3.3 to work.
+  hosts:
+    - ratings
+  location: MESH_INTERNAL
+  resolution: STATIC
+  ports:
+    - number: 9080
+      name: http
+      protocol: HTTP
+      targetPort: 9080
+  workloadSelector:
+    labels:
+      app: ratings-unmatching
