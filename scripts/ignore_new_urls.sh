@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Used by html-proffer to ignore new/copied/renamed files
+# Used by html-proofer to ignore new/copied/renamed files
 # https://github.com/gjtorikian/html-proofer#ignoring-new-files
 
 main() {
