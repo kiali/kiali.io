@@ -374,6 +374,8 @@ There are two ways to fix this situation. You can either change the PeerAuthenti
 
 A DestinationRule subset without labels may miss the destination endpoint linked with a specific workload.
 
+If there is any other subset with valid labels, the severity of this warning is changed to Info.
+
 #### Resolution
 Validate that a subset is properly configured.
 
