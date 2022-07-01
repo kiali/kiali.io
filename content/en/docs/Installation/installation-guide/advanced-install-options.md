@@ -73,6 +73,41 @@ spec:
     image_version: your_custom_tag
 ```
 
+### Change the default image
+
+As explained earlier, when you install the Kiali Operator, it will be
+configured to install a Kiali Server whose image will be pulled from quay.io
+and whose version will be the same as the operator. You can ask the operator to
+use a different image by setting `spec.deployment.image_name` and
+`spec.deployment.image_version` within the Kiali CR (as explained above).
+
+However, you may wish to alter this default behavior exhibited by the operator.
+In other words, you may want the operator to install a different Kiali Server
+image by default. For example, if you have an air-gapped environment with its
+own image registry that contains its own copy of the Kiali Server image, you
+will want the operator to install a Kiali Server that uses that image by
+default, as opposed to `quay.io/kiali/kiali`. By configuring the operator to do
+this, you will not force the authors of Kiali CRs to have to explicitly define
+the `spec.deployment.image_name` setting and you will not need to enable the
+`allowAdHocKialiImage` setting in the operator.
+
+To change the default Kiali Server image installed by the operator, set the
+environment variable `RELATED_IMAGE_kiali_default` in the Kiali Operator
+deployment.  The value of that environment variable must be the full image tag
+in the form `repoName/orgName/imageName:versionString` (e.g.
+`my.internal.registry.io/mykiali/mykialiserver:v1.50.0`). You can do this when
+you install the operator via helm:
+
+```
+$ helm install \
+    --namespace kiali-operator \
+    --create-namespace \
+    --set "env[0].name=RELATED_IMAGE_kiali_default" \
+    --set "env[0].value=my.internal.registry.io/mykiali/mykialiserver:v1.50.0" \
+    kiali-operator \
+    kiali/kiali-operator
+```
+
 
 ## Development Install
 

@@ -122,7 +122,7 @@ spec:
       mount: "/a-custom-secret-path"
       optional: true
     hpa:
-      api_version: "autoscaling/v2"
+      api_version: ""
       # default: spec is empty
       spec:
         maxReplicas: 2
@@ -1484,7 +1484,7 @@ A typical way to configure HPA for Kiali is,</p>
 </div>
 
 <div class="property-description">
-<p>A specific HPA API version that can be specified in case there is some HPA feature you want to use that is only supported in that specific version.</p>
+<p>A specific HPA API version that can be specified in case there is some HPA feature you want to use that is only supported in that specific version. If value is an empty string, an attempt will be made to determine a valid version.</p>
 
 </div>
 
