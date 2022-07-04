@@ -416,7 +416,7 @@ spec:
           label: "istio_io_rev"
       # default: namespaces is an empty list
       namespaces: ["istio-system"]
-      refresh_interval: "15s"
+      refresh_interval: "60s"
     validations:
       ignore: ["KIA1201"]
 
@@ -5358,7 +5358,7 @@ An example,</p>
 </div>
 
 <div class="property-description">
-<p>Duration of metrics to fetch on each refresh. Value must be one of: <code>1m</code>, <code>5m</code>, <code>10m</code>, <code>30m</code>, <code>1h</code>, <code>3h</code>, <code>6h</code>, <code>12h</code>, <code>1d</code>, <code>7d</code>, or <code>30d</code></p>
+<p>Duration of metrics to fetch on each refresh. Value must be one of: <code>1m</code>, <code>2m</code>, <code>5m</code>, <code>10m</code>, <code>30m</code>, <code>1h</code>, <code>3h</code>, <code>6h</code>, <code>12h</code>, <code>1d</code>, <code>7d</code>, or <code>30d</code></p>
 
 </div>
 
