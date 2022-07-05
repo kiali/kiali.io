@@ -23,7 +23,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
       with:          
-        ref: ${{ github.event.inputs.release_branch }}      
+        ref: ${{ github.event.inputs.release_branch || github.ref_name }}
 
     - name: Prepare scripts
       run: |
@@ -103,7 +103,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
       with:          
-        ref: ${{ github.event.inputs.release_branch }}    
+        ref: ${{ github.event.inputs.release_branch || github.ref_name }} 
         fetch-depth: 0
           
     - name: Configure git
