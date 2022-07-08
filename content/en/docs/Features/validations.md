@@ -745,7 +745,6 @@ Fix the possible gateway field to target all necessary gateways or remove the fi
 - [Validator source code](https://github.com/kiali/kiali/tree/v1.42.0/business/checkers/virtualservices/no_gateway_checker.go)
 
 
-
 ### KIA1104 - The weight is assumed to be 100 because there is only one route destination
 
 Istio assumes the weight to be 100 when there is only one [HTTPRouteDestination](https://istio.io/docs/reference/config/networking/virtual-service/#HTTPRouteDestination) or [RouteDestination](https://istio.io/docs/reference/config/networking/virtual-service/#RouteDestination). The warning is present because there is one route with a weight less than 100.
