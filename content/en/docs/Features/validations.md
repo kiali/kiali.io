@@ -69,6 +69,8 @@ AuthorizationPolicy enables access control on workloads. Each policy effects onl
 The present validation points out those rules referencing a host that don't exist in the authorization policy namespace. Kiali considers services and service entries.
 Those hosts that refers to hosts outside of the object namespace will be presented with an unknow error.
 
+When Mesh configration OutboundTrafficPolicy.Mode is set to ALLOW_ANY (by default), the severity of this Error is changed to Warning.
+
 #### Resolution
 
 Either remove the host from the list, correct if there is any typo or deploy a new service or service entry.
@@ -186,6 +188,8 @@ Either merge the settings to a single DR or split the subsets in such a way that
 Istio applies traffic rules for services after the routing has happened. These can include different settings such as connection pooling, circuit breakers, load balancing, and detection. Istio can define the same rules for all services under a host or different rules for different versions of the service. The host must a service that is defined in the platform's service registry or as a ServiceEntry. Short names are extended to include '.namespace.cluster' using the namespace of the destination rule, not the service itself. FQDN is evaluated as is. It is recommended to use the FQDN to prevent any confusion.
 
 If the host is not found, Istio ignores the defined rules.
+
+When Mesh configration OutboundTrafficPolicy.Mode is set to ALLOW_ANY (by default), the severity of this Error is changed to Warning.
 
 #### Resolution
 
@@ -700,6 +704,8 @@ Make sure you don't have the `workloadSelector` in this global sidecar resource.
 VirtualService routes matching requests to a service inside your mesh. Routing can also match a subset of traffic to a certain version of it for example. Any service inside the mesh must be targeted by its name, the IP address are only allowed for hosts defined through a Gateway. Host must be in a short name or FQDN format. Short name will evaluate to VS' namespace, regardless of where the actual service might be placed.
 
 If the host is not found, Istio ignores the defined rules. However, if a subset with a Destination Rule is not found it affects all the subsets and all the routings. As such, care must be taken that the Destination rule is available before deploying the Virtual Service.
+
+When Mesh configration OutboundTrafficPolicy.Mode is set to ALLOW_ANY (by default), the severity of this Error is changed to Warning.
 
 #### Resolution
 
