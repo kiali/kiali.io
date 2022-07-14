@@ -6,6 +6,7 @@
 main() {
   MERGEBASE=$(git merge-base origin/staging HEAD | sed 's/ //g')
 
+echo $(git rev-parse --abbrev-ref HEAD)
   SUB='content/en/docs'
   EXCLUDE_URLS=""
 
