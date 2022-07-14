@@ -75,8 +75,8 @@ Either remove the host from the list, correct if there is any typo or deploy a n
 
 #### Severity
 
-<i class="fas fa-times-circle"></i> Error - if OutboundTrafficPolicy.Mode is set to REGISTRY_ONLY
-<i class="fas fa-exclamation-triangle"></i> Warning - if OutboundTrafficPolicy.Mode is set to ALLOW_ANY (default)
+- <i class="fas fa-times-circle"></i> Error - if OutboundTrafficPolicy.Mode is set to REGISTRY_ONLY
+- <i class="fas fa-exclamation-triangle"></i> Warning - if OutboundTrafficPolicy.Mode is set to ALLOW_ANY (default)
 
 #### Example
 
@@ -194,8 +194,8 @@ Correct the host to point to a correct service, in this namespace or with FQDN t
 
 #### Severity
 
-<i class="fas fa-times-circle"></i> Error - if OutboundTrafficPolicy.Mode is set to REGISTRY_ONLY
-<i class="fas fa-exclamation-triangle"></i> Warning - if OutboundTrafficPolicy.Mode is set to ALLOW_ANY (default)
+- <i class="fas fa-times-circle"></i> Error - if OutboundTrafficPolicy.Mode is set to REGISTRY_ONLY
+- <i class="fas fa-exclamation-triangle"></i> Warning - if OutboundTrafficPolicy.Mode is set to ALLOW_ANY (default)
 
 #### Example
 
@@ -709,8 +709,8 @@ Correct the host to point to a correct service (in this namespace or with FQDN t
 
 #### Severity
 
-<i class="fas fa-times-circle"></i> Error - if OutboundTrafficPolicy.Mode is set to REGISTRY_ONLY
-<i class="fas fa-exclamation-triangle"></i> Warning - if OutboundTrafficPolicy.Mode is set to ALLOW_ANY (default)
+- <i class="fas fa-times-circle"></i> Error - if OutboundTrafficPolicy.Mode is set to REGISTRY_ONLY
+- <i class="fas fa-exclamation-triangle"></i> Warning - if OutboundTrafficPolicy.Mode is set to ALLOW_ANY (default)
 
 #### Example
 
