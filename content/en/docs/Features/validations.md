@@ -69,15 +69,14 @@ AuthorizationPolicy enables access control on workloads. Each policy effects onl
 The present validation points out those rules referencing a host that don't exist in the authorization policy namespace. Kiali considers services and service entries.
 Those hosts that refers to hosts outside of the object namespace will be presented with an unknow error.
 
-When Mesh configration OutboundTrafficPolicy.Mode is set to ALLOW_ANY (by default), the severity of this Error is changed to Warning.
-
 #### Resolution
 
 Either remove the host from the list, correct if there is any typo or deploy a new service or service entry.
 
 #### Severity
 
-<i class="fas fa-times-circle"></i> Error
+<i class="fas fa-times-circle"></i> Error - if OutboundTrafficPolicy.Mode is set to REGISTRY_ONLY
+<i class="fas fa-exclamation-triangle"></i> Warning - if OutboundTrafficPolicy.Mode is set to ALLOW_ANY (default)
 
 #### Example
 
@@ -189,15 +188,14 @@ Istio applies traffic rules for services after the routing has happened. These c
 
 If the host is not found, Istio ignores the defined rules.
 
-When Mesh configration OutboundTrafficPolicy.Mode is set to ALLOW_ANY (by default), the severity of this Error is changed to Warning.
-
 #### Resolution
 
 Correct the host to point to a correct service, in this namespace or with FQDN to other namespaces, or deploy the missing service to the mesh.
 
 #### Severity
 
-<i class="fas fa-times-circle"></i> Error
+<i class="fas fa-times-circle"></i> Error - if OutboundTrafficPolicy.Mode is set to REGISTRY_ONLY
+<i class="fas fa-exclamation-triangle"></i> Warning - if OutboundTrafficPolicy.Mode is set to ALLOW_ANY (default)
 
 #### Example
 
@@ -705,15 +703,14 @@ VirtualService routes matching requests to a service inside your mesh. Routing c
 
 If the host is not found, Istio ignores the defined rules. However, if a subset with a Destination Rule is not found it affects all the subsets and all the routings. As such, care must be taken that the Destination rule is available before deploying the Virtual Service.
 
-When Mesh configration OutboundTrafficPolicy.Mode is set to ALLOW_ANY (by default), the severity of this Error is changed to Warning.
-
 #### Resolution
 
 Correct the host to point to a correct service (in this namespace or with FQDN to other namespaces), deploy the missing service to the mesh or remove the configuration linking to that non-existing service.
 
 #### Severity
 
-<i class="fas fa-times-circle"></i> Error
+<i class="fas fa-times-circle"></i> Error - if OutboundTrafficPolicy.Mode is set to REGISTRY_ONLY
+<i class="fas fa-exclamation-triangle"></i> Warning - if OutboundTrafficPolicy.Mode is set to ALLOW_ANY (default)
 
 #### Example
 
