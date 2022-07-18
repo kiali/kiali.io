@@ -69,7 +69,10 @@ NEW_URLS=$(shell scripts/ignore_new_urls.sh 2> /dev/null)
 URL_IGNORE:=$(URL_IGNORE)$(NEW_URLS)
 
 ## validate-site: Builds the site and validates the pages. This is used for CI
+CONFIG='{\"enforce_https\": false,\"check_internal_hash\": false, \"check_external_hash\":false,\"ignore_empty_alt\":true}'
 .PHONY: validate-site
 validate-site: build-hugo
-	${DORP} run -t -i --rm -v "$(shell pwd)":/site:z -w /site ${KIALI_HUGO_IMAGE} /bin/bash -c "npm prune && hugo && htmlproofer --assume-extension --check-external-hash --empty_alt_ignore --url-ignore \"${URL_IGNORE}\" ./public"
+	${DORP} run -t -i --rm -v "$(shell pwd)":/site:z -w /site ${KIALI_HUGO_IMAGE} /bin/bash -c "npm prune && hugo && htmlproofer --assume-extension --enforce_https --check_internal_hash --check_external_hash --ignore_empty_alt --ignore_urls \"${URL_IGNORE}\" ./public"
+	#${DORP} run -t -i --rm -v "$(shell pwd)":/site:z -w /site ${KIALI_HUGO_IMAGE} /bin/bash -c "npm prune && hugo && htmlproofer --assume-extension --enforce_https --check_internal_hash --check_external_hash --ignore_empty_alt --log_level=debug --ignore_urls \"${URL_IGNORE}\" ./public"
+	#${DORP} run -t -i --rm -v "$(shell pwd)":/site:z -w /site ${KIALI_HUGO_IMAGE} /bin/bash -c "npm prune && hugo && htmlproofer --swap_attributes ${CONFIG} ./public"
 
