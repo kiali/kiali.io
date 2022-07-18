@@ -78,3 +78,34 @@ In order to forward the requests to the backend propertly, we will need to add t
 
 After running the 3 processes, we should be able to access Kiali GUI in localhost:3000
 
+### Using VisualStudio Code
+
+To run kiali in a debugger, a file "launch.json" should be created in your local kiali local repo's .vscode directory (e.g. home/source/kiali/kiali/.vscode/launch.json). The file should look like:
+
+```json
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch Kiali to use hack script services",
+      "type": "go",
+      "request": "launch",
+      "mode": "debug",
+      "program": "${workspaceRoot}/kiali.go",
+      "cwd": "${env:HOME}/tmp/run-kiali",
+      "args": ["-config", "${env:HOME}/tmp/run-kiali/run-kiali-config.yaml"],
+      "env": {
+        "KUBERNETES_SERVICE_HOST": "127.0.0.1",
+        "KUBERNETES_SERVICE_PORT": "8001",
+        "LOG_LEVEL": "trace"
+      }     
+    }
+  ]
+}
+```
+
+run-kiali.sh should be started like this:
+
+```
+hack/run-kiali.sh --tmp-root-dir $HOME/tmp --enable-server false
+```
