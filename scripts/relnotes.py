@@ -28,38 +28,64 @@ version = sys.argv[1]
 projectNumber = sys.argv[2]
 headers = {"Authorization": "bearer " + sys.argv[3]}
 
-# The GraphQL query as a multi-line string.       
+# The GraphQL query as a multi-line string.
 query = """
 {
   organization(login: "kiali")
   {
-    name
-    project(number: $projectNumber) {
-      body
-      name
-      columns(last: 1) {
-        nodes {
-          cards {
-            nodes {
-              content {
-                __typename
-                ... on Issue {
-                  title
-                  url
-                  closedAt
-                  labels(first: 10) {
-                    nodes {
-                      name
-                    }
-                  }
+    projectV2(number: $projectNumber) {
+        ... on ProjectV2 {
+            id
+            title
+            shortDescription
+            items(first: 100) {
+                nodes {
+                    id
+                     content{
+                        ... on DraftIssue {
+                            title
+                            body
+                        }
+                        ...on Issue {
+                            title
+                            url
+                            state
+                            labels(first:10) {
+                                nodes{
+                                    name
+                               }
+                            }
+                       }
+                       ...on PullRequest {
+                           title
+                           url
+                           state
+                           labels(first:10) {
+                                 nodes{
+                                       name
+                                 }
+                           }
+                       }
+                     }
                 }
-              }
             }
-          }
         }
-      }
     }
   }
+}
+"""
+
+# Helper query for debug
+queryHelper = """
+{
+  __type(name: "Issue") {
+      name
+      kind
+      description
+      fields {
+        name
+      }
+    }
 }
 """
 
@@ -73,10 +99,10 @@ def run_query(query):
         
 
 result = run_query(query) # Execute the query
-project = result["data"]["organization"]["project"]
-projectName = project["name"]
-releaseDatePattern = re.compile('^.*Ends:\s*([^\n]*).*$', re.DOTALL)
-releaseDate = releaseDatePattern.match(project["body"])
+project = result["data"]["organization"]["projectV2"]
+projectName = project["title"]
+releaseDatePattern = re.compile('^.* - \s*([^\n]*).*$', re.DOTALL)
+releaseDate = releaseDatePattern.match(project["shortDescription"])
 
 print("\nRelease Notes for {}, Project: {}".format(version, projectName))
 print("Add the below text to: content/news/release-notes.adoc")
@@ -86,23 +112,25 @@ print("Sprint Release: {}".format([releaseDate.group(1),"Unknown"][releaseDate i
 
 print("\nFeatures:\n")
 
-for card in project["columns"]["nodes"][0]["cards"]["nodes"]:
-    if card["content"]["__typename"] == "PullRequest":
-        continue
-    issue = card["content"]
-    labelNames = list(map((lambda x: x["name"]), issue["labels"]["nodes"]))
-    if not "bug" in labelNames:
-        title = issue["title"].replace("[", "(").replace("]", ")")
-        print("* [{}]({})".format(title, issue["url"]))
+for card in project["items"]["nodes"]:
+     issue = card["content"]
+     labels = issue.get("labels")
+     if issue.get("state") in ["CLOSED", "MERGED"]:
+         if labels:
+             labelNames = list(map((lambda x: x["name"]), issue["labels"]["nodes"]))
+             if not "bug" in labelNames:
+                    title = issue["title"].replace("[", "(").replace("]", ")")
+                    print("* [{}]({})".format(title, issue["url"]))
 
 print("\nFixes:\n")
 
-for card in project["columns"]["nodes"][0]["cards"]["nodes"]:
-    if card["content"]["__typename"] == "PullRequest":
-        continue
-    issue = card["content"]
-    labelNames = list(map((lambda x: x["name"]), issue["labels"]["nodes"]))
-    if "bug" in labelNames:
-        title = issue["title"].replace("[", "(").replace("]", ")")
-        print("* [{}]({})".format(title, issue["url"]))
+for card in project["items"]["nodes"]:
+     issue = card["content"]
+     labels = issue.get("labels")
+     if issue.get("state") in ["CLOSED", "MERGED"]:
+         if labels:
+             labelNames = list(map((lambda x: x["name"]), issue["labels"]["nodes"]))
+             if "bug" in labelNames:
+                    title = issue["title"].replace("[", "(").replace("]", ")")
+                    print("* [{}]({})".format(title, issue["url"]))
 
