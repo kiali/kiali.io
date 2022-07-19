@@ -56,16 +56,6 @@ query = """
                                }
                             }
                        }
-                       ...on PullRequest {
-                           title
-                           url
-                           state
-                           labels(first:10) {
-                                 nodes{
-                                       name
-                                 }
-                           }
-                       }
                      }
                 }
             }
@@ -108,7 +98,8 @@ print("\nRelease Notes for {}, Project: {}".format(version, projectName))
 print("Add the below text to: content/news/release-notes.adoc")
 print("------------Clip Below This Line----------------")
 print("## {}".format(version))
-print("Sprint Release: {}".format([releaseDate.group(1),"Unknown"][releaseDate is None]))
+if releaseDate:
+    print("Sprint Release: {}".format([releaseDate.group(1),"Unknown"][releaseDate is None]))
 
 print("\nFeatures:\n")
 
