@@ -21,7 +21,6 @@ Features:
 * [Envoy tab: add tooltips with the Envoy terminology](https://github.com/kiali/kiali/issues/5162)
 * [Update the information about mTLS data in details pages](https://github.com/kiali/kiali/issues/5187)
 * [Document ability to set default Kiali CR image_name in operator from helm charts](https://github.com/kiali/kiali/issues/5238)
-* [(hack) how to reduce cpu/memory resources consumed by some istio components](https://github.com/kiali/kiali/issues/5264)
 * [Release pipeline for the plugin](https://github.com/kiali/openshift-servicemesh-plugin/issues/39)
 * [Remove invalid durations based on prometheus scrape interval](https://github.com/kiali/kiali/issues/5269)
 * [fix doc link 404](https://github.com/kiali/kiali/issues/5244)
