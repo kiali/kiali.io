@@ -6,6 +6,36 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## v1.53.0
+Sprint Release: July 1st, 2022
+
+Features:
+
+* [Add cypress UI tests around the Service Details page](https://github.com/kiali/kiali/issues/5001)
+* [Add outboundTrafficPolicy value to overview istio-system card ](https://github.com/kiali/kiali/issues/4896)
+* [Create a UI suite test on cypress](https://github.com/kiali/kiali/issues/4854)
+* [UI tests around the Workloads Details page.](https://github.com/kiali/kiali/issues/5072)
+* [Add Kiali validations on the Istio Config Details sidepanel](https://github.com/kiali/kiali/issues/5204)
+* [Not found messages may have a better message in the body page](https://github.com/kiali/kiali/issues/5206)
+* [Reproducible performance testing environment](https://github.com/kiali/kiali/issues/5142)
+* [Envoy tab: add tooltips with the Envoy terminology](https://github.com/kiali/kiali/issues/5162)
+* [Update the information about mTLS data in details pages](https://github.com/kiali/kiali/issues/5187)
+* [Document ability to set default Kiali CR image_name in operator from helm charts](https://github.com/kiali/kiali/issues/5238)
+* [Release pipeline for the plugin](https://github.com/kiali/openshift-servicemesh-plugin/issues/39)
+* [Remove invalid durations based on prometheus scrape interval](https://github.com/kiali/kiali/issues/5269)
+* [fix doc link 404](https://github.com/kiali/kiali/issues/5244)
+
+Fixes:
+
+* [404 external link in kiali.io](https://github.com/kiali/kiali/issues/5192)
+* [Failing to Display Larger Number of Log Lines](https://github.com/kiali/kiali/issues/4701)
+* [Fix UI Actions regressions](https://github.com/kiali/kiali/issues/5186)
+* [(CI) Test Flake - Cypress sidecar injection](https://github.com/kiali/kiali/issues/5198)
+* [(e2e) Flaky test fix TestAuthPolicyPrincipalsError](https://github.com/kiali/kiali/issues/5219)
+* [Keep Envoy tab after refresh](https://github.com/kiali/kiali/issues/5250)
+* [DR details open fails in some cases](https://github.com/kiali/kiali/issues/5257)
+
+
 ## 1.52.0
 Sprint Release: June 10th, 2022
 
