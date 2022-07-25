@@ -18,6 +18,7 @@ Features:
 * [Combine destination/source reporters in metric tab](https://github.com/kiali/kiali/issues/2887)
 * [Adjust mouse pointer on areas that user can navigate/jump to](https://github.com/kiali/kiali/issues/5276)
 * [remove perms no longer needed](https://github.com/kiali/kiali/issues/5318)
+* [(helm) be able to specify custom annotations on the Kiali CR](https://github.com/kiali/kiali/issues/5334)
 
 Fixes:
 
