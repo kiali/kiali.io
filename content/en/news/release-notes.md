@@ -6,7 +6,27 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
-## v1.53.0
+## 1.54.0
+Sprint Release: July 22, 2022
+
+Features:
+
+* [Update istio.io/client-go to Istio 1.14](https://github.com/kiali/kiali/issues/5159)
+* [Revisit DestinationRule no labels warning](https://github.com/kiali/kiali/issues/4511)
+* [Outdated Kiali validations](https://github.com/kiali/kiali/issues/5266)
+* [Review validations documentation on Kiali.io](https://github.com/kiali/kiali/issues/5262)
+* [Combine destination/source reporters in metric tab](https://github.com/kiali/kiali/issues/2887)
+* [Adjust mouse pointer on areas that user can navigate/jump to](https://github.com/kiali/kiali/issues/5276)
+* [remove perms no longer needed](https://github.com/kiali/kiali/issues/5318)
+* [(helm) be able to specify custom annotations on the Kiali CR](https://github.com/kiali/kiali/issues/5334)
+
+Fixes:
+
+* [Misaligned dropdown when invalid operand is typed](https://github.com/kiali/kiali/issues/5302)
+* [(helm) when operator helm chart optionally creates CR, it puts the annotation in the wrong spot](https://github.com/kiali/kiali/issues/5297)
+
+
+## 1.53.0
 Sprint Release: July 1st, 2022
 
 Features:
