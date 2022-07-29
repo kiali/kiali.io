@@ -26,7 +26,7 @@ RUN tar xzvf /hugo.tar.gz -C / \
 RUN npm -g -D install postcss postcss-cli autoprefixer
 
 # Install html-proofer
-RUN gem install html-proofer -v 3.19.4
+RUN gem install html-proofer
 
 # Confirm htmlproofer binary is available and show its version
 RUN htmlproofer --version
