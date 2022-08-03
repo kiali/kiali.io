@@ -77,11 +77,16 @@ Kiali currently requires the following Istio metrics and attributes:
 |Metric                                      |Notes|
 |--------------------------------------------|-----|
 |istio_requests_total                        |used throughout Kiali and the primary metric for http/grpc request traffic |
-|istio_request_bytes_sum                     |used in metric displays   |
-|istio_request_duration_milliseconds_bucket  |used throughout Kiali for response-time calculation   |
-|istio_request_duration_milliseconds_sum     |used throughout Kiali for response-time calculation   |
-|istio_request_messages_total                |used throughout Kiali for grpc sent message traffic   |
-|istio_response_bytes_sum                    |used in metric displays   |
+|istio_request_bytes_bucket                  |used in metric displays to calculate throughput percentiles |
+|istio_request_bytes_count                   |used in metric displays to calculate throughput avg |
+|istio_request_bytes_sum                     |used throughout Kiali for throughput calculation    |
+|istio_request_duration_milliseconds_bucket  |used throughout Kiali for response-time calculation |
+|istio_request_duration_milliseconds_count   |used throughout Kiali for response-time calculation |
+|istio_request_duration_milliseconds_sum     |used throughout Kiali for response-time calculation |
+|istio_request_messages_total                |used throughout Kiali for grpc sent message traffic |
+|istio_response_bytes_bucket                 |used in metric displays to calculate throughput percentiles |
+|istio_response_bytes_count                  |used in metric displays to calculate throughput avg |
+|istio_response_bytes_sum                    |used throughout Kiali for throughput calculation    |
 |istio_response_messages_total               |used throughout Kiali for grpc received message traffic   |
 |istio_tcp_connections_closed_total          |used in metric displays   |
 |istio_tcp_connections_opened_total          |used in metric displays   |
