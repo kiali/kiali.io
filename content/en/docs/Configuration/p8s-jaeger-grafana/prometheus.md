@@ -174,7 +174,7 @@ For more information, see the [Prometheus documentation](https://prometheus.io/d
 
 ### TSDB retention time
 
-The Prometheus `tsdbRetentionTime` is an important configuration option.  This has significant effect on metric storage, as Prometheus will keep each reported data-point for that period of time, performing compaction as needed. The larger the retention time the larger the required storage.  Also, Kiali will offer larger time periods, and if the amount of data is very large, queries against those large time periods may result in poor performance or timeouts.
+The Prometheus `tsdbRetentionTime` is an important configuration option.  This has a significant effect on metrics storage, as Prometheus will keep each reported data-point for that period of time, performing compaction as needed. The larger the retention time the larger the required storage.  Also, Kiali will offer larger time periods, and if the amount of data is very large, queries against those large time periods may result in poor performance or timeouts.
 
 The recommendation for Kiali is to set the shortest retention time possible, that also satisfies your needs.  In some cases users may want to offload older data to a secondary store.  Kiali will [eliminate invalid Duration options]({{< ref "/docs/faq/graph#scrapeduration" >}}) given the tsdbRetentionTime.
 
