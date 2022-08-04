@@ -56,7 +56,7 @@ spec:
 ### Compatibility with Prometheus-like servers
 
 Although Kiali assumes a Prometheus server and is tested against it, there are
-<abbr title="Time series databases">TSDBs</abbr> that can be used as Prometheus
+<abbr title="Time series databases">TSDBs</abbr> that can be used as a Prometheus
 replacement despite not implementing the full Prometheus API. 
 
 Community users have faced two issues when using Prometheus-like TSDBs:
