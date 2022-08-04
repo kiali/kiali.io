@@ -8,9 +8,9 @@ description: >
 ## Prometheus configuration
 
 Kiali *requires* Prometheus to generate the
-[topology graph]({{< relref "../Features/topology" >}}),
-[show metrics]({{< relref "../Features/details#metrics" >}}),
-[calculate health]({{< relref "../Features/health" >}}) and
+[topology graph]({{< relref "../../Features/topology" >}}),
+[show metrics]({{< relref "../../Features/details#metrics" >}}),
+[calculate health]({{< relref "../../Features/health" >}}) and
 for several other features. If Prometheus is missing or Kiali
 can't reach it, Kiali won't work properly.
 
@@ -82,18 +82,20 @@ spec:
 
 ## Prometheus Tuning
 
-Production environments should not be using the Istio Prometheus add-on, or carrying over its configuration settings.  That is useful only for small, or demo installations.  Instead, Prometheus should have been installed in a production-oriented way, according to Prometheus documentation.
+Production environments should not be using the Istio Prometheus add-on, or carrying over its configuration settings.  That is useful only for small, or demo installations.  Instead, Prometheus should have been installed in a production-oriented way, according to [Prometheus documentation](https://prometheus.io/docs/prometheus/latest/installation).
 
 This section is primarily for users where Prometheus is being used specifically for Kiali, and possible optimizations that can be made knowing that Kiali does not utilize all of the default Istio and Envoy telemetry.
 
 
 ### Metric Thinning
 
-Istio and Envoy generate a large amount of telemetry for analysis and troubleshooting.  This can result in significant resources being required to ingest the telemetry, and to support queries into the data.  If you use the telemetry specifically to support Kiali, it is possible to drop unnecessary metrics and unnecessary labels on required metrics.  This [FAQ Entry](#which-istio-metrics-and-attributes-are-required-by-kiali) displays the metrics and attributes required for Kiali to operate.
+Istio and Envoy generate a large amount of telemetry for analysis and troubleshooting.  This can result in significant resources being required to ingest and store the telemetry, and to support queries into the data.  If you use the telemetry specifically to support Kiali, it is possible to drop unnecessary metrics and unnecessary labels on required metrics.  This [FAQ Entry]({{< ref "/docs/faq/general#requiredmetrics" >}}) displays the metrics and attributes required for Kiali to operate.
 
 To reduce the default telemetry to only what is needed by Kiali[^1] users can add the following snippet to their Prometheus configuration. Because things can change with different versions, it is recommended to ensure you use the correct version of this documentation, based on your Kiali/Istio version.
 
-The `metric_relabel_configs:` attribute should be added under each job name you have defined to scrape Istio or Envoy metrics. Below we show it under the `kubernetes-pods` job, but you should adapt as needed.
+[^1]: Some non-essential telemetry remains in order to not over-complicate the configuration change.  The remaining telemetry is typically negligible.
+
+The `metric_relabel_configs:` attribute should be added under each job name defined to scrape Istio or Envoy metrics. Below we show it under the `kubernetes-pods` job, but you should adapt as needed. Be careful of indentation.
 
 ```
     - job_name: kubernetes-pods
@@ -107,25 +109,24 @@ The `metric_relabel_configs:` attribute should be added under each job name you 
 
 Applying this configuration should reduce the number of stored metrics by about 20%, as well as reducing the number of attributes stored on many remaining metrics.
 
-[^1] Actually, this drops a lot, but not all, non-essential telemetry. This drops most, while keeping the complexity reasonable.
 
 
 ### Metric Thinning with Crippling
 
-The section above drops metrics unused by Kiali; making those configuration changes should not negatively impact Kiali.  But there are some very heavy metrics that can be removed, if you don't need them for your use of Kiali.  In particular, these are "Histogram" metrics.  Istio is planning to make some improvements to help users better configure these metrics, but as of this writing they are still defined with fairly bad default "buckets", making the number of associated time-series quite large, and the overhead of maintaining and querying the metrics, intensive.  Each histogram actually is comprised of 3 stored metrics.  For example, the `xxx` histogram results in the following metrics stored into Prometheus:
+The section above drops metrics unused by Kiali. As such, making those configuration changes should not negatively impact Kiali behavior in any way. But some very heavy metrics remain. Some, or all of these metrics can also be dropped, but their removal will impact the behavior of Kiali.  This may be OK if you don't use the affected features of Kiali, or if you are willing to sacrifice the feature for the associated metric savings. In particular, these are "Histogram" metrics.  Istio is planning to make some improvements to help users better configure these metrics, but as of this writing they are still defined with fairly bad default "buckets", making the number of associated time-series quite large, and the overhead of maintaining and querying the metrics, intensive.  Each histogram actually is comprised of 3 stored metrics.  For example, a histogram named `xxx` would result in the following metrics stored into Prometheus:
 
-- xxx_bucket
+- `xxx_bucket`
   - The most intensive metric, and is required to calculate percentile values.
-- xxx_count
+- `xxx_count`
   - Required to calculate 'avg' values.
-- xxx_sum
+- `xxx_sum`
   - Required to calculate rates over time, and for 'avg' values.
 
-To save Prometheus resources, at the expense of some Kiali features, some or all of these metrics can be dropped.  One of the following three approaches is recommended:
+When considering whether to thin the Histogram metrics, one of the following three approaches is recommended:
 
-1. If the relevant Kiali reporting is needed, keep the histogram as-is
-2. If the relevant Kiali reporting is not needed, or not worth the additional, drop the entire histogram
-3. If the metric chart percentiles are not required, drop only the xxx_bucket metric.  This removes the majority of the histogram overhead while keeping graph throughput labeling and non-percentil metric chart support.
+1. If the relevant Kiali reporting is needed, keep the histogram as-is.
+2. If the relevant Kiali reporting is not needed, or not worth the additional metric overhead, drop the entire histogram.
+3. If the metric chart percentiles are not required, drop only the xxx_bucket metric.  This removes the majority of the histogram overhead while keeping rate and average (non-percentile) values in Kiali.
 
 
 These are the relevant Histogram metrics:
@@ -154,18 +155,29 @@ This metric is used to produce the `Request Duration` chart on the metric tabs. 
 
 ### Scrape Interval
 
-The Prometheus `globalScrapeInterval` is an important configuration option[^2]. The scrape interval can have a significant effect on metrics collection overhead as it takes effort to pull all of those configured metrics and update the relevant time-series. And although it doesn't affect time-series cardinality, it does affect storage for the data-points, as well as having impact when aggregating query results, computing quantiles, etc.
+The Prometheus `globalScrapeInterval` is an important configuration option[^2]. The scrape interval can have a significant effect on metrics collection overhead as it takes effort to pull all of those configured metrics and update the relevant time-series. And although it doesn't affect time-series cardinality, it does affect storage for the data-points, as well as having impact when computing query results (the more data-points, the more processing and aggregation).
+
+[^2]: Note that Prometheus can be configured such that individual scrape points can override the global setting, but Kiali is not currently concerned with this corner case.
 
 Users should think carefully about their configured scrape interval. Note that the Istio addon for prometheus configures it to 15s. This is great for demos but may be too frequent for production scenarios. The prometheus helm charts set a default of 1m, which is more reasonable for most installations, but may not be the desired frequency for any particular setup.
 
-The recommendation for Kiali is to set the longest interval posible while still providing a useful granularity. The longer the interval, the less data points scraped, reducing processing, storage, and computational overhead. But, the impact on Kiali should be understood. First, it is important to realize that request rates (or byte rates, message rates, etc) require a minumum of two data points:
+The recommendation for Kiali is to set the longest interval possible, while still providing a useful granularity. The longer the interval, the less data points scraped, reducing processing, storage, and computational overhead. But, the impact on Kiali should be understood. First, it is important to realize that request rates (or byte rates, message rates, etc) require a minumum of two data points:
 
 `rate = (dp2 - dp1) / timePeriod`
 
-That means for Kiali to show anything useful in the graph, or anywhere rates are used (many places), the minimum duration must be `>= 2 x globalScrapeInterval`. Kiali will eliminate invalid Duration options given the globalScrapeInterval.
+That means for Kiali to show anything useful in the graph, or anywhere rates are used (many places), the minimum duration must be `>= 2 x globalScrapeInterval`. Kiali will [eliminate invalid Duration options]({{< ref "/docs/faq/graph#scrapeduration" >}}) given the globalScrapeInterval.
 
 Kiali does a lot of aggregation and querying over time periods. As such, the number of data points will affect query performance, especially for larger time periods.
 
-[^2] Note that Prometheus can be configured such that individual scrape points can override the global setting, but Kiali is not currently concerned with this corner case.
-The bottom line is that the customer needs to choose a value that works for them, our recommendation is that be the largest interval that meets their needs.
+For more information, see the [Prometheus documentation](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#configuration).
+
+
+### TSDB retention time
+
+The Prometheus `tsdbRetentionTime` is an important configuration option.  This has significant effect on metric storage, as Prometheus will keep each reported data-point for that period of time, performing compaction as needed. The larger the retention time the larger the required storage.  Also, Kiali will offer larger time periods, and if the amount of data is very large, queries against those large time periods may result in poor performance or timeouts.
+
+The recommendation for Kiali is to set the shortest retention time possible, that also satisfies your needs.  In some cases users may want to offload older data to a secondary store.  Kiali will [eliminate invalid Duration options]({{< ref "/docs/faq/graph#scrapeduration" >}}) given the tsdbRetentionTime.
+
+For more information, see the [Prometheus documentation](https://prometheus.io/docs/prometheus/latest/storage/#operational-aspects).
+
 

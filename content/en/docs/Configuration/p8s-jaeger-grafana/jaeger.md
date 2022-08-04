@@ -8,7 +8,7 @@ description: >
 ## Jaeger configuration
 
 Jaeger is a _highly recommended_ service because [Kiali uses distributed
-tracing data for several features]({{< relref "../Features/tracing" >}}),
+tracing data for several features]({{< relref "../../Features/tracing" >}}),
 providing an enhanced experience.
 
 By default, Kiali will try to reach Jaeger at the GRPC-enabled URL of the form
