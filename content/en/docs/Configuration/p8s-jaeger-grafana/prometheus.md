@@ -139,7 +139,7 @@ This metric is used to produce the `Response Size` chart on the metric tabs.  An
 This metric is used to produce the `Request Duration` chart on the metric tabs.  It also supports `Response Time` edge labels on the graph.
 
 - Appending `|istio_request_duration_milliseconds_*` to the `drop` regex above would drop all associated metrics and would prevent any request duration/response time reporting in Kiali.
-- Appending `|istio_request_duration_milliseconds_bucket` to the `drop` regex above, would prevent any request duration/response time percentile reporting in the Kiali metric charts or graph edge labels.
+- Appending `|istio_request_duration_milliseconds_bucket` to the `drop` regex above would prevent any request duration/response time percentile reporting in the Kiali metric charts or graph edge labels.
 
 
 ### Scrape Interval
