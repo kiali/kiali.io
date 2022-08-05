@@ -38,20 +38,9 @@ enough to provide the Kubernetes internal service URL.
 Kiali maintains an internal cache of some Prometheus queries to improve
 performance (mainly, the queries to calculate Health indicators). It
 would be very rare to see data delays, but should you notice any delays you may
-tune caching parameters to values that work better for your environment. These
-are the default values:
+tune caching parameters to values that work better for your environment.
 
-```yaml
-spec:
-  external_services:
-    prometheus:
-      cache_enabled: true
-      # Per-query expiration in seconds
-      cache_duration: 10
-      # Global cache expiration in seconds. Think of it as
-      # the "reset" or "garbage collection" interval.
-      cache_expiration: 300
-```
+See the [Kiali CR reference page]({{< ref "/docs/configuration/kialis.kiali.io/#example-cr" >}}) for the current default values.
 
 ### Compatibility with Prometheus-like servers
 
@@ -82,7 +71,7 @@ spec:
 
 ## Prometheus Tuning
 
-Production environments should not be using the Istio Prometheus add-on, or carrying over its configuration settings.  That is useful only for small, or demo installations.  Instead, Prometheus should have been installed in a production-oriented way, according to [Prometheus documentation](https://prometheus.io/docs/prometheus/latest/installation).
+Production environments should not be using the Istio Prometheus add-on, or carrying over its configuration settings.  That is useful only for small, or demo installations.  Instead, Prometheus should have been installed in a production-oriented way, following the [Prometheus documentation](https://prometheus.io/docs/prometheus/latest/installation).
 
 This section is primarily for users where Prometheus is being used specifically for Kiali, and possible optimizations that can be made knowing that Kiali does not utilize all of the default Istio and Envoy telemetry.
 
@@ -161,7 +150,7 @@ The Prometheus `globalScrapeInterval` is an important configuration option[^2]. 
 
 Users should think carefully about their configured scrape interval. Note that the Istio addon for prometheus configures it to 15s. This is great for demos but may be too frequent for production scenarios. The prometheus helm charts set a default of 1m, which is more reasonable for most installations, but may not be the desired frequency for any particular setup.
 
-The recommendation for Kiali is to set the longest interval possible, while still providing a useful granularity. The longer the interval, the less data points scraped, reducing processing, storage, and computational overhead. But, the impact on Kiali should be understood. First, it is important to realize that request rates (or byte rates, message rates, etc) require a minumum of two data points:
+The recommendation for Kiali is to set the longest interval possible, while still providing a useful granularity. The longer the interval the less data points scraped, thus reducing processing, storage, and computational overhead. But the impact on Kiali should be understood. It is important to realize that request rates (or byte rates, message rates, etc) require a minumum of two data points:
 
 `rate = (dp2 - dp1) / timePeriod`
 
@@ -174,9 +163,9 @@ For more information, see the [Prometheus documentation](https://prometheus.io/d
 
 ### TSDB retention time
 
-The Prometheus `tsdbRetentionTime` is an important configuration option.  This has a significant effect on metrics storage, as Prometheus will keep each reported data-point for that period of time, performing compaction as needed. The larger the retention time the larger the required storage.  Also, Kiali will offer larger time periods, and if the amount of data is very large, queries against those large time periods may result in poor performance or timeouts.
+The Prometheus `tsdbRetentionTime` is an important configuration option. It has a significant effect on metrics storage, as Prometheus will keep each reported data-point for that period of time, performing compaction as needed. The larger the retention time, the larger the required storage.  Note also that Kiali queries against large time periods, and very large data-sets, may result in poor performance or timeouts.
 
-The recommendation for Kiali is to set the shortest retention time possible, that also satisfies your needs.  In some cases users may want to offload older data to a secondary store.  Kiali will [eliminate invalid Duration options]({{< ref "/docs/faq/graph#scrapeduration" >}}) given the tsdbRetentionTime.
+The recommendation for Kiali is to set the shortest retention time that meets your needs and/or operational limits.  In some cases users may want to offload older data to a secondary store.  Kiali will [eliminate invalid Duration options]({{< ref "/docs/faq/graph#scrapeduration" >}}) given the tsdbRetentionTime.
 
 For more information, see the [Prometheus documentation](https://prometheus.io/docs/prometheus/latest/storage/#operational-aspects).
 
