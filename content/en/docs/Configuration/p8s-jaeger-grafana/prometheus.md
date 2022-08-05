@@ -80,7 +80,7 @@ This section is primarily for users where Prometheus is being used specifically 
 
 Istio and Envoy generate a large amount of telemetry for analysis and troubleshooting.  This can result in significant resources being required to ingest and store the telemetry, and to support queries into the data.  If you use the telemetry specifically to support Kiali, it is possible to drop unnecessary metrics and unnecessary labels on required metrics.  This [FAQ Entry]({{< ref "/docs/faq/general#requiredmetrics" >}}) displays the metrics and attributes required for Kiali to operate.
 
-To reduce the default telemetry to only what is needed by Kiali[^1] users can add the following snippet to their Prometheus configuration. Because things can change with different versions, it is recommended to ensure you use the correct version of this documentation, based on your Kiali/Istio version.
+To reduce the default telemetry to only what is needed by Kiali[^1] users can add the following snippet to their Prometheus configuration. Because things can change with different versions, it is recommended to ensure you use the correct version of this documentation based on your Kiali/Istio version.
 
 [^1]: Some non-essential telemetry remains in order to not over-complicate the configuration change.  The remaining telemetry is typically negligible.
 
