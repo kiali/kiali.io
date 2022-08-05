@@ -132,7 +132,7 @@ This metric is used to produce the `Request Size` chart on the metric tabs.  It 
 This metric is used to produce the `Response Size` chart on the metric tabs.  And also supports `Response Throughput` edge labels on the graph
 
 - Appending `|istio_response_bytes_*` to the `drop` regex above would drop all associated metrics and would prevent any response size/throughput reporting in Kiali.
-- Appending `|istio_response_bytes_bucket` to the `drop` regex above, would prevent any response size percentile reporting in the Kiali metric charts.
+- Appending `|istio_response_bytes_bucket` to the `drop` regex above would prevent any response size percentile reporting in the Kiali metric charts.
 
 #### istio_request_duration_milliseconds
 
