@@ -18,7 +18,7 @@ By default, Kiali assumes that Prometheus is available at the URL of the form
 `http://prometheus.<istio_namespace_name>:9090`, which is the usual case if you
 are using [the Prometheus Istio
 add-on](https://istio.io/latest/docs/ops/integrations/prometheus/#option-1-quick-start).
-If your Prometheus instance has a different service name or is installed to a
+If your Prometheus instance has a different service name or is installed in a
 different namespace, you must manually provide the endpoint where it is
 available, like in the following example:
 
