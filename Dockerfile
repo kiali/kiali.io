@@ -31,6 +31,7 @@ RUN gem install html-proofer
 # Confirm htmlproofer binary is available and show its version
 RUN htmlproofer --version
 
+# This allows us to increase timeouts, and avoid htmlproofer errors
 RUN gem install typhoeus
 
 # Confirm hugo binary is available and show its version
