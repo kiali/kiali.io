@@ -31,5 +31,7 @@ RUN gem install html-proofer
 # Confirm htmlproofer binary is available and show its version
 RUN htmlproofer --version
 
+RUN gem install typhoeus
+
 # Confirm hugo binary is available and show its version
 RUN hugo version
