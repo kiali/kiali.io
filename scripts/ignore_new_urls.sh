@@ -4,8 +4,9 @@
 # https://github.com/gjtorikian/html-proofer#ignoring-new-files
 
 main() {
-  MERGEBASE=$(git merge-base origin/staging HEAD | sed 's/ //g')
+  BRANCH="origin/staging"
 
+  git fetch origin staging
   SUB='content/en/docs'
   EXCLUDE_URLS=""
 
@@ -16,7 +17,7 @@ main() {
     URL=$(echo ",/.*${SUBSTR%.*}.*/" | awk '{print tolower($0)}' | sed 's, ,-,g')
     EXCLUDE_URLS="$EXCLUDE_URLS$URL"
   fi;
-  done <<< "$(git diff --name-only --diff-filter=ACR $MERGEBASE)"
+  done <<< "$(git diff --name-only --diff-filter=ACR $BRANCH)"
 
   echo $EXCLUDE_URLS
 }
