@@ -32,7 +32,9 @@ In this section it is explained how to set up a development environment:
 
 Before the setup, we will need to do a port-forward of the services that kiali is using.
 
-We can use the `hack/run-kiali.sh` script for this purpose. To run it following the above schema:
+We can use the `hack/run-kiali.sh` script for this purpose. It can work without any options. Pass --help to see the options it takes. 
+
+An example to run it following the above schema:
 
 ```shell
 ./run-kiali.sh -pg 13000:3000 -pp 19090:9090 -app 8080 -es false -iu http://127.0.0.1:15014
