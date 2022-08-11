@@ -17,7 +17,6 @@ Features:
 * [Istio Workload Config Validation Optimization](https://github.com/kiali/kiali/issues/5153)
 * [Customizable links in Kiosk mode](https://github.com/kiali/kiali/issues/5207)
 * [Relax host validations on presence of ALLOW_ANY vs REGISTRY_ONLY](https://github.com/kiali/kiali/issues/5235)
-* [dev env needs to be able to deploy using OLM](https://github.com/kiali/kiali/issues/5364)
 
 Fixes:
 
