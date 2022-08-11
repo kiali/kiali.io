@@ -102,7 +102,7 @@ Applying this configuration should reduce the number of stored metrics by about 
 
 ### Metric Thinning with Crippling
 
-The section above drops metrics unused by Kiali. As such, making those configuration changes should not negatively impact Kiali behavior in any way. But some very heavy metrics remain. Some, or all of these metrics can also be dropped, but their removal will impact the behavior of Kiali.  This may be OK if you don't use the affected features of Kiali, or if you are willing to sacrifice the feature for the associated metric savings. In particular, these are "Histogram" metrics.  Istio is planning to make some improvements to help users better configure these metrics, but as of this writing they are still defined with fairly inefficient default "buckets", making the number of associated time-series quite large, and the overhead of maintaining and querying the metrics, intensive.  Each histogram actually is comprised of 3 stored metrics.  For example, a histogram named `xxx` would result in the following metrics stored into Prometheus:
+The section above drops metrics unused by Kiali. As such, making those configuration changes should not negatively impact Kiali behavior in any way. But some very heavy metrics remain. These metrics can also be dropped, but their removal will impact the behavior of Kiali.  This may be OK if you don't use the affected features of Kiali, or if you are willing to sacrifice the feature for the associated metric savings. In particular, these are "Histogram" metrics.  Istio is planning to make some improvements to help users better configure these metrics, but as of this writing they are still defined with fairly inefficient default "buckets", making the number of associated time-series quite large, and the overhead of maintaining and querying the metrics, intensive.  Each histogram actually is comprised of 3 stored metrics.  For example, a histogram named `xxx` would result in the following metrics stored into Prometheus:
 
 - `xxx_bucket`
   - The most intensive metric, and is required to calculate percentile values.
@@ -124,21 +124,21 @@ These are the relevant Histogram metrics:
 
 This metric is used to produce the `Request Size` chart on the metric tabs.  It also supports `Request Throughput` edge labels on the graph.
 
-- Appending `|istio_request_bytes_*` to the `drop` regex above would drop all associated metrics and would prevent any request size/throughput reporting in Kiali.
+- Appending `|istio_request_bytes_.*` to the `drop` regex above would drop all associated metrics and would prevent any request size/throughput reporting in Kiali.
 - Appending `|istio_request_bytes_bucket` to the `drop` regex above, would prevent any request size percentile reporting in the Kiali metric charts.
 
 #### istio_response_bytes
 
 This metric is used to produce the `Response Size` chart on the metric tabs.  And also supports `Response Throughput` edge labels on the graph
 
-- Appending `|istio_response_bytes_*` to the `drop` regex above would drop all associated metrics and would prevent any response size/throughput reporting in Kiali.
+- Appending `|istio_response_bytes_.*` to the `drop` regex above would drop all associated metrics and would prevent any response size/throughput reporting in Kiali.
 - Appending `|istio_response_bytes_bucket` to the `drop` regex above would prevent any response size percentile reporting in the Kiali metric charts.
 
 #### istio_request_duration_milliseconds
 
 This metric is used to produce the `Request Duration` chart on the metric tabs.  It also supports `Response Time` edge labels on the graph.
 
-- Appending `|istio_request_duration_milliseconds_*` to the `drop` regex above would drop all associated metrics and would prevent any request duration/response time reporting in Kiali.
+- Appending `|istio_request_duration_milliseconds_.*` to the `drop` regex above would drop all associated metrics and would prevent any request duration/response time reporting in Kiali.
 - Appending `|istio_request_duration_milliseconds_bucket` to the `drop` regex above would prevent any request duration/response time percentile reporting in the Kiali metric charts or graph edge labels.
 
 
