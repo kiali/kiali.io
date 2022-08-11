@@ -28,6 +28,7 @@ Fixes:
 * [Adjust the "View in Tracing" links to the same row](https://github.com/kiali/kiali/issues/5287)
 * [Skip workloads when summarizing config validations in Overview page and in Graph](https://github.com/kiali/kiali/issues/5342)
 * [logs tab page has wrong container when navigating from trace tab ](https://github.com/kiali/kiali/issues/5289)
+* [More than one Gateway, but cannot find duplicate](https://github.com/kiali/kiali/issues/5213)
 
 ## 1.54.0
 Sprint Release: July 22, 2022
