@@ -6,6 +6,29 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 1.55.0
+Sprint Release: August 12, 2022
+
+Features:
+
+* [(scalability) How to thin metrics to those required only by Kiali](https://github.com/kiali/kiali/issues/5151)
+* [Launch Kiali wizard scenarios from graph nodes](https://github.com/kiali/kiali/issues/4505)
+* [Milliseconds precision for sorting log entries in the Logs tab](https://github.com/kiali/kiali/issues/5246)
+* [Istio Workload Config Validation Optimization](https://github.com/kiali/kiali/issues/5153)
+* [Customizable links in Kiosk mode](https://github.com/kiali/kiali/issues/5207)
+* [Relax host validations on presence of ALLOW_ANY vs REGISTRY_ONLY](https://github.com/kiali/kiali/issues/5235)
+
+Fixes:
+
+* [Overlay trace onclick event doesn't work in the metrics charts](https://github.com/kiali/kiali/issues/5286)
+* [Terminated in Another Window color doesn't look like the PF warning title color](https://github.com/kiali/kiali/issues/5255)
+* [Adjust the "View in Grafana" link in metrics tab](https://github.com/kiali/kiali/issues/5273)
+* [Sidecar with no workloadSelector in two separate namespaces are marked as conflicting...](https://github.com/kiali/kiali/issues/5310)
+* [trace details heatmap vertical labels are truncated](https://github.com/kiali/kiali/issues/5291)
+* [Adjust the "View in Tracing" links to the same row](https://github.com/kiali/kiali/issues/5287)
+* [Skip workloads when summarizing config validations in Overview page and in Graph](https://github.com/kiali/kiali/issues/5342)
+* [logs tab page has wrong container when navigating from trace tab ](https://github.com/kiali/kiali/issues/5289)
+
 ## 1.54.0
 Sprint Release: July 22, 2022
 
