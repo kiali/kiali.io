@@ -15,7 +15,6 @@ Features:
 * [Launch Kiali wizard scenarios from graph nodes](https://github.com/kiali/kiali/issues/4505)
 * [Milliseconds precision for sorting log entries in the Logs tab](https://github.com/kiali/kiali/issues/5246)
 * [Istio Workload Config Validation Optimization](https://github.com/kiali/kiali/issues/5153)
-* [(docs) document the use of kubectl operator in the kiali install docs](https://github.com/kiali/kiali/issues/5341)
 * [Customizable links in Kiosk mode](https://github.com/kiali/kiali/issues/5207)
 * [Relax host validations on presence of ALLOW_ANY vs REGISTRY_ONLY](https://github.com/kiali/kiali/issues/5235)
 * [dev env needs to be able to deploy using OLM](https://github.com/kiali/kiali/issues/5364)
