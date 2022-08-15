@@ -28,7 +28,7 @@ By default, the Kiali operator installs Kiali in the same namespace where the Ki
 ```yaml
 spec:
   deployment:
-    namespace: "custom-kiali-nameespace"
+    namespace: "custom-kiali-namespace"
 ```
 
 It is assumed that Kiali is installed to the same namespace as Istio. Kiali
