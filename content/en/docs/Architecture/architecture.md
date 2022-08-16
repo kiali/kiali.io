@@ -32,7 +32,7 @@ a configmap when installed via Helm.
 
 The front-end is a single page web application, built using Patternfly,
 React, Typescript and Redux. The code can be found at
-[kiali/kiali-ui GitHub repository](https://github.com/kiali/kiali-ui).
+[kiali/kiali frontend folder](https://github.com/kiali/kiali/tree/master/frontend).
 
 In a standard deployment, the back-end serves the front-end. Then, the front-end
 queries the Kiali back-end in order to get data and present it to the user. 
