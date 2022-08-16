@@ -7,7 +7,7 @@ description: "How to set up a development environment"
 ### Introduction
 
 In this section it is explained how to set up a development environment:
-- As described in [Arquitecture](/docs/architecture/architecture), we would need to have the Kiali dependencies running in an Openshift or Kubernetes
+- As described in [Architecture](/docs/architecture/architecture), we would need to have the Kiali dependencies running in an Openshift or Kubernetes
 - We will use a port forward to access those services outside the cluster.
 - We will have the project source running locally. In this case we will set up an IDE.
 - Bookinfo application example will also be running on our cluster.
