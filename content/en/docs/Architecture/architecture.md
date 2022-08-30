@@ -44,7 +44,7 @@ other devices.
 
 ## Istio Service Mesh
 
-Kiali is a management console for Istio, and as such, Istio is a requirement.
+Kiali is a console for Istio, and as such, Istio is a requirement.
 It provides and controls the service mesh. Kiali and Istio are installed
 separately.
 
