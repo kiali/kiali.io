@@ -6,6 +6,20 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 1.56.0
+Sprint Release: Sep 2
+
+Features:
+
+* [Support single cluster traces view when using Jaeger with multi-cluster storage backend](https://github.com/kiali/kiali/issues/4635)
+* [add capabilities-drop explicitly to deployment](https://github.com/kiali/kiali/issues/5399)
+* [Support Telemetry and WasmPlugin Istio objects](https://github.com/kiali/kiali/issues/5274)
+* [Plugin service actions on details pages](https://github.com/kiali/openshift-servicemesh-plugin/issues/43)
+
+Fixes:
+
+* [k8s api token not auto refreshing (aws eks warning)](https://github.com/kiali/kiali/issues/5070)
+
 ## 1.55.0
 Sprint Release: August 12, 2022
 
