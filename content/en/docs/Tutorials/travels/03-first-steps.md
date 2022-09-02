@@ -46,7 +46,7 @@ Understanding what happened:
 
 [(i) Sidecar Injection](https://istio.io/latest/docs/setup/additional-setup/sidecar-injection/)
 
-[(ii) Injection Concepts](https://istio.io/latest/docs/ops/configuration/mesh/injection-concepts/)
+[(ii) Automatic Sidecar Injection](https://istio.io/latest/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
 
 ## Open Travel Demo to Outside Traffic
 
