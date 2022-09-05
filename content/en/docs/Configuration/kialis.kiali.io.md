@@ -341,6 +341,10 @@ spec:
       in_cluster_url: ""
       is_core: false
       namespace_selector: true
+      # default: query_scope is empty
+      query_scope:
+        mesh_id: "mesh-1"
+        cluster: "cluster-east"
       url: ""
       use_grpc: true
       whitelist_istio_system: ["jaeger-query", "istio-ingressgateway"]
@@ -4229,6 +4233,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property-description">
 <p>Kiali use this boolean to find traces with a namespace selector : service.namespace.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.tracing.query_scope">.spec.external_services.tracing.query_scope</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>A set of tagKey/tagValue settings applied to every Jaeger query. Used to narrow unified traces to only those scoped to the Kiali instance.</p>
 
 </div>
 
