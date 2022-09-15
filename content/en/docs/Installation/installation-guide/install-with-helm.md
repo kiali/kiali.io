@@ -19,10 +19,14 @@ Charts are provided:
 - The `kiali-server` Helm Chart installs a standalone Kiali without the need of
   the Operator nor a Kiali CR.
 
-Although the `kiali-server` Helm Chart is actively maintained, it is only
-provided for convenience. The recommended method to install Kiali is by using
-the `kiali-operator` Helm Chart to install the Operator and then creating a
-Kiali CR to let the operator deploy Kiali.
+{{% alert color="warning" %}}
+The `kiali-server` Helm Chart does not provide all the functionality that the Operator
+provides. Some features you read about in the documentation may only be available if
+you install Kiali using the Operator. Therefore, although the `kiali-server` Helm Chart
+is actively maintained, it is not recommended and is only provided for convenience.
+If using Helm, the recommended method is to install the `kiali-operator` Helm Chart
+and then create a Kiali CR to let the Operator deploy Kiali.
+{{% /alert %}}
 
 Make sure you have the `helm` command available by following the
 [Helm installation docs](https://helm.sh/docs/intro/install/).
