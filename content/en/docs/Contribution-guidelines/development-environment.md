@@ -7,7 +7,7 @@ description: "How to set up a development environment"
 ### Introduction
 
 In this section it is explained how to set up a development environment:
-- As described in [Architecture](/docs/architecture/architecture), we would need to have the Kiali dependencies running in an Openshift or Kubernetes
+- As described in [Architecture](/docs/architecture/architecture), we would need to have the Kiali dependencies running in an OpenShift or Kubernetes
 - We will use a port forward to access those services outside the cluster.
 - We will have the project source running locally. In this case we will set up an IDE.
 - Bookinfo application example will also be running on our cluster.
@@ -22,7 +22,11 @@ In this section it is explained how to set up a development environment:
   - [make](https://www.gnu.org/software/make/)
   - [npm](https://www.npmjs.com/)
   - [yarn](https://yarnpkg.com/)
-- Istio and required services are running in Minikube or open shift. To install it following the above schema, it is possible to use the following scripts:
+- Kiali source code: We will fork the 3 kiali repositories, and then, clone them in a local folder:
+  - [Kiali](https://github.com/kiali/kiali)
+  - [Kiali-operator](https://github.com/kiali/kiali-operator)
+  - [Helm-charts](https://github.com/kiali/helm-charts)
+- Istio and the required services are running in Minikube or OpenShift. To install it following the above schema, it is possible to use the following scripts (From the [Kiali](https://github.com/kiali/kiali) repository):
   - `hack/istio/install-istio-via-istioctl.sh`: Installs the latest Istio release into *istio-system* namespace along with the Prometheus, Grafana, and Jaeger addons.
   - `hack/istio/install-bookinfo-demo.sh`: Installs the Bookinfo demo that is found in the Istio release that was installed via the *hack/istio/install-istio-via-istioctl.sh* hack script.
     - Pass in `-tg` to also install a traffic generator that will send messages periodically into the Bookinfo demo.
@@ -55,16 +59,12 @@ This file will be places in ~/kiali/config.yaml, and referenced later by the GO 
 In this section we will start the 3 local processes for kiali:
 - kiali-core: The backend Go process
 - kiali-ui: The frontend React process
-- browser: The Javascript debugger process. 
-
-We will need to fork the 3 kiali repositories, and then, clone them in a local folder:
-- [Kiali](https://github.com/kiali/kiali)
-- [Kiali-operator](https://github.com/kiali/kiali-operator)
-- [Helm-charts](https://github.com/kiali/helm-charts)
+- browser: The Javascript debugger process.
 
 In this example, we will create the configurations in the Jetbrains Golang IDE.
 
 #### kiali-core
+To run the Kiali backend.
 ![kiali-core](/images/documentation/contribution/kiali-core.png)
 
 #### kiali-ui
@@ -76,6 +76,7 @@ In order to forward the requests to the backend propertly, we will need to add t
 ![kiali-ui](/images/documentation/contribution/kiali-ui.png)
 
 #### browser
+This process is required to debug the frontend.
 ![browser](/images/documentation/contribution/browser.png)
 
 After running the 3 processes, we should be able to access Kiali GUI in localhost:3000
