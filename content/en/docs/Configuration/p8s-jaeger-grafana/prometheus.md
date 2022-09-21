@@ -91,7 +91,7 @@ The `metric_relabel_configs:` attribute should be added under each job name defi
       metric_relabel_configs:
       - action: drop
         source_labels: [__name__]
-        regex: istio_agent_.*|istiod_.*|istio_build|citadel_.*|galley_.*|pilot_.*|envoy_cluster_[^u].*|envoy_cluster_update.*|envoy_listener_[^dh].*|envoy_server_[^mu].*|envoy_wasm_.*
+        regex: istio_agent_.*|istiod_.*|istio_build|citadel_.*|galley_.*|pilot_[^p].*|envoy_cluster_[^u].*|envoy_cluster_update.*|envoy_listener_[^dh].*|envoy_server_[^mu].*|envoy_wasm_.*
       - action: labeldrop
         regex: chart|destination_app|destination_version|heritage|.*operator.*|istio.*|release|security_istio_io_.*|service_istio_io_.*|sidecar_istio_io_inject|source_app|source_version
 ```
