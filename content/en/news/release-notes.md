@@ -43,6 +43,8 @@ metrics.  If these metrics have been removed from your environment you will need
 |--------------------------------------------|-----|
 |process_cpu_seconds_total                   |used to graph cpu usage in the control plane overview card |
 |container_memory_working_set_bytes          |used to graph memory usage in the control plane overview card |
+|pilot_proxy_convergence_time_sum            |used in control plane overview card to show the average proxy push time |
+|pilot_proxy_convergence_time_count          |used in control plane overview card to show the average proxy push time |
 
 <br />
 
