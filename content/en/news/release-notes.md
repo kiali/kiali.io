@@ -36,7 +36,7 @@ Fixes:
 
 Upgrade Notes:
 
-The [improved control plane card on the Overview page](https://github.com/kiali/kiali/issues/5167) make use of previously unused
+The [improved control plane card on the Overview page](https://github.com/kiali/kiali/issues/5167) makes use of previously unused
 metrics.  If these metrics have been removed from your environment you will need to add them back for the feature to work.  As a result,
 we have updated our recommended Prometheus metric thinning configuration.  See [kiali.io](https://kiali.io/docs/configuration/p8s-jaeger-grafana/prometheus/#metric-thinning)
 for the updated configuration.  The metrics used are not typically very heavy and adding them back should likely not be an issue.
