@@ -44,6 +44,7 @@ metrics.  If these metrics have been removed from your environment you will need
 |process_cpu_seconds_total                   |used to graph cpu usage in the control plane overview card |
 |container_memory_working_set_bytes          |used to graph memory usage in the control plane overview card |
 
+<br />
 
 If these metrics have been removed from your environment you will need to add them back for the feature to work.  As a result,
 we have updated our recommended Prometheus metric thinning configuration.  See [kiali.io](https://kiali.io/docs/configuration/p8s-jaeger-grafana/prometheus/#metric-thinning)
