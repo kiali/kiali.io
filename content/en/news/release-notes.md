@@ -6,6 +6,54 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 1.57.0
+Sprint Release: Sep 23
+
+Features:
+
+* [Optimize the Kiali Cache design under cluster rights presence](https://github.com/kiali/kiali/issues/4678)
+* [Reorganize the Overview page to better show data plane vs control plane status](https://github.com/kiali/kiali/issues/5167)
+* [Plugin time interval+refresh controls on detail pages](https://github.com/kiali/openshift-servicemesh-plugin/issues/42)
+* [Initial Release of OSSMC](https://github.com/kiali/kiali/issues/5451)
+* [Relax "missing label" wording in tooltips](https://github.com/kiali/kiali/issues/5368)
+* [missing version and commit info in log output](https://github.com/kiali/openshift-servicemesh-plugin/issues/90)
+* [make container securityContext configurable](https://github.com/kiali/kiali/issues/5455)
+* [Move Kiali<->Istio version checks to the "About" dialog](https://github.com/kiali/kiali/issues/5457)
+* [Added K8s Gateway API objects to Istio Config list page](https://github.com/kiali/kiali/issues/5485)
+* [Enable github pipeline to run integration tests with token auth enabled](https://github.com/kiali/kiali/issues/5082)
+
+Fixes:
+
+* [Revisit "round timeseries on client-side with significant decimals"](https://github.com/kiali/kiali/issues/5432)
+* [(CI) Test flake - Service details page](https://github.com/kiali/kiali/issues/5358)
+* [(hack) setup kind in ci finalising with error](https://github.com/kiali/kiali/issues/5441)
+* [(CI) Test flake - workload details](https://github.com/kiali/kiali/issues/5407)
+* [(CI) Test Flake - TestConcurrentClientExpiration](https://github.com/kiali/kiali/issues/5196)
+* [(CI) Test flake - The degraded status of a service is reported in the list of service](https://github.com/kiali/kiali/issues/5226)
+* [(CI) Test flake - Sidebar toggle](https://github.com/kiali/kiali/issues/5437)
+* [Upgrade operator base image to 4.11](https://github.com/kiali/kiali/issues/5459)
+* [Change istioctl install hack script to default to single cluster settings](https://github.com/kiali/kiali/issues/5248)
+
+Upgrade Notes:
+
+The [improved control plane card on the Overview page](https://github.com/kiali/kiali/issues/5167) makes use of previously unused
+metrics.  If these metrics have been removed from your environment you will need to add them back for the feature to work.  As a result,
+
+|Metric                                      |Notes|
+|--------------------------------------------|-----|
+|process_cpu_seconds_total                   |used to graph cpu usage in the control plane overview card |
+|container_memory_working_set_bytes          |used to graph memory usage in the control plane overview card |
+|pilot_proxy_convergence_time_sum            |used in control plane overview card to show the average proxy push time |
+|pilot_proxy_convergence_time_count          |used in control plane overview card to show the average proxy push time |
+
+<br />
+
+If these metrics have been removed from your environment you will need to add them back for the feature to work.  As a result,
+we have updated our recommended Prometheus metric thinning configuration.  See [kiali.io](https://kiali.io/docs/configuration/p8s-jaeger-grafana/prometheus/#metric-thinning)
+for the updated configuration.  The metrics used are not typically very heavy and adding them back should likely not be an issue.
+
+See [this FAQ entry](https://kiali.io/docs/faq/general/#requiredmetrics) for a list of all metrics required by Kiali.
+
 ## 1.56.0
 Sprint Release: Sep 2
 
