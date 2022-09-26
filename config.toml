@@ -255,7 +255,7 @@ enable = false
   url = "https://v1-49.kiali.io"
 
 [[ params.versions ]]
-  version = "v1.48"
+  version = "v1.48 [ossm v2.2]"
   url = "https://v1-48.kiali.io"
 
 [[ params.versions ]]
@@ -271,48 +271,16 @@ enable = false
   url = "https://v1-45.kiali.io"
 
 [[ params.versions ]]
-  version = "v1.44"
+  version = "v1.44 [istio v1.12]"
   url = "https://v1-44.kiali.io"
 
 [[ params.versions ]]
-  version = "v1.43"
-  url = "https://v1-43.kiali.io"
-
-[[ params.versions ]]
-  version = "v1.42"
-  url = "https://v1-42.kiali.io"
-
-[[ params.versions ]]
-  version = "v1.41"
+  version = "v1.41 [istio v1.11]"
   url = "https://v1-41.kiali.io"
-
-[[params.versions]]
-  version = "v1.40"
-  url = "https://pre-v1-41.kiali.io/documentation/v1.40"
-
-[[params.versions]]
-  version = "v1.39"
-  url = "https://pre-v1-41.kiali.io/documentation/v1.39"
-
-[[params.versions]]
-  version = "v1.38"
-  url = "https://pre-v1-41.kiali.io/documentation/v1.38"
-
-[[params.versions]]
-  version = "v1.37"
-  url = "https://pre-v1-41.kiali.io/documentation/v1.37"
 
 [[params.versions]]
   version = "v1.36 [ossm v2.1]"
   url = "https://pre-v1-41.kiali.io/documentation/v1.36"
-
-[[params.versions]]
-  version = "v1.35"
-  url = "https://pre-v1-41.kiali.io/documentation/v1.35"
-
-[[params.versions]]
-  version = "v1.34"
-  url = "https://pre-v1-41.kiali.io/documentation/v1.34"
 
 [[params.versions]]
   version = "v1.24 [ossm v2.0]"
