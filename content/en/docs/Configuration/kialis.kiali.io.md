@@ -196,6 +196,7 @@ spec:
       limits:
         memory: "1Gi"
     secret_name: "kiali"
+    security_context: {}
     # default: service_annotations is empty
     service_annotations:
       svcAnnotation: "svcAnnotationValue"
@@ -2083,6 +2084,25 @@ limits:
 
 <div class="property-description">
 <p>The name of a secret used by the Kiali. This secret is optionally used when configuring the OpenID authentication strategy. Consult the OpenID docs for more information at <a href="https://kiali.io/docs/configuration/authentication/openid/">https://kiali.io/docs/configuration/authentication/openid/</a></p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.security_context">.spec.deployment.security_context</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>Custom security context to be placed on the server container. The entire security context on the container will be the value of this setting if the operator is configured to allow it. Note that, as a security measure, a cluster admin may have configured the Kiali operator to not allow portions of this override setting - in this case you can specify additional security context settings but you cannot replace existing, default ones.</p>
 
 </div>
 
