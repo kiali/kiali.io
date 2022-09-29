@@ -1,6 +1,6 @@
 ---
 title: "Kiali Integrations"
 linkTitle: "Integrations"
-weight: 1
+weight: 11
 description: Integration with other tools and platforms.
 ---
