@@ -10,7 +10,7 @@ OpenShift Service Mesh Console (OSSMC) is a Kiali integration for OpenShift cons
 It integrates part of the Kiali functionality into the OpenShift console, providing visibility of the Service Mesh.
 
 ![OSSMC](/images/documentation/integration/ossmc.png)
-
+ 
 OSSMC was [first released](https://cloud.redhat.com/blog/introducing-the-openshift-service-mesh-console-a-developer-preview) in September 2022, and it is still released as a developer preview, with the purpose of been tested by developers to provide feedback and bug reports. 
 
 ### User Documentation
