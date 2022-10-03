@@ -11,7 +11,7 @@ It integrates part of the Kiali functionality into the OpenShift console, provid
 
 ![OSSMC](/images/documentation/integration/ossmc.png)
  
-OSSMC was [first released](https://cloud.redhat.com/blog/introducing-the-openshift-service-mesh-console-a-developer-preview) in September 2022, and it is still released as a developer preview, with the purpose of been tested by developers to provide feedback and bug reports. 
+OSSMC was [first released](https://cloud.redhat.com/blog/introducing-the-openshift-service-mesh-console-a-developer-preview) in September 2022 as a developer preview.   Please give it a try, provide feedback and let us know of any issues! 
 
 ### User Documentation
 * [User guide](https://github.com/kiali/openshift-servicemesh-plugin/blob/main/docs/users-guide.md)
