@@ -96,6 +96,10 @@ spec:
 The `api.namespaces.include` setting is ignored if `accessible_namespaces` is not set to `["**"]`.
 {{% /alert %}}
 
+{{% alert color="info" %}}
+The `api.namespaces.include` will implicitly include the control plane namespace (e.g. `istio-system`) even if you do not explicitly specify it in the list.
+{{% /alert %}}
+
 Note that this setting is merely a filter and does not provide security in any way.
 
 ## Excluded Namespaces
@@ -115,6 +119,10 @@ spec:
     - istio-system
     - mycorp_.*
 ```
+
+{{% alert color="info" %}}
+You cannot exclude the control plane namespace. If you specify it in `api.namespaces.exclude`, it will be ignored.
+{{% /alert %}}
 
 ## Namespace Selectors
 
