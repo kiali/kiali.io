@@ -45,3 +45,10 @@ inspect tracing data more in depth. For these links to be available you need to
 set the `spec.external_services.tracing.url` which may mean that you should
 expose Jaeger outside the cluster.
 
+{{% alert color="success" %}}
+Default values for connecting to Jaeger are based on the [Istio's provided
+sample add-on manifests](https://github.com/istio/istio/tree/master/samples/addons).
+If your Jaeger setup differs significantly from the sample add-ons, make sure
+that Istio is also properly configured to push traces to the right URL.
+{{% /alert %}}
+
