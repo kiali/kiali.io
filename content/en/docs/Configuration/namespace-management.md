@@ -15,12 +15,10 @@ label selector. You can use a combination of these options.
 
 ## Accessible Namespaces
 
-The main configuration setting that is used to configure which namespaces
-are accessible and observable through Kiali is the "accessible namespaces" setting.
-You can use regex expressions which will be matched against the operator's
-visible namespaces. If not set in the Kiali CR, the default
-makes accessible all cluster namespaces, with the exception of
-a predefined set of the cluster's system namespaces.
+The "accessible namespaces" setting configures which namespaces are accessible and observable through Kiali.
+The accessible namespaces are defined by a list of regex expressions that match against the namespace names
+visible to the Kiali operator. If left unset the default is the full set of namespaces visible to the Kiali
+operator, less a set of predefined system namespaces.
 
 The list of accessible namespaces is specified in the Kiali CR via the
 `accessible_namespaces` setting, under the main `deployment` section. As an
@@ -42,7 +40,7 @@ The operator will create a Role for each accessible namespace. Each Role will be
 If you install Kiali using the [Server Helm Chart]({{< ref "/docs/installation/installation-guide/install-with-helm" >}}), these Roles will not be created. This security feature is provided by the operator only, and is one reason why it is recommended to use the operator. The Server Helm Chart is provided only as a convenience.
 {{% /alert %}}
 
-Note that the namespaces declared here (including any regex expressions) are evaluated and discovered by the operator at install time. Namespaces that do not exist at the time of install but are created later in the future will not be accessible by Kiali. For Kiali to be given access to namespaces created in the future, you must edit the Kiali CR and update the `accessible_namespaces` setting to include the new namespaces. However, if you set `accessible_namespaces` to the special value `["**"]` all namespaces (including any namespaces created in the future) will be accessible to Kiali.
+Note that the namespaces declared here (including any regex expressions) are evaluated and discovered by the operator at install time. Namespaces that do not exist at the time of install will not be accessible by Kiali. For Kiali to be given access to a new namespace you must edit the Kiali CR. Adding the new namespace to the list of `accessible_namespaces` will trigger an operator reconciliation and the necessary Role will be created. Note that if the new namespace is already covered by an existing regex entry, the CR must still be changed in some way to trigger the operator reconciliation. However, if `accessible_namespaces` is set to the special value `["**"]` all namespaces (including any namespaces created in the future) will be accessible to Kiali.
 
 {{% alert color="warning" %}}
 As you can see in the example, the namespace where Kiali is installed must be listed as accessible (often, but not always, this is the same namespace as Istio). If it is not in the list, it will be added for you by the operator.
@@ -79,7 +77,7 @@ and the Kiali Operator does not need permissions to create cluster roles.
 
 ## Included Namespaces
 
-If `accessible_namespaces` is set to `["**"]` you still have an option to limit what namespaces a user will see in Kiali by utilizing the `api.namespaces.include` setting. This option allows you to specify a subset of namespaces that Kiali will show the user. This list is specified in a similar way as `accessible_namespaces` (e.g. it is a list of namespaces, and can include regex expressions). The difference is this list of namespace regexes is processed by the server (not the operator) each time a list of namespaces needs to be obtained by Kiali. This means you can include namespaces that do not yet exist at the time Kiali is installed. If you create those namespaces after Kiali is installed, Kiali will detect them.
+When `accessible_namespaces` is set to `["**"]` you can still limit the namespaces a user will see in Kiali. The `api.namespaces.include` setting allows you to configure the subset of namespaces that Kiali will show the user. This list is specified in a way similar to `accessible_namespaces`, as a list of namespaces that can include regex patterns. The difference is that this list is processed by the server, not the operator, each time the list of namespaces needs to be obtained by Kiali. This means it will handle namespaces that exist when Kiali is installed, or namespaces created later.
 
 ```yaml
 spec:
@@ -104,7 +102,7 @@ Note that this setting is merely a filter and does not provide security in any w
 
 ## Excluded Namespaces
 
-You can exclude namespaces from being shown to the user by setting the `api.namespaces.exclude` setting. This filter applies regardless if `accessible_namespaces` is set to `["**"]` or not, and you can use this filter if `api.namespaces.include` is used or not. The exclude filter has precedence - if a namespace matches a regex pattern in this `api.namespaces.exclude` setting, it will not be shown in Kiali. And just like `api.namespaces.include`, this exclude feature is merely a filter and does not provide security in any way.
+The `api.namespaces.exclude` setting configures namespaces to exclude from being shown to the user. This setting can be used both when `accessible_namespaces` is set to `["**"]` or set to an explicit list of namespaces. It can also be used regardless of whether `api.namespaces.include` is defined. The exclude filter has precedence - if a namespace matches any regex pattern defined for `api.namespaces.exclude`, it will not be shown in Kiali. Like `api.namespaces.include`, the exclude setting is only a filter and does not provide security in any way.
 
 For example, if the `accessible_namespaces` configuration includes `mycorp_.*` but it is not desirable to see test namespaces, the following configuration can be used:
 
@@ -156,9 +154,9 @@ spec:
 
 It is very important to understand how the `api.namespaces.label_selector_include` setting is used when `deployment.accessible_namespaces` is set to an explicit list of namespaces versus when it is set to `["**"]`.
 
-When `accessible_namespaces` is set to `["**"]` then `label_selector_include` simply provides a filter just like `api.namespaces.include`. The difference is `label_selector_include` filters by namespace label whereas `include` filters by namespace name. Thus, `label_selector_include` merely provides an additional way to limit what namespaces the Kiali user will see when `accessible_namespaces` is set to `["**"]`.
+When `accessible_namespaces` is set to `["**"]` then `label_selector_include` simply provides a filter just like `api.namespaces.include`. The difference is that `label_selector_include` filters by namespace label whereas `include` filters by namespace name. Thus, `label_selector_include` provides an additional way to limit which namespaces the Kiali user will see when `accessible_namespaces` is set to `["**"]`.
 
-When `accessible_namespaces` contains an explicit list of namespaces (i.e. is not set to `["**"]`), `label_selector_include` defines the label (name and value) that will be added by the operator to each namespace defined in `accessible_namespaces`. After the operator installs Kiali, every accessible namespace will have this label. Thus, Kiali can then use `label_selector_include` to select all namespaces as defined in `accessible_namespaces`.
+It is recommended to leave `label_selector_include` unset when `accessible_namespaces` is not set to `["**"]` (i.e. `accessible_namespaces` is set to an explicit list of namespaces). This is because the operator adds the configured label (name and value) to each namespace defined by `accessible_namespaces`. This allows the Kiali code to use the `label_selector_include` value to easily select all of the `accessible_namespaces`. Unless you have a good reason to customize, the default value is highly recommended in this scenario.
 
 {{% alert color="warning" %}}
 If Kiali is installed via the Server Helm Chart, labels are not added to the accessible namespaces. The user must ensure `api.namespaces.label_selector_include` (if defined) selects all namespaces declared in `accessible_namespaces` (when not set to `["**"]`). It is a user-error if this is not configured correctly.
