@@ -40,7 +40,7 @@ performance (mainly, the queries to calculate Health indicators). It
 would be very rare to see data delays, but should you notice any delays you may
 tune caching parameters to values that work better for your environment.
 
-See the [Kiali CR reference page]({{< relref "/docs/configuration/kialis.kiali.io/#example-cr" >}}) for the current default values.
+See the [Kiali CR reference page](/docs/configuration/kialis\.kiali\.io/#example-cr) for the current default values.
 
 ### Compatibility with Prometheus-like servers
 
