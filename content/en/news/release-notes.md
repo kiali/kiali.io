@@ -6,6 +6,28 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 1.58.0
+Sprint Release: Oct 14, 2022 | Kiali v1.58
+
+Features:
+
+* [openid strategy should not show login page: where are kiali's autologin options?](https://github.com/kiali/kiali/issues/5232)
+* [Add Kiali validation on Istio Config list](https://github.com/kiali/openshift-servicemesh-plugin/issues/45)
+* [Can we exclude the some accessible namespaces in kiali CR with some labelSelector?](https://github.com/kiali/kiali/issues/5516)
+* [Add Argocd Rollout as workload type to Kiali.](https://github.com/kiali/kiali/issues/5261)
+* [Badging gateway api gateways correctly on the graph](https://github.com/kiali/kiali/issues/5490)
+
+Fixes:
+
+* ["KIA0203 This subset's labels are not found in any matching host" For Argo Rollout canary scenario](https://github.com/kiali/kiali/issues/4210)
+* [Links to ServiceMesh tabs should propagate interval and refresh parameters](https://github.com/kiali/openshift-servicemesh-plugin/issues/53)
+* [Duration in Overview tab from details pages not refreshing](https://github.com/kiali/openshift-servicemesh-plugin/issues/94)
+* [(CI) Test flake - Kiali Graph page - Find/Hide](https://github.com/kiali/kiali/issues/5465)
+* [Control Plane Card icon overlapping ](https://github.com/kiali/kiali/issues/5495)
+* [(CI) Test flake - Service Details Traces - Spans](https://github.com/kiali/kiali/issues/5499)
+* [Jaeger - namespace_selector not working for services in istio-system](https://github.com/kiali/kiali/issues/4935)
+* [(Cypress) login using default authentication method does not work](https://github.com/kiali/kiali/issues/5540)
+
 ## 1.57.0
 Sprint Release: Sep 23
 
