@@ -44,9 +44,10 @@ spec:
       - "^openshift.*"
       - "^ibm.*"
       - "^kiali-operator"
-      # default: label_selector is undefined
-      label_selector: "kiali.io/member-of=istio-system"
-
+      include: []
+      label_selector_exclude: ""
+      # default: label_selector_include is undefined
+      label_selector_include: "kiali.io/member-of=istio-system"
   auth:
     strategy: ""
     openid:
@@ -680,7 +681,60 @@ For additional help in using this validation tool, pass it the `--help` option.
 <div class="property depth-3">
 <div class="property-header">
 <hr/>
-<h3 class="property-path" id=".spec.api.namespaces.label_selector">.spec.api.namespaces.label_selector</h3>
+<h3 class="property-path" id=".spec.api.namespaces.include">.spec.api.namespaces.include</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>A list of namespaces to be included in the list of namespaces provided by the Kiali API and Kiali UI (if those namespaces exist). Regex is supported. An undefined or empty list is ignored. This does not affect explicit namespace access.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.api.namespaces.include[*]">.spec.api.namespaces.include[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.api.namespaces.label_selector_exclude">.spec.api.namespaces.label_selector_exclude</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>A Kubernetes label selector (e.g. <code>myLabel=myValue</code>) which is used for filtering out namespaces
+when fetching the list of available namespaces. This does not affect explicit namespace access.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.api.namespaces.label_selector_include">.spec.api.namespaces.label_selector_include</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -694,10 +748,10 @@ available namespaces. This does not affect explicit namespace access.</p>
 
 <p>If <code>deployment.accessible_namespaces</code> does not have the special value of <code>'**'</code>
 then the Kiali operator will add a new label to all accessible namespaces - that new
-label will be this <code>label_selector</code>.</p>
+label will be this <code>label_selector_include</code> (this label is added regardless if the namespace matches the label_selector_exclude also).</p>
 
-<p>Note that if you do not set this <code>label_selector</code> setting but <code>deployment.accessible_namespaces</code>
-does not have the special &ldquo;all namespaces&rdquo; entry of <code>'**'</code> then this <code>label_selector</code> will be set
+<p>Note that if you do not set this <code>label_selector_include</code> setting but <code>deployment.accessible_namespaces</code>
+does not have the special &ldquo;all namespaces&rdquo; entry of <code>'**'</code> then this <code>label_selector_include</code> will be set
 to a default value of <code>kiali.io/[&lt;deployment.instance_name&gt;.]member-of=&lt;deployment.namespace&gt;</code>
 where <code>[&lt;deployment.instance_name&gt;.]</code> is the instance name assigned to the Kiali installation
 if it is not the default &lsquo;kiali&rsquo; (otherwise, this is omitted) and <code>&lt;deployment.namespace&gt;</code>
