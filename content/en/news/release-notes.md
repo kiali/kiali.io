@@ -6,8 +6,27 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 1.59.0
+Sprint Release: Nov 4, 2022
+
+Features:
+
+* [Validate that Kiali installs as an add-on for Ambient](https://github.com/kiali/kiali/issues/5504)
+* [Migrate the control plane related information from the masthead to the control plane card ](https://github.com/kiali/kiali/issues/5525)
+* [switch the published images to be distroless](https://github.com/kiali/kiali/issues/5508)
+* [Add TLS min version to the Control Plane card in the Overview Page](https://github.com/kiali/kiali/issues/5528)
+* [Helm charts installation doesn't work on Apple M1](https://github.com/kiali/kiali/issues/5580)
+* [mount secret data from files, not environment variables](https://github.com/kiali/kiali/issues/5591)
+* [Filter "istio" GatewayClassName Gateway API gateways](https://github.com/kiali/kiali/issues/5594)
+
+Fixes:
+
+* [Config Create Wizard - Preview shows old state ](https://github.com/kiali/kiali/issues/5546)
+* [(Cypress) Fix kiali login test on openshift](https://github.com/kiali/kiali/issues/5568)
+* [Kiali dashboard freezes when checking traces information](https://github.com/kiali/kiali/issues/5584)
+
 ## 1.58.0
-Sprint Release: Oct 14, 2022 | Kiali v1.58
+Sprint Release: Oct 14, 2022
 
 Features:
 
