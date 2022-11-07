@@ -8,7 +8,7 @@ This section describes the production installation methods available for Kiali.
 
 The recommended way to deploy Kiali is via the Kiali Operator, either using Helm Charts or OperatorHub.
 
-The Kiali Operator is a [Kubernetes Operator](https://coreos.com/operators/)
+The Kiali Operator is a [Kubernetes Operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)
 and manages your Kiali installation. It watches the _Kiali Custom Resource_
 (Kiali CR), a YAML file that holds the deployment configuration.
 
