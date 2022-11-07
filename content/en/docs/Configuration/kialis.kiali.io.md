@@ -292,6 +292,7 @@ spec:
         enabled: true
       config_map_name: "istio"
       envoy_admin_local_port: 15000
+      gateway_api_class_name: ""
       # default: istio_canary_revision is undefined
       istio_canary_revision:
         current: "1-9-9"
@@ -3452,6 +3453,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property-description">
 <p>The port which kiali will open to fetch envoy config data information.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.istio.gateway_api_class_name">.spec.external_services.istio.gateway_api_class_name</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The K8s Gateway API GatewayClass&rsquo;s Name used in Istio. If empty, the default value &lsquo;istio&rsquo; is used.</p>
 
 </div>
 
