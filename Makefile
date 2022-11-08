@@ -70,7 +70,7 @@ URL_IGNORE:=$(URL_IGNORE)$(NEW_URLS)
 
 # Skip validation from (Probably) not released version (last one)
 # Get current version from release notes
-VERSION=$(shell egrep -m1 \#\# content/en/news/release-notes.md | sed 's/\#\# //' | sed 's/.0//' | sed 's/\./-/')
+VERSION=$(shell grep -m1 ' Sprint Release' public/news/release-notes/index.html | cut -d ' ' -f1 | sed 's/.0//' | sed 's/\./-/')
 URL_VERSION=,/^https://v$(VERSION).kiali.io/
 URL_IGNORE:=$(URL_IGNORE)$(URL_VERSION)
 
