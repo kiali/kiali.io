@@ -70,18 +70,11 @@ URL_IGNORE:=$(URL_IGNORE)$(NEW_URLS)
 
 # Skip validation from (Probably) not released version (last one)
 # Get current version from release notes
-VERSION=$(shell grep -m1 '\#\#' content/en/news/release-notes.md)
-$(info $(VERSION))
-V1=$(shell egrep -m1 '\#\#' content/en/news/release-notes.md | sed 's/\#\# //')
-$(info $(V1))
-V2=$(shell egrep -m1 '\#\#' content/en/news/release-notes.md | sed 's/\#\# //' | sed 's/.0//' )
-$(info $(V2))
-V3=$(shell egrep -m1 '\#\#' content/en/news/release-notes.md | sed 's/\#\# //' | sed 's/.0//' | sed 's/\./-/' )
-$(info $(V3))
-V4=$(shell egrep --help)
-$(info $(V4))
-URL_VERSION=,/^https://v$(V3).kiali.io/
-$(info $(URL_VERSION))
+VERSION=$(shell egrep -m1 '\#\#' content/en/news/release-notes.md | sed 's/\#\# //' | sed 's/.0//' | sed 's/\./-/' )
+URL_VERSION=,/^https://v$(VERSION).kiali.io/
+URL_IGNORE:=$(URL_IGNORE)$(URL_VERSION)
+VERSION=$(shell egrep -m2 '\#\#' content/en/news/release-notes.md | sed 's/\#\# //' | sed 's/.0//' | sed 's/\./-/' | tail -n1)
+URL_VERSION=,/^https://v$(VERSION).kiali.io/
 URL_IGNORE:=$(URL_IGNORE)$(URL_VERSION)
 
 ## validate-site: Builds the site and validates the pages. This is used for CI
