@@ -70,7 +70,7 @@ URL_IGNORE:=$(URL_IGNORE)$(NEW_URLS)
 
 # Skip validation from (Probably) not released version (last one)
 # Get current version from release notes
-VERSION=$(shell egrep -m1 '##' content/en/news/release-notes.md )
+VERSION=$(shell grep -m1 '##' content/en/news/release-notes.md)
 $(info $(VERSION))
 V1=$(shell egrep -m1 '##' content/en/news/release-notes.md | sed 's/\#\# //')
 $(info $(V1))
