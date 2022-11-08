@@ -68,6 +68,12 @@ URL_IGNORE=\#$\
 NEW_URLS=$(shell scripts/ignore_new_urls.sh 2> /dev/null)
 URL_IGNORE:=$(URL_IGNORE)$(NEW_URLS)
 
+# Skip validation from (Probably) not released version (last one)
+# Get current version from release notes
+VERSION=$(shell egrep -m1 \#\# content/en/news/release-notes.md | sed 's/\#\# //' | sed 's/.0//' | sed 's/\./-/')
+URL_VERSION=,/^https://v$(VERSION).kiali.io/
+URL_IGNORE:=$(URL_IGNORE)$(URL_VERSION)
+
 ## validate-site: Builds the site and validates the pages. This is used for CI
 .PHONY: validate-site
 validate-site: build-hugo
