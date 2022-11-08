@@ -73,6 +73,9 @@ URL_IGNORE:=$(URL_IGNORE)$(NEW_URLS)
 VERSION=$(shell grep -m1 ' Sprint Release' public/news/release-notes/index.html | cut -d ' ' -f1 | sed 's/.0//' | sed 's/\./-/')
 URL_VERSION=,/^https://v$(VERSION).kiali.io/
 URL_IGNORE:=$(URL_IGNORE)$(URL_VERSION)
+DIR:=$(shell pwd)
+CONTENT:=$(shell ls -la)
+$(info $(DIR) content $(CONTENT))
 
 ## validate-site: Builds the site and validates the pages. This is used for CI
 .PHONY: validate-site
