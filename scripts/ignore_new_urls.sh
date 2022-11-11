@@ -19,6 +19,13 @@ main() {
   fi;
   done <<< "$(git diff --name-only --diff-filter=ACR $BRANCH)"
 
+  # Skip validation from (Probably) not released version (last one)
+  # Get current version from release notes
+  while IFS= read -r version; do
+     URL_VERSION=",/^https://v${version}.kiali.io/"
+     EXCLUDE_URLS="$EXCLUDE_URLS$URL_VERSION"
+  done <<< $(egrep -m2 '\#\#' content/en/news/release-notes.md | sed 's/\#\# //' | sed 's/.0//' | sed 's/\./-/')
+
   echo $EXCLUDE_URLS
 }
 
