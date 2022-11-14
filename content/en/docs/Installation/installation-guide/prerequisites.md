@@ -40,7 +40,8 @@ supported Istio versions.
 
 |<div style="width:50px">Istio</div>|<div style="width:125px">Kiali</div>|Notes|
 |-------|------------------|---|
-|1.15   |1.55.1 or later   |   |
+|1.16   |1.59.1 or later   |   |
+|1.15   |1.55.1 to 1.59.0  |   |
 |1.14   |1.50.0 to 1.54.x  |   |
 |1.13   |1.45.1 to 1.49.x  |   |
 |1.12   |1.42.0 to 1.44.x  |Istio 1.12 is out of support. |
