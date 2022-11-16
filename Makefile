@@ -71,4 +71,4 @@ URL_IGNORE:=$(URL_IGNORE)$(NEW_URLS)
 ## validate-site: Builds the site and validates the pages. This is used for CI
 .PHONY: validate-site
 validate-site: build-hugo
-	${DORP} run -t -i --rm -v "$(shell pwd)":/site:z -w /site ${KIALI_HUGO_IMAGE} /bin/bash -c "npm prune && hugo && htmlproofer --typhoeus '{\"connecttimeout\": 30, \"timeout\": 30}' --allow-hash-href --allow-missing-href --ignore-empty-alt --ignore-missing-alt --no-check-external-hash --no-check-internal-hash --no-enforce-https --ignore-urls \"${URL_IGNORE}\" ./public"
+	${DORP} run -t -i --rm -v "$(shell pwd)":/site:z -w /site ${KIALI_HUGO_IMAGE} /bin/bash -c "npm prune && npm config set fetch-retry-mintimeout 20000 && npm config set fetch-retry-maxtimeout 120000 && hugo && htmlproofer --typhoeus '{\"connecttimeout\": 30, \"timeout\": 30}' --hydra='{\"max_concurrency\": 6}' --allow-hash-href --allow-missing-href --ignore-empty-alt --ignore-missing-alt --no-check-external-hash --no-check-internal-hash --no-enforce-https --ignore-urls \"${URL_IGNORE}\" ./public"
