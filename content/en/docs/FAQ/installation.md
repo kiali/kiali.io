@@ -158,3 +158,25 @@ $ oc get pods -n ${NAMESPACE}
 NAME                    READY   STATUS    RESTARTS   AGE
 kiali-56bbfd644-nkhlw   2/2     Running   0          43s
 ```
+
+### How Can I Specify a Container Image Digest Hash When Installing Kiali Server and Kiali Operator?
+
+To tell the operator to install a specific container image using a digest hash, you must use the `deployment.image_digest` setting in conjunction with the `deployment.image_version` setting. `deployment.image_version` is simply the digest hash code and `deployment.image_digest` is the type of digest (most likely you want to set this value to `sha256`). So for example, in your Kiali CR you will want something like this:
+
+```yaml
+spec:
+  deployment:
+    image_version: 63fdb9a9a1aa8fea00015c32cd6dbb63166046ddd087762d0fb53a04611e896d
+    image_digest: sha256
+```
+
+Leaving `deployment.image_digest` unset or setting it to an empty string will tell the operator to assume the `deployment.image_version` is a tag.
+
+For those that opt not to use the operator to install the server but instead use the server helm chart, the same `deployment.image_version` and `deployment.image_digest` values are supported by the Kiali server helm chart.
+
+As for the operator itself, when installing the operator using its helm chart, the values `image.tag` and `image.digest` are used in the same manner as the `deployment.image_version` and `deployment.image_digest` as explained above. So if you wish to install the operator using a container image digest hash, you will want to use the `image.tag` and `image.digest` in a similar way:
+
+```
+helm install --set image.tag=7336eb77199a4d737435a8bf395e1666b7085cc7f0ad8b4cf9456b7649b7d6ad --set image.digest=sha256 ...and the rest of the helm install options...
+```
+
