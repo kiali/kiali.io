@@ -24,7 +24,9 @@ kubectl get secret -n istio-system $(kubectl get sa kiali-service-account -n ist
 
 You can request a short lived token for a service account by issuing the following command:
 
-> kubectl -n istio-system create token kiali-service-account
+```
+kubectl -n istio-system create token kiali-service-account
+```
 
 **Using the token**
 
