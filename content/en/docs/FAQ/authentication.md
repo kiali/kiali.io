@@ -20,7 +20,7 @@ For example, if you want to log into Kiali using Kiali's own service account, yo
 kubectl get secret -n istio-system $(kubectl get sa kiali-service-account -n istio-system -o "jsonpath={.secrets[0].name}") -o jsonpath={.data.token} | base64 -d
 ```
 
-**For kubernetes v1.24+**
+**For Kubernetes v1.24+**
 
 You can request a short lived token for a service account by issuing the following command:
 
