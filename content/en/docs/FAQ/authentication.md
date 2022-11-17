@@ -10,7 +10,7 @@ When configuring Kiali to use the `token` auth strategy, it requires users to lo
 
 Note that the following examples assume you installed Kiali in the `istio-system` namespace.
 
-**For kubernetes prior to v1.24**
+**For Kubernetes prior to v1.24**
 
 You can extract a service account's token from the secret that was created for you when you created the service account.
 
