@@ -8,6 +8,10 @@ description: "Questions about authentication strategy or configuration."
 
 When configuring Kiali to use the `token` auth strategy, it requires users to log into Kiali as a specific user via the user's service account token. Thus, in order to log into Kiali you must provide a valid Kubernetes token.
 
+Note that the following examples assume you installed Kiali in the `istio-system` namespace.
+
+**For Kubernetes prior to v1.24**
+
 You can extract a service account's token from the secret that was created for you when you created the service account.
 
 For example, if you want to log into Kiali using Kiali's own service account, you can get the token like this:
@@ -16,7 +20,15 @@ For example, if you want to log into Kiali using Kiali's own service account, yo
 kubectl get secret -n istio-system $(kubectl get sa kiali-service-account -n istio-system -o "jsonpath={.secrets[0].name}") -o jsonpath={.data.token} | base64 -d
 ```
 
-Note that this example assumes you installed Kiali in the `istio-system` namespace.
+**For Kubernetes v1.24+**
+
+You can request a short lived token for a service account by issuing the following command:
+
+```
+kubectl -n istio-system create token kiali-service-account
+```
+
+**Using the token**
 
 Once you obtain the token, you can go to the Kiali login page and copy-and-paste that token into the token field. At this point, you have logged into Kiali with the same permissions as that of the Kiali server itself (note: this gives the user the permission to see everything).
 
