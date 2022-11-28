@@ -69,9 +69,9 @@ jobs:
         DO_RELEASE=$(python minor.py)
         if [[ $DO_RELEASE == "1" ]]
         then
-          echo "::set-output name=release_type::minor"
+            echo "release_type=minor" >> $GITHUB_OUTPUT
         else
-          echo "::set-output name=release_type::skip"
+            echo "release_type=skip" >> $GITHUB_OUTPUT
         fi        
 
     - name: Determine releasing version
@@ -83,7 +83,7 @@ jobs:
         # The following command adds the .z part of the version          
         RAW_VERSION=$(echo "$CURRENT_VERSION.0")
         
-        echo "::set-output name=releasing_version::$(python bump.py minor $RAW_VERSION)"          
+        echo "releasing_version=$(python bump.py minor $RAW_VERSION)" >> $GITHUB_OUTPUT
     
     - name: Cleanup
       run: rm bump.py minor.py
