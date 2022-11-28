@@ -6,6 +6,25 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 1.60.0
+Sprint Release: Nov 25
+
+Features:
+
+* [Add Kiali validations on Istio Detail pages ](https://github.com/kiali/openshift-servicemesh-plugin/issues/52)
+* [Bump go version to 1.18](https://github.com/kiali/kiali/issues/5561)
+* [Indicate the status of a canary upgrade in the control plane card](https://github.com/kiali/kiali/issues/5524)
+* [Kiali traffic wizard](https://github.com/kiali/kiali/issues/5578)
+* [Control Plane Card - Min TLS Improvement](https://github.com/kiali/kiali/issues/5597)
+* [document how to specify digest images in the Kiali CR and helm chart](https://github.com/kiali/kiali/issues/5622)
+
+Fixes:
+
+* [(CI) Test Flake - TestCreateSessionNoChunks](https://github.com/kiali/kiali/issues/5197)
+* [Min TLS Version - React Warning](https://github.com/kiali/kiali/issues/5623)
+* [(kiali.io) Aditional CI issues](https://github.com/kiali/kiali/issues/5631)
+* [Kiali heatmap tooltips are too compute-heavy](https://github.com/kiali/kiali/issues/5634)
+
 ## 1.59.0
 Sprint Release: Nov 4, 2022
 
