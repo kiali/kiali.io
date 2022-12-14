@@ -25,6 +25,10 @@ Fixes:
 * [(kiali.io) Aditional CI issues](https://github.com/kiali/kiali/issues/5631)
 * [Kiali heatmap tooltips are too compute-heavy](https://github.com/kiali/kiali/issues/5634)
 
+Deprecations:
+
+* [Support for OpenID's _implicit flow_ is deprecated and will be removed soon.](https://github.com/kiali/kiali/issues/4705) Please, switch to using the _authorization code flow_ which is more secure.
+
 Known Issues:
 
 With the move to a distroless container in v1.59, [root CA certificates went missing](https://github.com/kiali/kiali/issues/5643). This affects the Kiali integration with OpenID. The problem will be fixed in the next release (v1.61).  The workaround is to use one of the "-distro" image tags found on the [Quay.io repo](https://quay.io/repository/kiali/kiali?tab=tags) by specifying it in the `deployment.image_version` setting of the [Kiali CR](https://kiali.io/docs/configuration/kialis.kiali.io/#.spec.deployment.image_version) or [server helm chart value](https://github.com/kiali/helm-charts/blob/v1.60.0/kiali-server/values.yaml#L48). If using the operator, in order to be able to set the `deployment.image_version` within the Kiali CR, you must [enable the allowAdHocKialiImage setting](https://github.com/kiali/helm-charts/blob/v1.60.0/kiali-operator/values.yaml#L66-L70) when installing the operator.
