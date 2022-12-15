@@ -7,7 +7,7 @@ weight: 1
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
 ## 1.58.0
-Sprint Release: Oct 14, 2022 | Kiali v1.58
+Sprint Release: Oct 14, 2022
 
 Features:
 
