@@ -6,6 +6,20 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 1.61.0
+Sprint Release: Dec 16
+
+Features:
+
+* [Kiali SA should use view-only role unless using anonymous strategy](https://github.com/kiali/kiali/issues/5611)
+* [openshift auth timeout customizations](https://github.com/kiali/kiali/issues/5650)
+
+Fixes:
+
+* [Kiali distroless version breaks external https calls](https://github.com/kiali/kiali/issues/5643)
+* [Redirect Loop on OpenID Connect Failures](https://github.com/kiali/kiali/issues/5663)
+* [Update GH pipelines removing deprecated warnings](https://github.com/kiali/kiali/issues/5646)
+
 ## 1.60.0
 Sprint Release: Nov 25
 
