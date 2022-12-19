@@ -70,7 +70,10 @@ spec:
       scopes: ["openid", "profile", "email"]
       username_claim: "sub"
     openshift:
+      auth_timeout: 10
       client_id_prefix: "kiali"
+      #token_inactivity_timeout:
+      #token_max_age:
 
   # default: custom_dashboards is an empty list
   custom_dashboards:
@@ -169,7 +172,7 @@ spec:
                 backend:
                   service:
                     name: "kiali"
-                    port: 
+                    port:
                       number: 20001
     instance_name: "kiali"
     logger:
@@ -1056,6 +1059,25 @@ is the namespace where Kiali is to be installed.</p>
 <div class="property depth-3">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.auth.openshift.auth_timeout">.spec.auth.openshift.auth_timeout</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(integer)</span>
+
+</div>
+
+<div class="property-description">
+<p>The amount of time in seconds Kiali will wait for a response from the OpenShift API server when requesting authentication results.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.auth.openshift.client_id_prefix">.spec.auth.openshift.client_id_prefix</h3>
 </div>
 <div class="property-body">
@@ -1066,6 +1088,44 @@ is the namespace where Kiali is to be installed.</p>
 
 <div class="property-description">
 <p>The Route resource name and OAuthClient resource name will have this value as its prefix. This value normally should never change. The installer will ensure this value is set correctly.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.auth.openshift.token_inactivity_timeout">.spec.auth.openshift.token_inactivity_timeout</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(integer)</span>
+
+</div>
+
+<div class="property-description">
+<p>Timeout that overrides the default OpenShift token inactivity timeout. This value represents the maximum amount of time in seconds that can occur between consecutive uses of the token. Tokens become invalid if they are not used within this temporal window. If 0, the Kiali tokens never timeout. OpenShift may have a minimum allowed value - see the OpenShift documentation specific for the version of OpenShift you are using. WARNING: existing tokens will not be affected by changing this setting.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.auth.openshift.token_max_age">.spec.auth.openshift.token_max_age</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(integer)</span>
+
+</div>
+
+<div class="property-description">
+<p>A time duration in seconds that overrides the default OpenShift access token max age. If 0 then there will be no expiration of tokens.</p>
 
 </div>
 
