@@ -28,16 +28,23 @@ external_services:
 
 When Istio registry is not available, there are some expected changes: 
 
-* Istio Configurations will be in read only mode. The list of Istio configuration is obtained using the Kubernetes API, but the validation will fail due to the  validatingwebhookconfiguration web hook, created by Istio. 
 * The control plane metrics won't be visible.
 * The proxy status won't be available in the workloads details view.
 * The namespace list will be obtained directly from the Kubernetes API, because it won't be possible to use the Istio cache. This could affect slightly the performance.
-* The Istio validations won't be available ? 
-* Istio Registry Services that are not present in the Kubernetes list won't be available
+* The [Istio validations](#istio_validations) won't be available. There are, though, some cases where they will be still available.
+* Istio Configurations will be available. This is because the list of Istio configurations is obtained using the Kubernetes API.
+* [Istio Registry Services](#istio_registry) that are not present in the Kubernetes list won't be available.
 
-<img src="/images/documentation/configuration/no_istio_d.png" />
+<img src="/images/documentation/configuration/no_istiod.png" />
 
-### Istio Registry Services
+### <a name="istio_validations"></a> Istio Validations
+
+The Istio and Kiali validations won't be available as this is a logic provided by the Istio API. 
+But, if the Istio Config was created and the validatingwebhookconfiguration web hook was enabled, the validation messages will be avaible and the validations can be found:
+
+<img src="/images/documentation/configuration/istio_validations.png" />
+
+### <a name="istio_registry"></a> Istio Registry Services
 
 Istio Registry Services won't be available in the service list when Istio API is disabled. 
 
