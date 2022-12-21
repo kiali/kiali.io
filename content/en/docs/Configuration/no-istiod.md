@@ -39,10 +39,14 @@ When Istio registry is not available, there are some expected changes:
 
 ### <a name="istio_validations"></a> Istio Validations
 
-The Istio and Kiali validations won't be available as this is a logic provided by the Istio API. 
-But, if the Istio Config was created and the validatingwebhookconfiguration web hook was enabled, the validation messages will be avaible and the validations can be found:
+The Istio validations won't be available as this is a logic provided by the Istio API. 
+But, if the Istio Config was created and the validatingwebhookconfiguration web hook was enabled, the validation messages will be available and the validations can be found:
 
 <img src="/images/documentation/configuration/istio_validations.png" />
+
+Kiali validations will be available:
+
+<img src="/images/documentation/configuration/kiali_validations.png" />
 
 ### <a name="istio_registry"></a> Istio Registry Services
 
