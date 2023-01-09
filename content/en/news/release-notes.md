@@ -6,6 +6,20 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 1.62.0
+Sprint Release: Jan 06
+
+Features:
+
+* [Test the new native stats runtime by setting TELEMETRY_USE_NATIVE_STATS to "true" in istiod](https://github.com/kiali/kiali/issues/5660)
+* [Kiali CR definition to allow the use of appProtocol in the service configuration](https://github.com/kiali/kiali/issues/5670)
+* [Show Kiali configuration in the application](https://github.com/kiali/kiali/issues/5588)
+
+Fixes:
+
+* [Kiali may prevent istiod from becoming ready on initial startup of istiod pod](https://github.com/kiali/kiali/issues/5669)
+* [ Kiali errors out loading workload graph in 'default' namespace ](https://github.com/kiali/kiali/issues/5696)
+
 ## 1.61.0
 Sprint Release: Dec 16
 
