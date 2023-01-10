@@ -913,8 +913,7 @@ Fix the parentRefs field to target to an existing gateway.
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/tree/v1.42.0/business/checkers/virtualservices/no_host_checker.go)
-- [Destination rule documentation](https://istio.io/docs/reference/config/networking/destination-rule)
+- [Validator source code](https://github.com/kiali/kiali/blob/master/business/checkers/k8shttproutes/no_k8sgateway_checker.go)
 
 
 ## Workloads {#workloads}
