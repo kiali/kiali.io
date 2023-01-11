@@ -1,0 +1,33 @@
+kind: Gateway
+apiVersion: gateway.networking.k8s.io/v1alpha2
+spec:
+  gatewayClassName: istio
+  listeners:
+    - name: default
+      hostname: example.com
+      port: 80
+      protocol: HTTP
+      allowedRoutes:
+        namespaces:
+          from: Same
+          selector: {}
+  addresses:
+    - type: Hostname
+      value: example.com
+---
+kind: Gateway
+apiVersion: gateway.networking.k8s.io/v1alpha2
+spec:
+  gatewayClassName: istio
+  listeners:
+    - name: secondary
+      hostname: secondary.com
+      port: 9080
+      protocol: HTTP
+      allowedRoutes:
+        namespaces:
+          from: Same
+          selector: {}
+  addresses:
+    - type: Hostname
+      value: example.com
