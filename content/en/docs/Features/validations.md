@@ -1044,7 +1044,7 @@ Remove or merge the duplicate k8s gateway entries.
 ### GWAPI - Gateway API status
 
 The Gateway object provides a GatewayStatus to provide the status relative to the state represented in the spec. 
-The validations under GWAPI rule are generic and will highlight any invalid status created by the Gateway.
+The validations under the GWAPI rule are generic and will highlight any invalid status created by the Gateway.
 
 #### Resolution
 
