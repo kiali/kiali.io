@@ -1029,7 +1029,7 @@ A k8s Gateway defines a point where traffic can be translated to Services within
 
 #### Resolution
 
-Remove the duplicate k8s gateway entries or merge the two k8s gateway definitions into a single one.
+Remove or merge the duplicate k8s gateway entries.
 
 #### Severity
 
