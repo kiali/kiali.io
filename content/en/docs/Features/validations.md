@@ -1025,7 +1025,7 @@ Remove or merge the duplicate k8s gateway entries.
 
 ### KIA1502 - More than one K8s Gateway for the address and type combination
 
-A k8s Gateway define a point where traffic can be translated to Services within the cluster. This is defined through the listeners or addresses. This validation warns the scenario where there is more than one address (type and value) in different k8s Gateways, where the traffic handling can be in a conflict.
+A k8s Gateway defines a point where traffic can be translated to Services within the cluster. This is defined through listeners or addresses. This validation warns when finding more than one address (type and value) in different k8s Gateways, where the traffic handling can be in conflict.
 
 #### Resolution
 
