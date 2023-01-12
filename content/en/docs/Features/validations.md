@@ -1005,7 +1005,7 @@ Choose existing and accessible namespace to export to.
 
 ### KIA1501 - More than one K8s Gateway for the same host and port combination 
 
-A k8s Gateway define a point where traffic can be translated to Services within the cluster. This is defined through the listeners or addresses. This validation warns the scenario where there is more than one Listener for the same port and host combinations in different k8s Gateways, where the traffic handling can be in a conflict. 
+A k8s Gateway defines a point where traffic can be translated to Services, within the cluster. This is defined through listeners or addresses. This validation warns when finding multiple Listener definitions for the same port and host combination, in different k8s Gateways.  In this case the traffic handling can be in conflict.
 
 The exception to this rule is where the listeners specify different handlers. That is the reason why the severity is a warning. 
 
