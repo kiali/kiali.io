@@ -22,7 +22,7 @@ Either remove the namespace from the list, correct if there is any typo or creat
 
 #### Severity
 
-<i class="fas fa-exclamation-triangle"></i> Warning
+<i class="fas fa-exclamation-triangle text-warning"></i> Warning
 
 #### Example
 
@@ -48,7 +48,7 @@ Either change or remove the violating method. It has to be either a HTTP valid m
 
 #### Severity
 
-<i class="fas fa-exclamation-triangle"></i> Warning
+<i class="fas fa-exclamation-triangle text-warning"></i> Warning
 
 #### Example
 
@@ -75,7 +75,7 @@ Either remove the host from the list, correct if there is any typo or deploy a n
 
 #### Severity
 
-<i class="fas fa-times-circle"></i> Error
+<i class="fas fa-times-circle text-danger"></i> Error
 
 #### Example
 
@@ -105,7 +105,7 @@ Either remove this field or enable autoMtls.
 
 #### Severity
 
-<i class="fas fa-times-circle"></i> Error
+<i class="fas fa-times-circle text-danger"></i> Error
 
 #### Example
 
@@ -134,7 +134,7 @@ Correct the principal to refer to existing Service Account, make sure that the v
 
 #### Severity
 
-<i class="fas fa-times-circle"></i> Error
+<i class="fas fa-times-circle text-danger"></i> Error
 
 #### Example
 
@@ -165,7 +165,7 @@ Either merge the settings to a single DR or split the subsets in such a way that
 
 #### Severity
 
-<i class="fas fa-exclamation-triangle"></i> Warning
+<i class="fas fa-exclamation-triangle text-warning"></i> Warning
 
 #### Example
 
@@ -193,7 +193,7 @@ Correct the host to point to a correct service, in this namespace or with FQDN t
 
 #### Severity
 
-<i class="fas fa-times-circle"></i> Error
+<i class="fas fa-times-circle text-danger"></i> Error
 
 #### Example
 
@@ -226,7 +226,7 @@ Also, verify that the labels are correctly matching a workload with the intended
 
 #### Severity
 
-<i class="fas fa-times-circle"></i> Error
+<i class="fas fa-times-circle text-danger"></i> Error
 
 #### Example
 
@@ -254,7 +254,7 @@ Merging the TLS settings to one of the DestinationRules is the only way to fix t
 
 #### Severity
 
-<i class="fas fa-exclamation-triangle"></i> Warning
+<i class="fas fa-exclamation-triangle text-warning"></i> Warning
 
 #### Example
 
@@ -280,7 +280,7 @@ Add a PeerAuthentication within the `istio-system` namespace without specifying 
 
 #### Severity
 
-<i class="fas fa-times-circle"></i> Error
+<i class="fas fa-times-circle text-danger"></i> Error
 
 #### Example
 
@@ -307,7 +307,7 @@ Add a PeerAuthentication without specifying targets but setting mTLS mode to STR
 
 #### Severity
 
-<i class="fas fa-times-circle"></i> Error
+<i class="fas fa-times-circle text-danger"></i> Error
 
 #### Example
 
@@ -330,7 +330,7 @@ Kiali has found that there is a DestinationRule sending traffic without mTLS aut
 
 #### Severity
 
-<i class="fas fa-times-circle"></i> Error
+<i class="fas fa-times-circle text-danger"></i> Error
 
 #### Example
 
@@ -356,7 +356,7 @@ There are two ways to fix this situation. You can either change the PeerAuthenti
 
 #### Severity
 
-<i class="fas fa-times-circle"></i> Error
+<i class="fas fa-times-circle text-danger"></i> Error
 
 #### Example
 
@@ -381,7 +381,7 @@ Validate that a subset is properly configured.
 
 #### Severity
 
-<i class="fas fa-exclamation-triangle"></i> Warning
+<i class="fas fa-exclamation-triangle text-warning"></i> Warning
 
 #### See Also
 
@@ -402,7 +402,7 @@ Remove the duplicate gateway entries or merge the two gateway definitions into a
 
 #### Severity
 
-<i class="fas fa-exclamation-triangle"></i> Warning
+<i class="fas fa-exclamation-triangle text-warning"></i> Warning
 
 #### Example
 
@@ -428,7 +428,7 @@ Deploy the missing workload or fix the selector to target a correct location.
 
 #### Severity
 
-<i class="fas fa-exclamation-triangle"></i> Warning
+<i class="fas fa-exclamation-triangle text-warning"></i> Warning
 
 #### Example
 
@@ -455,7 +455,7 @@ Add a DestinationRule with "*.cluster" host and ISTIO_MUTUAL as tls trafficPolic
 
 #### Severity
 
-<i class="fas fa-times-circle"></i> Error
+<i class="fas fa-times-circle text-danger"></i> Error
 
 #### Example
 
@@ -483,7 +483,7 @@ Add a DestinationRule with "*.namespace.svc.cluster.local" host and ISTIO_MUTUAL
 
 #### Severity
 
-<i class="fas fa-times-circle"></i> Error
+<i class="fas fa-times-circle text-danger"></i> Error
 
 #### Example
 
@@ -510,7 +510,7 @@ You can either change the namespace/mesh-wide Destination Rule to `DISABLE` mode
 
 #### Severity
 
-<i class="fas fa-times-circle"></i> Error
+<i class="fas fa-times-circle text-danger"></i> Error
 
 #### Example
 
@@ -537,7 +537,7 @@ You can either change the mesh-wide Destination Rule to `DISABLE` mode or change
 
 #### Severity
 
-<i class="fas fa-times-circle"></i> Error
+<i class="fas fa-times-circle text-danger"></i> Error
 
 #### Example
 
@@ -563,7 +563,7 @@ Rename the service port name field to follow the form and the traffic flows corr
 
 #### Severity
 
-<i class="fas fa-times-circle"></i> Error
+<i class="fas fa-times-circle text-danger"></i> Error
 
 #### Example
 
@@ -587,7 +587,7 @@ Rename the service port appProtocol field to follow the form and the traffic flo
 
 #### Severity
 
-<i class="fas fa-times-circle"></i> Error
+<i class="fas fa-times-circle text-danger"></i> Error
 
 #### Example
 
@@ -613,7 +613,7 @@ Fix the port definitions in the workload or in the service definition to ensure 
 
 #### Severity
 
-<i class="fas fa-exclamation-triangle"></i> Warning
+<i class="fas fa-exclamation-triangle text-warning"></i> Warning
 
 #### Example
 
@@ -652,7 +652,7 @@ Make sure there is a service, virtual service or service entry matching with the
 
 #### Severity
 
-<i class="fas fa-exclamation-triangle"></i> Warning
+<i class="fas fa-exclamation-triangle text-warning"></i> Warning
 
 #### Example
 
@@ -679,7 +679,7 @@ Make sure you don't have the `workloadSelector` in this global sidecar resource.
 
 #### Severity
 
-<i class="fas fa-exclamation-triangle"></i> Warning
+<i class="fas fa-exclamation-triangle text-warning"></i> Warning
 
 #### Example
 
@@ -707,7 +707,7 @@ Correct the host to point to a correct service (in this namespace or with FQDN t
 
 #### Severity
 
-<i class="fas fa-times-circle"></i> Error
+<i class="fas fa-times-circle text-danger"></i> Error
 
 #### Example
 
@@ -732,7 +732,7 @@ Fix the possible gateway field to target all necessary gateways or remove the fi
 
 #### Severity
 
-<i class="fas fa-times-circle"></i> Error
+<i class="fas fa-times-circle text-danger"></i> Error
 
 #### Example
 
@@ -755,7 +755,7 @@ Either remove the weight field or you might want to add another RouteDestination
 
 #### Severity
 
-<i class="fas fa-exclamation-triangle"></i> Warning
+<i class="fas fa-exclamation-triangle text-warning"></i> Warning
 
 #### Example
 
@@ -782,7 +782,7 @@ Make sure there is only one reference to the same host subset combination for ea
 
 #### Severity
 
-<i class="fas fa-exclamation-triangle"></i> Warning
+<i class="fas fa-exclamation-triangle text-warning"></i> Warning
 
 #### Example
 
@@ -807,7 +807,7 @@ This is a valid configuration only if two VirtualServices share the same host bu
 
 #### Severity
 
-<i class="fas fa-exclamation-triangle"></i> Warning
+<i class="fas fa-exclamation-triangle text-warning"></i> Warning
 
 #### Example
 
@@ -833,7 +833,7 @@ Fix the routes that points to a non existing subsets. It might be fixing a typo 
 
 #### Severity
 
-<i class="fas fa-times-circle"></i> Error
+<i class="fas fa-times-circle text-danger"></i> Error
 
 #### Example
 
@@ -878,7 +878,7 @@ Add missing Service Entry which address will match the Workload Entry's address.
 
 #### Severity
 
-<i class="fas fa-exclamation-triangle"></i> Warning
+<i class="fas fa-exclamation-triangle text-warning"></i> Warning
 
 #### Example
 
@@ -929,7 +929,7 @@ Add Autorization Policy which selector matches with Workload's label selector.
 
 #### Severity
 
-<i class="fas fa-exclamation-triangle"></i> Warning
+<i class="fas fa-exclamation-triangle text-warning"></i> Warning
 
 #### See Also
 
@@ -952,7 +952,7 @@ The natural solution is to merge both objects. In case there are different behav
 
 #### Severity
 
-<i class="fas fa-times-circle"></i> Error
+<i class="fas fa-times-circle text-danger"></i> Error
 
 #### Example
 
@@ -978,7 +978,7 @@ The first approach would be to merge both objects into one if possible. The seco
 
 #### Severity
 
-<i class="fas fa-times-circle"></i> Error
+<i class="fas fa-times-circle text-danger"></i> Error
 
 #### Example
 
@@ -1002,7 +1002,7 @@ There are three scenarios: either change the labels to match an existing workloa
 
 #### Severity
 
-<i class="fas fa-exclamation-triangle"></i> Warning
+<i class="fas fa-exclamation-triangle text-warning"></i> Warning
 
 #### Example
 
@@ -1024,5 +1024,59 @@ Choose existing and accessible namespace to export to.
 
 #### Severity
 
-<i class="fas fa-times-circle"></i> Error
+<i class="fas fa-times-circle text-danger"></i> Error
 
+## K8s Gateway {#k8sgateways}
+
+### KIA1501 - More than one K8s Gateway for the same host and port combination 
+
+A k8s Gateway defines a point where traffic can be translated to Services, within the cluster. This is defined through listeners or addresses. This validation warns when finding multiple Listener definitions for the same port and host combination, in different k8s Gateways.  In this case the traffic handling can be in conflict.
+
+The exception to this rule is where the listeners specify different handlers. That is the reason why the severity is a warning. 
+
+#### Resolution
+
+Remove or merge the duplicate k8s gateway entries.
+
+#### Severity
+
+<i class="fas fa-exclamation-triangle text-warning"></i> Warning
+
+#### Example
+
+```yaml
+{{% readfile file="/static/files/validation_examples/1501.yaml" %}}
+```
+
+### KIA1502 - More than one K8s Gateway for the address and type combination
+
+A k8s Gateway defines a point where traffic can be translated to Services within the cluster. This is defined through listeners or addresses. This validation warns when finding more than one address (type and value) in different k8s Gateways, where the traffic handling can be in conflict.
+
+#### Resolution
+
+Remove or merge the duplicate k8s gateway entries.
+
+#### Severity
+
+<i class="fas fa-exclamation-triangle text-warning"></i> Warning
+
+#### Example
+
+```yaml
+{{% readfile file="/static/files/validation_examples/1502.yaml" %}}
+```
+
+### GWAPI - Gateway API status
+
+The Gateway object provides a GatewayStatus to provide the status relative to the state represented in the spec. 
+The validations under the GWAPI rule are generic and will highlight any invalid status created by the Gateway.
+
+#### Resolution
+
+This is a generic rule implemented by the Gateway, and each particular error should be fixed in the spec. The status should not be changed. 
+
+#### Severity
+
+<i class="fas fa-exclamation-triangle text-warning"></i> Warning
+
+![GWAPI](/images/documentation/features/GWAPI.png)
