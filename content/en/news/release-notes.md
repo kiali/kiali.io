@@ -20,6 +20,10 @@ Fixes:
 * [Kiali may prevent istiod from becoming ready on initial startup of istiod pod](https://github.com/kiali/kiali/issues/5669)
 * [ Kiali errors out loading workload graph in 'default' namespace ](https://github.com/kiali/kiali/issues/5696)
 
+Deprecations:
+
+* The [experimental support for multicluster deployment models](https://kiali.io/docs/features/multi-cluster/) is now deprecated and may be removed in a future release. [New multicluster features](https://github.com/kiali/kiali/issues/5618) are currently being developed within the Kiali community as a replacement.
+
 ## 1.61.0
 Sprint Release: Dec 16
 
