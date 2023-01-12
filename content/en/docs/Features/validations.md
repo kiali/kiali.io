@@ -1011,7 +1011,7 @@ The exception to this rule is where the listeners specify different handlers. Th
 
 #### Resolution
 
-Remove the duplicate k8s gateway entries or merge the two k8s gateway definitions into a single one.
+Remove or merge the duplicate k8s gateway entries.
 
 #### Severity
 
