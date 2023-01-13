@@ -5,14 +5,14 @@ description: "Kiali working with no access to Istiod"
 
 ## Introduction
 
-There are different scenarios where Kiali is required to work with no access to Istio:
+There are different scenarios where Kiali is required to work with no access to the Istio registry:
 
 * When using other Service Mesh solutions that doesn't expose Istiod
 * Different [deployment models](https://istio.io/latest/docs/ops/deployment/deployment-models/#multiple-clusters) where Istiod is not available locally and remotely 
 
 ## Configuration
 
-Kiali needs to be set up when the Istio registry is not accesible, this is done with a new configuration item, istio_api_enabled.  
+Kiali needs to be set up when the Istio registry is not accesible. This is done with a configuration item, istio_api_enabled.  
 By default, istio_api_enabled is true. 
 
 ```yaml
@@ -24,46 +24,46 @@ external_services:
 # ...
 ```
 
-## How does it affects Kiali
+## How does it affect Kiali
 
 When Istio registry is not available, there are some expected changes: 
 
 * The control plane metrics won't be available.
 * The proxy status won't be available in the workloads details view.
 * The namespace list will be obtained directly from the Kubernetes API, because it won't be possible to use the Istio cache. This could affect slightly the performance.
-* The [Istio validations](#a-nameistio_validationsa-istio-validations) and Kiali validations won't be available. There are, though, some cases where they will be still available.
-* [Istio Registry Services](#a-nameistio_registrya-istio-registry-services) that are not present in the Kubernetes list won't be available.
-* [Istio Configurations](#a-nameistio_configurationsa-istio-configurations) will be available. This is because the list of Istio configurations is obtained using the Kubernetes API. 
+* The [Istio validations](#a-nameistio_validationsa-istio-validations) and the Kiali validations won't be available. There are, though, some cases where they will be still available.
+* The [Istio Registry Services](#a-nameistio_registrya-istio-registry-services) that are not present in the Kubernetes list won't be available.
+* The [Istio Configurations](#a-nameistio_configurationsa-istio-configurations) will be available. This is because the list of Istio configurations is obtained using the Kubernetes API. 
 
 <img src="/images/documentation/configuration/no_istiod.png" />
 
 ### <a name="istio_validations"></a> Istio Validations
 
-The Istio validations won't be available as this is a logic provided by the Istio API. 
+The Istio validations won't be available as this logic is provided by the Istio API. 
 But, if the Istio Config was created when the validatingwebhookconfiguration web hook was enabled, the validation messages will be available and the Istio validations can be found:
 
 <img src="/images/documentation/configuration/istio_validations.png" />
 
-Kiali validations won't be available, as they are degraded, so they have been disabled too. 
+The Kiali validations won't be available, as they are degraded, so they have been disabled too. 
 
 ### <a name="istio_registry"></a> Istio Registry Services
 
-Istio Registry Services won't be available in the service list when Istio API is disabled. 
+The Istio Registry Services won't be available in the service list when the Istio API is disabled. 
 
-Service list when Istio API is enabled: 
+The following image shows a service list when Istio API is enabled: 
 
 <img src="/images/documentation/configuration/registry_services.png" />
 
-Example when it is disabled: 
+The following image shows the same list when it is disabled: 
 
 <img src="/images/documentation/configuration/registry_services_api_disabled.png" />
 
 ### <a name="istio_configurations"></a> Istio Configurations
 
-Istio Configurations are available in view and edit mode. 
-It is important to take into account that the configurations created or modified cannot be compliant, as the validations are disabled.  
+The Istio Configurations are available in view and edit mode. 
+It is important to know that the validations are disabled, so the configurations created or modified won't be validated.  
 
-There is one scenario where the creation/deletion/edition could fail: If the Istio validation webhook is enabled but istio API is not available. In this case, the Istio validation would be removed in order for this to work. 
+There is one scenario where the creation/deletion/edition could fail: If the Istio validation webhook is enabled but the Istio registry is not available. In this case, the webhook should be removed in order for this to work. 
 
 It can be checked with the following command: 
 
