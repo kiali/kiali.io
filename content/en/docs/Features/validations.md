@@ -1090,6 +1090,24 @@ Remove or merge the duplicate k8s gateway entries.
 {{% readfile file="/static/files/validation_examples/1502.yaml" %}}
 ```
 
+### KIA1503 - Each listener must have a unique combination of Hostname, Port, and Protocol
+
+A k8s Gateway cannot have more than one listener with the same Hostname, Port and Protocol. 
+
+#### Resolution
+
+Update the hostname, port or protocol to another valid service so there are no more than one listener for the reported combination. 
+
+#### Severity
+
+<i class="fas fa-times-circle text-danger"></i> Error
+
+#### Example
+
+```yaml
+{{% readfile file="/static/files/validation_examples/1503.yaml" %}}
+```
+
 ### GWAPI - Gateway API status
 
 The Gateway object provides a GatewayStatus to provide the status relative to the state represented in the spec. 
