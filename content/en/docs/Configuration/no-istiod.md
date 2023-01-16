@@ -1,6 +1,6 @@
 ---
 title: "No Istiod Access"
-description: "Kiali working with no access to Istiod"
+description: "Kiali behavior with no access to Istiod (the `/debug` endpoints are not available)"
 ---
 
 ## Introduction
