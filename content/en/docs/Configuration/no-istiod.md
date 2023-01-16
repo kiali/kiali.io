@@ -5,7 +5,7 @@ description: "Kiali behavior with no access to Istiod (the `/debug` endpoints ar
 
 ## Introduction
 
-There are different scenarios where Kiali is required to work with no access to the Istio registry:
+Kiali makes use of the Istiod `/debug` endpoints for introspection into the control plane.   If this API is unavailable Kiali continues to perform, but the feature set will be degraded.  The Istio API can be unavailable for various reasons:
 
 * The Istio API has been explicitly disabled in the Istio configuration.
 * The [deployment model](https://istio.io/latest/docs/ops/deployment/deployment-models/#multiple-clusters) prevents access to the Istio API (firewalls, other networking concerns or limitations).
