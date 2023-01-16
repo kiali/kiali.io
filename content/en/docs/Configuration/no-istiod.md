@@ -27,7 +27,7 @@ external_services:
 
 ## How does it affect Kiali
 
-When Istio registry is not available, there are some expected changes: 
+When the Istio API is not available there is expected feature degradation in Kiali: 
 
 * The control plane metrics won't be available.
 * The proxy status won't be available in the workloads details view.
