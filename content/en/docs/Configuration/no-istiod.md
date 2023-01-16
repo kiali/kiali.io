@@ -35,7 +35,8 @@ When the Istio API is not available there is expected feature degradation in Kia
 * The [Istio validations](#a-nameistio_validationsa-istio-validations) may not be available.
 * The Kiali validations will not be available.
 * The [Istio Registry Services](#a-nameistio_registrya-istio-registry-services) that are not present in the Kubernetes list won't be available.
-* The [Istio Configurations](#a-nameistio_configurationsa-istio-configurations) will be available. This is because the list of Istio configurations is obtained using the Kubernetes API. 
+
+Note that [Istio Configurations](#a-nameistio_configurationsa-istio-configurations) will be available. This is because the list of Istio configurations is obtained using the Kubernetes API. 
 
 <img src="/images/documentation/configuration/no_istiod.png" />
 
