@@ -13,7 +13,7 @@ Kiali makes use of the Istiod `/debug` endpoints for introspection into the cont
 
 ## Configuration
 
-Kiali needs to be set up when the Istio registry is not accesible. This is done with a configuration item, istio_api_enabled.  
+When the Istio API is known to be inaccessible Kiali should be configured via the `istio_api_enabled` configuration item.  
 By default, istio_api_enabled is true. 
 
 ```yaml
