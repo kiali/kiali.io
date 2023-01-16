@@ -7,8 +7,9 @@ description: "Kiali behavior with no access to Istiod (the `/debug` endpoints ar
 
 There are different scenarios where Kiali is required to work with no access to the Istio registry:
 
-* When using other Service Mesh solutions that doesn't expose Istiod
-* Different [deployment models](https://istio.io/latest/docs/ops/deployment/deployment-models/#multiple-clusters) where Istiod is not available locally and remotely 
+* The Istio API has been explicitly disabled in the Istio configuration.
+* The [deployment model](https://istio.io/latest/docs/ops/deployment/deployment-models/#multiple-clusters) prevents access to the Istio API (firewalls, other networking concerns or limitations).
+* The API is configured but for some, potentially unexpected, reason can not be reached by Kiali.
 
 ## Configuration
 
