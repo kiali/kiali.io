@@ -199,11 +199,6 @@ enable = false
 	icon = "fab fa-youtube"
         desc = "Kiali channel on YouTube"
 [[params.links.user]]
-	name = "Kiali on IRC"
-	url = "web.libera.chat?channels=#kiali"
-	icon = "fas fa-comment"
-        desc = "Kiali on IRC"
-[[params.links.user]]
 	name = "Kiali community calendar"
 	url = "https://bit.ly/kiali-calendar"
 	icon = "fas fa-calendar"
