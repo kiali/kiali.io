@@ -4,9 +4,15 @@ description: "Creating and updating the Kiali CR."
 weight: 40
 ---
 
-The Kiali Operator watches the _Kiali Custom Resource_ ([Kiali CR](/docs/configuration/kialis.kiali.io)), a YAML file
-that holds the deployment configuration. Creating, updating, or removing a
+The Kiali Operator watches the _Kiali Custom Resource_ ([Kiali CR](/docs/configuration/kialis.kiali.io)), a custom resource that  contains the Kiali Server deployment configuration. Creating, updating, or removing a
 Kiali CR will trigger the Kiali Operator to install, update, or remove Kiali.
+
+{{% alert color="success" %}}
+If you want the operator to re-process the Kiali CR (called "reconciliation") without having to change the Kiali CR's `spec` fields, you can modify any annotation on the Kiali CR itself. This will trigger the operator to reconcile the current state of the cluster with the desired state defined in the Kiali CR, modifying cluster resources if necessary to get them into their desired state. Here is an example illustrating how you can modify an annotation on a Kiali CR:
+```
+$ kubectl annotate kiali my-kiali -n istio-system --overwrite kiali.io/manual-reconcile="$(date)"
+```
+{{% /alert %}}
 
 The Operator provides comprehensive defaults for all properties of the Kiali
 CR. Hence, the minimal Kiali CR does not have a `spec`:
