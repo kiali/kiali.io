@@ -6,8 +6,44 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 1.63.0
+Sprint Release: Jan 27
+
+Features:
+
+* [Validations for Gateway API objects](https://github.com/kiali/kiali/issues/5501)
+* [Kiali without Istio API using istio_api_enabled=false](https://github.com/kiali/kiali/issues/5626)
+* [Gateway API Objects - Include in wizards](https://github.com/kiali/kiali/issues/5502)
+* [upgrade operator base image to 4.12](https://github.com/kiali/kiali/issues/5657)
+* [References for k8s httpRoute](https://github.com/kiali/kiali/issues/5709)
+* [References for K8s Gateways](https://github.com/kiali/kiali/issues/5708)
+* [Add dates in chart tooltips](https://github.com/kiali/kiali/issues/5320)
+* [(CI) Gateway API in CI](https://github.com/kiali/kiali/issues/5719)
+* [(CI) Gateway API Integration tests.](https://github.com/kiali/kiali/issues/5726)
+* [(cypress) Gateway API in Cypress tests.](https://github.com/kiali/kiali/issues/5753)
+* [Multicluster - Hack script to setup local multicluster with OIDC](https://github.com/kiali/kiali/issues/5702)
+* [Multicluster - cluster configuration](https://github.com/kiali/kiali/issues/5738)
+
+Fixes:
+
+* [Kiali view-only mode allows changing proxy log-level](https://github.com/kiali/kiali/issues/5714)
+* [Workload auto-injection of proxy should ensure label and annotation settings don't conflict](https://github.com/kiali/kiali/issues/5713)
+* [Upgrade error on role switch for view-only](https://github.com/kiali/kiali/issues/5695)
+* [hide "enable injection" menu option in Overview page when in OSSM](https://github.com/kiali/kiali/issues/5725)
+* [KIA0106 false positive with wildcard](https://github.com/kiali/kiali/issues/5729)
+* [IRC link on kiali.io is not working](https://github.com/kiali/kiali/issues/5739)
+* [Service with K8s Gateway - Inconsistency between views](https://github.com/kiali/kiali/issues/5757)
+
+Notes:
+
+* Helm 3.10 is now required to run the Helm Charts.
+
+Deprecations:
+
+* [The deprecated support for OpenID's _implicit flow_ has now been removed.](https://github.com/kiali/kiali/issues/4705) If necessary, you must switch to using the more secure _authorization code flow_.
+
 ## 1.62.0
-Sprint Release: Jan 06
+Sprint Release: Jan 06, 2023
 
 Features:
 
@@ -18,7 +54,7 @@ Features:
 Fixes:
 
 * [Kiali may prevent istiod from becoming ready on initial startup of istiod pod](https://github.com/kiali/kiali/issues/5669)
-* [ Kiali errors out loading workload graph in 'default' namespace ](https://github.com/kiali/kiali/issues/5696)
+* [Kiali errors out loading workload graph in 'default' namespace ](https://github.com/kiali/kiali/issues/5696)
 
 Deprecations:
 
