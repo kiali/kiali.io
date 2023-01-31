@@ -79,10 +79,9 @@ If you are running Red Hat OpenShift Service Mesh (RH OSSM), use only the bundle
 
 |<div style="width:70px">OSSM</div>|<div style="width:100px">Kiali</div>|Notes|
 |-------|------------------|---|
+|2.3   |1.57 |   |
 |2.2   |1.48 |   |
 |2.1   |1.36 |   |
-|2.0   |1.24 |   |
-|1.1   |1.12 |   |
 
 <br />
 
