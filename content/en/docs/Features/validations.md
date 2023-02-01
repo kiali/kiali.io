@@ -245,8 +245,6 @@ Also, verify that the labels are correctly matching a workload with the intended
 
 Istio allows you to define DestinationRule at three different levels: mesh, namespace and service level. A mesh may have multiple DRs. In case of having two DestinationRules on the first one is at a lower level than the second one, the first one overrides the TLS values of the second one.
 
-This validation appears only when autoMtls is disabled.
-
 #### Resolution
 
 This validation aims to warn Kiali users that they may be disabling/enabling mTLS from the higher DestinationRule.
@@ -273,8 +271,6 @@ Merging the TLS settings to one of the DestinationRules is the only way to fix t
 Istio has the ability to define mTLS communications at mesh level. In order to do that, Istio needs one DestinationRule and one PeerAuthentication. The DestinationRule configures all the clients of the mesh to use mTLS protocol on their connections. The PeerAuthentication defines what authentication methods that can be accepted on the workload of the whole mesh.
 If the PeerAuthentication is not found or doesn't exist and the mesh-wide DestinationRule is on ISTIO_MUTUAL mode, all the communication returns 500 errors.
 
-This validation appears only when autoMtls is disabled.
-
 #### Resolution
 Add a PeerAuthentication within the `istio-system` namespace without specifying targets but setting peers mtls mode to STRICT or PERMISSIVE. The PeerAuthentication should be like [this](/files/validation_examples/401.yaml).
 
@@ -298,8 +294,6 @@ Add a PeerAuthentication within the `istio-system` namespace without specifying 
 
 Istio has the ability to define mTLS communications at namespace level. In order to do that, Istio needs both a DestinationRule and a PeerAuthentication targeting all the clients/workloads of the specific namespace. The PeerAuthentication allows mTLS authentication method for all the workloads within a namespace. The DestinationRule defines all the clients within the namespace to start communications in mTLS mode.
 If the PeerAuthentication is not found and the DestinationRule is on STRICT mode in that namespace but there is the DestinationRule enabling mTLS, all the communications within that namespace returns 500 errors.
-
-This validation appears only when autoMtls is disabled.
 
 #### Resolution
 A PeerAuthentication enabling mTLS method is needed for the workloads in the namespace. Otherwise all the clients start mTLS connections that those workloads won't be ready to manage.
@@ -448,8 +442,6 @@ Deploy the missing workload or fix the selector to target a correct location.
 Istio has the ability to define mTLS communications at mesh level. In order to do that, Istio needs one DestinationRule and one PeerAuthentication. The DestinationRule configures all the clients of the mesh to use mTLS protocol on their connections. The PeerAuthentication defines what authentication methods can be accepted on the workload of the whole mesh.
 If the DestinationRule is not found or doesn't exist and the PeerAuthentication is on STRICT mode, all the communication returns 500 errors.
 
-This validation appears only when autoMtls is disabled.
-
 #### Resolution
 Add a DestinationRule with "*.cluster" host and ISTIO_MUTUAL as tls trafficPolicy mode. The DestinationRule should be like [this](/files/validation_examples/004.yaml).
 
@@ -475,8 +467,6 @@ Add a DestinationRule with "*.cluster" host and ISTIO_MUTUAL as tls trafficPolic
 
 Istio has the ability to define mTLS communications at namespace level. In order to do that, Istio needs one DestinationRule and one PeerAuthentication. The DestinationRule configures all the clients of the namespace to use mTLS protocol on their connections. The PeerAuthentication defines what authentication methods can be accepted on a specific group of workloads. PeerAuthentications without target field specified will target all the workloads within its namespace.
 If the DestinationRule is not found or doesn't exist in the namespace and the namespace-wide PeerAuthentication is on STRICT mode, all the communication will return 500 errors.
-
-This validation appears only when autoMtls is disabled.
 
 #### Resolution
 Add a DestinationRule with "*.namespace.svc.cluster.local" host and ISTIO_MUTUAL as tls trafficPolicy mode. The DestinationRule should be like [this](/files/validation_examples/006.yaml).
