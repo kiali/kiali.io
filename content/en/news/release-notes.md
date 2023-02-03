@@ -6,8 +6,8 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
-## 1.63.0
-Sprint Release: Jan 27
+## 1.63.2
+Sprint Release: Feb 02, 2023
 
 Features:
 
@@ -37,13 +37,14 @@ Fixes:
 Notes:
 
 * Helm 3.10 is now required to run the Helm Charts.
+* To avoid a known performance degradation, update to v1.63.2 (or later) from earlier revisions of v1.63.
 
 Deprecations:
 
 * [The deprecated support for OpenID's _implicit flow_ has now been removed.](https://github.com/kiali/kiali/issues/4705) If necessary, you must switch to using the more secure _authorization code flow_.
 
-## 1.62.0
-Sprint Release: Jan 06, 2023
+## 1.62.1
+Sprint Release: Feb 02, 2023
 
 Features:
 
@@ -55,6 +56,10 @@ Fixes:
 
 * [Kiali may prevent istiod from becoming ready on initial startup of istiod pod](https://github.com/kiali/kiali/issues/5669)
 * [Kiali errors out loading workload graph in 'default' namespace ](https://github.com/kiali/kiali/issues/5696)
+
+Notes:
+
+* To avoid a known performance degradation, update to v1.62.1 (or later) from v1.62.0.
 
 Deprecations:
 
