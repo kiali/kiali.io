@@ -38,36 +38,13 @@ dates. Supported Kiali versions include only the Kiali versions associated with
 supported Istio versions.
 {{% /alert %}}
 
-|<div style="width:50px">Istio</div>|<div style="width:125px">Kiali</div>|Notes|
-|-------|------------------|---|
-|1.17   |1.63.2 or later   |Avoid 1.63.0,1.63.1 due to a regression. |
-|1.16   |1.59.1 to 1.63.2  |Avoid 1.62.0,1.63.0,1.63.1 due to a regression. |
-|1.15   |1.55.1 to 1.59.0  |   |
-|1.14   |1.50.0 to 1.54.x  |Istio 1.14 is out of support. |
-|1.13   |1.45.1 to 1.49.x  |Istio 1.13 is out of support. |
-|1.12   |1.42.0 to 1.44.x  |Istio 1.12 is out of support. |
-|1.11   |1.38.1 to 1.41.x  |Istio 1.11 is out of support. |
-|1.10   |1.34.1 to 1.37.x  |Istio 1.10 is out of support. |
-|1.9    |1.29.1 to 1.33.x  |Istio 1.9 is out of support. |
-|1.8    |1.26.0 to 1.28.x  |Istio 1.8 removes all support for mixer/telemetry V1, as does Kiali 1.26.0. Use earlier versions of Kiali for mixer support.   |
-|1.7    |1.22.1 to 1.25.x  |Istio 1.7 istioctl will no longer install Kiali. Use the Istio samples/addons all-in-one yaml or the Kiali Helm Chart for quick demo installs. Istio 1.7 is out of support.   |
-|1.6    |1.18.1 to 1.21.x  |Istio 1.6 introduces CRD and Config changes, Kiali 1.17 is recommended for Istio < 1.6.   |
+{{% readfile file="/content/en/docs/Installation/installation-guide/compatibility-istio.md" %}}
 
 <br />
 
 ## Maistra Version Compatibility
 
-|<div style="width:70px">Maistra</div>|<div style="width:100px">SMCP CR</div>|<div style="width:50px">Kiali</div>|Notes|
-|---|---|---|---|
-|2.3   |2.3   |1.57   |Using Maistra 2.3 to install service mesh control plane 2.3 requires Kiali Operator v1.57. Other operator versions are not compatible.   |
-|2.3   |2.2   |1.48   |Using Maistra 2.3 to install service mesh control plane 2.3 requires Kiali Operator v1.57. Other operator versions are not compatible.   |
-|2.3   |2.1   |1.36   |Using Maistra 2.3 to install service mesh control plane 2.3 requires Kiali Operator v1.57. Other operator versions are not compatible.   |
-|2.2   |2.2   |1.48   |Using Maistra 2.2 to install service mesh control plane 2.2 requires Kiali Operator v1.48. Other operator versions are not compatible.   |
-|2.2   |2.1   |1.36   |Using Maistra 2.2 to install service mesh control plane 2.1 requires Kiali Operator v1.48. Other operator versions are not compatible.   |
-|2.1   |2.1   |1.36   |Using Maistra 2.1 to install service mesh control plane 2.1 requires Kiali Operator v1.36. Other operator versions are not compatible.   |
-|n/a   |2.0   |n/a    |Service mesh control plane 2.0 is out of support.   |
-|n/a   |1.1   |n/a    |Service mesh control plane 1.1 is out of support.   |
-|n/a   |1.0   |n/a    |Service mesh control plane 1.0 is out of support.   |
+{{% readfile file="/content/en/docs/Installation/installation-guide/compatibility-maistra.md" %}}
 
 <br />
 
