@@ -37,10 +37,10 @@ privileges in the cluster to perform updates - i.e. the cluster RBAC takes
 effect.
 
 {{% alert color="warning" %}}
-Kiali is going to reject login to users that aren't authorized any namespace.
+Kiali is going to reject login to users that aren't authorized to see any namespace.
 {{% /alert %}}
 
-## Granting or restricting access to namespaces
+## Granting access to namespaces
 
 In general, Kiali will give _read_ access to namespaces where the logged in
 user is granted to _"GET"_ its definition -- i.e. the user is allowed to do a
@@ -64,13 +64,12 @@ rules:
   - pods/log
   verbs:
   - get
+- apiGroups: ["project.openshift.io"] # Only if you are using OpenShift
+  resources:
+  - projects
+  verbs:
+  - get
 ``` 
-
-This `ClusterRole` can be created with the following command:
-
-```bash
-$ kubectl create clusterrole kiali-namespace-authorization --verb=get --resource=namespaces,pods/log
-```
 
 {{% alert color="info" %}}
 The `pods/log` privilege is needed for the [pods Logs view]({{<relref "../features/details#logs">}}).
@@ -97,13 +96,6 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
 ```
 
-This `RoleBinding` can be created with the following command:
-
-```bash
-$ kubectl create rolebinding authorize-ns-foobar-to-john --clusterrole=kiali-namespace-authorization --user=john --namespace=foobar
-$ oc adm policy add-role-to-user kiali-namespace-authorization john -n foobar # For OpenShift clusters
-```
-
 {{% alert color="info" %}}
 Note that in this example, the subject kind is `User`, which is the case when
 using `openid` or `openshift` authentication strategies. For other
@@ -113,18 +105,44 @@ right subject kind.
 
 If you want to authorize a user to access _all namespaces_ in the cluster, the
 most efficient way to do it is by creating a `ClusterRole` with the _list_ verb
-for namespaces and bind it to the user using a `ClusterRoleBinding`. The
-following commands do this (it is left to the reader to infer the equivalent
-YAML):
+for namespaces and bind it to the user using a `ClusterRoleBinding`:
 
-```bash
-# Create the ClusterRole
-$ kubectl create clusterrole kiali-all-namespaces-authorization --verb=list --resource=namespaces,pods/log
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: kiali-all-namespaces-authorization
+rules:
+- apiGroups: [""]
+  resources:
+  - namespaces
+  - pods/log
+  verbs:
+  - get
+  - list
+- apiGroups: ["project.openshift.io"] # Only if you are using OpenShift
+  resources:
+  - projects
+  verbs:
+  - get
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: authorize-all-namespaces-to-john
+subjects:
+- kind: User
+  name: john
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: kiali-all-namespaces-authorization
+  apiGroup: rbac.authorization.k8s.io
+``` 
 
-# Create the ClusterRoleBinding
-$ kubectl create clusterrolebinding authorize-all-namespaces-to-john --clusterrole=kiali-all-namespaces-authorization --user=john
-$ oc adm policy add-cluster-role-to-user kiali-all-namespaces-authorization john # For OpenShift clusters
-```
+{{% alert color="info" %}}
+Note that the only addition to the `ClusterRole` is the `list` verb in the first rule.
+{{% /alert %}}
 
 Alternatively, you could also use the previously mentioned
 `kiali-namespace-authorization` rather than creating a new one with the _list_
@@ -135,4 +153,62 @@ _list_ privilege.
 Please read your cluster RBAC documentation to learn more about the
 authorization system.
 {{% /alert %}}
+
+## Granting write privileges to namespaces
+
+Changing resources in the cluster can be a sensitive operation. Because of
+this, the logged in user will need to be given the needed privileges to perform
+any updates through Kiali. The following `ClusterRole` contains all write
+privileges that may used in Kiali:
+
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: kiali-write-privileges
+rules:
+- apiGroups: [""]
+  resources:
+  - namespaces
+  - pods
+  - replicationcontrollers
+  - services
+  verbs:
+  - patch
+- apiGroups: ["extensions", "apps"]
+  resources:
+  - daemonsets
+  - deployments
+  - replicasets
+  - statefulsets
+  verbs:
+  - patch
+- apiGroups: ["batch"]
+  resources:
+  - cronjobs
+  - jobs
+  verbs:
+  - patch
+- apiGroups:
+  - networking.istio.io
+  - security.istio.io
+  - extensions.istio.io
+  - telemetry.istio.io
+  - gateway.networking.k8s.io
+  resources: ["*"]
+  verbs:
+  - create
+  - delete
+  - patch
+```
+
+{{% alert color="info" %}}
+If needed, you can reduce the set of write privileges to prevent users changing
+unwanted resources.
+{{% /alert %}}
+
+Similarly to giving access to namespaces, you can either use a `RoleBinding` to
+give write privileges only to specific namespaces, or use a
+`ClusterRoleBinding` to give privileges to all namespaces.
+
 
