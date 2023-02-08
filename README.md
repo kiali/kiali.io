@@ -39,7 +39,11 @@ make serve
 > :warning: 
 > If you are using Docker, you need to set `DORP` when starting the server; e.g:
 > ```
-> make -e DORP=docker make serve
+> make -e DORP=docker serve
+> ```
+> On ARM-based Macs, you'll need to run following command first:
+> ```
+> export DOCKER_DEFAULT_PLATFORM=linux/amd64
 > ```
 
 If everything is working as expected, you should see something like this:

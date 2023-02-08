@@ -1,0 +1,22 @@
+{{ $data := index .Site.Data.compatibility.istio }}
+
+<table>
+  <thead>
+    <tr>
+      <th style="width:50px">Istio</th>
+      <th style="width:80px">Kiali Min</th>
+      <th style="width:100px">Kiali Max</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{ range $data.versionRange }}
+    <tr>
+      <td>{{ .meshVersion }}</td>
+      <td>{{ .kialiMinimumVersion }}</td>
+      <td>{{ .kialiMaximumVersion }}</td>
+      <td>{{ .notes }}</td>
+    </tr>
+    {{ end }}
+  </tbody>
+</table>
