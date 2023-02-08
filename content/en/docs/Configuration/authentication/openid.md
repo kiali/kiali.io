@@ -18,24 +18,15 @@ then Kiali's `openid` strategy can offer role-based access control (RBAC) throug
 [Kubernetes authorization mechanisms](https://kubernetes.io/docs/reference/access-authn-authz/rbac/). See the
 [RBAC documentation]({{< relref "../rbac" >}}) for more details.
 
-Currently, Kiali supports the _authorization code flow_ (preferred) and the
-_implicit flow_ of the [OpenId Connect spec](https://openid.net/connect/).
+Kiali only supports the _authorization code flow_ of the [OpenId Connect spec](https://openid.net/connect/).
 
 ## Requirements
 
-If you want to enable usage of the OpenId's _authorization code flow_, make
-sure that the
-[Kiali's signing key]({{< relref "session-configs" >}})
-is 16, 24 or 32 byte long. If you setup a signing key of a
-different size, Kiali will only be capable of using the _implicit flow_. If you
-install Kiali via the operator and don't set a custom signing key, the operator
-should create a 16 byte long signing key.
+The [Kiali's signing key]({{< relref "session-configs" >}}) needs to be 16, 24
+or 32 byte long. If you install Kiali via the operator and don't set a custom
+signing key, the operator should create a 16 byte long signing key.
 
-{{% alert color="success" %}}
-We recommend using the _authorization code flow_.
-{{% /alert %}}
-
-If you *_don't need_* RBAC support, the only requirement is to have a
+If you *_don't need_* RBAC support, you can use any
 working OpenId Server where Kiali can be configured as a client application.
 
 If you *_do need_* RBAC support, you need either:
@@ -77,12 +68,6 @@ where `$NAMESPACE` is the namespace where you installed Kiali and
 `$CLIENT_SECRET` is the secret you configured or provided by your OpenId
 Server. If Kiali is already running, you may need to restart the Kiali pod so
 that the secret is mounted in Kiali.
-
-{{% alert color="warning" %}}
-This secret is only needed if you want Kiali to
-use the _authorization code flow_ (i.e. if your Kiali's signing key is neither
-16, 24 or 32 byte long).
-{{% /alert %}}
 
 {{% alert color="warning" %}}
 It's worth emphasizing that to configure OpenID
@@ -144,12 +129,6 @@ where `$NAMESPACE` is the namespace where you installed Kiali and
 `$CLIENT_SECRET` is the secret you configured or provided by your OpenId
 Server. If Kiali is already running, you may need to restart the Kiali pod so
 that the secret is mounted in Kiali.
-
-{{% alert color="warning" %}}
-This secret is only needed if you want Kiali to
-use the _authorization code flow_ (i.e. if your Kiali's signing key is neither
-16, 24 or 32 byte long).
-{{% /alert %}}
 
 Then, to enable the OpenID Connect strategy, the minimal configuration you need
 to set in the Kiali CR is like the following:
@@ -350,14 +329,6 @@ option on the Client (in the Administration Console):
 
 The _Standard Flow_ described on the options is the same as the _authorization
 code flow_ from the rest of the documentation.
-
-If you get an error like `Client is not allowed to initiate browser login with
-given response_type. Implicit flow is disabled for the client.`, it means that
-your signing key for Kiali is not a standard size (16, 24 or 32 bytes long).
-
-Enabling the `Implicit Flow Enabled` option of the client will make the problem
-go away, but be aware that the implicit flow is less secure, and not
-recommended.
 
 ### Using with Google Cloud Platform / GKE OAuth2
 
