@@ -38,6 +38,7 @@ dates. Supported Kiali versions include only the Kiali versions associated with
 supported Istio versions.
 {{% /alert %}}
 
+{{<yaml-table>}}
 {{% readfile file="/content/en/docs/Installation/installation-guide/compatibility-istio.md" %}}
 
 <br />
