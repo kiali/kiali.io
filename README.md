@@ -41,7 +41,7 @@ make serve
 > ```
 > make -e DORP=docker serve
 > ```
-> If you are using an ARM-based Mac, you'll need the following command first:
+> On ARM-based Macs, you'll need to run following command first:
 > ```
 > export DOCKER_DEFAULT_PLATFORM=linux/amd64
 > ```
