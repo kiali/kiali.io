@@ -11,8 +11,7 @@ The `token` authentication strategy allows a user to login to Kiali using the
 token of a Kubernetes ServiceAccount. This is similar to the
 [login view of Kubernetes Dashboard](https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/README.md#login-view).
 
-The `token` strategy takes advantage of the cluster's RBAC. See the [Role-based access control documentation]({{< relref "../rbac" >}})
-for more details.
+The `token` strategy supports [namespace access control]({{< relref "../rbac" >}}).
 
 ## Set-up
 

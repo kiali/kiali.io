@@ -1,5 +1,5 @@
 ---
-title: "Namespace Authorization"
+title: "Namespace access control"
 description: "Configuring per-user authorized namespaces."
 ---
 

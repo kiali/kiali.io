@@ -15,9 +15,7 @@ redirected to the login page of the OpenShift console. Once the user provides
 his OpenShift credentials, he will be redireted back to Kiali and will be
 logged in if the user has enough privileges.
 
-The `openshift` strategy takes advantage of the cluster's RBAC. See the
-[Role-based access control documentation]({{< relref "../rbac" >}}) for more
-details.
+The `openshift` strategy supports [namespace access control]({{< relref "../rbac" >}}).
 
 ## Set-up
 

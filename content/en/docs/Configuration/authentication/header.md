@@ -10,17 +10,14 @@ weight: 20
 The `header` strategy assumes a reverse proxy is in front of Kiali, such as 
 OpenUnison or OAuth2 Proxy, injecting the user's identity into each request to
 Kiali as an `Authorization` header.  This token can be an OpenID Connect
-token or any other token the cluster recognizes.  All requests to Kubernetes
-will be made with this token, allowing Kiali to use the user's own RBAC 
-context.
+token or any other token the cluster recognizes.
 
 In addition to a user token, the `header` strategy supports impersonation
 headers.  If the impersonation headers are present in the request, then Kiali
 will act on behalf of the user specified by the impersonation (assuming the
 token supplied in the `Authorization` header is authorized to do so).
 
-The `header` strategy takes advantage of the cluster's RBAC. See the
-[Role-based access control documentation]({{< relref "../rbac" >}}) for more details.
+The `header` strategy allows for [namespace access control]({{< relref "../rbac" >}}).
 
 ## Set-up
 
