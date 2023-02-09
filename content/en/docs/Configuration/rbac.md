@@ -6,7 +6,7 @@ description: "Configuring per-user authorized namespaces."
 ## Introduction
 
 In authentication strategies other than `anonymous` Kiali supports limiting the
-namespaces that are accessible in a per-user basis. The `anonymous`
+namespaces that are accessible on a per-user basis. The `anonymous`
 authentication strategy does not support this, although you can still limit
 privileges when using an OpenShift cluster. See the [access control section in
 Anonymous strategy]({{< relref "./authentication/anonymous#access-control" >}}).
@@ -43,7 +43,7 @@ Kiali is going to reject login to users that aren't authorized to see any namesp
 ## Granting access to namespaces
 
 In general, Kiali will give _read_ access to namespaces where the logged in
-user is granted to _"GET"_ its definition -- i.e. the user is allowed to do a
+user is allowed to _"GET"_ its definition -- i.e. the user is allowed to do a
 `GET` call to the `api/v1/namespaces/{namespace-name}` endpoint of the cluster
 API. Users granted the _LIST_ verb would get access to all namespaces of the
 cluster (that's a `GET` call to the `api/v1/namespaces` endpoint of the cluster
@@ -159,7 +159,7 @@ authorization system.
 Changing resources in the cluster can be a sensitive operation. Because of
 this, the logged in user will need to be given the needed privileges to perform
 any updates through Kiali. The following `ClusterRole` contains all write
-privileges that may used in Kiali:
+privileges that may be used in Kiali:
 
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -203,7 +203,7 @@ rules:
 ```
 
 {{% alert color="info" %}}
-If needed, you can reduce the set of write privileges to prevent users changing
+If needed, you can reduce the set of write privileges to prevent users from changing
 unwanted resources.
 {{% /alert %}}
 

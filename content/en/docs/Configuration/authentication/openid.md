@@ -15,7 +15,7 @@ third-party system.
 If your
 [Kubernetes cluster is also integrated with your OpenId provider](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#openid-connect-tokens),
 then Kiali's `openid` strategy can offer 
-[namespace access control]({{< relref "../rbac" >}}) for more details.
+[namespace access control]({{< relref "../rbac" >}}).
 
 Kiali only supports the _authorization code flow_ of the [OpenId Connect spec](https://openid.net/connect/).
 
