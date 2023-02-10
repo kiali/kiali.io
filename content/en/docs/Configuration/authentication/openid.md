@@ -14,9 +14,8 @@ third-party system.
 
 If your
 [Kubernetes cluster is also integrated with your OpenId provider](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#openid-connect-tokens),
-then Kiali's `openid` strategy can offer role-based access control (RBAC) through the
-[Kubernetes authorization mechanisms](https://kubernetes.io/docs/reference/access-authn-authz/rbac/). See the
-[RBAC documentation]({{< relref "../rbac" >}}) for more details.
+then Kiali's `openid` strategy can offer 
+[namespace access control]({{< relref "../rbac" >}}).
 
 Kiali only supports the _authorization code flow_ of the [OpenId Connect spec](https://openid.net/connect/).
 
@@ -26,10 +25,10 @@ The [Kiali's signing key]({{< relref "session-configs" >}}) needs to be 16, 24
 or 32 byte long. If you install Kiali via the operator and don't set a custom
 signing key, the operator should create a 16 byte long signing key.
 
-If you *_don't need_* RBAC support, you can use any
+If you *_don't need_* namespace access control support, you can use any
 working OpenId Server where Kiali can be configured as a client application.
 
-If you *_do need_* RBAC support, you need either:
+If you *_do need_* namespace access control support, you need either:
 
 * A [Kubernetes cluster configured with OpenID connect integration](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#openid-connect-tokens),
 which results in the API server accepting tokens issued by your identity provider.
@@ -48,7 +47,7 @@ strategy by using
 reverse proxy that handles the OpenID authentication and forwards the
 authenticated requests to the Kubernetes API.
 
-## Set-up with RBAC support {#setup-with-rbac}
+## Set-up with namespace access control support {#setup-with-rbac}
 
 Assuming you already have a working Kubernetes cluster with OpenId integration
 (or a working alternative like `kube-oidc-proxy`), you should already had
@@ -114,7 +113,7 @@ attribute is the URI of the reverse proxy or cluster API replacement (only
 HTTPS is allowed). The `api_proxy_ca_data` is the public certificate authority
 file encoded in a base64 string, to trust the secure connection.
 
-## Set-up with no RBAC support
+## Set-up with no namespace access control support
 
 Register Kiali as a client application in your OpenId Server. Use the root path
 of your Kiali instance as the callback URL. If the OpenId Server provides you a
@@ -144,7 +143,7 @@ spec:
 ```
 
 {{% alert color="warning" %}}
-As RBAC is disabled, all users logging into Kiali
+As namespace access control is disabled, all users logging into Kiali
 will share the same cluster-wide privileges.
 {{% /alert %}}
 
@@ -164,10 +163,11 @@ spec:
       username_claim: "email"
 ```
 
-If you enabled RBAC, you will want the `username_claim` attribute to match the
-`--oidc-username-claim` flag used to start the Kubernetes API server, or the
-equivalent option if you are using a replacement or reverse proxy of the API
-server. Else, any user-friendly claim will be OK as it is purely informational.
+If you enabled namespace access control, you will want the `username_claim`
+attribute to match the `--oidc-username-claim` flag used to start the
+Kubernetes API server, or the equivalent option if you are using a replacement
+or reverse proxy of the API server. Else, any user-friendly claim will be OK as
+it is purely informational.
 
 ### Configuring requested scopes {#configure-scopes}
 
@@ -406,7 +406,7 @@ refresh your Kiali Pod to _set_ the Secret if you add the Secret after the Kiali
 {{% alert color="warning" %}}
 The OpenID authentication strategy can be used
 with Azure Kubernetes Service (AKS) and Azure Active Directory (AAD) with Kiali
-versions 1.33 and later. Prior Kiali versions do not support RBAC on Azure.
+versions 1.33 and later. Prior Kiali versions do not support namespace access control on Azure.
 {{% /alert %}}
 
 AKS has support for a feature named _AKS-managed Azure Active Directory_, which
@@ -420,7 +420,7 @@ rather than via the [Kubernetes OpenID Connect Tokens authentication](https://ku
 (see [the Azure AD integration section in AKS Concepts documentation](https://docs.microsoft.com/en-us/azure/aks/concepts-identity#azure-ad-integration)).
 Because of this difference, authentication in AKS behaves slightly different from a standard
 OpenID setup, but Kiali's OpenID authentication strategy can still be used with
-full RBAC support by following the next steps.
+namespace access control support by following the next steps.
 
 First, enable the AAD integration on your AKS cluster. See the
 [official AKS documentation to learn how](https://docs.microsoft.com/en-us/azure/aks/managed-aad).
@@ -434,7 +434,7 @@ Create a web application for Kiali in your Azure AD panel:
 2. Go to _Certificates & secrets_ and create a client secret.
    1. After creating the client secret, take note of the provided secret. Create a
    Kubernetes secret in your cluster as mentioned in the [Set-up
-   with RBAC support](#setup-with-rbac) section. Please, note that the suggested name for the
+   with namespace access control support](#setup-with-rbac) section. Please, note that the suggested name for the
    Kubernetes Secret is `kiali`. If you want to customize the secret name, you
    will have to specify your custom name in the Kiali CR. See: [secret_name in Kial CR Reference](/docs/configuration/kialis.kiali.io/#.spec.deployment.secret_name).
 3. Go to _API Permissions_ and press the _Add a permission_ button. In the new page that appears, switch to the
