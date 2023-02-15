@@ -197,6 +197,9 @@ rules:
   - gateway.networking.k8s.io
   resources: ["*"]
   verbs:
+  - get
+  - list
+  - watch
   - create
   - delete
   - patch
