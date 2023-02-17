@@ -158,7 +158,7 @@ authorization system.
 
 Changing resources in the cluster can be a sensitive operation. Because of
 this, the logged in user will need to be given the needed privileges to perform
-any updates through Kiali. The following `ClusterRole` contains all write
+any updates through Kiali. The following `ClusterRole` contains all read and write
 privileges that may be used in Kiali:
 
 ```yaml
@@ -207,11 +207,11 @@ rules:
 
 {{% alert color="info" %}}
 If needed, you can reduce the set of write privileges to prevent users from changing
-unwanted resources.
+unwanted resources. However read privileges are require to read the resources.
 {{% /alert %}}
 
 Similarly to giving access to namespaces, you can either use a `RoleBinding` to
-give write privileges only to specific namespaces, or use a
+give read and write privileges only to specific namespaces, or use a
 `ClusterRoleBinding` to give privileges to all namespaces.
 
 
