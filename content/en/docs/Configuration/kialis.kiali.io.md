@@ -296,6 +296,7 @@ spec:
       config_map_name: "istio"
       envoy_admin_local_port: 15000
       gateway_api_class_name: ""
+      istio_api_enabled: true
       # default: istio_canary_revision is undefined
       istio_canary_revision:
         current: "1-9-9"
@@ -351,6 +352,7 @@ spec:
       query_scope:
         mesh_id: "mesh-1"
         cluster: "cluster-east"
+      query_timeout: 5
       url: ""
       use_grpc: true
       whitelist_istio_system: ["jaeger-query", "istio-ingressgateway"]
@@ -387,8 +389,12 @@ spec:
       - "cacerts"
       - "istio-ca-secret"
     clustering:
-      enabled: true
+      autodetect_secrets:
+        enabled: true
+        label: "istio/multiCluster=true"
+      clusters: []
     disabled_features: []
+    istio_annotation_action: true
     istio_injection_action: true
     istio_upgrade_action: false
     ui_defaults:
@@ -433,7 +439,6 @@ spec:
   kubernetes_config:
     burst: 200
     cache_duration: 300
-    cache_enabled: true
     cache_istio_types:
     - "AuthorizationPolicy"
     - "DestinationRule"
@@ -3541,6 +3546,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 <div class="property depth-3">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.external_services.istio.istio_api_enabled">.spec.external_services.istio.istio_api_enabled</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>Indicates if Kiali has access to istiod. true by default.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.external_services.istio.istio_canary_revision">.spec.external_services.istio.istio_canary_revision</h3>
 </div>
 <div class="property-body">
@@ -4415,6 +4439,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 <div class="property depth-3">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.external_services.tracing.query_timeout">.spec.external_services.tracing.query_timeout</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(integer)</span>
+
+</div>
+
+<div class="property-description">
+<p>The amount of time in seconds Kiali will wait for a response from &lsquo;jaeger-query&rsquo; service when fetching traces.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.external_services.tracing.url">.spec.external_services.tracing.url</h3>
 </div>
 <div class="property-body">
@@ -5002,7 +5045,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>Clustering and federation related features.</p>
+<p>Multi-cluster related features.</p>
 
 </div>
 
@@ -5012,7 +5055,26 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 <div class="property depth-3">
 <div class="property-header">
 <hr/>
-<h3 class="property-path" id=".spec.kiali_feature_flags.clustering.enabled">.spec.kiali_feature_flags.clustering.enabled</h3>
+<h3 class="property-path" id=".spec.kiali_feature_flags.clustering.autodetect_secrets">.spec.kiali_feature_flags.clustering.autodetect_secrets</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>Settings to allow cluster secrets to be auto-detected. Secrets must exist in the Kiali deployment namespace.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.clustering.autodetect_secrets.enabled">.spec.kiali_feature_flags.clustering.autodetect_secrets.enabled</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -5021,7 +5083,97 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>Flag to enable/disable clustering and federation related features.</p>
+<p>If true then remote cluster secrets will be autodetected during the installation of the Kiali Server Deployment. Any remote cluster secrets found in the Kiali deployment namespace will be mounted to the Kiali Server&rsquo;s file system. If false, you can still manually specify the remote cluster secret information in the &lsquo;clusters&rsquo; setting if you wish to utilize multicluster features.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.clustering.autodetect_secrets.label">.spec.kiali_feature_flags.clustering.autodetect_secrets.label</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The name and value of a label that exists on all remote cluster secrets. Default is &lsquo;istio/multiCluster=true&rsquo;.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.clustering.clusters">.spec.kiali_feature_flags.clustering.clusters</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>A list of clusters that the Kiali Server can access. You need to specify the remote clusters here if &lsquo;autodetect_secrets.enabled&rsquo; is false.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.clustering.clusters[*]">.spec.kiali_feature_flags.clustering.clusters[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.clustering.clusters[*].name">.spec.kiali_feature_flags.clustering.clusters[*].name</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The name of the cluster.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.clustering.clusters[*].secret_name">.spec.kiali_feature_flags.clustering.clusters[*].secret_name</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The name of the secret that contains the credentials necessary to connect to the remote cluster. This secret must exist in the Kiali deployment namespace.</p>
 
 </div>
 
@@ -5055,6 +5207,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 <div class="property-body">
 <div class="property-meta">
 <span class="property-type">(string)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.istio_annotation_action">.spec.kiali_feature_flags.istio_annotation_action</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>Flag to enable/disable an Action to edit annotations.</p>
 
 </div>
 
@@ -5704,25 +5875,6 @@ An example,</p>
 
 <div class="property-description">
 <p>The ratio interval (expressed in seconds) used for the cache to perform a full refresh. Only used when <code>cache_enabled</code> is true.</p>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-2">
-<div class="property-header">
-<hr/>
-<h3 class="property-path" id=".spec.kubernetes_config.cache_enabled">.spec.kubernetes_config.cache_enabled</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(boolean)</span>
-
-</div>
-
-<div class="property-description">
-<p>Flag to use a Kubernetes cache for watching changes and updating pods and controllers data asynchronously.</p>
 
 </div>
 
