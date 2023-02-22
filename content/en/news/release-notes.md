@@ -6,6 +6,41 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+# 1.64.0
+Sprint Release: Feb 17, 2023
+
+Features:
+
+* [Mesh wide settings should take the MeshConfig defaults](https://github.com/kiali/kiali/issues/5263)
+* [Don't use the anonymous account to fetch cluster version (OpenShift authentication)](https://github.com/kiali/kiali/issues/5755)
+* [Editable Istio config annotations for workloads and services](https://github.com/kiali/kiali/issues/4179)
+* [Configure Kiali timeouts while fetching traces from jaeger](https://github.com/kiali/kiali/issues/5751)
+* [Build Kiali with a newer minor version of Golang](https://github.com/kiali/kiali/issues/5799)
+* [K8s GW API Support  - v1alpha2 is deprecated](https://github.com/kiali/kiali/issues/5797)
+* [document for contributors in operator and helm chart repos](https://github.com/kiali/kiali/issues/5808)
+* [Consistent way to resolve Kiali version from Istio version](https://github.com/kiali/kiali/issues/5823)
+* [reponse type id_token check in Open ID authentication is no longer needed](https://github.com/kiali/kiali/issues/5833)
+* [Pod labels for Kiali Operator Helm Chart](https://github.com/kiali/kiali/issues/5832)
+
+Fixes:
+
+* [(Cypress) Improve test coverage for Istio Config Wizards](https://github.com/kiali/kiali/issues/5811)
+* [Format frontend code with prettier standards](https://github.com/kiali/kiali/issues/5815)
+* [remove implicit flow from documentation](https://github.com/kiali/kiali/issues/5813)
+* [Remove @webcomponents/custom-elements from package.json since Firefox ESR supports it natively](https://github.com/kiali/kiali/issues/5805)
+* [remove compat matrix/version checking](https://github.com/kiali/kiali/issues/5788)
+* [Rework RBAC documentation](https://github.com/kiali/kiali/issues/5720)
+* [Form to add port should start empty](https://github.com/kiali/kiali/issues/5741)
+* [No istiod: Disable validations also in the Overview page](https://github.com/kiali/kiali/issues/5762)
+* [Investigate possible flaky test in Cypress suite](https://github.com/kiali/kiali/issues/5770)
+* [Graphs loading very slowly](https://github.com/kiali/kiali/issues/5743)
+* [Remove "Labels" in Create K8s Gateway Wizard](https://github.com/kiali/kiali/issues/5790)
+* [Prettier pre-commit hook is not working correctly](https://github.com/kiali/kiali/issues/5803)
+* [Wrong engine node version in package.json](https://github.com/kiali/kiali/issues/5208)
+* [Internal server error when creating a Gateway with a duplicate name in the Istio Config Wizard](https://github.com/kiali/kiali/issues/5830)
+* [Read-only YAML editor in Istio Config even with write privileges](https://github.com/kiali/kiali/issues/5836)
+* [Duplicate IDs for the text inputs + high port value breaks the UI (Istio Config wizard page)](https://github.com/kiali/kiali/issues/5834)
+
 ## 1.63.2
 Sprint Release: Feb 02, 2023
 
