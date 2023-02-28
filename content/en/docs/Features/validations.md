@@ -394,6 +394,10 @@ There is one exception: when both gateways points to a different ingress. Then t
 
 Remove the duplicate gateway entries or merge the two gateway definitions into a single one.
 
+OR
+
+When one of the duplicate Gateways has a wildcard in hosts, there is an option 'skip_wildcard_gateway_hosts' in Kiali CR, by setting it to 'true', it will ignore Gateways with wildcards in hosts during validation. As Istio considers such a Gateway with a wildcard in hosts as the last in order, after the Gateways with FQDN in hosts.
+
 #### Severity
 
 <i class="fas fa-exclamation-triangle text-warning"></i> Warning
