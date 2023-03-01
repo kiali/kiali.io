@@ -14,7 +14,7 @@ In this tutorial we will show how Kiali can use telemetry information to create 
 
 Istio telemetry aggregates the ServiceAccount information used in the workloads communication. This information can be used to define authorization policies that deny and allow actions on future live traffic communication status.
 
-Additionally, Istio sidecars can be created to limit the hosts with which a given workload can communicate. This improves traffic control, and also reduces the [memory footprint](https://istio.io/latest/docs/ops/deployment/performance-and-scalability/#cpu-and-memory) of the proxies.
+Additionally, Istio sidecars can be created to limit the hosts with which a given workload can communicate. This improves traffic control, and also reduces the memory footprint of the proxies.
 
 This step will show how we can define authorization policies for the *travel-agency* namespace, in the Travel Demo application, for all existing traffic in a given time period.
 
