@@ -107,6 +107,8 @@ Istio metrics and attributes:
 |Attribute      |Metric                               |Notes|
 |---------------|-------------------------------------|-----|
 |connection_security_policy        |istio_requests_total   |used only when graph Security display option is enabled|
+|                                  |istio_tcp_received_bytes_total   |used only when graph Security display option is enabled|
+|                                  |istio_tcp_sent_bytes_total   |used only when graph Security display option is enabled|
 |destination_canonical_revision    |all ||
 |destination_canonical_service     |all ||
 |destination_cluster               |all ||
