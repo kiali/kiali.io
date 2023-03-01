@@ -79,6 +79,8 @@ Kiali currently requires the following metrics and attributes:
 |process_cpu_seconds_total                   |used to graph cpu usage in the control plane overview card |
 |container_memory_working_set_bytes          |used to graph memory usage in the control plane overview card |
 
+<br />
+
 Istio metrics and attributes:
 
 |Metric                                      |Notes|
