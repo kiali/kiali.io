@@ -79,6 +79,8 @@ Kiali currently requires the following metrics and attributes:
 |process_cpu_seconds_total                   |used to graph cpu usage in the control plane overview card |
 |container_memory_working_set_bytes          |used to graph memory usage in the control plane overview card |
 
+<br />
+
 Istio metrics and attributes:
 
 |Metric                                      |Notes|
@@ -107,6 +109,8 @@ Istio metrics and attributes:
 |Attribute      |Metric                               |Notes|
 |---------------|-------------------------------------|-----|
 |connection_security_policy        |istio_requests_total   |used only when graph Security display option is enabled|
+|                                  |istio_tcp_received_bytes_total   |used only when graph Security display option is enabled|
+|                                  |istio_tcp_sent_bytes_total   |used only when graph Security display option is enabled|
 |destination_canonical_revision    |all ||
 |destination_canonical_service     |all ||
 |destination_cluster               |all ||
