@@ -686,6 +686,44 @@ Make sure you don't have the `workloadSelector` in this global sidecar resource.
 - [Validator source code](https://github.com/kiali/kiali/tree/v1.42.0/business/checkers/sidecars/global_checker.go)
 - [Sidecar documentation: second warning](https://istio.io/docs/reference/config/networking/sidecar)
 
+### KIA1007 - OutboundTrafficPolicy shown with empty mode value is ambiguous
+
+Due to issues with the Istio client and the protobuf library it uses, the way some defaults are handled becomes ambiguous. When a Sidecar resource `spec.outboundTrafficPolicy.mode` is left unset or is explicitly set to REGISTRY_ONLY, the Kiali UI will show the value as unset (e.g. if nothing is set inside `outboundTrafficPolicy`, its value will be shown as `{}`). In this case, you are not guaranteed to know what the value of `mode` truly is. So in the case where Kiali UI shows `mode` as empty, you cannot know if Istio will be using a value of REGISTRY_ONLY or ALLOW_ANY.
+
+#### Resolution
+
+You cannot determine the value of `mode` using the Kiali UI when this condition arises. You must inspect the Sidecar object using other means to determine the value (e.g. use `kubectl get sidecar your-side-car-name -o jsonpath='{.spec.outboundTrafficPolicy.mode}'`).
+
+#### Severity
+
+Informational
+
+#### Example
+
+Both of these Sidecar resources will show `mode` as unset/empty in the Kiali UI YAML editor:
+
+```yaml
+apiVersion: networking.istio.io/v1beta1
+kind: Sidecar
+...
+spec:
+  outboundTrafficPolicy:
+    mode: REGISTRY_ONLY
+```
+
+```yaml
+apiVersion: networking.istio.io/v1beta1
+kind: Sidecar
+...
+spec:
+  # according to Istio documentation, the default will be ALLOW_ANY
+  outboundTrafficPolicy: {}
+```
+
+#### See Also
+
+- [Validator source code](https://github.com/kiali/kiali/tree/v1.65.0/business/checkers/sidecars/outbound_traffic_policy_mode.go)
+- [Additional details](https://github.com/kiali/kiali/issues/5882)
 
 ## VirtualServices {#virtualservices}
 
