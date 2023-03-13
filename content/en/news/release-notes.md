@@ -6,6 +6,28 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 1.65.0
+Sprint Release: Mar 10, 2023
+
+Features:
+
+* [K8sGateway Object Validation - Add References](https://github.com/kiali/kiali/issues/5769)
+* [Improve KIA0301 (more than one gateway warning) to treat a single * as not a warning](https://github.com/kiali/kiali/issues/5711)
+* [document how to upgrade Go in the Kiali builds](https://github.com/kiali/kiali/issues/5818)
+* [Error page could be more than just a text message](https://github.com/kiali/kiali/issues/5862)
+* [log the version of go that was used to build the server](https://github.com/kiali/kiali/issues/5878)
+
+Fixes:
+
+* [remove monitoringdashboard CRD (when supporting kiali >= 1.25)](https://github.com/kiali/kiali/issues/5372)
+* [bad printf - missing param](https://github.com/kiali/kiali/issues/5859)
+* [Istio 1.17.0 image is not available in gcr.io](https://github.com/kiali/kiali/issues/5846)
+* [Istio Config doesn't show correct yaml for Sidecar OutboundTrafficPolicy.Mode](https://github.com/kiali/kiali/issues/5882)
+* [Application crash when accessing service from K8s Gateway](https://github.com/kiali/kiali/issues/5864)
+* [envoy listeners tab - match column shows does not show correct dest port when destination_port is specified](https://github.com/kiali/kiali/issues/5872)
+* [navigating from envoy listeners tab to a named route incorrectly highlights the clusters tab](https://github.com/kiali/kiali/issues/5871)
+* [Don't let the graph generation panic on bad telemetry](https://github.com/kiali/kiali/issues/5890)
+
 # 1.64.0
 Sprint Release: Feb 17, 2023
 
