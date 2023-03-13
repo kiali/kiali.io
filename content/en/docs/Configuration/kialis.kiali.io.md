@@ -435,6 +435,7 @@ spec:
       refresh_interval: "60s"
     validations:
       ignore: ["KIA1201"]
+      skip_wildcard_gateway_hosts: false
 
   kubernetes_config:
     burst: 200
@@ -3746,6 +3747,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property-description">
 <p>The namespace to treat as the administrative root namespace for Istio configuration.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.istio.skip_wildcard_gateway_hosts">.spec.external_services.istio.skip_wildcard_gateway_hosts</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>The KIA0301 validation checks duplicity of host and port combinations across all Istio Gateways. This includes also Gateways with &lsquo;*&rsquo; in hosts. But Istio considers such a Gateway with a wildcard in hosts as the last in order, after the Gateways with FQDN in hosts. This option is to skip Gateways with wildcards in hosts from the KIA0301 validations but still keep Gateways with FQDN hosts.</p>
 
 </div>
 
