@@ -31,7 +31,6 @@ When the Istio API is not available there is expected feature degradation in Kia
 
 * The control plane metrics won't be available.
 * The proxy status won't be available in the workloads details view.
-* The namespace list will be obtained directly from the Kubernetes API, because it won't be possible to use the Istio cache. This may slightly impact performance.
 * The [Istio validations](#a-nameistio_validationsa-istio-validations) may not be available.
 * The Kiali validations will not be available.
 * The [Istio Registry Services](#a-nameistio_registrya-istio-registry-services) that are not present in the Kubernetes list won't be available.
