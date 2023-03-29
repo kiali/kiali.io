@@ -95,9 +95,9 @@ show values` commands to work with a specific version of Kiali.
 
 The `kiali-operator` Helm Chart mirrors all settings of the Kiali CR as chart
 values that you can configure using regular `--set` flags. For example, the
-Kiali CR has a `spec.namespace` setting which you can configure in the
-`kiali-operator` Helm Chart by passing the `--set cr.namespace` flag as
-shown in the previous `helm install` example.
+Kiali CR has a `spec.server.web_root` setting which you can configure in the
+`kiali-operator` Helm Chart by passing `--set cr.spec.server.web_root=/your-path`
+to the `helm install` command.
 
 For more information about the Kiali CR, see the [Creating and updating the Kiali CR page]({{< ref creating-updating-kiali-cr >}}).
 
