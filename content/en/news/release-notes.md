@@ -6,6 +6,36 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 1.66.0
+Sprint Release: Mar 31, 2023
+
+Features:
+
+* [make - run-operator should enable the profiler](https://github.com/kiali/kiali/issues/5950)
+* [No install-crd reference on README](https://github.com/kiali/openshift-servicemesh-plugin/issues/127)
+* [Multicluster - list view - Workloads](https://github.com/kiali/kiali/issues/5959)
+* [Multicluster - Services view](https://github.com/kiali/kiali/issues/5943)
+* [Multicluster - Hack script for setup a primary-remote scenario](https://github.com/kiali/kiali/issues/5925)
+* [Multicluster - Update each business layer to read from each configured backend kube cluster](https://github.com/kiali/kiali/issues/5764)
+* [Multicluster - Kiali supports reading from/writing to multiple clusters](https://github.com/kiali/kiali/issues/5701)
+* [Multicluster - Update the namespace cache which caches the user token per namespace](https://github.com/kiali/kiali/issues/5766)
+* [Multicluster - distributed errors demo for testing](https://github.com/kiali/kiali/pull/5927)
+* [Multicluster - Modify the Kube Cache to allow whether to cache Istio types](https://github.com/kiali/kiali/issues/5939)
+* [core-ui - Need the configuration and endpoints](https://github.com/kiali/openshift-servicemesh-plugin/issues/114)
+* [core-ui - Remove IstioConfigList elements and pull them from library](https://github.com/kiali/openshift-servicemesh-plugin/issues/119)
+
+Fixes:
+
+* [Error fetching Istiod resource thresholds on Web UI](https://github.com/kiali/kiali/issues/5742)
+* [make - Error to create operator pull secret](https://github.com/kiali/kiali/issues/5945)
+* [Missing scraping parameters in kiali-operator helm chart](https://github.com/kiali/kiali/issues/5949)
+* [ansible option we use in operator code is being renamed](https://github.com/kiali/kiali/issues/4338)
+* [CORS issue with library API](https://github.com/kiali/openshift-servicemesh-plugin/issues/124)
+* [fix flaky test failure](https://github.com/kiali/kiali/issues/5972)
+
+Deprecations:
+* Given that the Kiali cache is now mandatory and that there have been several changes to the cache implementation, the .spec.kubernetes_config.cache_* settings have all deprecated and will be removed from the CRD. It is recommended to remove these settings from your CR, if defined.
+
 ## 1.65.0
 Sprint Release: Mar 10, 2023
 
