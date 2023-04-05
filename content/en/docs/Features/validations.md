@@ -195,7 +195,7 @@ Correct the host to point to a correct service, in this namespace or with FQDN t
 
 <i class="fas fa-times-circle text-danger"></i> Error
 
-<i class="fas fa-exclamation-triangle text-warning"></i> There is an exception to the severity level: It will be shown as a Warning when OutboundTrafficPolicy is ALLOW_ANY
+<i class="fas fa-exclamation-triangle text-warning"></i> There is an exception to the severity level: It will be shown as a Warning when OutboundTrafficPolicy Mode for MeshConfig is set to ALLOW_ANY.
 
 #### Example
 
