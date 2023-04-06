@@ -6,7 +6,7 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
-## 1.66.0
+## 1.66.1
 Sprint Release: Mar 31, 2023
 
 Features:
@@ -33,7 +33,12 @@ Fixes:
 * [CORS issue with library API](https://github.com/kiali/openshift-servicemesh-plugin/issues/124)
 * [fix flaky test failure](https://github.com/kiali/kiali/issues/5972)
 
+Notes:
+
+* To avoid a known performance degradation, update to v1.66.1 (or later) from v1.66.0.
+
 Deprecations:
+
 * Given that the Kiali cache is now mandatory and that there have been several changes to the cache implementation, the .spec.kubernetes_config.cache_* settings have all deprecated and will be removed from the CRD. It is recommended to remove these settings from your CR, if defined.
 
 ## 1.65.0
