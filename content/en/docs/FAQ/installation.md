@@ -6,13 +6,9 @@ description: "Questions about Kiali installation options or issues."
 ### Operator fails due to `cannot list resource "clusterroles"` error
 
 When the Kiali Operator installs a Kiali Server, the Operator will assign the Kiali Server the proper roles/rolebindings so the Kiali Server can access the appropriate namespaces.
-The Kiali Operator will check to see if the Kiali CR setting `deployment.accessible_namespaces` has a value of `['**']`. If it does, this means the Kiali Server is to
-be given access to all namespaces in the cluster, including namespaces that will be created in the future. In this case, the Kiali Operator will create and assign
-ClusterRole/ClusterRoleBinding resources to the Kiali Server. But in order to do this, the Kiali Operator must itself be given permission to create those ClusterRole
-and ClusterRoleBinding resources. When you install the Kiali Operator via OLM, these permissions are automatically granted. However, if you installed the Kiali Operator
-with the [Operator Helm Chart](https://kiali.org/helm-charts/index.yaml), and if you did so with the value [`clusterRoleCreator`](https://github.com/kiali/helm-charts/blob/v1.25.0/kiali-operator/values.yaml#L33-L36)
+The Kiali Operator will check to see if the Kiali CR setting `deployment.accessible_namespaces` is unset. If it is, this means the Kiali Server is to be given access to all namespaces in the cluster, including namespaces that will be created in the future. In this case, the Kiali Operator will create and assign ClusterRole/ClusterRoleBinding resources to the Kiali Server. But in order to do this, the Kiali Operator must itself be given permission to create those ClusterRole and ClusterRoleBinding resources. When you install the Kiali Operator via OLM, these permissions are automatically granted. However, if you installed the Kiali Operator with the [Operator Helm Chart](https://kiali.org/helm-charts/index.yaml), and if you did so with the value [`clusterRoleCreator`](https://github.com/kiali/helm-charts/blob/v1.25.0/kiali-operator/values.yaml#L33-L36)
 set to `false` then the Kiali Operator will not be given permission to create cluster roles. In this case, you will be unable to install a Kiali Server if your Kiali
-CR has `deployment.accessible_namespaces` set to `['**']` - you will get an error similar to this:
+CR does not have `deployment.accessible_namespaces` set to a list of namespaces. - you will get an error similar to this:
 
 ```
 Failed to list rbac.authorization.k8s.io/v1, Kind=ClusterRole:
@@ -22,9 +18,7 @@ cannot list resource "clusterroles" in API group
 "rbac.authorization.k8s.io" at the cluster scope
 ```
 
-Thus, if you do not give the Kiali Operator the permission to create cluster roles, you must tell the Operator which specific namespaces the Kiali Server can
-access (you cannot use `[**']`). When specific namespaces are specified in `deployment.accessible_namespaces`, the Kiali Operator will create Role
-and RoleBindings (not the "Cluster" kinds) and assign them to the Kiali Server.
+Thus, if you do not give the Kiali Operator the permission to create cluster roles, you must tell the Operator which specific namespaces the Kiali Server can access. When specific namespaces are specified in `deployment.accessible_namespaces`, the Kiali Operator will create Role and RoleBindings (not the "Cluster" kinds) and assign them to the Kiali Server.
 
 
 ### What values can be set in the Kiali CR?
@@ -67,7 +61,7 @@ OPERATOR_NAMESPACE="$(kubectl get deployments --all-namespaces  | grep kiali-ope
 - `ALLOW_AD_HOC_KIALI_NAMESPACE`: must be `true` or `false`. If `true`, the operator will be allowed to install the Kiali Server in any namespace, regardless of which namespace the Kiali CR is created. If `false`, the operator will only install the Kiali Server in the same namespace where the Kiali CR is created - any attempt to do otherwise will cause the operator to abort the Kiali Server installation.
 - `ALLOW_AD_HOC_KIALI_IMAGE`: must be `true` or `false`. If `true`, the operator will be allowed to install the Kiali Server with a custom container image as defined in the Kiali CR's `spec.deployment.image_name` and/or `spec.deployment.image_version`. If `false`, the operator will only install the Kiali Server with the default image. If a Kiali CR is created with `spec.deployment.image_name` or `spec.deployment.image_version` defined, the operator will abort the Kiali Server installation.
 - `ALLOW_SECURITY_CONTEXT_OVERRIDE`: must be `true` or `false`. If `true`, the operator will be allowed to install the Kiali Server container with a fully customizable securityContext as defined by the user in the Kial CR. If `false`, the operator will only allow the user to add settings to the securityContext; any attempt to override the default settings in the securityContext will be ignored.
-- `ALLOW_ALL_ACCESSIBLE_NAMESPACES`: must be `true` or `false`. If `true`, the operator will allow the user to configure Kiali to access all namespaces in the cluster via the Kiali CR setting `spec.deployment.accessible_namespaces=['**']`. If false, the Kiali CR must specify a specific list of namespace names (i.e. it cannot use the special `['**']` value).
+- `ALLOW_ALL_ACCESSIBLE_NAMESPACES`: must be `true` or `false`. If `true`, the operator will allow the user to configure Kiali to access all namespaces in the cluster by not requiring the Kiali CR setting `spec.deployment.accessible_namespaces` to be set to a list of namespaces. If false, the Kiali CR must specify a specific list of namespace names.
 - `ACCESSIBLE_NAMESPACES_LABEL`: must be an empty string (`""`) or a label name (e.g. `myLabelName`) or a label name and value (e.g. `myLabelName=myLabelValue`). If just a label name is specified, the label value will default to the value in the Kiali CR `spec.istio_namespace` setting. When not an empty string, this will instruct the operator to restrict the namespaces that a user can add to the Kiali CR `spec.deployment.accessible_namespaces` setting. Only namespaces that have the given label name and value will be permitted in the Kiali CR `spec.deployment.accessible_namespaces` setting. Any namespace not labeled properly but specified in `spec.deployment.accessible_namespaces` will cause the operator to abort the Kiali installation.
 - `ANSIBLE_DEBUG_LOGS`: must be `true` or `false`. When `true`, turns on debug logging within the Operator SDK. For details, see the [docs here](https://sdk.operatorframework.io/docs/building-operators/ansible/development-tips/#viewing-the-ansible-logs).
 - `ANSIBLE_VERBOSITY_KIALI_KIALI_IO`: Controls how verbose the operator logs are - the higher the value the more output is logged. For details, see the [docs here](https://sdk.operatorframework.io/docs/building-operators/ansible/reference/advanced_options/#ansible-verbosity).
@@ -145,7 +139,6 @@ spec:
   auth:
     strategy: anonymous
   deployment:
-    accessible_namespaces: [ '**' ]
     pod_labels:
       sidecar.istio.io/inject: "true"
 EOM

@@ -186,6 +186,7 @@ In addition, you must ensure that Kiali has access to the namespaces you are int
 
 Kiali also [caches namespaces](/docs/configuration/kialis.kiali.io/#.spec.kubernetes_config.cache_token_namespace_duration) by default for [10 seconds](https://github.com/kiali/kiali-operator/blob/76a9eac29fb942f199db1d0233c5135049d1f1b1/crd-docs/cr/kiali.io_v1alpha1_kiali.yaml#L397). If the cache is enabled, it might take up to the `spec.kubernetes_config.cache_token_namespace_duration` in order for a newly added namespace to be seen by Kiali.
 
+Finally, Kiali utilizes the Istio MeshConfig setting `discoverySelectors` - any namespace that does not match the discoverySelectors will not be available to Kiali users.
 
 ### Workload "is not found as" messages
 
