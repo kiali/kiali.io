@@ -43,10 +43,10 @@ spec:
     - mycorp_.*
 ```
 
-By default, the operator will create a Role for each accessible namespace. Each Role will be assigned to the Kiali Service Account thus providing Kiali access to those namespaces.
+When you set `accessible_namespaces` to a list of namespaces as the example above illustrates, by default the operator will create a Role for each accessible namespace. Each Role will be assigned to the Kiali Service Account thus providing Kiali permissions to those namespaces. To change that default behavior, `deployment.cluster_wide_access` can be set to `true`. This will tell the operator not to create these Roles and just create a single ClusterRole and assign it to the Kiali Server (see below).
 
 {{% alert color="info" %}}
-There is an additional setting `deployment.cluster_wide_access` that may be relevant for certain Kiali installations. Because Kiali server utilizes Kubernetes watches to watch all namespaces in `deployment.accessible_namespaces`, for very large clusters this may cause performance issues. In cases like this, to increase performance you can set `deployment.cluster_wide_access` to `true` when specifying a large list of namespaces in `accessible_namespaces`. When you do this, the Kiali Server will be given access to the entire cluster and thus it can use a single cluster watch which increases performance and efficiency. However, you must be aware that when you do this, the Kiali Server will be granted access to the cluster via a ClusterRole - individual Roles will not be created per namespace. The `deployment.accessible_namespaces` will still be used to determine which namespaces to make available to users.
+Because Kiali server utilizes Kubernetes watches to watch all namespaces in `deployment.accessible_namespaces`, this may cause performance issues. To increase performance you can set `deployment.cluster_wide_access` to `true` when specifying a list of namespaces in `accessible_namespaces`. When you do this, the Kiali Server will be given access to the entire cluster and thus it can use a single cluster watch which increases performance and efficiency. However, you must be aware that when you do this, the Kiali Server will be granted access to the cluster via a ClusterRole - individual Roles will not be created per namespace. The `deployment.accessible_namespaces` will still be used to determine which namespaces to make available to users.
 {{% /alert %}}
 
 {{% alert color="warning" %}}
@@ -95,7 +95,7 @@ You must make sure you configure `accessible_namespaces` with a list of namespac
 ## Included Namespaces
 
 {{% alert color="warning" %}}
-This feature is deprecated as of 1.67.
+This feature is deprecated as of 1.67. It is recommended to instead use Istio Discovery Selectors.
 {{% /alert %}}
 
 When `accessible_namespaces` is unset, you can still limit the namespaces a user will see in Kiali. The `api.namespaces.include` setting allows you to configure the subset of namespaces that Kiali will show the user. This list is specified in a way similar to `accessible_namespaces`, as a list of namespaces that can include regex patterns. The difference is that this list is processed by the server, not the operator, each time the list of namespaces needs to be obtained by Kiali. This means it will handle namespaces that exist when Kiali is installed, or namespaces created later.
@@ -123,7 +123,7 @@ Note that this setting is merely a filter and does not provide security in any w
 ## Excluded Namespaces
 
 {{% alert color="warning" %}}
-This feature is deprecated as of 1.67.
+This feature is deprecated as of 1.67. It is recommended to instead use Istio Discovery Selectors.
 {{% /alert %}}
 
 The `api.namespaces.exclude` setting configures namespaces to exclude from being shown to the user. This setting can be used both when `accessible_namespaces` is unset or set to an explicit list of namespaces. It can also be used regardless of whether `api.namespaces.include` is defined. The exclude filter has precedence - if a namespace matches any regex pattern defined for `api.namespaces.exclude`, it will not be shown in Kiali. Like `api.namespaces.include`, the exclude setting is only a filter and does not provide security in any way.
@@ -149,7 +149,7 @@ You cannot exclude the control plane namespace. If you specify it in `api.namesp
 ## Namespace Selectors
 
 {{% alert color="warning" %}}
-This feature is deprecated as of 1.67.
+This feature is deprecated as of 1.67. It is recommended to instead use Istio Discovery Selectors.
 {{% /alert %}}
 
 In addition to the Include and Exclude lists (as explained above), Kiali supports optional Kubernetes label selectors for both including and excluding namespaces.
