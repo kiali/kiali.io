@@ -18,6 +18,8 @@ As of Kiali 1.67, the following settings are deprecated:
 * api.namespaces.include
 * api.namespaces.label_selector_exclude
 * api.namespaces.label_selector_include
+
+It is recommended to instead use Istio Discovery Selectors to limit the namespaces in the mesh.
 {{% /alert %}}
 
 ## Accessible Namespaces
