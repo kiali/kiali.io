@@ -80,7 +80,8 @@ spec:
   - name: "envoy"
 
   deployment:
-    accessible_namespaces: ["^((?!(istio-operator|kube-.*|openshift.*|ibm.*|kiali-operator)).)*$"]
+    # default: accessible_namespaces is undefined
+    accessible_namespaces: [ "my-mesh.*" ]
     # default: additional_service_yaml is empty
     additional_service_yaml:
       externalName: "kiali.example.com"
@@ -117,6 +118,8 @@ spec:
                 values:
                 - S2
             topologyKey: topology.kubernetes.io/zone
+    # default: cluster_wide_access is undefined
+    cluster_wide_access: false
     # default: configmap_annotations is empty
     configmap_annotations:
       strategy.spinnaker.io/versioned: "false"
@@ -432,7 +435,7 @@ spec:
           label: "istio_io_rev"
       # default: namespaces is an empty list
       namespaces: ["istio-system"]
-      refresh_interval: "60s"
+      refresh_interval: "1m"
     validations:
       ignore: ["KIA1201"]
       skip_wildcard_gateway_hosts: false
@@ -1255,7 +1258,7 @@ empty dashboard.</p>
 </div>
 
 <div class="property-description">
-<p>A list of namespaces Kiali is to be given access to. These namespaces have service mesh components that are to be observed by Kiali. You can provide names using regex expressions matched against all namespaces the operator can see. The default makes all namespaces accessible except for some internal namespaces that typically should be ignored. NOTE! If this has an entry with the special value of <code>'**'</code> (two asterisks), that will denote you want Kiali to be given access to all namespaces via a single cluster role (if using this special value of <code>'**'</code>, you are required to have already granted the operator permissions to create cluster roles and cluster role bindings).</p>
+<p>When <code>cluster_wide_access=false</code> this must be set to the list of namespaces to which Kiali is to be given permissions.  You can provide names using regex expressions matched against all namespaces the operator can see.  If left unset it is required that <code>cluster_wide_access</code> be <code>true</code>, and Kiali will have permissions to all namespaces.  The list of namespaces that a user can access is a subset of these namespaces, given that user&rsquo;s RBAC settings.</p>
 
 </div>
 
@@ -1350,6 +1353,25 @@ empty dashboard.</p>
 <div class="property-body">
 <div class="property-meta">
 <span class="property-type">(object)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.cluster_wide_access">.spec.deployment.cluster_wide_access</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>Determines if the Kiali server will be granted cluster-wide permissions to see all namespaces. When true, this provides more efficient caching within the Kiali server. It must be <code>true</code> if <code>deployment.accessible_namespaces</code> is left unset. To limit the namespaces for which Kiali has permissions, set to <code>false</code> and list the desired namespaces in <code>deployment.accessible_namespaces</code>. When not set, this value will default to <code>false</code> if <code>deployment.accessible_namespaces</code> is set to a list of namespaces; otherwise this will be <code>true</code>.</p>
 
 </div>
 
@@ -3756,25 +3778,6 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 <div class="property depth-3">
 <div class="property-header">
 <hr/>
-<h3 class="property-path" id=".spec.external_services.istio.skip_wildcard_gateway_hosts">.spec.external_services.istio.skip_wildcard_gateway_hosts</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(boolean)</span>
-
-</div>
-
-<div class="property-description">
-<p>The KIA0301 validation checks duplicity of host and port combinations across all Istio Gateways. This includes also Gateways with &lsquo;*&rsquo; in hosts. But Istio considers such a Gateway with a wildcard in hosts as the last in order, after the Gateways with FQDN in hosts. This option is to skip Gateways with wildcards in hosts from the KIA0301 validations but still keep Gateways with FQDN hosts.</p>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-3">
-<div class="property-header">
-<hr/>
 <h3 class="property-path" id=".spec.external_services.istio.url_service_version">.spec.external_services.istio.url_service_version</h3>
 </div>
 <div class="property-body">
@@ -5549,6 +5552,101 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 <div class="property depth-3">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.ui_defaults.list">.spec.kiali_feature_flags.ui_defaults.list</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>Default settings for the List views (Apps, Workloads, etc).</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.ui_defaults.list.include_health">.spec.kiali_feature_flags.ui_defaults.list.include_health</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>Include Health column (by default) for applicable list views. Setting to false can improve performance.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.ui_defaults.list.include_istio_resources">.spec.kiali_feature_flags.ui_defaults.list.include_istio_resources</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>Include Istio resources (by default) in Details column for applicable list views. Setting to false can improve performance.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.ui_defaults.list.include_validations">.spec.kiali_feature_flags.ui_defaults.list.include_validations</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>Include Configuration validation column (by default) for applicable list views. Setting to false can improve performance.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.ui_defaults.list.show_include_toggles">.spec.kiali_feature_flags.ui_defaults.list.show_include_toggles</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>If true list pages display checkbox toggles for the include options, Otherwise the configured settings are applied but can not be changed by the user. Default is false.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.kiali_feature_flags.ui_defaults.metrics_inbound">.spec.kiali_feature_flags.ui_defaults.metrics_inbound</h3>
 </div>
 <div class="property-body">
@@ -5838,6 +5936,25 @@ An example,</p>
 
 <div class="property-description">
 <p>A validation code (e.g. <code>KIA0101</code>) for a specific validation error that is to be ignored.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.validations.skip_wildcard_gateway_hosts">.spec.kiali_feature_flags.validations.skip_wildcard_gateway_hosts</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>The KIA0301 validation checks duplicity of host and port combinations across all Istio Gateways. This includes also Gateways with &lsquo;*&rsquo; in hosts. But Istio considers such a Gateway with a wildcard in hosts as the last in order, after the Gateways with FQDN in hosts. This option is to skip Gateways with wildcards in hosts from the KIA0301 validations but still keep Gateways with FQDN hosts.</p>
 
 </div>
 
