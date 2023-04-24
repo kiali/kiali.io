@@ -6,6 +6,45 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 1.67.0
+Sprint Release: Apr 21, 2023
+
+Features:
+
+* [Support for Istio's discoverySelectors](https://github.com/kiali/kiali/issues/3914)
+* [Updated documentatation for Namespace Management (discovery selectors, cluster-wide-access, accessible namespaces_ and namespace watching](https://github.com/kiali/kiali/issues/6054)
+* [(operator) use "include_tasks:", not the deprecated "include:"](https://github.com/kiali/kiali/issues/5931)
+* [Multi-cluster - way to create roles/SA in remote clusters](https://github.com/kiali/kiali/issues/5987)
+* [Multi-cluster - Home cluster name should match Istio cluster name](https://github.com/kiali/kiali/issues/6001)
+* [Multi-cluster - Combine duplicated namespaces in dropdown selector](https://github.com/kiali/kiali/issues/6007)
+* [Multi-cluster - list view - Services](https://github.com/kiali/kiali/issues/5960)
+* [Multi-cluster - list view - Applications](https://github.com/kiali/kiali/issues/5961)
+
+Fixes:
+
+* [List page toggles to help with performance issues with the Kiali UI](https://github.com/kiali/kiali/issues/5867)
+* [Missing horizontal scrollbar when seeing logs](https://github.com/kiali/kiali/issues/5989)
+* [validation error (KIA0202) for auto generated destination rule](https://github.com/kiali/kiali/issues/5991)
+* [Perf regression when fetching workloads](https://github.com/kiali/kiali/issues/6000)
+* [validation error (KIA0401) when AutoMtls is enabled in istio MeshConfig](https://github.com/kiali/kiali/issues/6006)
+* [CRD does not validate correctly](https://github.com/kiali/kiali/issues/6015)
+* [Error fetching app health when a namespace only exist in the remote clusters ](https://github.com/kiali/kiali/issues/6044)
+
+Notes:
+
+* There have been changes to Namespace Management.  The changes are backward compatible but it is recommended to understand the changes regarding Discovery Selector support, cluster-wide access, and accessible-namespaces.  For more see [here](https://kiali.io/docs/configuration/rbac/).
+
+Deprecations:
+
+* The following settings are deprecated and may be removed in a future release:
+  * api.namespaces.exclude
+  * api.namespaces.include
+  * api.namespaces.label_selector_exclude
+  * api.namespaces.label_selector_include
+
+It is recommended to instead use Istio Discovery Selectors to limit the namespaces in the mesh.
+
+
 ## 1.66.1
 Sprint Release: Mar 31, 2023
 
