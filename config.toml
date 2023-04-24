@@ -222,7 +222,7 @@ enable = false
   url = "https://v1-66.kiali.io"
 
 [[ params.versions ]]
-  version = "v1.65"
+  version = "v1.65 [ossm v2.4]"
   url = "https://v1-65.kiali.io"
 
 [[ params.versions ]]
@@ -246,25 +246,12 @@ enable = false
   url = "https://v1-60.kiali.io"
 
 [[ params.versions ]]
-  version = "v1.59"
+  version = "v1.59 [istio v1.15]"
   url = "https://v1-59.kiali.io"
-
-[[ params.versions ]]
-  version = "v1.58"
-  url = "https://v1-58.kiali.io"
 
 [[ params.versions ]]
   version = "v1.57 [ossm v2.3]"
   url = "https://v1-57.kiali.io"
-
-[[ params.versions ]]
-  version = "v1.56"
-  url = "https://v1-56.kiali.io"
-
-[[ params.versions ]]
-  version = "v1.55"
-  url = "https://v1-55.kiali.io"
-
 [[ params.versions ]]
   version = "v1.54 [istio v1.14]"
   url = "https://v1-54.kiali.io"
@@ -284,10 +271,6 @@ enable = false
 [[ params.versions ]]
   version = "v1.41 [istio v1.11]"
   url = "https://v1-41.kiali.io"
-
-[[params.versions]]
-  version = "v1.36 [ossm v2.1]"
-  url = "https://pre-v1-41.kiali.io/documentation/v1.36"
 
 [[params.versions]]
   version = "staging"
