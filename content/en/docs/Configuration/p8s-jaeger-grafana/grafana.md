@@ -17,7 +17,7 @@ options.
 Kiali can provide a direct link from its metric dashboards to the equivalent or
 most similar Grafana dashboard, which is convenient if you need the powerful
 Grafana options. For these links to appear in Kiali you need to manually
-configure the Grafana URL and the dashboards that comes preconfigured with Istio, like in the following example:
+configure the Grafana URL and the dashboards that come preconfigured with Istio, like in the following example:
 
 ```yaml
 spec:
