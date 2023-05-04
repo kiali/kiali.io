@@ -17,7 +17,7 @@ options.
 Kiali can provide a direct link from its metric dashboards to the equivalent or
 most similar Grafana dashboard, which is convenient if you need the powerful
 Grafana options. For these links to appear in Kiali you need to manually
-configure the Grafana URL, like in the following example:
+configure the Grafana URL and the dashboards that come preconfigured with Istio, like in the following example:
 
 ```yaml
 spec:
@@ -28,5 +28,22 @@ spec:
       in_cluster_url: 'http://grafana.telemetry:3000/'
       # Public facing URL of Grafana
       url: 'http://my-ingress-host/grafana'
+      dashboards:
+      - name: "Istio Service Dashboard"
+        variables:
+          namespace: "var-namespace"
+          service: "var-service"
+      - name: "Istio Workload Dashboard"
+        variables:
+          namespace: "var-namespace"
+          workload: "var-workload"
+      - name: "Istio Mesh Dashboard"
+      - name: "Istio Control Plane Dashboard"
+      - name: "Istio Performance Dashboard"
+      - name: "Istio Wasm Extension Dashboard"
 ```
+
+{{% alert color="warning" %}}
+The described configuration is done in the Kiali CR when Kiali is installed using the Kiali Operator. If Kiali is installed with the Helm chart then the correct way to configure this is via regular --set flags.
+{{% /alert %}}
 
