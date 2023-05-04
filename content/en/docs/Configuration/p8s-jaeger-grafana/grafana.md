@@ -44,6 +44,6 @@ spec:
 ```
 
 {{% alert color="warning" %}}
-The described configuration is done through the Kiali CR which is used when Kiali is installed by the Kiali Operator. If Kiali server was installed with the Helm chart, the correct way of configure this is using regular --set flags.
+The described configuration is done in the Kiali CR when Kiali is installed using the Kiali Operator. If Kiali is installed with the Helm chart then the correct way to configure this is via regular --set flags.
 {{% /alert %}}
 
