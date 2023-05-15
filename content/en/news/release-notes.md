@@ -6,6 +6,39 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 1.68.0
+Sprint Release: May 12, 2023
+
+Features:
+
+* [Kiali initial Istio Ambient support](https://github.com/kiali/kiali/issues/5910)
+* [Multi-cluster List Views ](https://github.com/kiali/kiali/issues/5919)
+* [Multi-cluster view for overview page](https://github.com/kiali/kiali/issues/5921)
+* [Multi-cluster list view - Istio Config](https://github.com/kiali/kiali/issues/5962)
+* [Multi-cluster Update the namespace health service](https://github.com/kiali/kiali/issues/6028)
+* [Multi-cluster Services details view](https://github.com/kiali/kiali/issues/5964)
+* [Multi-cluster Workloads details view](https://github.com/kiali/kiali/issues/5965)
+* [Multi-cluster Istio config details view](https://github.com/kiali/kiali/issues/5967)
+* [Multi-cluster Health calculation for workload/app/svc](https://github.com/kiali/kiali/issues/6026)
+* [Multi-cluster Applications details view](https://github.com/kiali/kiali/issues/5966)
+* [Operator Remove ansible loops for better performance](https://github.com/kiali/openshift-servicemesh-plugin/issues/144)
+* [Update log level getting istio-cni-config configmap](https://github.com/kiali/kiali/issues/6103)
+* [Cluster badges in details pages should be only visible in Multi cluster ](https://github.com/kiali/kiali/issues/6107)
+* [Cypress test coverage for #5718](https://github.com/kiali/kiali/issues/5934)
+* [Cypress Add validation references to K8S Gateways validations](https://github.com/kiali/kiali/issues/5868)
+
+
+Fixes:
+
+* [Multi-cluster - Istio Configs duplicated](https://github.com/kiali/kiali/issues/6063)
+* [Client generating 503 metric requests for some node graphs](https://github.com/kiali/kiali/issues/6068)
+* [no_istiod_test integration test is not working in ocp](https://github.com/kiali/kiali/issues/6071)
+* [Operator Support ingress override_yaml to set OpenShift Route spec.host](https://github.com/kiali/kiali/issues/6083)
+* [Crash in graph appender due to excluded namespace](https://github.com/kiali/kiali/issues/6084)
+* [Improve Grafana integration documentation](https://github.com/kiali/kiali/issues/6082)
+* [Cache tries to list cluster scoped resource but it is namespace scoped](https://github.com/kiali/kiali/issues/6114)
+* [hardcoded label name](https://github.com/kiali/kiali/issues/6124)
+
 ## 1.67.0
 Sprint Release: Apr 21, 2023
 
