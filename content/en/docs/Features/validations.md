@@ -183,7 +183,7 @@ Either merge the settings to a single DR or split the subsets in such a way that
 
 ### KIA0202 - This host has no matching entry in the service registry (service, workload or service entries)
 
-Istio applies traffic rules for services after the routing has happened. These can include different settings such as connection pooling, circuit breakers, load balancing, and detection. Istio can define the same rules for all services under a host or different rules for different versions of the service. The host must a service that is defined in the platform's service registry or as a ServiceEntry. Short names are extended to include '.namespace.cluster' using the namespace of the destination rule, not the service itself. FQDN is evaluated as is. It is recommended to use the FQDN to prevent any confusion.
+Istio applies traffic rules for services after the routing has happened. These can include different settings such as connection pooling, circuit breakers, load balancing, and detection. Istio can define the same rules for all services under a host or different rules for different versions of the service. The host must have a service that is defined in the platform's service registry or as a ServiceEntry. Short names are extended to include '.namespace.cluster' using the namespace of the destination rule, not the service itself. FQDN is evaluated as is. It is recommended to use the FQDN to prevent any confusion.
 
 If the host is not found, Istio ignores the defined rules.
 
