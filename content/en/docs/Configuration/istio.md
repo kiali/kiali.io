@@ -5,7 +5,7 @@ description: >
   installation configuration profiles](https://istio.io/latest/docs/setup/additional-setup/config-profiles/).
   If you are [customizing your Istio installation](https://istio.io/latest/docs/setup/additional-setup/customize-installation/)
   some Kiali settings may need to be adjusted.
-  
+
   Also, some Istio management features can be enabled or disabled selectively.
 ---
 
@@ -57,23 +57,6 @@ spec:
   external_services:
     istio:
       istiod_pod_monitoring_port: 15014
-```
-
-## Multi-cluster support
-
-Kiali has [experimental support for Istio multi-cluster installations]({{< relref "../Features/multi-cluster" >}})
-using the [_multi-primary on different networks_ pattern](https://istio.io/latest/docs/setup/install/multicluster/multi-primary_multi-network/).
-This support is enabled by default, but requires the Kiali ServiceAccount to
-have read access to secrets in the Istio namespace. If you don't have a
-multi-cluster setup or don't want Kiali to have read access to secrets in the
-Istio namespace, you can disable clustering support:
-
-
-```yaml
-spec:
-  kiali_feature_flags:
-    clustering:
-      enabled: false
 ```
 
 ## Root namespace
@@ -164,6 +147,6 @@ spec:
 
 There following are links to sections of Kiali blogs posts that briefly
 explains these features:
-* [Sidecar auto-injection control description](https://medium.com/kialiproject/kiali-releases-1-21-to-1-24-overview-2a864f7d0fce#0f2c)
-* [Istio's canary upgrade assistance description](https://medium.com/kialiproject/kiali-releases-1-34-to-1-39-overview-587f33fac41a#8104) 
 
+- [Sidecar auto-injection control description](https://medium.com/kialiproject/kiali-releases-1-21-to-1-24-overview-2a864f7d0fce#0f2c)
+- [Istio's canary upgrade assistance description](https://medium.com/kialiproject/kiali-releases-1-34-to-1-39-overview-587f33fac41a#8104)
