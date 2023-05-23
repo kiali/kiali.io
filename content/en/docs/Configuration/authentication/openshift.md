@@ -29,6 +29,8 @@ spec:
     strategy: openshift
 ```
 
-The `openshift` strategy doesn't have any additional configuration. The Kiali
-operator will make sure to setup the needed OpenShift OAuth resources to register
-Kiali as a client.
+The Kiali operator will make sure to setup the needed OpenShift OAuth resources to register
+Kiali as a client for the most common use-cases. The `openshift` strategy does have a few
+configuration settings that most people will never need but are available in case you have
+a situation where the customization is needed. See the Kiali CR Reference page for the
+documentation on those settings.
