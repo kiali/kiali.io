@@ -1,0 +1,6 @@
+# The Reported Kiali CVEs for which Kiali is confirmed to not be vulnerable
+versionRange:
+  - cve: "CVE-2022-1996"
+    severity: critical
+    description: "github.com/emicklei/go-restful"
+    notes: "Despite the package dependency Kiali is not susceptible to this vulnerability"
