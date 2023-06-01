@@ -5,25 +5,23 @@ description: "Configuring Kiali for a multi-cluster mesh."
 
 Kiali has [experimental support for Istio multi-cluster installations]({{< relref "../Features/multi-cluster" >}}).
 
-Before proceeding with the setup, ensure your deployment meets the following requirements.
+Kiali has two different multi-cluster configurations. A unified view and a single cluster view. Choosing the right one for you will depend on your environment and requirements.
 
-## Deployment models
-
-Kiali has two different multi-cluster deployment models. A unified view and a single cluster view. Choosing the right one for you will depend on your environment and requirements.
+Before proceeding with the setup, ensure you meet the requirements for the chosen configuration.
 
 ### Unified
 
-The unified kiali deployment provides a cross-cluster view into your mesh from a single endpoint.
+The unified kiali configuration provides a cross-cluster view into your mesh from a single endpoint.
 
 ![Kiali multi-cluster](/images/documentation/configuration/multi-cluster.png)
 
 #### Requirements
 
-1. **Primary-remote deployment.** Only the primary-remote deployment is currently supported.
+1. **Primary-remote istio deployment.** Only the primary-remote istio deployment is currently supported.
 
 2. **Aggregated metrics and traces.** Kiali needs a single endpoint where it can consume aggregated metrics/traces across all clusters. There are many ways to aggregate metrics/traces such as prometheus federation or using OTEL collector pipelines but setting these up are outside of the scope of Kiali.
 
-3. **Anonymous or OpenID authentciation strategy.** The unified multi-cluster deployment currently only supports anonymous or OpenID [authentication strategies]({{< relref "../Configuration/authentication" >}}).
+3. **Anonymous or OpenID authentciation strategy.** The unified multi-cluster configuration currently only supports anonymous or OpenID [authentication strategies]({{< relref "../Configuration/authentication" >}}).
 
 #### Setup
 
@@ -70,7 +68,7 @@ That's it! From here you can login to Kiali and manage your mesh across both clu
 
 ### Single cluster
 
-The single cluster kiali deployment provides a shallow cross-cluster view into your mesh with links to Kialis deployed in other clusters. This is the same as the typical deployment except that by adding the istio secrets, Kiali will autodiscover other Kialis across clusters and will generate links to these on the graph and other pages. This deployment is for users who do not meet the requirements of the unified view or would like a separate Kiali per cluster. It provides only a shallow graph view into other clusters and the list pages are scoped to a single cluster.
+The single cluster kiali configuration provides a shallow cross-cluster view into your mesh with links to Kialis deployed in other clusters. This is the same as the typical Kiali configuration except that by adding the istio secrets, Kiali will autodiscover other Kialis across clusters and will generate links to these on the graph and other pages. This configuration is for users who do not meet the requirements of the unified view or would like a separate Kiali per cluster. It provides only a shallow graph view into other clusters and the list pages are scoped to a single cluster.
 
 ![Kiali multi-cluster-single](/images/documentation/configuration/multi-cluster-single.png)
 

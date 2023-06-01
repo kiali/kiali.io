@@ -35,7 +35,7 @@ Unlike single-cluster configurations, unified configurations show list/details p
 
 ### List Views: Aggregated mesh view
 
-With a multi-cluster Kiali deployment, you can view all apps, workloads, services, and Istio config in your mesh from a single place.
+With a unified Kiali configuration, you can view all apps, workloads, services, and Istio config in your mesh from a single place.
 
 ![Multi-cluster list pages](/images/documentation/features/multi-cluster-list.png "Multi-cluster list pages")
 
