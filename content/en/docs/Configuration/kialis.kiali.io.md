@@ -437,7 +437,7 @@ spec:
       namespaces: ["istio-system"]
       refresh_interval: "1m"
     validations:
-      ignore: ["KIA1201"]
+      ignore: ["KIA1301"]
       skip_wildcard_gateway_hosts: false
 
   kubernetes_config:
@@ -6097,6 +6097,25 @@ An example,</p>
 
 <div class="property-description">
 <p>This Kiali cache is a list of namespaces per user. This is typically a short-lived cache compared with the duration of the namespace cache defined by the <code>cache_duration</code> setting. This is specified in seconds.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kubernetes_config.cluster_name">.spec.kubernetes_config.cluster_name</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The name of the cluster Kiali is deployed in. This is only used in multi cluster environments. If not set, Kiali will try to auto detect the cluster name from the Istiod deployment or use the default &lsquo;Kubernetes&rsquo;.</p>
 
 </div>
 
