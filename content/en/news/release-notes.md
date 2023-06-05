@@ -6,6 +6,37 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 1.69.0
+Sprint Release: Jun 02, 2023
+
+Features:
+
+* [Multicluster - details Views](https://github.com/kiali/kiali/issues/5920)
+* [Multicluster - Remove warning "Not all remote clusters have reachable Kiali instances"](https://github.com/kiali/kiali/issues/6102)
+* [Multicluster - Overview page istio status](https://github.com/kiali/kiali/issues/6169)
+* [Multicluster - Add contextual menu in the nodes for the remote cluster](https://github.com/kiali/kiali/issues/6150)
+* [Multicluster - Add cluster column in traffic details tab](https://github.com/kiali/kiali/issues/6152)
+* [Graph - Improve graph node labels - remove parentheses](https://github.com/kiali/kiali/issues/6123)
+* [Operator - Add new server configuration for ClusterName](https://github.com/kiali/kiali/issues/6137)
+
+Fixes:
+
+* [UI - Styling in the Overview page in the UI for cards with long namespace names pushes out kebab menu into adjacent card](https://github.com/kiali/kiali/issues/6133)
+* [Multicluster Workload list - Wrong details column content](https://github.com/kiali/kiali/issues/6136)
+* [edge colors get "stuck" as yellow / red after service health recovers](https://github.com/kiali/kiali/issues/6138)
+* [Workload List gets Validations from backend but do not use them](https://github.com/kiali/kiali/issues/6020)
+* [Multicluster Graph page - Validations error in logs](https://github.com/kiali/kiali/issues/6117)
+* [Typo in accessibleNamespaces field of server config get API](https://github.com/kiali/kiali/issues/6160)
+* [Multicluster support Namespace Validations](https://github.com/kiali/kiali/issues/6161)
+* [Failed to update kiali-server helm chart value view_only_mode in standalone Kiali installation](https://github.com/kiali/kiali/issues/6139)
+* [Multicluster - Propagate Cluster param in graph nodes](https://github.com/kiali/kiali/issues/6171)
+* [need to document the auth.openshift settings](https://github.com/kiali/kiali/issues/6176)
+* [support openshift route over non-standard port](https://github.com/kiali/kiali/issues/6180)
+* [Graph - hiding an entire namespace or cluster keeps the namespace/boxes](https://github.com/kiali/kiali/issues/6184)
+* [After navigating to the Service graph, all other graphs are displayed with injectServiceNodes=false](https://github.com/kiali/kiali/issues/6098)
+* [Multicluster - Add sort by Cluster column](https://github.com/kiali/kiali/issues/6179)
+* [Multi-cluster graph - error when user lacks access to remote cluster](https://github.com/kiali/kiali/issues/6185)
+
 ## 1.68.0
 Sprint Release: May 12, 2023
 
