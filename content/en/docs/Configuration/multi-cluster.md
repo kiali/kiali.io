@@ -5,15 +5,9 @@ description: "Configuring Kiali for a multi-cluster mesh."
 
 Kiali has [experimental support for Istio multi-cluster installations]({{< relref "../Features/multi-cluster" >}}).
 
-Kiali has two different multi-cluster configurations. A unified view and a single cluster view. Choosing the right one for you will depend on your environment and requirements.
-
-Before proceeding with the setup, ensure you meet the requirements for the chosen configuration.
-
-### Unified
-
-The unified kiali configuration provides a cross-cluster view into your mesh from a single endpoint.
-
 ![Kiali multi-cluster](/images/documentation/configuration/multi-cluster.png)
+
+Before proceeding with the setup, ensure you meet the requirements.
 
 #### Requirements
 
@@ -21,11 +15,11 @@ The unified kiali configuration provides a cross-cluster view into your mesh fro
 
 2. **Aggregated metrics and traces.** Kiali needs a single endpoint where it can consume aggregated metrics/traces across all clusters. There are many ways to aggregate metrics/traces such as prometheus federation or using OTEL collector pipelines but setting these up are outside of the scope of Kiali.
 
-3. **Anonymous or OpenID authentciation strategy.** The unified multi-cluster configuration currently only supports anonymous or OpenID [authentication strategies]({{< relref "../Configuration/authentication" >}}).
+3. **Anonymous or OpenID authentciation strategy.** The unified multi-cluster configuration currently only supports anonymous or OpenID [authentication strategies]({{< relref "../Configuration/authentication" >}}). In addition, currently support for OpenID across clusters varies by provider.
 
 #### Setup
 
-The unified Kiali multi-cluster setup requires the Kiali Service Account (SA) to have read access to each Kubernetes cluster in the mesh. This is separate from the user credentials that are required when a user logins to Kiali. The user credentials are used to check user access and to perform write operations. In anonymous mode, the Kiali SA is used for all operations and write access is also required. To give the Kiali SA access to each remote cluster, a kubeconfig with credentials needs to be created and mounted into the Kiali pod. While the location of Kiali in relation to the controlplane and dataplane may change depending on your istio deployment model, the requirements will remain the same.
+The unified Kiali multi-cluster setup requires the Kiali Service Account (SA) to have read access to each Kubernetes cluster in the mesh. This is separate from the user credentials that are required when a user logins to Kiali. The user credentials are used to check user access to a namespace and to perform write operations. In anonymous mode, the Kiali SA is used for all operations and write access is also required. To give the Kiali SA access to each remote cluster, a kubeconfig with credentials needs to be created and mounted into the Kiali pod. While the location of Kiali in relation to the controlplane and dataplane may change depending on your istio deployment model, the requirements will remain the same.
 
 1. **Create a remote kubeconfig secret.** You can use [this script](https://github.com/kiali/kiali/blob/master/hack/istio/multicluster/kiali-prepare-remote-cluster.sh) to simplify this process for you. Running this script will:
 
@@ -33,13 +27,15 @@ The unified Kiali multi-cluster setup requires the Kiali Service Account (SA) to
    - Create a role/role-binding for this service account in the remote cluster.
    - Create a kubeconfig file and save this as a secret in the namespace where Kiali is deployed. The Kiali operator will auto-detect the secret and mount it into the Kiali pod.
 
-   In order to run this script you will need adaquete permissions configured in your local kubeconfig for both the cluster Kiali is deployed in and the remote cluster. You will need to repeat this step for each remote cluster.
+   In order to run this script you will need adequate permissions configured in your local kubeconfig for both the cluster Kiali is deployed in and the remote cluster. You will need to repeat this step for each remote cluster.
 
    ```
    curl -L -o kiali-prepare-remote-cluster.sh https://raw.githubusercontent.com/kiali/kiali/master/hack/istio/multicluster/kiali-prepare-remote-cluster.sh
    chmod +x kiali-prepare-remote-cluster.sh
    ./kiali-prepare-remote-cluster.sh --kiali-cluster-context east --remote-cluster-context west --view-only false
    ```
+
+Adding remote kubeconfig secrets to Kiali effectively puts Kiali in "multi-cluster" mode and Kiali will begin using those credentials to communicate with the other clusters in the mesh.
 
 2. Optional - **Configure tracing with cluster ID.** By default, traces do not include their cluster name in the trace attributes however this can be added using the istio telemetry API.
 
@@ -65,29 +61,3 @@ EOF
 4. Optional - **Narrow metrics to mesh clusters.** If your unified metrics store also contains data for clusters outside of your mesh, you can limit which clusters Kiali will query for by setting the [query_scope](/docs/configuration/kialis.kiali.io#.spec.external_services.custom_dashboards.prometheus.query_scope) configuration.
 
 That's it! From here you can login to Kiali and manage your mesh across both clusters from a single Kiali instance.
-
-### Single cluster
-
-The single cluster kiali configuration provides a shallow cross-cluster view into your mesh with links to Kialis deployed in other clusters. This is the same as the typical Kiali configuration except that by adding the istio secrets, Kiali will autodiscover other Kialis across clusters and will generate links to these on the graph and other pages. This configuration is for users who do not meet the requirements of the unified view or would like a separate Kiali per cluster. It provides only a shallow graph view into other clusters and the list pages are scoped to a single cluster.
-
-![Kiali multi-cluster-single](/images/documentation/configuration/multi-cluster-single.png)
-
-#### Requirements
-
-1. **Kiali deployed in each controlplane cluster.** Kiali offers a cluster scoped view of the mesh and requires a Kiali deployed per controlplane cluster. Deploying Kiali in a dataplane (remote) cluster is not supported.
-
-2. **Grant Kiali access to remote istio secrets.** In order for Kiali to discover other Kialis and generate links to them, Kiali needs access to the Istio multi-cluster secrets.
-
-#### Setup
-
-Kiali can either autodiscover istio multi-cluster secret or you can manually mount the secret into the Kiali pod.
-
-**Autodiscovery**
-
-1. Create istio remote secrets in each cluster.
-2. Enable the [autodetect_secrets](/docs/configuration/kialis.kiali.io#.spec.kiali_feature_flags.clustering.autodetect_secrets.enabled) setting on the Kiali server.
-
-**Manually add secrets**
-
-1. Create the istio remote secret or a separate secret for kiali to connect to the remote kube API server. This is just a kube config file with connection info to the remote cluster.
-2. Update the Kiali server settings pointing to the remote secret. Set the [cluster name](https://kiali.io/docs/configuration/kialis.kiali.io/#.spec.kiali_feature_flags.clustering.clusters[*].name) and the [secret_name](https://kiali.io/docs/configuration/kialis.kiali.io/#.spec.kiali_feature_flags.clustering.clusters[*].secret_name).
