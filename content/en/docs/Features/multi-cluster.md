@@ -35,7 +35,7 @@ Unlike single-cluster configurations, multi-cluster configurations show list/det
 
 ### List Views: Aggregated mesh view
 
-With a multi-cluster Kiali configuration, you can view all apps, workloads, services, and Istio config in your mesh from a single place.
+With a multi-cluster Kiali configuration, you can view all apps, workloads, services, and Istio config in your mesh from a single place. Istio configuration is currently read only for remote clusters.
 
 ![Multi-cluster list pages](/images/documentation/features/multi-cluster-list.png "Multi-cluster list pages")
 
