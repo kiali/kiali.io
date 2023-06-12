@@ -37,7 +37,7 @@ The unified Kiali multi-cluster setup requires the Kiali Service Account (SA) to
 
 Adding remote kubeconfig secrets to Kiali effectively puts Kiali in "multi-cluster" mode and Kiali will begin using those credentials to communicate with the other clusters in the mesh.
 
-2. Optional - **Configure tracing with cluster ID.** By default, traces do not include their cluster name in the trace attributes however this can be added using the istio telemetry API.
+2. Optional - **Configure tracing with cluster ID.** By default, traces do not include their cluster name in the trace tags however this can be added using the istio telemetry API.
 
 ```
 kubectl apply -f - <<EOF
