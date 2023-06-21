@@ -227,7 +227,7 @@ protocols to communicate. For these cases, Istio logs the traffic as raw TCP
 possible to know if any traffic have failed or succeeded and reports Health as
 unavailable.
 
-### Why the control plane metrics are missing from the control plane card?
+### Why are the control plane metrics missing from the control plane card?
 
 The control plane metrics are fetched from the Prometheus configured in Kiali.
 
