@@ -229,9 +229,9 @@ unavailable.
 
 ### Why the control plane metrics are missing from the control plane card?
 
-The control plane metrics are fetch from the Prometheus configured in Kiali.
+The control plane metrics are fetched from the Prometheus configured in Kiali.
 
-Kiali will fetch the memory and the CPU metrics related to the Istiod container (discovery) first and will fallback to the metrics related to the istiod process if it couldn't find the container metrics.
+Kiali will fetch the memory and the CPU metrics related to the Istiod container (discovery) first and will fallback to the metrics related to the istiod process if it couldn't find the container metrics.  If the required metrics are not found then Kiali can not display the related charts or data.
 
 The metrics used are:
 
