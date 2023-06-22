@@ -76,8 +76,10 @@ Kiali currently requires the following metrics and attributes:
 
 |Metric                                      |Notes|
 |--------------------------------------------|-----|
-|process_cpu_seconds_total                   |used to graph cpu usage in the control plane overview card |
+|container_cpu_usage_seconds_total           |used to graph cpu usage in the control plane overview card|
 |container_memory_working_set_bytes          |used to graph memory usage in the control plane overview card |
+|process_cpu_seconds_total                   |used to graph cpu usage in the control plane overview card (if the container metric is not available)|
+|process_resident_memory_bytes               |used to graph memory usage in the control plane overview card (if the container metric is not available)|
 
 <br />
 
@@ -225,3 +227,17 @@ protocols to communicate. For these cases, Istio logs the traffic as raw TCP
 possible to know if any traffic have failed or succeeded and reports Health as
 unavailable.
 
+### Why are the control plane metrics missing from the control plane card?
+
+The control plane metrics are fetched from the Prometheus configured in Kiali.
+
+Kiali will fetch the memory and the CPU metrics related to the Istiod container (discovery) first and will fallback to the metrics related to the istiod process if it couldn't find the container metrics.  If the required metrics are not found then Kiali can not display the related charts or data.
+
+The metrics used are:
+
+|Metric                                      |Notes|
+|--------------------------------------------|-----|
+|container_cpu_usage_seconds_total           |used for Istiod's discovery container CPU metric |
+|container_memory_working_set_bytes          |used for Istiod's discovery container memory metric|
+|process_cpu_seconds_total                   |used for Istiod process CPU metric|
+|process_resident_memory_bytes               |used for Istiod process memory metric|
