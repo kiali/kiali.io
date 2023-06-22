@@ -13,7 +13,7 @@ container application platform and Istio.
 The following diagram illustrates the components involved in Kiali and its
 interactions:
 
-![Kiali architecture](/images/documentation/architecture/architecture.png)
+![Kiali architecture](/images/documentation/architecture/arch.png)
 
 ### Kiali back-end
 
@@ -49,8 +49,8 @@ It provides and controls the service mesh. Kiali and Istio are installed
 separately.
 
 Kiali needs to retrieve Istio data and configurations, which are exposed
-through Prometheus and the cluster API. This is the reason the diagram shows a
-dashed line: to denote an indirect dependency.
+through Prometheus, the Kubernetes API, and istiod. For environments where
+istiod is inaccessible, Kiali's communication with istiod [can be disabled]({{< ref "/docs/Configuration/no-istiod" >}}).
 
 ## Prometheus
 
@@ -69,22 +69,20 @@ Some metric customization is possible as long as the Kiali requirements are
 still met.  For the current list of required metrics see
 [this FAQ entry]({{< ref "/docs/faq/general" >}}).
 
-## Cluster API
+## Kubernetes API
 
-Kiali uses the API of the container application platform (cluster API) in order
+Kiali uses the API of the container application platform in order
 to fetch and resolve service mesh configurations.
 
 Container application platforms where Kiali is known to work are
-[OKD](https://www.okd.io) and [Kubernetes](http://kubernetes.io). Kiali shoud also
-work on the derivatives of these platforms. If you want to learn the cluster
-API, check the [OKD REST API reference](https://docs.okd.io/latest/rest_api) and the
-[Kubernetes API reference](https://kubernetes.io/docs/reference/kubernetes-api/).
+[OKD](https://www.okd.io) and [Kubernetes](http://kubernetes.io). Kiali should also
+work on the derivatives of these platforms.
 
-Kiali queries the cluster API to retrieve, for example, definitions for 
+Kiali queries the Kubernetes API to retrieve, for example, definitions for
 namespaces, services, deployments, pods, and other entities. Kiali also makes
 queries to resolve relationships between the different cluster entities.
 
-The cluster API is also queried to retrieve Istio configurations like virtual
+The Kubernetes API is also queried to retrieve Istio configurations like virtual
 services, destination rules, route rules, gateways, and quotas.
 
 ## Jaeger
