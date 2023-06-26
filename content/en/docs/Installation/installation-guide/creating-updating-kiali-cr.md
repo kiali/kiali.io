@@ -36,10 +36,17 @@ Often, but not always, Kiali is installed in the same namespace as Istio, thus t
 {{% /alert %}}
 
 Once created, the Kiali Operator should shortly be notified and will process the resource,  performing the Kiali
-installation. You can check installation progress by inspecting the `status` attribute of the created Kiali CR:
+installation. You can wait for the Kiali Operator to finish the reconcilation by using the standard `kubectl wait`
+command and ask for it to wait for the Kiali CR to achieve the condition of `Successful`. For example:
 
 ```
-$ kubectl describe kiali -n istio-system
+kubectl wait --for=condition=Successful kiali kiali -n istio-system
+```
+
+You can check the installation progress by inspecting the `status` attribute of the created Kiali CR:
+
+```
+$ kubectl describe kiali kiali -n istio-system
 Name:         kiali
 Namespace:    istio-system
 Labels:       <none>
