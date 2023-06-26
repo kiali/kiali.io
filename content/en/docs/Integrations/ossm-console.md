@@ -6,7 +6,7 @@ description: >
 weight: 40
 ---
 
-OpenShift Service Mesh Console (OSSMC) is a Kiali integration for OpenShift console based in OpenShift [dynamic plugins](https://docs.openshift.com/container-platform/4.11/web_console/dynamic-plug-ins.html) technology. 
+OpenShift Service Mesh Console (OSSMC) is a Kiali integration for OpenShift console based in OpenShift [dynamic plugins](https://docs.openshift.com/container-platform/4.11/web_console/dynamic-plugin/dynamic-plugin-overview.html) technology. 
 It integrates part of the Kiali functionality into the OpenShift console, providing visibility of the Service Mesh.
 
 ![OSSMC](/images/documentation/integration/ossmc.png)
