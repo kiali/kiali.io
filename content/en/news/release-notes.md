@@ -6,6 +6,30 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 1.70.0
+Sprint Release: Jun 23, 2023
+
+Features:
+
+* [Update Kiali to build with Go 1.20](https://github.com/kiali/kiali/issues/6218)
+* [Use ExecPlugin for remote cluster secret](https://github.com/kiali/kiali/issues/6193)
+* [Multicluster - add kiali.io docs](https://github.com/kiali/kiali/issues/5928)
+* [Blog post for Multicluster](https://github.com/kiali/kiali/issues/6214)
+* [Video demo for multi cluster](https://github.com/kiali/kiali/issues/6236)
+* [Multicluster - Edit Istio Configs in remote clusters](https://github.com/kiali/kiali/issues/6239)
+* [show more control plane info in OverView page](https://github.com/kiali/kiali/issues/6177)
+* [Verify Kiali using Istio 1.18 Ambient alpha](https://github.com/kiali/kiali/issues/6241)
+* [Upgrade Typescript version](https://github.com/kiali/kiali/issues/6267)
+
+Fixes:
+
+* [Using LISTENER_FILTER within an EnvoyFilter leads to a cache error](https://github.com/kiali/kiali/issues/6285)
+* [K8Gateway object not visible in the Istio Config List. ](https://github.com/kiali/kiali/issues/6253)
+* [Wrong IstioObject field types](https://github.com/kiali/kiali/issues/6011)
+* [Create ServiceEntry - Required Ports - Empty Accepted](https://github.com/kiali/kiali/issues/6287)
+* [Service details of ServiceEntry fails](https://github.com/kiali/kiali/issues/6294)
+* [kiali.io Architecture is outdated - direct istio dependency](https://github.com/kiali/kiali/issues/5376)
+
 ## 1.69.0
 Sprint Release: Jun 02, 2023
 
