@@ -105,6 +105,13 @@ As an example and for self-monitoring purpose Kiali itself [exposes Go metrics](
 The pod annotation for Kiali is: `kiali.io/dashboards: go`
 
 
+#### Kiali
+
+Kiali has its own built-in dashboard that helps you observe performance of the Kiali server itself. To view this dashboard, navigate to either the application or workload view of the Kiali server and select the `Kiali Internal Metrics` tab to see Kiali's own internal metrics:
+
+![Kiali Metrics (app view)](/images/documentation/features/kiali-dashboard-app-metrics.png)
+![Kiali Metrics (workload view)](/images/documentation/features/kiali-dashboard-workload-metrics.png)
+
 #### Node.js
 
 Contains metrics such as active handles, event loop lag, and heap usage. The expected metrics are provided by [prom-client](https://www.npmjs.com/package/prom-client).
