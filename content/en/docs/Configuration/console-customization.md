@@ -95,20 +95,27 @@ spec:
     ui_defaults:
       graph:
         find_options:
-        - description: "Find: slow edges (> 1s)"
+        - auto_enable: false  
+          description: "Find: slow edges (> 1s)"
           expression: "rt > 1000"
-        - description: "Find: unhealthy nodes"
+        - auto_enable: false
+          description: "Find: unhealthy nodes"
           expression:  "! healthy"
-        - description: "Find: unknown nodes"
+        - auto_enable: false
+          description: "Find: unknown nodes"
           expression:  "name = unknown"
         hide_options:
-        - description: "Hide: healthy nodes"
+        - auto_enable: false
+          description: "Hide: healthy nodes"
           expression: "healthy"
-        - description: "Hide: unknown nodes"
+        - auto_enable: false
+          description: "Hide: unknown nodes"
           expression:  "name = unknown"
 ```
 
 Hopefully, the attributes to configure this feature are self-explanatory.
+
+To enable one of the configurations by default, it is possible to set _auto_enable_ to true, available for find and hide options.
 
 Note that by providing your own presets, you will be overriding the default
 configuration. Make sure to include any default presets that you need in case
