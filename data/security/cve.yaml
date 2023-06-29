@@ -4,3 +4,7 @@ versionRange:
     severity: critical
     description: "github.com/emicklei/go-restful"
     notes: "Despite the package dependency Kiali is not susceptible to this vulnerability"
+  - cve: "CVE-2019-1010022"
+    severity: critical
+    description: "GNU Libc current is affected by: Mitigation bypass."
+    notes: "This is a disputed CVE. According to upstream, it is not a security issue. For details, please see https://sourceware.org/bugzilla/show_bug.cgi?id=22850 and https://security-tracker.debian.org/tracker/CVE-2019-1010022"
