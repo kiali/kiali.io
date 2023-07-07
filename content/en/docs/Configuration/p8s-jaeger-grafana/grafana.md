@@ -19,6 +19,10 @@ most similar Grafana dashboard, which is convenient if you need the powerful
 Grafana options. For these links to appear in Kiali you need to manually
 configure the Grafana URL and the dashboards that come preconfigured with Istio, like in the following example:
 
+{{% alert color="warning" %}}
+Kiali will query Grafana and try to fetch the configured dashboards.  For this reason Kiali must be able to reach Grafana, authenticate, and find the Istio dashboards. The Istio dashboards must be installed in Grafana for the links to appear in Kiali.
+{{% /alert %}}
+
 ```yaml
 spec:
   external_services:
