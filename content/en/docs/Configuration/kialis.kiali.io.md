@@ -394,7 +394,7 @@ spec:
     clustering:
       autodetect_secrets:
         enabled: true
-        label: "istio/multiCluster=true"
+        label: "kiali.io/multiCluster=true"
       clusters: []
     disabled_features: []
     istio_annotation_action: true
@@ -5125,7 +5125,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The name and value of a label that exists on all remote cluster secrets. Default is &lsquo;istio/multiCluster=true&rsquo;.</p>
+<p>The name and value of a label that exists on all remote cluster secrets. Default is &lsquo;kiali.io/multiCluster=true&rsquo;.</p>
 
 </div>
 
