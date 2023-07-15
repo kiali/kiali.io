@@ -6,6 +6,27 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 1.71.0
+Sprint Release: Jul 14, 2023
+
+Features:
+
+* [Multicluster - Config validation from remote cluster](https://github.com/kiali/kiali/issues/6056)
+* [Add documentation for 'Kiali Internal Metrics' dashboard](https://github.com/kiali/kiali/issues/5984)
+* [Operator - speed up the setting up of configuration](https://github.com/kiali/kiali/issues/6132)
+* [Align Patternfly version with Openshift 4.13](https://github.com/kiali/kiali/issues/6270)
+* [Auto-enable find/hide filters via Kiali CR](https://github.com/kiali/kiali/issues/6012)
+* [Add edit actions in contextual menu for remote clusters ](https://github.com/kiali/kiali/issues/6330)
+* [Get rid of the experimental warning in the Mesh section](https://github.com/kiali/kiali/issues/6338)
+
+Fixes:
+
+* [Graph IdleNodes option is broken](https://github.com/kiali/kiali/issues/6331)
+* [Grafana link is not available in Kiali](https://github.com/kiali/kiali/issues/5988)
+* [Cluster and ClusterName params in the same API url](https://github.com/kiali/kiali/issues/6328)
+* [kiali_feature_flags.clustering.autodetect_secrets.label default is incorrect](https://github.com/kiali/kiali/issues/6344)
+* [Incorrect ServiceAccount used for Multi-cluster when using OpenID without RBAC](https://github.com/kiali/kiali/issues/6308)
+
 ## 1.70.0
 Sprint Release: Jun 23, 2023
 
