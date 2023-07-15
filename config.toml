@@ -242,20 +242,8 @@ enable = false
   url = "https://v1-64.kiali.io"
 
 [[ params.versions ]]
-  version = "v1.63"
+  version = "v1.63 [istio v1.16]"
   url = "https://v1-63.kiali.io"
-
-[[ params.versions ]]
-  version = "v1.62"
-  url = "https://v1-62.kiali.io"
-
-[[ params.versions ]]
-  version = "v1.61"
-  url = "https://v1-61.kiali.io"
-
-[[ params.versions ]]
-  version = "v1.60"
-  url = "https://v1-60.kiali.io"
 
 [[ params.versions ]]
   version = "v1.59 [istio v1.15]"
