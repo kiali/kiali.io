@@ -10,7 +10,7 @@ versionRange:
   - meshVersion: "1.16"
     kialiMinimumVersion: "1.59.1"
     kialiMaximumVersion: "1.63.2"
-    notes: "Avoid 1.62.0,1.63.0,1.63.1 due to a regression."
+    notes: "Istio 1.16 is out of support. Avoid 1.62.0,1.63.0,1.63.1 due to a regression."
   - meshVersion: "1.15"
     kialiMinimumVersion: "1.55.1"
     kialiMaximumVersion: "1.59.0"
