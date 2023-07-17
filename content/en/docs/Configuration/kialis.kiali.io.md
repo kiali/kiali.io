@@ -5367,6 +5367,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 <div class="property depth-6">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.ui_defaults.graph.find_options[*].auto_select">.spec.kiali_feature_flags.ui_defaults.graph.find_options[*].auto_select</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>If true this option will be selected and take effect automatically. Note that only one option in the list can have this value be set to true.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.kiali_feature_flags.ui_defaults.graph.find_options[*].description">.spec.kiali_feature_flags.ui_defaults.graph.find_options[*].description</h3>
 </div>
 <div class="property-body">
@@ -5429,6 +5448,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 <div class="property-body">
 <div class="property-meta">
 <span class="property-type">(object)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.ui_defaults.graph.hide_options[*].auto_select">.spec.kiali_feature_flags.ui_defaults.graph.hide_options[*].auto_select</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>If true this option will be selected and take effect automatically. Note that only one option in the list can have this value be set to true.</p>
 
 </div>
 
