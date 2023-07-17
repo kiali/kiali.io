@@ -68,7 +68,7 @@ The [Tempo Operator for Kubernetes](https://github.com/grafana/tempo-operator)
 provides a native Kubernetes solution to deploy Tempo easily in your system.
 
 After installing the Tempo Operator in your cluster, you can create a new
-Tempo instance with the following CRD:
+Tempo instance with the following CR:
 
 ```yaml
 kubectl create namespace tempo
