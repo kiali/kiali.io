@@ -52,3 +52,64 @@ If your Jaeger setup differs significantly from the sample add-ons, make sure
 that Istio is also properly configured to push traces to the right URL.
 {{% /alert %}}
 
+## Use Jaeger frontend with Grafana Tempo tracing backend
+
+It is possible to use the Grafana Tempo tracing backend exposing the Jaeger API.
+[tempo-query](https://github.com/grafana/tempo/tree/main/cmd/tempo-query) is a
+Jaeger storage plugin. It accepts the full Jaeger query API and translates these
+requests into Tempo queries.
+
+Since Tempo is not yet part of the built-in addons that are part of Istio, you
+need to manage your Tempo instance.
+
+### Tempo Operator
+
+The [Tempo Operator for Kubernetes](https://github.com/grafana/tempo-operator)
+provides a native Kubernetes solution to deploy Tempo easily in your system.
+
+After installing the Tempo Operator in your cluster, you can create a new
+Tempo instance with the following CR:
+
+```yaml
+kubectl create namespace tempo
+kubectl apply -n tempo -f - <<EOF
+apiVersion: tempo.grafana.com/v1alpha1
+kind: TempoStack
+metadata:
+  name: smm
+spec:
+  storageSize: 1Gi
+  storage:
+    secret:
+      type: s3
+      name: object-storage
+  resources:
+    total:
+      limits:
+        memory: 2Gi
+        cpu: 2000m
+  template:
+    queryFrontend:
+      jaegerQuery:
+        enabled: true
+        ingress:
+          type: ingress
+EOF
+```
+
+Note the name of the bucket where the traces will be stored in our example is
+called `object-storage`. Check the
+[Tempo Operator](https://github.com/grafana/tempo-operator/blob/main/docs/tempostack/object_storage.md)
+documentation to know more about what storages are supported and how to create
+the secret properly to provide it to your Tempo instance.
+
+Now, you are ready to configure the
+[`meshConfig.defaultConfig.tracing.zipkin.address`](https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/#ProxyConfig-tracing)
+field in your Istio installation. It needs to be set to the `9411` port of the
+Tempo Distributor service. For the previous example, this value will be
+`tempo-smm-distributor.tempo.svc.cluster.local:9411`.
+
+Now, you need to configure the `in_cluster_url` setting from Kiali to access
+the Jaeger API. You can point to the `16685` port to use GRPC or `16686` if not.
+For the given example, the value would be
+`http://tempo-ssm-query-frontend.tempo.svc.cluster.local:16685`.
