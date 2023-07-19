@@ -154,7 +154,7 @@ Deprecations:
 It is recommended to instead use Istio Discovery Selectors to limit the namespaces in the mesh.
 
 
-## 1.66.1
+## 1.66.2
 Sprint Release: Mar 31, 2023
 
 Features:
@@ -180,6 +180,7 @@ Fixes:
 * [ansible option we use in operator code is being renamed](https://github.com/kiali/kiali/issues/4338)
 * [CORS issue with library API](https://github.com/kiali/openshift-servicemesh-plugin/issues/124)
 * [fix flaky test failure](https://github.com/kiali/kiali/issues/5972)
+* [Error when using ListnerFilter in an EnvoyFilter](https://github.com/kiali/kiali/issues/6285)
 
 Notes:
 
