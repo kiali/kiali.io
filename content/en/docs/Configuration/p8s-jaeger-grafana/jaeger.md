@@ -77,7 +77,7 @@ from Istio to the Tempo Distributor service and the Zipkin port. Tanka will depl
 the service in `distributor.tempo.svc.cluster.local:9411`.
 
 The `in_cluster_url` Kiali option needs to be set to'
-`query-frontend.tempo.svc.cluster.local:16685`.
+`http://query-frontend.tempo.svc.cluster.local:16685`.
 
 ### Tempo Operator
 
