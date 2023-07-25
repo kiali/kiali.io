@@ -62,6 +62,23 @@ requests into Tempo queries.
 Since Tempo is not yet part of the built-in addons that are part of Istio, you
 need to manage your Tempo instance.
 
+## Tanka
+
+The [official Grafana Tempo documentation](https://grafana.com/docs/tempo/latest/setup/tanka/)
+explains how to deploy a Tempo instance using [Tanka](https://tanka.dev/). You
+will need to tweak the settings from the default Tanka configuration to:
+* Expose the Zipkin collector
+* Expose the GRPC Jaeger Query port
+
+When the Tempo instance is deployed with the needed configurations, you have to
+set
+[`meshConfig.defaultConfig.tracing.zipkin.address`](https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/#ProxyConfig-tracing)
+from Istio to the Tempo Distributor service and the Zipkin port. Tanka will deploy
+the service in `distributor.tempo.svc.cluster.local:9411`.
+
+The `in_cluster_url` Kiali option needs to be set to'
+`http://query-frontend.tempo.svc.cluster.local:16685`.
+
 ### Tempo Operator
 
 The [Tempo Operator for Kubernetes](https://github.com/grafana/tempo-operator)
