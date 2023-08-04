@@ -116,7 +116,7 @@ EOF
 
 Note the name of the bucket where the traces will be stored in our example is
 called `object-storage`. Check the
-[Tempo Operator](https://github.com/grafana/tempo-operator/blob/main/docs/tempostack/object_storage.md)
+[Tempo Operator](https://grafana.com/docs/tempo/next/setup/operator/object-storage)
 documentation to know more about what storages are supported and how to create
 the secret properly to provide it to your Tempo instance.
 
