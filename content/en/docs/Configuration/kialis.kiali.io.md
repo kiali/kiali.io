@@ -443,20 +443,6 @@ spec:
   kubernetes_config:
     burst: 200
     cache_duration: 300
-    cache_istio_types:
-    - "AuthorizationPolicy"
-    - "DestinationRule"
-    - "EnvoyFilter"
-    - "Gateway"
-    - "PeerAuthentication"
-    - "RequestAuthentication"
-    - "ServiceEntry"
-    - "Sidecar"
-    - "VirtualService"
-    - "WorkloadEntry"
-    - "WorkloadGroup"
-    cache_namespaces:
-    - ".*"
     cache_token_namespace_duration: 10
     excluded_workloads:
     - "CronJob"
@@ -6050,72 +6036,6 @@ An example,</p>
 
 <div class="property-description">
 <p>The ratio interval (expressed in seconds) used for the cache to perform a full refresh. Only used when <code>cache_enabled</code> is true.</p>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-2">
-<div class="property-header">
-<hr/>
-<h3 class="property-path" id=".spec.kubernetes_config.cache_istio_types">.spec.kubernetes_config.cache_istio_types</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(array)</span>
-
-</div>
-
-<div class="property-description">
-<p>Kiali can cache VirtualService, DestinationRule, Gateway and ServiceEntry Istio resources if they are present on this list of Istio types. Other Istio types are not yet supported.</p>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-3">
-<div class="property-header">
-<hr/>
-<h3 class="property-path" id=".spec.kubernetes_config.cache_istio_types[*]">.spec.kubernetes_config.cache_istio_types[*]</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(string)</span>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-2">
-<div class="property-header">
-<hr/>
-<h3 class="property-path" id=".spec.kubernetes_config.cache_namespaces">.spec.kubernetes_config.cache_namespaces</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(array)</span>
-
-</div>
-
-<div class="property-description">
-<p>List of namespaces or regex defining namespaces to include in a cache.</p>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-3">
-<div class="property-header">
-<hr/>
-<h3 class="property-path" id=".spec.kubernetes_config.cache_namespaces[*]">.spec.kubernetes_config.cache_namespaces[*]</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(string)</span>
 
 </div>
 
