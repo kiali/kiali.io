@@ -7,6 +7,14 @@ weight: 8
 This installation will be different as this cluster will be a remote:
 
 ```
+kubectl create namespace istio-system --context $CLUSTER_WEST
+
+kubectl create secret generic cacerts -n istio-system --context $CLUSTER_WEST \
+      --from-file=certs/$CLUSTER_WEST/ca-cert.pem \
+      --from-file=certs/$CLUSTER_WEST/ca-key.pem \
+      --from-file=certs/$CLUSTER_WEST/root-cert.pem \
+      --from-file=certs/$CLUSTER_WEST/cert-chain.pem
+
 kubectl --context=$CLUSTER_WEST annotate namespace istio-system topology.istio.io/controlPlaneClusters=$CLUSTER_EAST
 kubectl --context=$CLUSTER_WEST label namespace istio-system topology.istio.io/network=network2
 

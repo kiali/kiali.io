@@ -20,11 +20,8 @@ We set up some environment variables with IP ranges that MetalLB will then assig
 
 ```
 MINIKUBE_IP=$(minikube ip -p $CLUSTER_EAST)
-echo $MINIKUBE_IP
 MINIKUBE_IP_NETWORK=$(echo $MINIKUBE_IP | sed -E 's/([0-9]+\.[0-9]+\.[0-9]+)\.[0-9]+/\1/')
-echo $MINIKUBE_IP_NETWORK
 MINIKUBE_LB_RANGE="${MINIKUBE_IP_NETWORK}.20-${MINIKUBE_IP_NETWORK}.29"
-echo $MINIKUBE_LB_RANGE
 
 cat <<EOF | kubectl --context $CLUSTER_EAST apply -f -
 apiVersion: v1

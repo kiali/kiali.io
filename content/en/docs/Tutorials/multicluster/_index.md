@@ -5,5 +5,5 @@ weight: 6
 type: tutorial
 ---
 
-This tutorial will demonstrate Kiali capabilities for Istio multicluster, particulary for the primary and remote cluster model.
+This tutorial will demonstrate Kiali capabilities for Istio multicluster, particulary for the primary-remote cluster model.
 

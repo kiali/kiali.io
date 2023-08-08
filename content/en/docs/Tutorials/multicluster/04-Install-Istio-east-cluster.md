@@ -50,6 +50,11 @@ kubectl apply --context=$CLUSTER_EAST -n istio-system -f \
 
 kubectl --context=$CLUSTER_EAST apply -n istio-system -f \
     $ISTIO_DIR/samples/multicluster/expose-services.yaml
+
+export DISCOVERY_ADDRESS=$(kubectl \
+    --context=$CLUSTER_EAST \
+    -n istio-system get svc istio-eastwestgateway \
+    -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 ```
 
 Finally, we need to install Prometheus, which is important and required for Kiali to operate:

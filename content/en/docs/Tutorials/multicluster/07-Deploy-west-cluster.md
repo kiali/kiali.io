@@ -16,11 +16,8 @@ Similar to the east cluster, we configure MetalLB:
 minikube addons enable metallb -p $CLUSTER_WEST
 
 MINIKUBE_IP=$(minikube ip -p $CLUSTER_WEST)
-echo $MINIKUBE_IP
 MINIKUBE_IP_NETWORK=$(echo $MINIKUBE_IP | sed -E 's/([0-9]+\.[0-9]+\.[0-9]+)\.[0-9]+/\1/')
-echo $MINIKUBE_IP_NETWORK
 MINIKUBE_LB_RANGE="${MINIKUBE_IP_NETWORK}.30-${MINIKUBE_IP_NETWORK}.39"
-echo $MINIKUBE_LB_RANGE
 
 cat <<EOF | kubectl --context $CLUSTER_WEST apply -f -
 apiVersion: v1

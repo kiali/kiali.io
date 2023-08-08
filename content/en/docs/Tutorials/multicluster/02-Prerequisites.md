@@ -23,10 +23,10 @@ We will set up some environment variables for the following commands:
 ```
 CLUSTER_EAST="east"
 CLUSTER_WEST="west"
-ISTIO_DIR=""
+ISTIO_DIR="absolute-path-to-istio-folder"
 ```
 
-As Istio will be installed on more than one cluster and it needs to communicate between clusters, we will need to create certificates for the Istio installation. We will follow the [Istio documentation related to certificates](https://istio.io/latest/docs/tasks/security/cert-management/plugin-ca-cert/) to achieve this:
+As Istio will be installed on more than one cluster and needs to communicate between clusters, we need to create certificates for the Istio installation. We will follow the [Istio documentation related to certificates](https://istio.io/latest/docs/tasks/security/cert-management/plugin-ca-cert/) to achieve this:
 
 ```
 mkdir -p certs
