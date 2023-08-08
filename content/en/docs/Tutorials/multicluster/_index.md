@@ -1,5 +1,5 @@
 ---
-title: Multicluster Tutorial
+title: Travels Demo, Now Multicluster
 description: Learn how to configure and use Kiali in a Istio multicluster scenario.
 weight: 6
 type: tutorial
