@@ -36,7 +36,7 @@ istioctl install -y --context=$CLUSTER_WEST -f $CLUSTER_WEST.yaml
 We will also install a Prometheus instance on the remote. We will federate both Prometheus, with the east's one being the place where all metrics will be gathered together:
 
 ```
-kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.18/samples/addons/prometheus.yaml --context $CLUSTER_WEST
+kubectl apply -f $ISTIO_DIR/samples/addons/prometheus.yaml --context $CLUSTER_WEST
 ```
 
 An important step is to create a secret on east cluster allowing it to fetch information of the remote cluster:
@@ -59,7 +59,7 @@ $ISTIO_DIR/samples/multicluster/gen-eastwest-gateway.sh \
 
 ## Prometheus federation
 
-An important design decision for Kiali was to decide that it will continue consuming one Prometheus instance per all clusters. For this reason, Prometheus needs to be federated, meaning that all the remote’s metrics should be fetched by the main Prometheus.
+An important design decision for Kiali was to decide that it will continue consuming data from one Prometheus instance per all clusters. For this reason, Prometheus needs to be federated, meaning that all the remote’s metrics should be fetched by the main Prometheus.
 
 We will configure east's Prometheus to fetch west's metrics:
 

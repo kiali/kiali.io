@@ -99,7 +99,7 @@ After the installation, we can see that traffic is flowing to the remote cluster
 
 ![Travels MC](/images/mc-tutorial/04.png "Travels MC")
 
-This is happening automatically, Istio balances the traffic to both services. The key thing to notice here is that there is a concept called namespace sameness in Istio that is very important when planning our multi cluster setup.
+This is happening automatically, Istio balances the traffic to both services. The key thing to notice here is that there is a concept called namespace sameness in Istio that is very important when planning our multicluster setup.
 
 In both clusters, we can see that we have the same namespaces. They are called the same in both. Also, we can see that the services in both clusters need to exist and be called the same. 
 
