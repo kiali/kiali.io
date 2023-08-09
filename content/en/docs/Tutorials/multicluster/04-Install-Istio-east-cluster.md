@@ -60,5 +60,5 @@ export DISCOVERY_ADDRESS=$(kubectl \
 Finally, we need to install Prometheus, which is important and required for Kiali to operate:
 
 ```
-kubectl --context $CLUSTER_EAST -n istio-system apply -f https://raw.githubusercontent.com/istio/istio/release-1.18/samples/addons/prometheus.yaml
+kubectl --context $CLUSTER_EAST -n istio-system apply -f $ISTIO_DIR/samples/addons/prometheus.yaml
 ```
