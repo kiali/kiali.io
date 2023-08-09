@@ -17,14 +17,9 @@ chmod +x kiali-prepare-remote-cluster.sh
 Finally, upgrade the installation for Kiali to pick up the secret:
 
 ```
-helm upgrade \ 
-    --set cr.create=true \ 
-    --set cr.namespace=istio-system \ 
-    --set cr.spec.auth.strategy=anonymous \ 
-    --namespace kiali-operator \ 
-    --create-namespace \ 
-    kiali-server \ 
-    kiali/kiali-server
+kubectl config use-context $CLUSTER_EAST
+
+helm upgrade --install --namespace istio-system --set kubernetes_config.cache_enabled=false --set auth.strategy=anonymous --set deployment.logger.log_level=debug --set deployment.ingress.enabled=true --repo https://kiali.org/helm-charts kiali-server kiali-server 
 ```
 
 As result, we can quickly see that a new namespace appear in the Overview, the istio-system namespace from west cluster:

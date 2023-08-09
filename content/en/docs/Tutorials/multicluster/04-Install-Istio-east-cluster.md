@@ -34,7 +34,7 @@ EOF
 istioctl install -y --set values.pilot.env.EXTERNAL_ISTIOD=true --context=$CLUSTER_EAST -f $CLUSTER_EAST.yaml
 ```
 
-After the installation, we need to create what we called an “east-west” gateway. It’s an ingress gateway just for the cross cluster configuration as we are opting to use the installation for different networks (this will be the case in the majority of the productive scenarios). 
+After the installation, we need to create what we called an “east-west” gateway. It’s an ingress gateway just for the cross cluster configuration as we are opting to use the installation for different networks (this will be the case in the majority of the production scenarios). 
 
 ```
 $ISTIO_DIR/samples/multicluster/gen-eastwest-gateway.sh \

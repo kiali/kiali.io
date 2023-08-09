@@ -4,7 +4,7 @@ description: "Install Istio on the remote cluster"
 weight: 8
 ---
 
-This installation will be different as this cluster will be a remote:
+This installation will be different as this cluster will be a remote. In a remote cluster, it won't be an Istio control plane. Istio will install some resources that allows the primary control plane to configure the workloads in the remote cluster like injecting the sidecars and configuring the low level routing.
 
 ```
 kubectl create namespace istio-system --context $CLUSTER_WEST
@@ -51,7 +51,7 @@ istioctl x create-remote-secret \
 Finally, we create the east-west gateway
 
 ```
-samples/multicluster/gen-eastwest-gateway.sh \
+$ISTIO_DIR/samples/multicluster/gen-eastwest-gateway.sh \
     --mesh mesh1 --cluster $CLUSTER_WEST --network network2 | \
     istioctl --context=$CLUSTER_WEST install -y -f -
 

@@ -7,6 +7,8 @@ weight: 10
 We are going to deploy two new services just to distribute traffic on the new cluster. These services are travels v2 and v3:
 
 ```
+kubectl create ns travel-agency --context $CLUSTER_WEST
+
 kubectl label namespace travel-agency istio-injection=enabled --context $CLUSTER_WEST
 
 kubectl apply -f <(curl -L https://raw.githubusercontent.com/kiali/demos/master/travels/travels-v2.yaml) -n travel-agency --context $CLUSTER_WEST
