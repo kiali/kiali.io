@@ -199,7 +199,15 @@ kubectl port-forward --namespace istio-system service/minio 9001:9001
 
 ![MinIO console](/images/tutorial/tempo/minio.png "MinIO console")
 
-## Install Istio with helm? (Option I)
+## Install Istio with helm (Option I)
+Istio can be installed with Helm following the (instructions)[https://istio.io/latest/docs/setup/install/helm/]. 
+The zipkin address needs to be set: 
+
+```
+--set values.meshConfig.defaultConfig.tracing.zipkin.address="tempo-smm-distributor.tempo:9411"
+```
+
+And then, install (Jaeger)[https://istio.io/latest/docs/ops/integrations/jaeger/#option-1-quick-start] as Istio addon.
 
 ## Install Istio using Kiali source code (Option II)
 For development purposes, if we have Kiali source code, we can use the kiali hack scripts:
@@ -208,7 +216,7 @@ For development purposes, if we have Kiali source code, we can use the kiali hac
 hack/istio/install-istio-via-istioctl.sh -c kubectl -a "prometheus grafana" -s values.meshConfig.defaultConfig.tracing.zipkin.address="tempo-smm-distributor.tempo:9411"
 ```
 
-## Install Kiali and bookinfo
+## Install Kiali and bookinfo demo with some traffic generation
 
 Install kiali:
 ```
