@@ -66,12 +66,12 @@ Either change or remove the violating method. It has to be either a HTTP valid m
 
 AuthorizationPolicy enables access control on workloads. Each policy effects only to a group of request going to a specific destination. For instance, allow all the request going to `details` host.
 
-The present validation points out those rules referencing a host that don't exist in the authorization policy namespace. Kiali considers services and service entries.
-Those hosts that refers to hosts outside of the object namespace will be presented with an unknow error.
+The present validation points out those rules referencing a host that don't exist in the authorization policy namespace. Kiali considers services, virtual services and service entries.
+Those hosts that refers to hosts outside of the object namespace will be presented with an unknown error.
 
 #### Resolution
 
-Either remove the host from the list, correct if there is any typo or deploy a new service or service entry.
+Either remove the host from the list, correct if there is any typo or deploy a new service, service entry or a virtual service pointing to that host.
 
 #### Severity
 
