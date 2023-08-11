@@ -14,7 +14,7 @@ In this section it is explained how to set up a development environment:
 
 ![development_environment](/images/documentation/contribution/development_environment.png)
 
-### Prerrequisites 
+### Prerequisites 
 
 - Development tools are installed:
   - [oc](https://docs.openshift.com/container-platform/4.7/cli_reference/openshift_cli/getting-started-cli.html) or [kubectl](https://kubernetes.io/es/docs/tasks/tools/)
@@ -22,6 +22,7 @@ In this section it is explained how to set up a development environment:
   - [make](https://www.gnu.org/software/make/)
   - [npm](https://www.npmjs.com/)
   - [yarn](https://yarnpkg.com/)
+  - [gcc](https://gcc.gnu.org/)
 - Kiali source code: We will fork the 3 kiali repositories, and then, clone them in a local folder:
   - [Kiali](https://github.com/kiali/kiali)
   - [Kiali-operator](https://github.com/kiali/kiali-operator)
