@@ -18,7 +18,7 @@ It is a requirement to have cert-manager installed:
 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.12.0/cert-manager.yaml
 ```
 
-Install the operator. It is important to download a version >=3.0. In previous versions, the zipkin collector was not exposed, there was no way to change it as it was not defined in the CRD.
+Install the operator. It is important to download a version 3.0 or higher. In previous versions, the zipkin collector was not exposed, there was no way to change it as it was not defined in the CRD.
 
 ```
 kubectl apply -f https://github.com/grafana/tempo-operator/releases/download/v0.3.0/tempo-operator.yaml
@@ -120,7 +120,7 @@ spec:
     app: minio
 ```
 
-And apply yaml: 
+And apply the yaml: 
 ```
 kubectl apply -n tempo -f minio.yaml
 ```
@@ -161,13 +161,13 @@ spec:
 EOF
 ```
 
-(Optional) We can check if all the deployments have started correctly, and the services distributor has the port 9411 and the query frontend 16686:
+As an optional step, we can check if all the deployments have started correctly, and the services distributor has the port 9411 and the query frontend 16686:
 ```
 kubectl get all -n tempo
 ```
 ![Tempo Services](/images/tutorial/tempo/tempo-services.png "Tempo Services")
 
-(Optional) We can test if minio is working with a batch job to send some traces, in this case, to th open telemetry collector: 
+(Optional) We can test if minio is working with a batch job to send some traces, in this case, to the open telemetry collector: 
 ```
 kubectl apply -f - <<EOF
 apiVersion: batch/v1
