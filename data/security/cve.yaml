@@ -1,5 +1,9 @@
 # The Reported Kiali CVEs for which Kiali is confirmed to not be vulnerable
 versionRange:
+  - cve: "CVE-2022-27191"
+    severity: high
+    description: "golang.org/x/crypto/ssh allows an attacker to crash a server in certain circumstances involving AddHostKey"
+    notes: "Kiali does not use the AddHostKey API; furthermore, neither Kiali nor its dependencies import this component. Thus Kiali is not susceptible to this vulnerability."
   - cve: "CVE-2022-1996"
     severity: critical
     description: "github.com/emicklei/go-restful"
