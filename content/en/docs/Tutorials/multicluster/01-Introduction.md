@@ -14,4 +14,4 @@ This scenario is a good choice when as an application administrator or architect
 
 In this tutorial we will be deploying Istio in a primary-remote deployment. At first, we will install the "east" cluster with Istio, then we will add the "west" remote cluster and join it to the mesh. Then we will see how Kiali allows us to observe and manage both clusters and their applications. Metrics will be aggregated into the "east" cluster using Prometheus federation and a single Kiali will be deployed on the "east" cluster.
 
-If you already have a primary-remote deployment, you can skip to [instaliing Kiali](./05-Install-Kiali.md).
+If you already have a primary-remote deployment, you can skip to [instaliing Kiali]({{< relref "./05-Install-Kiali.md" >}}).
