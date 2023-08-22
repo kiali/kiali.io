@@ -59,7 +59,7 @@ $ISTIO_DIR/samples/multicluster/gen-eastwest-gateway.sh \
 
 ## Prometheus federation
 
-An important design decision for Kiali was to decide that it will continue consuming data from one Prometheus instance per all clusters. For this reason, Prometheus needs to be federated, meaning that all the remote’s metrics should be fetched by the main Prometheus.
+Kiali requires unified metrics from a single Prometheus endpoint for all clusters, even in a multi-cluster environment. In this tutorial, we will federate the two Prometheus instances, meaning that all the remote’s metrics should be fetched by the main Prometheus.
 
 We will configure east's Prometheus to fetch west's metrics:
 
