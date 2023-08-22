@@ -4,7 +4,7 @@ description: "Observe the Travels application deployed in multiple clusters with
 weight: 1
 ---
 
-So far, we know how good Kiali can be to understand applications, their relationships with each other and also with external applications.
+So far, we know how good Kiali can be to understand applications, their relationships with each other and with external applications.
 
 In the previous tutorial, Kiali was setup to observe just a single cluster. Now, we will expand its capabilities to observe more than one cluster. The extra clusters are remotes, meaning that there is not a control plane on them, they only have user applications.
 
