@@ -6,17 +6,17 @@ weight: 2
 
 This tutorial is a walkthrough guide to install everything. For this reason, we will need:
 
-* minikube
-* istioctl
-* helm
+- minikube
+- istioctl
+- helm
 
 This tutorial was tested on:
 
-* Minikube v1.30.1
-* Istio v1.18.1
-* Kiali v1.70
+- Minikube v1.30.1
+- Istio v1.18.1
+- Kiali v1.70
 
-Clusters are provided by minikube instances, but we can choose others instead, like OpenShift or just vanilla Kubernetes installations.
+Clusters are provided by minikube instances, but this tutorial should work on on any Kubernetes environment.
 
 We will set up some environment variables for the following commands:
 

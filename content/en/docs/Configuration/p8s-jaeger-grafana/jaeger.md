@@ -4,7 +4,6 @@ description: >
   This page describes how to configure Jaeger for Kiali.
 ---
 
-
 ## Jaeger configuration
 
 Jaeger is a _highly recommended_ service because [Kiali uses distributed
@@ -32,10 +31,10 @@ spec:
       # Jaeger service name is "tracing" and is in the "telemetry" namespace.
       # Make sure the URL you provide corresponds to the non-GRPC enabled endpoint
       # if you set "use_grpc" to false.
-      in_cluster_url: 'http://tracing.telemetry:16685/jaeger'
+      in_cluster_url: "http://tracing.telemetry:16685/jaeger"
       use_grpc: true
       # Public facing URL of Jaeger
-      url: 'http://my-jaeger-host/jaeger'
+      url: "http://my-jaeger-host/jaeger"
 ```
 
 Minimally, you must provide `spec.external_services.tracing.in_cluster_url` to
@@ -67,8 +66,9 @@ need to manage your Tempo instance.
 The [official Grafana Tempo documentation](https://grafana.com/docs/tempo/latest/setup/tanka/)
 explains how to deploy a Tempo instance using [Tanka](https://tanka.dev/). You
 will need to tweak the settings from the default Tanka configuration to:
-* Expose the Zipkin collector
-* Expose the GRPC Jaeger Query port
+
+- Expose the Zipkin collector
+- Expose the GRPC Jaeger Query port
 
 When the Tempo instance is deployed with the needed configurations, you have to
 set
@@ -131,4 +131,4 @@ the Jaeger API. You can point to the `16685` port to use GRPC or `16686` if not.
 For the given example, the value would be
 `http://tempo-ssm-query-frontend.tempo.svc.cluster.local:16685`.
 
-There is a [related tutorial](https://kiali.io/docs/tutorials/tempo/02-kiali-tempo-integration/) with detailed instructions to setup Kiali and Grafana Tempo with the Operator. 
+There is a [related tutorial]({{< ref "/docs/tutorials/tempo/02-kiali-tempo-integration" >}}) with detailed instructions to setup Kiali and Grafana Tempo with the Operator.
