@@ -396,6 +396,7 @@ spec:
         enabled: true
         label: "kiali.io/multiCluster=true"
       clusters: []
+      kiali_urls: []
     disabled_features: []
     istio_annotation_action: true
     istio_injection_action: true
@@ -465,8 +466,11 @@ spec:
         enabled: true
         port: 9090
       tracing:
+        collector_type: "jaeger"
         collector_url: "http://jaeger-collector.istio-system:14268/api/traces"
         enabled: false
+        otel:
+          protocol: "http"
     port: 20001
     web_fqdn: ""
     web_history_mode: ""
@@ -5189,6 +5193,115 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 </div>
 
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.clustering.kiali_urls">.spec.kiali_feature_flags.clustering.kiali_urls</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>A map between cluster name, instance name and namespace to a Kiali URL. Will be used showing the Mesh page&rsquo;s Kiali URLs. The Kiali service&rsquo;s &lsquo;kiali.io/external-url&rsquo; annotation will be overridden when this property is set.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.clustering.kiali_urls[*]">.spec.kiali_feature_flags.clustering.kiali_urls[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.clustering.kiali_urls[*].cluster_name">.spec.kiali_feature_flags.clustering.kiali_urls[*].cluster_name</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The name of the cluster.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.clustering.kiali_urls[*].instance_name">.spec.kiali_feature_flags.clustering.kiali_urls[*].instance_name</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The instance name of this Kiali installation. This should be the value used in <code>deployment.instance_name</code> for Kiali resource name.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.clustering.kiali_urls[*].namespace">.spec.kiali_feature_flags.clustering.kiali_urls[*].namespace</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The namespace into which Kiali is installed.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.clustering.kiali_urls[*].url">.spec.kiali_feature_flags.clustering.kiali_urls[*].url</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The URL of Kiali in the cluster.</p>
+
+</div>
+
+</div>
+</div>
+
 <div class="property depth-2">
 <div class="property-header">
 <hr/>
@@ -6377,6 +6490,25 @@ An example,</p>
 <div class="property depth-4">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.server.observability.tracing.collector_type">.spec.server.observability.tracing.collector_type</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The collector type to use. Value must be one of: <code>jaeger</code> or <code>otel</code>.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.server.observability.tracing.collector_url">.spec.server.observability.tracing.collector_url</h3>
 </div>
 <div class="property-body">
@@ -6406,6 +6538,44 @@ An example,</p>
 
 <div class="property-description">
 <p>When true, the Kiali server itself will product its own tracing data.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.server.observability.tracing.otel">.spec.server.observability.tracing.otel</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>Specific properties when the collector type is <code>otel</code>.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.server.observability.tracing.otel.protocol">.spec.server.observability.tracing.otel.protocol</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>Protocol. Supported values are: <code>http</code>, <code>https</code> or <code>grpc</code>.</p>
 
 </div>
 
