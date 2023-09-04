@@ -42,7 +42,7 @@ Minimally, you must provide `spec.external_services.tracing.in_cluster_url` to
 enable Kiali features that use distributed tracing data. However, Kiali can
 provide contextual links that users can use to jump to the Jaeger console to
 inspect tracing data more in depth. For these links to be available you need to
-set the `spec.external_services.tracing.url` which may mean that you should
+set the `spec.external_services.tracing.url` to the URL where you
 expose Jaeger outside the cluster.
 
 {{% alert color="success" %}}
