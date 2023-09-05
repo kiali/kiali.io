@@ -32,7 +32,7 @@ Make sure you have the `helm` command available by following the
 [Helm installation docs](https://helm.sh/docs/intro/install/).
 
 {{% alert color="warning" %}}
-The Kiali Helm Charts have been tested only against Helm version 3.10. There is no guarantee that previous versions will work.
+Helm version 3.10 is the minimum required Helm version. Older versions will not work. Newer versions have not been tested.
 {{% /alert %}}
 
 ## Adding the Kiali Helm Charts repository
