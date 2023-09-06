@@ -6,6 +6,29 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 1.73.0
+Sprint Release: Aug 25, 2023
+
+Features:
+
+* [Tutorial for Multicluster](https://github.com/kiali/kiali/issues/6306)
+* [Support for dark mode](https://github.com/kiali/kiali/issues/6268)
+* [Ambient for Istio 1.19, experimental support](https://github.com/kiali/kiali/issues/6401)
+* [Fixed help icon in Envoy tab](https://github.com/kiali/kiali/issues/6502)
+* [Update Releasing doc](https://github.com/kiali/kiali/issues/6526)
+* [OSSMC: update user guide/install guide for 0.4.0](https://github.com/kiali/openshift-servicemesh-plugin/issues/195)
+
+Fixes:
+
+* [Incorrect save commit may be triggered while editing yaml](https://github.com/kiali/kiali/issues/6374)
+* [Data race when accessing `IsGatewayAPI`](https://github.com/kiali/kiali/issues/6387)
+* [Kiali Istio Config page -- KIA0104 validation (failed)](https://github.com/kiali/kiali/issues/6460)
+* [Traffic tab - 'View metrics' link broken](https://github.com/kiali/kiali/issues/6462)
+* [Wrong cluster badge shown in the page for reviews app detail when accessing it from a graph](https://github.com/kiali/kiali/issues/6464)
+* [Multicluster - Namespace Validations in Graph](https://github.com/kiali/kiali/issues/6467)
+* [operator installed via OLM cannot set kiali server pod securityContext.readOnlyRootFilesystem to false](https://github.com/kiali/kiali/issues/6481)
+* [Kiali fails on OCP cluster](https://github.com/kiali/kiali/issues/6517)
+
 ## 1.72.0
 Sprint Release: Aug 04, 2023
 
