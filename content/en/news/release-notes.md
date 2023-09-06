@@ -7,7 +7,7 @@ weight: 1
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
 ## v1.73.0
-Sprint Release: Sep 15, 2023
+Sprint Release: Aug 28, 2023
 
 Features:
 
