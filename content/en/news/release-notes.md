@@ -6,6 +6,33 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## v1.73.0
+Sprint Release: Sep 15, 2023
+
+Features:
+
+* [Check Tempo works with kiali with jaeger-query](https://github.com/kiali/kiali/issues/5848)
+* [SpanTags component is not longer used in Kiali](https://github.com/kiali/kiali/issues/6439)
+* [Minimal upgrade to PF5](https://github.com/kiali/kiali/issues/6446)
+* [Dark Mode in Patternfly 5](https://github.com/kiali/kiali/issues/6453)
+* [Update Releasing doc](https://github.com/kiali/kiali/issues/6526)
+* [Set latest Kiali code with PF4 for OSSMC](https://github.com/kiali/openshift-servicemesh-plugin/issues/199)
+* [Adjust graph-tour in a few places the text needs an update for PF graph](https://github.com/kiali/openshift-servicemesh-plugin/issues/202)
+* [Align victory library with PF5](https://github.com/kiali/kiali/issues/6559)
+* [document minimum helm version](https://github.com/kiali/kiali/issues/6566)
+
+Fixes:
+
+* [Duplicate test ID related to Overview page in Multicluster mode](https://github.com/kiali/kiali/issues/6398)
+* [PFGraph throws console error when hovering an application label](https://github.com/kiali/kiali/issues/6458)
+* [Graph not showing traffic from portals to travels in west cluster](https://github.com/kiali/kiali/issues/6492)
+* [kiali pod stay in Error status after node shutdown](https://github.com/kiali/kiali/issues/6535)
+* [Graph side-panel has multi-cluster issues](https://github.com/kiali/kiali/issues/6544)
+* [(make) work around opm render bug when building for OLM](https://github.com/kiali/kiali/issues/6545)
+* [Double tap on a node redirects to wrong cluster](https://github.com/kiali/kiali/issues/6548)
+* [UI issues in Graph replay for OSSMC](https://github.com/kiali/kiali/issues/6561)
+* [(ci test) make molecule test script more tolerant of CI environment](https://github.com/kiali/kiali/issues/6567)
+
 ## 1.72.0
 Sprint Release: Aug 04, 2023
 
