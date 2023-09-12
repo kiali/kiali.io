@@ -1142,6 +1142,18 @@ Update the hostname, port or protocol to another valid service so there are no m
 {{% readfile file="/static/files/validation_examples/1503.yaml" %}}
 ```
 
+### KIA1504 - K8s GatewayClass not found
+
+A k8s Gateway is referencing to a GatewayClass which does not exist in cluster.
+
+#### Resolution
+
+Change the `gatewayClassName` field to reference to existing GatewayClass or create the missing GatewayClass in cluster. More info about configuring K8s Gateway API implementations can be found in [Gateway API Implementations](https://gateway-api.sigs.k8s.io/implementations/)
+
+#### Severity
+
+<i class="fas fa-times-circle text-danger"></i> Error
+
 ### GWAPI - Gateway API status
 
 The Gateway object provides a GatewayStatus to provide the status relative to the state represented in the spec. 
