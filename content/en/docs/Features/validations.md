@@ -1142,13 +1142,13 @@ Update the hostname, port or protocol to another valid service so there are no m
 {{% readfile file="/static/files/validation_examples/1503.yaml" %}}
 ```
 
-### KIA1504 - K8s GatewayClass not found
+### KIA1504 - Gateway API Class not found in Kiali configuration
 
-A k8s Gateway is referencing to a GatewayClass which does not exist in cluster.
+A k8s Gateway is referencing to a GatewayClass which is not configured in Kiali CR.
 
 #### Resolution
 
-Change the `gatewayClassName` field to reference to existing GatewayClass or create the missing GatewayClass in cluster. More info about configuring K8s Gateway API implementations can be found in [Gateway API Implementations](https://gateway-api.sigs.k8s.io/implementations/)
+Change the `gatewayClassName` field to reference to existing configured GatewayClass or add the missing GatewayClass into `gateway_api_classes` configuration of Kiali CR. More info about configuring K8s Gateway API implementations can be found in [Gateway API Implementations](https://gateway-api.sigs.k8s.io/implementations/)
 
 #### Severity
 
