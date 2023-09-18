@@ -298,7 +298,7 @@ spec:
         enabled: true
       config_map_name: "istio"
       envoy_admin_local_port: 15000
-      gateway_api_class_name: ""
+      gateway_api_classes: []
       istio_api_enabled: true
       # default: istio_canary_revision is undefined
       istio_canary_revision:
@@ -3540,7 +3540,40 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 <div class="property depth-3">
 <div class="property-header">
 <hr/>
-<h3 class="property-path" id=".spec.external_services.istio.gateway_api_class_name">.spec.external_services.istio.gateway_api_class_name</h3>
+<h3 class="property-path" id=".spec.external_services.istio.gateway_api_classes">.spec.external_services.istio.gateway_api_classes</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>A list declaring all the Gateways used in Istio. If left empty or undefined, the default is a single list item whose name is <code>Istio</code> and class_name is <code>istio</code>.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.istio.gateway_api_classes[*]">.spec.external_services.istio.gateway_api_classes[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.istio.gateway_api_classes[*].class_name">.spec.external_services.istio.gateway_api_classes[*].class_name</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -3549,7 +3582,26 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The K8s Gateway API GatewayClass&rsquo;s Name used in Istio. If empty, the default value &lsquo;istio&rsquo; is used.</p>
+<p>The name of the GatewayClass.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.istio.gateway_api_classes[*].name">.spec.external_services.istio.gateway_api_classes[*].name</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The name of the Gateway API implementation.</p>
 
 </div>
 
