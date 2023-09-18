@@ -6,6 +6,32 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 1.74.0
+Sprint Release: Sep 15, 2023
+
+Features:
+
+* [Added support of multiple Gateway API classes](https://github.com/kiali/kiali/issues/6429)
+* [Ensure Tempo works using jaeger-query](https://github.com/kiali/kiali/issues/5848)
+* [Update Releasing doc](https://github.com/kiali/kiali/issues/6526)
+* [Adjust PFT graph-tour](https://github.com/kiali/openshift-servicemesh-plugin/issues/202)
+* [document minimum helm version](https://github.com/kiali/kiali/issues/6566)
+* [Make Kiali compatible with OSSMC](https://github.com/kiali/kiali/issues/6261)
+* [Minimal upgrade to PF5](https://github.com/kiali/kiali/issues/6446)
+
+Fixes:
+
+* [Duplicate test ID related to Overview page in Multicluster mode](https://github.com/kiali/kiali/issues/6398)
+* [PFGraph throws console error when hovering an application label](https://github.com/kiali/kiali/issues/6458)
+* [Graph not showing traffic from portals to travels in west cluster](https://github.com/kiali/kiali/issues/6492)
+* [IstioType in istioconfigList is propagated to other views](https://github.com/kiali/kiali/issues/6512)
+* [kiali pod stay in Error status after node shutdown](https://github.com/kiali/kiali/issues/6535)
+* [Graph side-panel has multi-cluster issues](https://github.com/kiali/kiali/issues/6544)
+* [(make) work around opm render bug when building for OLM](https://github.com/kiali/kiali/issues/6545)
+* [Double tap on a node redirects to wrong cluster](https://github.com/kiali/kiali/issues/6548)
+* [UI issues in Graph replay for OSSMC](https://github.com/kiali/kiali/issues/6561)
+* [Sorting by cluster does not work in the list view located in the Overview page](https://github.com/kiali/kiali/issues/6504)
+
 ## 1.73.0
 Sprint Release: Aug 25, 2023
 
