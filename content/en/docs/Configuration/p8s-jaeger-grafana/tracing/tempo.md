@@ -1,13 +1,13 @@
 ---
 title: "Grafana Tempo"
 description: >
-  This page describes how to configure Jaeger for Kiali.
+  This page describes how to configure Grafana Tempo for Kiali.
 weight: 2
 ---
 
 ## Grafana Tempo Configuration
 
-There are two possibities to integrate Kiali with Grafana Tempo:
+There are two possibilities to integrate Kiali with Grafana Tempo:
 
 - Using the Tempo API: This option returns the traces from the Tempo API in OpenTelemetry format. 
 - Using the Jaeger frontend with the Grafana Tempo backend.
