@@ -1,7 +1,7 @@
 ---
 title: "Jaeger"
 description: >
-  This page describes how to configure Jaeger for Kiali.
+  This page describes how to configure Grafana Tempo for Kiali.
 weight: 1
 ---
 
