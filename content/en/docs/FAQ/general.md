@@ -3,6 +3,94 @@ title: "General"
 description: "Questions about Kiali architecture, access, perf, etc..."
 ---
 
+### How do I determine what version I am running?
+
+There are several components within the Istio/Kiali infrastructure that have version information.
+
+1. Go to the Help dropdown menu found at the top-right of the Kiali Console window and select "About". This will pop up the About box that will display all version information for Kiali, Istio, and other third-party components like Prometheus.
+
+Help dropdown menu:
+
+![Help Dropdown Menu](/images/documentation/faq/general/kiali-help-drop-down-menu.png)
+
+The Kiali About box:
+
+![About Box](/images/documentation/faq/general/kiali-about-box.png)
+
+2. You can also get this same version information in JSON format from the command line by running something like `curl` to obtain the version information from the `/api` endpoint. For example, expose Kiali via port-forwarding so `curl` can access it:
+```
+kubectl port-forward -n istio-system deploy/kiali 20001:20001
+```
+And then request the version information via `curl`:
+```
+curl http://localhost:20001/kiali/api
+```
+The version information will be provided in a JSON format such as this:
+```json
+{
+  "status": {
+    "Kiali commit hash": "c17d0550cfb033900c392ff5813368c1185954f1",
+    "Kiali container version": "v1.74.0",
+    "Kiali state": "running",
+    "Kiali version": "v1.74.0",
+    "Mesh name": "Istio",
+    "Mesh version": "1.19.0"
+  },
+  "externalServices": [
+    {
+      "name": "Istio",
+      "version": "1.19.0"
+    },
+    {
+      "name": "Prometheus",
+      "version": "2.41.0"
+    },
+    {
+      "name": "Kubernetes",
+      "version": "v1.27.3"
+    },
+    {
+      "name": "Grafana"
+    },
+    {
+      "name": "Jaeger"
+    }
+  ],
+  "warningMessages": [],
+  "istioEnvironment": {
+    "isMaistra": false,
+    "istioAPIEnabled": true
+  }
+}
+```
+
+3. Obtain the container image being used by the Kiali Server pod:
+```sh
+kubectl get pods --all-namespaces -l app.kubernetes.io/name=kiali -o jsonpath='{.items..spec.containers[*].image}{"\n"}'
+```
+This will result in something like: `quay.io/kiali/kiali:v1.74.0`
+
+4. Obtain the container image being used by the Kiali Operator pod:
+```sh
+kubectl get pods --all-namespaces -l app.kubernetes.io/name=kiali-operator -o jsonpath='{.items..spec.containers[*].image}{"\n"}'
+```
+This will result in something like: `quay.io/kiali/kiali-operator:v1.74.0`
+
+5. Obtain the container image being used by the istiod pod:
+```sh
+kubectl get pods --all-namespaces -l app=istiod -o jsonpath='{.items..spec.containers[*].image}{"\n"}'
+```
+This will result in something like: `gcr.io/istio-release/pilot:1.19.0`
+
+6. If Kiali and/or Istio are installed via helm charts, obtain the helm chart version information:
+```
+helm list --all-namespaces
+```
+As an example, if you installed Kiali Operator via helm, this will result in something like:
+```
+NAME             NAMESPACE        REVISION   UPDATED                                   STATUS     CHART                   APP VERSION
+kiali-operator   kiali-operator   1          2023-09-26 09:52:21.266593138 -0400 EDT   deployed   kiali-operator-1.74.0   v1.74.0
+```
 
 ### Why is the Workload or Application Detail page so slow or not responding?
 
