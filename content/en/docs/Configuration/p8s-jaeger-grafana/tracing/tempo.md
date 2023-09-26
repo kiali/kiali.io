@@ -1,57 +1,40 @@
 ---
-title: "Jaeger"
+title: "Grafana Tempo"
 description: >
-  This page describes how to configure Jaeger for Kiali.
+  This page describes how to configure Grafana Tempo for Kiali.
+weight: 2
 ---
 
-## Jaeger configuration
+## Grafana Tempo Configuration
 
-Jaeger is a _highly recommended_ service because [Kiali uses distributed
-tracing data for several features]({{< relref "../../Features/tracing" >}}),
-providing an enhanced experience.
+There are two possibilities to integrate Kiali with Grafana Tempo:
 
-By default, Kiali will try to reach Jaeger at the GRPC-enabled URL of the form
-`http://tracing.<istio_namespace_name>:16685/jaeger`, which is the usual case
-if you are using [the Jaeger Istio
-add-on](https://istio.io/latest/docs/ops/integrations/jaeger/#option-1-quick-start).
-If this endpoint is unreachable, Kiali will disable features that use
-distributed tracing data.
+- Using the Tempo API: This option returns the traces from the Tempo API in OpenTelemetry format. 
+- Using the Jaeger frontend with the Grafana Tempo backend.
 
-If your Jaeger instance has a different service name or is installed to a
-different namespace, you must manually provide the endpoint where it is
-available, like in the following example:
+### Use Tempo API 
+
+This is a configuration example to setup Kiali tracing with Grafana Tempo: 
 
 ```yaml
 spec:
   external_services:
     tracing:
       # Enabled by default. Kiali will anyway fallback to disabled if
-      # Jaeger is unreachable.
+      # Tempo is unreachable.
       enabled: true
       # Jaeger service name is "tracing" and is in the "telemetry" namespace.
       # Make sure the URL you provide corresponds to the non-GRPC enabled endpoint
       # if you set "use_grpc" to false.
-      in_cluster_url: "http://tracing.telemetry:16685/jaeger"
+      in_cluster_url: "http://tracing.telemetry:3200"
+      provider: "tempo"
       use_grpc: true
-      # Public facing URL of Jaeger
-      url: "http://my-jaeger-host/jaeger"
+      # Public facing URL of Grafana with the Tempo Datasource 
+      # Note this is not fully integrated 
+      url: "http://my-tempo-host/explore?left=%7B%22datasource%22:%22Tempo%22,%22queries%22:%5B%7B%22refId%22:%22A%22,%22queryType%22:%22traceId%22,%22query%22:%22%22%7D%5D,%22range%22:%7B%22from%22:%22now-1h%22,%22to%22:%22now%22%7D%7D&orgId=1"
 ```
 
-Minimally, you must provide `spec.external_services.tracing.in_cluster_url` to
-enable Kiali features that use distributed tracing data. However, Kiali can
-provide contextual links that users can use to jump to the Jaeger console to
-inspect tracing data more in depth. For these links to be available you need to
-set the `spec.external_services.tracing.url` which may mean that you should
-expose Jaeger outside the cluster.
-
-{{% alert color="success" %}}
-Default values for connecting to Jaeger are based on the [Istio's provided
-sample add-on manifests](https://github.com/istio/istio/tree/master/samples/addons).
-If your Jaeger setup differs significantly from the sample add-ons, make sure
-that Istio is also properly configured to push traces to the right URL.
-{{% /alert %}}
-
-## Use Jaeger frontend with Grafana Tempo tracing backend
+### Use Jaeger frontend with Grafana Tempo tracing backend
 
 It is possible to use the Grafana Tempo tracing backend exposing the Jaeger API.
 [tempo-query](https://github.com/grafana/tempo/tree/main/cmd/tempo-query) is a
@@ -61,7 +44,7 @@ requests into Tempo queries.
 Since Tempo is not yet part of the built-in addons that are part of Istio, you
 need to manage your Tempo instance.
 
-## Tanka
+#### Tanka
 
 The [official Grafana Tempo documentation](https://grafana.com/docs/tempo/latest/setup/tanka/)
 explains how to deploy a Tempo instance using [Tanka](https://tanka.dev/). You
@@ -79,7 +62,7 @@ the service in `distributor.tempo.svc.cluster.local:9411`.
 The `in_cluster_url` Kiali option needs to be set to'
 `http://query-frontend.tempo.svc.cluster.local:16685`.
 
-### Tempo Operator
+#### Tempo Operator
 
 The [Tempo Operator for Kubernetes](https://github.com/grafana/tempo-operator)
 provides a native Kubernetes solution to deploy Tempo easily in your system.

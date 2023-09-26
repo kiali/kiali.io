@@ -6,7 +6,7 @@ weight: 1
 
 ### Introduction
 
-Kiali uses [Jaeger]({{< ref "/docs/Configuration/p8s-jaeger-grafana/jaeger" >}}) as a default distributed tracing backend. In this tutorial, we will replace it for [Grafana Tempo](https://grafana.com/docs/tempo/next/).
+Kiali uses [Jaeger]({{< ref "/docs/Configuration/p8s-jaeger-grafana/tracing/jaeger" >}}) as a default distributed tracing backend. In this tutorial, we will replace it for [Grafana Tempo](https://grafana.com/docs/tempo/next/).
 
 We will setup a local environment in minikube, and install Kiali with Tempo as a distributed backend. This is a simplified architecture diagram:
 
