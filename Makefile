@@ -12,14 +12,25 @@ else
 	@$(eval FORCE_BUILD ?= $(shell podman inspect ${KIALI_HUGO_IMAGE} > /dev/null 2>&1 || echo "true"))
 endif
 
-## Generates the CRD documentation. This requires cluster-admin access to a k8s cluster.
-.PHONY: gen-crd-doc
-gen-crd-doc:
+.PHONY: .gen-crd-doc-kiali
+.gen-crd-doc-kiali:
 	mkdir -p ./tmp-crd-docs
-	curl -L https://raw.githubusercontent.com/kiali/kiali-operator/master/crd-docs/config/apigen-config.yaml -o ./tmp-crd-docs/apigen-config.yaml
-	curl -L https://raw.githubusercontent.com/kiali/kiali-operator/master/crd-docs/config/apigen-crd.template -o ./tmp-crd-docs/apigen-crd.template
+	curl -L https://raw.githubusercontent.com/kiali/kiali-operator/master/crd-docs/config/kiali/apigen-config.yaml -o ./tmp-crd-docs/apigen-config.yaml
+	curl -L https://raw.githubusercontent.com/kiali/kiali-operator/master/crd-docs/config/kiali/apigen-crd.template -o ./tmp-crd-docs/apigen-crd.template
 	${DORP} run -v ./content/en/docs/Configuration:/opt/crd-docs-generator/output:z -v ./tmp-crd-docs:/opt/crd-docs-generator/config:z quay.io/giantswarm/crd-docs-generator:0.9.0 --config /opt/crd-docs-generator/config/apigen-config.yaml
 	rm -rf ./tmp-crd-docs
+
+.PHONY: .gen-crd-doc-ossmconsole
+.gen-crd-doc-ossmconsole:
+	mkdir -p ./tmp-crd-docs
+	curl -L https://raw.githubusercontent.com/kiali/kiali-operator/master/crd-docs/config/ossmconsole/apigen-config.yaml -o ./tmp-crd-docs/apigen-config.yaml
+	curl -L https://raw.githubusercontent.com/kiali/kiali-operator/master/crd-docs/config/ossmconsole/apigen-crd.template -o ./tmp-crd-docs/apigen-crd.template
+	${DORP} run -v ./content/en/docs/Configuration:/opt/crd-docs-generator/output:z -v ./tmp-crd-docs:/opt/crd-docs-generator/config:z quay.io/giantswarm/crd-docs-generator:0.9.0 --config /opt/crd-docs-generator/config/apigen-config.yaml
+	rm -rf ./tmp-crd-docs
+
+## Generates the CRD documentation. This requires cluster-admin access to a k8s cluster.
+.PHONY: gen-crd-doc
+gen-crd-doc: .gen-crd-doc-kiali .gen-crd-doc-ossmconsole
 
 ## Deletes the directories that are auto-generated
 .PHONY: clean
