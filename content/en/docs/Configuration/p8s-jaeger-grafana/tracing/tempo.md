@@ -23,16 +23,34 @@ spec:
       # Enabled by default. Kiali will anyway fallback to disabled if
       # Tempo is unreachable.
       enabled: true
-      # Jaeger service name is "tracing" and is in the "telemetry" namespace.
+      # Tempo service name is "query-frontend" and is in the "tempo" namespace.
       # Make sure the URL you provide corresponds to the non-GRPC enabled endpoint
-      # if you set "use_grpc" to false.
-      in_cluster_url: "http://tracing.telemetry:3200"
+      # It does not support grpc yet, so make sure "use_grpc" is set to false.
+      in_cluster_url: "http://query-frontend.tempo:3200"
       provider: "tempo"
-      use_grpc: true
-      # Public facing URL of Grafana with the Tempo Datasource 
-      # Note this is not fully integrated 
-      url: "http://my-tempo-host/explore?left=%7B%22datasource%22:%22Tempo%22,%22queries%22:%5B%7B%22refId%22:%22A%22,%22queryType%22:%22traceId%22,%22query%22:%22%22%7D%5D,%22range%22:%7B%22from%22:%22now-1h%22,%22to%22:%22now%22%7D%7D&orgId=1"
+      use_grpc: false
+      # Public facing URL of Grafana 
+      url: "http://my-tempo-host:3200"
 ```
+
+The default UI for Grafana Tempo is Grafana, so we should also set the Grafana url in the configuration: 
+
+```yaml
+spec:
+  external_services:
+    grafana:
+      in_cluster_url: http://grafana.istio-system:13000
+      url: http://my-grafana-host:13000
+```
+
+We also need to set up a default [Tempo datasource](https://grafana.com/docs/grafana/latest/datasources/tempo/) in Grafana. 
+
+![Kiali grafana_tempo](/images/documentation/configuration/grafana_tempo_ds.png)
+
+To improve performance, the data of each Trace is not complete until we click in that specific trace. Because all the trace information is not
+complete before the click, the total number of spans is unknown, and all the traces are represented in the graph with the same size. 
+
+![Kiali grafana_tempo](/images/documentation/configuration/grafana_tempo.png)
 
 ### Use Jaeger frontend with Grafana Tempo tracing backend
 

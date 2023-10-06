@@ -1,5 +1,5 @@
 ---
-title: "Prometheus, Jaeger, Grafana"
+title: "Prometheus, Tracing, Grafana"
 description: "Kiali data sources and add-ons."
 ---
 
