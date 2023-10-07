@@ -6,6 +6,34 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 1.75.0
+Sprint Release: Oct 06
+
+Features:
+
+* [GW API Multiple implementations](https://github.com/kiali/kiali/issues/6429)
+* [Support K8s native sidecars](https://github.com/kiali/kiali/issues/6130)
+* [PF5 Move deprecated Select](https://github.com/kiali/kiali/issues/6449)
+* [Tempo tempo reading traces](https://github.com/kiali/kiali/issues/5849)
+* [Tempo Rename to Tracing instead of Jaeger when applicable ](https://github.com/kiali/kiali/issues/6537)
+* [Tempo Update hack script to support OpenShift](https://github.com/kiali/kiali/issues/6663)
+* [Focus selector support in PF graph](https://github.com/kiali/openshift-servicemesh-plugin/issues/203)
+* [Include Ambient annotations as configuration settings](https://github.com/kiali/kiali/issues/6522)
+* [FAQ on how to get Kiali and Istio versions](https://github.com/kiali/kiali/issues/6599)
+
+Fixes:
+
+* [Remote cluster istio-system namespace card show data from primary control plane](https://github.com/kiali/kiali/issues/6437)
+* ["Cannot load the graph: json: cannot unmarshal object into Go value of type ()*kubernetes.RegistryEndpoint"](https://github.com/kiali/kiali/issues/6510)
+* [Multicluster - Traffic routings created via Graph page are always located in the local cluster](https://github.com/kiali/kiali/issues/6615)
+* [Breadcrumb click on Istio Type filter - Filter type is reset](https://github.com/kiali/kiali/issues/6632)
+* [Grafana, Ingress, Egress pods not running in Openshift after installing istio via istioctl](https://github.com/kiali/kiali/issues/6635)
+* [K8sGateway Validations - Inconsistency in lists](https://github.com/kiali/kiali/issues/6633)
+* [Little disalignments in Kiali UI](https://github.com/kiali/kiali/issues/6639)
+* [Wrong cluster when double tapping on a service/application in node graph](https://github.com/kiali/kiali/issues/6657)
+* [molecule tests are broken due to upstream galaxy changes](https://github.com/kiali/kiali/issues/6670)
+* [Annotation wizard behaviour is not correct when user add/deletes some annotations](https://github.com/kiali/kiali/issues/6676)
+
 ## 1.74.0
 Sprint Release: Sep 15, 2023
 
