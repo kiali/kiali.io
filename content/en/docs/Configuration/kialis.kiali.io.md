@@ -351,6 +351,7 @@ spec:
       in_cluster_url: ""
       is_core: false
       namespace_selector: true
+      provider: "jaeger"
       # default: query_scope is empty
       query_scope:
         mesh_id: "mesh-1"
@@ -4247,7 +4248,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>Configuration used to access the Tracing (Jaeger) dashboards.</p>
+<p>Configuration used to access the Tracing (Jaeger or Tempo) dashboards.</p>
 
 </div>
 
@@ -4476,6 +4477,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property-description">
 <p>Kiali use this boolean to find traces with a namespace selector : service.namespace.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.tracing.provider">.spec.external_services.tracing.provider</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The trace provider to get the traces from. Value must be one of: <code>jaeger</code> or <code>tempo</code>.</p>
 
 </div>
 
