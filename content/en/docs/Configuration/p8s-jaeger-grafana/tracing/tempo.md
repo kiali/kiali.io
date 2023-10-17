@@ -9,10 +9,10 @@ weight: 2
 
 There are two possibilities to integrate Kiali with Grafana Tempo:
 
-- Using the Tempo API: This option returns the traces from the Tempo API in OpenTelemetry format. 
+- Using the Grafana Tempo API: This option returns the traces from the Tempo API in OpenTelemetry format. 
 - Using the Jaeger frontend with the Grafana Tempo backend.
 
-### Use Tempo API 
+### Using the Grafana Tempo API 
 
 This is a configuration example to setup Kiali tracing with Grafana Tempo: 
 
@@ -39,20 +39,20 @@ The default UI for Grafana Tempo is Grafana, so we should also set the Grafana u
 spec:
   external_services:
     grafana:
-      in_cluster_url: http://grafana.istio-system:13000
-      url: http://my-grafana-host:13000
+      in_cluster_url: http://grafana.istio-system:3000
+      url: http://my-grafana-host
 ```
 
 We also need to set up a default [Tempo datasource](https://grafana.com/docs/grafana/latest/datasources/tempo/) in Grafana. 
 
 ![Kiali grafana_tempo](/images/documentation/configuration/grafana_tempo_ds.png)
 
-To improve performance, the data of each Trace is not complete until we click in that specific trace. Because all the trace information is not
-complete before the click, the total number of spans is unknown, and all the traces are represented in the graph with the same size. 
+To improve performance, the data of each Trace is not complete until we hover in that specific trace. Because all the trace information is not
+complete in advance, the total number of spans is unknown, and all the traces are represented in the graph with the same size. 
 
 ![Kiali grafana_tempo](/images/documentation/configuration/grafana_tempo.png)
 
-### Use Jaeger frontend with Grafana Tempo tracing backend
+### Using the Jaeger frontend with Grafana Tempo tracing backend
 
 It is possible to use the Grafana Tempo tracing backend exposing the Jaeger API.
 [tempo-query](https://github.com/grafana/tempo/tree/main/cmd/tempo-query) is a
