@@ -99,14 +99,15 @@ oc -n ${OPERATOR_NAMESPACE} patch $(oc -n ${OPERATOR_NAMESPACE} get csv -o name 
 
 ### How can I inject an Istio sidecar in the Kiali pod?
 
-By default, Kiali will not have an [Istio sidecar](https://istio.io/latest/docs/setup/additional-setup/sidecar-injection/). If you wish to deploy the Kiali pod with a sidecar,
-you have to define the `sidecar.istio.io/inject=true` label in the `spec.deployment.pod_labels` setting in the Kiali CR. For example:
+By default, Kiali will not have an [Istio sidecar](https://istio.io/latest/docs/setup/additional-setup/sidecar-injection/). If you wish to deploy the Kiali pod with a sidecar, you have to define the `sidecar.istio.io/inject=true` label in the `spec.deployment.pod_labels` setting in the Kiali CR. In addition, to ensure the sidecar and Kiali server containers start in the correct order, the Istio annotation `proxy.istio.io/config` should be defined in the `spec.deployment.pod_annotations` setting in the Kiali CR. For example:
 
 ```yaml
 spec:
   deployment:
     pod_labels:
       sidecar.istio.io/inject: "true"
+    pod_annotations:
+      proxy.istio.io/config: '{ "holdApplicationUntilProxyStarts": true }'
 ```
 
 If you are utilizing CNI in your Istio environment (for example, on OpenShift), Istio will not allow sidecars to work when injected in pods deployed in the control plane namespace, e.g. `istio-system`. [(1)](https://istio.io/v1.10/docs/setup/additional-setup/cni/#identifying-pods-requiring-traffic-redirection) [(2)](https://github.com/istio/istio/issues/34560) [(3)](https://preliminary.istio.io/latest/docs/ops/diagnostic-tools/cni/#diagnose-pod-start-up-failure). In this case, you must deploy Kiali in its own separate namespace. On OpenShift, you can do this using the following instructions.
