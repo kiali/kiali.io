@@ -1,7 +1,7 @@
 ---
 title: "Configuration"
 description: "How to configure Kiali to fit your needs."
-weight: 2
+weight: 20
 ---
 
 The pages in this _Configuration_ section describe most available options for
