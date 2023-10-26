@@ -12,7 +12,7 @@ The main component of OSSMC is a plugin that gets installed inside the OpenShift
 There are no helm charts available to install OSSMC. You must utilize the Kiali Operator to install it. Installing the Kiali Operator on OpenShift is very easy due to the Operator Lifecycle Manager (OLM) functionality that comes with OpenShift out-of-box. Simply elect to install the Kiali Operator from the Red Hat or Community Catalog from the OperatorHub page in OpenShift Console.
 {{% /alert %}}
 
-The Kiali Operator watches the _OSSMConsole Custom Resource_ ([OSSMConsole CR](/docs/configuration/ossmconsole.kiali.io)), a custom resource that contains the OSSMC deployment configuration. Creating, updating, or removing a OSSMConsole CR will trigger the Kiali Operator to install, update, or remove OSSMC.
+The Kiali Operator watches the _OSSMConsole Custom Resource_ ([OSSMConsole CR](/docs/configuration/ossmconsoles.kiali.io)), a custom resource that contains the OSSMC deployment configuration. Creating, updating, or removing a OSSMConsole CR will trigger the Kiali Operator to install, update, or remove OSSMC.
 
 {{% alert color="warning" %}}
 *Never* manually edit resources created by the Kiali Operator, only edit the OSSMConsole CR.
