@@ -44,9 +44,9 @@ EOM
 
 Note that the operator will deploy the plugin resources in the same namespace where you create this OSSMConsole CR - in this case `openshift-operators` but you can create the CR in any namespace.
 
-For a complete list of configuration options available within the OSSMConsole CR, see the [OSSMConsole CR Reference](/docs/configuration/ossmconsole.kiali.io).
+For a complete list of configuration options available within the OSSMConsole CR, see the [OSSMConsole CR Reference](/docs/configuration/ossmconsoles.kiali.io).
 
-To confirm your OSSMConsole CR is valid, you can utilize the [OSSMConsole CR validation tool](/docs/configuration/ossmconsole.kiali.io/#validating-your-ossmconsole-cr).
+To confirm your OSSMConsole CR is valid, you can utilize the [OSSMConsole CR validation tool](/docs/configuration/ossmconsoles.kiali.io/#validating-your-ossmconsole-cr).
 
 ### Installation Status
 
