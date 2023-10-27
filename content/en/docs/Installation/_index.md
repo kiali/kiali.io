@@ -1,7 +1,7 @@
 ---
 title: "Installation"
 linkTitle: "Installation"
-weight: 1
+weight: 10
 description: Installation options and instructions.
 ---
 
