@@ -354,11 +354,13 @@ operator itself was configured.</p>
 <div class="property-description">
 <p>The version of the Ansible playbook to execute in order to install that version of OSSM Console.
 It is rare you will want to set this - if you are thinking of setting this, know what you are doing first.
-The only supported value today is <code>default</code>.
-If not specified, a default version of Kiali will be installed which will be the most recent release of Kiali.
+The only supported value today is <code>default</code>.</p>
+
+<p>If not specified, a default version of OSSMC will be installed which will be the most recent release of OSSMC.
 Refer to this file to see where these values are defined in the master branch,
 <a href="https://github.com/kiali/kiali-operator/blob/master/playbooks/ossmconsole-default-supported-images.yml">https://github.com/kiali/kiali-operator/blob/master/playbooks/ossmconsole-default-supported-images.yml</a></p>
-This version setting affects the defaults of the deployment.imageName and
+
+<p>This version setting affects the defaults of the deployment.imageName and
 deployment.imageVersion settings. See the comments for those settings
 below for additional details. But in short, this version setting will
 dictate which version of the OSSM Console image will be deployed by default.
