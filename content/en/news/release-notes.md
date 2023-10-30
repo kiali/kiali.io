@@ -6,8 +6,42 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 1.76.0
+Sprint Release: Oct 27, 2023
+
+Features:
+
+* [Update go version 1.20.10](https://github.com/kiali/kiali/issues/6716)
+* [Tempo - Update the main external link to distributed tracing](https://github.com/kiali/kiali/issues/6687)
+* [Tempo - Update documentation](https://github.com/kiali/kiali/issues/6689)
+* [Tempo - Update Trace data on hover ](https://github.com/kiali/kiali/issues/6699)
+* [Add cluster_name support for run-kiali.sh hack script](https://github.com/kiali/kiali/issues/6742)
+* [Istio warning/error status for situations where eastwestgateway is not healthy.](https://github.com/kiali/kiali/issues/6609)
+* [istio hack script: cluster name should not be set to empty string](https://github.com/kiali/kiali/issues/6751)
+* [OSSMC - build and release ossmc plugin at end of sprint](https://github.com/kiali/kiali/issues/6706)
+* [OSSMC - Add scrollbar environment variable](https://github.com/kiali/openshift-servicemesh-plugin/issues/208)
+* [PF5 - Move deprecated component Dropdown](https://github.com/kiali/kiali/issues/6448)
+
+Fixes:
+
+* [Kiali Crashing in sidecar validation (without a sidecar)](https://github.com/kiali/kiali/issues/6010)
+* [(CI) Test flake - workload logs](https://github.com/kiali/kiali/issues/6494)
+* [Unable to reach API Server 'istio APIs and resources are not present in cluster (Kubernetes)'](https://github.com/kiali/kiali/issues/6598)
+* [Multi mesh setup results in an error when fetching workloads](https://github.com/kiali/kiali/issues/6772)
+* [Double istio rev in configmap name](https://github.com/kiali/kiali/issues/6669)
+* [Selecting a trace in the Graph does not mark the edges when using Tempo ](https://github.com/kiali/kiali/issues/6674)
+* [Service of a remote app/workload is not reported in the detail view](https://github.com/kiali/kiali/issues/6682)
+* [Tempo - Incomplete span data](https://github.com/kiali/kiali/issues/6693)
+* [Invalid AuthorizationPolicy generated from Overview page ](https://github.com/kiali/kiali/issues/6702)
+* [Envoy is duplicated across both clusters](https://github.com/kiali/kiali/issues/6711)
+* [Traffic tab in Apps details is duplicated for both clusters](https://github.com/kiali/kiali/issues/6712)
+* [(ci) need to fix CI script for running molecule tests on openshift](https://github.com/kiali/kiali/issues/6738)
+* [Gateway badge is not being applied to gateways in the graph](https://github.com/kiali/kiali/issues/6740)
+* [Inbound Metrics tab for the Service detail is duplicated for services in different clusters](https://github.com/kiali/kiali/issues/6745)
+* [setup-kind-ci.sh script fails if it is not executed from root folder](https://github.com/kiali/kiali/issues/6750)
+
 ## 1.75.0
-Sprint Release: Oct 06
+Sprint Release: Oct 06, 2023
 
 Features:
 
