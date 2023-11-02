@@ -1,0 +1,22 @@
+{{ $data := index .Site.Data.compatibility.maistra }}
+
+<table border="1">
+  <thead>
+    <tr>
+      <th style="width:80px">Maistra</th>
+      <th style="width:80px">SMCP CR</th>
+      <th style="width:70px">Kiali</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{ range $data.versionRange }}
+    <tr>
+      <td>{{ .maistraVersion }}</td>
+      <td>{{ .smcpCRVersion }}</td>
+      <td>{{ .kialiVersion }}</td>
+      <td>{{ .notes }}</td>
+    </tr>
+    {{ end }}
+  </tbody>
+</table>

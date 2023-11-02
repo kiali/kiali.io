@@ -1,7 +1,7 @@
 ---
 title: "Installation Guide"
 description: "Installing Kiali for production."
-weight: 20
+weight: 10
 ---
 
 This section describes the production installation methods available for Kiali.
