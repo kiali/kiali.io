@@ -1,7 +1,7 @@
 ---
 title: "Prerequisites"
 description: "Hardware and Software compatibility and requirements."
-weight: 10
+weight: 15
 ---
 
 ## Istio
@@ -44,7 +44,7 @@ supported Istio versions.
 
 ## Maistra Version Compatibility
 
-{{% readfile file="/content/en/docs/Installation/installation-guide/compatibility-maistra.md" %}}
+{{<compat-table-maistra>}}
 
 <br />
 
