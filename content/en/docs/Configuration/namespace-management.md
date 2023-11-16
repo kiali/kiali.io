@@ -79,11 +79,6 @@ overlapping patterns.
 A cluster can have at most one Kiali instance with `accessible_namespaces` unset.
 {{% /alert %}}
 
-Maistra supports multi-tenancy and the `accessible_namespaces` extends that
-feature to Kiali. However, explicit naming of accessible namespaces can benefit
-non-Maistra installations as well - with it Kiali does not need cluster roles
-and the Kiali Operator does not need permissions to create cluster roles.
-
 ## Istio Discovery Selectors
 
 In Istio's [MeshConfig](https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig), you can provide a list of discovery selectors that Istio will consider when processing namespaces. The Kiali server will also utilize these same discovery selectors when determining which namespaces to make available to users. Therefore, these discovery selectors work in conjunction with the `accessible_namespaces` setting. The `accessible_namespaces` setting dictates which namespaces are _accessible_ to the Kiali Server, and hence to users of Kiali. The Istio discovery selectors tell Kiali to make _available_ to users those namespaces within the `accessible_namespaces` list. So discovery selectors are a subset of `accessible_namespaces`.
