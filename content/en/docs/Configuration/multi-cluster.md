@@ -56,6 +56,18 @@ spec:
 EOF
 ```
 
+As an alternative, it can be added in the Istio tracing config in the primary cluster (Without using the Telemetry API): 
+
+```
+meshConfig:
+  defaultConfig:
+    tracing:
+      custom_tags:
+        cluster:
+          environment:
+            name: ISTIO_META_CLUSTER_ID
+```
+
 3. Optional - **Configure user access in your OIDC provider.** When using anonymous mode, the Kiali SA credentials will be used to display mesh info to the user. When not using anonymous mode, Kiali will check the user's access to each configured cluster's namespace before showing the user any resources from that namespace. Please refer to your OIDC provider's instructions for configuring user access to a kube cluster for this.
 
 4. Optional - **Narrow metrics to mesh.** If your unified metrics store also contains data outside of your mesh, you can limit which metrics Kiali will query for by setting the [query_scope](/docs/configuration/kialis.kiali.io#.spec.external_services.custom_dashboards.prometheus.query_scope) configuration.
