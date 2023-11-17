@@ -60,14 +60,12 @@ As an alternative, it can be added in the Istio tracing config in the primary cl
 
 ```
 meshConfig:
-  accessLogFile: /dev/stdout
-    defaultConfig:
-      tracing:
-        sampling: 100
-        custom_tags:
-          cluster:
-            environment:
-              name: ISTIO_META_CLUSTER_ID
+  defaultConfig:
+    tracing:
+      custom_tags:
+        cluster:
+          environment:
+            name: ISTIO_META_CLUSTER_ID
 ```
 
 3. Optional - **Configure user access in your OIDC provider.** When using anonymous mode, the Kiali SA credentials will be used to display mesh info to the user. When not using anonymous mode, Kiali will check the user's access to each configured cluster's namespace before showing the user any resources from that namespace. Please refer to your OIDC provider's instructions for configuring user access to a kube cluster for this.
