@@ -6,6 +6,32 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 1.77.0
+Sprint Release: Nov 17, 2023
+
+Features:
+
+* [Tempo - Wrong Distributed Tracing link for nav menu](https://github.com/kiali/kiali/issues/6795)
+* [Tempo - Span query returning emptly results ](https://github.com/kiali/kiali/issues/6540)
+* [PF5 - Upgrade to patternfly 5](https://github.com/kiali/kiali/issues/6438)
+* [PF5 - Move table deprecated component](https://github.com/kiali/kiali/issues/6450)
+* [OSSMC - add version fields to operator CSV metadata for display in OS Console UI](https://github.com/kiali/kiali/issues/6813)
+
+Fixes:
+
+* [helm-charts smoke test GH action fails to start](https://github.com/kiali/kiali/issues/6704)
+* [Traces are duplicated across both clusters ](https://github.com/kiali/kiali/issues/6710)
+* [getNamespaceMetrics includes cluster in query params](https://github.com/kiali/kiali/issues/6753)
+* [(operator) only process one OSSMConsole CR](https://github.com/kiali/kiali/issues/6792)
+* [ossmc package.json did not get updated version during last build](https://github.com/kiali/kiali/issues/6807)
+* [empty tree entry in kiali.io installation menu and goes to incorrect place](https://github.com/kiali/kiali/issues/6787)
+* [Repeatedly refreshing causes the UI to crash](https://github.com/kiali/kiali/issues/6714)
+* [Extra space between left nav and top nav](https://github.com/kiali/kiali/issues/6810)
+* [Multicluster - Missing cluster param in Show traces](https://github.com/kiali/kiali/issues/6815)
+* [Trace link in Graph - Trace is not loaded when clicked](https://github.com/kiali/kiali/issues/6825)
+* [(run-kiali) Error fetching availability of the tracing service](https://github.com/kiali/kiali/issues/6808)
+* [Error deploying istio 1.20 with hack script in OpenShift](https://github.com/kiali/kiali/issues/6847)
+
 ## 1.76.0
 Sprint Release: Oct 27, 2023
 
