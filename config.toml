@@ -222,52 +222,20 @@ enable = false
   url = "https://v1-76.kiali.io"
 
 [[ params.versions ]]
-  version = "v1.75"
+  version = "v1.75 [istio v1.19]"
   url = "https://v1-75.kiali.io"
 
 [[ params.versions ]]
-  version = "v1.74"
-  url = "https://v1-74.kiali.io"
-
-[[ params.versions ]]
-  version = "v1.73"
+  version = "v1.73 [istio v1.18]"
   url = "https://v1-73.kiali.io"
 
 [[ params.versions ]]
-  version = "v1.72"
-  url = "https://v1-72.kiali.io"
-
-[[ params.versions ]]
-  version = "v1.71"
-  url = "https://v1-71.kiali.io"
-
-[[ params.versions ]]
-  version = "v1.70"
-  url = "https://v1-70.kiali.io"
-
-[[ params.versions ]]
-  version = "v1.69"
-  url = "https://v1-69.kiali.io"
-
-[[ params.versions ]]
-  version = "v1.68"
-  url = "https://v1-68.kiali.io"
-
-[[ params.versions ]]
-  version = "v1.67"
-  url = "https://v1-67.kiali.io"
-
-[[ params.versions ]]
-  version = "v1.66"
+  version = "v1.66 [istio v1.17]"
   url = "https://v1-66.kiali.io"
 
 [[ params.versions ]]
   version = "v1.65 [ossm v2.4]"
   url = "https://v1-65.kiali.io"
-
-[[ params.versions ]]
-  version = "v1.64"
-  url = "https://v1-64.kiali.io"
 
 [[ params.versions ]]
   version = "v1.63 [istio v1.16]"
