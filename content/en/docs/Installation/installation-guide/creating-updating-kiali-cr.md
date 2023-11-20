@@ -10,7 +10,7 @@ Kiali CR will trigger the Kiali Operator to install, update, or remove Kiali.
 {{% alert color="success" %}}
 If you want the operator to re-process the Kiali CR (called "reconciliation") without having to change the Kiali CR's `spec` fields, you can modify any annotation on the Kiali CR itself. This will trigger the operator to reconcile the current state of the cluster with the desired state defined in the Kiali CR, modifying cluster resources if necessary to get them into their desired state. Here is an example illustrating how you can modify an annotation on a Kiali CR:
 ```
-$ kubectl annotate kiali my-kiali -n istio-system --overwrite kiali.io/manual-reconcile="$(date)"
+$ kubectl annotate kiali my-kiali -n istio-system --overwrite kiali.io/reconcile="$(date)"
 ```
 {{% /alert %}}
 
