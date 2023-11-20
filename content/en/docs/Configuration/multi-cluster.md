@@ -34,15 +34,12 @@ The unified Kiali multi-cluster setup requires the Kiali Service Account (SA) to
    chmod +x kiali-prepare-remote-cluster.sh
    ./kiali-prepare-remote-cluster.sh --kiali-cluster-context east --remote-cluster-context west --view-only false
    ```
+
 {{% alert color="info" %}}
-If you wish to delete a remote cluster secret that was previously created by that script, pass in the command line option `--delete true` to the script along with the same command line options you passed in when creating the secret. Use the option `--help` for additional details on using the script to create and delete remote cluster secrets.
+Use the option `--help` for additional details on using the script to create and delete remote cluster secrets.
 {{% /alert %}}
 
 2. **Configure Kiali.** The Kiali CR provides configuration settings that enable the Kiali Server to use remote cluster secrets in order to access remote clusters. By default, the Kiali Operator will [auto-detect](/docs/configuration/kialis.kiali.io/#.spec.kiali_feature_flags.clustering.autodetect_secrets) any remote cluster secret that has a label `kiali.io/multiCluster=true` and is found in the Kiali deployment namespace. The secrets created by the `kiali-prepare-remote-cluster.sh` script will be created that way and thus can be auto-detected. Alternatively, in the Kiali CR you can [explicitly specify each remote cluster secret](/docs/configuration/kialis.kiali.io/#.spec.kiali_feature_flags.clustering.clusters) rather than rely on auto-discovery. Given the remote cluster secrets it knows about (either through auto-discovery or through explicit configuration) the Operator will mount the remote cluster secrets into the Kiali Server pod effectively putting Kiali in "multi-cluster" mode. Kiali will begin using those credentials to communicate with the other clusters in the mesh.
-
-{{% alert color="info" %}}
-If you are using auto-discovery and you removed a remote cluster secret then you must touch the Kiali CR in order for the Operator to effectively remove the remote cluster secret from the Kiali Server pod. The easiest way to do this is to simply add or modify any annotation on the Kiali CR. It is suggested you use the `kiali.io/reconcile` annotation as described [here](/docs/installation/installation-guide/creating-updating-kiali-cr).
-{{% /alert %}}
 
 3. Optional - **Configure tracing with cluster ID.** By default, traces do not include their cluster name in the trace tags however this can be added using the istio telemetry API.
 
@@ -80,3 +77,9 @@ meshConfig:
 5. Optional - **Narrow metrics to mesh.** If your unified metrics store also contains data outside of your mesh, you can limit which metrics Kiali will query for by setting the [query_scope](/docs/configuration/kialis.kiali.io#.spec.external_services.custom_dashboards.prometheus.query_scope) configuration.
 
 That's it! From here you can login to Kiali and manage your mesh across both clusters from a single Kiali instance.
+
+#### Removing a Cluster
+
+To remove a cluster from Kiali, you must delete the associated remote cluster secret. If you originally created the remote cluster secret via the [kiali-prepare-remote-cluster.sh script](https://github.com/kiali/kiali/blob/master/hack/istio/multicluster/kiali-prepare-remote-cluster.sh), run that script again with the same command line options as before but also pass in the command line option `--delete true`.
+
+If you are using auto-discovery and you removed a remote cluster secret then you must touch the Kiali CR in order for the Operator to effectively remove the remote cluster secret from the Kiali Server pod. The easiest way to do this is to simply add or modify any annotation on the Kiali CR. It is suggested you use the `kiali.io/reconcile` annotation as described [here](/docs/installation/installation-guide/creating-updating-kiali-cr).
