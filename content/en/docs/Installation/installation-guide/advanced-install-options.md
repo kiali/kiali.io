@@ -122,7 +122,7 @@ helm install \
   --set cr.spec.deployment.image_version=latest \
   --set image.tag=latest \
   --namespace kiali-operator \
-  -- create-namespace \
+  --create-namespace \
   kiali-operator \
   kiali/kiali-operator
 ```
