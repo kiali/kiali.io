@@ -4571,7 +4571,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>Set to true in order to enable GRPC connections between Kiali and Jaeger which will speed up the queries. In some setups you might not be able to use GRPC (e.g. if Jaeger is behind some reverse proxy that doesn&rsquo;t support it). If not specified, this will defalt to &lsquo;false&rsquo; if deployed within a Maistra/OSSM+OpenShift environment, &lsquo;true&rsquo; otherwise.</p>
+<p>Set to true in order to enable GRPC connections between Kiali and Jaeger which will speed up the queries. In some setups you might not be able to use GRPC (e.g. if Jaeger is behind some reverse proxy that doesn&rsquo;t support it). If not specified, this will defalt to &lsquo;true&rsquo;.</p>
 
 </div>
 
