@@ -383,6 +383,16 @@ Validate that a subset is properly configured.
 
 - [DestinationRule Subset](https://istio.io/latest/docs/reference/config/networking/destination-rule)
 
+### K8s Gateway API
+
+Note that with the support of K8s Gateway API, a new mechanism of subsetting is introduced. Which means, that each version of a service should have a separate Service pointing to that particular version. And instead of the usage of DestinationRules, there should be a K8s HTTPRoute object created, referencing to Services per version in it's rules.
+
+#### See Also
+
+- [K8s HTTP Routing](https://gateway-api.sigs.k8s.io/guides/http-routing)
+- [Istio Mesh K8s Gateway Traffic](https://istio.io/latest/docs/tasks/traffic-management/ingress/gateway-api/#mesh-traffic)
+- [K8s HTTPRoute Validations in Kiali](https://kiali.io/docs/features/validations/#httproutes)
+
 
 ## Gateways {#gateways}
 
