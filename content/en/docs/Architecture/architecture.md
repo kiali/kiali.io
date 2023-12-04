@@ -95,6 +95,7 @@ integration]({{< ref "/docs/features/tracing" >}}).
 Tracing data will be available only if
 [Istio's distributed tracing](https://istio.io/docs/tasks/telemetry/distributed-tracing/) is enabled. 
 
+As an alternative, [Grafana Tempo](/docs/configuration/p8s-jaeger-grafana/tracing/tempo) can be used. 
 
 ## Grafana
 
