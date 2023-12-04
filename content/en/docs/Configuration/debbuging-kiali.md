@@ -5,7 +5,9 @@ description: "How to debug Kiali using traces."
 
 Kiali provides the ability to emit debugging traces to the [distributed tracing](/docs/configuration/p8s-jaeger-grafana/tracing) platform, Jaeger or Grafana Tempo. 
 
-> Jaeger **will be deprecated** in the next release. 
+{{% alert color="warning" %}}
+In the next release, the feature of Kiali emitting tracing data into Jaeger **will be deprecated**.
+{{% /alert %}}
 
 The traces can be sent in HTTP, HTTPS or gRPC protocol. This is specific for the collector type _otel_ - Jaeger traces are sent by http. It is also possible to use TLS. When _tls_enabled_ is set to true, one of the options _skip_verify_ or _ca_name_ should be specified. 
 
