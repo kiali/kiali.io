@@ -27,7 +27,8 @@ server:
         ca_name: "/tls.crt"
 ```
 
-The traces emitted by Kiali can be searched using the service name _Kiali_.
+The traces emitted by Kiali can be searched in the _Kiali_ workload.
 
-![Kiali traces](/images/documentation/configuration/kiali_traces.png)
+![Kiali traces](/images/documentation/configuration/kiali_own_traces.png)
+
 
