@@ -3,11 +3,11 @@ title: Tracing
 description: How Kiali integrates Distributed Tracing with Jaeger.
 ---
 
-Kiali offers a native integration with Jaeger for Distributed Tracing.  As such, users can access Jaeger's trace visualizations.  But more
+Kiali offers a native integration with two different Distributed Tracing platforms, Jaeger and Grafana Tempo.  As such, users can access trace visualizations.  But more
 than that, Kiali incorporates tracing into several correlated views, making your investment in trace data even more valuable.
 
 For a quick glimpse at Kiali tracing features, see below.  For a detailed explanation of tracing in Kiali, see this 3-part
-[Trace my mesh](https://medium.com/kialiproject/trace-my-mesh-part-1-3-35e252f9c6a9) blog series,
+[Trace my mesh](https://medium.com/kialiproject/trace-my-mesh-part-1-3-35e252f9c6a9) blog series. There is a detailed guide to configure access to the different distributed tracing platform, [Jaeger](/docs/configuration/p8s-jaeger-grafana/tracing/jaeger) and [Grafana Tempo](/docs/configuration/p8s-jaeger-grafana/tracing/tempo). 
 
 <br />
 

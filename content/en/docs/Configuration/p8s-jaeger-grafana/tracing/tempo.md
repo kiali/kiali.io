@@ -47,10 +47,24 @@ We also need to set up a default [Tempo datasource](https://grafana.com/docs/gra
 
 ![Kiali grafana_tempo](/images/documentation/configuration/grafana_tempo_ds.png)
 
-To improve performance, the data of each Trace is not complete until we hover in that specific trace. Because all the trace information is not
-complete in advance, the total number of spans is unknown, and all the traces are represented in the graph with the same size. 
+The _Traces_ tab will show your traces in a bubble chart:
 
 ![Kiali grafana_tempo](/images/documentation/configuration/grafana_tempo.png)
+
+Increasing performance is achievable by enabling gRPC access, specifically for query searches. However, accessing the HTTP API will still be necessary to gather information about individual traces. This is an example to configure the gRPC access: 
+
+```yaml
+spec:
+  external_services:
+    tracing:
+      enabled: true
+      # grpc port defaults to 9095
+      grpc_port: 9095 
+      in_cluster_url: "http://query-frontend.tempo:3200"
+      provider: "tempo"
+      use_grpc: true
+      url: "http://my-tempo-host:3200"
+```
 
 ### Using the Jaeger frontend with Grafana Tempo tracing backend
 
