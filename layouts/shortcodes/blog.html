@@ -1,7 +1,5 @@
 {{- $maxBlogPosts := 3 }}
-{{/*expTimestamp: expire content every 1hour (6000s)*/}}
-{{- $expTimestamp := div now.Unix 6000 }}
-{{- $mediumURL    := printf "https://api.rss2json.com/v1/api.json?timestamp=%d&rss_url=https://medium.com/feed/kialiproject" $expTimestamp }}
+{{- $mediumURL    := "https://www.toptal.com/developers/feed2json/convert?url=https://medium.com/feed/kialiproject" }}
 {{- $json         := getJSON $mediumURL }}
 {{- $posts        := first $maxBlogPosts $json.items }}
 {{- $latestPost   := index $json.items 1 }}
@@ -14,17 +12,16 @@
 </h3>
 
 {{ range $posts }}
-  {{ $link    := .link }}
-  {{ $img     := .thumbnail }}
+  {{ $link    := .url }}
   {{ $title   := .title }}
-  {{ $author  := .author }}
-  {{ $dateRaw := .pubDate }}
+  {{ $author  := .author.name }}
+  {{ $dateRaw := .date_published }}
   {{ $date    := dateFormat "January 2, 2006" $dateRaw }}
-  {{ $summary := .content | plainify | truncate 200 }}
+  {{ $summary := .content_html | plainify | truncate 200 }}
   <div class="col-lg-4 mb-5 mb-lg-0 text-center ">
     <div class="blog-card">
       <figure>
-        <img src="{{ $img }}" alt="Thumbnail for {{ $title }}" width="250" height="125">
+        <img src="/featured-background.png" alt="{{ $title }}" />
       </figure>
       <div class="blog-card-body">
         <div class="blog-card-date">Posted {{ $date }}</div>
