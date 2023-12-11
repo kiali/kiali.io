@@ -348,6 +348,7 @@ spec:
         use_kiali_token: false
         username: ""
       enabled: true
+      grpc_port: 9095
       in_cluster_url: ""
       is_core: false
       namespace_selector: true
@@ -471,7 +472,10 @@ spec:
         collector_url: "http://jaeger-collector.istio-system:14268/api/traces"
         enabled: false
         otel:
+          ca_name: ""
           protocol: "http"
+          skip_verify: false
+          tls_enabled: false
     port: 20001
     web_fqdn: ""
     web_history_mode: ""
@@ -4429,6 +4433,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 <div class="property depth-3">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.external_services.tracing.grpc_port">.spec.external_services.tracing.grpc_port</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(integer)</span>
+
+</div>
+
+<div class="property-description">
+<p>Set port number when <code>use_grpc</code> is true and <code>provider</code> is <code>tempo</code>. By default is <code>9095</code></p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.external_services.tracing.in_cluster_url">.spec.external_services.tracing.in_cluster_url</h3>
 </div>
 <div class="property-body">
@@ -6638,6 +6661,25 @@ An example,</p>
 <div class="property depth-5">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.server.observability.tracing.otel.ca_name">.spec.server.observability.tracing.otel.ca_name</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The name of the CA cert; this is used when <code>tls_enabled</code> is <code>true</code> and <code>skip_verify</code> is <code>false</code>.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.server.observability.tracing.otel.protocol">.spec.server.observability.tracing.otel.protocol</h3>
 </div>
 <div class="property-body">
@@ -6648,6 +6690,44 @@ An example,</p>
 
 <div class="property-description">
 <p>Protocol. Supported values are: <code>http</code>, <code>https</code> or <code>grpc</code>.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.server.observability.tracing.otel.skip_verify">.spec.server.observability.tracing.otel.skip_verify</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>If true, TLS certificate verification will not be performed. This is an unsecure option and is recommended only for testing.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.server.observability.tracing.otel.tls_enabled">.spec.server.observability.tracing.otel.tls_enabled</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>Enable TLS for the collector. This must be specified when <code>protocol</code> is <code>https</code> or <code>grpc</code>. When you set this to <code>true</code>, you must also set a <code>ca_name</code> or set <code>skip_verify</code> to true.</p>
 
 </div>
 
