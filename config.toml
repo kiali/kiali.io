@@ -1,4 +1,4 @@
-baseURL = "https://kiali.io"
+baseURL = "https://v1-77.kiali.io"
 title = "Kiali"
 
 enableRobotsTXT = true
