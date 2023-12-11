@@ -11,7 +11,7 @@ A basic Istio mesh deployment has a single control plane with a single data plan
 [deployment models](https://istio.io/latest/docs/ops/deployment/deployment-models/). It allows a mesh to span multiple primary (control plane) and/or remote (data plane only) clusters, and can use a single or
 [multi-network](https://istio.io/latest/docs/ops/deployment/deployment-models/#multiple-networks) approach. The only strict rule is that within a mesh service names are unique. A non-basic mesh deployment generally involves multiple clusters. See [installation instructions](https://istio.io/docs/setup/install/multicluster/) for more detail on installing advanced mesh deployments.
 
-A single Kiali install can currently work with at most one mesh, one istiod, one metric store and one trace store but it can be configured for "single cluster" or "multi-cluster". All clusters must be part of the same mesh, have data planes controlled by the single istiod (control plane), and report to the same metric and trace store, whether directly or via some sort of aggregator. See the [multi-cluster configuration page]({{< relref "../Configuration/multi-cluster" >}}) for more information on requirements.
+A single Kiali install can currently work with at most one mesh, one metric store and one trace store but it can be configured for "single cluster" or "multi-cluster". All clusters must be part of the same mesh and report to the same metric and trace store, whether directly or via some sort of aggregator. See the [multi-cluster configuration page]({{< relref "../Configuration/multi-cluster" >}}) for more information on requirements.
 
 For multi-cluster configurations, Kiali provides a unified view and management of your mesh across clusters.
 
@@ -35,7 +35,7 @@ Unlike single-cluster configurations, multi-cluster configurations show list/det
 
 ### List Views: Aggregated mesh view
 
-With a multi-cluster Kiali configuration, you can view all apps, workloads, services, and Istio config in your mesh from a single place. Istio configuration is currently read only for remote clusters.
+With a multi-cluster Kiali configuration, you can view all apps, workloads, services, and Istio config in your mesh from a single place.
 
 ![Multi-cluster list pages](/images/documentation/features/multi-cluster-list.png "Multi-cluster list pages")
 

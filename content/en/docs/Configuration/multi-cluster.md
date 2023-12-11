@@ -11,11 +11,9 @@ Before proceeding with the setup, ensure you meet the requirements.
 
 ### Requirements
 
-1. **Primary-remote istio deployment.** Only the primary-remote istio deployment is currently supported.
+1. **Aggregated metrics and traces.** Kiali needs a single endpoint for metrics and a single endpoint for traces where it can consume aggregated metrics/traces across all clusters. There are many ways to aggregate metrics/traces such as Prometheus federation or using OTEL collector pipelines but setting these up are outside of the scope of Kiali.
 
-2. **Aggregated metrics and traces.** Kiali needs a single endpoint for metrics and a single endpoint for traces where it can consume aggregated metrics/traces across all clusters. There are many ways to aggregate metrics/traces such as prometheus federation or using OTEL collector pipelines but setting these up are outside of the scope of Kiali.
-
-3. **Anonymous or OpenID authentication strategy.** The unified multi-cluster configuration currently only supports anonymous or OpenID [authentication strategies]({{< relref "../Configuration/authentication" >}}). In addition, current support varies by provider for OpenID across clusters.
+2. **Anonymous or OpenID authentication strategy.** The unified multi-cluster configuration currently only supports anonymous or OpenID [authentication strategies]({{< relref "../Configuration/authentication" >}}). In addition, current support varies by provider for OpenID across clusters.
 
 ### Setup
 
@@ -60,7 +58,7 @@ spec:
 EOF
 ```
 
-As an alternative, it can be added in the Istio tracing config in the primary cluster (Without using the Telemetry API): 
+As an alternative, it can be added in the Istio tracing config in the primary cluster(s) (Without using the Telemetry API):
 
 ```
 meshConfig:
