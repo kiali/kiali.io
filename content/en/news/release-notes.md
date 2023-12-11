@@ -6,6 +6,42 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 1.78.0
+Sprint Release: Dec 08
+
+Features:
+
+* [Update Patternfly library to version 5.1](https://github.com/kiali/kiali/issues/6768)
+* [Add labels and annotations in wizards](https://github.com/kiali/kiali/issues/6806)
+* [Multicluster - When istiod is unavailable portforwarding requests scale with namespaces](https://github.com/kiali/kiali/issues/5692)
+* [Multicluster - Create an istio registry per primary](https://github.com/kiali/kiali/issues/6432)
+* [Tempo Integration - Use select for query in Tempo 2.2 ](https://github.com/kiali/kiali/issues/6616)
+* [Apply new eslint rules only to edited files](https://github.com/kiali/kiali/issues/6893)
+* [(Kiali-operator Helm Chart) Mount /tmp instead of /tmp/ansible-operator/runner as emptyDir to enable read-only root filesystem](https://github.com/kiali/kiali/issues/6888)
+* [Workload logs - improve appearance of checkboxes](https://github.com/kiali/kiali/issues/6811)
+* [Set Secure Attribute on Session Cookie ](https://github.com/kiali/kiali/issues/6912)
+
+Fixes:
+
+* [Info icon in yaml editor's overview panel is not aligned properly](https://github.com/kiali/kiali/issues/6773)
+* [patternfly graph not showing node decorators](https://github.com/kiali/kiali/issues/6926)
+* [Kiali UI not showing API Docs](https://github.com/kiali/kiali/issues/6665)
+* [(Multicluster) Not all reviews workloads are visible in Kiali ](https://github.com/kiali/kiali/issues/6780)
+* [Integration tests - Kiali 1.73 is not compatible with Istio 1.20](https://github.com/kiali/kiali/issues/6858)
+* [Istio 1.20 incompatibility](https://github.com/kiali/kiali/issues/6856)
+* [Jaeger traces: Filter by percentile no returning any trace](https://github.com/kiali/kiali/issues/6870)
+* [tracing UI - hover over trace dots "flickers" the heat map](https://github.com/kiali/kiali/issues/6881)
+* [Health icon in Application summary panel graph looks weird](https://github.com/kiali/kiali/issues/6884)
+* [panic when observability section does not configure the tracing endpoint correctly](https://github.com/kiali/kiali/issues/6913)
+* [Show kiali own traces](https://github.com/kiali/kiali/issues/6916)
+* [Disalignment in API Documentation info for Workloads and Services](https://github.com/kiali/kiali/issues/6911)
+* [Link to trace does not always open trace details](https://github.com/kiali/kiali/issues/5635)
+
+Deprecations:
+
+* Kiali is deprecating use of the Jaeger exporter for Kiali's own traces. Kiali will move to supporting only the OTel exporter.
+
+
 ## 1.77.0
 Sprint Release: Nov 17, 2023
 
