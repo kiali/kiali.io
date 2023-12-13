@@ -67,7 +67,7 @@ The most important values to set up are the following:
 
 #### Additional configuration 
 
-The _Traces_ tab will show your traces in a bubble chart:
+The _Traces_ tab in the Kiali UI will show your traces in a bubble chart:
 
 ![Kiali grafana_tempo](/images/documentation/configuration/grafana_tempo.png)
 
