@@ -40,7 +40,7 @@ spec:
       url: "https://tempo-tempo-query-frontend-tempo.apps-crc.testing/"
 ```
 
-The default UI for Grafana Tempo is Grafana, so we should also set the Grafana url in the configuration: 
+The default UI for Grafana Tempo is Grafana, so we should also set the Grafana URL in the Kiali configuration, such as this example: 
 
 ```yaml
 spec:
