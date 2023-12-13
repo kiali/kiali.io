@@ -56,7 +56,7 @@ We can optionally set up a default [Tempo datasource](https://grafana.com/docs/g
 
 ![Kiali grafana_tempo](/images/documentation/configuration/grafana_tempo_ds.png)
 
-For this, we go to the Home menu in Grafana, click in _data sources_, and then in the _Add data source_. Select the Tempo data source and fill the values: 
+To set up the Tempo datasource, go to the _Home_ menu in the Grafana UI, click _Data sources_, then click the _Add new data source_ button and select the `Tempo` data source.  You will then be asked to enter some data to configure the new Tempo data source: 
 
 ![Kiali grafana_tempo](/images/documentation/configuration/tempo_ds.png)
 
