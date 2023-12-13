@@ -52,7 +52,7 @@ spec:
 
 #### Set up a Tempo Datasource in Grafana
 
-We also need to set up a default [Tempo datasource](https://grafana.com/docs/grafana/latest/datasources/tempo/) in Grafana: 
+We can optionally set up a default [Tempo datasource](https://grafana.com/docs/grafana/latest/datasources/tempo/) in Grafana so that you can view the Tempo tracing data within the Grafana UI, as you see here: 
 
 ![Kiali grafana_tempo](/images/documentation/configuration/grafana_tempo_ds.png)
 
