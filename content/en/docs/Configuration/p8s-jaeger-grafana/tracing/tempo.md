@@ -9,12 +9,19 @@ weight: 2
 
 There are two possibilities to integrate Kiali with Grafana Tempo:
 
-- Using the Grafana Tempo API: This option returns the traces from the Tempo API in OpenTelemetry format. 
-- Using the Jaeger frontend with the Grafana Tempo backend.
+- [Using the Grafana Tempo API](#using-the-grafana-tempo-api): This option returns the traces from the Tempo API in OpenTelemetry format. 
+- [Using the Jaeger frontend](#using-the-jaeger-frontend-with-grafana-tempo-tracing-backend) with the Grafana Tempo backend.
 
 ### Using the Grafana Tempo API 
 
-This is a configuration example to setup Kiali tracing with Grafana Tempo: 
+There are two steps to set up Kiali and Grafana Tempo: 
+
+- [Set up the Kiali CR](#set-up-the-kiali-cr) updating the Tracing and Grafana sections. 
+- [Set up a Tempo data source](#set-up-a-tempo-datasource-in-grafana) in Grafana. 
+
+#### Set up the Kiali CR
+
+This is a configuration example to set up Kiali tracing with Grafana Tempo: 
 
 ```yaml
 spec:
@@ -26,28 +33,41 @@ spec:
       # Tempo service name is "query-frontend" and is in the "tempo" namespace.
       # Make sure the URL you provide corresponds to the non-GRPC enabled endpoint
       # It does not support grpc yet, so make sure "use_grpc" is set to false.
-      in_cluster_url: "http://query-frontend.tempo:3200"
+      in_cluster_url: "http://tempo-tempo-query-frontend.tempo.svc.cluster.local:3200/"
       provider: "tempo"
       use_grpc: false
-      # Public facing URL of Grafana 
-      url: "http://my-tempo-host:3200"
+      # Public facing URL of Tempo 
+      url: "https://tempo-tempo-query-frontend-tempo.apps-crc.testing/"
 ```
 
-The default UI for Grafana Tempo is Grafana, so we should also set the Grafana url in the configuration: 
+The default UI for Grafana Tempo is Grafana, so we should also set the Grafana URL in the Kiali configuration, such as this example: 
 
 ```yaml
 spec:
   external_services:
     grafana:
       in_cluster_url: http://grafana.istio-system:3000
-      url: http://my-grafana-host
+      url: https://grafana.apps-crc.testing/
 ```
 
-We also need to set up a default [Tempo datasource](https://grafana.com/docs/grafana/latest/datasources/tempo/) in Grafana. 
+#### Set up a Tempo Datasource in Grafana
+
+We can optionally set up a default [Tempo datasource](https://grafana.com/docs/grafana/latest/datasources/tempo/) in Grafana so that you can view the Tempo tracing data within the Grafana UI, as you see here: 
 
 ![Kiali grafana_tempo](/images/documentation/configuration/grafana_tempo_ds.png)
 
-The _Traces_ tab will show your traces in a bubble chart:
+To set up the Tempo datasource, go to the _Home_ menu in the Grafana UI, click _Data sources_, then click the _Add new data source_ button and select the `Tempo` data source.  You will then be asked to enter some data to configure the new Tempo data source: 
+
+![Kiali grafana_tempo](/images/documentation/configuration/tempo_ds.png)
+
+The most important values to set up are the following: 
+
+- Mark the data source as default, so the URL that Kiali uses will redirect properly to the Tempo data source. 
+- Update the HTTP URL. This is the internal URL of the HTTP tempo frontend service. e.g. `http://tempo-tempo-query-frontend.tempo.svc.cluster.local:3200/`
+
+#### Additional configuration 
+
+The _Traces_ tab in the Kiali UI will show your traces in a bubble chart:
 
 ![Kiali grafana_tempo](/images/documentation/configuration/grafana_tempo.png)
 
@@ -91,7 +111,7 @@ set
 from Istio to the Tempo Distributor service and the Zipkin port. Tanka will deploy
 the service in `distributor.tempo.svc.cluster.local:9411`.
 
-The `in_cluster_url` Kiali option needs to be set to'
+The `external_services.tracing.in_cluster_url` Kiali option needs to be set to:
 `http://query-frontend.tempo.svc.cluster.local:16685`.
 
 #### Tempo Operator
