@@ -62,8 +62,8 @@ To set up the Tempo datasource, go to the _Home_ menu in the Grafana UI, click _
 
 The most important values to set up are the following: 
 
-- Mark the data source as default, so the url from Kiali redirects properly to the Tempo data source. 
-- Update the http url. This is the internal url of the http tempo frontend service. E.g. `http://tempo-tempo-query-frontend.tempo.svc.cluster.local:3200/`
+- Mark the data source as default, so the URL that Kiali uses will redirect properly to the Tempo data source. 
+- Update the HTTP URL. This is the internal URL of the HTTP tempo frontend service. e.g. `http://tempo-tempo-query-frontend.tempo.svc.cluster.local:3200/`
 
 #### Additional configuration 
 
