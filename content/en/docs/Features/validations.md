@@ -960,9 +960,9 @@ Fix the parentRefs field to target to an existing gateway.
 - [Validator source code](https://github.com/kiali/kiali/blob/master/business/checkers/k8shttproutes/no_k8sgateway_checker.go)
 
 
-### KIA1402 - BackendRef on rule doesn't have a valid service (host not found)
+### KIA1402 - BackendRef on rule doesn't have a valid service (Service name not found)
 
-Gateway API HTTPRoute could be pointing to a Service inside your mesh the Route sends the traffic to. This Service can be a certain version of a parent Service, but in that case a separate Service is required to be created. When the namespace field is not specified it takes Service from the current HTTPRoute's namespace. Here the error indicates that the referenced Service is not found in the provided namespace.
+Gateway API HTTPRoute could be pointing to a Service inside your mesh the Route sends the traffic to. A Service name should be specified, not a hostname. This Service can be a certain version of a parent Service, but in that case a separate Service is required to be created. When the namespace field is not specified it takes Service from the current HTTPRoute's namespace. Here the error indicates that the referenced Service is not found in the provided namespace.
 
 #### Resolution
 
