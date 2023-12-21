@@ -966,7 +966,10 @@ Gateway API HTTPRoute could be pointing to a Service inside your mesh the Route 
 
 #### Resolution
 
-Correct the backendRefs name to point to a correct Service (in this namespace or to other namespaces), deploy the missing Service to the mesh, create a ReferenceGrant object in a case of remote namespace or remove the configuration linking to that non-existing Service.
+Correct the backendRefs name to point to a correct Service (in this namespace or to other namespaces):
+
+- Deploy the missing Service to the mesh, create a ReferenceGrant object in a case of remote namespace.
+- Or remove the configuration linking to that non-existing Service.
 
 #### Severity
 
