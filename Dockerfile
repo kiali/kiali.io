@@ -1,4 +1,4 @@
-FROM registry.fedoraproject.org/fedora-minimal:36
+FROM registry.fedoraproject.org/fedora-minimal:40
 
 ARG HUGO_VERSION
 
@@ -23,7 +23,7 @@ RUN tar xzvf /hugo.tar.gz -C / \
  && mv /hugo /usr/bin/hugo
 
 # Stuff for docsy
-RUN npm -g -D install postcss postcss-cli autoprefixer fontawesome
+RUN npm -g -D install postcss postcss-cli autoprefixer
 
 # Install html-proofer
 RUN gem install html-proofer
