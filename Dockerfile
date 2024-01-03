@@ -23,7 +23,7 @@ RUN tar xzvf /hugo.tar.gz -C / \
  && mv /hugo /usr/bin/hugo
 
 # Stuff for docsy
-RUN npm -g -D install postcss postcss-cli autoprefixer
+RUN npm -g -D install postcss postcss-cli autoprefixer fontawesome
 
 # Install html-proofer
 RUN gem install html-proofer
