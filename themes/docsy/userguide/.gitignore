@@ -1,6 +1,5 @@
-
-public/
+# Hugo
+.hugo_build.lock
+/public
 resources/
-node_modules/
-tech-doc-hugo
-
+tmp
