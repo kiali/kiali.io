@@ -1,5 +1,5 @@
 [build]
-  command = "hugo"
+  command = "cd themes/docsy && npm install && cd ../.. && hugo"
   publish = "public"
 
 [build.environment]
