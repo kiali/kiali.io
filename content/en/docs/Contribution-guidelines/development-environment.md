@@ -51,9 +51,7 @@ An example to run it following the above schema:
 The go process will require a configuration to point to these services and other specific configurations. 
 This file will be places in ~/kiali/config.yaml, and referenced later by the GO local process. 
 
-```yaml
-{{% readfile file="/static/files/contribution_guide/config.yaml" %}}
-```
+{{< readfile file="/static/files/contribution_guide/config.yaml" code="true" lang="yaml" >}}
 
 ### Local Processes 
 
