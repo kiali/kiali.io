@@ -75,7 +75,7 @@ URL_IGNORE=\#$\
           ,/.*web.libera.chat.*/$\
           ,/^http://tracing.istio-system.*/$\
           ,/^https://tracing-service.*/$\
-          ,/^https://twitter.com/kialiproject
+          ,/^https://twitter.com/kialiproject.*/
 
 NEW_URLS=$(shell scripts/ignore_new_urls.sh 2> /dev/null)
 URL_IGNORE:=$(URL_IGNORE)$(NEW_URLS)
