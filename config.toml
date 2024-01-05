@@ -71,6 +71,7 @@ id = "UA-130444728-1"
 [languages]
 [languages.en]
 title = "Kiali"
+[languages.en.params]
 description = "Kiali Project site"
 languageName ="English"
 # Weight used for sorting.
@@ -133,7 +134,7 @@ github_branch= "staging"
 gcs_engine_id = "015704640858869259522:6stg794nppg"
 
 # Enable Algolia DocSearch
-algolia_docsearch = false
+# algolia_docsearch = false
 
 # Enable Lunr.js offline search
 offlineSearch = false
