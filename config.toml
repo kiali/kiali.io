@@ -134,6 +134,7 @@ github_branch= "staging"
 gcs_engine_id = "015704640858869259522:6stg794nppg"
 
 # Enable Algolia DocSearch
+# Deprecated param. Leave empty layouts files to disable
 # algolia_docsearch = false
 
 # Enable Lunr.js offline search
