@@ -1,0 +1,10 @@
+DirectoryPath: public
+CheckDoctype: false # Sadly, this is false only because of `static/google*.html`
+IgnoreAltMissing: true # FIXME
+IgnoreDirectoryMissingTrailingSlash: true # FIXME
+IgnoreDirs: [_print] # FIXME
+IgnoreEmptyHref: true # FIXME
+IgnoreInternalEmptyHash: true # FIXME
+IgnoreInternalURLs: # list of paths
+IgnoreURLs: # list of regexs of paths or URLs to be ignored
+  - ^https://twitter.com/docsydocs$

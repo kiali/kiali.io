@@ -1,4 +1,4 @@
-FROM registry.fedoraproject.org/fedora-minimal:36
+FROM registry.fedoraproject.org/fedora-minimal:40
 
 ARG HUGO_VERSION
 

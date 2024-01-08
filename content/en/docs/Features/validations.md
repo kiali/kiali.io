@@ -26,9 +26,7 @@ Either remove the namespace from the list, correct if there is any typo or creat
 
 #### Example
 
-```yaml
-{{% readfile file="/static/files/validation_examples/801.yaml" %}}
-```
+{{< readfile file="/static/files/validation_examples/801.yaml"  code="true" lang="yaml" >}}
 
 #### See Also
 
@@ -52,9 +50,7 @@ Either change or remove the violating method. It has to be either a HTTP valid m
 
 #### Example
 
-```yaml
-{{% readfile file="/static/files/validation_examples/802.yaml" %}}
-```
+{{< readfile file="/static/files/validation_examples/802.yaml"  code="true" lang="yaml" >}}
 
 #### See Also
 
@@ -79,9 +75,7 @@ Either remove the host from the list, correct if there is any typo or deploy a n
 
 #### Example
 
-```yaml
-{{% readfile file="/static/files/validation_examples/804.yaml" %}}
-```
+{{< readfile file="/static/files/validation_examples/804.yaml"  code="true" lang="yaml" >}}
 
 #### See Also
 
@@ -109,9 +103,7 @@ Either remove this field or enable autoMtls.
 
 #### Example
 
-```yaml
-{{% readfile file="/static/files/validation_examples/805.yaml" %}}
-```
+{{< readfile file="/static/files/validation_examples/805.yaml"  code="true" lang="yaml" >}}
 
 #### See Also
 
@@ -138,9 +130,7 @@ Correct the principal to refer to existing Service Account, make sure that the v
 
 #### Example
 
-```yaml
-{{% readfile file="/static/files/validation_examples/806.yaml" %}}
-```
+{{< readfile file="/static/files/validation_examples/806.yaml"  code="true" lang="yaml" >}}
 
 #### See Also
 
@@ -169,9 +159,7 @@ Either merge the settings to a single DR or split the subsets in such a way that
 
 #### Example
 
-```yaml
-{{% readfile file="/static/files/validation_examples/001.yaml" %}}
-```
+{{< readfile file="/static/files/validation_examples/001.yaml"  code="true" lang="yaml" >}}
 
 #### See Also
 
@@ -199,9 +187,7 @@ Correct the host to point to a correct service, in this namespace or with FQDN t
 
 #### Example
 
-```yaml
-{{% readfile file="/static/files/validation_examples/002.yaml" %}}
-```
+{{< readfile file="/static/files/validation_examples/002.yaml"  code="true" lang="yaml" >}}
 
 #### See Also
 
@@ -232,9 +218,7 @@ Also, verify that the labels are correctly matching a workload with the intended
 
 #### Example
 
-```yaml
-{{% readfile file="/static/files/validation_examples/003.yaml" %}}
-```
+{{< readfile file="/static/files/validation_examples/003.yaml" code="true" lang="yaml" >}}
 
 #### See Also
 
@@ -258,9 +242,7 @@ Merging the TLS settings to one of the DestinationRules is the only way to fix t
 
 #### Example
 
-```yaml
-{{% readfile file="/static/files/validation_examples/005.yaml" %}}
-```
+{{< readfile file="/static/files/validation_examples/005.yaml" code="true" lang="yaml" >}}
 
 #### See Also
 
@@ -282,9 +264,7 @@ Add a PeerAuthentication within the `istio-system` namespace without specifying 
 
 #### Example
 
-```yaml
-{{% readfile file="/static/files/validation_examples/004.yaml" %}}
-```
+{{< readfile file="/static/files/validation_examples/004.yaml" code="true" lang="yaml" >}}
 
 #### See Also
 
@@ -307,9 +287,7 @@ Add a PeerAuthentication without specifying targets but setting mTLS mode to STR
 
 #### Example
 
-```yaml
-{{% readfile file="/static/files/validation_examples/006.yaml" %}}
-```
+{{< readfile file="/static/files/validation_examples/006.yaml" code="true" lang="yaml" >}}
 
 #### See Also
 - [Validator source code](https://github.com/kiali/kiali/blob/v1.42.0/business/checkers/destinationrules/namespacewide_mtls_checker.go)
@@ -330,9 +308,7 @@ Kiali has found that there is a DestinationRule sending traffic without mTLS aut
 
 #### Example
 
-```yaml
-{{% readfile file="/static/files/validation_examples/007.yaml" %}}
-```
+{{< readfile file="/static/files/validation_examples/007.yaml" code="true" lang="yaml" >}}
 
 #### See Also
 
@@ -356,9 +332,7 @@ There are two ways to fix this situation. You can either change the PeerAuthenti
 
 #### Example
 
-```yaml
-{{% readfile file="/static/files/validation_examples/008.yaml" %}}
-```
+{{< readfile file="/static/files/validation_examples/008.yaml" code="true" lang="yaml" >}}
 
 #### See Also
 
@@ -416,9 +390,7 @@ When one of the duplicate Gateways has a wildcard in hosts, there is an option '
 
 #### Example
 
-```yaml
-{{% readfile file="/static/files/validation_examples/201.yaml" %}}
-```
+{{< readfile file="/static/files/validation_examples/201.yaml" code="true" lang="yaml" >}}
 
 #### See Also
 
@@ -442,9 +414,7 @@ Deploy the missing workload or fix the selector to target a correct location.
 
 #### Example
 
-```yaml
-{{% readfile file="/static/files/validation_examples/202.yaml" %}}
-```
+{{< readfile file="/static/files/validation_examples/202.yaml" code="true" lang="yaml" >}}
 
 #### See Also
 
@@ -467,9 +437,7 @@ Add a DestinationRule with "*.cluster" host and ISTIO_MUTUAL as tls trafficPolic
 
 #### Example
 
-```yaml
-{{% readfile file="/static/files/validation_examples/401.yaml" %}}
-```
+{{< readfile file="/static/files/validation_examples/401.yaml" code="true" lang="yaml" >}}
 
 #### See Also
 
@@ -493,9 +461,7 @@ Add a DestinationRule with "*.namespace.svc.cluster.local" host and ISTIO_MUTUAL
 
 #### Example
 
-```yaml
-{{% readfile file="/static/files/validation_examples/301.yaml" %}}
-```
+{{< readfile file="/static/files/validation_examples/301.yaml" code="true" lang="yaml" >}}
 
 #### See Also
 
@@ -520,9 +486,7 @@ You can either change the namespace/mesh-wide Destination Rule to `DISABLE` mode
 
 #### Example
 
-```yaml
-{{% readfile file="/static/files/validation_examples/305.yaml" %}}
-```
+{{< readfile file="/static/files/validation_examples/305.yaml" code="true" lang="yaml" >}}
 
 #### See Also
 
@@ -547,9 +511,7 @@ You can either change the mesh-wide Destination Rule to `DISABLE` mode or change
 
 #### Example
 
-```yaml
-{{% readfile file="/static/files/validation_examples/306.yaml" %}}
-```
+{{< readfile file="/static/files/validation_examples/306.yaml" code="true" lang="yaml" >}}
 
 #### See Also
 
@@ -573,9 +535,7 @@ Rename the service port name field to follow the form and the traffic flows corr
 
 #### Example
 
-```yaml
-{{% readfile file="/static/files/validation_examples/701.yaml" %}}
-```
+{{< readfile file="/static/files/validation_examples/701.yaml" code="true" lang="yaml" >}}
 
 #### See Also
 
@@ -597,9 +557,7 @@ Rename the service port appProtocol field to follow the form and the traffic flo
 
 #### Example
 
-```yaml
-{{% readfile file="/static/files/validation_examples/602.yaml" %}}
-```
+{{< readfile file="/static/files/validation_examples/602.yaml" code="true" lang="yaml" >}}
 
 #### See Also
 
@@ -625,15 +583,11 @@ Fix the port definitions in the workload or in the service definition to ensure 
 
 Invalid example with port definitions unmatched:
 
-```yaml
-{{% readfile file="/static/files/validation_examples/702.yaml" %}}
-```
+{{< readfile file="/static/files/validation_examples/702.yaml" code="true" lang="yaml" >}}
 
 Valid example using targetPort definition matching:
 
-```yaml
-{{% readfile file="/static/files/validation_examples/703.yaml" %}}
-```
+{{< readfile file="/static/files/validation_examples/703.yaml" code="true" lang="yaml" >}}
 
 #### See Also
 
@@ -662,9 +616,7 @@ Make sure there is a service, virtual service or service entry matching with the
 
 #### Example
 
-```yaml
-{{% readfile file="/static/files/validation_examples/904.yaml" %}}
-```
+{{< readfile file="/static/files/validation_examples/904.yaml" code="true" lang="yaml" >}}
 
 #### See Also
 
@@ -689,9 +641,7 @@ Make sure you don't have the `workloadSelector` in this global sidecar resource.
 
 #### Example
 
-```yaml
-{{% readfile file="/static/files/validation_examples/906.yaml" %}}
-```
+{{< readfile file="/static/files/validation_examples/906.yaml" code="true" lang="yaml" >}}
 
 #### See Also
 
@@ -755,9 +705,7 @@ Correct the host to point to a correct service (in this namespace or with FQDN t
 
 #### Example
 
-```yaml
-{{% readfile file="/static/files/validation_examples/102.yaml" %}}
-```
+{{< readfile file="/static/files/validation_examples/102.yaml" code="true" lang="yaml" >}}
 
 #### See Also
 
@@ -780,9 +728,7 @@ Fix the possible gateway field to target all necessary gateways or remove the fi
 
 #### Example
 
-```yaml
-{{% readfile file="/static/files/validation_examples/101.yaml" %}}
-```
+{{< readfile file="/static/files/validation_examples/101.yaml" code="true" lang="yaml" >}}
 
 #### See Also
 
@@ -803,9 +749,7 @@ Either remove the weight field or you might want to add another RouteDestination
 
 #### Example
 
-```yaml
-{{% readfile file="/static/files/validation_examples/106.yaml" %}}
-```
+{{< readfile file="/static/files/validation_examples/106.yaml" code="true" lang="yaml" >}}
 
 #### See Also
 - [Istio documentation about HTTP Route Destination struct](https://istio.io/docs/reference/config/networking/virtual-service/#HTTPRouteDestination)
@@ -830,9 +774,7 @@ Make sure there is only one reference to the same host subset combination for ea
 
 #### Example
 
-```yaml
-{{% readfile file="/static/files/validation_examples/111.yaml" %}}
-```
+{{< readfile file="/static/files/validation_examples/111.yaml" code="true" lang="yaml" >}}
 
 #### See Also
 - [Istio documentation about HTTP Route Destination struct](https://istio.io/docs/reference/config/networking/virtual-service/#HTTPRouteDestination)
@@ -855,9 +797,7 @@ This is a valid configuration only if two VirtualServices share the same host bu
 
 #### Example
 
-```yaml
-{{% readfile file="/static/files/validation_examples/104.yaml" %}}
-```
+{{< readfile file="/static/files/validation_examples/104.yaml" code="true" lang="yaml" >}}
 
 #### See Also
 
@@ -881,9 +821,7 @@ Fix the routes that points to a non existing subsets. It might be fixing a typo 
 
 #### Example
 
-```yaml
-{{% readfile file="/static/files/validation_examples/105.yaml" %}}
-```
+{{< readfile file="/static/files/validation_examples/105.yaml" code="true" lang="yaml" >}}
 
 #### See Also
 
@@ -900,9 +838,7 @@ Move the nomenclature of the gateways into the supported Istio form: <gateway na
 
 #### Example
 
-```yaml
-{{% readfile file="/static/files/validation_examples/112.yaml" %}}
-```
+{{< readfile file="/static/files/validation_examples/112.yaml" code="true" lang="yaml" >}}
 
 #### See Also
 
@@ -926,9 +862,7 @@ Add missing Service Entry which address will match the Workload Entry's address.
 
 #### Example
 
-```yaml
-{{% readfile file="/static/files/validation_examples/1201.yaml" %}}
-```
+{{< readfile file="/static/files/validation_examples/1201.yaml" code="true" lang="yaml" >}}
 
 #### See Also
 
@@ -951,9 +885,7 @@ Fix the parentRefs field to target to an existing gateway.
 
 #### Example
 
-```yaml
-{{% readfile file="/static/files/validation_examples/1401.yaml" %}}
-```
+{{< readfile file="/static/files/validation_examples/1401.yaml" code="true" lang="yaml" >}}
 
 #### See Also
 
@@ -977,9 +909,7 @@ Correct the backendRefs name to point to a correct Service (in this namespace or
 
 #### Example
 
-```yaml
-{{% readfile file="/static/files/validation_examples/1402.yaml" %}}
-```
+{{< readfile file="/static/files/validation_examples/1402.yaml" code="true" lang="yaml" >}}
 
 #### See Also
 
@@ -1028,9 +958,7 @@ The natural solution is to merge both objects. In case there are different behav
 
 #### Example
 
-```yaml
-{{% readfile file="/static/files/validation_examples/302.yaml" %}}
-```
+{{< readfile file="/static/files/validation_examples/302.yaml" code="true" lang="yaml" >}}
 
 #### See Also
 
@@ -1054,9 +982,7 @@ The first approach would be to merge both objects into one if possible. The seco
 
 #### Example
 
-```yaml
-{{% readfile file="/static/files/validation_examples/303.yaml" %}}
-```
+{{< readfile file="/static/files/validation_examples/303.yaml" code="true" lang="yaml" >}}
 
 #### See Also
 
@@ -1078,9 +1004,7 @@ There are three scenarios: either change the labels to match an existing workloa
 
 #### Example
 
-```yaml
-{{% readfile file="/static/files/validation_examples/304.yaml" %}}
-```
+{{< readfile file="/static/files/validation_examples/304.yaml" code="true" lang="yaml" >}}
 
 #### See Also
 
@@ -1116,9 +1040,7 @@ Remove or merge the duplicate k8s gateway entries.
 
 #### Example
 
-```yaml
-{{% readfile file="/static/files/validation_examples/1501.yaml" %}}
-```
+{{< readfile file="/static/files/validation_examples/1501.yaml" code="true" lang="yaml" >}}
 
 ### KIA1502 - More than one K8s Gateway for the address and type combination
 
@@ -1134,9 +1056,7 @@ Remove or merge the duplicate k8s gateway entries.
 
 #### Example
 
-```yaml
-{{% readfile file="/static/files/validation_examples/1502.yaml" %}}
-```
+{{< readfile file="/static/files/validation_examples/1502.yaml" code="true" lang="yaml" >}}
 
 ### KIA1503 - Each listener must have a unique combination of Hostname, Port, and Protocol
 
@@ -1152,9 +1072,7 @@ Update the hostname, port or protocol to another valid service so there are no m
 
 #### Example
 
-```yaml
-{{% readfile file="/static/files/validation_examples/1503.yaml" %}}
-```
+{{< readfile file="/static/files/validation_examples/1503.yaml" code="true" lang="yaml" >}}
 
 ### KIA1504 - Gateway API Class not found in Kiali configuration
 
