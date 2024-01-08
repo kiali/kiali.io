@@ -430,7 +430,7 @@ Once it is enabled, your AKS panel should show the following:
 
 Create a web application for Kiali in your Azure AD panel:
 
-1. Go to _AAD > App Registration_, create an application with a redirect url like `\https://<your-kiali-url>`
+1. Go to _AAD > App Registration_, create an application with a redirect url like `https://<your-kiali-url>/kiali`
 2. Go to _Certificates & secrets_ and create a client secret.
    1. After creating the client secret, take note of the provided secret. Create a
    Kubernetes secret in your cluster as mentioned in the [Set-up
