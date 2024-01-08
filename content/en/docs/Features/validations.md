@@ -1086,6 +1086,22 @@ Change the `gatewayClassName` field to reference to existing configured GatewayC
 
 <i class="fas fa-times-circle text-danger"></i> Error
 
+## K8s ReferenceGrants 
+
+ReferenceGrant is required for all cross-namespace references in Gateway API. `From` field describes the trusted namespaces and kinds that can reference the resources described in “To”. `To` field describes the resources that may be referenced by the resources described in “From”.
+
+### KIA1601 - Namespace is not found or is not accessible
+
+The namespace where ReferenceGrant `From` field is pointing is not accessible or does not exist.
+
+#### Resolution
+
+Choose existing and accessible namespace to point to.
+
+#### Severity
+
+<i class="fas fa-times-circle text-danger"></i> Error
+
 ### GWAPI - Gateway API status
 
 The Gateway object provides a GatewayStatus to provide the status relative to the state represented in the spec. 
