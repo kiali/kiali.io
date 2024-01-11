@@ -19,7 +19,9 @@ Before proceeding with the setup, ensure you meet the requirements.
 
 The unified Kiali multi-cluster setup requires the Kiali Service Account (SA) to have read access to each Kubernetes cluster in the mesh. This is separate from the user credentials that are required when a user logs into Kiali. The user credentials are used to check user access to a namespace and to perform write operations. In anonymous mode, the Kiali SA is used for all operations and write access is also required. To give the Kiali SA access to each remote cluster, a kubeconfig with credentials needs to be created and mounted into the Kiali pod. While the location of Kiali in relation to the controlplane and dataplane may change depending on your istio deployment model, the requirements will remain the same.
 
-If you'd like to keep a separate Kiali per cluster and do not want to give Kiali access to remote clusters you can still manually specify the remote cluster and remote Kiali urls in the Kiali configuration and the UI will try to provide links to the external Kiali where appropriate. See [below]{{< ref "#Adding an Inaccessible Cluster" >}} for more details.
+{{% alert color="info" %}}
+If you'd like to keep a separate Kiali per cluster and do not want to give Kiali access to remote clusters you can still manually specify the remote cluster and remote Kiali urls in the Kiali configuration and the UI will try to provide links to the external Kiali where appropriate. See [below](#adding-an-inaccessible-cluster) for more details.
+{{% /alert %}}
 
 1. **Create a remote cluster secret.** In order to access a remote cluster, you must provide a kubeconfig to Kiali via a Kubernetes secret. You can use [this script](https://github.com/kiali/kiali/blob/master/hack/istio/multicluster/kiali-prepare-remote-cluster.sh) to simplify this process for you. Running this script will:
 
