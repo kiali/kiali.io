@@ -20,7 +20,7 @@ Before proceeding with the setup, ensure you meet the requirements.
 The unified Kiali multi-cluster setup requires the Kiali Service Account (SA) to have read access to each Kubernetes cluster in the mesh. This is separate from the user credentials that are required when a user logs into Kiali. The user credentials are used to check user access to a namespace and to perform write operations. In anonymous mode, the Kiali SA is used for all operations and write access is also required. To give the Kiali SA access to each remote cluster, a kubeconfig with credentials needs to be created and mounted into the Kiali pod. While the location of Kiali in relation to the controlplane and dataplane may change depending on your istio deployment model, the requirements will remain the same.
 
 {{% alert color="info" %}}
-If you'd like to keep a separate Kiali per cluster and do not want to give Kiali access to remote clusters you can still manually specify the remote cluster and remote Kiali urls in the Kiali configuration and the UI will try to provide links to the external Kiali where appropriate. See [below](#adding-an-inaccessible-cluster) for more details.
+If you would like to keep a separate Kiali per cluster and do not want to give Kiali access to remote clusters, you can still manually specify the remote cluster and remote Kiali URLs in the Kiali configuration and the UI will try to provide links to the external Kiali where appropriate. See [below](#adding-an-inaccessible-cluster) for more details.
 {{% /alert %}}
 
 1. **Create a remote cluster secret.** In order to access a remote cluster, you must provide a kubeconfig to Kiali via a Kubernetes secret. You can use [this script](https://github.com/kiali/kiali/blob/master/hack/istio/multicluster/kiali-prepare-remote-cluster.sh) to simplify this process for you. Running this script will:
@@ -88,7 +88,7 @@ After the remote cluster secret has been removed, you must then tell the Kiali O
 
 ### Adding an Inaccessible Cluster
 
-In situations where Kiali does not have access to remote clusters, you can manually specify the remote cluster info along with any external Kialis running on the remote clusters and Kiali will try to provide links to these in the UI. For example, if there is a kiali on the `east` cluster that does not have access to the `west` cluster and a kiali on the `west` cluster that does not have access to the `east` cluster, you can add the following to your Kiali configurations to have each kiali generates links to the external kiali for that cluster.
+In situations where Kiali does not have access to remote clusters, you can manually specify the remote cluster info along with any external Kialis running on the remote clusters and Kiali will try to provide links to these in the UI. For example, if there is a Kiali on the `east` cluster that does not have access to the `west` cluster and a Kiali on the `west` cluster that does not have access to the `east` cluster, you can add the following to your Kiali configurations to have each Kiali generate links to the external Kiali for that cluster.
 
 East Kiali configuration
 
