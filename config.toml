@@ -3,6 +3,9 @@ title = "Kiali"
 
 enableRobotsTXT = true
 
+# Increase page rendering timeout because we occasionally take longer then the 30s default
+timeout = 45
+
 # Hugo allows theme composition (and inheritance). The precedence is from left to right.
 theme = ["docsy"]
 
@@ -281,4 +284,3 @@ enable = false
 [[params.versions]]
   version = "archive"
   url = "https://pre-v1-41.kiali.io"
-
