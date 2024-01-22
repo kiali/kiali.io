@@ -6,6 +6,40 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 1.79.0
+Sprint Release: Jan 19
+
+Features:
+
+* [Tempo - Initial Support Complete](https://github.com/kiali/kiali/issues/5850)
+* [Multicluster - provide links to external Kialis without requiring istio secrets](https://github.com/kiali/kiali/issues/6243)
+* [Multicluster - Add documentation for configuring Kiali with primary-primary](https://github.com/kiali/kiali/issues/6937)
+* [K8s GW API - Support of TCP/TLS/GRPC Routes](https://github.com/kiali/kiali/issues/7025)
+* [K8s GW API - Support of ReferenceGrant](https://github.com/kiali/kiali/issues/6918)
+* [Use the Prometheus `/-/healthy` endpoint for the default value for health_check_url](https://github.com/kiali/kiali/issues/6966)
+* [Ambient - Workload graph reports the istio-waypoint proxies as "Out of Mesh" ](https://github.com/kiali/kiali/issues/7027)
+* [re-enable ARM builds](https://github.com/kiali/openshift-servicemesh-plugin/issues/192)
+* [Remove graph "Compress-On-Hide" Display option](https://github.com/kiali/kiali/issues/7030)
+
+Fixes:
+
+* [Bug after v1.72.0 release with oAuth2 strategy when DisableRBAC is true](https://github.com/kiali/kiali/issues/6677)
+* [Potential runtime error in kube_cache.GetK8sGateways](https://github.com/kiali/kiali/issues/7006)
+* [Prometheus retention config not resolved correctly when using defaults in prom](https://github.com/kiali/kiali/issues/5734)
+* [Incorrect spacing and icon sizing in Graph Summary Panel](https://github.com/kiali/kiali/issues/6946)
+* [Istio config bug](https://github.com/kiali/kiali/issues/6948)
+* [kiali operator cannot determine kiali version when installing ossmc](https://github.com/kiali/kiali/issues/6950)
+* [Tracing client must use the Kiali SA Token (Not the user token)](https://github.com/kiali/kiali/issues/6955)
+* [Double istio rev in configmap name](https://github.com/kiali/kiali/issues/6669)
+* [debug info shows incorrect log level](https://github.com/kiali/kiali/issues/6964)
+* [Fix rank options in the graph](https://github.com/kiali/kiali/issues/6961)
+* [Update axios HTTP client library](https://github.com/kiali/kiali/issues/6971)
+* [Kiali render hostnames as individual service instead of serviceentry as whole](https://github.com/kiali/kiali/issues/6962)
+* [Scrollbar in Workloads Logs view](https://github.com/kiali/kiali/issues/6982)
+* [UI Error after deleting Istio Config](https://github.com/kiali/kiali/issues/7000)
+* [Extra padding in long namespace names](https://github.com/kiali/kiali/issues/6998)
+* [Graph: Link to App which does not exist](https://github.com/kiali/kiali/issues/7022)
+
 ## 1.78.0
 Sprint Release: Dec 08
 
