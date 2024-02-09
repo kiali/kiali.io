@@ -17,6 +17,8 @@ logged in if the user has enough privileges.
 
 The `openshift` strategy supports [namespace access control]({{< relref "../rbac" >}}).
 
+The `openshift` strategy is only supported for single cluster.
+
 ## Set-up
 
 Since `openshift` is the default strategy when deploying Kiali in OpenShift,

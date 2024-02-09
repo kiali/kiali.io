@@ -13,6 +13,8 @@ token of a Kubernetes ServiceAccount. This is similar to the
 
 The `token` strategy supports [namespace access control]({{< relref "../rbac" >}}).
 
+The `token` strategy is only supported for single cluster.
+
 ## Set-up
 
 Since `token` is the default strategy when deploying Kiali in Kubernetes, you
