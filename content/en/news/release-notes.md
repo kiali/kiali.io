@@ -6,8 +6,28 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 1.80.0
+Sprint Release: Feb 09, 2024
+
+Features:
+
+* [Make support of "ExportTo" feature of Istio config configurable](https://github.com/kiali/kiali/issues/6879)
+* [Use client-go's service account token client refresh](https://github.com/kiali/kiali/issues/6924)
+* [Kiali v1.73.x compatible with Istio 1.20 and GW API v1](https://github.com/kiali/kiali/issues/7090)
+* [Upgrade Patternfly to version 5.2](https://github.com/kiali/kiali/issues/7089)
+* [Add pprof endpoints for debugging perf issues](https://github.com/kiali/kiali/issues/4597)
+
+Fixes:
+
+* [Multicluster - delete traffic routing on "remote" cluster 404](https://github.com/kiali/kiali/issues/7024)
+* [Switching namespaces does not work on Istio Config page](https://github.com/kiali/openshift-servicemesh-plugin/issues/239)
+* [Error fetching Istio deployment status of the remote control plane in the Primary remote deployment](https://github.com/kiali/kiali/issues/7053)
+* [Validations: Missing KIA0005 in objects details page when wrongly exported](https://github.com/kiali/kiali/issues/7061)
+* [PFT Graph not handling graph background clicks](https://github.com/kiali/kiali/issues/7077)
+* [Close button on the Certificates information does not do anything](https://github.com/kiali/kiali/issues/7074)
+
 ## 1.79.0
-Sprint Release: Jan 19
+Sprint Release: Jan 19, 2024
 
 Features:
 
@@ -41,7 +61,7 @@ Fixes:
 * [Graph: Link to App which does not exist](https://github.com/kiali/kiali/issues/7022)
 
 ## 1.78.0
-Sprint Release: Dec 08
+Sprint Release: Dec 08, 2023
 
 Features:
 
