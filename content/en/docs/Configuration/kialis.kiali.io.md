@@ -484,6 +484,8 @@ spec:
           skip_verify: false
           tls_enabled: false
     port: 20001
+    profiler:
+      enabled: false
     web_fqdn: ""
     web_history_mode: ""
     web_port: ""
@@ -7010,6 +7012,44 @@ An example,</p>
 
 <div class="property-description">
 <p>The port that the server will bind to in order to receive console and API requests.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.server.profiler">.spec.server.profiler</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>Controls the internal profiler used to debug the internals of Kiali</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.server.profiler.enabled">.spec.server.profiler.enabled</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>When &lsquo;true&rsquo;, the profiler will be enabled and accessible at /debug/pprof/ on the Kiali endpoint.</p>
 
 </div>
 
