@@ -105,7 +105,13 @@ jobs:
       with:          
         ref: ${{ github.event.inputs.release_branch || github.ref_name }} 
         fetch-depth: 0
-      
+
+    - name: Configure git
+      run: |
+        git config user.email 'kiali-dev@googlegroups.com'
+        
+        git config user.name 'kiali-bot'     
+  
     - name: Create release
       run: |          
         echo "Resolved current website version: $RELEASING_VERSION"
