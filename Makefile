@@ -4,6 +4,7 @@ SHELL := /bin/bash
 HUGO_VERSION ?= 0.121.1
 DORP ?= podman
 KIALI_HUGO_IMAGE ?= kiali/hugo:latest
+DOCSY_BUILD=cd themes/docsy && npm install && cd ../.. && npm prune && npm config set fetch-retry-mintimeout 20000 && npm config set fetch-retry-maxtimeout 120000
 
 .prepare-force-build:
 ifeq ($(DORP),docker)
@@ -45,7 +46,7 @@ build-hugo: .prepare-force-build
 ## serve: If necessary, builds the image and then runs a hugo server on your local machine at localhost:1313
 .PHONY: serve
 serve: build-hugo
-	@${DORP} run -t -i --sig-proxy=true --rm -v "$(shell pwd)":/site:z -w /site -p 1313:1313 ${KIALI_HUGO_IMAGE} hugo serve --baseURL "http://localhost:1313/" --bind 0.0.0.0 --disableFastRender
+	@${DORP} run -t -i --sig-proxy=true --rm -v "$(shell pwd)":/site:z -w /site -p 1313:1313 ${KIALI_HUGO_IMAGE} /bin/bash -c "${DOCSY_BUILD} && hugo serve --baseURL "http://localhost:1313/" --bind 0.0.0.0 --disableFastRender"
 
 # Ignore hash anchors (#) that go nowhere.
 # Ignore some links to Kiali repositories. These are ignored because there are lots of links
@@ -82,4 +83,4 @@ URL_IGNORE:=$(URL_IGNORE)$(NEW_URLS)
 ## validate-site: Builds the site and validates the pages. This is used for CI
 .PHONY: validate-site
 validate-site: build-hugo
-	${DORP} run -t -i --rm -v "$(shell pwd)":/site:z -w /site ${KIALI_HUGO_IMAGE} /bin/bash -c "cd themes/docsy && npm install && cd ../.. && npm prune && npm config set fetch-retry-mintimeout 20000 && npm config set fetch-retry-maxtimeout 120000 && hugo && htmlproofer --typhoeus '{\"connecttimeout\": 60, \"timeout\": 60, \"headers\":{\"User-Agent\":\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36\"}}' --hydra='{\"max_concurrency\": 6}' --allow-hash-href --allow-missing-href --ignore-empty-alt --ignore-missing-alt --no-check-external-hash --no-check-internal-hash --no-enforce-https --ignore_status_codes "302" --ignore-urls \"${URL_IGNORE}\" ./public"
+	${DORP} run -t -i --rm -v "$(shell pwd)":/site:z -w /site ${KIALI_HUGO_IMAGE} /bin/bash -c "${DOCSY_BUILD} && hugo && htmlproofer --typhoeus '{\"connecttimeout\": 60, \"timeout\": 60, \"headers\":{\"User-Agent\":\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36\"}}' --hydra='{\"max_concurrency\": 6}' --allow-hash-href --allow-missing-href --ignore-empty-alt --ignore-missing-alt --no-check-external-hash --no-check-internal-hash --no-enforce-https --ignore_status_codes "302" --ignore-urls \"${URL_IGNORE}\" ./public"
