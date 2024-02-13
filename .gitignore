@@ -2,3 +2,4 @@ node_modules
 public
 resources
 tmp-crd-docs
+.hugo_build.lock
