@@ -22,7 +22,6 @@ which is the default.
 
 For more information, see the [Istio documentation](https://istio.io/latest/docs/ops/best-practices/security/#control-plane).
 
-
 ### Version Compatibility
 
 Each Kiali release is tested against the most recent Istio release. In general,
@@ -48,17 +47,25 @@ supported Istio versions.
 
 <br />
 
+## OpenShift Console Plugin (OSSMC) Version Compatibility
+
+Currently OSSMC plugin only works with Kiali server 1.73.
+
+{{<compat-table-ossmc>}}
+
+<br />
+
 ## OpenShift Service Mesh Version Compatibility
 
 {{% alert title="OpenShift" color="warning" %}}
-If you are running Red Hat OpenShift Service Mesh (RH OSSM), use only the bundled version of Kiali.
+If you are running Red Hat OpenShift Service Mesh (OSSM), use only the bundled version of Kiali.
 {{% /alert %}}
 
-|<div style="width:70px">OSSM</div>|<div style="width:100px">Kiali</div>|Notes|
-|-------|------------------|---|
-|2.4   |1.65 |   |
-|2.3   |1.57 |   |
-|2.2   |1.48 |   |
+| <div style="width:70px">OSSM</div> | <div style="width:100px">Kiali</div> | Notes |
+| ---------------------------------- | ------------------------------------ | ----- |
+| 2.4                                | 1.65                                 |       |
+| 2.3                                | 1.57                                 |       |
+| 2.2                                | 1.48                                 |       |
 
 <br />
 
@@ -108,5 +115,3 @@ gcloud compute firewall-rules update <firewall-rule-name> --allow <previous-port
 {{% alert color="success" %}}
 Istio deployments on private clusters also need extra ports to be opened. Check the [Istio installation page for GKE](https://istio.io/latest/docs/setup/platform-setup/gke/) to see all the extra installation steps for this platform.
 {{% /alert %}}
-
-

@@ -1,0 +1,9 @@
+# The Compatible Version Matrix between OSSMC, OCP and Kiali
+# See: content/en/docs/Installation/installation-guide/prerequisites.md -> {{<compat-table-ossmc>}}
+versionRange:
+  - ocpVersion: "4.12+"
+    minOSSMCVersion: "0.4.0"
+    maxOSSMCVersion: "1.xx"
+    kialiVersion: "1.73"
+    notes: 
+
