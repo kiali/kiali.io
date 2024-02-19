@@ -265,7 +265,7 @@ metadata:
   name: kiali-cabundle
   namespace: istio-system # This is Kiali's install namespace
 data:
-  openid-server-ca.crt: <the public component of your CA root certificate encoded in base64>
+  openid-server-ca.crt: <the public component of your CA root certificate>
 ```
 
 After restarting the Kiali pod, Kiali will trust this root certificate for all
