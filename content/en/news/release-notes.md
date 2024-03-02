@@ -6,6 +6,25 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+------------Clip Below This Line----------------
+## 1.81.0
+Sprint Release: Mar 01, 2024
+
+Features:
+
+* [Kiali Server Helm Chart Support Custom NodePort](https://github.com/kiali/kiali/issues/7093)
+
+Fixes:
+
+* [envoy access log entry doc links are broken](https://github.com/kiali/kiali/issues/7071)
+* [Istio config href is broken](https://github.com/kiali/openshift-servicemesh-plugin/issues/251)
+* [TLS information is not available](https://github.com/kiali/openshift-servicemesh-plugin/issues/253)
+* [AlertUtils Kiali messages are not shown in OSSMC](https://github.com/kiali/openshift-servicemesh-plugin/issues/264)
+* [Kiali operator does not preserve camel case on additional ingress labels](https://github.com/kiali/kiali/issues/7145)
+* [The duration label is confusing in the Overview control plane charts](https://github.com/kiali/kiali/issues/7147)
+* [Fix help text for graph Security Display option.](https://github.com/kiali/kiali/issues/7149)
+* [(graph) ServiceEntry ExportTo is not handled correctly](https://github.com/kiali/kiali/issues/7153)
+
 ## 1.80.0
 Sprint Release: Feb 09, 2024
 
