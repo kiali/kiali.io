@@ -470,6 +470,8 @@ spec:
     audit_log: true
     cors_allow_all: false
     gzip_enabled: true
+    # default: node_port is undefined
+    node_port: 32475
     observability:
       metrics:
         enabled: true
@@ -6746,6 +6748,25 @@ An example,</p>
 
 <div class="property-description">
 <p>When true, Kiali serves http requests with gzip enabled (if the browser supports it) when the requests are over 1400 bytes.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.server.node_port">.spec.server.node_port</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(integer)</span>
+
+</div>
+
+<div class="property-description">
+<p>If <code>deployment.service_type</code> is &lsquo;NodePort&rsquo; and this value is set, then this is the node port that the Kiali service will listen to.</p>
 
 </div>
 
