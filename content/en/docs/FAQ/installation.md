@@ -153,7 +153,7 @@ NAME                    READY   STATUS    RESTARTS   AGE
 kiali-56bbfd644-nkhlw   2/2     Running   0          43s
 ```
 
-### How Can I Specify a Container Image Digest Hash When Installing Kiali Server and Kiali Operator?
+### How can I specify a container image digest hash when installing Kiali Server and Kiali Operator?
 
 To tell the operator to install a specific container image using a digest hash, you must use the `deployment.image_digest` setting in conjunction with the `deployment.image_version` setting. `deployment.image_version` is simply the digest hash code and `deployment.image_digest` is the type of digest (most likely you want to set this value to `sha256`). So for example, in your Kiali CR you will want something like this:
 
@@ -173,4 +173,15 @@ As for the operator itself, when installing the operator using its helm chart, t
 ```
 helm install --set image.tag=7336eb77199a4d737435a8bf395e1666b7085cc7f0ad8b4cf9456b7649b7d6ad --set image.digest=sha256 ...and the rest of the helm install options...
 ```
+
+### How can I use a CSI Driver to expose a custom secret to the Kiali Server?
+We will assume that you have a [CSI driver and provider installed](https://secrets-store-csi-driver.sigs.k8s.io/introduction) 
+in your cluster and a valid [SecretProviderClass](https://secrets-store-csi-driver.sigs.k8s.io/concepts.html?#secretproviderclass) deployed in the namespace where Kiali is installed. 
+
+To mount a secret exposed by the CSI Driver, you can use the [custom_secret](https://kiali.io/docs/configuration/kialis.kiali.io/#.spec.deployment.custom_secrets) configuration 
+to supply the [CSI volume source](https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/volume/#Volume) on the pod. The custom_secrets docs have an example. 
+The helm chart will automatically expose the secret as a volume mount into the container at the specified location.
+
+Although Kiali retrieves the secret over the Kubernetes API, [mounting the secret](https://secrets-store-csi-driver.sigs.k8s.io/topics/sync-as-kubernetes-secret) is required for the CSI Driver to create the backing Kubernetes secret. 
+
 
