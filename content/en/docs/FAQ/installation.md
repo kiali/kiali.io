@@ -175,7 +175,7 @@ helm install --set image.tag=7336eb77199a4d737435a8bf395e1666b7085cc7f0ad8b4cf94
 ```
 
 ### How can I use a CSI Driver to expose a custom secret to the Kiali Server?
-We will assume that you have a [CSI driver and provider installed](https://secrets-store-csi-driver.sigs.k8s.io/introduction) 
+You first must already have a [CSI driver and provider installed](https://secrets-store-csi-driver.sigs.k8s.io/introduction) 
 in your cluster and a valid [SecretProviderClass](https://secrets-store-csi-driver.sigs.k8s.io/concepts.html?#secretproviderclass) deployed in the namespace where Kiali is installed. 
 
 To mount a secret exposed by the CSI Driver, you can use the [custom_secret](https://kiali.io/docs/configuration/kialis.kiali.io/#.spec.deployment.custom_secrets) configuration 
