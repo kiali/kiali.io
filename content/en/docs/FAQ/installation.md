@@ -180,7 +180,7 @@ in your cluster and a valid [SecretProviderClass](https://secrets-store-csi-driv
 
 To mount a secret exposed by the CSI Driver, you can use the [custom_secret](https://kiali.io/docs/configuration/kialis.kiali.io/#.spec.deployment.custom_secrets) configuration 
 to supply the [CSI volume source](https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/volume/#Volume) on the pod. The custom_secrets docs have an example. 
-The helm chart will automatically expose the secret as a volume mount into the container at the specified location.
+The Kiali Operator or server helm chart will automatically expose the secret as a volume mount into the container at the specified mount location.
 
 Although Kiali retrieves the secret over the Kubernetes API, [mounting the secret](https://secrets-store-csi-driver.sigs.k8s.io/topics/sync-as-kubernetes-secret) is required for the CSI Driver to create the backing Kubernetes secret. 
 
