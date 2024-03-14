@@ -30,6 +30,7 @@ spec:
       # Enabled by default. Kiali will anyway fallback to disabled if
       # Tempo is unreachable.
       enabled: true
+      health_check_url: "https://tempo-instance.grafana.net"
       # Tempo service name is "query-frontend" and is in the "tempo" namespace.
       # Make sure the URL you provide corresponds to the non-GRPC enabled endpoint
       # It does not support grpc yet, so make sure "use_grpc" is set to false.
@@ -86,6 +87,21 @@ spec:
       url: "http://my-tempo-host:3200"
 ```
 
+##### Service check URL
+
+By default, Kiali will check the service health in the endpoint `/status/services`, but sometimes, this is exposed in a different url, which can lead to a component unreachable message: 
+
+![component_unreachable](/images/documentation/configuration/component_unreachable.png)
+
+That can be changed with the `health_check_url` configuration option. 
+
+```yaml
+spec:
+  external_services:
+    tracing:
+      health_check_url: "http://query-frontend.tempo:3200"
+```
+
 ### Using the Jaeger frontend with Grafana Tempo tracing backend
 
 It is possible to use the Grafana Tempo tracing backend exposing the Jaeger API.
@@ -135,13 +151,13 @@ spec:
     secret:
       type: s3
       name: object-storage
-  resources:
-    total:
-      limits:
-        memory: 2Gi
-        cpu: 2000m
   template:
     queryFrontend:
+      component:
+        resources:
+          limits:
+            cpu: "2"
+            memory: 2Gi
       jaegerQuery:
         enabled: true
         ingress:
