@@ -183,5 +183,6 @@ to supply the [CSI volume source](https://kubernetes.io/docs/reference/kubernete
 The Kiali Operator or server helm chart will automatically expose the secret as a volume mount into the container at the specified mount location.
 
 Although Kiali retrieves the secret over the Kubernetes API, [mounting the secret](https://secrets-store-csi-driver.sigs.k8s.io/topics/sync-as-kubernetes-secret) is required for the CSI Driver to create the backing Kubernetes secret. 
+Note that the [`custom_secrets` `optional` flag](https://kiali.io/docs/configuration/kialis.kiali.io/#.spec.deployment.custom_secrets[*].optional) is ignored when mounting secrets from the CSI provider. The secrets are required to exist - then cannot be optional.
 
 
