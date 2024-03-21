@@ -3,7 +3,7 @@ title: "Internationalization"
 description: "How Kiali is displayed in mutliple languages."
 ---
 
-Kiali is used worldwide and some users prefer to display Kiali in a language that they feel more comfortable than English. For this reason Kiali supports internationalization and it has been translated into multiple languages.
+Kiali is used worldwide and some users prefer to display Kiali in a language that they feel more comfortable than English. For this reason Kiali supports internationalization, and it has been translated into multiple languages.
 
 Current supported languages are English and Chinese.
 
