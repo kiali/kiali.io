@@ -35,6 +35,6 @@ You can also modify the default language shown in Kiali (values according to ISO
 
 <br />
 
-As an example this is how Kiali displays overview page in Chinese language:
+As an example, this is how Kiali displays the Overview page in Chinese:
 
 ![Overview page in Chinese](/images/documentation/features/internationalization-chinese.png "Overview page in Chinese")
