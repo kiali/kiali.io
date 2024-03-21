@@ -30,8 +30,8 @@ You can also modify the default language shown in Kiali (values according to ISO
 
 | <div style="width:100px">Language</div> | <div style="width:70px">Code</div> |
 | --------------------------------------- | ---------------------------------- |
-| English                                 | en                                 |
 | Chinese                                 | zh                                 |
+| English                                 | en                                 |
 
 <br />
 
