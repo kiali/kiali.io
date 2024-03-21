@@ -13,7 +13,7 @@ Kiali provides a language selector in the Masthead to be able to switch Kiali be
 
 ![Masthead language selector](/images/documentation/features/internationalization-masthead.png "Masthead language selector")
 
-By default language selector is hidden and English is the default language.
+By default the language selector is hidden, and English is the default language.
 
 In order to show the language selector a feature flag must be enabled in Kiali CR configuration:
 
