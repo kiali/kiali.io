@@ -39,4 +39,4 @@ As an example, this is how Kiali displays the Overview page in Chinese:
 
 ![Overview page in Chinese](/images/documentation/features/internationalization-chinese.png "Overview page in Chinese")
 
-If you want to collaborate with us on adding a new language or improving an existing one, please refer to the internationalization section of the kiali project's [README for UI](https://github.com/kiali/kiali/blob/master/frontend/README.adoc#internationalization-i18n)
+If you want to collaborate with us on adding a new language or improving the translation of an existing one, please refer to the internationalization section of the kiali project's [README for UI](https://github.com/kiali/kiali/blob/master/frontend/README.adoc#internationalization-i18n)
