@@ -118,7 +118,7 @@ spec:
         datasource_uid: "a8d2ef1c-d31c-4de5-a90b-e7bc5252cd00"
 ```
 
-`org_id` is not usually needed, as it takes 1 as the default value, that is the default org id. 
+`org_id` is usually not needed since "1" is the default value which is also Tempo's default org id. 
 The `datasource_uid` needs to be updated in order to redirect to the right datasource in Grafana versions 10 or higher. 
 
 ### Using the Jaeger frontend with Grafana Tempo tracing backend
