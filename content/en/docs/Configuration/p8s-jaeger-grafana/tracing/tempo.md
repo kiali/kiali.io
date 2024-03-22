@@ -30,11 +30,15 @@ spec:
       # Enabled by default. Kiali will anyway fallback to disabled if
       # Tempo is unreachable.
       enabled: true
+      health_check_url: "https://tempo-instance.grafana.net"
       # Tempo service name is "query-frontend" and is in the "tempo" namespace.
       # Make sure the URL you provide corresponds to the non-GRPC enabled endpoint
       # It does not support grpc yet, so make sure "use_grpc" is set to false.
       in_cluster_url: "http://tempo-tempo-query-frontend.tempo.svc.cluster.local:3200/"
       provider: "tempo"
+      tempo_config:
+        org_id: "1"
+        datasource_uid: "a8d2ef1c-d31c-4de5-a90b-e7bc5252cd00"
       use_grpc: false
       # Public facing URL of Tempo 
       url: "https://tempo-tempo-query-frontend-tempo.apps-crc.testing/"
@@ -86,6 +90,37 @@ spec:
       url: "http://my-tempo-host:3200"
 ```
 
+##### Service check URL
+
+By default, Kiali will check the service health in the endpoint `/status/services`, but sometimes, this is exposed in a different url, which can lead to a component unreachable message: 
+
+![component_unreachable](/images/documentation/configuration/component_unreachable.png)
+
+This can be changed with the `health_check_url` configuration option. 
+
+```yaml
+spec:
+  external_services:
+    tracing:
+      health_check_url: "http://query-frontend.tempo:3200"
+```
+
+##### Configuration for the Grafana Tempo Datasource 
+
+In order to correctly redirect Kiali to the right Grafana Tempo Datasource, there are a couple of configuration options to update: 
+
+```yaml
+spec:
+  external_services:
+    tracing:
+      tempo_config:
+        org_id: "1"
+        datasource_uid: "a8d2ef1c-d31c-4de5-a90b-e7bc5252cd00"
+```
+
+`org_id` is usually not needed since "1" is the default value which is also Tempo's default org id. 
+The `datasource_uid` needs to be updated in order to redirect to the right datasource in Grafana versions 10 or higher. 
+
 ### Using the Jaeger frontend with Grafana Tempo tracing backend
 
 It is possible to use the Grafana Tempo tracing backend exposing the Jaeger API.
@@ -135,13 +170,13 @@ spec:
     secret:
       type: s3
       name: object-storage
-  resources:
-    total:
-      limits:
-        memory: 2Gi
-        cpu: 2000m
   template:
     queryFrontend:
+      component:
+        resources:
+          limits:
+            cpu: "2"
+            memory: 2Gi
       jaegerQuery:
         enabled: true
         ingress:
