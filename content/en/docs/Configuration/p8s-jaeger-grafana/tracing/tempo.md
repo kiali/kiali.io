@@ -36,6 +36,9 @@ spec:
       # It does not support grpc yet, so make sure "use_grpc" is set to false.
       in_cluster_url: "http://tempo-tempo-query-frontend.tempo.svc.cluster.local:3200/"
       provider: "tempo"
+      tempo_config:
+        org_id: "1"
+        datasource_uid: "a8d2ef1c-d31c-4de5-a90b-e7bc5252cd00"
       use_grpc: false
       # Public facing URL of Tempo 
       url: "https://tempo-tempo-query-frontend-tempo.apps-crc.testing/"
@@ -101,6 +104,22 @@ spec:
     tracing:
       health_check_url: "http://query-frontend.tempo:3200"
 ```
+
+##### Configuration for the Grafana Tempo Datasource 
+
+In order to correctly redirect from Kiali to the right Grafana Tempo Datasource, there are a couple of configuration options to update: 
+
+```yaml
+spec:
+  external_services:
+    tracing:
+      tempo_config:
+        org_id: "1"
+        datasource_uid: "a8d2ef1c-d31c-4de5-a90b-e7bc5252cd00"
+```
+
+`org_id` is not usually needed, as it takes 1 as the default value, that is the default org id. 
+The `datasource_uid` needs to be updated in order to redirect to the right datasource in Grafana versions 10 or higher. 
 
 ### Using the Jaeger frontend with Grafana Tempo tracing backend
 
