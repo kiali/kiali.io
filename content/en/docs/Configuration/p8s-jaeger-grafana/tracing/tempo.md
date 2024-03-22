@@ -107,7 +107,7 @@ spec:
 
 ##### Configuration for the Grafana Tempo Datasource 
 
-In order to correctly redirect from Kiali to the right Grafana Tempo Datasource, there are a couple of configuration options to update: 
+In order to correctly redirect Kiali to the right Grafana Tempo Datasource, there are a couple of configuration options to update: 
 
 ```yaml
 spec:
