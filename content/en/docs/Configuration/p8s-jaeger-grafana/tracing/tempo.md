@@ -96,7 +96,7 @@ By default, Kiali will check the service health in the endpoint `/status/service
 
 ![component_unreachable](/images/documentation/configuration/component_unreachable.png)
 
-That can be changed with the `health_check_url` configuration option. 
+This can be changed with the `health_check_url` configuration option. 
 
 ```yaml
 spec:
