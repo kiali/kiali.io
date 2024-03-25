@@ -88,7 +88,7 @@ spec:
 
   deployment:
     # default: accessible_namespaces is undefined
-    accessible_namespaces: [ "my-mesh.*" ]
+    accessible_namespaces: ["my-mesh.*"]
     # default: additional_service_yaml is empty
     additional_service_yaml:
       externalName: "kiali.example.com"
@@ -135,6 +135,13 @@ spec:
     - name: "a-custom-secret"
       mount: "/a-custom-secret-path"
       optional: true
+    - name: "a-csi-secret"
+      mount: "/a-csi-secret-path"
+      csi:
+        driver: secrets-store.csi.k8s.io
+        readOnly: true
+        volumeAttributes:
+          secretProviderClass: kiali-secretprovider
     hpa:
       api_version: ""
       # default: spec is empty
@@ -221,7 +228,6 @@ spec:
     - key: "example-key"
       operator: "Exists"
       effect: "NoSchedule"
-    verbose_mode: "3"
     version_label: ""
     view_only_mode: false
 
@@ -356,6 +362,7 @@ spec:
         username: ""
       enabled: true
       grpc_port: 9095
+      health_check_url: ""
       in_cluster_url: ""
       is_core: false
       namespace_selector: true
@@ -365,6 +372,9 @@ spec:
         mesh_id: "mesh-1"
         cluster: "cluster-east"
       query_timeout: 5
+      tempo_config:
+        datasource_uid: ""
+        org_id: ""
       url: ""
       use_grpc: true
       whitelist_istio_system: ["jaeger-query", "istio-ingressgateway"]
@@ -391,7 +401,7 @@ spec:
   istio_labels:
     app_label_name: "app"
     injection_label_name: "istio-injection"
-    injection_label_rev:  "istio.io/rev"
+    injection_label_rev: "istio.io/rev"
     version_label_name: "version"
 
   kiali_feature_flags:
@@ -416,18 +426,26 @@ spec:
         - description: "Find: slow edges (> 1s)"
           expression: "rt > 1000"
         - description: "Find: unhealthy nodes"
-          expression:  "! healthy"
+          expression: "! healthy"
         - description: "Find: unknown nodes"
-          expression:  "name = unknown"
+          expression: "name = unknown"
         hide_options:
         - description: "Hide: healthy nodes"
           expression: "healthy"
         - description: "Hide: unknown nodes"
-          expression:  "name = unknown"
+          expression: "name = unknown"
         traffic:
           grpc: "requests"
           http: "requests"
-          tcp:  "sent"
+          tcp: "sent"
+      i18n:
+        language: "en"
+        show_selector: false
+      list:
+        include_health: true
+        include_istio_resources: true
+        include_validations: true
+        show_include_toggles: false
       metrics_per_refresh: "1m"
       # default: metrics_inbound is undefined
       metrics_inbound:
@@ -1710,6 +1728,25 @@ An example configuration is,</p>
 <div class="property depth-4">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.deployment.custom_secrets[*].csi">.spec.deployment.custom_secrets[*].csi</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>Defines CSI-specific settings that allows a secret from an external CSI secret store to be injected in the pod via a volume mount. For details, see <a href="https://secrets-store-csi-driver.sigs.k8s.io/">https://secrets-store-csi-driver.sigs.k8s.io/</a></p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.deployment.custom_secrets[*].mount">.spec.deployment.custom_secrets[*].mount</h3>
 </div>
 <div class="property-body">
@@ -1757,7 +1794,7 @@ An example configuration is,</p>
 </div>
 
 <div class="property-description">
-<p>Indicates if the secret may or may not exist at the time the Kiali pod starts. This will default to &lsquo;false&rsquo; if not specified.</p>
+<p>Indicates if the secret may or may not exist at the time the Kiali pod starts. This will default to &lsquo;false&rsquo; if not specified. This is ignored if <code>csi</code> is specified - CSI secrets must exist when specified.</p>
 
 </div>
 
@@ -2579,25 +2616,6 @@ limits:
 <div class="property-body">
 <div class="property-meta">
 <span class="property-type">(object)</span>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-2">
-<div class="property-header">
-<hr/>
-<h3 class="property-path" id=".spec.deployment.verbose_mode">.spec.deployment.verbose_mode</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(string)</span>
-
-</div>
-
-<div class="property-description">
-<p>DEPRECATED! Determines which priority levels of log messages Kiali will output. Use <code>deployment.logger</code> settings instead.</p>
 
 </div>
 
@@ -4719,6 +4737,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 <div class="property depth-3">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.external_services.tracing.health_check_url">.spec.external_services.tracing.health_check_url</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>Used in the Components health feature. This is the url which Kiali will ping to determine whether the component is reachable or not. It defaults to <code>url</code> when not provided.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.external_services.tracing.in_cluster_url">.spec.external_services.tracing.in_cluster_url</h3>
 </div>
 <div class="property-body">
@@ -4824,6 +4861,63 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property-description">
 <p>The amount of time in seconds Kiali will wait for a response from &lsquo;jaeger-query&rsquo; service when fetching traces.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.tracing.tempo_config">.spec.external_services.tracing.tempo_config</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>Settings used to configure the access url to the Tempo Datasource in Grafana.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.tracing.tempo_config.datasource_uid">.spec.external_services.tracing.tempo_config.datasource_uid</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The unique identifier (uid) of the Tempo datasource in Grafana.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.tracing.tempo_config.org_id">.spec.external_services.tracing.tempo_config.org_id</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The Id of the organization that the dashboard is in. Default to 1 (the first and default organization).</p>
 
 </div>
 
@@ -6042,6 +6136,63 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property-description">
 <p>TCP traffic is measured in sent/received/total bytes. Only request traffic supplies response codes. Value must be one of: <code>none</code>, <code>sent</code>, <code>received</code>, or <code>total</code>.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.ui_defaults.i18n">.spec.kiali_feature_flags.ui_defaults.i18n</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>Default settings for the i18n values.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.ui_defaults.i18n.language">.spec.kiali_feature_flags.ui_defaults.i18n.language</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>Default language used in Kiali application.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.ui_defaults.i18n.show_selector">.spec.kiali_feature_flags.ui_defaults.i18n.show_selector</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>If true Kiali masthead displays language selector icon. Default is false.</p>
 
 </div>
 
