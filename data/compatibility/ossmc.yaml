@@ -2,8 +2,8 @@
 # See: content/en/docs/Installation/installation-guide/prerequisites.md -> {{<compat-table-ossmc>}}
 versionRange:
   - ocpVersion: "4.12+"
-    minOSSMCVersion: "0.4.0"
-    maxOSSMCVersion: "1.xx"
+    minOSSMCVersion: "1.73"
+    maxOSSMCVersion: "1.73"
     kialiVersion: "1.73"
-    notes: 
+    notes: This is the most tested version.  Newer community versions may also work.
 
