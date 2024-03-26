@@ -6,7 +6,24 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
-------------Clip Below This Line----------------
+## 1.82.0
+Sprint Release: Mar 22, 2024
+
+Features:
+
+* [Multicluster - External controlplane support](https://github.com/kiali/kiali/issues/6036)
+* [Multicluster - Token per cluster](https://github.com/kiali/kiali/issues/6037)
+* [Tracing - Include a health_check_url for tracing external service](https://github.com/kiali/kiali/issues/7176)
+* [Tracing - Update Tempo resource usage](https://github.com/kiali/kiali/issues/7185)
+* [Auth - Enhancing Kiali OIDC process by supporting CSI secrets](https://github.com/kiali/kiali/issues/6942)
+
+Fixes:
+
+* [Kiali tracing URLs don't work with Grafana 10+](https://github.com/kiali/kiali/issues/7086)
+* [Warning in workload 'istio-ingressgateway' in non control-plane namespace](https://github.com/kiali/kiali/issues/7127)
+* [Distributed Tracing menu item active when there is no public URL defined](https://github.com/kiali/kiali/issues/7171)
+* [Graph - crash in DeadNode appender in multi mesh-setup](https://github.com/kiali/kiali/issues/7179)
+
 ## 1.81.0
 Sprint Release: Mar 01, 2024
 
