@@ -69,7 +69,7 @@ command:
 $ helm install \
     --set cr.create=true \
     --set cr.namespace=istio-system \
-    --set cr.auth.strategy="anonymous" \
+    --set cr.spec.auth.strategy="anonymous" \
     --namespace kiali-operator \
     --create-namespace \
     kiali-operator \
@@ -84,7 +84,7 @@ cr.namespace=istio-system` flags instructs to create a Kiali CR in the
 the Kiali operator starts, it will process it to deploy Kiali. After Kiali has started,
 you can access Kiali UI through 'http://localhost:20001' by executing 
 `kubectl port-forward service/kiali -n istio-system 20001:20001`
-because of `--set cr.auth.strategy="anonymous"`. But realize that anonymous mode will allow anyone to be able to see and use Kiali. If you wish to require users to authenticate themselves by logging into Kiali, use one of the other [auth strategies](/docs/configuration/authentication/).
+because of `--set cr.spec.auth.strategy="anonymous"`. But realize that anonymous mode will allow anyone to be able to see and use Kiali. If you wish to require users to authenticate themselves by logging into Kiali, use one of the other [auth strategies](/docs/configuration/authentication/).
 
 The Kiali Operator Helm Chart is configurable. Check available options and default values by running:
 
