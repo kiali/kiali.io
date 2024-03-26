@@ -61,12 +61,6 @@ Currently OSSMC plugin only works with Kiali server 1.73.
 If you are running Red Hat OpenShift Service Mesh (OSSM), use only the bundled version of Kiali.
 {{% /alert %}}
 
-| <div style="width:70px">OSSM</div> | <div style="width:100px">Kiali</div> | Notes |
-| ---------------------------------- | ------------------------------------ | ----- |
-| 2.4                                | 1.65                                 |       |
-| 2.3                                | 1.57                                 |       |
-| 2.2                                | 1.48                                 |       |
-
 <br />
 
 ## Browser Compatibility {#supported-browsers}
