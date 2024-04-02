@@ -91,3 +91,13 @@ To fix it, configure `in_cluster_url` in the [Kiali CR](/docs/configuration/kial
 
 In Traces tab, while clicking on a trace, it shows the details of that trace and information about spans. These details also include the root span information. But for the traces for traffic that is not comming from ingress-gateway, the root span information is not available in Jaeger, thus Kiali is displaying "Missing root span" for those traces' details and tooltips in Traces tab and in Graph pages.
 
+### Why do I see "error reading server preface: http2: frame too large" error when Kiali is not able to fetch Traces?
+
+Sometimes this error can occur when there is an error in the configuration and there is a http url configured but Kiali is configured to use grpc. For example: 
+
+```yaml
+use_grpc: true 
+in_cluster_url: "http://jaeger_url:16686/jaeger"
+```
+
+That should be solved when `use_grpc: false` or using the grpc port `in_cluster_url: "http://jaeger_url:16685/jaeger"` 
