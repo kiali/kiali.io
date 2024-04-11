@@ -11,6 +11,7 @@ There are two possibilities to integrate Kiali with Grafana Tempo:
 
 - [Using the Grafana Tempo API](#using-the-grafana-tempo-api): This option returns the traces from the Tempo API in OpenTelemetry format. 
 - [Using the Jaeger frontend](#using-the-jaeger-frontend-with-grafana-tempo-tracing-backend) with the Grafana Tempo backend.
+- Appendix: [Configuration table](#configuration-table) 
 
 ### Using the Grafana Tempo API 
 
@@ -202,3 +203,32 @@ For the given example, the value would be
 `http://tempo-ssm-query-frontend.tempo.svc.cluster.local:16685`.
 
 There is a [related tutorial]({{< ref "/docs/tutorials/tempo/02-kiali-tempo-integration" >}}) with detailed instructions to setup Kiali and Grafana Tempo with the Operator.
+
+### Configuration table
+
+#### Supported versions
+
+| <div style="width:170px">Kiali Version</div> | <div style="width:70px">Jaeger</div> | <div style="width:70px">Tempo</div> | <div style="width:270px">Tempo with JaegerQuery</div> |
+|----------------------------------------------|--------|-------|-------------------------------------------------------|
+| <= 1.79 (OSSM 2.5)                           | ✅      | ❌     | ✅                                                     |
+| > 1.79                                       | ✅      | ✅     | ✅                                                     |
+
+<br>
+
+#### Minimal configuration for Kiali <= 1.79
+
+In `external_services.tracing`
+
+|                                                    | <div style="width:470px">http<hr></div>                                                    | <div style="width:470px">grpc <hr></div>                                                                                 |
+|----------------------------------------------------|--------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|
+| Jaeger | `.in_cluster_url = 'http://jaeger_service_url:16686/jaeger'`<br/> `.use_grpc = false` <hr> | `.in_cluster_url = 'http://jaeger_service_url:16685/jaeger'`<br/> `.use_grpc = true (Not required: by default)` <br><hr> | 
+| Tempo                                              | `.in_cluster_url = 'http://query_frontend_url:16686'`<br/> `.use_grpc = false` <hr>        | `.in_cluster_url = 'http://query_frontend_url:16685'`  <br/>`.use_grpc = true (Not required: by default)` <br/><hr>                                                    |
+
+<br>
+
+#### Minimal configuration for Kiali > 1.79
+
+|        | <div style="width:470px">http<hr></div>                                                                     | <div style="width:470px">grpc  <hr></div>                                                                                                                        |
+|--------|-------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Jaeger | `.in_cluster_url = 'http://jaeger_service_url:16686/jaeger'`<br/> `.use_grpc = false` <hr>                  | `.in_cluster_url = 'http://jaeger_service_url:16685/jaeger'` <br>`.use_grpc = true (Not required: by default)`<br><hr>                                           | 
+| Tempo  | <br/>`in_cluster_url = 'http://query_frontend_url:3200'`<br/> `.use_grpc = false`<br/> `.provider = 'tempo'`<br/><hr> | `.in_cluster_url = 'http://query_frontend_url:3200'`<br/> `.grpc_port: 9095` <br/>`.provider: 'tempo'`<br/>`.use_grpc = true (Not required: by default)`<hr> |
