@@ -93,7 +93,7 @@ In Traces tab, while clicking on a trace, it shows the details of that trace and
 
 ### Why do I see "error reading server preface: http2: frame too large" error when Kiali is not able to fetch Traces?
 
-Sometimes this error can occur when there is an problem in the configuration and there is an http url configured but Kiali is configured to use grpc. For example: 
+Sometimes this error can occur when there is a problem in the configuration and there is an http url configured but Kiali is configured to use grpc. For example:
 
 ```yaml
 use_grpc: true 
