@@ -6,6 +6,23 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 1.83.0
+Sprint Release: Apr 12, 2024
+
+Features:
+
+* n/a
+
+Fixes:
+
+* [Namespace selector order is random](https://github.com/kiali/kiali/issues/7227)
+* [The Istio config list page does not update when switching from a forbidden namespace to an accessible one](https://github.com/kiali/openshift-servicemesh-plugin/issues/288)
+* [token & OpenShift authentication not working ](https://github.com/kiali/kiali/issues/7252)
+* [automaxprocs removed from kiali](https://github.com/kiali/kiali/issues/7254)
+* [Graph for Ambient ns is not generated correctly when the traffic is not generated throw a Gateway](https://github.com/kiali/kiali/issues/7259)
+* [(e2e) Tests should check status code before attempting to unmarshal into json](https://github.com/kiali/kiali/issues/6777)
+* [(molecule) flake in molecule test "os-console-links-test"](https://github.com/kiali/kiali/issues/7243)
+
 ## 1.82.0
 Sprint Release: Mar 22, 2024
 
