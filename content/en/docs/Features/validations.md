@@ -146,7 +146,7 @@ In a Source field it accepts the principals, a list of peer identities derived f
 
 A validation Warning message on a principal value means, that the specified Service Account was found in a cluster different from that of the AuthorizationPolicy.
 
-#### Resolution.
+#### Resolution
 
 Kiali currently does not verify if the SPIRE is configured on the workload of the remote cluster.
 
