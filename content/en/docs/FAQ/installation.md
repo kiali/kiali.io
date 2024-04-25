@@ -20,6 +20,9 @@ cannot list resource "clusterroles" in API group
 
 Thus, if you do not give the Kiali Operator the permission to create cluster roles, you must tell the Operator which specific namespaces the Kiali Server can access. When specific namespaces are specified in `deployment.accessible_namespaces`, the Kiali Operator will create Role and RoleBindings (not the "Cluster" kinds) and assign them to the Kiali Server.
 
+{{% alert color="info" %}}
+Setting `clusterRoleCreator=false` is not support on Openshift when using the `openshift` auth strategy. In this case, you must either deploy the operator with OLM or set `clusterRoleCreator=true`.
+{{% /alert %}}
 
 ### What values can be set in the Kiali CR?
 
@@ -34,7 +37,7 @@ If you are using a specific version of the Operator prior to 1.46, the Kiali CR 
 ### How to configure some operator features at runtime {#operator-configuration}
 
 {{% alert color="danger" %}}
-First, read 
+First, read
 [Managing configuration of Helm installations in the Installation guide]({{< ref "/docs/installation/installation-guide/install-with-helm#managing-installation-config" >}}) to
 check if that method works for your case.
 {{% /alert %}}
@@ -50,7 +53,7 @@ Doing things incorrectly may break the Kiali Operator.
 Perform the following steps to configure these features in the Kiali Operator:
 
 1. Determine the namespace where your operator is located and store that namespace name in `$OPERATOR_NAMESPACE`. If you installed the operator via helm,
-it may be `kiali-operator`. If you installed the operator via OLM, it may be `openshift-operators`. If you are not sure, you can perform a query to find it:
+   it may be `kiali-operator`. If you installed the operator via OLM, it may be `openshift-operators`. If you are not sure, you can perform a query to find it:
 
 ```
 OPERATOR_NAMESPACE="$(kubectl get deployments --all-namespaces  | grep kiali-operator | cut -d ' ' -f 1)"
@@ -72,6 +75,7 @@ OPERATOR_NAMESPACE="$(kubectl get deployments --all-namespaces  | grep kiali-ope
 ```
 ENV_NAME="ANSIBLE_CONFIG"
 ```
+
 4. Store the new value of the environment variable in `$ENV_VALUE`:
 
 ```
@@ -95,7 +99,6 @@ oc -n ${OPERATOR_NAMESPACE} set env deploy/kiali-operator "${ENV_NAME}=${ENV_VAL
 ```
 oc -n ${OPERATOR_NAMESPACE} patch $(oc -n ${OPERATOR_NAMESPACE} get csv -o name | grep kiali) --type=json -p "[{'op':'replace','path':"/spec/install/spec/deployments/0/spec/template/spec/containers/0/env/$(oc -n ${OPERATOR_NAMESPACE} get $(oc -n ${OPERATOR_NAMESPACE} get csv -o name | grep kiali) -o jsonpath='{.spec.install.spec.deployments[0].spec.template.spec.containers[0].env[*].name}' | tr ' ' '\n' | cat --number | grep ${ENV_NAME} | cut -f 1 | xargs echo -n | cat - <(echo "-1") | bc)/value",'value':"\"${ENV_VALUE}\""}]"
 ```
-
 
 ### How can I inject an Istio sidecar in the Kiali pod?
 
@@ -175,14 +178,13 @@ helm install --set image.tag=7336eb77199a4d737435a8bf395e1666b7085cc7f0ad8b4cf94
 ```
 
 ### How can I use a CSI Driver to expose a custom secret to the Kiali Server?
-You first must already have a [CSI driver and provider installed](https://secrets-store-csi-driver.sigs.k8s.io/introduction) 
-in your cluster and a valid [SecretProviderClass](https://secrets-store-csi-driver.sigs.k8s.io/concepts.html?#secretproviderclass) deployed in the namespace where Kiali is installed. 
 
-To mount a secret exposed by the CSI Driver, you can use the [custom_secret](https://kiali.io/docs/configuration/kialis.kiali.io/#.spec.deployment.custom_secrets) configuration 
-to supply the [CSI volume source](https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/volume/#Volume) on the pod. The [Kiali CR reference docs](https://kiali.io/docs/configuration/kialis.kiali.io/#example-cr) have an example. 
+You first must already have a [CSI driver and provider installed](https://secrets-store-csi-driver.sigs.k8s.io/introduction)
+in your cluster and a valid [SecretProviderClass](https://secrets-store-csi-driver.sigs.k8s.io/concepts.html?#secretproviderclass) deployed in the namespace where Kiali is installed.
+
+To mount a secret exposed by the CSI Driver, you can use the [custom_secret](https://kiali.io/docs/configuration/kialis.kiali.io/#.spec.deployment.custom_secrets) configuration
+to supply the [CSI volume source](https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/volume/#Volume) on the pod. The [Kiali CR reference docs](https://kiali.io/docs/configuration/kialis.kiali.io/#example-cr) have an example.
 The Kiali Operator or server helm chart will automatically expose the secret as a volume mount into the container at the specified mount location.
 
-Although Kiali retrieves the secret over the Kubernetes API, [mounting the secret](https://secrets-store-csi-driver.sigs.k8s.io/topics/sync-as-kubernetes-secret) is required for the CSI Driver to create the backing Kubernetes secret. 
+Although Kiali retrieves the secret over the Kubernetes API, [mounting the secret](https://secrets-store-csi-driver.sigs.k8s.io/topics/sync-as-kubernetes-secret) is required for the CSI Driver to create the backing Kubernetes secret.
 Note that the [`custom_secrets` `optional` flag](https://kiali.io/docs/configuration/kialis.kiali.io/#.spec.deployment.custom_secrets[*].optional) is ignored when mounting secrets from the CSI provider. The secrets are required to exist - then cannot be optional.
-
-
