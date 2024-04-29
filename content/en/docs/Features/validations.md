@@ -139,6 +139,28 @@ Correct the principal to refer to existing Service Account, make sure that the v
 - [Service association requirement](https://istio.io/docs/ops/deployment/requirements)
 
 
+### KIA0107 - Service Account for this principal found on a remote cluster
+
+AuthorizationPolicy has a Source field, where specifies the source identities of a request.
+In a Source field it accepts the principals, a list of peer identities derived from the peer certificate. The peer identity is in the format of `<TRUST_DOMAIN>/ns/<NAMESPACE>/sa/<SERVICE_ACCOUNT>`, for example, `cluster.local/ns/default/sa/productpage`.
+
+A validation Warning message on a principal value means, that the specified Service Account was found in a cluster different from that of the AuthorizationPolicy.
+
+#### Resolution
+
+Kiali currently does not verify if the SPIRE is configured on the workload of the remote cluster.
+
+#### Severity
+
+<i class="fas fa-exclamation-triangle text-warning"></i> Warning
+
+#### See Also
+
+- [AuthorizationPolicy documentation](https://istio.io/docs/reference/config/security/authorization-policy)
+- [Definition of the Source field](https://istio.io/docs/reference/config/security/authorization-policy/#Source)
+- [SPIRE Istio Integration](https://istio.io/latest/docs/ops/integrations/spire)
+
+
 ## Destination rules {#destinationrules}
 
 ### KIA0201 - More than one DestinationRules for the same host subset combination
