@@ -21,7 +21,7 @@ cannot list resource "clusterroles" in API group
 Thus, if you do not give the Kiali Operator the permission to create cluster roles, you must tell the Operator which specific namespaces the Kiali Server can access. When specific namespaces are specified in `deployment.accessible_namespaces`, the Kiali Operator will create Role and RoleBindings (not the "Cluster" kinds) and assign them to the Kiali Server.
 
 {{% alert color="info" %}}
-Setting `clusterRoleCreator=false` is not support on Openshift when using the `openshift` auth strategy. In this case, you must either deploy the operator with OLM or set `clusterRoleCreator=true`.
+Setting `clusterRoleCreator=false` is not supported on OpenShift when using the `openshift` auth strategy. In this case, you must either deploy the operator with OLM or set `clusterRoleCreator=true`.
 {{% /alert %}}
 
 ### What values can be set in the Kiali CR?
