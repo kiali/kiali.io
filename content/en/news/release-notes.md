@@ -6,6 +6,24 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 1.84.0
+Sprint Release: May 06, 2024
+
+Features:
+
+* [Ambient - support ztunnel access logs](https://github.com/kiali/kiali/issues/6898)
+* [Operator - be able to disable namespace watching](https://github.com/kiali/kiali/issues/7322)
+* [OSSMC - Adapt OSSMC to PF5](https://github.com/kiali/openshift-servicemesh-plugin/issues/198)
+* [OSSMC - Internationalization (I18N)](https://github.com/kiali/openshift-servicemesh-plugin/issues/279)
+
+Fixes:
+
+* [KIA1102 shows warning instead of a danger status](https://github.com/kiali/kiali/issues/7275)
+* [Traffic graph context menu options do not redirect to the correct pages](https://github.com/kiali/openshift-servicemesh-plugin/issues/284)
+* [(multi-Cluster AuthorizationPolicy) (KIA0106) when namespace SPIFFY is on remote cluster](https://github.com/kiali/kiali/issues/7152)
+* [False KIA1102 alert](https://github.com/kiali/kiali/issues/7287)
+* [Kiali fails to watch Gateway due to `spec.servers(*).tls.mode: OPTIONAL_MUTUAL` setting](https://github.com/kiali/kiali/issues/7315)
+
 ## 1.83.0
 Sprint Release: Apr 12, 2024
 
