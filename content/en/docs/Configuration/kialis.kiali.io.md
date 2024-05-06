@@ -70,8 +70,6 @@ spec:
       scopes: ["openid", "profile", "email"]
       username_claim: "sub"
     openshift:
-      auth_timeout: 10
-      client_id_prefix: "kiali"
       #token_inactivity_timeout:
       #token_max_age:
 
@@ -1083,44 +1081,6 @@ is the namespace where Kiali is to be installed.</p>
 
 <div class="property-description">
 <p>To learn more about these settings and how to configure the OpenShift authentication strategy, read the documentation at <a href="https://kiali.io/docs/configuration/authentication/openshift/">https://kiali.io/docs/configuration/authentication/openshift/</a></p>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-3">
-<div class="property-header">
-<hr/>
-<h3 class="property-path" id=".spec.auth.openshift.auth_timeout">.spec.auth.openshift.auth_timeout</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(integer)</span>
-
-</div>
-
-<div class="property-description">
-<p>The amount of time in seconds Kiali will wait for a response from the OpenShift API server when requesting authentication results.</p>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-3">
-<div class="property-header">
-<hr/>
-<h3 class="property-path" id=".spec.auth.openshift.client_id_prefix">.spec.auth.openshift.client_id_prefix</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(string)</span>
-
-</div>
-
-<div class="property-description">
-<p>The Route resource name and OAuthClient resource name will have this value as its prefix. This value normally should never change. The installer will ensure this value is set correctly.</p>
 
 </div>
 
