@@ -166,7 +166,7 @@ Kiali currently requires the following metrics and attributes:
 |--------------------------------------------|-----|
 |container_cpu_usage_seconds_total           |used to graph cpu usage in the control plane overview card|
 |container_memory_working_set_bytes          |used to graph memory usage in the control plane overview card |
-|process_cpu_seconds_total                   |used to graph cpu usage in the control plane overview card (if the container metric is not available)|
+|process_cpu_seconds_total                   |used to graph cpu usage in the control plane overview card (if the container metric is not available); used in the Istiod application metrics dashboard|
 |process_resident_memory_bytes               |used to graph memory usage in the control plane overview card (if the container metric is not available)|
 
 <br />
@@ -192,7 +192,10 @@ Istio metrics and attributes:
 |istio_tcp_received_bytes_total              |used throughout Kiali for tcp received traffic  |
 |istio_tcp_sent_bytes_total                  |used throughout Kiali for tcp sent traffic   |
 |pilot_proxy_convergence_time_sum            |used in control plane overview card to show the average proxy push time |
-|pilot_proxy_convergence_time_count          |used in control plane overview card to show the average proxy push time |
+|pilot_proxy_convergence_time_count          |used in control plane overview card to show the average proxy push time; used in the Istiod application metrics dashboard|
+|pilot_services                              |used in the Istiod application metrics dashboard|
+|pilot_xds                                   |used in the Istiod application metrics dashboard|
+|pilot_xds_pushes                            |used in the Istiod application metrics dashboard|
 
 <br />
 
