@@ -17,7 +17,7 @@ The Kiali About box:
 
 ![About Box](/images/documentation/faq/general/kiali-about-box.png)
 
-2. To see version information for the infrastruction components in your mesh: Go to the main menu and select the "Mesh" page option. This will bring you to a graphical representation of your mesh. The default side-panel will present a summary of the infrastructure components and, if possible to determine, their versions. This will include things like Istio, Prometheus, etc.  You can also select graph nodes any further detail available for that component.
+2. To see version information for the infrastruction components in your mesh: Go to the main menu and select the "Mesh" page option. This will bring you to a graphical representation of your mesh. The default side-panel will present a summary of the infrastructure components and, if possible to determine, their versions. This will include things like Istio, Prometheus, etc.  You can also select graph nodes to see any further details that may be available for that component.
 
 ![Mesh Page](/images/documentation/faq/general/kiali-mesh-page.png)
 
