@@ -7,7 +7,7 @@ description: "Questions about Kiali architecture, access, perf, etc..."
 
 There are several components within the Istio/Kiali infrastructure that have version information.
 
-1. Go to the Help dropdown menu found at the top-right of the Kiali Console window and select "About". This will pop up the About box that will display all version information for Kiali, Istio, and other third-party components like Prometheus.
+1. To see the Kiali version for the instance running your UI: Go to the Help dropdown menu found at the top-right of the Kiali Console window and select "About". This will pop up the About dialog box which displays detailed information for the current Kiali instance. From here you can also link to the Mesh page.
 
 Help dropdown menu:
 
@@ -17,7 +17,11 @@ The Kiali About box:
 
 ![About Box](/images/documentation/faq/general/kiali-about-box.png)
 
-2. You can also get this same version information in JSON format from the command line by running something like `curl` to obtain the version information from the `/api` endpoint. For example, expose Kiali via port-forwarding so `curl` can access it:
+2. To see version information for the infrastruction components in your mesh: Go to the main menu and select the "Mesh" page option. This will bring you to a graphical representation of your mesh. The default side-panel will present a summary of the infrastructure components and, if possible to determine, their versions. This will include things like Istio, Prometheus, etc.  You can also select graph nodes any further detail available for that component.
+
+![Mesh Page](/images/documentation/faq/general/kiali-mesh-page.png)
+
+3. You can also get much of this same version information in JSON format. From the command line, run something like `curl` to obtain the version information from the `/api` endpoint. For example, expose Kiali via port-forwarding so `curl` can access it:
 ```
 kubectl port-forward -n istio-system deploy/kiali 20001:20001
 ```
@@ -64,25 +68,25 @@ The version information will be provided in a JSON format such as this:
 }
 ```
 
-3. Obtain the container image being used by the Kiali Server pod:
+4. Obtain the container image being used by the Kiali Server pod:
 ```sh
 kubectl get pods --all-namespaces -l app.kubernetes.io/name=kiali -o jsonpath='{.items..spec.containers[*].image}{"\n"}'
 ```
 This will result in something like: `quay.io/kiali/kiali:v1.74.0`
 
-4. Obtain the container image being used by the Kiali Operator pod:
+5. Obtain the container image being used by the Kiali Operator pod:
 ```sh
 kubectl get pods --all-namespaces -l app.kubernetes.io/name=kiali-operator -o jsonpath='{.items..spec.containers[*].image}{"\n"}'
 ```
 This will result in something like: `quay.io/kiali/kiali-operator:v1.74.0`
 
-5. Obtain the container image being used by the istiod pod:
+6. Obtain the container image being used by the istiod pod:
 ```sh
 kubectl get pods --all-namespaces -l app=istiod -o jsonpath='{.items..spec.containers[*].image}{"\n"}'
 ```
 This will result in something like: `gcr.io/istio-release/pilot:1.19.0`
 
-6. If Kiali and/or Istio are installed via helm charts, obtain the helm chart version information:
+7. If Kiali and/or Istio are installed via helm charts, obtain the helm chart version information:
 ```
 helm list --all-namespaces
 ```
