@@ -140,6 +140,14 @@ spec:
         readOnly: true
         volumeAttributes:
           secretProviderClass: kiali-secretprovider
+    dns:
+      # default: config is empty
+      config:
+        options:
+        - name: ndots
+          value: "1"
+      # default: policy is empty
+      policy: "ClusterFirst"
     hpa:
       api_version: ""
       # default: spec is empty
@@ -358,6 +366,9 @@ spec:
         type: "none"
         use_kiali_token: false
         username: ""
+      # default: custom_headers is empty
+      custom_headers:
+        customHeader1: "customHeader1Value"
       enabled: true
       grpc_port: 9095
       health_check_url: ""
@@ -1755,6 +1766,64 @@ An example configuration is,</p>
 
 <div class="property-description">
 <p>Indicates if the secret may or may not exist at the time the Kiali pod starts. This will default to &lsquo;false&rsquo; if not specified. This is ignored if <code>csi</code> is specified - CSI secrets must exist when specified.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.dns">.spec.deployment.dns</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>The Kiali server pod&rsquo;s DNS configuration. Kubernetes supports different DNS policies and configurations.
+For further details, consult the Kubernetes documentation - <a href="https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/">https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/</a></p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.dns.config">.spec.deployment.dns.config</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>DNS configuration that is applied to the DNS policy. See the Kubernetes documentation for the different configuration settings that are supported.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.dns.policy">.spec.deployment.dns.policy</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>DNS policy. See the Kubernetes documentation for the different policies that are supported.</p>
 
 </div>
 
@@ -4650,6 +4719,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property-description">
 <p>Username to be used when making requests to the Tracing server with <code>basic</code> authentication.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.tracing.custom_headers">.spec.external_services.tracing.custom_headers</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>A set of name/value settings that will be passed as headers when requests are sent to the Tracing backend.</p>
 
 </div>
 
