@@ -6,6 +6,26 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 1.85.0
+Sprint Release: May 27
+
+Features:
+
+* [New Mesh Topology page](https://github.com/kiali/kiali/issues/5913)
+* [Custom http headers for tracing](https://github.com/kiali/kiali/issues/7266)
+* [Add the ability to modify the dnsconfig for the kiali deployment in kubernetes](https://github.com/kiali/kiali/issues/7150)
+* [make sure Kiali can observe important istiod metrics](https://github.com/kiali/kiali/issues/7238)
+* [kiali-server helm chart: Do not create ClusterRole if not needed](https://github.com/kiali/kiali/issues/7357)
+* [Include Mesh page in OSSMC](https://github.com/kiali/openshift-servicemesh-plugin/issues/308)
+
+Fixes:
+
+* [graph - Getting "Cannot load the graph: cluster (kubernetes) is not found or is not accessible for Kiali" with certain prometheus configurations.](https://github.com/kiali/kiali/issues/7305)
+* [ambient - Improve check for detection of workload in Ambient Mesh](https://github.com/kiali/kiali/issues/6523)
+* [ambient - ztunnel logs are not shown on a kind cluster ](https://github.com/kiali/kiali/issues/7338)
+* [ossmc - Istio config list page does not filter by namespace (OCP 4.15)](https://github.com/kiali/openshift-servicemesh-plugin/issues/298)
+* [Vulnerability in Go Crypto CVE-2022-27191](https://github.com/kiali/kiali/issues/6648)
+
 ## 1.84.0
 Sprint Release: May 06, 2024
 
