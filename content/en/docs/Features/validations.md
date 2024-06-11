@@ -891,11 +891,11 @@ Add missing Service Entry which address will match the Workload Entry's address.
 - [Validator source code](https://github.com/kiali/kiali/tree/v1.52.0/business/checkers/serviceentries/workload_entry_address_match.go)
 
 
-## K8s HTTPRoutes {#httproutes}
+## K8s Routes {#k8sroutes}
 
-### KIA1401 - HTTPRoute is pointing to a non-existent K8s gateway
+### KIA1401 - Route is pointing to a non-existent K8s gateway
 
-Gateway API HTTPRoute could be pointing to a [k8s] Gateway that the Route wants to be attached to. When the namespace field is not specified it takes Gateways from the current HTTPRoute's namespace. Here the error indicates that the referenced Gateway is not found in the provided namespace.
+Gateway API Protocol Route could be pointing to a [k8s] Gateway that the Route wants to be attached to. When the namespace field is not specified it takes Gateways from the current Route's namespace. Here the error indicates that the referenced Gateway is not found in the provided namespace.
 
 #### Resolution
 
