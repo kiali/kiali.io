@@ -6,6 +6,27 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 1.86.0
+Sprint Release: Jun 17, 2024
+
+Features:
+
+* [mesh page - Add legend to the mesh graph](https://github.com/kiali/kiali/issues/7377)
+* [mesh page = display side-panel JSON in a table format](https://github.com/kiali/kiali/issues/7379)
+* [ambient - support http ambient waypoint telemetry in graph](https://github.com/kiali/kiali/issues/7344)
+* [ambient - support http ambient waypoint telemetry in charts](https://github.com/kiali/kiali/issues/7429)
+* [ambient - Adapt Auto Injection action in Ambient Mesh](https://github.com/kiali/kiali/issues/7420)
+* [Request for fetch traces is timeouted after 30s](https://github.com/kiali/kiali/issues/7388)
+* [Simplify i18n support ](https://github.com/kiali/kiali/issues/7394)
+
+Fixes:
+
+* [Traces are not filtered for cluster in Multi cluster](https://github.com/kiali/kiali/issues/7384)
+* [graph - PFT graph does not show parallel edges with different protocols](https://github.com/kiali/kiali/issues/7418)
+* [Helm chart/operator does not support Adding an Inaccessible Cluster ](https://github.com/kiali/kiali/issues/7187)
+* [CI - Flake - graph_context_menu nodes undefined](https://github.com/kiali/kiali/issues/7256)
+* [CI - Improve Cypress test related in kiali_help.feature](https://github.com/kiali/kiali/issues/7180)
+
 ## 1.85.0
 Sprint Release: May 27
 
