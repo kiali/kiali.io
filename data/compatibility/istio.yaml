@@ -4,6 +4,7 @@ versionRange:
   - meshVersion: "1.22"
     kialiMinimumVersion: "1.82.0"
     kialiMaximumVersion: ""
+    notes: "v1.86.0 is the recommended minimum for Istio Ambient users (also fine for v1.22 classic)."
   - meshVersion: "1.21"
     kialiMinimumVersion: "1.79.0"
     kialiMaximumVersion: "1.81.0"
