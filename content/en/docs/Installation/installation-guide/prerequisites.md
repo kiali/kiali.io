@@ -49,7 +49,7 @@ supported Istio versions.
 
 ## OpenShift Console Plugin (OSSMC) Version Compatibility
 
-Currently OSSMC plugin only works with Kiali server 1.73.
+Kiali server with the same version of OSSMC plugin must be installed previously in your OpenShift cluster.
 
 {{<compat-table-ossmc>}}
 
@@ -61,11 +61,12 @@ Currently OSSMC plugin only works with Kiali server 1.73.
 If you are running Red Hat OpenShift Service Mesh (OSSM), use only the bundled version of Kiali.
 {{% /alert %}}
 
-| <div style="width:70px">OSSM</div> | <div style="width:100px">Kiali</div> | Notes |
-| ---------------------------------- | ------------------------------------ | ----- |
-| 2.4                                | 1.65                                 |       |
-| 2.3                                | 1.57                                 |       |
-| 2.2                                | 1.48                                 |       |
+| <div style="width:100px">OSSM</div> | <div style="width:100px">Kiali</div> | Notes                      |
+| ----------------------------------- | ------------------------------------ | -------------------------- |
+| 2.5                                 | 1.73                                 |                            |
+| 2.4                                 | 1.65                                 |                            |
+| 2.3                                 | 1.57                                 |                            |
+| 2.2                                 | 1.48                                 | OSSM 2.2 is out of support |
 
 <br />
 
