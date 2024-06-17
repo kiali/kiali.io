@@ -419,12 +419,6 @@ spec:
       secrets:
       - "cacerts"
       - "istio-ca-secret"
-    clustering:
-      autodetect_secrets:
-        enabled: true
-        label: "kiali.io/multiCluster=true"
-      clusters: []
-      kiali_urls: []
     disabled_features: []
     istio_annotation_action: true
     istio_injection_action: true
@@ -520,6 +514,7 @@ spec:
     web_port: ""
     web_root: ""
     web_schema: ""
+    write_timeout: 30
 ```
 
 
@@ -5553,262 +5548,6 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 <div class="property depth-2">
 <div class="property-header">
 <hr/>
-<h3 class="property-path" id=".spec.kiali_feature_flags.clustering">.spec.kiali_feature_flags.clustering</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(object)</span>
-
-</div>
-
-<div class="property-description">
-<p>Multi-cluster related features.</p>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-3">
-<div class="property-header">
-<hr/>
-<h3 class="property-path" id=".spec.kiali_feature_flags.clustering.autodetect_secrets">.spec.kiali_feature_flags.clustering.autodetect_secrets</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(object)</span>
-
-</div>
-
-<div class="property-description">
-<p>Settings to allow cluster secrets to be auto-detected. Secrets must exist in the Kiali deployment namespace.</p>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-4">
-<div class="property-header">
-<hr/>
-<h3 class="property-path" id=".spec.kiali_feature_flags.clustering.autodetect_secrets.enabled">.spec.kiali_feature_flags.clustering.autodetect_secrets.enabled</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(boolean)</span>
-
-</div>
-
-<div class="property-description">
-<p>If true then remote cluster secrets will be autodetected during the installation of the Kiali Server Deployment. Any remote cluster secrets found in the Kiali deployment namespace will be mounted to the Kiali Server&rsquo;s file system. If false, you can still manually specify the remote cluster secret information in the &lsquo;clusters&rsquo; setting if you wish to utilize multicluster features.</p>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-4">
-<div class="property-header">
-<hr/>
-<h3 class="property-path" id=".spec.kiali_feature_flags.clustering.autodetect_secrets.label">.spec.kiali_feature_flags.clustering.autodetect_secrets.label</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(string)</span>
-
-</div>
-
-<div class="property-description">
-<p>The name and value of a label that exists on all remote cluster secrets. Default is &lsquo;kiali.io/multiCluster=true&rsquo;.</p>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-3">
-<div class="property-header">
-<hr/>
-<h3 class="property-path" id=".spec.kiali_feature_flags.clustering.clusters">.spec.kiali_feature_flags.clustering.clusters</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(array)</span>
-
-</div>
-
-<div class="property-description">
-<p>A list of clusters that the Kiali Server can access. You need to specify the remote clusters here if &lsquo;autodetect_secrets.enabled&rsquo; is false.</p>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-4">
-<div class="property-header">
-<hr/>
-<h3 class="property-path" id=".spec.kiali_feature_flags.clustering.clusters[*]">.spec.kiali_feature_flags.clustering.clusters[*]</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(object)</span>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-5">
-<div class="property-header">
-<hr/>
-<h3 class="property-path" id=".spec.kiali_feature_flags.clustering.clusters[*].name">.spec.kiali_feature_flags.clustering.clusters[*].name</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(string)</span>
-
-</div>
-
-<div class="property-description">
-<p>The name of the cluster.</p>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-5">
-<div class="property-header">
-<hr/>
-<h3 class="property-path" id=".spec.kiali_feature_flags.clustering.clusters[*].secret_name">.spec.kiali_feature_flags.clustering.clusters[*].secret_name</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(string)</span>
-
-</div>
-
-<div class="property-description">
-<p>The name of the secret that contains the credentials necessary to connect to the remote cluster. This secret must exist in the Kiali deployment namespace. If a secret name is not provided then it&rsquo;s assumed that the cluster is inaccessible.</p>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-3">
-<div class="property-header">
-<hr/>
-<h3 class="property-path" id=".spec.kiali_feature_flags.clustering.kiali_urls">.spec.kiali_feature_flags.clustering.kiali_urls</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(array)</span>
-
-</div>
-
-<div class="property-description">
-<p>A map between cluster name, instance name and namespace to a Kiali URL. Will be used showing the Mesh page&rsquo;s Kiali URLs. The Kiali service&rsquo;s &lsquo;kiali.io/external-url&rsquo; annotation will be overridden when this property is set.</p>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-4">
-<div class="property-header">
-<hr/>
-<h3 class="property-path" id=".spec.kiali_feature_flags.clustering.kiali_urls[*]">.spec.kiali_feature_flags.clustering.kiali_urls[*]</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(object)</span>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-5">
-<div class="property-header">
-<hr/>
-<h3 class="property-path" id=".spec.kiali_feature_flags.clustering.kiali_urls[*].cluster_name">.spec.kiali_feature_flags.clustering.kiali_urls[*].cluster_name</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(string)</span>
-
-</div>
-
-<div class="property-description">
-<p>The name of the cluster.</p>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-5">
-<div class="property-header">
-<hr/>
-<h3 class="property-path" id=".spec.kiali_feature_flags.clustering.kiali_urls[*].instance_name">.spec.kiali_feature_flags.clustering.kiali_urls[*].instance_name</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(string)</span>
-
-</div>
-
-<div class="property-description">
-<p>The instance name of this Kiali installation. This should be the value used in <code>deployment.instance_name</code> for Kiali resource name.</p>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-5">
-<div class="property-header">
-<hr/>
-<h3 class="property-path" id=".spec.kiali_feature_flags.clustering.kiali_urls[*].namespace">.spec.kiali_feature_flags.clustering.kiali_urls[*].namespace</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(string)</span>
-
-</div>
-
-<div class="property-description">
-<p>The namespace into which Kiali is installed.</p>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-5">
-<div class="property-header">
-<hr/>
-<h3 class="property-path" id=".spec.kiali_feature_flags.clustering.kiali_urls[*].url">.spec.kiali_feature_flags.clustering.kiali_urls[*].url</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(string)</span>
-
-</div>
-
-<div class="property-description">
-<p>The URL of Kiali in the cluster.</p>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-2">
-<div class="property-header">
-<hr/>
 <h3 class="property-path" id=".spec.kiali_feature_flags.disabled_features">.spec.kiali_feature_flags.disabled_features</h3>
 </div>
 <div class="property-body">
@@ -7365,6 +7104,25 @@ An example,</p>
 
 <div class="property-description">
 <p>Defines the public HTTP schema used to serve Kiali. Value must be one of: <code>http</code> or <code>https</code>. When empty, Kiali will try to guess this value from HTTP headers. On non-OpenShift clusters, you must populate this value if you want to enable cross-linking between Kiali instances in a multi-cluster setup.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.server.write_timeout">.spec.server.write_timeout</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(integer)</span>
+
+</div>
+
+<div class="property-description">
+<p>The maximum duration, in seconds, before timing out writes of the HTTP response back to the client. Default is 30.</p>
 
 </div>
 
