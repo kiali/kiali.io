@@ -12,7 +12,7 @@ description: >
 ## Labels and resource names
 
 Istio recommends [adding `app` and `version` labels to
-pods](https://istio.io/latest/docs/ops/deployment/requirements/#pod-requirements) to attach this information to telemetry. Kiali relies on correctness of these labels for several features.
+pods](https://istio.io/latest/docs/ops/deployment/application-requirements/#pod-requirements) to attach this information to telemetry. Kiali relies on correctness of these labels for several features.
 
 In Istio, it is possible to use a different set of labels, like
 `app.kubernetes.io/name` and `app.kubernetes.io/version`, however you must
