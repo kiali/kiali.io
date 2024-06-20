@@ -891,11 +891,11 @@ Add missing Service Entry which address will match the Workload Entry's address.
 - [Validator source code](https://github.com/kiali/kiali/tree/v1.52.0/business/checkers/serviceentries/workload_entry_address_match.go)
 
 
-## K8s HTTPRoutes {#httproutes}
+## K8s Routes {#k8sroutes}
 
-### KIA1401 - HTTPRoute is pointing to a non-existent K8s gateway
+### KIA1401 - Route is pointing to a non-existent K8s gateway
 
-Gateway API HTTPRoute could be pointing to a [k8s] Gateway that the Route wants to be attached to. When the namespace field is not specified it takes Gateways from the current HTTPRoute's namespace. Here the error indicates that the referenced Gateway is not found in the provided namespace.
+Gateway API Protocol Route could be pointing to a [k8s] Gateway that the Route wants to be attached to. When the namespace field is not specified it takes Gateways from the current Route's namespace. Here the error indicates that the referenced Gateway is not found in the provided namespace.
 
 #### Resolution
 
@@ -914,9 +914,9 @@ Fix the parentRefs field to target to an existing gateway.
 - [Validator source code](https://github.com/kiali/kiali/blob/master/business/checkers/k8shttproutes/no_k8sgateway_checker.go)
 
 
-### KIA1402 - BackendRef on rule doesn't have a valid service (Service name not found)
+### KIA1402 - Reference doesn't have a valid service (Service name not found)
 
-Gateway API HTTPRoute could be pointing to a Service inside your mesh the Route sends the traffic to. A Service name should be specified, not a hostname. This Service can be a certain version of a parent Service, but in that case a separate Service is required to be created. When the namespace field is not specified it takes Service from the current HTTPRoute's namespace. In a case of referencing to a Service from remote namespace, a ReferenceGrant object needs to be created to enable cross namespace references.  Here the error indicates that the referenced Service is not found in the provided namespace or the ReferenceGrant is missing (in a case of remote namespace).
+Gateway API Route could be pointing to a Service inside your mesh the Route sends the traffic to. A Service name should be specified, not a hostname. This Service can be a certain version of a parent Service, but in that case a separate Service is required to be created. When the namespace field is not specified it takes Service from the current Route's namespace. In a case of referencing to a Service from remote namespace, a ReferenceGrant object needs to be created to enable cross namespace references.  Here the error indicates that the referenced Service is not found in the provided namespace or the ReferenceGrant is missing (in a case of remote namespace).
 
 #### Resolution
 
