@@ -15,7 +15,7 @@ Performance tests were conducted on setups with **10**, **50**, **200**, **300**
 ### What improvements have been made to Kiali's performance in recent versions?
 
 The performance data was collected using automated performance tests on various setups, ensuring a comprehensive evaluation of improvements.
-Since the release of Kiali v1.79, significant performance enhancements have been implemented, resulting in up to a 5x reduction in page load times. 
+Since the release of Kiali v1.79, significant performance enhancements have been implemented, resulting in up to a **5x improvement** in page load times. 
 The performance improvements were achieved by reducing the number of requests made from the Kiali UI to the services. Instead of multiple requests, the process was streamlined to unify these into a single request per cluster.
 The enhanced performance significantly reduces the time users spend waiting for pages to load, leading to a more efficient and smooth user experience.
 
