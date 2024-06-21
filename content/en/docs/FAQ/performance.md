@@ -5,10 +5,11 @@ description: "Questions about Kiali Performance measurements and improvements."
 
 ### What performance and scalability measurements were done?
 
-Performance tests were conducted on setups with 10, 50, 200, 300, 500, and 800 namespaces. Each namespace contained:
-1 Service
-2 Workloads
-2 Istio configurations
+Performance tests were conducted on setups with **10**, **50**, **200**, **300**, **500**, and **800** namespaces. Each namespace contained:
+
+- 1 Service
+- 2 Workloads
+- 2 Istio configurations
 
 
 ### What improvements have been made to Kiali's performance in recent versions?
