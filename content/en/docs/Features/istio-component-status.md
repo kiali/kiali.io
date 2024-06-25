@@ -14,6 +14,44 @@ Regarding the *severity* of each component, there are only two options: `core` o
 
 By default, Kiali checks that the `core` components "istiod", "ingress", and "egress" are installed and running in the control plane namespace, and that the `add-ons` "prometheus", "grafana" and "jaeger" are available.
 
+## Mesh page
+
+Detailed information about the Istio infrastructure status is displayed on the mesh page. It shows an infrastructure topology view with `core` and `add-on` components, their health, and how they are connected to each other.
+
+Similar to the traffic graph, the left side of the page shows the topology view, while the right side displays information about the selected node. If no node is selected, global infrastructure information is shown, including the status, version, and cluster of every component.
+
+![Mesh overview information](/images/documentation/features/istio-status-mesh-overview.png "Mesh overview information")
+
+Connection issues between Kiali and any component are indicated with a red dotted line and a red health indicator in the target side panel.
+
+![Connection issue in the mesh](/images/documentation/features/istio-status-mesh-failure.png "Connection issue in the mesh")
+
+The specific information shown in the target side panel depends on the type of node selected:
+
+### Kiali
+
+When you click on the Kiali node, you can check information such as the version, health status, and configuration values.
+
+![Kiali information](/images/documentation/features/istio-status-mesh-kiali.png "Kiali information")
+
+### Istio control plane
+
+When you click on the Istio control plane, you can check information such as the Istio version, mTLS status, outbound policy, CPU and memory metrics, configuration table, and more.
+
+![Istio control plane information](/images/documentation/features/istio-status-mesh-data-plane.png "Istio control plane information")
+
+### Data plane
+
+When you click on the cluster data plane, you can check the basic information of each namespace belonging to that data plane (Istio configuration, traffic inbound/outbound), similar to what you can see on the `overview` page.
+
+![Data plane information](/images/documentation/features/istio-status-mesh-data-plane.png "Data plane information")
+
+### Add-on components
+
+When you click on the "prometheus", "grafana" or "jaeger" node, , its health status, version, and configuration values are displayed:
+
+![Add-on information](/images/documentation/features/istio-status-mesh-add-on.png "Add-on information")
+
 ## Certificate Information Indicators
 
 In some situations, it is useful to get information about the certificates used by internal mTLS, for example:

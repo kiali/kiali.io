@@ -51,6 +51,12 @@ The overview page shows namespace information across all configured clusters.
 
 ![Multi-cluster overview](/images/documentation/features/multi-cluster-overview.png "Multi-cluster overview")
 
+### Mesh view: Cluster, Istio and data plane boxing
+
+The mesh graph displays infrastructure information for multiple clusters, Istio control planes, and data planes according to the Istio deployment (primary-remote or multi-primary).
+
+![Multi-cluster mesh](/images/documentation/features/multi-cluster-mesh.png "Multi-cluster mesh")
+
 ## Roadmap
 
 See [this issue](https://github.com/kiali/kiali/issues/5618) to see the multi-cluster roadmap for Kiali.
