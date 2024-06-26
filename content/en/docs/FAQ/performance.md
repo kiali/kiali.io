@@ -21,7 +21,7 @@ The enhanced performance significantly reduces the time users spend waiting for 
 
 **Performance Improvements Matrix Per Kiali Version And Section**
 
-| <div style="width:100px">Kiali</div> | <div style="width:200px">Section</div> | Improvements                      |
+| <div style="width:100px">Kiali</div> | <div style="width:300px">Section</div> | Improvements                      |
 | ------------------------------------ | -------------------------------------- | --------------------------------  |
 | 1.80                                 | Graph Page                             | Validations                       |
 | 1.81                                 | Overview Page                          | mTLS, Metrics, Health             |
