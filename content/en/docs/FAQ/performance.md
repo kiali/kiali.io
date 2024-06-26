@@ -5,7 +5,7 @@ description: "Questions about Kiali Performance measurements and improvements."
 
 ### What performance and scalability measurements are done?
 
-Performance tests were conducted on setups with **10**, **50**, **200**, **300**, **500**, and **800** namespaces. Each namespace contained:
+Performance tests are conducted on setups with **10**, **50**, **200**, **300**, **500**, and **800** namespaces. Each namespace contains:
 
 - 1 Service
 - 2 Workloads
