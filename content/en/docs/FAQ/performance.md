@@ -32,6 +32,6 @@ The enhanced performance significantly reduces the time users spend waiting for 
 
 These improvements make Kiali more responsive and efficient, particularly in environments with a large number of namespaces, services, and workloads, enhancing usability and productivity.
 
-For a graphical representation of the performance measurements for the Overview page load times, refer to the chart below:
+For a graphical representation of the performance improvements between Kiali v1.79 (before improvements) and v1.85 (after improvements) of the Overview page load times, refer to the chart below:
 
 ![Kiali Overview Page](/images/documentation/faq/performance/kiali-perf-overview-load-time.png)
