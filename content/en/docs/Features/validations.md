@@ -87,10 +87,10 @@ Either remove the host from the list, correct if there is any typo or deploy a n
 
 ### KIA0105 - This field requires mTLS to be enabled
 
-AuthorizationPolicy has a Source field, where specifies the source identities of a request.
-In a Source field it accepts the principals and the namespaces, which requires mTLS enabled.
+AuthorizationPolicy has a Source field which specifies the source identities of a request.
+The Source field accepts principals and namespaces which require mTLS be enabled.
 
-A validation Error message on a principals or namespaces fields means, that mTLS is not enabled.
+A validation Error message on a principals or namespaces fields means that mTLS is not enabled.
 
 This validation appears only when autoMtls is disabled.
 
@@ -115,14 +115,14 @@ Either remove this field or enable autoMtls.
 
 ### KIA0106 - Service Account not found for this principal
 
-AuthorizationPolicy has a Source field, where specifies the source identities of a request.
-In a Source field it accepts the principals, a list of peer identities derived from the peer certificate. The peer identity is in the format of `<TRUST_DOMAIN>/ns/<NAMESPACE>/sa/<SERVICE_ACCOUNT>`, for example, `cluster.local/ns/default/sa/productpage`.
+AuthorizationPolicy has a Source field which specifies the source identities of a request.
+The Source field allows principals to be specified - a list of peer identities derived from the peer certificate. A peer identity is in the format of `<TRUST_DOMAIN>/ns/<NAMESPACE>/sa/<SERVICE_ACCOUNT>`, for example, `cluster.local/ns/default/sa/productpage`.
 
-A validation Error message on a principal value means, that the specified Service Account was not found in a given Namespace.
+A validation Error message on a principal value means that, while the specified Service Account may exist, it is not referenced by any Pod in the system.
 
 #### Resolution
 
-Correct the principal to refer to existing Service Account, make sure that the value is in correct format without a typo.
+Correct the principal to refer to an existing Service Account, make sure that the value is in correct format without a typo, and make sure at least one Pod references the Service Account.
 
 #### Severity
 
@@ -141,8 +141,8 @@ Correct the principal to refer to existing Service Account, make sure that the v
 
 ### KIA0107 - Service Account for this principal found on a remote cluster
 
-AuthorizationPolicy has a Source field, where specifies the source identities of a request.
-In a Source field it accepts the principals, a list of peer identities derived from the peer certificate. The peer identity is in the format of `<TRUST_DOMAIN>/ns/<NAMESPACE>/sa/<SERVICE_ACCOUNT>`, for example, `cluster.local/ns/default/sa/productpage`.
+AuthorizationPolicy has a Source field which specifies the source identities of a request.
+The Source field allows principals to be specified - a list of peer identities derived from the peer certificate. A peer identity is in the format of `<TRUST_DOMAIN>/ns/<NAMESPACE>/sa/<SERVICE_ACCOUNT>`, for example, `cluster.local/ns/default/sa/productpage`.
 
 A validation Warning message on a principal value means, that the specified Service Account was found in a cluster different from that of the AuthorizationPolicy.
 
@@ -1046,11 +1046,11 @@ Choose existing and accessible namespace to export to.
 
 ## K8s Gateway {#k8sgateways}
 
-### KIA1501 - More than one K8s Gateway for the same host and port combination 
+### KIA1501 - More than one K8s Gateway for the same host and port combination
 
 A k8s Gateway defines a point where traffic can be translated to Services, within the cluster. This is defined through listeners or addresses. This validation warns when finding multiple Listener definitions for the same port and host combination, in different k8s Gateways.  In this case the traffic handling can be in conflict.
 
-The exception to this rule is where the listeners specify different handlers. That is the reason why the severity is a warning. 
+The exception to this rule is where the listeners specify different handlers. That is the reason why the severity is a warning.
 
 #### Resolution
 
@@ -1082,11 +1082,11 @@ Remove or merge the duplicate k8s gateway entries.
 
 ### KIA1503 - Each listener must have a unique combination of Hostname, Port, and Protocol
 
-A k8s Gateway cannot have more than one listener with the same Hostname, Port and Protocol. 
+A k8s Gateway cannot have more than one listener with the same Hostname, Port and Protocol.
 
 #### Resolution
 
-Update the hostname, port or protocol to another valid service so there are no more than one listener for the reported combination. 
+Update the hostname, port or protocol to another valid service so there are no more than one listener for the reported combination.
 
 #### Severity
 
@@ -1108,7 +1108,7 @@ Change the `gatewayClassName` field to reference to existing configured GatewayC
 
 <i class="fas fa-times-circle text-danger"></i> Error
 
-## K8s ReferenceGrants 
+## K8s ReferenceGrants
 
 ReferenceGrant is required for all cross-namespace references in Gateway API. `From` field describes the trusted namespaces and kinds that can reference the resources described in “To”. `To` field describes the resources that may be referenced by the resources described in “From”.
 
@@ -1126,12 +1126,12 @@ Choose existing and accessible namespace to point to.
 
 ### GWAPI - Gateway API status
 
-The Gateway object provides a GatewayStatus to provide the status relative to the state represented in the spec. 
+The Gateway object provides a GatewayStatus to provide the status relative to the state represented in the spec.
 The validations under the GWAPI rule are generic and will highlight any invalid status created by the Gateway.
 
 #### Resolution
 
-This is a generic rule implemented by the Gateway, and each particular error should be fixed in the spec. The status should not be changed. 
+This is a generic rule implemented by the Gateway, and each particular error should be fixed in the spec. The status should not be changed.
 
 #### Severity
 
