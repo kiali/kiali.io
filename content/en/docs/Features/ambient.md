@@ -12,7 +12,7 @@ Kiali provides visualization for Ambient Mesh components:
 
 {{% alert color="warning" %}}
 The Ambient features are evolving as well as Ambient Mesh. Some of these features are in alpha status.
-For enhancements or issues detected, don't hesitate to open a GitHub issue. 
+For enhancements or issues detected, don't hesitate to open a [GitHub issue](https://github.com/kiali/kiali/issues/new/choose). 
 {{% /alert %}}
 
 ### Control Plane Ambient Mesh
