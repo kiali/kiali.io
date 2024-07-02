@@ -1,6 +1,6 @@
 ---
 title: Istio Ambient Mesh
-description: Kiali provides visualization for Ambient Mesh components.
+description: Visualizing Ambient Mesh with Kiali.
 ---
 
 Kiali provides visualization for Ambient Mesh components: 
