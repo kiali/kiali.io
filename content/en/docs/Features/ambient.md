@@ -11,48 +11,47 @@ Kiali provides visualization for Ambient Mesh components:
 * [Ambient Telemetry](#ambient-telemetry)
 
 {{% alert color="warning" %}}
-The Ambient features are evolving as well as Ambient Mesh. Some of these features are in alpha status.
-For enhancements or issues detected, don't hesitate to open a [GitHub issue](https://github.com/kiali/kiali/issues/new/choose). 
+The Kiali Ambient features, as well as Ambient Mesh, are evolving. Some of these features are in alpha status. For enhancements or detected issues, don’t hesitate to open a [GitHub issue](https://github.com/kiali/kiali/issues/new/choose). 
 {{% /alert %}}
 
 ### Control Plane Ambient Mesh
 
-When the Control plane is in Ambient mode, Kiali will show an Ambient label in the control plane card. 
-This label means that Kiali has detected a ztunnel (The L4 component for Ambient) in the control plane. 
+When the control plane is in Ambient mode, Kiali will show an Ambient label on the control plane card. 
+This label indicates that Kiali has detected a ztunnel (the L4 component for Ambient) in the control plane.
 
 ![Ambient Control Plane](/images/documentation/features/ambient/ambient-control-plane.png)
 
 ### Ambient Namespace
 
-When a namespace is included in Ambient Mesh, because it has the Istio Ambient label, Kiali will show the Ambient label in that namespace card: 
+When a namespace is included in Ambient Mesh because it has the Istio Ambient label, Kiali will show the Ambient label on that namespace card: 
 
 ![Ambient Data Plane](/images/documentation/features/ambient/ambient-data-plane.png)
 
 ### Workloads in Ambient Mesh
 
-When a workload, application or service is part of the Ambient Mesh, it will show a label in the namespace details. When hovering over this label, it will show further information for a workload:
+When a workload, application, or service is part of the Ambient Mesh, a label will appear in the namespace details. When hovering over this label, further information about the workload will be displayed:
 
 * In Mesh: Indicating that it was included in Ambient, and the traffic is redirected to ztunnel to provide L4 features (L4 authorization and telemetry, and encrypted data transport)
 
   ![Workload Captured by Ambient](/images/documentation/features/ambient/ztunnel-captured-pod.png)
 
-* In Mesh with waypoint enabled: Additionally, it can include the L7 label which means that has a waypoint proxy deployed (Which provides additional L7 capabilities):
+* In Mesh with waypoint enabled: Additionally, it can include the L7 label which means that a waypoint proxy is deployed (providing additional L7 capabilities):
 
 ![Workloads Captured by Ambient](/images/documentation/features/ambient/pod-captured.png)
 
 ### Ambient Telemetry
 
-The Traffic graph generated with the Ambient telemetry differs a bit that the usual graph, as the HTTP traffic and TCP traffic have different meanings.
+The Traffic graph generated with the Ambient telemetry differs slightly from the usual graph, as the HTTP traffic and TCP traffic have different reporters.
 
-The telemetry reported with sidecars represent the kind of traffic for the request (green edges for HTTP, blue edges for TCP).
+The telemetry reported with sidecars represents the kind of traffic for the request (green edges for HTTP, blue edges for TCP).
 In Ambient, this information depends on the element reporting the Telemetry. The Ztunnel will report all the traffic as TCP:
 
 ![ztunnel graph](/images/documentation/features/ambient/ztunnel-graph.png)
 
-The following _bookinfo_ namespace is in Ambient Mesh with a waypoint proxy enabled, so there is Telemetry reported from ztunnel and from the Waypoint, that's why there are double edges connecting different nodes: 
+The following _bookinfo_ namespace is in Ambient Mesh with a waypoint proxy enabled. Therefore, the telemetry is reported from ztunnel and from the Waypoint, resulting in double edges connecting different nodes: 
 
 ![Ambient Telemetry](/images/documentation/features/ambient/ambient-telemetry.png)
 
-There is an additional display option, **Waypoint proxies**, for the Ambient Mesh, that will display the waypoint proxies in the graph (This is still a *work in progress* feature):
+There is an additional display option, **Waypoint proxies** for the Ambient Mesh, that will display the waypoint proxies in the graph (This is still a *work in progress* feature):
 
 ![Ambient Telemetry](/images/documentation/features/ambient/ambient-telemetry.png)
