@@ -145,6 +145,10 @@ spec:
       istiod_deployment_name: "istiod-1-11-0"
 ```
 
+The progress of the canary upgrade process can be tracked on the mesh page, which displays the namespaces pending migration to the canary Istio control plane.
+
+![Canary upgrade process](/images/documentation/configuration/istio-canary-upgrade.png "Canary upgrade process")
+
 There following are links to sections of Kiali blogs posts that briefly
 explains these features:
 
