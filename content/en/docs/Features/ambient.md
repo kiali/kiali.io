@@ -52,6 +52,6 @@ The following _bookinfo_ namespace is in Ambient Mesh with a waypoint proxy enab
 
 ![Ambient Telemetry](/images/documentation/features/ambient/ambient-telemetry.png)
 
-There is an additional display option, **Waypoint proxies** for the Ambient Mesh, that will display the waypoint proxies in the graph (This is still a *work in progress* feature):
+There is an additional display option, **Waypoint proxies** for the Ambient Mesh, that will display the waypoint proxies in the graph (This is still an alpha-level feature and will likely change):
 
 ![Ambient Telemetry](/images/documentation/features/ambient/waypoint-proxies.png)
