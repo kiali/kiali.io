@@ -41,7 +41,7 @@ When a workload, application, or service is part of the Ambient Mesh, a badge wi
 
 ### Ambient Telemetry
 
-The Traffic graph generated with the Ambient telemetry differs slightly from the usual graph, as the HTTP traffic and TCP traffic have different reporters.
+The Traffic graph generated with Ambient telemetry differs slightly from the usual graph, as the HTTP traffic and TCP traffic have different reporters.
 
 The telemetry reported with sidecars represents the kind of traffic for the request (green edges for HTTP, blue edges for TCP).
 In Ambient, this information depends on the element reporting the Telemetry. The Ztunnel will report all the traffic as TCP:
