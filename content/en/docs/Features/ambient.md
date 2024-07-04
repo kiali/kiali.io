@@ -29,7 +29,7 @@ When a namespace is labeled with `istio.io/dataplane-mode=ambient` it is include
 
 ### Workloads in Ambient Mesh
 
-When a workload, application, or service is part of the Ambient Mesh, a label will appear in the namespace details. When hovering over this label, further information about the workload will be displayed:
+When a workload, application, or service is part of the Ambient Mesh, a badge will appear in the namespace details. When hovering over this badge, further information about the workload will be displayed:
 
 * In Mesh: Indicating that it was included in Ambient, and the traffic is redirected to ztunnel to provide L4 features (L4 authorization and telemetry, and encrypted data transport)
 
