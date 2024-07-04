@@ -21,7 +21,7 @@ jobs:
       releasing_version: ${{ steps.releasing_version.outputs.releasing_version }}      
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:          
         ref: ${{ github.event.inputs.release_branch || github.ref_name }}
 
@@ -101,7 +101,7 @@ jobs:
       RELEASING_VERSION: ${{ needs.initialize.outputs.releasing_version }}
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:          
         ref: ${{ github.event.inputs.release_branch || github.ref_name }} 
         fetch-depth: 0
