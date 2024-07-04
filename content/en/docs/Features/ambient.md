@@ -23,7 +23,7 @@ This badge indicates that Kiali has detected a ztunnel (the L4 component for Amb
 
 ### Ambient Namespace
 
-When a namespace is included in Ambient Mesh because it has the Istio Ambient label, Kiali will show the Ambient label on that namespace card: 
+When a namespace is labeled with `istio.io/dataplane-mode=ambient` it is included in Ambient Mesh, and Kiali will show the Ambient badge on that Overview page namespace card: 
 
 ![Ambient Data Plane](/images/documentation/features/ambient/ambient-data-plane.png)
 
