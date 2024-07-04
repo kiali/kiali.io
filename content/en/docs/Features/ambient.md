@@ -48,7 +48,7 @@ In Ambient, this information depends on the element reporting the Telemetry. The
 
 ![ztunnel graph](/images/documentation/features/ambient/ztunnel-graph.png)
 
-The following _bookinfo_ namespace is in Ambient Mesh with a waypoint proxy enabled. Therefore, the telemetry is reported from ztunnel and from the Waypoint, resulting in double edges connecting different nodes: 
+The following _bookinfo_ namespace is in Ambient Mesh with a waypoint proxy enabled. Therefore, the telemetry is reported from ztunnel and from the Waypoint, resulting in double edges connecting different nodes (Note that the Graph page toolbar offers a `Traffic` menu, letting you be selective about the protocols shown): 
 
 ![Ambient Telemetry](/images/documentation/features/ambient/ambient-telemetry.png)
 
