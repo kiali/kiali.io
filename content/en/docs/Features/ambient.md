@@ -35,7 +35,7 @@ When a workload, application, or service is part of the Ambient Mesh, a badge wi
 
   ![Workload Captured by Ambient](/images/documentation/features/ambient/ztunnel-captured-pod.png)
 
-* In Mesh with waypoint enabled: Additionally, it can include the L7 label which means that a waypoint proxy is deployed (providing additional L7 capabilities):
+* In Mesh with waypoint enabled: Additionally, it can include the L7 badge which means that a waypoint proxy is deployed (providing additional L7 capabilities):
 
 ![Workloads Captured by Ambient](/images/documentation/features/ambient/pod-captured.png)
 
