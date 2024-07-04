@@ -16,7 +16,7 @@ The Kiali Ambient features, as well as Ambient Mesh, are evolving. Some of these
 
 ### Control Plane Ambient Mesh
 
-When the control plane is in Ambient mode, Kiali will show an Ambient label on the control plane card. 
+When the control plane is in Ambient mode, Kiali will show an Ambient badge on the Overview page control plane namespace card.  It will also be reflected in the control plane side-panel on the Mesh page.
 This label indicates that Kiali has detected a ztunnel (the L4 component for Ambient) in the control plane.
 
 ![Ambient Control Plane](/images/documentation/features/ambient/ambient-control-plane.png)
