@@ -6,6 +6,33 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 1.87.0
+Sprint Release: Jul 08, 2024
+
+Features:
+
+* [Ambient - Show Ambient labels in Service and Application details](https://github.com/kiali/kiali/issues/7432)
+* [Ambient - Improve Ambient appender performance](https://github.com/kiali/kiali/issues/7473)
+* [Graph - improve PFT "focus node'](https://github.com/kiali/kiali/issues/7444)
+* [K8s GW API - 1.1 Support](https://github.com/kiali/kiali/issues/7355)
+* [K8s GW API - GRPCRoute support](https://github.com/kiali/kiali/issues/7223)
+* [Kiali.io - Include performance results and improvements into kiali.io](https://github.com/kiali/kiali/issues/7397)
+* [Kiali.io - Add Kiali and Ambient documentation](https://github.com/kiali/kiali/issues/7490)
+* [Operator - ansible kubernetes.core collection update](https://github.com/kiali/kiali/issues/7476)
+* [OSSMC - Support for Gateway API objects in the Istio Config list page](https://github.com/kiali/openshift-servicemesh-plugin/issues/317)
+
+Fixes:
+
+* [Ambient - Cannot load the graph: Namespace is excluded](https://github.com/kiali/kiali/issues/7448)
+* [Ambient - ztunnel logs are using pod name (And not workload)](https://github.com/kiali/kiali/issues/7500)
+* [Masthead - kiali may hang when asking for masthead's Debug Info while graph page is displayed](https://github.com/kiali/kiali/issues/7504)
+* [Mesh page - controlplanes have an edge to every dataplane](https://github.com/kiali/kiali/issues/7458)
+* [Multi-cluster - Visual bug on the Overview page upon refresh](https://github.com/kiali/kiali/issues/7063)
+* [Routing Wizard - Empty Matching fail](https://github.com/kiali/kiali/issues/7447)
+* [K8s GW API - ReferenceGrant has incorrect API version in the wizard](https://github.com/kiali/kiali/issues/7463)
+* [OSSMC cannot update namespace or create Istio objects](https://github.com/kiali/openshift-servicemesh-plugin/issues/330)
+* [Validations - KIA0106 False Positive - Unable to Find Service Accounts](https://github.com/kiali/kiali/issues/7481)
+
 ## 1.86.0
 Sprint Release: Jun 17, 2024
 
