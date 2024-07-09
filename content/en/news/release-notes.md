@@ -34,7 +34,7 @@ Fixes:
 * [Validations - KIA0106 False Positive - Unable to Find Service Accounts](https://github.com/kiali/kiali/issues/7481)
 
 Deprecations:
-* Kiali is deprecating its current namespace selection approach. For a description of the new mechanism see https://github.com/kiali/kiali/tree/master/design/KEPS. The following configuration is deprecated:
+* Kiali is deprecating its current namespace selection approach. For a description of the new mechanism see https://github.com/kiali/kiali/blob/master/design/KEPS/namespace-discovery/proposal.md. The following configuration is deprecated:
   * spec.deployment.accessible_namespaces
 * Note that the following settings have already been deprecated and will soon be removed:
   * api.namespaces.exclude
