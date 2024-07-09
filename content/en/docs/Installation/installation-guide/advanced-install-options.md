@@ -4,17 +4,13 @@ description: "Advanced installation options."
 weight: 60
 ---
 
-## Multiple Istio control planes in the same cluster
+## Canary upgrades
 
-Currently, Kiali can manage only one Istio control plane. However, there are
-certain cases where you may have more than one Istio control plane in your
-cluster. One of such cases is when performing a
-[Canary upgrade of Istio](https://istio.io/latest/docs/setup/upgrade/canary/).
-
-In these cases, you will need to configure in Kiali which control plane you
-want to manage. This is done by configuring the name of the components of the
-control plane. This is configured in the Kiali CR and the default values are
-the following:
+During a canary upgrade where multiple controlplanes are present, Kiali will automatically
+detect both controlplanes. You can visit the [mesh page](/docs/features/istio-component-status/#mesh-page)
+to visualize your controlplanes during a canary upgrade. You can also manually
+specify a controlplane you want Kiali to connect to through the Kiali CR however
+if you do this then you will need to update these settings during each canary upgrade.
 
 ```yaml
 spec:
@@ -24,9 +20,6 @@ spec:
       istiod_deployment_name: "istiod"
       istio_sidecar_injector_config_map_name: "istio-sidecar-injector"
 ```
-
-If you want to manage both Istio control planes, simply install two Kiali
-instances and point each one to a different Istio control plane.
 
 ## Installing a Kiali Server of a different version than the Operator
 
