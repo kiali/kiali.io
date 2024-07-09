@@ -33,6 +33,15 @@ Fixes:
 * [OSSMC cannot update namespace or create Istio objects](https://github.com/kiali/openshift-servicemesh-plugin/issues/330)
 * [Validations - KIA0106 False Positive - Unable to Find Service Accounts](https://github.com/kiali/kiali/issues/7481)
 
+Deprecations:
+* Kiali is deprecating its current namespace selection approach. For a description of the new mechanism see https://github.com/kiali/kiali/tree/master/design/KEPS. The following configuration is deprecated:
+  * spec.deployment.accessible_namespaces
+* Note that the following settings have already been deprecated and will soon be removed:
+  * api.namespaces.exclude
+  * api.namespaces.include
+  * api.namespaces.label_selector_exclude
+  * api.namespaces.label_selector_include
+
 ## 1.86.0
 Sprint Release: Jun 17, 2024
 
