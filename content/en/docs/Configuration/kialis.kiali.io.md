@@ -300,24 +300,16 @@ spec:
       url: ""
     istio:
       component_status:
-        components:
-        - app_label: "istiod"
-          is_core: true
-          is_proxy: false
-        - app_label: "istio-ingressgateway"
-          is_core: true
-          is_proxy: true
-          # default: namespace is undefined
-          namespace: istio-system
-        - app_label: "istio-egressgateway"
-          is_core: false
-          is_proxy: true
-          # default: namespace is undefined
-          namespace: istio-system
+        # default: components is an empty list
+        components: []
         enabled: true
       config_map_name: "istio"
+      # default egress_gateway_namespace is undefined
+      egress_gateway_namespace: ""
       envoy_admin_local_port: 15000
       gateway_api_classes: []
+      # default ingress_gateway_namespace is undefined
+      ingress_gateway_namespace: ""
       istio_api_enabled: true
       # default: istio_canary_revision is undefined
       istio_canary_revision:
@@ -3679,6 +3671,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property-description">
 <p>Istio components whose status will be monitored by Kiali.</p>
+<p>Empty by default. Istio components are auto discovered.</p>
 
 </div>
 
@@ -3835,6 +3828,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 <div class="property depth-3">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.external_services.istio.istio_api_enabled">.spec.external_services.istio.egress_gateway_namespace</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+  
+<div class="property-description">
+<p>The namespace where Istio EgressGateway component is read for a status check. When left empty, then `istio_namespace` value is used.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.external_services.istio.envoy_admin_local_port">.spec.external_services.istio.envoy_admin_local_port</h3>
 </div>
 <div class="property-body">
@@ -3916,6 +3928,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property-description">
 <p>The name of the Gateway API implementation.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.istio.istio_api_enabled">.spec.external_services.istio.ingress_gateway_namespace</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>The namespace where Istio IngressGateway component is read for a status check. When left empty, then `istio_namespace` value is used.</p>
 
 </div>
 
