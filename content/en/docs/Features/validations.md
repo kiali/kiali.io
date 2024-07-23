@@ -893,13 +893,13 @@ Add missing Service Entry which address will match the Workload Entry's address.
 
 ## K8s Routes {#k8sroutes}
 
-### KIA1401 - Route is pointing to a non-existent K8s gateway
+### KIA1401 - Route is pointing to a non-existent or inaccessible K8s gateway
 
-Gateway API Protocol Route could be pointing to a [k8s] Gateway that the Route wants to be attached to. When the namespace field is not specified it takes Gateways from the current Route's namespace. Here the error indicates that the referenced Gateway is not found in the provided namespace.
+Gateway API Protocol Route could be pointing to a [k8s] Gateway that the Route wants to be attached to. When the namespace field is not specified it takes Gateways from the current Route's namespace. Here the error indicates that the referenced Gateway is not found in the provided namespace. If the [k8s] Gateway is in another namespace, then that gateway should be shared to the Route's namespace. The Gateway API supports cross-namespace routing, allowing Gateways and Routes to be deployed into different namespaces with routes attaching to Gateways across namespace boundaries. 
 
 #### Resolution
 
-Fix the parentRefs field to target to an existing gateway.
+Fix the parentRefs field to target to an existing gateway. Or share the Gateway to the namespace where the Route is located.
 
 #### Severity
 
@@ -911,6 +911,7 @@ Fix the parentRefs field to target to an existing gateway.
 
 #### See Also
 
+- [Cross-Namespace Routing](https://gateway-api.sigs.k8s.io/guides/multiple-ns/)
 - [Validator source code](https://github.com/kiali/kiali/blob/master/business/checkers/k8shttproutes/no_k8sgateway_checker.go)
 
 
