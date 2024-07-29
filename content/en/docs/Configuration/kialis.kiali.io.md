@@ -300,24 +300,12 @@ spec:
       url: ""
     istio:
       component_status:
-        components:
-        - app_label: "istiod"
-          is_core: true
-          is_proxy: false
-        - app_label: "istio-ingressgateway"
-          is_core: true
-          is_proxy: true
-          # default: namespace is undefined
-          namespace: istio-system
-        - app_label: "istio-egressgateway"
-          is_core: false
-          is_proxy: true
-          # default: namespace is undefined
-          namespace: istio-system
         enabled: true
       config_map_name: "istio"
+      egress_gateway_namespace: ""
       envoy_admin_local_port: 15000
       gateway_api_classes: []
+      ingress_gateway_namespace: ""
       istio_api_enabled: true
       # default: istio_canary_revision is undefined
       istio_canary_revision:
@@ -369,7 +357,7 @@ spec:
       # default: custom_headers is empty
       custom_headers:
         customHeader1: "customHeader1Value"
-      enabled: true
+      enabled: false
       grpc_port: 9095
       health_check_url: ""
       in_cluster_url: ""
@@ -409,6 +397,8 @@ spec:
 
   istio_labels:
     app_label_name: "app"
+    egress_gateway_label: "istio=egressgateway"
+    ingress_gateway_label: "istio=ingressgateway"
     injection_label_name: "istio-injection"
     injection_label_rev: "istio.io/rev"
     version_label_name: "version"
@@ -2502,7 +2492,7 @@ An example use for this setting is to inject an Istio sidecar such as,</p>
 </div>
 
 <div class="property-description">
-<p>The replica count for the Kiail deployment.</p>
+<p>The replica count for the Kiail deployment. If <code>deployment.hpa</code> is specified, this setting is ignored.</p>
 
 </div>
 
@@ -3835,6 +3825,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 <div class="property depth-3">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.external_services.istio.egress_gateway_namespace">.spec.external_services.istio.egress_gateway_namespace</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The namespace where Istio EgressGateway component is read for a status check. When left empty, then <code>istio_namespace</code> value is used.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.external_services.istio.envoy_admin_local_port">.spec.external_services.istio.envoy_admin_local_port</h3>
 </div>
 <div class="property-body">
@@ -3916,6 +3925,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property-description">
 <p>The name of the Gateway API implementation.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.istio.ingress_gateway_namespace">.spec.external_services.istio.ingress_gateway_namespace</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The namespace where Istio IngressGateway component is read for a status check. When left empty, then <code>istio_namespace</code> value is used.</p>
 
 </div>
 
@@ -5383,6 +5411,44 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property-description">
 <p>The name of the label used to define what application a workload belongs to. This is typically something like <code>app</code> or <code>app.kubernetes.io/name</code>.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.istio_labels.egress_gateway_label">.spec.istio_labels.egress_gateway_label</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The selector label for Egress Gateway workload. This is typically <code>istio=egressgateway</code>.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.istio_labels.ingress_gateway_label">.spec.istio_labels.ingress_gateway_label</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The selector label for Ingress Gateway workload. This is typically <code>istio=ingressgateway</code>.</p>
 
 </div>
 
@@ -7123,6 +7189,10 @@ An example,</p>
 
 <div class="property-description">
 <p>The maximum duration, in seconds, before timing out writes of the HTTP response back to the client. Default is 30.</p>
+
+<p>In OpenShift clusters, the route request time out should be also increased as the default is 30 seconds.
+This can be done by annotating the specific route with <code>haproxy.router.openshift.io/timeout</code>.
+See <a href="https://docs.openshift.com/container-platform/4.16/networking/routes/route-configuration.html#nw-configuring-route-timeouts_route-configuration">https://docs.openshift.com/container-platform/4.16/networking/routes/route-configuration.html#nw-configuring-route-timeouts_route-configuration</a> for further details.</p>
 
 </div>
 
