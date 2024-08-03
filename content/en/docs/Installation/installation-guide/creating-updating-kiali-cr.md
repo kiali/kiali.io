@@ -88,7 +88,7 @@ described in the pages of the [Installation]({{< relref "../" >}}) and
 documentation. For a complete list, see the [Kiali CR Reference](/docs/configuration/kialis.kiali.io).
 
 {{% alert color="danger" %}}
-It is important to understand the `spec.deployment.accessible_namespaces` setting in the CR. See the
+It is important to understand the `spec.deployment.cluster_wide_access` setting in the CR. See the
 [Namespace Management page]({{< ref "/docs/configuration/namespace-management" >}})
 for more information.
 {{% /alert %}}
