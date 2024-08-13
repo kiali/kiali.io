@@ -6,7 +6,7 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
-## v1.88.0
+## 1.88.0
 Sprint Release: Jul 29, 2024
 
 Features:
