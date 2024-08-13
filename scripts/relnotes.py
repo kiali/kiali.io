@@ -10,7 +10,7 @@
 # so the projectNumber to pass in is "34".
 #
 # Requires:
-# - a github oauth token with public_repo and read:org scopes for kiali
+# - a github oauth token with public_repo, read:project and read:org scopes for kiali
 # - python (tested with 3.8.7)
 #
 # usage: $ ./relnotes <version: vX.Y.Z> <projectNumber: int> <githubOauthToken>
@@ -89,6 +89,7 @@ def run_query(query):
         
 
 result = run_query(query) # Execute the query
+# In case of errors: print("result: {}".format(result))
 project = result["data"]["organization"]["projectV2"]
 projectName = project["title"]
 releaseDatePattern = re.compile('^.* - \s*([^\n]*).*$', re.DOTALL)
