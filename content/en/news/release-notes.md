@@ -6,6 +6,31 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 1.88.0
+Sprint Release: Jul 29, 2024
+
+Features:
+
+* [Ambient - Identify waypoint proxies for Istio Ambient](https://github.com/kiali/kiali/issues/7350)
+* [Dependencies - React Router migration from v5 to v6](https://github.com/kiali/kiali/issues/7207)
+* [Mesh page - Hide mesh page for non istio-system users](https://github.com/kiali/kiali/issues/7527)
+* [Mesh page - View Tempo version in Mesh Page](https://github.com/kiali/kiali/issues/7531)
+* [K8s GW API - Autodiscover gateways](https://github.com/kiali/kiali/issues/7501)
+* [K8s GW API - Rework - Duplicate labels in Kiali CR and code](https://github.com/kiali/kiali/issues/7524)
+* [K8s GW API - Cross-Namespace routing](https://github.com/kiali/kiali/issues/7413)
+* [UI - Place alert notifications in the top right corner of the screen](https://github.com/kiali/openshift-servicemesh-plugin/issues/335)
+* [UI - Align the notification badge with PF standards](https://github.com/kiali/kiali/issues/7553)
+
+Fixes:
+
+* [Mesh page - Grafana version checks don't use configured Grafana auth](https://github.com/kiali/kiali/issues/7475)
+* [Mesh page - throws error when one of the clusters is inaccessible](https://github.com/kiali/kiali/issues/7455)
+* [Tracing - The tracing service is disabled by default](https://github.com/kiali/kiali/issues/7332)
+* [K8s GW API - Hardcoded ingressgateway labels in code](https://github.com/kiali/kiali/issues/7232)
+* [Cypress - KIA1102 validation fails - Issue in Kiali](https://github.com/kiali/kiali/issues/7522)
+* [Ambient - Hiding TCP hides HTTP](https://github.com/kiali/kiali/issues/7549)
+* [Kiali operator - helmchart frequently changes the replica count when HPA is enabled](https://github.com/kiali/kiali/issues/7559)
+
 ## 1.87.0
 Sprint Release: Jul 08, 2024
 
