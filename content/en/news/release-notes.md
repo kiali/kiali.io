@@ -6,6 +6,25 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 1.89.0
+Sprint Release: Aug 19, 2024
+
+Features:
+
+* [Maintenance - Upgrade go from 1.22.1 to 1.22.5](https://github.com/kiali/kiali/issues/7480)
+* [Maintenance - Move to node 20](https://github.com/kiali/kiali/issues/7503)
+* [Mesh page - Hide mesh page for non istio-system users](https://github.com/kiali/kiali/issues/7527)
+* [Perf - Kiali Performance improvements.](https://github.com/kiali/kiali/issues/7076)
+* [UX - Align the notification badge with PF standards](https://github.com/kiali/kiali/issues/7553)
+
+Fixes:
+
+* [Auth - k8s api token not auto refreshing for calls to fetch cacerts](https://github.com/kiali/kiali/issues/7542)
+* [Mesh page - Display full yaml from `istio` configmap](https://github.com/kiali/kiali/issues/7459)
+* [Operator - when installing OSSMC, make sure the Kiali version is the same.](https://github.com/kiali/kiali/issues/7619)
+* [OSSMC - cannot update namespace or create Istio objects](https://github.com/kiali/openshift-servicemesh-plugin/issues/330)
+* [OSSMC - Upgrade api from v1alpha1 to v1](https://github.com/kiali/kiali/issues/7622)
+
 ## 1.88.0
 Sprint Release: Jul 29, 2024
 

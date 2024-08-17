@@ -63,9 +63,10 @@ If you are running Red Hat OpenShift Service Mesh (OSSM), use only the bundled v
 
 | <div style="width:100px">OSSM</div> | <div style="width:100px">Kiali</div> | Notes                      |
 | ----------------------------------- | ------------------------------------ | -------------------------- |
+| 2.6                                 | 1.73                                 | Same version as 2.5        |
 | 2.5                                 | 1.73                                 |                            |
 | 2.4                                 | 1.65                                 |                            |
-| 2.3                                 | 1.57                                 |                            |
+| 2.3                                 | 1.57                                 | OSSM 2.3 is out of support |
 | 2.2                                 | 1.48                                 | OSSM 2.2 is out of support |
 
 <br />
