@@ -126,7 +126,7 @@ For additional help in using this validation tool, pass it the `--help` option.
 </div>
 
 <div class="property-description">
-<p>Determines which OSSM Console image to download and install. If you set this to a specific name (i.e. you do not leave it as the default empty string), you must make sure that image is supported by the operator. If empty, the operator will use a known supported image name based on which <code>version</code> was defined. Note that, as a security measure, a cluster admin may have configured the OSSM Console operator to ignore this setting. A cluster admin may do this to ensure the OSSM Console operator only installs a single, specific OSSM Console version, thus this setting may have no effect depending on how the operator itself was configured.</p>
+<p>Determines which OSSM Console image to download and install. If you set this to a specific name (i.e. you do not leave it as the default empty string), you must make sure that image is supported by the operator. If empty, the operator will use a known supported image name based on which <code>version</code> was defined. Note that, as a security measure, a cluster admin may have configured the operator to ignore this setting. A cluster admin may do this to ensure the operator only installs a single, specific OSSM Console version, thus this setting may have no effect depending on how the operator itself was configured.</p>
 
 </div>
 
@@ -207,8 +207,8 @@ Note that if this is set to &lsquo;latest&rsquo; then the <code>deployment.image
 If you set this to a specific version (i.e. you do not leave it as the default empty string),
 you must make sure that image is supported by the operator.
 If empty, the operator will use a known supported image version based on which &lsquo;version&rsquo; was defined.
-Note that, as a security measure, a cluster admin may have configured the OSSM Console operator to
-ignore this setting. A cluster admin may do this to ensure the OSSM Console operator only installs
+Note that, as a security measure, a cluster admin may have configured the operator to
+ignore this setting. A cluster admin may do this to ensure the operator only installs
 a single, specific OSSM Console version, thus this setting may have no effect depending on how the
 operator itself was configured.</p>
 
@@ -352,22 +352,25 @@ operator itself was configured.</p>
 </div>
 
 <div class="property-description">
-<p>The version of the Ansible playbook to execute in order to install that version of OSSM Console.
-It is rare you will want to set this - if you are thinking of setting this, know what you are doing first.
-The only supported value today is <code>default</code>.</p>
+<p>The version of the Ansible role that will be executed in order to install OSSM Console.
+This also indirectly determines the version of OSSM Console that will be installed.
+You normally will want to use <code>default</code> since this is the only officially supported value today.</p>
 
-<p>If not specified, a default version of OSSMC will be installed which will be the most recent release of OSSMC.
-Refer to this file to see where these values are defined in the master branch,
+<p>If not specified, the value of <code>default</code> is assumed which means the most recent Ansible role is used;
+thus the most recent release of OSSM Console will be installed.</p>
+
+<p>Refer to this file to see what the valid values are for this <code>version</code> field (as defined in the master branch),
 <a href="https://github.com/kiali/kiali-operator/blob/master/playbooks/ossmconsole-default-supported-images.yml">https://github.com/kiali/kiali-operator/blob/master/playbooks/ossmconsole-default-supported-images.yml</a></p>
 
-<p>This version setting affects the defaults of the deployment.imageName and
-deployment.imageVersion settings. See the comments for those settings
-below for additional details. But in short, this version setting will
-dictate which version of the OSSM Console image will be deployed by default.
-Note that if you explicitly set deployment.imageName and/or
-deployment.imageVersion you are responsible for ensuring those settings
-are compatible with this setting (i.e. the image must be compatible
-with the rest of the configuration and resources the operator will install).</p>
+<p>This <code>version</code> setting affects the defaults of the <code>deployment.imageName</code> and
+<code>deployment.imageVersion</code> settings. See the documentation for those settings below for
+additional details. In short, this <code>version</code> setting will dictate which version of the
+OSSM Console image will be deployed by default. However, if you explicitly set <code>deployment.imageName</code>
+and/or <code>deployment.imageVersion</code> to reference your own custom image, that will override the
+default OSSM Console image to be installed; therefore, you are responsible for ensuring those settings
+are compatible with the Ansible role that will be executed in order to install OSSM Console (i.e. your
+custom OSSM Console image must be compatible with the rest of the configuration and resources the
+operator will install).</p>
 
 </div>
 
