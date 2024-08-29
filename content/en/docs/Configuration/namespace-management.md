@@ -14,7 +14,7 @@ This documentation makes a distinction between a namespace that is _accessible_ 
 {{% /alert %}}
 
 {{% alert color="warning" %}}
-As of Kiali 1.89, the following settings are no longer supported:
+As of Kiali 2.0, the following settings are no longer supported:
 * deployment.accessible_namespaces
 * api.namespaces.exclude
 * api.namespaces.include
