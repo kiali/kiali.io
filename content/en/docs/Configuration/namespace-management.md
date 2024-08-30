@@ -156,7 +156,13 @@ spec:
 
 ## Discovery Selectors
 
-The `default` and `overrides` discovery selectors are processed in the same manner. They follow the same semantics as Istio as described in the [Istio discoverySelectors documentation](https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig) (with one caveat: when `deployment.cluster_wide_access` is `false`, an empty list of discovery selectors does not mean all namespaces will be accessible - only the Istio control plane namespace and the Kiali deployment namespace will be accessible in this case).
+The `default` and `overrides` discovery selectors are processed in the same manner. They follow the same semantics as Istio as described in the [Istio discoverySelectors documentation](https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig)
+
+{{% alert color="info" %}}
+An empty list of discovery selectors has different semantics depending on the value of `deployment.cluster_wide_access`.
+* If `deployment.cluster_wide_access` is `true`, an empty list of discovery selectors means all namespaces will be visible except those that are considered system namespaces (these include namespaces whose names are prefixed with "kube-", "openshift" or "ibm" such as `kube-system`, `openshift-operators`, and `ibm-system`).
+* If `deployment.cluster_wide_access` is `false`, an empty list of discovery selectors means only the Istio control plane namespace and the Kiali deployment namespace will be accessible.
+{{% /alert %}}
 
 In short, the `default` discovery selectors and each remote cluster `overrides` are lists of equality-based and set-based label selectors, with each item in a list being disjunctive (that is, match results from each selector item in a selector list are OR'ed together).
 
