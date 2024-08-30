@@ -58,7 +58,11 @@ spec:
   auth:
     strategy: "token"
   deployment:
-    accessible_namespaces: ["bookinfo"]
+    cluster_wide_access: false
+    discovery_selectors:
+      default:
+      - matchLabels:
+          kubernetes.io/metadata.name: bookinfo
     view_only_mode: false
   server:
     web_root: "/kiali"
@@ -100,17 +104,17 @@ $ kubectl get kiali kiali -n istio-system -o jsonpath='{.status}' | jq
     }
   ],
   "deployment": {
-    "accessibleNamespaces": "bookinfo,istio-system",
+    "discoverySelectorNamespaces": "bookinfo,istio-system",
     "instanceName": "kiali",
     "namespace": "istio-system"
   },
   "environment": {
     "isKubernetes": true,
-    "kubernetesVersion": "1.20.2",
-    "operatorVersion": "v1.41.0"
+    "kubernetesVersion": "1.28.0",
+    "operatorVersion": "v1.88.0"
   },
   "progress": {
-    "duration": "0:00:20",
+    "duration": "0:00:14",
     "message": "7. Finished all resource creation"
   }
 }
@@ -148,7 +152,11 @@ spec:
   auth:
     strategy: "anonymous"
   deployment:
-    accessible_namespaces: ["bookinfo"]
+    cluster_wide_access: false
+    discovery_selectors:
+      default:
+      - matchLabels:
+          kubernetes.io/metadata.name: bookinfo
     view_only_mode: true
     instance_name: "kialianon"
   server:
