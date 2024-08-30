@@ -51,7 +51,7 @@ spec:
           operator: Exists
 ```
 
-When `cluster_wide_access` is set to `false`, the Kiali Operator will examine the `default` selectors under `spec.deployment.discovery_selectors`, as the example above illustrates. The Kiali Operator will then attempt to find all the namespaces that match the discovery selectors. For each namespace that matches the discovery selectors, the Kiali Operator will create a Role and assign that Role to the Kiali Service Account thus giving Kiali access to those namespaces. These namespaces are therefore called the "accessible namespaces".
+When `cluster_wide_access` is set to `false`, the Kiali Operator will examine the `default` selectors under `spec.deployment.discovery_selectors`, as the example above illustrates. The Kiali Operator will then attempt to find all of the namespaces that match the discovery selectors. For each namespace that matches the discovery selectors, the Kiali Operator will create a Role and assign that Role to the Kiali Service Account thus giving Kiali access to those namespaces. These namespaces are therefore called the "accessible namespaces".
 
 {{% alert color="info" %}}
 The Kiali Operator will always give the Kiali Server access to the namespace where the Kiali Server is installed and to the Istio control plane namespace (which may be the same namespace), whether those namespaces match a discovery selector or not. When `cluster_wide_access` is `false` and no discovery selectors are defined, the Kiali Server will only be given access to those two namespaces.
@@ -70,18 +70,18 @@ If you install the Kiali Operator using the [Operator Helm Chart]({{< ref "/docs
 {{% /alert %}}
 
 {{% alert color="warning" %}}
-When installing multiple Kiali instances into a single cluster, `deployment.discovery_selectors.default` must be mutually exclusive. In other words, a namespace must be matched by discovery selectors defined in a single Kiali CR.
+When installing multiple Kiali instances into a single cluster, `deployment.discovery_selectors.default` must be mutually exclusive. In other words, a namespace must be matched by the discovery selectors defined by one and only one Kiali CR on the cluster.
 {{% /alert %}}
 
 ## Istio Discovery Selectors
 
-In Istio's [MeshConfig](https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig), a list of discovery selectors can be configured. These Istio discovery selectors define the namespaces that Istio will consider "in the mesh." (see [this blog post](https://istio.io/v1.13/blog/2021/discovery-selectors/) for details). These Istio discovery selectors are utilized only by Istio; they will be ignored by Kiali.
+In Istio's [MeshConfig](https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig), a list of discovery selectors can be configured. These Istio discovery selectors define the namespaces that Istio will consider "in the mesh" (see [this blog post](https://istio.io/v1.13/blog/2021/discovery-selectors/) for details). These Istio discovery selectors are utilized only by Istio; they will be ignored by Kiali.
 
 ## Operator Namespace Watching
 
 Note that the discovery selectors are evaluated by the Kiali Operator at install time when deciding which namespaces should be accessible (and thus which Roles to create). Namespaces that do not exist at the time of install will not be accessible to Kiali until the operator has a chance to reconcile the Kiali CR. There are several ways in which the operator can be told to reconcile a Kiali CR in order to determine the new set of accessible namespaces.
 
-1. You can ask that the Kiali Operator periodically reconcile the Kiali CR on a fixed schedule. See the [Ansible Operator SDK documentation describing the reconcile-period annotation](https://sdk.operatorframework.io/docs/building-operators/ansible/reference/advanced_options/#ansiblesdkoperatorframeworkioreconcile-period-custom-resource-annotation). In short, you can have the Kiali Operator periodically reconcile a Kiali CR by setting the `ansible.sdk.operatorframework.io/reconcile-period` annotation on the Kiali CR. For example, to reconcile this Kiail CR every 60 seconds:
+1. You can ask the Kiali Operator to periodically reconcile the Kiali CR on a fixed schedule. See the [Ansible Operator SDK documentation describing the reconcile-period annotation](https://sdk.operatorframework.io/docs/building-operators/ansible/reference/advanced_options/#ansiblesdkoperatorframeworkioreconcile-period-custom-resource-annotation). In short, you can have the Kiali Operator periodically reconcile a Kiali CR by setting the `ansible.sdk.operatorframework.io/reconcile-period` annotation on the Kiali CR. For example, to reconcile this Kiail CR every 60 seconds:
 ```yaml
 metadata:
   kind: Kiali
@@ -93,7 +93,7 @@ metadata:
 ```sh
 kubectl annotate kiali my-kiali-cr --namespace istio-system --overwrite trigger-reconcile="$(date)"
 ```
-4. The Kiali Operator can be enabled to watch for namespaces getting created in the cluster. When new namespaces are created, the Kiali Operator will detect this and will then attempt to reconcile all Kiali CRs in the cluster. To enable operator namespace watching, see the [FAQ]({{< ref "/docs/faq/installation" >}}) describing the operator WATCHES_FILE environment variable. Note that on clusters with large numbers of namespaces that get created, enabling this namespace watching feature can cause the operator to consume alot of CPU, so you may not wish to use this method.
+4. The Kiali Operator can be enabled to watch for namespaces getting created in the cluster. When new namespaces are created, the Kiali Operator will detect this and will then attempt to reconcile all Kiali CRs in the cluster. To enable operator namespace watching, see the [FAQ]({{< ref "/docs/faq/installation" >}}) describing the operator WATCHES_FILE environment variable. Note that on clusters with large numbers of namespaces that get created, enabling this namespace watching feature can cause the operator to consume a lot of CPU, so you may not wish to use this method.
 
 Once the Kiali Operator is triggered to reconcile a Kiali CR, the operator will create the necessary Roles for all accessible namespaces, giving the Kiali Server access to any new namespaces that have been created since the last reconciliation.
 
