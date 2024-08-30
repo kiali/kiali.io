@@ -10,7 +10,7 @@ The default Kiali [installation]({{< ref "/docs/installation/installation-guide"
 It is possible to restrict Kiali so that it can only access a specific set of namespaces by providing [discovery selectors](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#resources-that-support-set-based-requirements) that match those namespaces. Note that Kiali will not use [Istio's discovery selectors](https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig); if Istio has been configured with its own discovery selectors, you will likely want to configure Kiali with the same list of discovery selectors.
 
 {{% alert color="info" %}}
-This documentation makes a distinction between a namespace that is _accessible_ verses _visible_. Kiali can be given access to all namespaces in the cluster, or it can be given restricted permissions so that only certain namespaces are accessible to it. Of the accessible namespaces that Kiali is permitted to see, it can make some or all of them visible to end users.
+This documentation makes a distinction between _accessible_ and _visible_ namespaces. The Kiali Server will be given permission to access either (a) all, or (b) a configured subset, of cluster namespaces. The Kiali Server will only be aware of, query for, and access resources within these accessible namespaces. The set of namespaces visible to an end user, via the Kiali UI, will be a subset of the accessible namespaces. In other words, the namespaces visible to a user may be all, or just some of the namespaces accessible to the Kiali Server.
 {{% /alert %}}
 
 {{% alert color="warning" %}}
