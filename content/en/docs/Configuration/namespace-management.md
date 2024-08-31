@@ -46,7 +46,7 @@ spec:
     cluster_wide_access: false
     discovery_selectors:
       default:
-      - matchExpression:
+      - matchExpressions:
         - key: my-mesh
           operator: Exists
 ```
@@ -118,7 +118,7 @@ spec:
     discovery_selectors:
       # define accessible namespaces on the local namespace
       default:
-      - matchExpression:
+      - matchExpressions:
         - key: my-mesh
           operator: Exists
       overrides:
@@ -126,7 +126,7 @@ spec:
         my-remote-cluster:
         - matchLabels:
             org: production
-        - matchExpression:
+        - matchExpressions:
           - key: region
             operator: In
             values: ["east"]
