@@ -116,7 +116,7 @@ spec:
   deployment:
     cluster_wide_access: false
     discovery_selectors:
-      # define accessible namespaces on the local namespace
+      # define accessible namespaces on the local cluster
       default:
       - matchExpressions:
         - key: my-mesh
