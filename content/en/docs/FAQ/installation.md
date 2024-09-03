@@ -185,4 +185,48 @@ The Kiali Operator or server helm chart will automatically expose the secret as 
 Although Kiali retrieves the secret over the Kubernetes API, [mounting the secret](https://secrets-store-csi-driver.sigs.k8s.io/topics/sync-as-kubernetes-secret) is required for the CSI Driver to create the backing Kubernetes secret. 
 Note that the [`custom_secrets` `optional` flag](https://kiali.io/docs/configuration/kialis.kiali.io/#.spec.deployment.custom_secrets[*].optional) is ignored when mounting secrets from the CSI provider. The secrets are required to exist - then cannot be optional.
 
+### How can I use a secret to pass external service credentials to the Kiali Server?
+If you are installing using the Kiali Operator, simply set the credential setting to `secret:<secretName>:<secretKey>`. For details, see the [Kiali CR reference docs](https://kiali.io/docs/configuration/kialis.kiali.io/#.spec.external_services).
 
+If you are using the Kiali Server Helm Chart, this feature isn't directly available. However, you can set some configuration options to obtain the same results. Follow the instructions below if you are using the Kiali Server Helm Chart:
+1. Create a secret with your password or token in it. Note that the key must be `value.txt`. For example:
+```
+kubectl -n istio-system create secret generic my-credentials --from-literal=value.txt=abc123xyz789
+```
+
+2. Create a Helm values file that (a) defines a custom secret to refer to your secret and mounts it to the place that the Kiali Server expects to see it and (b) tell Kiali to use that secret for the appropriate password or token. For example, if you are setting the Prometheus password, create a `my-values.yaml` file with the following content:
+
+```
+deployment:
+  custom_secrets:
+  - name: "my-credentials"
+    mount: "/kiali-override-secrets/prometheus-password"
+
+external_services:
+  prometheus:
+    auth:
+      password: "secret:my-credentials:value.txt"
+```
+
+3. Install with the Kiali Server Helm Chart using that values file. For example, to install in the istio-system namespace:
+```
+helm install -f my-values.yaml -n istio-system kiali-server kiali/kiali-server
+```
+
+When you start the Kiali Server, you should now see a debug message in its logs that says:
+```
+Credentials loaded from secret file [/kiali-override-secrets/prometheus-password/value.txt]
+```
+
+NOTE: You must have [enabled logging at the debug level](https://kiali.io/docs/configuration/kialis.kiali.io/#.spec.deployment.logger.log_level) to see the above message in the logs.
+
+This should work with the other credentials that can be read from a mounted secret. They all need to be mounted as a file called `value.txt` that goes into their own sub-directory under `/kiali-override-secrets` - one of:
+* grafana-password
+* grafana-token
+* prometheus-password
+* prometheus-token
+* tracing-password
+* tracing-token
+* login-token-signing-key
+
+So, for example, if you are mounting a custom secret for the Grafana token, the mount location should be declared as `/kiali-override-secrets/grafana-token`.
