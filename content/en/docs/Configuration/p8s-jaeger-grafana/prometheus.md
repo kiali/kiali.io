@@ -169,4 +169,22 @@ The recommendation for Kiali is to set the shortest retention time that meets yo
 
 For more information, see the [Prometheus documentation](https://prometheus.io/docs/prometheus/latest/storage/#operational-aspects).
 
+### Prometheus authentication configuration
 
+The Kiali CR provides authentication configuration that will be used also for querying the version check to provide information in the Mesh graph.
+
+```yaml
+spec:
+  external_services:
+    prometheus:
+      enabled: true
+      auth:
+        ca_file: ""
+        insecure_skip_verify: false
+        password: "pwd"
+        token: ""
+        type: "basic"
+        use_kiali_token: false
+        username: "user"
+      health_check_url: ""
+```

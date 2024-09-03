@@ -232,3 +232,23 @@ In `external_services.tracing`
 |--------|-------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Jaeger | `.in_cluster_url = 'http://jaeger_service_url:16686/jaeger'`<br/> `.use_grpc = false` <hr>                  | `.in_cluster_url = 'http://jaeger_service_url:16685/jaeger'` <br>`.use_grpc = true (Not required: by default)`<br><hr>                                           | 
 | Tempo  | <br/>`in_cluster_url = 'http://query_frontend_url:3200'`<br/> `.use_grpc = false`<br/> `.provider = 'tempo'`<br/><hr> | `.in_cluster_url = 'http://query_frontend_url:3200'`<br/> `.grpc_port: 9095` <br/>`.provider: 'tempo'`<br/>`.use_grpc = true (Not required: by default)`<hr> |
+
+### Tempo authentication configuration
+
+The Kiali CR provides authentication configuration that will be used also for querying the version check to provide information in the Mesh graph.
+
+```yaml
+spec:
+  external_services:
+    tracing:
+      enabled: true
+      auth:
+        ca_file: ""
+        insecure_skip_verify: false
+        password: "pwd"
+        token: ""
+        type: "basic"
+        use_kiali_token: false
+        username: "user"
+      health_check_url: ""
+```

@@ -52,3 +52,22 @@ If your Jaeger setup differs significantly from the sample add-ons, make sure
 that Istio is also properly configured to push traces to the right URL.
 {{% /alert %}}
 
+### Jaeger authentication configuration
+
+The Kiali CR provides authentication configuration that will be used also for querying the version check to provide information in the Mesh graph.
+
+```yaml
+spec:
+  external_services:
+    tracing:
+      enabled: true
+      auth:
+        ca_file: ""
+        insecure_skip_verify: false
+        password: "pwd"
+        token: ""
+        type: "basic"
+        use_kiali_token: false
+        username: "user"
+      health_check_url: ""
+```
