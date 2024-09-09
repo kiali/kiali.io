@@ -7,28 +7,40 @@ weight: 1
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
 ## 2.0.0
-Sprint Release: TBD
+Sprint Release: Oct 21, 2024
 
-Fixes:
+The first major Kiali release in over 5 years!  There are two main reasons for the major version update:
 
-* [Kiali federation with multiple Kubernetes flavors not able to access none OpenShift workloads/applications when running on OCP](https://github.com/kiali/kiali/issues/7665)
-* [Mesh page - controlplanes not mapped to their dataplanes when using stable revision labels](https://github.com/kiali/kiali/issues/7598)
-* [Validations - Inconsistency between List and Details pages](https://github.com/kiali/kiali/issues/7685)
-* [K8s Gateways: Out of mesh error when not in 'istio-system'](https://github.com/kiali/kiali/issues/7720)
-* [bearer token auth with external Grafana](https://github.com/kiali/kiali/issues/7717)
-* [grafana and tracing versions should be obtained over in_cluster_url](https://github.com/kiali/kiali/issues/7758)
-* [Toggle menu of the workload minigraph does not load the action list](https://github.com/kiali/openshift-servicemesh-plugin/issues/375)
+1. There is a breaking change in Kiali's namespace management configuration. To limit the namespaces accessible to Kiali, or made visible to users, iali v2.0 users will configure Discovery Selectors.
 
+There is no longer support for the following deprecated configuration settings:
+
+  * spec.deployment.accessible_namespaces
+  * api.namespaces.exclude
+  * api.namespaces.include
+  * api.namespaces.label_selector_exclude
+  * api.namespaces.label_selector_include
+
+2. Kiali has a new traffic graph implementation.
+
+The Cytoscape implementation has been deprecated and is no longer the default. Kiali has moved to PatternFly Topology to align with the rest of the Kiali interface, which is already implemented using PatternFly components.  The old graph implementation will be removed as soon as the Kiali maintainers believe the new implementation has proven itself in the field. Until that time, it can still be accessed by setting:
+
+  spec.kiali_feature_flags.ui_defaults.graph.impl: "cy"
 
 Features:
 
+* [Ambient Graph - Improve Ambient Graph](https://github.com/kiali/kiali/issues/7445)
 * [Ambient Graph - Better visualize ztunnel](https://github.com/kiali/kiali/issues/6900)
 * [Ambient Graph - Treat waypoint nodes as workloads, not apps](https://github.com/kiali/kiali/issues/7702)
 * [Ambient Graph - Use bidirectional edges between workloads and waypoints](https://github.com/kiali/kiali/issues/7706)
-* [Configuration - Discovert Selectors, enhance namespace accessibility per Discovery KEP](https://github.com/kiali/kiali/issues/7546)
+* [Configuration - Discovery Selectors, enhance namespace accessibility per Discovery KEP](https://github.com/kiali/kiali/issues/7546)
 * [Configuration - change names of url / in_cluster_url to better reflect what they are](https://github.com/kiali/kiali/issues/7745)
 * [Configuration - Auto-detect more Istio config for ease-of-configuration](https://github.com/kiali/kiali/issues/7177)
+* [Configuration - Be able to specify auth.username and custom dashboards auth via secrets](https://github.com/kiali/kiali/issues/7795)
+* [Configuration - Support for additional environment variables in deployment](https://github.com/kiali/kiali/issues/7569)
 * [Extensions - Support 3rd party traffic metrics per Extensions KEP](https://github.com/kiali/kiali/issues/7485)
+* [Gateway API - K8s GW API v1.2.0 support](https://github.com/kiali/kiali/issues/7814)
+* [Graph - Patternfly topology for Kiali graph](https://github.com/kiali/openshift-servicemesh-plugin/issues/99)
 * [Mesh Page - Improve istio canary handling](https://github.com/kiali/kiali/issues/7515)
 * [Mesh Page - Ensure per-control-plane Istio settings](https://github.com/kiali/kiali/issues/7203)
 * [Perf - Kiali Performance and Scalability testing](https://github.com/kiali/kiali/issues/7058)
@@ -36,17 +48,22 @@ Features:
 
 Fixes:
 
+* [Kiali federation with multiple Kubernetes flavors not able to access none OpenShift workloads/applications when running on OCP](https://github.com/kiali/kiali/issues/7665)
+* [K8s Gateways: Out of mesh error when not in 'istio-system'](https://github.com/kiali/kiali/issues/7720)
+* [bearer token auth with external Grafana](https://github.com/kiali/kiali/issues/7717)
+* [Config: grafana and tracing versions should be obtained over in_cluster_url](https://github.com/kiali/kiali/issues/7758)
 * [Auth: Fix issue with bearer token auth with external Grafana](https://github.com/kiali/kiali/issues/7717)
 * [Auth: Fix URL-choice issue when fetching Grafana and tracing versions](https://github.com/kiali/kiali/issues/7758)
+* [Mesh page - controlplanes not mapped to their dataplanes when using stable revision labels](https://github.com/kiali/kiali/issues/7598)
 * [Mesh page: Fix issue for controlplanes not mapped to their dataplanes, when using stable revision labels](https://github.com/kiali/kiali/issues/7598)
+* [Mesh page: Memory consumption chart for istiod container isn't getting created](https://github.com/kiali/kiali/issues/7441)
+* [Mesh page: istiod with no proxies synced yet throws error](https://github.com/kiali/kiali/issues/7829)
 * [Multicluster: Fix issue federating Kiali instances on different Kubernetes' impls](https://github.com/kiali/kiali/issues/7665)
 * [OSSMC: Toggle menu of the workload minigraph does not load the action list](https://github.com/kiali/openshift-servicemesh-plugin/issues/375)
-
-Upgrade Notes:
-
-Before upgrading be aware of the major changes in Kiali v2.0:	
-
- TBD TBD TBD
+* [Tempo: View in Tracing link](https://github.com/kiali/kiali/issues/7822)
+* [UI: Toggle menu of the workload minigraph does not load the action list](https://github.com/kiali/openshift-servicemesh-plugin/issues/375)
+* [UI: Broken Breadcrumb for Details pages](https://github.com/kiali/kiali/issues/7817)
+* [Validations - Inconsistency between List and Details pages](https://github.com/kiali/kiali/issues/7685)
 
 ## 1.89.4
 Sprint Release: Sep 30, 2024
