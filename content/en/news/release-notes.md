@@ -6,6 +6,34 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 2.0.0
+Sprint Release: TBD
+
+Features:
+
+* [Configuration - Enhance namespace accessibility based on Namespace Discovery KEP](https://github.com/kiali/kiali/issues/7546)
+* [Mesh Page - Improve istio canary handling](https://github.com/kiali/kiali/issues/7515)
+* [Perf - Kiali Performance and Scalability testing](https://github.com/kiali/kiali/issues/7058)
+
+Fixes:
+
+TBD
+
+## 1.89.3
+Sprint Release: Sep 09, 2024
+
+Features:
+
+The next feature release will be Kiali v 2.0.0
+
+Fixes:
+
+* [Custom Dashboard - External Links of Custom dashboard not visible](https://github.com/kiali/kiali/issues/7638)
+* [Graph - Cannot load the graph: cluster (unknown) is not found or is not accessible for Kiali](https://github.com/kiali/kiali/issues/7672)
+* [Graph - Inconsistent ServiceEntry Display in Multi-Namespace Environment](https://github.com/kiali/kiali/issues/7590)
+* [Graph - Fix handling of defaultExportTo setting in serviceEntry and other components](https://github.com/kiali/kiali/issues/7589)
+* [Tempo - query_scope is ignored for Tempo in single-cluster environment](https://github.com/kiali/kiali/issues/7658)
+
 ## 1.89.0
 Sprint Release: Aug 19, 2024
 
