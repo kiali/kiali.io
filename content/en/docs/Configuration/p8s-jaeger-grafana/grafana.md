@@ -59,7 +59,7 @@ The described configuration is done in the Kiali CR when Kiali is installed usin
 
 ### Grafana authentication configuration
 
-The Kiali CR provides authentication configuration that will be used also for querying the version check to provide information in the Mesh graph. 
+The Kiali CR provides authentication configuration that will be used to connect to your grafana instance and for detecting your grafana version in the Mesh graph. 
 
 ```yaml
 spec:
