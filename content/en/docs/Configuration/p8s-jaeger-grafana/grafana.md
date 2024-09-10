@@ -76,3 +76,5 @@ spec:
         username: "user"
       health_check_url: ""
 ```
+
+To configure a secret to be used as a password, see this [FAQ entry]({{< relref "../../FAQ/authentication#how-to-configure-a-secret-as-password-for-external-services" >}})
