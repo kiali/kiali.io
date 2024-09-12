@@ -58,4 +58,3 @@ spec:
         port:
           number: 20001
 ```
-

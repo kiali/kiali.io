@@ -57,3 +57,24 @@ spec:
 The described configuration is done in the Kiali CR when Kiali is installed using the Kiali Operator. If Kiali is installed with the Helm chart then the correct way to configure this is via regular --set flags.
 {{% /alert %}}
 
+### Grafana authentication configuration
+
+The Kiali CR provides authentication configuration that will be used to connect to your grafana instance and for detecting your grafana version in the Mesh graph. 
+
+```yaml
+spec:
+  external_services:
+    grafana:
+      enabled: true
+      auth:
+        ca_file: ""
+        insecure_skip_verify: false
+        password: "pwd"
+        token: ""
+        type: "basic"
+        use_kiali_token: false
+        username: "user"
+      health_check_url: ""
+```
+
+To configure a secret to be used as a password, see this [FAQ entry]({{< relref "../../FAQ/installation#how-can-i-use-a-secret-to-pass-external-service-credentials-to-the-kiali-server" >}})
