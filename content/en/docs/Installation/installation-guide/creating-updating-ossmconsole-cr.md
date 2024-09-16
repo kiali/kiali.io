@@ -22,6 +22,11 @@ The Kiali Operator watches the _OSSMConsole Custom Resource_ ([OSSMConsole CR](/
 
 With the Kiali Operator and Kial Server installed and running, you can install the OSSMC plugin in one of two ways - either via the OpenShift Console or via the "oc" CLI. Both methods are described below. You choose the method you want to use.
 
+{{% alert color="warning" %}}
+You should specify the `spec.version` field of the OSSMConsole CR, and its value must be the same version as that of the Kiali Server (i.e. it must match the `spec.version` of the Kiali Server's Kiali CR). Normally, you can just set `spec.version` to `default` which tells the Kiali Operator to install OSSMC whose version is the same as that of the operator itself. Alternatively, you may specify one of the
+[supported versions](https://github.com/kiali/kiali-operator/blob/master/playbooks/ossmconsole-default-supported-images.yml) in the format `vX.Y`.
+{{% /alert %}}
+
 ### Installing via OpenShift Console
 
 From the Kiali Operator details page in the OpenShift Console, create an instance of the "OpenShift Service Mesh Console" resource. Accept the defaults on the installation form and press "Create".
@@ -39,6 +44,8 @@ kind: OSSMConsole
 metadata:
   namespace: openshift-operators
   name: ossmconsole
+spec:
+  version: default
 EOM
 ```
 
