@@ -32,17 +32,17 @@ spec:
       # Jaeger service name is "tracing" and is in the "telemetry" namespace.
       # Make sure the URL you provide corresponds to the non-GRPC enabled endpoint
       # if you set "use_grpc" to false.
-      in_cluster_url: "http://tracing.telemetry:16685/jaeger"
+      internal_url: "http://tracing.telemetry:16685/jaeger"
       use_grpc: true
       # Public facing URL of Jaeger
-      url: "http://my-jaeger-host/jaeger"
+      external_url: "http://my-jaeger-host/jaeger"
 ```
 
-Minimally, you must provide `spec.external_services.tracing.in_cluster_url` to
+Minimally, you must provide `spec.external_services.tracing.internal_url` to
 enable Kiali features that use distributed tracing data. However, Kiali can
 provide contextual links that users can use to jump to the Jaeger console to
 inspect tracing data more in depth. For these links to be available you need to
-set the `spec.external_services.tracing.url` to the URL where you
+set the `spec.external_services.tracing.external_url` to the URL where you
 expose Jaeger outside the cluster.
 
 {{% alert color="success" %}}

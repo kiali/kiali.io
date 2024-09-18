@@ -35,9 +35,9 @@ spec:
     grafana:
       enabled: true
       # Grafana service name is "grafana" and is in the "telemetry" namespace.
-      in_cluster_url: 'http://grafana.telemetry:3000/'
+      internal_url: 'http://grafana.telemetry:3000/'
       # Public facing URL of Grafana
-      url: 'http://my-ingress-host/grafana'
+      external_url: 'http://my-ingress-host/grafana'
       dashboards:
       - name: "Istio Service Dashboard"
         variables:
