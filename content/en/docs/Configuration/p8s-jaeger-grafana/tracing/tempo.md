@@ -35,14 +35,14 @@ spec:
       # Tempo service name is "query-frontend" and is in the "tempo" namespace.
       # Make sure the URL you provide corresponds to the non-GRPC enabled endpoint
       # It does not support grpc yet, so make sure "use_grpc" is set to false.
-      in_cluster_url: "http://tempo-tempo-query-frontend.tempo.svc.cluster.local:3200/"
+      internal_url: "http://tempo-tempo-query-frontend.tempo.svc.cluster.local:3200/"
       provider: "tempo"
       tempo_config:
         org_id: "1"
         datasource_uid: "a8d2ef1c-d31c-4de5-a90b-e7bc5252cd00"
       use_grpc: false
       # Public facing URL of Tempo 
-      url: "https://tempo-tempo-query-frontend-tempo.apps-crc.testing/"
+      external_url: "https://tempo-tempo-query-frontend-tempo.apps-crc.testing/"
 ```
 
 The default UI for Grafana Tempo is Grafana, so we should also set the Grafana URL in the Kiali configuration, such as this example: 
@@ -51,8 +51,8 @@ The default UI for Grafana Tempo is Grafana, so we should also set the Grafana U
 spec:
   external_services:
     grafana:
-      in_cluster_url: http://grafana.istio-system:3000
-      url: https://grafana.apps-crc.testing/
+      internal_url: http://grafana.istio-system:3000
+      external_url: https://grafana.apps-crc.testing/
 ```
 
 #### Set up a Tempo Datasource in Grafana
@@ -85,10 +85,10 @@ spec:
       enabled: true
       # grpc port defaults to 9095
       grpc_port: 9095 
-      in_cluster_url: "http://query-frontend.tempo:3200"
+      internal_url: "http://query-frontend.tempo:3200"
       provider: "tempo"
       use_grpc: true
-      url: "http://my-tempo-host:3200"
+      external_url: "http://my-tempo-host:3200"
 ```
 
 ##### Service check URL
@@ -147,7 +147,7 @@ set
 from Istio to the Tempo Distributor service and the Zipkin port. Tanka will deploy
 the service in `distributor.tempo.svc.cluster.local:9411`.
 
-The `external_services.tracing.in_cluster_url` Kiali option needs to be set to:
+The `external_services.tracing.internal_url` Kiali option needs to be set to:
 `http://query-frontend.tempo.svc.cluster.local:16685`.
 
 #### Tempo Operator
@@ -197,7 +197,7 @@ field in your Istio installation. It needs to be set to the `9411` port of the
 Tempo Distributor service. For the previous example, this value will be
 `tempo-smm-distributor.tempo.svc.cluster.local:9411`.
 
-Now, you need to configure the `in_cluster_url` setting from Kiali to access
+Now, you need to configure the `internal_url` setting from Kiali to access
 the Jaeger API. You can point to the `16685` port to use GRPC or `16686` if not.
 For the given example, the value would be
 `http://tempo-ssm-query-frontend.tempo.svc.cluster.local:16685`.
@@ -221,8 +221,8 @@ In `external_services.tracing`
 
 |                                                    | <div style="width:470px">http<hr></div>                                                    | <div style="width:470px">grpc <hr></div>                                                                                 |
 |----------------------------------------------------|--------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|
-| Jaeger | `.in_cluster_url = 'http://jaeger_service_url:16686/jaeger'`<br/> `.use_grpc = false` <hr> | `.in_cluster_url = 'http://jaeger_service_url:16685/jaeger'`<br/> `.use_grpc = true (Not required: by default)` <br><hr> | 
-| Tempo                                              | `.in_cluster_url = 'http://query_frontend_url:16686'`<br/> `.use_grpc = false` <hr>        | `.in_cluster_url = 'http://query_frontend_url:16685'`  <br/>`.use_grpc = true (Not required: by default)` <br/><hr>                                                    |
+| Jaeger | `.internal_url = 'http://jaeger_service_url:16686/jaeger'`<br/> `.use_grpc = false` <hr> | `.internal_url = 'http://jaeger_service_url:16685/jaeger'`<br/> `.use_grpc = true (Not required: by default)` <br><hr> | 
+| Tempo                                              | `.internal_url = 'http://query_frontend_url:16686'`<br/> `.use_grpc = false` <hr>        | `.internal_url = 'http://query_frontend_url:16685'`  <br/>`.use_grpc = true (Not required: by default)` <br/><hr>                                                    |
 
 <br>
 
@@ -230,8 +230,8 @@ In `external_services.tracing`
 
 |        | <div style="width:470px">http<hr></div>                                                                     | <div style="width:470px">grpc  <hr></div>                                                                                                                        |
 |--------|-------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Jaeger | `.in_cluster_url = 'http://jaeger_service_url:16686/jaeger'`<br/> `.use_grpc = false` <hr>                  | `.in_cluster_url = 'http://jaeger_service_url:16685/jaeger'` <br>`.use_grpc = true (Not required: by default)`<br><hr>                                           | 
-| Tempo  | <br/>`in_cluster_url = 'http://query_frontend_url:3200'`<br/> `.use_grpc = false`<br/> `.provider = 'tempo'`<br/><hr> | `.in_cluster_url = 'http://query_frontend_url:3200'`<br/> `.grpc_port: 9095` <br/>`.provider: 'tempo'`<br/>`.use_grpc = true (Not required: by default)`<hr> |
+| Jaeger | `.internal_url = 'http://jaeger_service_url:16686/jaeger'`<br/> `.use_grpc = false` <hr>                  | `.internal_url = 'http://jaeger_service_url:16685/jaeger'` <br>`.use_grpc = true (Not required: by default)`<br><hr>                                           | 
+| Tempo  | <br/>`internal_url = 'http://query_frontend_url:3200'`<br/> `.use_grpc = false`<br/> `.provider = 'tempo'`<br/><hr> | `.internal_url = 'http://query_frontend_url:3200'`<br/> `.grpc_port: 9095` <br/>`.provider: 'tempo'`<br/>`.use_grpc = true (Not required: by default)`<hr> |
 
 ### Tempo authentication configuration
 

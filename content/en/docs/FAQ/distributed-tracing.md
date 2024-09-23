@@ -20,12 +20,12 @@ Apparently, Kiali is unable to connect to Jaeger. Make sure [tracing is correctl
         auth:
           type: none
         enabled: true
-        in_cluster_url: 'http://tracing.istio-system/jaeger'
-        url: 'http://jaeger.example.com/'
+        internal_url: 'http://tracing.istio-system/jaeger'
+        external_url: 'http://jaeger.example.com/'
         use_grpc: true
 ```
 
-You need especially to pay attention to the `in_cluster_url` field, which is how Kiali backend contacts the Jaeger service. In general, this URL is written using Kubernetes domain names in the form of `http://service.namespace`, plus a path.
+You need especially to pay attention to the `internal_url` field, which is how Kiali backend contacts the Jaeger service. In general, this URL is written using Kubernetes domain names in the form of `http://service.namespace`, plus a path.
 
 If you're not sure about this URL, try to find your Jaeger service and its exposed ports:
 
@@ -50,7 +50,7 @@ If instead of that you see some blocks of mixed HTML/Javascript mentioning Jaege
 
 A common mistake is to forget the `/jaeger` suffix, which is often used in Jaeger deployments.
 
-It may also happen that you have a service named `jaeger-query`, exposing port `16686`, instead of the more common `tracing` service on port `80`. In that situation, set `in_cluster_url` to `http://jaeger-query.istio-system:16686/jaeger`.
+It may also happen that you have a service named `jaeger-query`, exposing port `16686`, instead of the more common `tracing` service on port `80`. In that situation, set `internal_url` to `http://jaeger-query.istio-system:16686/jaeger`.
 
 If Jaeger needs an authentication, make sure to correctly configure the `auth` section.
 
@@ -61,12 +61,12 @@ If for some reason the GRPC connection fails and you think it shouldn't (e.g. yo
 
 ### Why can't I see any external link to Jaeger?
 
-In addition to the embedded integration that Kiali provides with Jaeger, it is possible to show external links to the Jaeger UI. To do so, the external URL must be configured in the [Kiali CR](/docs/configuration/kialis.kiali.io/#.spec.external_services.tracing.url).
+In addition to the embedded integration that Kiali provides with Jaeger, it is possible to show external links to the Jaeger UI. To do so, the external URL must be configured in the [Kiali CR](/docs/configuration/kialis.kiali.io/#.spec.external_services.tracing.external_url).
 
 ```yaml
     tracing:
       # ...
-      url: "http://jaeger.example.com/"
+      external_url: "http://jaeger.example.com/"
 ```
 
 When configured, this URL will be used to generate a couple of links to Jaeger within Kiali. It's also visible in the About modal:
@@ -80,9 +80,9 @@ When configured, this URL will be used to generate a couple of links to Jaeger w
 
 ![Jaeger integration disabled](/images/documentation/faq/tracing/traces-external-link.png)
 
-On the Application detail page, the Traces tab might redirect to Jaeger via an external link instead of showing the Kiali Tracing view. It happens when you have the `url` field configured, but not `in_cluster_url`, which means the Kiali backend will not be able to connect to Jaeger.
+On the Application detail page, the Traces tab might redirect to Jaeger via an external link instead of showing the Kiali Tracing view. It happens when you have the `external_url` field configured, but not `internal_url`, which means the Kiali backend will not be able to connect to Jaeger.
 
-To fix it, configure `in_cluster_url` in the [Kiali CR](/docs/configuration/kialis.kiali.io/#.spec.external_services.tracing.in_cluster_url).
+To fix it, configure `internal_url` in the [Kiali CR](/docs/configuration/kialis.kiali.io/#.spec.external_services.tracing.internal_url).
 
 
 ### Why do I see "Missing root span" for the root span of some span details on Traces tab?
@@ -93,11 +93,11 @@ In Traces tab, while clicking on a trace, it shows the details of that trace and
 
 ### Why do I see "error reading server preface: http2: frame too large" error when Kiali is not able to fetch Traces?
 
-Sometimes this error can occur when there is a problem in the configuration and there is an http url configured but Kiali is configured to use grpc. For example:
+Sometimes this error can occur when there is a problem in the configuration and there is an http URL configured but Kiali is configured to use grpc. For example:
 
 ```yaml
 use_grpc: true 
-in_cluster_url: "http://jaeger_url:16686/jaeger"
+internal_url: "http://jaeger_url:16686/jaeger"
 ```
 
-That should be solved when `use_grpc: false` or using the grpc port `in_cluster_url: "http://jaeger_url:16685/jaeger"` 
+That should be solved when `use_grpc: false` or using the grpc port `internal_url: "http://jaeger_url:16685/jaeger"` 

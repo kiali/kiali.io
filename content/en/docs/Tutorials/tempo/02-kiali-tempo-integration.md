@@ -222,8 +222,8 @@ Install kiali:
 ```
 helm install \
     --namespace istio-system \
-    --set external_services.tracing.in_cluster_url=http://tempo-smm-query-frontend.tempo:16685 \
-    --set external_services.tracing.url=http://localhost:16686 \
+    --set external_services.tracing.internal_url=http://tempo-smm-query-frontend.tempo:16685 \
+    --set external_services.tracing.external_url=http://localhost:16686 \
     --set auth.strategy=anonymous \
     kiali-server \
     kiali/kiali-server
