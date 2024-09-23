@@ -30,8 +30,8 @@ external_services:
     cache_enabled: true
   tracing:
     enabled: true
-    in_cluster_url: http://localhost:16685/jaeger
-    url: http://localhost:16686/jaeger
+    internal_url: http://localhost:16685/jaeger
+    external_url: http://localhost:16686/jaeger
     use_grpc: false
     whitelist_istio_system:
     - jaeger-query
@@ -46,8 +46,8 @@ external_services:
       use_kiali_token: false
       username: internal
   grafana:
-    in_cluster_url: http://localhost:13000
-    url: http://localhost:13000
+    internal_url: http://localhost:13000
+    external_url: http://localhost:13000
     dashboards:
       - name: "Istio Service Dashboard"
         variables:
