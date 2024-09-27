@@ -68,16 +68,17 @@ Status:
     Namespace:      istio-system
   Environment:
     Is Kubernetes:       true
-    Kubernetes Version:  1.21.2
-    Operator Version:    v1.40.0
+    Kubernetes Version:  1.27.3
+    Operator Version:    v1.89.0
   Progress:
-    Duration:  0:00:16
-    Message:   5. Creating core resources
+    Duration:    0:00:16
+    Message:     5. Creating core resources
+  Spec Version:  default
 Events:        <none>
 ```
 
 {{% alert color="warning" %}}
-*Never* manually edit resources created by the Kiali Operator, only the Kiali CR.
+*Never* manually edit resources created by the Kiali Operator; only edit the Kiali CR.
 {{% /alert %}}
 
 You may want to check the [example install page]({{< relref "example-install"
