@@ -6,6 +6,19 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 1.89.7
+Sprint Release: Sep 30, 2024
+
+Features:
+
+The next feature release will be Kiali v 2.0.0
+
+Fixes:
+
+* [K8s Gateways: Fix "Out of mesh" error when not in 'istio-system'](https://github.com/kiali/kiali/issues/7720)
+* [Operator: Fix support of namespaces that just have numbers in their name](https://github.com/kiali/kiali/issues/7773)
+* [Validations - Fix “exportTo” validation inconsistency between List and Detail pages](https://github.com/kiali/kiali/issues/7685)
+
 ## 1.89.3
 Sprint Release: Sep 09, 2024
 
