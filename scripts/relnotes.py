@@ -92,7 +92,7 @@ result = run_query(query) # Execute the query
 # In case of errors: print("result: {}".format(result))
 project = result["data"]["organization"]["projectV2"]
 projectName = project["title"]
-releaseDatePattern = re.compile('^.* - \s*([^\n]*).*$', re.DOTALL)
+releaseDatePattern = re.compile('^.* - \\s*([^\n]*).*$', re.DOTALL)
 releaseDate = releaseDatePattern.match(project["shortDescription"])
 
 print("\nRelease Notes for {}, Project: {}".format(version, projectName))
