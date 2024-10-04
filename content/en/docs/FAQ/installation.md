@@ -186,7 +186,52 @@ Although Kiali retrieves the secret over the Kubernetes API, [mounting the secre
 Note that the [`custom_secrets` `optional` flag](https://kiali.io/docs/configuration/kialis.kiali.io/#.spec.deployment.custom_secrets[*].optional) is ignored when mounting secrets from the CSI provider. The secrets are required to exist - then cannot be optional.
 
 ### How can I use a secret to pass external service credentials to the Kiali Server?
+
+You can use secrets to store the credentials that Kiali must use to authenticate to external services such as Prometheus. How you configure Kiali is dependent upon whether you install the Kiali Server using the Kiali Operator or the Kiali Server Helm Chart.
+
+**When Using Kiali Operator**
+
 If you are installing using the Kiali Operator, simply set the credential setting to `secret:<secretName>:<secretKey>`. For details, see the [Kiali CR reference docs](https://kiali.io/docs/configuration/kialis.kiali.io/#.spec.external_services).
+
+For example, here is how you can set the bearer token that Kiali will use to authenticate with the Prometheus server.
+
+1. Create a secret with the token.
+```
+kubectl -n istio-system create secret generic my-secret --from-literal=my-cred=abc123
+```
+2. Edit the Kiali CR and specify the `token` field with the value `secret:my-secret:my-cred` and specify the type as `bearer` to indicate that authentication will be done with a bearer token.
+```yaml
+spec:
+  external_services:
+    prometheus:
+      auth:
+        type: bearer
+        token: secret:my-secret:my-cred
+```
+At this point, the Kiali Server will soon restart and be reconfigured to authenticate to Prometheus with the given token.
+
+If the secret contains a password, as opposed to a token, set `type` to `basic` to indicate that Kiali should authenticate using `basic` authentication using the given username and password you specify in the configuration:
+```yaml
+spec:
+  external_services:
+    prometheus:
+      auth:
+        type: basic
+        username: my-user-name
+        password: secret:my-secret:my-cred
+```
+Note that you can share a secret across multiple external services if they use the same credentials, or you can create multiple secrets if you need to use different credentials for the different external services.
+
+You can use secrets as explained above for the following fields in the Kiali CR:
+* `spec.external_services.grafana.auth.password`
+* `spec.external_services.grafana.auth.token`
+* `spec.external_services.prometheus.auth.password`
+* `spec.external_services.prometheus.auth.token`
+* `spec.external_services.tracing.auth.password`
+* `spec.external_services.tracing.auth.token`
+* `spec.login_token.signing_key`
+
+**When Using Kiali Server Helm Chart**
 
 If you are using the Kiali Server Helm Chart, this feature isn't directly available. However, you can set some configuration options to obtain the same results. Follow the instructions below if you are using the Kiali Server Helm Chart:
 1. Create a secret with your password or token in it. Note that the key must be `value.txt`. For example:
@@ -196,7 +241,7 @@ kubectl -n istio-system create secret generic my-credentials --from-literal=valu
 
 2. Create a Helm values file that (a) defines a custom secret to refer to your secret and mounts it to the place that the Kiali Server expects to see it and (b) tell Kiali to use that secret for the appropriate password or token. For example, if you are setting the Prometheus password, create a `my-values.yaml` file with the following content:
 
-```
+```yaml
 deployment:
   custom_secrets:
   - name: "my-credentials"
