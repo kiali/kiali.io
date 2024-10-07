@@ -223,13 +223,19 @@ spec:
 Note that you can share a secret across multiple external services if they use the same credentials, or you can create multiple secrets if you need to use different credentials for the different external services.
 
 You can use secrets as explained above for the following fields in the Kiali CR:
+* `spec.external_services.grafana.auth.username`
 * `spec.external_services.grafana.auth.password`
 * `spec.external_services.grafana.auth.token`
+* `spec.external_services.prometheus.auth.username`
 * `spec.external_services.prometheus.auth.password`
 * `spec.external_services.prometheus.auth.token`
+* `spec.external_services.tracing.auth.username`
 * `spec.external_services.tracing.auth.password`
 * `spec.external_services.tracing.auth.token`
 * `spec.login_token.signing_key`
+* `spec.external_services.custom_dashboards.prometheus.auth.username`
+* `spec.external_services.custom_dashboards.prometheus.auth.password`
+* `spec.external_services.custom_dashboards.prometheus.auth.token`
 
 **When Using Kiali Server Helm Chart**
 
@@ -266,12 +272,18 @@ Credentials loaded from secret file [/kiali-override-secrets/prometheus-password
 NOTE: You must have [enabled logging at the debug level](https://kiali.io/docs/configuration/kialis.kiali.io/#.spec.deployment.logger.log_level) to see the above message in the logs.
 
 This should work with the other credentials that can be read from a mounted secret. They all need to be mounted as a file called `value.txt` that goes into their own sub-directory under `/kiali-override-secrets` - one of:
+* grafana-username
 * grafana-password
 * grafana-token
+* prometheus-username
 * prometheus-password
 * prometheus-token
+* tracing-username
 * tracing-password
 * tracing-token
 * login-token-signing-key
+* customdashboards-prometheus-username
+* customdashboards-prometheus-password
+* customdashboards-prometheus-token
 
 So, for example, if you are mounting a custom secret for the Grafana token, the mount location should be declared as `/kiali-override-secrets/grafana-token`.
