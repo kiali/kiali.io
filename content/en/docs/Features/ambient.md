@@ -60,7 +60,7 @@ There is an additional display option, **Waypoint proxies** for the Ambient Mesh
 
 ![Waypoint proxies](/images/documentation/features/ambient/waypoint-proxies.png)
 
-The waypoint proxies are in many cases the source and the destination of the traffic for the same workload, and this situation is indicated in the graph with bidirectional edges. 
-When click on the edge, the summary panel graph will show the waypoint proxy as a destination workload, but is possible to also show the information with the waypoint as the source when click on the double arrow: 
+The waypoint proxies often serve as both the source and destination of traffic within the same workload, represented in the graph by bidirectional edges. 
+When you click on an edge, the summary panel will display the waypoint proxy as the destination workload. However, you can also view the waypoint as the source by clicking on the double arrow icon located to the left of the "From/To" labels in the summary panel.
 
 ![bidirectional edges](/images/documentation/features/ambient/double-edges.png)
