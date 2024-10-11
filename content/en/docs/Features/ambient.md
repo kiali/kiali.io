@@ -52,6 +52,15 @@ The following _bookinfo_ namespace is in Ambient Mesh with a waypoint proxy enab
 
 ![Ambient Telemetry](/images/documentation/features/ambient/ambient-telemetry.png)
 
-There is an additional display option, **Waypoint proxies** for the Ambient Mesh, that will display the waypoint proxies in the graph (This is still an alpha-level feature and will likely change):
+It is possible to filter the traffic by the Ambient reporter (ztunnel or waypoint) from the Traffic menu option: 
 
-![Ambient Telemetry](/images/documentation/features/ambient/waypoint-proxies.png)
+![Ambient Traffic selector](/images/documentation/features/ambient/traffic-selector.png)
+
+There is an additional display option, **Waypoint proxies** for the Ambient Mesh, that will display the waypoint proxies in the graph:
+
+![Waypoint proxies](/images/documentation/features/ambient/waypoint-proxies.png)
+
+The waypoint proxies often serve as both the source and destination of traffic within the same workload, represented in the graph by bidirectional edges. 
+When you click on an edge, the summary panel will display the waypoint proxy as the destination workload. However, you can also view the waypoint as the source by clicking on the double arrow icon located to the left of the "From/To" labels in the summary panel.
+
+![bidirectional edges](/images/documentation/features/ambient/double-edges.png)
