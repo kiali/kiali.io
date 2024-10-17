@@ -40,20 +40,24 @@ spec:
       tempo_config:
         org_id: "1"
         datasource_uid: "a8d2ef1c-d31c-4de5-a90b-e7bc5252cd00"
+        url_format: "grafana"
       use_grpc: false
       # Public facing URL of Tempo 
       external_url: "https://tempo-tempo-query-frontend-tempo.apps-crc.testing/"
 ```
 
-The default UI for Grafana Tempo is Grafana, so we should also set the Grafana URL in the Kiali configuration, such as this example: 
+Kiali will use the _external_url_ to redirect to the Tracing UI, in the "View in tracing" links. 
+In Tempo, by default, the _url_format_ is set to _grafana_. This will use a particular url path and query for each link. The default UI for Grafana Tempo is Grafana, so it will use the _external_url_ set in the Grafana section, such as this example: 
 
 ```yaml
 spec:
   external_services:
     grafana:
-      internal_url: http://grafana.istio-system:3000
+      enabled: true
       external_url: https://grafana.apps-crc.testing/
 ```
+
+It is also possible to set _url_format_ to "jaeger". In that case, Kiali will use the _external_url_ set in the tracing section, and the url path and query will be following the Jaeger UI format. 
 
 #### Set up a Tempo Datasource in Grafana
 
