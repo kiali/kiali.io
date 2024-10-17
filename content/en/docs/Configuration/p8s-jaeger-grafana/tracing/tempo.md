@@ -53,6 +53,7 @@ In Tempo, by default, the _url_format_ is set to _grafana_. This will use a part
 spec:
   external_services:
     grafana:
+      enabled: true
       external_url: https://grafana.apps-crc.testing/
 ```
 
