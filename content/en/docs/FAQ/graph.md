@@ -188,3 +188,20 @@ providing an edge to the destination service node, and a subsequent edge to the 
 shown. But Kiali will always show a terminal service node when the request itself fails to be routed to a destination workload. This ensures the graph visualizes problem areas.
 This can happen in a workload or app graph. Of course in a service graph the `Display Service Nodes` option is simply ignored.
 
+
+### In Kiali v2.x, is the old graph still available?
+
+In Kiali v2.0 the new PatternFly graph implementation became the default, and the Cytoscape implementation was deprecated. The new graph is a big change and has
+been heavily tested. However, if you encounter an issue the Cytoscape graph is still available by setting:
+
+```
+spec:
+  kiali_feature_flags:
+    ui_defaults:
+      graph:
+        impl: "cy"
+```
+
+The Cytoscape graph implementation will be removed after a number of stable releases, so make sure to open a Kiali github issue for any problems you encounter
+with the new PatternFly graph implementation. 
+
