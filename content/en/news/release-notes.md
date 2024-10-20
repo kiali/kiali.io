@@ -25,7 +25,13 @@ There is no longer support for the following deprecated configuration settings:
 
 The Cytoscape implementation has been deprecated and is no longer the default. Kiali has moved to PatternFly Topology to align with the rest of the Kiali interface, which is already implemented using PatternFly components.  The old graph implementation will be removed as soon as the Kiali maintainers believe the new implementation has proven itself in the field. Until that time, it can still be accessed by setting:
 
-  spec.kiali_feature_flags.ui_defaults.graph.impl: "cy"
+```yaml
+spec:
+  kiali_feature_flags:
+    ui_defaults:
+      graph:
+        impl: "cy"
+```
 
 Features:
 
