@@ -11,7 +11,7 @@ Sprint Release: Oct 21, 2024
 
 The first major Kiali release in over 5 years!  There are two main reasons for the major version update:
 
-1. There is a breaking change in Kiali's namespace management configuration. To limit the namespaces accessible to Kiali, or made visible to users, iali v2.0 users will configure Discovery Selectors.
+1. There is a breaking change in Kiali's namespace management configuration. To limit the namespaces accessible to Kiali, or made visible to users, Kiali v2.0 users will configure Discovery Selectors.
 
 There is no longer support for the following deprecated configuration settings:
 
