@@ -36,18 +36,6 @@ spec:
 
   version: "default"
 
-  api:
-    namespaces:
-      exclude:
-      - "^istio-operator"
-      - "^kube-.*"
-      - "^openshift.*"
-      - "^ibm.*"
-      - "^kiali-operator"
-      include: []
-      label_selector_exclude: ""
-      # default: label_selector_include is undefined
-      label_selector_include: "kiali.io/member-of=istio-system"
   auth:
     strategy: ""
     openid:
@@ -85,8 +73,6 @@ spec:
   - name: "envoy"
 
   deployment:
-    # default: accessible_namespaces is undefined
-    accessible_namespaces: ["my-mesh.*"]
     # default: additional_service_yaml is empty
     additional_service_yaml:
       externalName: "kiali.example.com"
@@ -123,11 +109,16 @@ spec:
                 values:
                 - S2
             topologyKey: topology.kubernetes.io/zone
-    # default: cluster_wide_access is undefined
-    cluster_wide_access: false
+    cluster_wide_access: true
     # default: configmap_annotations is empty
     configmap_annotations:
       strategy.spinnaker.io/versioned: "false"
+    # default: custom_envs is an empty list
+    custom_envs:
+    - name: "HTTP_PROXY"
+      value: "http://my.proxy.com:1234"
+    - name: "NO_PROXY"
+      value: "hostname.example.com"
     # default: custom_secrets is an empty list
     custom_secrets:
     - name: "a-custom-secret"
@@ -140,6 +131,39 @@ spec:
         readOnly: true
         volumeAttributes:
           secretProviderClass: kiali-secretprovider
+    # default: discovery_selectors is empty
+    discovery_selectors:
+      default:
+      - matchLabels:
+          region: north
+      - matchExpressions:
+        - key: organization
+          operator: "In"
+          values: ["engineering", "accounting"]
+      - matchLabels:
+          region: south
+        matchExpressions:
+        - key: app
+          operator: "DoesNotExist"
+        - key: domain
+          operator: "NotIn"
+          values: ["production"]
+      overrides:
+        myRemoteCluster:
+        - matchLabels:
+            region: world
+        - matchExpressions:
+          - key: organization
+            operator: "NotIn"
+            values: ["marketing"]
+        - matchLabels:
+            region: antarctica
+          matchExpressions:
+          - key: app
+            operator: "DoesNotExist"
+          - key: domain
+            operator: "In"
+            values: ["staging"]
     dns:
       # default: config is empty
       config:
@@ -237,6 +261,11 @@ spec:
     version_label: ""
     view_only_mode: false
 
+  # default: extensions is an empty list
+  extensions:
+  - enabled: true
+    name: "skupper"
+
   external_services:
     custom_dashboards:
       discovery_auto_threshold: 10
@@ -293,11 +322,11 @@ spec:
       - name: "Istio Performance Dashboard"
       - name: "Istio Wasm Extension Dashboard"
       enabled: true
+      external_url: ""
       health_check_url: ""
-      # default: in_cluster_url is undefined
-      in_cluster_url: ""
+      # default: internal_url is undefined
+      internal_url: ""
       is_core: false
-      url: ""
     istio:
       component_status:
         enabled: true
@@ -358,9 +387,10 @@ spec:
       custom_headers:
         customHeader1: "customHeader1Value"
       enabled: false
+      external_url: ""
       grpc_port: 9095
       health_check_url: ""
-      in_cluster_url: ""
+      internal_url: ""
       is_core: false
       namespace_selector: true
       provider: "jaeger"
@@ -372,7 +402,7 @@ spec:
       tempo_config:
         datasource_uid: ""
         org_id: ""
-      url: ""
+        url_format: ""
       use_grpc: true
       whitelist_istio_system: ["jaeger-query", "istio-ingressgateway"]
 
@@ -404,11 +434,6 @@ spec:
     version_label_name: "version"
 
   kiali_feature_flags:
-    certificates_information_indicators:
-      enabled: true
-      secrets:
-      - "cacerts"
-      - "istio-ca-secret"
     disabled_features: []
     istio_annotation_action: true
     istio_injection_action: true
@@ -637,156 +662,6 @@ For additional help in using this validation tool, pass it the `--help` option.
 
 <div class="property-description">
 <p>The title of the link that Kiali will display. The link will go to the URL specified in the value of the configured <code>annotation</code>.</p>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-1">
-<div class="property-header">
-<hr/>
-<h3 class="property-path" id=".spec.api">.spec.api</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(object)</span>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-2">
-<div class="property-header">
-<hr/>
-<h3 class="property-path" id=".spec.api.namespaces">.spec.api.namespaces</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(object)</span>
-
-</div>
-
-<div class="property-description">
-<p>Settings that control what namespaces are returned by Kiali.</p>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-3">
-<div class="property-header">
-<hr/>
-<h3 class="property-path" id=".spec.api.namespaces.exclude">.spec.api.namespaces.exclude</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(array)</span>
-
-</div>
-
-<div class="property-description">
-<p>A list of namespaces to be excluded from the list of namespaces provided by the Kiali API and Kiali UI. Regex is supported. This does not affect explicit namespace access.</p>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-4">
-<div class="property-header">
-<hr/>
-<h3 class="property-path" id=".spec.api.namespaces.exclude[*]">.spec.api.namespaces.exclude[*]</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(string)</span>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-3">
-<div class="property-header">
-<hr/>
-<h3 class="property-path" id=".spec.api.namespaces.include">.spec.api.namespaces.include</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(array)</span>
-
-</div>
-
-<div class="property-description">
-<p>A list of namespaces to be included in the list of namespaces provided by the Kiali API and Kiali UI (if those namespaces exist). Regex is supported. An undefined or empty list is ignored. This does not affect explicit namespace access.</p>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-4">
-<div class="property-header">
-<hr/>
-<h3 class="property-path" id=".spec.api.namespaces.include[*]">.spec.api.namespaces.include[*]</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(string)</span>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-3">
-<div class="property-header">
-<hr/>
-<h3 class="property-path" id=".spec.api.namespaces.label_selector_exclude">.spec.api.namespaces.label_selector_exclude</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(string)</span>
-
-</div>
-
-<div class="property-description">
-<p>A Kubernetes label selector (e.g. <code>myLabel=myValue</code>) which is used for filtering out namespaces
-when fetching the list of available namespaces. This does not affect explicit namespace access.</p>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-3">
-<div class="property-header">
-<hr/>
-<h3 class="property-path" id=".spec.api.namespaces.label_selector_include">.spec.api.namespaces.label_selector_include</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(string)</span>
-
-</div>
-
-<div class="property-description">
-<p>A Kubernetes label selector (e.g. <code>myLabel=myValue</code>) which is used when fetching the list of
-available namespaces. This does not affect explicit namespace access.</p>
-
-<p>If <code>deployment.accessible_namespaces</code> does not have the special value of <code>'**'</code>
-then the Kiali operator will add a new label to all accessible namespaces - that new
-label will be this <code>label_selector_include</code> (this label is added regardless if the namespace matches the label_selector_exclude also).</p>
-
-<p>Note that if you do not set this <code>label_selector_include</code> setting but <code>deployment.accessible_namespaces</code>
-does not have the special &ldquo;all namespaces&rdquo; entry of <code>'**'</code> then this <code>label_selector_include</code> will be set
-to a default value of <code>kiali.io/[&lt;deployment.instance_name&gt;.]member-of=&lt;deployment.namespace&gt;</code>
-where <code>[&lt;deployment.instance_name&gt;.]</code> is the instance name assigned to the Kiali installation
-if it is not the default &lsquo;kiali&rsquo; (otherwise, this is omitted) and <code>&lt;deployment.namespace&gt;</code>
-is the namespace where Kiali is to be installed.</p>
 
 </div>
 
@@ -1485,39 +1360,6 @@ empty dashboard.</p>
 <div class="property depth-2">
 <div class="property-header">
 <hr/>
-<h3 class="property-path" id=".spec.deployment.accessible_namespaces">.spec.deployment.accessible_namespaces</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(array)</span>
-
-</div>
-
-<div class="property-description">
-<p>When <code>cluster_wide_access=false</code> this must be set to the list of namespaces to which Kiali is to be given permissions.  You can provide names using regex expressions matched against all namespaces the operator can see.  If left unset it is required that <code>cluster_wide_access</code> be <code>true</code>, and Kiali will have permissions to all namespaces.  The list of namespaces that a user can access is a subset of these namespaces, given that user&rsquo;s RBAC settings.</p>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-3">
-<div class="property-header">
-<hr/>
-<h3 class="property-path" id=".spec.deployment.accessible_namespaces[*]">.spec.deployment.accessible_namespaces[*]</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(string)</span>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-2">
-<div class="property-header">
-<hr/>
 <h3 class="property-path" id=".spec.deployment.additional_service_yaml">.spec.deployment.additional_service_yaml</h3>
 </div>
 <div class="property-body">
@@ -1607,7 +1449,7 @@ empty dashboard.</p>
 </div>
 
 <div class="property-description">
-<p>Determines if the Kiali server will be granted cluster-wide permissions to see all namespaces. When true, this provides more efficient caching within the Kiali server. It must be <code>true</code> if <code>deployment.accessible_namespaces</code> is left unset. To limit the namespaces for which Kiali has permissions, set to <code>false</code> and list the desired namespaces in <code>deployment.accessible_namespaces</code>. When not set, this value will default to <code>false</code> if <code>deployment.accessible_namespaces</code> is set to a list of namespaces; otherwise this will be <code>true</code>.</p>
+<p>Determines if the Kiali server will be granted cluster-wide permissions to see all namespaces. When true, this provides more efficient caching within the Kiali server. It must be <code>true</code> if <code>deployment.discovery_selectors.default</code> is left unset. To limit the namespaces for which Kiali has permissions, set to <code>false</code> and define the desired selectors in <code>deployment.discovery_selectors.default</code>. When not set, this value will default to <code>true</code>.</p>
 
 </div>
 
@@ -1627,6 +1469,77 @@ empty dashboard.</p>
 
 <div class="property-description">
 <p>Custom annotations to be created on the Kiali ConfigMap.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.custom_envs">.spec.deployment.custom_envs</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>Defines additional environment variables to be set in the Kiali server pod. This is typically used for (but not limited to) setting proxy environment variables such as HTTP_PROXY, HTTPS_PROXY, and/or NO_PROXY.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.custom_envs[*]">.spec.deployment.custom_envs[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.custom_envs[*].name">.spec.deployment.custom_envs[*].name</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+<span class="property-required">*Required*</span>
+</div>
+
+<div class="property-description">
+<p>The name of the custom environment variable.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.custom_envs[*].value">.spec.deployment.custom_envs[*].value</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+<span class="property-required">*Required*</span>
+</div>
+
+<div class="property-description">
+<p>The value of the custom environment variable.</p>
 
 </div>
 
@@ -1751,6 +1664,184 @@ An example configuration is,</p>
 
 <div class="property-description">
 <p>Indicates if the secret may or may not exist at the time the Kiali pod starts. This will default to &lsquo;false&rsquo; if not specified. This is ignored if <code>csi</code> is specified - CSI secrets must exist when specified.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.discovery_selectors">.spec.deployment.discovery_selectors</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>Discovery selectors used to determine which namespaces are accessible to Kiali and which namespaces are visible to Kiali users.
+You can define discovery selectors to match namespaces on the local cluster as well as remote clusters.
+The list of namespaces that a user can access is a subset of these namespaces, given that user&rsquo;s RBAC permissions.
+These selectors will have similar semantics as defined by Istio ( <a href="https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig">https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig</a> )
+and the syntax of the equality-based and set-based label selectors are documented by Kubernetes here
+( <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#resources-that-support-set-based-requirements">https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#resources-that-support-set-based-requirements</a> )</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.discovery_selectors.default">.spec.deployment.discovery_selectors.default</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>These are label selectors for the Kiali local cluster and for all remote clusters that do not have overrides.
+Namespaces that match these selectors are visible to Kiali users.
+When <code>cluster_wide_access=false</code> these <code>default</code> selectors are used to restrict which namespaces Kiali will have access to.
+If there are no default discovery selectors, then <code>cluster_wide_access</code> should be <code>true</code> in which case Kiali will have
+permissions to access all namespaces.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.discovery_selectors.default[*]">.spec.deployment.discovery_selectors.default[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.discovery_selectors.default[*].matchExpressions">.spec.deployment.discovery_selectors.default[*].matchExpressions</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.discovery_selectors.default[*].matchExpressions[*]">.spec.deployment.discovery_selectors.default[*].matchExpressions[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-7">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.discovery_selectors.default[*].matchExpressions[*].key">.spec.deployment.discovery_selectors.default[*].matchExpressions[*].key</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+<span class="property-required">*Required*</span>
+</div>
+
+</div>
+</div>
+
+<div class="property depth-7">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.discovery_selectors.default[*].matchExpressions[*].operator">.spec.deployment.discovery_selectors.default[*].matchExpressions[*].operator</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+<span class="property-required">*Required*</span>
+</div>
+
+</div>
+</div>
+
+<div class="property depth-7">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.discovery_selectors.default[*].matchExpressions[*].values">.spec.deployment.discovery_selectors.default[*].matchExpressions[*].values</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-8">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.discovery_selectors.default[*].matchExpressions[*].values[*]">.spec.deployment.discovery_selectors.default[*].matchExpressions[*].values[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.discovery_selectors.default[*].matchLabels">.spec.deployment.discovery_selectors.default[*].matchLabels</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.discovery_selectors.overrides">.spec.deployment.discovery_selectors.overrides</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>If a remote cluster has different namespaces than the local cluster, these overrides provide a way for you to match those remote namespaces. Kiali will make these remote namespaces visible to users. The name of the overrides section is the name of the remote cluster. Note that the <code>default</code> selectors are ignored when matching namespaces on a remote cluster if that remote cluster has overrides defined.</p>
 
 </div>
 
@@ -2685,6 +2776,77 @@ When empty, its default will be determined as follows,</p>
 <div class="property depth-1">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.extensions">.spec.extensions</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>Defines third-party extensions whose metrics can be integrated into the Kiali traffic graph.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.extensions[*]">.spec.extensions[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.extensions[*].enabled">.spec.extensions[*].enabled</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>Determines if the Kiali traffic graph should incorporate the extension&rsquo;s metrics.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.extensions[*].name">.spec.extensions[*].name</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The name that is used to identify the metric time series for the extension.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-1">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.external_services">.spec.external_services</h3>
 </div>
 <div class="property-body">
@@ -2994,7 +3156,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>Username to be used when making requests to Prometheus with <code>basic</code> authentication.</p>
+<p>Username to be used when making requests to Prometheus with <code>basic</code> authentication. May refer to a secret.</p>
 
 </div>
 
@@ -3393,7 +3555,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>Username to be used when making requests to Grafana with <code>basic</code> authentication.</p>
+<p>Username to be used when making requests to Grafana with <code>basic</code> authentication. May refer to a secret.</p>
 
 </div>
 
@@ -3564,7 +3726,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 <div class="property depth-3">
 <div class="property-header">
 <hr/>
-<h3 class="property-path" id=".spec.external_services.grafana.health_check_url">.spec.external_services.grafana.health_check_url</h3>
+<h3 class="property-path" id=".spec.external_services.grafana.external_url">.spec.external_services.grafana.external_url</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -3573,7 +3735,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>Used in the Components health feature. This is the URL which Kiali will ping to determine whether the component is reachable or not. It defaults to <code>in_cluster_url</code> when not provided.</p>
+<p>The URL that the Kiali UI uses when displaying Grafana links to the user. This URL must be accessible to clients external to the cluster (e.g. a browser) in order for the integration to work properly. If empty, an attempt to auto-discover it is made. This URL can contain query parameters if needed, such as &lsquo;?orgId=1&rsquo;.</p>
 
 </div>
 
@@ -3583,7 +3745,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 <div class="property depth-3">
 <div class="property-header">
 <hr/>
-<h3 class="property-path" id=".spec.external_services.grafana.in_cluster_url">.spec.external_services.grafana.in_cluster_url</h3>
+<h3 class="property-path" id=".spec.external_services.grafana.health_check_url">.spec.external_services.grafana.health_check_url</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -3592,7 +3754,26 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The URL used for in-cluster access. An example would be <code>http://grafana.istio-system:3000</code>. This URL can contain query parameters if needed, such as &lsquo;?orgId=1&rsquo;. If not defined, it will default to <code>http://grafana.&lt;istio_namespace&gt;:3000</code>.</p>
+<p>Used in the Components health feature. This is the URL which Kiali will ping to determine whether the component is reachable or not. It defaults to <code>internal_url</code> when not provided.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.grafana.internal_url">.spec.external_services.grafana.internal_url</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The URL used by Kiali to perform requests and queries to Grafana. An example would be <code>http://grafana.istio-system:3000</code>. This URL can contain query parameters if needed, such as &lsquo;?orgId=1&rsquo;. If not defined, it will default to <code>http://grafana.&lt;istio_namespace&gt;:3000</code>.</p>
 
 </div>
 
@@ -3612,25 +3793,6 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property-description">
 <p>Used in the Components health feature. When true, the unhealthy scenarios will be raised as errors. Otherwise, they will be raised as a warning.</p>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-3">
-<div class="property-header">
-<hr/>
-<h3 class="property-path" id=".spec.external_services.grafana.url">.spec.external_services.grafana.url</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(string)</span>
-
-</div>
-
-<div class="property-description">
-<p>The URL that Kiali uses when integrating with Grafana. This URL must be accessible to clients external to the cluster in order for the integration to work properly. If empty, an attempt to auto-discover it is made. This URL can contain query parameters if needed, such as &lsquo;?orgId=1&rsquo;.</p>
 
 </div>
 
@@ -4342,7 +4504,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>Username to be used when making requests to Prometheus with <code>basic</code> authentication.</p>
+<p>Username to be used when making requests to Prometheus with <code>basic</code> authentication. May refer to a secret.</p>
 
 </div>
 
@@ -4741,7 +4903,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>Username to be used when making requests to the Tracing server with <code>basic</code> authentication.</p>
+<p>Username to be used when making requests to the Tracing server with <code>basic</code> authentication. May refer to a secret.</p>
 
 </div>
 
@@ -4779,7 +4941,26 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>When true, connections to the Tracing server are enabled. <code>in_cluster_url</code> and/or <code>url</code> need to be provided.</p>
+<p>When true, connections to the Tracing server are enabled. <code>internal_url</code> and/or <code>external_url</code> need to be provided.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.tracing.external_url">.spec.external_services.tracing.external_url</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The URL that the Kiali UI uses when displaying Tracing UI links to the user. This URL must be accessible to clients external to the cluster (e.g. a browser) in order to generate valid links. If the tracing service is deployed with a QUERY_BASE_PATH set, set this URL like https://<hostname>/<QUERY_BASE_PATH>; for example, <a href="https://tracing-service:8080/jaeger">https://tracing-service:8080/jaeger</a></p>
 
 </div>
 
@@ -4827,7 +5008,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 <div class="property depth-3">
 <div class="property-header">
 <hr/>
-<h3 class="property-path" id=".spec.external_services.tracing.in_cluster_url">.spec.external_services.tracing.in_cluster_url</h3>
+<h3 class="property-path" id=".spec.external_services.tracing.internal_url">.spec.external_services.tracing.internal_url</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -4836,7 +5017,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>Set URL for in-cluster access, which enables further integration between Kiali and Jaeger. When not provided, Kiali will only show external links using the <code>url</code> setting. Note: Jaeger v1.20+ has separated ports for GRPC(16685) and HTTP(16686) requests. Make sure you use the appropriate port according to the <code>use_grpc</code> value. Example: <a href="http://tracing.istio-system:16685">http://tracing.istio-system:16685</a></p>
+<p>The URL used by Kiali to perform requests and queries to the tracing backend which enables further integration between Kiali and the tracing server. When not provided, Kiali will only show external links using the <code>external_url</code> setting. Note: Jaeger v1.20+ has separated ports for GRPC(16685) and HTTP(16686) requests. Make sure you use the appropriate port according to the <code>use_grpc</code> value. Example: <a href="http://tracing.istio-system:16685">http://tracing.istio-system:16685</a></p>
 
 </div>
 
@@ -4995,10 +5176,10 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 </div>
 
-<div class="property depth-3">
+<div class="property depth-4">
 <div class="property-header">
 <hr/>
-<h3 class="property-path" id=".spec.external_services.tracing.url">.spec.external_services.tracing.url</h3>
+<h3 class="property-path" id=".spec.external_services.tracing.tempo_config.url_format">.spec.external_services.tracing.tempo_config.url_format</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -5007,7 +5188,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The external URL that will be used to generate links to Jaeger. It must be accessible to clients external to the cluster (e.g: a browser) in order to generate valid links. If the tracing service is deployed with a QUERY_BASE_PATH set, set this URL like https://<hostname>/<QUERY_BASE_PATH>. For example, <a href="https://tracing-service:8080/jaeger">https://tracing-service:8080/jaeger</a></p>
+<p>The URL format for the external url. Can be &lsquo;jaeger&rsquo; or &lsquo;grafana&rsquo;. Default to &lsquo;grafana&rsquo;. Grafana will need a Grafana url in the Grafana settings.</p>
 
 </div>
 
@@ -5544,67 +5725,6 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property-description">
 <p>Kiali features that can be enabled or disabled.</p>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-2">
-<div class="property-header">
-<hr/>
-<h3 class="property-path" id=".spec.kiali_feature_flags.certificates_information_indicators">.spec.kiali_feature_flags.certificates_information_indicators</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(object)</span>
-
-</div>
-
-<div class="property-description">
-<p>Flag to enable/disable displaying certificates information and which secrets to grant read permissions.</p>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-3">
-<div class="property-header">
-<hr/>
-<h3 class="property-path" id=".spec.kiali_feature_flags.certificates_information_indicators.enabled">.spec.kiali_feature_flags.certificates_information_indicators.enabled</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(boolean)</span>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-3">
-<div class="property-header">
-<hr/>
-<h3 class="property-path" id=".spec.kiali_feature_flags.certificates_information_indicators.secrets">.spec.kiali_feature_flags.certificates_information_indicators.secrets</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(array)</span>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-4">
-<div class="property-header">
-<hr/>
-<h3 class="property-path" id=".spec.kiali_feature_flags.certificates_information_indicators.secrets[*]">.spec.kiali_feature_flags.certificates_information_indicators.secrets[*]</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(string)</span>
 
 </div>
 
