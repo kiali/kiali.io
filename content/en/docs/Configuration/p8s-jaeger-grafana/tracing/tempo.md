@@ -237,6 +237,36 @@ In `external_services.tracing`
 | Jaeger | `.internal_url = 'http://jaeger_service_url:16686/jaeger'`<br/> `.use_grpc = false` <hr>                  | `.internal_url = 'http://jaeger_service_url:16685/jaeger'` <br>`.use_grpc = true (Not required: by default)`<br><hr>                                           | 
 | Tempo  | <br/>`internal_url = 'http://query_frontend_url:3200'`<br/> `.use_grpc = false`<br/> `.provider = 'tempo'`<br/><hr> | `.internal_url = 'http://query_frontend_url:3200'`<br/> `.grpc_port: 9095` <br/>`.provider: 'tempo'`<br/>`.use_grpc = true (Not required: by default)`<hr> |
 
+### Tempo tuning
+
+Grafana Tempo is a powerful tool, but it can lead to performance issues when not configured correctly. 
+The following configuration can lead to OOM issues for simple queries in the query-frontend component: 
+
+```yaml
+spec:
+  resources:
+    total:
+      limits:
+        memory: 2Gi
+        cpu: 2000m
+```
+
+These resources are shared between all the Tempo components. 
+Instead of applying the resources globally, they can be applied to each specific component, when needed:
+
+```yaml
+spec:
+  template:
+    queryFrontend:
+      component:
+        resources:
+          limits:
+            cpu: "2"
+            memory: 2Gi
+```
+
+
+
 ### Tempo authentication configuration
 
 The Kiali CR provides authentication configuration that will be used also for querying the version check to provide information in the Mesh graph.
