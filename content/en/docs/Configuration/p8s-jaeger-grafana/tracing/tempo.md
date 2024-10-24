@@ -237,10 +237,10 @@ In `external_services.tracing`
 | Jaeger | `.internal_url = 'http://jaeger_service_url:16686/jaeger'`<br/> `.use_grpc = false` <hr>                  | `.internal_url = 'http://jaeger_service_url:16685/jaeger'` <br>`.use_grpc = true (Not required: by default)`<br><hr>                                           | 
 | Tempo  | <br/>`internal_url = 'http://query_frontend_url:3200'`<br/> `.use_grpc = false`<br/> `.provider = 'tempo'`<br/><hr> | `.internal_url = 'http://query_frontend_url:3200'`<br/> `.grpc_port: 9095` <br/>`.provider: 'tempo'`<br/>`.use_grpc = true (Not required: by default)`<hr> |
 
-### Tempo tunning
+### Tempo tuning
 
 Grafana Tempo is a powerful tool, but it can lead to performance issues when not configured correctly. 
-The following configuration can lead to OOM issues for simple queries in the frontend-querier component: 
+The following configuration can lead to OOM issues for simple queries in the query-frontend component: 
 
 ```yaml
 spec:
