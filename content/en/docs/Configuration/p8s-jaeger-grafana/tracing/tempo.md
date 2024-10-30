@@ -267,7 +267,7 @@ spec:
             memory: 2Gi
 ```
 
-[This Grafana Dashboard](/static/files/tempo-dashboard.json) is available to measure the resources used in the Tempo namespace. 
+[This Grafana Dashboard](/files/tempo-dashboard.json) is available to measure the resources used in the Tempo namespace. 
 
 #### Caching
 
