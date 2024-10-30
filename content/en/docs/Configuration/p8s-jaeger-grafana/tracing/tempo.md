@@ -267,7 +267,7 @@ spec:
             memory: 2Gi
 ```
 
-[This Grafana Dashboard]("/static/files/tempo-dashboard.json") is available to measure the resources used in the Tempo namespace. 
+[This Grafana Dashboard](/static/files/tempo-dashboard.json) is available to measure the resources used in the Tempo namespace. 
 
 #### Caching
 
@@ -290,7 +290,7 @@ There are many parameters to [tune the search pipeline](https://grafana.com/docs
 
 #### Dedicated attribute columns
 
-When used the storage format vParquet3, defining [dedicated attribute columns}(https://grafana.com/docs/tempo/latest/operations/dedicated_columns/) can improve the query performance. 
+When used the storage format vParquet3, defining [dedicated attribute columns](https://grafana.com/docs/tempo/latest/operations/dedicated_columns/) can improve the query performance. 
 In order to best choose those columns (Up to 10), a good criteria is to choose attributes that contribute growing the block size (And not those commonly used).
 
 ### Tempo authentication configuration
