@@ -239,6 +239,8 @@ In `external_services.tracing`
 
 ### Tempo tuning
 
+#### Resources consumption
+
 Grafana Tempo is a powerful tool, but it can lead to performance issues when not configured correctly. 
 The following configuration can lead to OOM issues for simple queries in the query-frontend component: 
 
@@ -265,7 +267,31 @@ spec:
             memory: 2Gi
 ```
 
+[This Grafana Dashboard]("/static/files/tempo-dashboard.json") is available to measure the resources used in the Tempo namespace. 
 
+#### Caching
+
+Tempo can use [a cache](https://grafana.com/docs/tempo/latest/operations/caching/) that acts in different levels that is used by default with Tanka and Helm deployment examples. It uses external cache, supporting Memcached and Redis. 
+The lower level cache has a higher hit rate, and caches bloom filters and parquet data.
+The higher level caches frontend-search data.
+
+Optimizing the cache depends on the application usage, and can be done modifying different parameters:
+
+- Connection limit for MemCached: Should be increased in large deployments, as MemCached is set to 1024 by default.
+- Cache size control: Should be increased when the working set is larger than the size of cache.
+
+#### Tune search pipeline
+
+There are many parameters to [tune the search pipeline](https://grafana.com/docs/tempo/latest/operations/backend_search/), some of these:
+
+- max_concurrent_queries: If it is too high it can cause OOM. 
+- concurrent_jobs: How many jobs are done concurrently.
+- max_retries: When it is too high it can result in a lot of load. 
+
+#### Dedicated attribute columns
+
+When used the storage format vParquet3, defining [dedicated attribute columns}(https://grafana.com/docs/tempo/latest/operations/dedicated_columns/) can improve the query performance. 
+In order to best choose those columns (Up to 10), a good criteria is to choose attributes that contribute growing the block size (And not those commonly used).
 
 ### Tempo authentication configuration
 
