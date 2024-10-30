@@ -5,6 +5,28 @@ description: >
 weight: 2
 ---
 
+- [Grafana Tempo Configuration](#grafana-tempo-configuration)
+    - [Using the Grafana Tempo API](#using-the-grafana-tempo-api)
+      - [Setup the Kiali CR](#set-up-the-kiali-cr)
+      - [Set up a Tempo Datasource in Grafana](#set-up-a-tempo-datasource-in-grafana)
+      - [Additional Configuration](#additional-configuration)
+      - [Service check URL](#service-check-url)
+      - [Configuration for the Grafana Tempo Datasource](#configuration-for-the-grafana-tempo-datasource)
+    - [Using the Jaeger frontend with Grafana Tempo tracing backend](#using-the-jaeger-frontend-with-grafana-tempo-tracing-backend)
+      - [Tanka](#tanka)
+      - [Tempo Operator](#tempo-operator)
+    - [Configuration table](#configuration-table) 
+      - [Supported Versions](#supported-versions) 
+      - [Minimal configuration for Kiali <= 1.79](#minimal-configuration-for-kiali--179)
+      - [Minimal configuration for Kiali > 1.79](#minimal-configuration-for-kiali--179-1)
+    - [Tempo tuning](#tempo-tuning) 
+      - [Resources consumption](#resources-consumption) 
+      - [Caching](#caching)
+      - [Resources consumption](#tune-search-pipeline)
+      - [Dedicated attribute columns](#dedicated-attribute-columns)
+    - [Tempo authentication configuration](#tempo-authentication-configuration)
+
+
 ## Grafana Tempo Configuration
 
 There are two possibilities to integrate Kiali with Grafana Tempo:
@@ -267,7 +289,7 @@ spec:
             memory: 2Gi
 ```
 
-[This Grafana Dashboard](/files/tempo-dashboard.json) is available to measure the resources used in the Tempo namespace. 
+[This Grafana Dashboard](/files/tempo-dashboard.json) is available to measure the resources used in the **tempo** namespace. 
 
 #### Caching
 
