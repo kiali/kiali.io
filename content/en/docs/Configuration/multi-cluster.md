@@ -23,9 +23,9 @@ The unified Kiali multi-cluster setup requires the Kiali Service Account (SA) to
 If you would like to keep a separate Kiali per cluster and do not want to give Kiali access to remote clusters, you can still manually specify the remote cluster and remote Kiali URLs in the Kiali configuration and the UI will try to provide links to the external Kiali where appropriate. See [below](#adding-an-inaccessible-cluster) for more details.
 {{% /alert %}}
 
-1. **Create a SA and its associated resources on the remote cluster.** In order for Kiali to access a remote cluster, you first must create a SA and its role/role binding with the proper permissions. The Kiali Operator can create these resources for you; simply deploy the Kiali Operator on the remote cluster and then create a Kiali CR on that remote cluster making sure to set the Kiali CR setting `spec.deployment.remote_cluster_resources_only` to `true`. The Kiali Operator will manage those remote cluster resources for you; deleting the Kiali CR will instruct the Kiali Operator to remove the resources. If you elect not to use the Kiali Operator, you can use the [kiali-prepare-remote-cluster.sh script](https://github.com/kiali/kiali/blob/master/hack/istio/multicluster/kiali-prepare-remote-cluster.sh) to create these remote cluster resources.
+1. **Create a SA and its associated resources on the remote cluster.** In order for Kiali to access a remote cluster, you first must create a SA and its role/role binding with the proper permissions. The Kiali Operator can create these resources for you; simply deploy the Kiali Operator on the remote cluster and then create a Kiali CR on that remote cluster making sure to set the Kiali CR setting `spec.deployment.remote_cluster_resources_only` to `true`. The Kiali Operator will manage those remote cluster resources for you; deleting the Kiali CR will instruct the Kiali Operator to remove the resources. If you elect not to use the Kiali Operator, you can use the Kiali Server helm chart (with the `--set deployment.remote_cluster_resources_only=true` option) or the [kiali-prepare-remote-cluster.sh script](https://github.com/kiali/kiali/blob/master/hack/istio/multicluster/kiali-prepare-remote-cluster.sh) (with the `--process-remote-resources true` option) to create these remote cluster resources.
 
-2. **Create a remote cluster secret.** In order for Kiali to access a remote cluster, you must provide a kubeconfig to Kiali via a Kubernetes secret. This requires you to obtain a token for the remote cluster's SA created in step 1. It is up to you how you want to create and manage this token, however, you can use the [kiali-prepare-remote-cluster.sh script](https://github.com/kiali/kiali/blob/master/hack/istio/multicluster/kiali-prepare-remote-cluster.sh) to simplify this process for you.
+2. **Create a remote cluster secret.** In order for Kiali to access a remote cluster, you must provide a kubeconfig to Kiali via a Kubernetes secret. This requires you to obtain a token for the remote cluster's SA created in step 1. It is up to you how you want to create and manage this token, however, you can use the [kiali-prepare-remote-cluster.sh script](https://github.com/kiali/kiali/blob/master/hack/istio/multicluster/kiali-prepare-remote-cluster.sh) (with the `--process-kiali-secret true` option) to simplify this process for you.
 
 {{% alert color="info" %}}
 The `kiali-prepare-remote-cluster.sh` script can be used to:
@@ -41,7 +41,7 @@ For example:
    ```sh
    curl -L -o kiali-prepare-remote-cluster.sh https://raw.githubusercontent.com/kiali/kiali/master/hack/istio/multicluster/kiali-prepare-remote-cluster.sh
    chmod +x kiali-prepare-remote-cluster.sh
-   ./kiali-prepare-remote-cluster.sh --kiali-cluster-context east --remote-cluster-context west --view-only false
+   ./kiali-prepare-remote-cluster.sh --kiali-cluster-context east --remote-cluster-context west --view-only false --process-kiali-secret true --process-remote-resources true
    ```
 Use the option `--help` for additional details on using the script to create and delete the remote cluster resources and secrets.
 {{% /alert %}}
