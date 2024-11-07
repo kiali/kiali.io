@@ -48,37 +48,6 @@ Use the option `--help` for additional details on using the script to create and
 
 3. **Configure Kiali.** The Kiali CR provides configuration settings that enable the Kiali Server to use remote cluster secrets in order to access remote clusters. By default, the Kiali Operator will [auto-detect](/docs/configuration/kialis.kiali.io/#.spec.clustering.autodetect_secrets) any remote cluster secret that has a label `kiali.io/multiCluster=true` and is found in the Kiali deployment namespace. The secrets created by the `kiali-prepare-remote-cluster.sh` script will be created that way and thus can be auto-detected. Alternatively, in the Kiali CR you can [explicitly specify each remote cluster secret](/docs/configuration/kialis.kiali.io/#.spec.clustering.clusters) rather than rely on auto-discovery. Given the remote cluster secrets it knows about (either through auto-discovery or through explicit configuration) the Operator will mount the remote cluster secrets into the Kiali Server pod effectively putting Kiali in "multi-cluster" mode. Kiali will begin using those credentials to communicate with the other clusters in the mesh.
 
-3. Optional - **Configure tracing with cluster ID.** By default, traces do not include their cluster name in the trace tags; however, this can be added using the Istio telemetry API.
-
-```
-kubectl apply -f - <<EOF
-apiVersion: telemetry.istio.io/v1alpha1
-kind: Telemetry
-metadata:
-  name: mesh-default
-  namespace: istio-system
-spec:
-  # no selector specified, applies to all workloads
-  tracing:
-  - customTags:
-      cluster:
-        environment:
-          name: "ISTIO_META_CLUSTER_ID"
-EOF
-```
-
-As an alternative, it can be added in the Istio tracing config in the primary cluster(s) (Without using the Telemetry API):
-
-```
-meshConfig:
-  defaultConfig:
-    tracing:
-      custom_tags:
-        cluster:
-          environment:
-            name: ISTIO_META_CLUSTER_ID
-```
-
 4. Optional - **Configure user access in your OIDC provider.** When using anonymous mode, the Kiali SA credentials will be used to display mesh info to the user. When not using anonymous mode, Kiali will check the user's access to each configured cluster's namespace before showing the user any resources from that namespace. Please refer to your OIDC provider's instructions for configuring user access to a kube cluster for this.
 
 5. Optional - **Narrow metrics to mesh.** If your unified metrics store also contains data outside of your mesh, you can limit which metrics Kiali will query for by setting the [query_scope](/docs/configuration/kialis.kiali.io#.spec.external_services.prometheus.query_scope) configuration.
