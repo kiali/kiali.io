@@ -6,6 +6,37 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 2.1.0
+Sprint Release: Nov 11, 2024
+
+Features:
+
+* [Mesh Page - Consistent display format for configuration values on the Mesh page](https://github.com/kiali/kiali/issues/7623)
+* [Mesh Page - Canary upgrade status only uses home cluster](https://github.com/kiali/kiali/issues/7726)
+* [Operator - Operator should look for OpenShiftAPIServer to determine if its running on OCP](https://github.com/kiali/kiali/issues/7841)
+* [Operator - Bump base image to 4.17 / 1.35.0](https://github.com/kiali/kiali/issues/7856)
+* [Security - Move base image of Kiali Server to UBI9 / RHEL9](https://github.com/kiali/kiali/issues/7896)
+* [UI - Config list items should properly use Group + Version + Kind for kube resources](https://github.com/kiali/kiali/issues/7457)
+* [UI - Improve color choice for "Not Ready" icon in dark-mode](https://github.com/kiali/kiali/issues/7317)
+
+Fixes:
+
+* [Ambient - External service shown as unknown](https://github.com/kiali/kiali/issues/7875)
+* [Ambient - When the graph nodes are inaccesible, the graph has duplicated edges (From L4 and L7)](https://github.com/kiali/kiali/issues/7843)
+* [Ambient - Kiali doesn't show connection from ambient to sidecar injected namespace as mTLS](https://github.com/kiali/kiali/issues/7811)
+* [Mesh Page - Failed to get istio deployment status when using IP in external services URLs](https://github.com/kiali/kiali/issues/7844)
+* [Minigraph - Unable to navigate between workloads using the minigraph](https://github.com/kiali/kiali/issues/7839)
+* [Traffic Graph - Graph hide can leave orphan edges](https://github.com/kiali/kiali/issues/7878)
+* [Traffic Graph - PFT graph page throws a console error when the user navigates to the graph from a details page](https://github.com/kiali/kiali/issues/7802)
+* [UI - Config list items must include apiVersion value when the Istio object is created outside of Kiali](https://github.com/kiali/kiali/issues/7452)
+* [Validation - Istio validations inconsisteny - exported to other namespace](https://github.com/kiali/kiali/issues/7690)
+* [Validation - Kiali states pod has no Istio sidecar under Workloads even though Istio has native sidecar support enabled](https://github.com/kiali/kiali/issues/7789)
+
+Deprecations:
+- RedHat Community Operator
+  - The community operator created confusion as to which operator to use on OpenShift. It will no longer be updated and will eventually be
+    removed. OpenShift users are encouraged to use the productized operator, which is included with licensed copies of OpenShift.
+
 ## 2.0.0
 Sprint Release: Oct 21, 2024
 
