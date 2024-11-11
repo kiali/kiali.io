@@ -35,7 +35,7 @@ Fixes:
 Deprecations:
 - RedHat Community Operator
   - The community operator created confusion as to which operator to use on OpenShift. It will no longer be updated and will eventually be
-    removed. Openshift users are encouraged to use the productized operator, which is included with licensed copies of OpenShift.
+    removed. OpenShift users are encouraged to use the productized operator, which is included with licensed copies of OpenShift.
 
 ## 2.0.0
 Sprint Release: Oct 21, 2024
