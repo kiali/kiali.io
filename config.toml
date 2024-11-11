@@ -223,20 +223,12 @@ enable = false
 ## NEXT PARAMS.VERSIONS PLACEHOLDER
 
 [[ params.versions ]]
-  version = "v1.90"
-  url = "https://v1-90.kiali.io"
+  version = "v2.0"
+  url = "https://v2-0.kiali.io"
 
 [[ params.versions ]]
-  version = "v1.89"
+  version = "v1.89 [istio v1.23]"
   url = "https://v1-89.kiali.io"
-
-[[ params.versions ]]
-  version = "v1.88"
-  url = "https://v1-88.kiali.io"
-
-[[ params.versions ]]
-  version = "v1.87"
-  url = "https://v1-87.kiali.io"
 
 [[ params.versions ]]
   version = "v1.86 [istio v1.22]"
