@@ -264,7 +264,7 @@ In `external_services.tracing`
 #### Resources consumption
 
 Grafana Tempo is a powerful tool, but it can lead to performance issues when not configured correctly. 
-The following configuration can lead to OOM issues for simple queries in the query-frontend component: 
+For example, the following configuration is not recommended and may lead to OOM issues for simple queries in the query-frontend component: 
 
 ```yaml
 spec:
