@@ -293,7 +293,7 @@ spec:
 
 #### Caching
 
-Tempo can use [a cache](https://grafana.com/docs/tempo/latest/operations/caching/) that acts in different levels that is used by default with Tanka and Helm deployment examples. It uses external cache, supporting Memcached and Redis. 
+Tempo offers multi-level [caching](https://grafana.com/docs/tempo/latest/operations/caching/) that is used by default with Tanka and Helm deployment examples. It uses external cache, supporting Memcached and Redis. 
 The lower level cache has a higher hit rate, and caches bloom filters and parquet data.
 The higher level caches frontend-search data.
 
