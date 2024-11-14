@@ -276,7 +276,7 @@ spec:
 ```
 
 These resources are shared between all the Tempo components. 
-Instead of applying the resources globally, they can be applied to each specific component, when needed:
+When needed, apply resources to each specific component, instead of applying the resources globally:
 
 ```yaml
 spec:
