@@ -26,7 +26,9 @@ As of Kiali 2.0, the following settings are no longer supported:
 
 By default, the Kiali Server is given cluster-wide access to all namespaces on the local cluster. This is controlled by the Kiali CR setting `deployment.cluster_wide_access`, which has a default value of `true` when not specified.
 
-For clusters that have multiple Kiali Servers installed, only one of them may be installed with `deployment.cluster_wide_access` set to `true`.
+{{% alert color="info" %}}
+You cannot have multiple Kiali Servers with cluster wide access that have identical instance names. If you wish to install multiple Kiali Servers with cluster wide access enabled, they each must have unique `deployment.instance_name` values.
+{{% /alert %}}
 
 In order to restrict the Kiali Server so that it only has access to certain namespaces on the local cluster, it must first have its cluster-wide access disabled. You do this by setting `deployment.cluster_wide_access` to `false` in the Kiali CR.
 
