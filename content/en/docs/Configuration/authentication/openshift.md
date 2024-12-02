@@ -36,3 +36,35 @@ Kiali as a client for the most common use-cases. The `openshift` strategy does h
 configuration settings that most people will never need but are available in case you have
 a situation where the customization is needed. See the Kiali CR Reference page for the
 documentation on those settings.
+
+### Multi-Cluster - Using an internal or self-signed certificate
+
+If you have a multi-cluster Kiali deployment and the OAuth server is configured with an external IdP that uses an internal or self-signed certificate, you can configure Kiali to trust the server's certificate by creating a ConfigMap named `kiali-oauth-cabundle` containing the CA certificate bundle for the server under the `oauth-server-ca.crt` key:
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kiali-oauth-cabundle
+  namespace: istio-system # This is Kiali's install namespace
+data:
+  oauth-server-ca.crt: <PEM encoded CA root certificate>
+```
+
+After restarting the Kiali pod, Kiali will trust this root certificate for all HTTPS requests related to OAuth authentication. If you have multiple different CAs, for different clusters, include each as a separate block in the bundle.
+
+#### Insecure setting
+
+{{% alert color="warning" %}}
+You should use this setting for testing purposes only.
+{{% /alert %}}
+
+You can disable certificate validation between Kiali and the remote OAuth server(s) by setting `insecure_skip_verify_tls` to `true` in
+the Kiali CR:
+
+```yaml
+spec:
+  auth:
+    openshift:
+      insecure_skip_verify_tls: true
+```
