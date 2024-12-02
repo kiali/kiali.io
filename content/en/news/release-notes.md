@@ -6,6 +6,24 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 2.2.0
+Sprint Release: Dec 02, 2024
+
+Features:
+
+* [Core, UI - Alternative Workload controllers support](https://github.com/kiali/kiali/issues/7820)
+* [Multicluster - Pull the CA from the cluster and add that to the remote secret](https://github.com/kiali/kiali/issues/7926)
+* [Operator, Core - Adjustable readiness and liveness probes delay](https://github.com/kiali/kiali/issues/7832)
+* [Operator, Multicluster - allow multiple Kiali Servers in the same cluster each have cluster-wide-access enabled](https://github.com/kiali/kiali/issues/7922)
+* [Tempo - Optimize Tempo query](https://github.com/kiali/kiali/issues/7903)
+* [UI - Enable the Selection-based zoom in PFT](https://github.com/kiali/kiali/issues/7929)
+* [Validation, UI - Make gateways optional in istio status](https://github.com/kiali/kiali/issues/7882)
+
+Fixes:
+
+* [UI - Traffic graph Zoomed-in "reset view" not resizing correctly](https://github.com/kiali/kiali/issues/7935)
+* [UI - Workload detail missing envoy tab when Istio working with native sidecars](https://github.com/kiali/kiali/issues/7940)
+
 ## 2.1.0
 Sprint Release: Nov 11, 2024
 
