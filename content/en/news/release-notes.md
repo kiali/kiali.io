@@ -23,7 +23,6 @@ Fixes:
 
 * [UI - Traffic graph Zoomed-in "reset view" not resizing correctly](https://github.com/kiali/kiali/issues/7935)
 * [UI - Workload detail missing envoy tab when Istio working with native sidecars](https://github.com/kiali/kiali/issues/7940)
-* [UI - Envoy metrics tab missing when using user-monitoring prometheus in OpenShift](https://github.com/kiali/kiali/issues/7954)
 
 ## 2.1.0
 Sprint Release: Nov 11, 2024
