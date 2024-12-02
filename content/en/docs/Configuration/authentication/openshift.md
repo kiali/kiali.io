@@ -56,7 +56,7 @@ After restarting the Kiali pod, Kiali will trust this root certificate for all H
 #### Insecure setting
 
 {{% alert color="warning" %}}
-You should use this setting for testing purposes only.
+You should only use this setting for testing and not in a production environment.
 {{% /alert %}}
 
 You can disable certificate validation between Kiali and the remote OAuth server(s) by setting `insecure_skip_verify_tls` to `true` in
