@@ -41,6 +41,10 @@ documentation on those settings.
 
 If you have a multi-cluster Kiali deployment and the OAuth server is configured with an external IdP that uses an internal or self-signed certificate, you can configure Kiali to trust the server's certificate by creating a ConfigMap named `kiali-oauth-cabundle` containing the CA certificate bundle for the server under the `oauth-server-ca.crt` key:
 
+{{% alert color="info" %}}
+Note that if you are deploying Kiali with `spec.deployment.instance_name` set to a value that is different than the default of `kiali`, your ConfigMap name needs to be that instance name appended with "-oauth-bundle". For example, if your instance name is "myserver" then the name of the ConfigMap must be `myserver-oauth-cabundle`.
+{{% /alert %}}
+
 ```yaml
 apiVersion: v1
 kind: ConfigMap
