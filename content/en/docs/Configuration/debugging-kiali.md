@@ -7,7 +7,7 @@ description: "How to debug Kiali using logs, traces, and profiler."
 
 The most basic way of debugging the internals of Kiali is to examine its log messages. A typical way of examining the log messages is via:
 ```
-kubectl logs -n istio-system debug/kiali
+kubectl logs -n istio-system deployment/kiali
 ```
 Each log message is logged at a specific level. The different log levels are `trace`, `debug`, `info`, `warn`, `error`, and `fatal`. By default, log messages at `info` level and higher will be logged. If you want to see more verbose logs, set the log level to `debug` or `trace` (`trace` is the most verbose setting and will make the log output very "noisy"). You set the log level in the Kiali CR:
 
