@@ -352,7 +352,7 @@ spec:
         cache_capacity: 200
 ```
 
-Kiali emits some cache metrics, the following query can be done to obtain the cache hit rate:
+Kiali emits some cache metrics. The following query obtains the cache hit rate:
 
 `(sum(kiali_cache_hits_total{name="tempo"})/sum(kiali_cache_requests_total{name="tempo"})) * 100`
 
