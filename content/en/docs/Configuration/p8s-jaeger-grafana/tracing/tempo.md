@@ -24,6 +24,7 @@ weight: 2
   - [Caching](#caching)
   - [Resources consumption](#tune-search-pipeline)
   - [Dedicated attribute columns](#dedicated-attribute-columns)
+- [Tempo cache](#tempo-cache)
 - [Tempo authentication configuration](#tempo-authentication-configuration)
 
 
@@ -336,3 +337,23 @@ spec:
 ```
 
 To configure a secret to be used as a password, see this [FAQ entry]({{< relref "../../../FAQ/installation#how-can-i-use-a-secret-to-pass-external-service-credentials-to-the-kiali-server" >}})
+
+### Tempo cache
+
+Kiali 2.2 includes a simple tracing cache for Tempo that storages the last N elements. By default, it is enabled and it keeps the last 200 traces. It can be modified in the Kiali CR with: 
+
+```yaml
+spec:
+  external_services:
+    tracing:
+      enabled: true
+      tempo_config:
+        cache_enabled: true
+        cache_capacity: 200
+```
+
+Kiali emits some cache metrics, the following query can be done to obtain the cache hit rate:
+
+`(sum(kiali_cache_hits_total{name="tempo"})/sum(kiali_cache_requests_total{name="tempo"})) * 100`
+
+![tempo_metrics_cache](/images/documentation/configuration/tempo_metrics_cache.png)
