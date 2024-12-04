@@ -340,7 +340,7 @@ To configure a secret to be used as a password, see this [FAQ entry]({{< relref 
 
 ### Tempo cache
 
-Kiali 2.2 includes a simple tracing cache for Tempo that storages the last N elements. By default, it is enabled and it keeps the last 200 traces. It can be modified in the Kiali CR with: 
+Kiali 2.2 includes a simple tracing cache for Tempo that stores the last N traces. By default, it is enabled and it keeps the last 200 traces. It can be modified in the Kiali CR with: 
 
 ```yaml
 spec:
