@@ -61,7 +61,7 @@ The proxy status shows a new info message when some of the Discovery Services ar
 
 This condition is usually expected, but it is shown as an info in case it is not. 
 
-The waypoint proxy generates traces for the services that redirects the traffic from, and this is where it can be checked, because the proxy generates the traces with the waypoint service name:
+The waypoint proxy generates traces for the services for which it handles traffic, and this is where it can be checked, because the proxy generates the traces with the waypoint service name:
 
 ![Waypoint traces](/images/documentation/features/ambient/waypoint-traces.png)
 
