@@ -1,5 +1,9 @@
 # The Reported Kiali CVEs for which Kiali is confirmed to not be vulnerable
 versionRange:
+  - cve: "CVE-2024-2961"
+    severity: n/a
+    description: "The iconv() function in the GNU C Library versions 2.39 and older may overflow the output buffer passed to it by up to 4 bytes when converting strings to the ISO-2022-CN-EXT character set"
+    notes: "Kiali is not affected. ISO-2022-CN-EXT has been removed. To confirm, run the validation command `podman run -it --rm --entrypoint '' quay.io/kiali/kiali:v2.2.0 iconv -l | grep -E 'CN-?EXT'`. See https://access.redhat.com/security/cve/CVE-2024-2961"
   - cve: "CVE-2022-27191"
     severity: high
     description: "golang.org/x/crypto/ssh allows an attacker to crash a server in certain circumstances involving AddHostKey"
