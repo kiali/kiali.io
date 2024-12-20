@@ -7,7 +7,9 @@ Kiali provides visualization for Ambient Mesh components:
 
 * [Control Plane Ambient Mesh](#control-plane-ambient-mesh)
 * [Ambient nampespace](#ambient-namespace)
-* [Workloads in Mesh](#workloads-in-ambient-mesh)
+* [Workloads in Ambient Mesh](#workloads-in-ambient-mesh)
+* [Waypoint proxy details](#waypoint-proxy-details)
+* [Ztunnel details](#ztunnel-details)
 * [Ambient Telemetry](#ambient-telemetry)
 
 {{% alert color="warning" %}}
@@ -38,6 +40,41 @@ When a workload, application, or service is part of the Ambient Mesh, a badge wi
 * In Mesh with waypoint enabled: Additionally, it can include the L7 badge which means that a waypoint proxy is deployed (providing additional L7 capabilities):
 
 ![Workloads Captured by Ambient](/images/documentation/features/ambient/pod-captured.png)
+
+* It is possible to check each pod protocol in the information tooltip. In Ambient, instead of TCP, they use HBONE. 
+
+![Pod details protocol](/images/documentation/features/ambient/protocol.png)
+
+* When a workload traffic is handled by a Waypoint, the workload details will show a link to the proxy:
+
+![Waypoint link](/images/documentation/features/ambient/waypoint-link.png)
+
+### Waypoint proxy details
+
+The workload details for a Waypoint has specific Waypoint data. It is identified with the L7 label: 
+
+![Waypoint label](/images/documentation/features/ambient/waypoint-label.png)
+
+The proxy status shows a new info message when some of the Discovery Services is IGNORED, and there are no other errors: 
+
+![Waypoint proxy status](/images/documentation/features/ambient/waypoint-proxy-status.png)
+
+This condition is usually expected, but it is shown as an info in case it is not. 
+
+The waypoint proxy generates traces for the services that redirects the traffic from, and this is where it can be checked, because the proxy generates the traces with the waypoint service name:
+
+![Waypoint traces](/images/documentation/features/ambient/waypoint-traces.png)
+
+For the waypoint proxies, it is also possible to see the Envoy tab: 
+
+![Waypoint Envoy](/images/documentation/features/ambient/waypoint-envoy.png)
+
+### ztunnel details
+
+The workload details for a Ztunnel workload has specific data. It has a new Ztunnel tab containing the configuration for the services and workloads that handles traffic for. 
+It shows the same information that can be seen using the `istioctl ztunnel-config`, which can be useful for troubleshooting. 
+
+![Ztunnel details](/images/documentation/features/ambient/ztunnel-details.png)
 
 ### Ambient Telemetry
 
