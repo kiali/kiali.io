@@ -6,6 +6,23 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 2.3.0
+Sprint Release: Dec 23, 2024
+
+Features:
+
+* [Ambient - Several troubleshooting additions](https://github.com/kiali/kiali/pull/7970)
+* [Maintenance - Go version 1.23.2](https://github.com/kiali/kiali/issues/7977)
+* [Tempo - Performance review and cache introduced](https://github.com/kiali/kiali/issues/7769)
+* [Traffic Graph - New "point-style" traffic animation](https://github.com/kiali/kiali/issues/7934)
+* [UI - Show dual stack IPs in service details](https://github.com/kiali/kiali/issues/8004)
+
+Fixes:
+
+* [Traffic graph - In ambient mode, graph missed some gateway traffic](https://github.com/kiali/kiali/issues/7937)
+* [UI - Kiosk mode Time duration component does not handle the URL correctly](https://github.com/kiali/kiali/issues/7958)
+* [Validations - KIA1104 should only show when there is one route destination but has explicit weight assigned and less than 100 on tcp/tls route](https://github.com/kiali/kiali/issues/8000)
+
 ## 2.2.0
 Sprint Release: Dec 02, 2024
 
