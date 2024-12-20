@@ -55,7 +55,7 @@ The workload details for a Waypoint has specific Waypoint data. It is identified
 
 ![Waypoint label](/images/documentation/features/ambient/waypoint-label.png)
 
-The proxy status shows a new info message when some of the Discovery Services is IGNORED, and there are no other errors: 
+The proxy status shows a new info message when some of the Discovery Services are IGNORED, and there are no other errors: 
 
 ![Waypoint proxy status](/images/documentation/features/ambient/waypoint-proxy-status.png)
 
