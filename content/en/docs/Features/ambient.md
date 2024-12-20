@@ -45,7 +45,7 @@ When a workload, application, or service is part of the Ambient Mesh, a badge wi
 
 ![Pod details protocol](/images/documentation/features/ambient/protocol.png)
 
-* When a workload traffic is handled by a Waypoint, the workload details will show a link to the proxy:
+* When workload traffic is handled by a Waypoint, the workload details will show a link to the proxy:
 
 ![Waypoint link](/images/documentation/features/ambient/waypoint-link.png)
 
