@@ -71,7 +71,7 @@ For waypoint proxies, it is also possible to see the Envoy tab:
 
 ### ztunnel details
 
-The workload details for a Ztunnel workload has specific data. It has a new Ztunnel tab containing the configuration for the services and workloads that handles traffic for. 
+The workload details for a Ztunnel workload has specific data. It has a new Ztunnel tab containing the configuration for the services and workloads for which it handles traffic. 
 It shows the same information that can be seen using the `istioctl ztunnel-config`, which can be useful for troubleshooting. 
 
 ![Ztunnel details](/images/documentation/features/ambient/ztunnel-details.png)
