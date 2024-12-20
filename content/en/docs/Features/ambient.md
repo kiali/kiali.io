@@ -41,7 +41,7 @@ When a workload, application, or service is part of the Ambient Mesh, a badge wi
 
 ![Workloads Captured by Ambient](/images/documentation/features/ambient/pod-captured.png)
 
-* It is possible to check each pod protocol in the information tooltip. In Ambient, instead of TCP, they use HBONE. 
+* It is possible to check each pod protocol in the information tooltip. In Ambient, instead of TCP, it uses HBONE. 
 
 ![Pod details protocol](/images/documentation/features/ambient/protocol.png)
 
