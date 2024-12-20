@@ -65,7 +65,7 @@ The waypoint proxy generates traces for the services for which it handles traffi
 
 ![Waypoint traces](/images/documentation/features/ambient/waypoint-traces.png)
 
-For the waypoint proxies, it is also possible to see the Envoy tab: 
+For waypoint proxies, it is also possible to see the Envoy tab: 
 
 ![Waypoint Envoy](/images/documentation/features/ambient/waypoint-envoy.png)
 
