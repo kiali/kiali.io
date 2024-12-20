@@ -4,6 +4,10 @@ versionRange:
     severity: n/a
     description: "The iconv() function in the GNU C Library versions 2.39 and older may overflow the output buffer passed to it by up to 4 bytes when converting strings to the ISO-2022-CN-EXT character set"
     notes: "Kiali is not affected. ISO-2022-CN-EXT has been removed. To confirm, run the validation command `podman run -it --rm --entrypoint '' quay.io/kiali/kiali:v2.2.0 iconv -l | grep -E 'CN-?EXT'`. See https://access.redhat.com/security/cve/CVE-2024-2961"
+  - cve: "CVE-2023-37920"
+    severity: low
+    description: "A flaw was found in the python-certifi package. This issue occurs when the e-Tugra root certificate in Certifi is removed, resulting in an unspecified error that has an unknown impact and attack vector."
+    notes: "Kiali is not affected. This was fixed in RHEL9 base images with RHBA-2024:5691. Per the CVE page, these certs are included and marked as 'don't trust', but will not be removed until Mozilla removes them. Browsers are most at risk, which already understand and parse 'don't trust after'. Furthermore, note that Microsoft has not removed the certificate from their code-signing CA list that are merged with Mozilla's CA list, so the certificate is still there marked as trusted for code signing. See: https://access.redhat.com/security/cve/cve-2023-37920 and https://access.redhat.com/errata/RHBA-2024:5691"
   - cve: "CVE-2022-27191"
     severity: high
     description: "golang.org/x/crypto/ssh allows an attacker to crash a server in certain circumstances involving AddHostKey"
