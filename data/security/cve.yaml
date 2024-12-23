@@ -1,5 +1,9 @@
 # The Reported Kiali CVEs for which Kiali is confirmed to not be vulnerable
 versionRange:
+  - cve: "CVE-2024-33599"
+    severity: high
+    description: "nscd: Stack-based buffer overflow in netgroup cache If the Name Service Cache Daemon's (nscd) fixed size cache is exhausted by client requests then a subsequent client request for netgroup data may result in a stack-based buffer overflow"
+    notes: "Kiali is not affected. As per the CVE description (see https://www.cve.org/CVERecord?id=CVE-2024-33599), this vulnerability is only present in the nscd binary. The Kiali Server image does not have this binary; run this command to confirm: podman run --user root  -it --rm --entrypoint '' quay.io/kiali/kiali:v2.2.0 ls -R / | grep nscd"
   - cve: "CVE-2024-2961"
     severity: n/a
     description: "The iconv() function in the GNU C Library versions 2.39 and older may overflow the output buffer passed to it by up to 4 bytes when converting strings to the ISO-2022-CN-EXT character set"
