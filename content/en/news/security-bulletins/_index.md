@@ -14,6 +14,10 @@ If you run a security scan on Kiali software that automatically generates a list
 
 Kiali releases every three weeks and so generally resolves CVEs in new releases only.  Golang vulnerabilities are typically resolved in a timely way, as the Go version for release builds increments fairly often. Occasionally, critical CVEs may be resolved in patch releases for supported versions.  Additionally, not every CVE reported against a Kiali dependency is actually a vulnerability.  For reported CVEs that are proven not to affect Kiali, see the table below:
 
+<!--
+The table data is located at data/security/cve.yaml
+The table layout HTML is located at layout/shortcodes/security-cve-table.html
+-->
 {{<security-cve-table>}}
 
 <br />

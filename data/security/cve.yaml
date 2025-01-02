@@ -1,4 +1,7 @@
 # The Reported Kiali CVEs for which Kiali is confirmed to not be vulnerable
+# The table layout HTML is located at layouts/shortcodes/security-cve-table.html
+# The table is used in content/en/news/security-bulletins/_index.md
+# The HTML tag to insert the data table is <security-cve-table>
 versionRange:
   - cve: "CVE-2024-33599"
     severity: high
