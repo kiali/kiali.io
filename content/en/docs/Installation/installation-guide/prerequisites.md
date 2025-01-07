@@ -7,28 +7,24 @@ weight: 15
 ## Istio
 
 Before you install Kiali you must have already installed Istio along with its
-telemetry storage addon (i.e. Prometheus). You might also consider installing
-Istio's optional tracing addon (i.e. Jaeger) and optional Grafana addon but
+telemetry storage addon (e.g. Prometheus). You might also consider installing
+Istio's optional tracing addon (e.g. Tempo) and optional Grafana addon but
 those are not required by Kiali. Refer to the
 [Istio documentation](https://istio.io/docs/setup/getting-started) for details.
 
-### Enable the Debug Interface
+### Optionally Enable the Debug Interface
 
-Like `istioctl`, Kiali makes use of Istio's port 8080 "Debug Interface". Despite the naming, this is required for accessing the status of the proxies
+Like `istioctl`, Kiali can make use of Istio's port 8080 "Debug Interface" API. Despite the naming, this is required for accessing the status of the proxies
 and the Istio registry.
 
-The `ENABLE_DEBUG_ON_HTTP` setting controls the relevant access. Istio suggests to disable this for security, but Kiali requires `ENABLE_DEBUG_ON_HTTP=true`,
+The `ENABLE_DEBUG_ON_HTTP` setting controls the relevant API access. Istio suggests to disable this for security, but Kiali requires `ENABLE_DEBUG_ON_HTTP=true`,
 which is the default.
+
+If you prefer not to enable the Istio API then certain Kiali features will be unavailable. If disabled, set `spec.external_services.istio.istio_api_enabled: false` in the Kiali CR.
 
 For more information, see the [Istio documentation](https://istio.io/latest/docs/ops/best-practices/security/#control-plane).
 
 ### Version Compatibility
-
-Each Kiali release is tested against the most recent Istio release. In general,
-Kiali tries to maintain compatibility with older Istio releases and Kiali
-versions later than those posted in the below table may work, but such
-combinations are not tested and will not be supported. Known incompatibilities
-are noted in the compatibility table below.
 
 {{% alert color="success" %}}
 It is always recommended that users run a supported version of Istio.
@@ -36,6 +32,11 @@ It is always recommended that users run a supported version of Istio.
 dates. Supported Kiali versions include only the Kiali versions associated with
 supported Istio versions.
 {{% /alert %}}
+
+Starting with Kiali v2.4, each Kiali release is tested against the [currently supported Istio releases](https://istio.io/latest/news).
+Unless otherwise noted, a Kiali release will be compatible with those releases. Older, untested Istio versions may also be compatible.
+Known incompatibilities will be noted in the table below. Prior to Kiali v2.4, compatibility is guaranteed only against the latest
+Istio release at the time. Although compatibility may be fine with other versions.
 
 {{<compat-table-istio>}}
 

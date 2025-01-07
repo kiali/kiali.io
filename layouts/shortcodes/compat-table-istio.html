@@ -4,8 +4,7 @@
   <thead>
     <tr>
       <th style="width:50px">Istio</th>
-      <th style="width:80px">Kiali Min</th>
-      <th style="width:100px">Kiali Max</th>
+      <th style="width:200px">Tested Kiali Versions</th>
       <th>Notes</th>
     </tr>
   </thead>
@@ -13,8 +12,7 @@
     {{ range $data.versionRange }}
     <tr>
       <td>{{ .meshVersion }}</td>
-      <td>{{ .kialiMinimumVersion }}</td>
-      <td>{{ .kialiMaximumVersion }}</td>
+      <td>{{ .kialiVersions }}</td>
       <td>{{ .notes }}</td>
     </tr>
     {{ end }}
