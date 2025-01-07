@@ -19,9 +19,9 @@ The plugin has different views to be included in Backstage:
 The Kiali Backstage plugin is released as a technology preview in [Red Hat Developer Hub](https://developers.redhat.com/rhdh/overview).
 
 ### Documentation
-* [Plugin Documentation](https://github.com/janus-idp/backstage-plugins/tree/main/plugins/kiali)
-* [User guide](https://github.com/janus-idp/backstage-plugins/tree/main/plugins/kiali#for-users)
-* [Red Hat Development Hub](https://github.com/janus-idp/backstage-plugins/blob/main/plugins/kiali/RHDH.md)
+* [Plugin Documentation](https://github.com/backstage/community-plugins/blob/main/workspaces/kiali)
+* [User guide](https://github.com/backstage/community-plugins/tree/main/workspaces/kiali#for-users)
+* [Red Hat Developer Hub](https://developers.redhat.com/rhdh/overview)
 
 ### Get Involved
-* [Development guide](https://github.com/janus-idp/backstage-plugins/blob/main/plugins/kiali/DEVELOPMENT.md)
+* [Development guide](https://github.com/backstage/community-plugins/blob/main/workspaces/kiali/DEVELOPMENT.md)
