@@ -6,6 +6,24 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 2.4.0
+Sprint Release: Jan 13, 2025
+
+Features:
+
+* [Ambient: Improve waypoint visualization](https://github.com/kiali/kiali/issues/7999)
+* [Config: Support Workload Group workload in list view](https://github.com/kiali/kiali/issues/7107)
+* [Misc: Formally support previous versions of Istio in Kiali releases](https://github.com/kiali/kiali/issues/7932)
+* [Misc: dual stack ipv6 support](https://github.com/kiali/kiali/issues/7902)
+
+Fixes:
+
+* [Operator: when on openshift, if ingress is disabled, skip some things that require the Route and abort if using openshift auth strategy](https://github.com/kiali/kiali/issues/8023)
+* [Tracing: GRPC Jaeger client using old tag for istio multi cluster](https://github.com/kiali/kiali/issues/7997)
+* [Tracing: Tempo Version url doesn't work with TLS](https://github.com/kiali/kiali/issues/8036)
+* [UI: Workload Traffic tab navigation leaves Overview tab confused](https://github.com/kiali/kiali/issues/8034)
+* [UI: Irregular metrics loading error ](https://github.com/kiali/kiali/issues/8025)
+
 ## 2.3.0
 Sprint Release: Dec 23, 2024
 
