@@ -65,6 +65,11 @@ The waypoint proxy generates traces for the services for which it handles traffi
 
 ![Waypoint traces](/images/documentation/features/ambient/waypoint-traces.png)
 
+Waypoint proxies have a specific tab to show information about the Services and Workloads enrolled. 
+The `Labeled by` label identifies where the waypoint label was added. It can be in the namespace, in the service or the workload.
+
+![waypoint_tab](/images/documentation/features/ambient/waypoint-tab.png)
+
 For waypoint proxies, it is also possible to see the Envoy tab: 
 
 ![Waypoint Envoy](/images/documentation/features/ambient/waypoint-envoy.png)
