@@ -40,6 +40,12 @@ When you click on the Istio control plane, you can check information such as the
 
 ![Istio control plane information](/images/documentation/features/istio-status-mesh-data-plane.png "Istio control plane information")
 
+### Control plane Namespace
+
+When you click on the control plane namespace box, you can check the numbers of Namespaces managed by Control Planes, this will show the data plane migration status between different versions of Istio installations.
+
+![Control plane namespace information](/images/documentation/features/istio-status-mesh-control-plane-namespaces.png "Control plane namespace information")
+
 ### Data plane
 
 When you click on the cluster data plane, you can check the basic information of each namespace belonging to that data plane (Istio configuration, traffic inbound/outbound), similar to what you can see on the `overview` page.
