@@ -1,0 +1,10 @@
+apiVersion: networking.istio.io/v1
+kind: WorkloadGroup
+metadata:
+  name: ratings-vm
+  namespace: bookinfo
+  labels:
+    app: ratings-vm
+spec:
+  template:
+    serviceAccount: default

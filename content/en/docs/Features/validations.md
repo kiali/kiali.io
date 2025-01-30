@@ -1139,3 +1139,45 @@ This is a generic rule implemented by the Gateway, and each particular error sho
 <i class="fas fa-exclamation-triangle text-warning"></i> Warning
 
 ![GWAPI](/images/documentation/features/GWAPI.png)
+
+## Workload Groups {#workloadgroups}
+
+### KIA1701 - Service Account not found in this namespace
+
+WorkloadGroup describes a collection of workload instances. It enables specifying the properties of a single workload for bootstrap and provides a template for WorkloadEntry, using the specified service account from the same namespace.
+
+A validation Warning message on a template means that, while the specified serviceAccount may exist, it is not referenced by any Pod in the same namespace.
+
+#### Resolution
+
+Correct the template to refer to an existing Service Account from the same namespace, make sure that the value is in correct format without a typo, and make sure at least one Pod references the Service Account.
+
+#### Severity
+
+<i class="fas fa-exclamation-triangle text-warning"></i> Warning
+
+#### Example
+
+{{< readfile file="/static/files/validation_examples/1701.yaml" code="true" lang="yaml" >}}
+
+#### See Also
+
+- [Istio documentation](https://istio.io/latest/docs/reference/config/networking/workload-group)
+
+### KIA1702 - More than one Workload Group with duplicate labels found in the same namespace
+
+The set of labels from Workload Group spec metadata will be associated with each workload instance during the bootstrap process.
+
+A validation Warning message means that the labels set in this Workload Group spec metadata are also used in other Workload Group within this namespace.
+
+#### Resolution
+
+Set a unique set of labels.
+
+#### Severity
+
+<i class="fas fa-exclamation-triangle text-warning"></i> Warning
+
+#### See Also
+
+- [Istio documentation](https://istio.io/latest/docs/reference/config/networking/workload-group)
