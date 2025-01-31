@@ -124,7 +124,7 @@ The same approach is used to show the spans in the workload logs:
 
 ![ambient span logs](/images/documentation/features/ambient/ambient-span-logs.png)
 
-And the inbound and outbound metrics:
+Also for the inbound and outbound metrics:
 
 ![ambient spans](/images/documentation/features/ambient/ambient-spans.png)
 
