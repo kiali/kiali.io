@@ -11,6 +11,7 @@ Kiali provides visualization for Ambient Mesh components:
 * [Waypoint proxy details](#waypoint-proxy-details)
 * [Ztunnel details](#ztunnel-details)
 * [Ambient Telemetry](#ambient-telemetry)
+* [Ambient tracing](#ambient-tracing)
 
 {{% alert color="warning" %}}
 The Kiali Ambient features, as well as Ambient Mesh, are evolving. Some of these features are in alpha status. For enhancements or detected issues, don’t hesitate to open a [GitHub issue](https://github.com/kiali/kiali/issues/new/choose). 
@@ -110,3 +111,22 @@ The waypoint proxies often serve as both the source and destination of traffic w
 When you click on an edge, the summary panel will display the waypoint proxy as the destination workload. However, you can also view the waypoint as the source by clicking on the double arrow icon located to the left of the "From/To" labels in the summary panel.
 
 ![bidirectional edges](/images/documentation/features/ambient/double-edges.png)
+
+## Ambient Tracing
+
+Ambient traces are emitted from the waypoint proxies. The traces involving a workload can be found looking for the waypoint service name. 
+In order to correlate the Waypoint traces from a specific workload, app or service, Kiali looks for traces of the waypoint proxy that the workload is enrolled, and then, it filters the traces related to the application using the operation name from the span. 
+
+![ambient traces](/images/documentation/features/ambient/ambient-traces.png)
+
+The same is used to show the spans in the workload logs: 
+
+![ambient span logs](/images/documentation/features/ambient/ambient-span-logs.png)
+
+And the inbound and outbound charts:
+
+![ambient spans](/images/documentation/features/ambient/ambient-spans.png)
+
+As the workload name is not part the trace information, there are some gaps in the trace overlay. Also, for the workload view, there might be traces that are not part of a particular workload, but they are shown because they match the service name of the workload. 
+
+![Trace overlay](/images/documentation/features/ambient/span-overlays.png)
