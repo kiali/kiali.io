@@ -112,7 +112,7 @@ When you click on an edge, the summary panel will display the waypoint proxy as 
 
 ![bidirectional edges](/images/documentation/features/ambient/double-edges.png)
 
-## Ambient Tracing
+#### Ambient Tracing
 
 Ambient traces are emitted from the waypoint proxies. The traces involving a workload can be found looking for the waypoint service name. 
 
