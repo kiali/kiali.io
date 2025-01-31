@@ -128,6 +128,6 @@ Also for the inbound and outbound metrics:
 
 ![ambient spans](/images/documentation/features/ambient/ambient-spans.png)
 
-As the workload name is not part of the trace information, there are some gaps in the trace overlay. Also, for the workload view, there might be traces that are not part of a particular workload, but they are shown because they match the service name of the workload. 
+As the workload name is not part of the trace information, there are some gaps in the trace overlay (These gaps will hopefully be fixed in upstream Istio in a future Istio release - see this [GitHub issue](https://github.com/kiali/kiali/issues/8108) for details on that enhancement request). Also, for the workload view, there might be traces that are not part of a particular workload, but they are shown because they match the service name of the workload.
 
 ![Trace overlay](/images/documentation/features/ambient/span-overlays.png)
