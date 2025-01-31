@@ -120,7 +120,7 @@ In order to correlate the waypoint traces from a specific workload, app or servi
 
 ![ambient traces](/images/documentation/features/ambient/ambient-traces.png)
 
-The same is used to show the spans in the workload logs: 
+The same approach is used to show the spans in the workload logs: 
 
 ![ambient span logs](/images/documentation/features/ambient/ambient-span-logs.png)
 
