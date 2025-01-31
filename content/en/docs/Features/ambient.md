@@ -116,7 +116,7 @@ When you click on an edge, the summary panel will display the waypoint proxy as 
 
 Ambient traces are emitted from the waypoint proxies. The traces involving a workload can be found looking for the waypoint service name. 
 
-In order to correlate the waypoint traces from a specific workload, app or service, Kiali looks for traces of the waypoint proxy that the workload is enrolled, and then, it filters the traces related to the application using the operation name from the span. 
+In order to correlate the waypoint traces from a specific workload, app or service, Kiali looks for traces of the waypoint proxy in which the workload is enrolled. It then filters the traces related to the application using the operation name from the span. 
 
 ![ambient traces](/images/documentation/features/ambient/ambient-traces.png)
 
