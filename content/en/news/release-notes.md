@@ -6,6 +6,27 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 2.5.0
+Sprint Release: Feb 03, 2025
+
+Features:
+
+* [Ambient: Trace support](https://github.com/kiali/kiali/issues/5979)
+* [Istio: Workload Entry and Workload Group support for VMs](https://github.com/kiali/kiali/issues/7107)
+* [Istio: WorkloadGroup Validations](https://github.com/kiali/kiali/issues/8058)
+* [Mesh Page: visualize gateways and waypoints](https://github.com/kiali/kiali/issues/8054)
+* [Multicluster: When login to remote cluster fails, no visible error appears](https://github.com/kiali/kiali/issues/7925)
+* [Operator: Add topologySpreadConstraints](https://github.com/kiali/kiali/issues/5614)
+* [Security: configure /api endpoint to require authentication](https://github.com/kiali/kiali/issues/8057)
+* [Istio: show configurations for K8sGateways](https://github.com/kiali/kiali/issues/8075)
+
+Fixes:
+
+* [Ambient: Error reading logs when user doesn't have permissions for ztunnel](https://github.com/kiali/kiali/issues/8033)
+* [Misc: Fix mixed object references with the same name for k8s gw](https://github.com/kiali/kiali/issues/8101)
+* [Multicluster: Error namespace not found in Multi Cluster](https://github.com/kiali/kiali/issues/8081)
+* [UI: Fix color-scheme cached value handling](https://github.com/kiali/kiali/issues/8069)
+
 ## 2.4.0
 Sprint Release: Jan 13, 2025
 
