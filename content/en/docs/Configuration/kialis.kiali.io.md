@@ -271,6 +271,7 @@ spec:
     - key: "example-key"
       operator: "Exists"
       effect: "NoSchedule"
+    topology_spread_constraints: []
     version_label: ""
     view_only_mode: false
 
@@ -542,6 +543,7 @@ spec:
     port: 20001
     profiler:
       enabled: false
+    require_auth: false
     web_fqdn: ""
     web_history_mode: ""
     web_port: ""
@@ -2961,6 +2963,39 @@ limits:
 <div class="property-header">
 <hr/>
 <h3 class="property-path" id=".spec.deployment.tolerations[*]">.spec.deployment.tolerations[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.topology_spread_constraints">.spec.deployment.topology_spread_constraints</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>A list of constraints which control how the Kiali pods are spread across your cluster to help achieve high availability as well as efficient resource utilization. See the Kubernetes documentation on Topology Spread Constraints for more details.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.topology_spread_constraints[*]">.spec.deployment.topology_spread_constraints[*]</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -7534,6 +7569,25 @@ An example,</p>
 
 <div class="property-description">
 <p>When &lsquo;true&rsquo;, the profiler will be enabled and accessible at /debug/pprof/ on the Kiali endpoint.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.server.require_auth">.spec.server.require_auth</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>When true, the /api endpoint will require users to authenticate themselves. When false, users need not authenticate with Kiali in order to get basic runtime info about the server via the /api endpoint. This setting is ignored if auth.strategy is &lsquo;anonymous&rsquo;.</p>
 
 </div>
 
