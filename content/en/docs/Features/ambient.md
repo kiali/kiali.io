@@ -50,13 +50,13 @@ When a workload, application, or service is part of the Ambient Mesh, a badge wi
 
 ![Pod details protocol](/images/documentation/features/ambient/protocol.png)
 
-* When workload traffic is handled by a Waypoint, the workload details will show a link to the proxy:
+* When workload traffic is handled by a waypoint, the workload details will show a link to the proxy:
 
 ![Waypoint link](/images/documentation/features/ambient/waypoint-link.png)
 
 ### Waypoint proxy details
 
-The workload details for a Waypoint has specific Waypoint data. It is identified with the L7 label: 
+The workload details for a waypoint has specific waypoint data. It is identified with the L7 label: 
 
 ![Waypoint label](/images/documentation/features/ambient/waypoint-label.png)
 
@@ -79,9 +79,9 @@ For waypoint proxies, it is also possible to see the Envoy tab:
 
 ![Waypoint Envoy](/images/documentation/features/ambient/waypoint-envoy.png)
 
-### ztunnel details
+### Ztunnel details
 
-The workload details for a Ztunnel workload has specific data. It has a new Ztunnel tab containing the configuration for the services and workloads for which it handles traffic. 
+The workload details for a ztunnel workload has specific data. It has a new ztunnel tab containing the configuration for the services and workloads for which it handles traffic. 
 It shows the same information that can be seen using the `istioctl ztunnel-config`, which can be useful for troubleshooting. 
 
 ![Ztunnel details](/images/documentation/features/ambient/ztunnel-details.png)
@@ -91,11 +91,11 @@ It shows the same information that can be seen using the `istioctl ztunnel-confi
 The Traffic graph generated with Ambient telemetry differs slightly from the usual graph, as the HTTP traffic and TCP traffic have different reporters.
 
 The telemetry reported with sidecars represents the kind of traffic for the request (green edges for HTTP, blue edges for TCP).
-In Ambient, this information depends on the element reporting the Telemetry. The Ztunnel will report all the traffic as TCP:
+In Ambient, this information depends on the element reporting the Telemetry. The ztunnel will report all the traffic as TCP:
 
 ![ztunnel graph](/images/documentation/features/ambient/ztunnel-graph.png)
 
-The following _bookinfo_ namespace is in Ambient Mesh with a waypoint proxy enabled. Therefore, the telemetry is reported from ztunnel and from the Waypoint, resulting in double edges connecting different nodes (Note that the Graph page toolbar offers a `Traffic` menu, letting you be selective about the protocols shown): 
+The following _bookinfo_ namespace is in Ambient Mesh with a waypoint proxy enabled. Therefore, the telemetry is reported from ztunnel and from the waypoint, resulting in double edges connecting different nodes (Note that the Graph page toolbar offers a `Traffic` menu, letting you be selective about the protocols shown): 
 
 ![Ambient Telemetry](/images/documentation/features/ambient/ambient-telemetry.png)
 
@@ -103,7 +103,7 @@ It is possible to filter the traffic by the Ambient reporter (ztunnel or waypoin
 
 ![Ambient Traffic selector](/images/documentation/features/ambient/traffic-selector.png)
 
-There is an additional display option, **Waypoint proxies** for the Ambient Mesh, that will display the waypoint proxies in the graph:
+There is an additional display option, **waypoint proxies** for the Ambient Mesh, that will display the waypoint proxies in the graph:
 
 ![Waypoint proxies](/images/documentation/features/ambient/waypoint-proxies.png)
 
