@@ -40,7 +40,7 @@ When a workload, application, or service is part of the Ambient Mesh, a badge wi
 
 * In Mesh: Indicating that it was included in Ambient, and the traffic is redirected to ztunnel to provide L4 features (L4 authorization and telemetry, and encrypted data transport)
 
-  ![Workload Captured by Ambient](/images/documentation/features/ambient/ztunnel-captured-pod.png)
+![Workload Captured by Ambient](/images/documentation/features/ambient/ztunnel-captured-pod.png)
 
 * In Mesh with waypoint enabled: Additionally, it can include the L7 badge which means that a waypoint proxy is deployed (providing additional L7 capabilities):
 
@@ -50,9 +50,13 @@ When a workload, application, or service is part of the Ambient Mesh, a badge wi
 
 ![Pod details protocol](/images/documentation/features/ambient/protocol.png)
 
-* When workload traffic is handled by a waypoint, the workload details will show a link to the proxy:
+* When the workload traffic is handled by a waypoint, the workload details will show a link to the proxy:
 
 ![Waypoint link](/images/documentation/features/ambient/waypoint-link.png)
+
+* Kiali will correlate the ztunnel and the waypoint logs related to the application and will show a checkbox to show them with the application logs. In this way, all the relevant information for the application is available in one place:
+
+![Workload logs](/images/documentation/features/ambient/ambient-logs.png)
 
 ### Waypoint proxy details
 
