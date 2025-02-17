@@ -4,16 +4,16 @@ description: "User Guide providing a quick tour of OSSMC functionality"
 weight: 10
 ---
 
-The OpenShift Service Mesh Console (aka OSSMC) is an extension to the OpenShift Console which provides visibility into your Service Mesh. With OSSMC installed you will see a new **Service Mesh** menu option on the left-hand side of the Console, as well as new **Service Mesh** tabs that enhance existing Console pages such as the **Workloads** and **Services** pages.
+The OpenShift Service Mesh Console (OSSMC) is an extension to the OpenShift Console which provides visibility into your Service Mesh. With the OSSMC plugin installed, a new **Service Mesh** menu category is available in the navigation menu on the left side of the web console, as well as new **Service Mesh** tabs that enhance the existing **Workloads** and **Services** OpenShift console detail pages.
 
-The features you see described here are very similar to those of the standalone Kiali Console. In fact, you can still access the standalone Kiali Console if you wish. This User Guide, however, will discuss the extensions you see from within the OpenShift Console itself.
+The features of the OSSMC plugin are the same as those of the standalone Kiali Console, but the pages are organized differently to better integrate with the OpenShift console. The OSSMC plugin does not replace the Kiali Console, and after installing the OSSMC plugin, you can still access the standalone Kiali Console. This User Guide, however, will discuss the extensions you see from within the OpenShift Console itself.
 
 {{% alert color="warning" %}}
 The OSSMC [only supports a single tenant today](https://github.com/kiali/openshift-servicemesh-plugin/issues/187). Whether that tenant is configured to access only a subset of OpenShift projects or has access cluster-wide to all projects does not matter, however, only a single tenant can be accessed.
 {{% /alert %}}
 
 {{% alert color="warning" %}}
-If you are using a certificate that your browser does not initially trust, you must tell your browser to trust the certificate first before you are able to access the OpenShift Service Mesh Console. You can go to the Kiali standalone UI and tell the browser to accept its certificate in order to do this.
+If you are using a certificate that your browser does not initially trust, you must tell your browser to trust the certificate first before you are able to access the OSSMC plugin. To do this, go to the Kiali standalone user interface (UI) and tell the browser to accept its certificate.
 {{% /alert %}}
 
 ## Overview
@@ -22,9 +22,9 @@ The **Overview** page provides a summary of your mesh by showing cards represent
 
 ![Overview](/images/documentation/installation/installation-guide/20-overview.png)
 
-## Graph
+## Traffic Graph
 
-The **Graph** page provides the full topology view of your mesh. The mesh is represented by nodes and edges - each node representing a component of the mesh and each edge representing traffic flowing through the mesh between components.
+The **Traffic Graph** page provides the full topology view of your mesh. The mesh is represented by nodes and edges - each node representing a component of the mesh and each edge representing traffic flowing through the mesh between components.
 
 ![Graph](/images/documentation/installation/installation-guide/21-graph.png)
 
@@ -34,15 +34,21 @@ The **Istio Config** page provides a list of all Istio configuration files in yo
 
 ![Istio Config](/images/documentation/installation/installation-guide/22-istioconfig.png)
 
+## Mesh
+
+The **Mesh** page provides detailed information about the Istio infrastructure status. It shows an infrastructure topology view with core and add-on components, their health, and how they are connected to each other.
+
+![Istio Config](/images/documentation/installation/installation-guide/22-mesh.png)
+
 ## Workload
 
 The **Workloads** view has a tab **Service Mesh** that provides a lot of mesh-related detail for the selected workload. The details are grouped into several sub-tabs: Overview, Traffic, Logs, Inbound Metrics, Outbound Metrics, Traces, and Envoy.
 
-![Workload](/images/documentation/installation/installation-guide/23-workload.png)
-
 ### Workload: Overview
 
 The **Workload: Overview** sub-tab provides a summary of the selected workload including a localized topology graph showing the workload with all inbound and outbound edges and nodes.
+
+![Workload: Overview](/images/documentation/installation/installation-guide/23-workload.png)
 
 ### Workload: Traffic
 
@@ -88,3 +94,8 @@ The **Services** view has a tab **Service Mesh** that provides mesh-related deta
 
 ![Services: Overview](/images/documentation/installation/installation-guide/31-services-overview.png)
 
+## Projects
+
+The **Projects** view has a tab **Service Mesh** that provides traffic graph information about that project. It is the same information shown in the [**Traffic Graph**](#traffic-graph) page but specific to that project.
+
+![Projects: Overview](/images/documentation/installation/installation-guide/32-projects-graph.png)
