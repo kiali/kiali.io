@@ -6,6 +6,49 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 2.6.0
+Sprint Release: Feb 21
+
+Features:
+
+* [Ambient: Waypoint proxy log improvement](https://github.com/kiali/kiali/issues/7899)
+* [Ambient: Add ztunnel to mesh topology](https://github.com/kiali/kiali/issues/8143)
+* [Ambient: Recognize any gateway as a Waypoint if "waypoint" is in the name](https://github.com/kiali/kiali/issues/8050)
+* [Config: Allow mixed app and verion labeling schemes](https://github.com/kiali/kiali/issues/7603)
+
+Fixes:
+
+* [Ambient: No ztunnel logs with waypoint in Istio 1.23](https://github.com/kiali/kiali/issues/8146)
+* [Ambient: Some Waypoint proxies are reported incorrectly](https://github.com/kiali/kiali/issues/8157)
+* [Authz: Fix access to DeploymentConfig (and some others)](https://github.com/kiali/kiali/issues/8084)
+* [GW API: Wrong ReferenceGrant apiVersion from Kiali server](https://github.com/kiali/kiali/issues/8133)
+* [Logging: Istio sidecar logs missing with k8s native sidecar enabled](https://github.com/kiali/kiali/issues/7909)
+* [Mesh page: side panel does not stay in sync with mesh graph](https://github.com/kiali/kiali/issues/8159)
+* [Perf: Jaeger version check leads to delayed Kiali login screen until timeout occur](https://github.com/kiali/kiali/issues/8100)
+* [Tracing: Spans missing References values when Tempo is used](https://github.com/kiali/kiali/issues/8112)
+* [Tracing: Kiali does not report trace connectivity error](https://github.com/kiali/kiali/issues/8106)
+* [UI: Istio-system applications shown as out of mesh](https://github.com/kiali/kiali/issues/8172)
+
+Upgrade Notes:
+
+The default values for the following Kiali CR fields have changed:
+
+* spec.istio_labels.app_label_name
+  * previous default: "app"
+  * new default:      unset
+* spec.istio_labels.version_label_name
+  * previous default: "version"
+  * new default:      unset
+
+The change is related to the work done for [Kiali issue 7603](https://github.com/kiali/kiali/issues/7603), included with this release. By default Kiali now allows for a mixing app labeling schemes, using the same set of app and version label pairings recognized by Istio:
+
+* service.istio.io/canonical-name, service.istio.io/canonical-revision
+* app.kubernetes.io/name, app.kubernetes.io/version
+* app, version
+
+Users can configure a single labeling scheme by setting the existing CR fields, or leaving them set when upgrading.
+
+
 ## 2.5.0
 Sprint Release: Feb 03, 2025
 

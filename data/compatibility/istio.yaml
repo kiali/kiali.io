@@ -1,13 +1,15 @@
 # The Compatible Version Matrix between upstream Istio and Kiali
 # See: content/en/docs/Installation/installation-guide/prerequisites.md -> {{<compat-table-istio>}}
 versionRange:
+  - meshVersion: "1.25"
+    kialiVersions: "2.5 and higher"
   - meshVersion: "1.24"
     kialiVersions: "2.0 and higher"
   - meshVersion: "1.23"
-    kialiVersions: "1.87 to 2.0, 2.4 "
+    kialiVersions: "1.87, 2.4 and higher"
     notes: "Kiali v2 requires Kiali v1 non-default namespace management (i.e. accessible_namespaces) to migrate to Discovery Selectors."
   - meshVersion: "1.22"
-    kialiVersions: "1.82 to 1.86, 2.4"
+    kialiVersions: "1.87, 2.4-2.5"
     notes: "Kiali v1.86 is the recommended minimum for Istio Ambient users. Starting with Kiali v1.86,.1 Istio v1.22 is required."
   - meshVersion: "1.21"
     kialiVersions: "1.81"
