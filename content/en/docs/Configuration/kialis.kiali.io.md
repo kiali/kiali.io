@@ -357,11 +357,12 @@ spec:
       istio_identity_domain: "svc.cluster.local"
       istio_injection_annotation: "sidecar.istio.io/inject"
       istio_sidecar_annotation: "sidecar.istio.io/status"
-      istio_sidecar_injector_config_map_name: "istio-sidecar-injector"
+      # default: istio_sidecar_injector_config_map_name is undefined
       istiod_deployment_name: "istiod"
       istiod_pod_monitoring_port: 15014
       root_namespace: ""
       url_service_version: ""
+      validation_reconcile_interval: "1m"
     prometheus:
       auth:
         ca_file: ""
@@ -400,6 +401,7 @@ spec:
       # default: custom_headers is empty
       custom_headers:
         customHeader1: "customHeader1Value"
+      disable_version_check: false
       enabled: false
       external_url: ""
       grpc_port: 9095
@@ -442,12 +444,12 @@ spec:
     private_key_file: ""
 
   istio_labels:
-    app_label_name: "app"
+    app_label_name: ""
     egress_gateway_label: "istio=egressgateway"
     ingress_gateway_label: "istio=ingressgateway"
     injection_label_name: "istio-injection"
     injection_label_rev: "istio.io/rev"
-    version_label_name: "version"
+    version_label_name: ""
 
   kiali_feature_flags:
     disabled_features: []
@@ -4619,6 +4621,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 </div>
 
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.istio.validation_reconcile_interval">.spec.external_services.istio.validation_reconcile_interval</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>Configures how often Kiali will validate Istio configuration. Validations cannot be disabled at the moment but you can set this to a long period of time. Accepts a golang duration string e.g. &lsquo;1h&rsquo; or &lsquo;30m&rsquo;.</p>
+
+</div>
+
+</div>
+</div>
+
 <div class="property depth-2">
 <div class="property-header">
 <hr/>
@@ -5202,6 +5223,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property-description">
 <p>A set of name/value settings that will be passed as headers when requests are sent to the Tracing backend.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.tracing.disable_version_check">.spec.external_services.tracing.disable_version_check</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>When true, the version of the Tracing backend will not be retrieved. This will mean Kiali will not be able to display the version of your Tracing component in the Kiali UI. This may be needed in order to avoid Kiali reporting errors in cases where the full version endpoint is not accessible or is unknown. A common use case is when using Jaeger with gRPC and the HTTP endpoint is not deployed in the standard port (80). Defaults to <code>false</code></p>
 
 </div>
 
@@ -5908,7 +5948,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The name of the label used to define what application a workload belongs to. This is typically something like <code>app</code> or <code>app.kubernetes.io/name</code>.</p>
+<p>If using a single scheme for app/version labeling, set this to the app label name being used. This is typically <code>app</code> or <code>app.kubernetes.io/name</code>. The default is unset, and Kiali will handle mixed schemes.</p>
 
 </div>
 
@@ -6003,7 +6043,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The name of the label used to define what version of the application a workload belongs to. This is typically something like <code>version</code> or <code>app.kubernetes.io/version</code>.</p>
+<p>If using a single scheme for app/version labeling, set this to the version label name being used. This is typically <code>version</code> or <code>app.kubernetes.io/version</code>. The default is unset, and Kiali will handle mixed schemes.</p>
 
 </div>
 
