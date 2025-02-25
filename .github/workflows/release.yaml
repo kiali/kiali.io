@@ -15,14 +15,14 @@ on:
 jobs:
   initialize:
     name: Initialize
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     outputs:
       release_type: ${{ steps.release_type.outputs.release_type }}
-      releasing_version: ${{ steps.releasing_version.outputs.releasing_version }}      
+      releasing_version: ${{ steps.releasing_version.outputs.releasing_version }}
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      with:          
+      with:
         ref: ${{ github.event.inputs.release_branch || github.ref_name }}
 
     - name: Prepare scripts
@@ -40,13 +40,13 @@ jobs:
             minor = 0
             patch = 0
         elif release_type == 'minor':
-            minor = minor + 1 
+            minor = minor + 1
             patch = 0
         elif release_type == 'patch':
             patch = patch + 1
         print('.'.join(['v' + str(major), str(minor), str(patch)]))
         EOF
-        
+
         cat <<-EOF > minor.py
         import datetime
 
@@ -65,14 +65,14 @@ jobs:
 
     - name: Determine release type
       id: release_type
-      run: |          
+      run: |
         DO_RELEASE=$(python minor.py)
         if [[ $DO_RELEASE == "1" ]]
         then
             echo "release_type=minor" >> $GITHUB_OUTPUT
         else
             echo "release_type=skip" >> $GITHUB_OUTPUT
-        fi        
+        fi
 
     - name: Determine releasing version
       if: ${{ steps.release_type.outputs.release_type != 'skip' }}
@@ -80,11 +80,11 @@ jobs:
       run: |
         CURRENT_VERSION=$(awk '/## NEXT/,/url/' config.toml | grep -o '\"v.*\"' | tr -d '\"' | xargs)
 
-        # The following command adds the .z part of the version          
+        # The following command adds the .z part of the version
         RAW_VERSION=$(echo "$CURRENT_VERSION.0")
-        
+
         echo "releasing_version=$(python bump.py minor $RAW_VERSION)" >> $GITHUB_OUTPUT
-    
+
     - name: Cleanup
       run: rm bump.py minor.py
 
@@ -95,25 +95,25 @@ jobs:
   release:
     name: Release
     if: ${{ needs.initialize.outputs.release_type != 'skip' && ((github.event_name == 'schedule' && github.repository == 'kiali/kiali.io') || github.event_name != 'schedule') }}
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     needs: [initialize]
-    env:      
+    env:
       RELEASING_VERSION: ${{ needs.initialize.outputs.releasing_version }}
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      with:          
-        ref: ${{ github.event.inputs.release_branch || github.ref_name }} 
+      with:
+        ref: ${{ github.event.inputs.release_branch || github.ref_name }}
         fetch-depth: 0
 
     - name: Configure git
       run: |
         git config user.email 'kiali-dev@googlegroups.com'
-        
-        git config user.name 'kiali-bot'     
-  
+
+        git config user.name 'kiali-bot'
+
     - name: Create release
-      run: |          
+      run: |
         echo "Resolved current website version: $RELEASING_VERSION"
-        
+
         ./scripts/release.sh -cv $RELEASING_VERSION -rn origin -gd true
