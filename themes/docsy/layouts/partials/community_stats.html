@@ -1,0 +1,150 @@
+{{ $repositories := .Site.Params.repositories -}}
+
+<section class="row td-box td-box--white td-box--height-auto linkbox">     
+  <h2>Stats</h2>
+  <ul class="nav nav-tabs" id="repositoriesTabs" role="tablist">
+    {{ range $index, $repo := $.Site.Params.repositories}}
+    <li class="nav-item" role="presentation">
+      <button class="nav-link {{if eq $index 0}}active{{end}}" onclick="activateRepositoryTab('{{ $repo.name }}')" id="{{ $repo.name }}-tab" data-bs-toggle="tab" data-bs-target="#{{ $repo.name }}" type="button" role="tab" aria-controls="{{ $repo.name }}" aria-selected="true">{{ $repo.name }}</button>
+    </li>
+    {{ end -}}
+  </ul>
+  <div class="tab-content" id="repoContent">
+    {{ range $index, $repo := $.Site.Params.repositories}}
+    <div class="tab-pane fade {{if eq $index 0}}show active{{end}}" id="{{ $repo.name }}" role="tabpanel" aria-labelledby="{{ $repo.name }}-tab">
+      <div class="row td-box td-box--white td-box--height-auto linkbox">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+          <h2>Grow by <select class="btn dropdown-toggle dropdownMenuFilterRepo">
+            <option value="stars">Stars</option>
+            <option value="forks">Forks</option>
+            <option value="issues">Issues</option>
+            <option value="size">Size</option>
+            </select>   </h2>
+          
+          <div id="stats-{{$repo.name}}" style="width: 100%;height:500px;"></div>    
+        </div>  
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+          <h2>Languages</h2>   
+          <div id="language-{{$repo.name}}" style="width: 100%;height:500px;"></div>
+        </div> 
+      </div> 
+    </div>
+    {{ end -}} 
+  </div> 
+  {{ block "community-graph" . }}{{ end }}  
+</section>
+
+{{- define "community-graph" -}}
+<script>   
+  function getStatsOptions(data, filterType, repo) {
+    var metrics = data["repositories"][repo]["metrics"]    
+    var data = []
+    Object.keys(metrics).map((key) => data.push([key, metrics[key][filterType]]))
+
+    return {
+      tooltip: {
+        trigger: 'axis'
+      },
+      legend: {},
+      toolbox: {
+        show: true,
+        feature: {
+          dataZoom: {
+            yAxisIndex: 'none'
+          },
+          dataView: { readOnly: false },
+          magicType: { type: ['line', 'bar'] },
+          restore: {},
+          saveAsImage: {}
+        }
+      },
+      xAxis: {
+        type: 'category',
+        boundaryGap: false
+      },
+      yAxis: {
+        min: metrics[Object.keys(metrics)[0]][filterType],
+        type: 'value',
+        axisLabel: {
+          formatter: '{value}'
+        }
+      },      
+      series: [
+        {
+          type: 'line',
+          smooth: 1,
+          symbol: 'none',
+          lineStyle: {
+            color: '#5470C6',
+            width: 5
+          },
+          data: data
+        }
+      ]
+    };     
+  }
+  function getLanguageOptions(data, repo) {
+    var metrics = data["repositories"][repo]["language"]
+    var dataLanguage = []
+    Object.keys(metrics).map((key) => dataLanguage.push({ value: metrics[key], name: key }))
+    return {
+      tooltip: {
+        trigger: 'item',
+        formatter: '{b} ({d}%)'
+      },
+      legend: {
+        top: '5%',
+        left: 'center'
+      },
+      series: [
+        {
+          name: 'Languages',
+          label: {
+            formatter: '{b} ({d}%)',
+          },
+          type: 'pie',
+          radius: ['40%', '70%'],
+          center: ['50%', '70%'],
+          // adjust the start and end angle
+          startAngle: 180,
+          endAngle: 360,
+          data: dataLanguage
+        }
+      ]
+    };   
+  }
+
+  
+  // Init Active Repo 
+  var activeRepo = "kiali";
+  // Dropdown initial
+  var optionGrow = "stars"
+  // Init Chart
+  var chartStats = echarts.init(document.getElementById('stats-'+activeRepo));  
+  var chartLanguage = echarts.init(document.getElementById('language-'+activeRepo));  
+  // Init Data 
+  var metricsJson = undefined;
+  // Fetch Data json
+  var metricsJson = fetch("data/metrics.json")
+  .then(response => response.json()).then (json => {
+    metricsJson = json
+    option = getStatsOptions(metricsJson, optionGrow, activeRepo)
+    option && chartStats.setOption(option) 
+    chartLanguage.setOption(getLanguageOptions(metricsJson, activeRepo));
+  })
+
+  $('.dropdownMenuFilterRepo').on("change", function() {
+    optionGrow = $( this ).val()
+    echarts.init(document.getElementById('stats-'+activeRepo)).setOption(getStatsOptions(metricsJson, optionGrow, activeRepo));
+    echarts.init(document.getElementById('language-'+activeRepo)).setOption(getLanguageOptions(metricsJson, activeRepo));   
+  })
+
+  function activateRepositoryTab(repo) {  
+    activeRepo = repo
+    echarts.init(document.getElementById('stats-'+repo)).setOption(getStatsOptions(metricsJson, optionGrow, repo));
+    echarts.init(document.getElementById('language-'+repo)).setOption(getLanguageOptions(metricsJson, repo));   
+  }
+
+</script>
+{{- end -}}
+

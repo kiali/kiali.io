@@ -48,6 +48,9 @@ build-hugo: .prepare-force-build
 serve: build-hugo
 	@${DORP} run -t -i --sig-proxy=true --rm -v "$(shell pwd)":/site:z -w /site -p 1313:1313 ${KIALI_HUGO_IMAGE} /bin/bash -c "${DOCSY_BUILD} && hugo serve --baseURL "http://localhost:1313/" --bind 0.0.0.0 --disableFastRender"
 
+.PHONY: generate_metrics_json
+generate_metrics_json:
+	python scripts/api_gh/pull_api_data.py	
 # Ignore hash anchors (#) that go nowhere.
 # Ignore some links to Kiali repositories. These are ignored because there are lots of links
 # to Kiali repositories and, because of that, the checker reaches the max GitHub request limit and

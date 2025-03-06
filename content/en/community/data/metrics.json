@@ -1,0 +1,957 @@
+{
+    "repositories": {
+        "kiali": {
+            "license": "Apache License 2.0",
+            "description": "Kiali project, observability for the Istio service mesh",
+            "url": "https://github.com/kiali/kiali",
+            "created": "2018-02-04",
+            "topics": [
+                "istio",
+                "management",
+                "observability",
+                "openshift",
+                "service-mesh"
+            ],
+            "metrics": {
+                "2024-10-16": {
+                    "forks": 485,
+                    "issues": 135,
+                    "stars": 3384,
+                    "size": 66554
+                },
+                "2024-10-17": {
+                    "forks": 486,
+                    "issues": 138,
+                    "stars": 3384,
+                    "size": 66593
+                },
+                "2024-10-18": {
+                    "forks": 486,
+                    "issues": 141,
+                    "stars": 3384,
+                    "size": 66643
+                },
+                "2024-10-19": {
+                    "forks": 486,
+                    "issues": 141,
+                    "stars": 3385,
+                    "size": 66643
+                },
+                "2024-10-21": {
+                    "forks": 486,
+                    "issues": 139,
+                    "stars": 3386,
+                    "size": 66660
+                },
+                "2024-10-22": {
+                    "forks": 485,
+                    "issues": 138,
+                    "stars": 3387,
+                    "size": 67057
+                },
+                "2024-10-23": {
+                    "forks": 485,
+                    "issues": 137,
+                    "stars": 3387,
+                    "size": 67059
+                },
+                "2024-10-24": {
+                    "forks": 485,
+                    "issues": 139,
+                    "stars": 3387,
+                    "size": 67060
+                },
+                "2024-10-25": {
+                    "forks": 486,
+                    "issues": 131,
+                    "stars": 3387,
+                    "size": 66872
+                },
+                "2024-10-26": {
+                    "forks": 486,
+                    "issues": 131,
+                    "stars": 3390,
+                    "size": 66872
+                },
+                "2024-10-28": {
+                    "forks": 489,
+                    "issues": 129,
+                    "stars": 3390,
+                    "size": 66873
+                },
+                "2024-10-29": {
+                    "forks": 489,
+                    "issues": 129,
+                    "stars": 3390,
+                    "size": 66905
+                },
+                "2024-10-31": {
+                    "forks": 490,
+                    "issues": 128,
+                    "stars": 3391,
+                    "size": 66874
+                },
+                "2024-11-01": {
+                    "forks": 490,
+                    "issues": 132,
+                    "stars": 3392,
+                    "size": 66336
+                },
+                "2024-11-04": {
+                    "forks": 490,
+                    "issues": 132,
+                    "stars": 3393,
+                    "size": 66343
+                },
+                "2024-11-05": {
+                    "forks": 490,
+                    "issues": 134,
+                    "stars": 3395,
+                    "size": 66348
+                },
+                "2024-11-07": {
+                    "forks": 490,
+                    "issues": 135,
+                    "stars": 3396,
+                    "size": 66417
+                },
+                "2024-11-08": {
+                    "forks": 490,
+                    "issues": 137,
+                    "stars": 3396,
+                    "size": 66417
+                },
+                "2024-11-09": {
+                    "forks": 490,
+                    "issues": 136,
+                    "stars": 3397,
+                    "size": 66419
+                },
+                "2024-11-11": {
+                    "forks": 490,
+                    "issues": 136,
+                    "stars": 3398,
+                    "size": 66587
+                },
+                "2024-11-13": {
+                    "forks": 490,
+                    "issues": 136,
+                    "stars": 3398,
+                    "size": 66590
+                },
+                "2024-11-14": {
+                    "forks": 491,
+                    "issues": 131,
+                    "stars": 3399,
+                    "size": 66906
+                },
+                "2024-11-15": {
+                    "forks": 491,
+                    "issues": 131,
+                    "stars": 3399,
+                    "size": 66910
+                },
+                "2024-11-16": {
+                    "forks": 491,
+                    "issues": 131,
+                    "stars": 3400,
+                    "size": 66910
+                },
+                "2024-11-17": {
+                    "forks": 491,
+                    "issues": 131,
+                    "stars": 3402,
+                    "size": 66910
+                },
+                "2024-11-20": {
+                    "forks": 492,
+                    "issues": 140,
+                    "stars": 3400,
+                    "size": 67112
+                },
+                "2024-11-21": {
+                    "forks": 492,
+                    "issues": 138,
+                    "stars": 3401,
+                    "size": 67143
+                },
+                "2024-11-23": {
+                    "forks": 493,
+                    "issues": 144,
+                    "stars": 3403,
+                    "size": 67147
+                },
+                "2024-11-24": {
+                    "forks": 493,
+                    "issues": 144,
+                    "stars": 3405,
+                    "size": 67147
+                },
+                "2024-11-25": {
+                    "forks": 493,
+                    "issues": 145,
+                    "stars": 3406,
+                    "size": 67431
+                },
+                "2024-11-26": {
+                    "forks": 493,
+                    "issues": 141,
+                    "stars": 3406,
+                    "size": 67448
+                },
+                "2024-11-27": {
+                    "forks": 493,
+                    "issues": 142,
+                    "stars": 3406,
+                    "size": 67440
+                },
+                "2024-11-29": {
+                    "forks": 494,
+                    "issues": 141,
+                    "stars": 3407,
+                    "size": 67673
+                },
+                "2024-12-01": {
+                    "forks": 494,
+                    "issues": 144,
+                    "stars": 3408,
+                    "size": 67673
+                },
+                "2024-12-02": {
+                    "forks": 494,
+                    "issues": 143,
+                    "stars": 3408,
+                    "size": 67688
+                },
+                "2024-12-04": {
+                    "forks": 494,
+                    "issues": 140,
+                    "stars": 3409,
+                    "size": 66871
+                },
+                "2024-12-05": {
+                    "forks": 494,
+                    "issues": 133,
+                    "stars": 3409,
+                    "size": 66936
+                },
+                "2024-12-09": {
+                    "forks": 496,
+                    "issues": 133,
+                    "stars": 3410,
+                    "size": 66936
+                },
+                "2024-12-10": {
+                    "forks": 496,
+                    "issues": 134,
+                    "stars": 3412,
+                    "size": 67695
+                },
+                "2024-12-11": {
+                    "forks": 496,
+                    "issues": 135,
+                    "stars": 3413,
+                    "size": 67695
+                },
+                "2024-12-12": {
+                    "forks": 496,
+                    "issues": 133,
+                    "stars": 3413,
+                    "size": 67023
+                },
+                "2024-12-13": {
+                    "forks": 496,
+                    "issues": 137,
+                    "stars": 3413,
+                    "size": 67023
+                },
+                "2024-12-16": {
+                    "forks": 496,
+                    "issues": 137,
+                    "stars": 3413,
+                    "size": 67116
+                },
+                "2024-12-17": {
+                    "forks": 496,
+                    "issues": 139,
+                    "stars": 3413,
+                    "size": 67123
+                },
+                "2024-12-19": {
+                    "forks": 497,
+                    "issues": 138,
+                    "stars": 3414,
+                    "size": 67131
+                },
+                "2024-12-20": {
+                    "forks": 497,
+                    "issues": 135,
+                    "stars": 3414,
+                    "size": 67167
+                },
+                "2024-12-22": {
+                    "forks": 497,
+                    "issues": 135,
+                    "stars": 3413,
+                    "size": 67167
+                },
+                "2024-12-23": {
+                    "forks": 497,
+                    "issues": 135,
+                    "stars": 3413,
+                    "size": 67173
+                },
+                "2024-12-24": {
+                    "forks": 497,
+                    "issues": 134,
+                    "stars": 3413,
+                    "size": 67445
+                },
+                "2024-12-27": {
+                    "forks": 497,
+                    "issues": 138,
+                    "stars": 3414,
+                    "size": 67445
+                },
+                "2024-12-29": {
+                    "forks": 497,
+                    "issues": 138,
+                    "stars": 3414,
+                    "size": 67445
+                },
+                "2024-12-31": {
+                    "forks": 497,
+                    "issues": 138,
+                    "stars": 3414,
+                    "size": 67447
+                },
+                "2025-01-03": {
+                    "forks": 497,
+                    "issues": 141,
+                    "stars": 3413,
+                    "size": 67447
+                },
+                "2025-01-07": {
+                    "forks": 498,
+                    "issues": 141,
+                    "stars": 3414,
+                    "size": 67450
+                },
+                "2025-01-08": {
+                    "forks": 498,
+                    "issues": 145,
+                    "stars": 3415,
+                    "size": 67166
+                },
+                "2025-01-09": {
+                    "forks": 498,
+                    "issues": 138,
+                    "stars": 3416,
+                    "size": 67226
+                },
+                "2025-01-10": {
+                    "forks": 498,
+                    "issues": 137,
+                    "stars": 3416,
+                    "size": 67356
+                },
+                "2025-01-13": {
+                    "forks": 498,
+                    "issues": 141,
+                    "stars": 3416,
+                    "size": 67369
+                },
+                "2025-01-14": {
+                    "forks": 498,
+                    "issues": 142,
+                    "stars": 3416,
+                    "size": 67394
+                },
+                "2025-01-16": {
+                    "forks": 498,
+                    "issues": 140,
+                    "stars": 3417,
+                    "size": 67386
+                },
+                "2025-01-17": {
+                    "forks": 499,
+                    "issues": 139,
+                    "stars": 3418,
+                    "size": 67397
+                },
+                "2025-01-18": {
+                    "forks": 499,
+                    "issues": 139,
+                    "stars": 3419,
+                    "size": 67398
+                },
+                "2025-01-19": {
+                    "forks": 499,
+                    "issues": 139,
+                    "stars": 3420,
+                    "size": 67398
+                },
+                "2025-01-20": {
+                    "forks": 499,
+                    "issues": 137,
+                    "stars": 3420,
+                    "size": 67422
+                },
+                "2025-01-22": {
+                    "forks": 500,
+                    "issues": 135,
+                    "stars": 3425,
+                    "size": 67439
+                },
+                "2025-01-24": {
+                    "forks": 500,
+                    "issues": 143,
+                    "stars": 3429,
+                    "size": 67450
+                },
+                "2025-01-26": {
+                    "forks": 500,
+                    "issues": 143,
+                    "stars": 3430,
+                    "size": 67450
+                },
+                "2025-01-28": {
+                    "forks": 500,
+                    "issues": 146,
+                    "stars": 3430,
+                    "size": 67498
+                },
+                "2025-01-31": {
+                    "forks": 501,
+                    "issues": 140,
+                    "stars": 3433,
+                    "size": 67578
+                },
+                "2025-02-01": {
+                    "forks": 501,
+                    "issues": 137,
+                    "stars": 3435,
+                    "size": 67594
+                },
+                "2025-02-03": {
+                    "forks": 501,
+                    "issues": 139,
+                    "stars": 3435,
+                    "size": 67601
+                },
+                "2025-02-04": {
+                    "forks": 503,
+                    "issues": 147,
+                    "stars": 3435,
+                    "size": 67639
+                },
+                "2025-02-05": {
+                    "forks": 504,
+                    "issues": 137,
+                    "stars": 3436,
+                    "size": 67710
+                },
+                "2025-02-06": {
+                    "forks": 504,
+                    "issues": 137,
+                    "stars": 3436,
+                    "size": 67738
+                },
+                "2025-02-07": {
+                    "forks": 505,
+                    "issues": 139,
+                    "stars": 3436,
+                    "size": 67745
+                },
+                "2025-02-11": {
+                    "forks": 505,
+                    "issues": 144,
+                    "stars": 3436,
+                    "size": 67776
+                },
+                "2025-02-12": {
+                    "forks": 505,
+                    "issues": 146,
+                    "stars": 3437,
+                    "size": 67977
+                },
+                "2025-02-13": {
+                    "forks": 505,
+                    "issues": 141,
+                    "stars": 3437,
+                    "size": 68001
+                },
+                "2025-02-14": {
+                    "forks": 505,
+                    "issues": 144,
+                    "stars": 3437,
+                    "size": 68029
+                },
+                "2025-02-18": {
+                    "forks": 506,
+                    "issues": 143,
+                    "stars": 3438,
+                    "size": 68028
+                },
+                "2025-02-19": {
+                    "forks": 506,
+                    "issues": 143,
+                    "stars": 3438,
+                    "size": 67832
+                },
+                "2025-02-20": {
+                    "forks": 506,
+                    "issues": 142,
+                    "stars": 3438,
+                    "size": 67968
+                },
+                "2025-02-21": {
+                    "forks": 506,
+                    "issues": 143,
+                    "stars": 3439,
+                    "size": 67968
+                },
+                "2025-02-23": {
+                    "forks": 506,
+                    "issues": 143,
+                    "stars": 3440,
+                    "size": 67968
+                },
+                "2025-02-24": {
+                    "forks": 506,
+                    "issues": 143,
+                    "stars": 3440,
+                    "size": 67992
+                },
+                "2025-02-26": {
+                    "forks": 506,
+                    "issues": 138,
+                    "stars": 3441,
+                    "size": 68043
+                },
+                "2025-02-27": {
+                    "forks": 507,
+                    "issues": 144,
+                    "stars": 3443,
+                    "size": 68067
+                },
+                "2025-03-01": {
+                    "forks": 507,
+                    "issues": 143,
+                    "stars": 3443,
+                    "size": 68070
+                },
+                "2025-03-03": {
+                    "forks": 508,
+                    "issues": 140,
+                    "stars": 3443,
+                    "size": 68130
+                },
+                "2025-03-04": {
+                    "forks": 508,
+                    "issues": 144,
+                    "stars": 3443,
+                    "size": 68192
+                },
+                "2025-03-05": {
+                    "forks": 508,
+                    "issues": 144,
+                    "stars": 3443,
+                    "size": 68202
+                }
+            },
+            "language": {
+                "Go": 3905411,
+                "TypeScript": 3874743,
+                "Shell": 792591,
+                "Gherkin": 217030,
+                "Makefile": 102536,
+                "SCSS": 41157,
+                "HTML": 2079,
+                "Dockerfile": 1565,
+                "Python": 246,
+                "JavaScript": 113
+            }
+        },
+        "kiali-operator": {
+            "license": "Apache License 2.0",
+            "description": "Kiali operator that is used to install, manage, and update Kiali deployments.",
+            "url": "https://github.com/kiali/kiali-operator",
+            "created": "2020-04-14",
+            "topics": [],
+            "metrics": {
+                "2024-10-07": {
+                    "forks": 115,
+                    "issues": 3,
+                    "stars": 79,
+                    "size": 2528
+                },
+                "2024-10-16": {
+                    "forks": 115,
+                    "issues": 2,
+                    "stars": 79,
+                    "size": 2533
+                },
+                "2024-10-17": {
+                    "forks": 115,
+                    "issues": 1,
+                    "stars": 79,
+                    "size": 2567
+                },
+                "2024-10-18": {
+                    "forks": 115,
+                    "issues": 2,
+                    "stars": 79,
+                    "size": 2568
+                },
+                "2024-10-21": {
+                    "forks": 115,
+                    "issues": 2,
+                    "stars": 79,
+                    "size": 2555
+                },
+                "2024-10-22": {
+                    "forks": 115,
+                    "issues": 2,
+                    "stars": 79,
+                    "size": 2543
+                },
+                "2024-10-28": {
+                    "forks": 116,
+                    "issues": 2,
+                    "stars": 79,
+                    "size": 2554
+                },
+                "2024-11-05": {
+                    "forks": 117,
+                    "issues": 3,
+                    "stars": 79,
+                    "size": 2565
+                },
+                "2024-11-06": {
+                    "forks": 117,
+                    "issues": 4,
+                    "stars": 80,
+                    "size": 2565
+                },
+                "2024-11-07": {
+                    "forks": 117,
+                    "issues": 2,
+                    "stars": 80,
+                    "size": 2581
+                },
+                "2024-11-11": {
+                    "forks": 117,
+                    "issues": 3,
+                    "stars": 80,
+                    "size": 2600
+                },
+                "2024-11-12": {
+                    "forks": 117,
+                    "issues": 3,
+                    "stars": 80,
+                    "size": 2605
+                },
+                "2024-11-14": {
+                    "forks": 117,
+                    "issues": 2,
+                    "stars": 80,
+                    "size": 2610
+                },
+                "2024-11-22": {
+                    "forks": 117,
+                    "issues": 6,
+                    "stars": 81,
+                    "size": 2610
+                },
+                "2024-11-25": {
+                    "forks": 117,
+                    "issues": 4,
+                    "stars": 81,
+                    "size": 2589
+                },
+                "2024-12-02": {
+                    "forks": 117,
+                    "issues": 5,
+                    "stars": 81,
+                    "size": 2601
+                },
+                "2024-12-03": {
+                    "forks": 117,
+                    "issues": 3,
+                    "stars": 81,
+                    "size": 2608
+                },
+                "2024-12-05": {
+                    "forks": 117,
+                    "issues": 2,
+                    "stars": 81,
+                    "size": 2661
+                },
+                "2024-12-10": {
+                    "forks": 117,
+                    "issues": 1,
+                    "stars": 81,
+                    "size": 2662
+                },
+                "2024-12-17": {
+                    "forks": 117,
+                    "issues": 1,
+                    "stars": 81,
+                    "size": 2666
+                },
+                "2024-12-23": {
+                    "forks": 117,
+                    "issues": 1,
+                    "stars": 81,
+                    "size": 2627
+                },
+                "2024-12-31": {
+                    "forks": 118,
+                    "issues": 1,
+                    "stars": 81,
+                    "size": 2630
+                },
+                "2025-01-13": {
+                    "forks": 118,
+                    "issues": 4,
+                    "stars": 81,
+                    "size": 2646
+                },
+                "2025-01-14": {
+                    "forks": 118,
+                    "issues": 3,
+                    "stars": 81,
+                    "size": 2655
+                },
+                "2025-01-20": {
+                    "forks": 118,
+                    "issues": 3,
+                    "stars": 81,
+                    "size": 2684
+                },
+                "2025-01-21": {
+                    "forks": 118,
+                    "issues": 1,
+                    "stars": 81,
+                    "size": 2688
+                },
+                "2025-01-28": {
+                    "forks": 118,
+                    "issues": 1,
+                    "stars": 81,
+                    "size": 2693
+                },
+                "2025-02-03": {
+                    "forks": 118,
+                    "issues": 2,
+                    "stars": 81,
+                    "size": 2705
+                },
+                "2025-02-04": {
+                    "forks": 118,
+                    "issues": 1,
+                    "stars": 81,
+                    "size": 2707
+                },
+                "2025-02-07": {
+                    "forks": 118,
+                    "issues": 2,
+                    "stars": 81,
+                    "size": 2710
+                },
+                "2025-02-11": {
+                    "forks": 118,
+                    "issues": 2,
+                    "stars": 81,
+                    "size": 2720
+                },
+                "2025-02-12": {
+                    "forks": 118,
+                    "issues": 1,
+                    "stars": 81,
+                    "size": 2723
+                },
+                "2025-02-20": {
+                    "forks": 118,
+                    "issues": 1,
+                    "stars": 81,
+                    "size": 2711
+                },
+                "2025-02-24": {
+                    "forks": 118,
+                    "issues": 1,
+                    "stars": 81,
+                    "size": 2724
+                },
+                "2025-03-04": {
+                    "forks": 118,
+                    "issues": 1,
+                    "stars": 81,
+                    "size": 2725
+                }
+            },
+            "language": {
+                "Shell": 64597,
+                "Dockerfile": 47335,
+                "Python": 20670,
+                "Makefile": 14664
+            }
+        },
+        "openshift-servicemesh-plugin": {
+            "license": "Apache License 2.0",
+            "description": "Webpack Plugin to integrate Kiali into OpenShift Console",
+            "url": "https://github.com/kiali/openshift-servicemesh-plugin",
+            "created": "2022-05-25",
+            "topics": [],
+            "metrics": {
+                "2024-10-11": {
+                    "forks": 15,
+                    "issues": 3,
+                    "stars": 7,
+                    "size": 8821
+                },
+                "2024-10-21": {
+                    "forks": 15,
+                    "issues": 2,
+                    "stars": 7,
+                    "size": 9039
+                },
+                "2024-10-23": {
+                    "forks": 15,
+                    "issues": 3,
+                    "stars": 7,
+                    "size": 9247
+                },
+                "2024-10-24": {
+                    "forks": 15,
+                    "issues": 2,
+                    "stars": 7,
+                    "size": 9252
+                },
+                "2024-10-26": {
+                    "forks": 15,
+                    "issues": 2,
+                    "stars": 7,
+                    "size": 9255
+                },
+                "2024-11-05": {
+                    "forks": 16,
+                    "issues": 1,
+                    "stars": 7,
+                    "size": 9292
+                },
+                "2024-11-11": {
+                    "forks": 16,
+                    "issues": 3,
+                    "stars": 7,
+                    "size": 9295
+                },
+                "2024-11-12": {
+                    "forks": 16,
+                    "issues": 3,
+                    "stars": 7,
+                    "size": 9301
+                },
+                "2024-11-20": {
+                    "forks": 16,
+                    "issues": 2,
+                    "stars": 7,
+                    "size": 9580
+                },
+                "2024-11-25": {
+                    "forks": 16,
+                    "issues": 1,
+                    "stars": 7,
+                    "size": 9581
+                },
+                "2024-12-03": {
+                    "forks": 17,
+                    "issues": 1,
+                    "stars": 7,
+                    "size": 9627
+                },
+                "2024-12-06": {
+                    "forks": 17,
+                    "issues": 2,
+                    "stars": 7,
+                    "size": 9627
+                },
+                "2024-12-10": {
+                    "forks": 17,
+                    "issues": 4,
+                    "stars": 7,
+                    "size": 9733
+                },
+                "2024-12-23": {
+                    "forks": 17,
+                    "issues": 1,
+                    "stars": 7,
+                    "size": 9953
+                },
+                "2024-12-24": {
+                    "forks": 17,
+                    "issues": 2,
+                    "stars": 7,
+                    "size": 9997
+                },
+                "2025-01-03": {
+                    "forks": 17,
+                    "issues": 1,
+                    "stars": 7,
+                    "size": 9998
+                },
+                "2025-01-15": {
+                    "forks": 17,
+                    "issues": 1,
+                    "stars": 7,
+                    "size": 10025
+                },
+                "2025-02-03": {
+                    "forks": 17,
+                    "issues": 2,
+                    "stars": 7,
+                    "size": 10170
+                },
+                "2025-02-04": {
+                    "forks": 17,
+                    "issues": 2,
+                    "stars": 7,
+                    "size": 10213
+                },
+                "2025-02-11": {
+                    "forks": 17,
+                    "issues": 3,
+                    "stars": 7,
+                    "size": 8799
+                },
+                "2025-02-12": {
+                    "forks": 17,
+                    "issues": 1,
+                    "stars": 7,
+                    "size": 8807
+                },
+                "2025-02-25": {
+                    "forks": 17,
+                    "issues": 1,
+                    "stars": 7,
+                    "size": 8839
+                },
+                "2025-03-05": {
+                    "forks": 17,
+                    "issues": 1,
+                    "stars": 7,
+                    "size": 8845
+                }
+            },
+            "language": {
+                "TypeScript": 3910556,
+                "Gherkin": 237177,
+                "SCSS": 41251,
+                "Makefile": 17312,
+                "Shell": 13179,
+                "Dockerfile": 1167
+            }
+        }
+    }
+}
