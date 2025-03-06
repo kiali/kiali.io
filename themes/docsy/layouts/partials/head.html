@@ -43,7 +43,9 @@
 {{ template "algolia/head" . -}}
 
 {{ partial "hooks/head-end.html" . -}}
-
+<script src="
+https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js
+"></script>
 {{/* To comply with GDPR, cookie consent scripts places in head-end must execute before Google Analytics is enabled */ -}}
 {{ if hugo.IsProduction -}}
   {{ $enableGtagForUniversalAnalytics := not .Site.Params.disableGtagForUniversalAnalytics -}}

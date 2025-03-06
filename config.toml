@@ -215,6 +215,14 @@ enable = false
 	icon = "fab fa-github"
         desc = "Kiali on Github"
 
+# Add here repositories
+[[params.repositories]]
+  name = "kiali"
+[[params.repositories]]
+  name = "kiali-operator"  
+[[params.repositories]]
+  name = "openshift-servicemesh-plugin"  
+
 # Add your release versions here
 [[params.versions]]
   version = "current"

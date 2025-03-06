@@ -1,0 +1,54 @@
+name: Pull Metrics
+
+on:
+  workflow_dispatch:
+  schedule:
+  # Every week at 00:00 on Sunday
+    - cron: "0 0 * * 0"
+jobs:
+  build:
+    runs-on: ubuntu-latest       
+    steps:
+      - name: checkout repo content
+        uses: actions/checkout@v4 # checkout the repository content
+
+      - name: setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10' # install the python version needed      
+      - name: install python packages
+        run: |          
+          python -m pip install --upgrade pip
+          pip install -r scripts/api_gh/requirements.txt
+
+      - name: execute py script # run main.py
+        env:
+          KIALI_API_TOKEN: ${{ secrets.KIALI_API_TOKEN }}
+        run: make generate_metrics_json
+      - name: Configure git
+        run: |
+          git config user.email 'kiali-dev@googlegroups.com'
+
+          git config user.name 'kiali-bot'         
+      - name: Update metrics file
+        run: |
+          if [[ `git status --porcelain` ]]; then
+            echo -e "\e[1;32mOK\e[0m \e[1;39mMetrics json change detected.\e[0m"
+            git add content/en/community/data/metrics.json
+            git commit -m "Update Community data: metrics.json"
+            git push origin
+          else
+            echo -e "\e[1;39mNo changes were detected.\e[0m"
+          fi
+        shell: bash  
+
+      - name: Update events
+        run: |
+          echo "Updating"   
+          make generate_event_json      
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: website/build          
