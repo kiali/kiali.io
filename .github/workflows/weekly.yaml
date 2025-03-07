@@ -40,13 +40,7 @@ jobs:
           else
             echo -e "\e[1;39mNo changes were detected.\e[0m"
           fi
-        shell: bash  
-
-      - name: Update events
-        run: |
-          echo "Updating"   
-          make generate_event_json      
-
+        shell: bash       
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
