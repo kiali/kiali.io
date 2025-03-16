@@ -6,8 +6,25 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 2.7.0
+Sprint Release: Mar 17, 2025
+
+Features:
+
+* [Ambient: Add metrics to ztunnel tab for workload detail](https://github.com/kiali/kiali/issues/8145)
+* [Ambient: Add ztunnel resource consumption metrics to Mesh page side panel](https://github.com/kiali/kiali/issues/8144)
+* [Perf: Validation and other perf enhancements](https://github.com/kiali/kiali/issues/8007)
+
+
+Fixes:
+
+* [Code: Fix data race in GetKialiTokenForHomeCluster](https://github.com/kiali/kiali/issues/6641)
+* [Graph: PFT graph find/hide broken for "label:" operand](https://github.com/kiali/kiali/issues/8232)
+* [Validation: Inconsistency between Service list validation and service details](https://github.com/kiali/kiali/issues/8139)
+* [Validation: Service Details Config Validations Inconsistency](https://github.com/kiali/kiali/issues/8228)
+
 ## 2.6.0
-Sprint Release: Feb 21
+Sprint Release: Feb 21, 2025
 
 Features:
 
