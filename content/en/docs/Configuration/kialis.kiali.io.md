@@ -607,9 +607,10 @@ For additional help in using this validation tool, pass it the `--help` option.
 <div class="property-description">
 <p>A list of additional details that Kiali will look for in annotations. When found on any workload or service, Kiali will display the additional details in the respective workload or service details page. This is typically used to inject some CI metadata or documentation links into Kiali views. For example, by default, Kiali will recognize these annotations on a service or workload (e.g. a Deployment, StatefulSet, etc.):</p>
 
-<pre><code>annotations:
-  kiali.io/api-spec: http://list/to/my/api/doc
-  kiali.io/api-type: rest
+<pre><code>spec:
+  annotations:
+    kiali.io/api-spec: http://list/to/my/api/doc
+    kiali.io/api-type: rest
 </code></pre>
 
 <p>Note that if you change this setting for your own custom annotations, keep in mind that it would override the current default. So you would have to add the default setting as shown in the example CR if you want to preserve the default links.</p>
@@ -1362,19 +1363,23 @@ empty dashboard.</p>
 
 <p>An example of an additional user-defined dashboard,</p>
 
-<pre><code>- name: myapp
-  title: My App Metrics
-  items:
-  - chart:
-      name: &quot;Thread Count&quot;
-      spans: 4
-      metricName: &quot;thread-count&quot;
-      dataType: &quot;raw&quot;
+<pre><code>spec:
+  custom_dashboards:
+  - name: myapp
+    title: My App Metrics
+    items:
+    - chart:
+        name: &quot;Thread Count&quot;
+        spans: 4
+        metricName: &quot;thread-count&quot;
+        dataType: &quot;raw&quot;
 </code></pre>
 
 <p>An example of disabling a built-in dashboard (in this case, disabling the Envoy dashboard),</p>
 
-<pre><code>- name: envoy
+<pre><code>spec:
+  custom_dashboards:
+  - name: envoy
 </code></pre>
 
 <p>To learn more about custom monitoring dashboards, see the documentation at <a href="https://kiali.io/docs/configuration/custom-dashboard/">https://kiali.io/docs/configuration/custom-dashboard/</a></p>
@@ -1622,12 +1627,14 @@ empty dashboard.</p>
 is assumed these secrets are externally managed. You can define 0, 1, or more secrets.
 An example configuration is,</p>
 
-<pre><code>custom_secrets:
-- name: mysecret
-  mount: /mysecret-path
-- name: my-other-secret
-  mount: /my-other-secret-location
-  optional: true
+<pre><code>spec:
+  deployment:
+    custom_secrets:
+    - name: mysecret
+      mount: /mysecret-path
+    - name: my-other-secret
+      mount: /my-other-secret-location
+      optional: true
 </code></pre>
 
 </div>
@@ -1977,11 +1984,13 @@ For further details, consult the Kubernetes documentation - <a href="https://kub
 This allows you to modify the Kiali server pod &lsquo;/etc/hosts&rsquo; file.
 A typical way to configure this setting is,</p>
 
-<pre><code>host_aliases:
-- ip: 192.168.1.100
-  hostnames:
-  - &quot;foo.local&quot;
-  - &quot;bar.local&quot;
+<pre><code>spec:
+  deployment:
+    host_aliases:
+    - ip: 192.168.1.100
+      hostnames:
+      - &quot;foo.local&quot;
+      - &quot;bar.local&quot;
 </code></pre>
 
 <p>For details on the content of this setting, see <a href="https://kubernetes.io/docs/tasks/network/customize-hosts-file-for-pods/#adding-additional-entries-with-hostaliases">https://kubernetes.io/docs/tasks/network/customize-hosts-file-for-pods/#adding-additional-entries-with-hostaliases</a></p>
@@ -2062,18 +2071,20 @@ A typical way to configure this setting is,</p>
 <p>Determines what (if any) HorizontalPodAutoscaler should be created to autoscale the Kiali pod.
 A typical way to configure HPA for Kiali is,</p>
 
-<pre><code>hpa:
-  api_version: &quot;autoscaling/v2&quot;
-  spec:
-    maxReplicas: 2
-    minReplicas: 1
-    metrics:
-    - type: Resource
-      resource:
-        name: cpu
-        target:
-          type: Utilization
-          averageUtilization: 50
+<pre><code>spec:
+  deployment:
+    hpa:
+      api_version: &quot;autoscaling/v2&quot;
+      spec:
+        maxReplicas: 2
+        minReplicas: 1
+        metrics:
+        - type: Resource
+          resource:
+            name: cpu
+            target:
+              type: Utilization
+              averageUtilization: 50
 </code></pre>
 
 </div>
@@ -2348,22 +2359,25 @@ either one or both.</p>
 labels to the default set of labels, use the <code>deployment.ingress.additional_labels</code> setting.
 Example,</p>
 
-<pre><code>override_yaml:
-  metadata:
-    annotations:
-      nginx.ingress.kubernetes.io/secure-backends: &quot;true&quot;
-      nginx.ingress.kubernetes.io/backend-protocol: &quot;HTTPS&quot;
-  spec:
-    rules:
-    - http:
-        paths:
-        - path: /kiali
-          pathType: Prefix
-          backend:
-            service
-              name: &quot;kiali&quot;
-              port:
-                number: 20001
+<pre><code>spec:
+  deployment:
+    ingress:
+      override_yaml:
+        metadata:
+          annotations:
+            nginx.ingress.kubernetes.io/secure-backends: &quot;true&quot;
+            nginx.ingress.kubernetes.io/backend-protocol: &quot;HTTPS&quot;
+        spec:
+          rules:
+          - http:
+              paths:
+              - path: /kiali
+                pathType: Prefix
+                backend:
+                  service
+                    name: &quot;kiali&quot;
+                    port:
+                      number: 20001
 </code></pre>
 
 </div>
@@ -2854,11 +2868,14 @@ An example use for this setting is to inject an Istio sidecar such as,</p>
 If you set this to an empty dict (<code>{}</code>) then no resources will be defined in the Deployment.
 If you do not set this at all, the default is,</p>
 
-<pre><code>requests:
-  cpu: &quot;10m&quot;
-  memory: &quot;64Mi&quot;
-limits:
-  memory: &quot;1Gi&quot;
+<pre><code>spec:
+  deployment:
+    resources:
+      requests:
+        cpu: &quot;10m&quot;
+        memory: &quot;64Mi&quot;
+      limits:
+        memory: &quot;1Gi&quot;
 </code></pre>
 
 </div>
@@ -6697,12 +6714,15 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 You will see these configurations in the &lsquo;Metric Settings&rsquo; drop-down.
 An example,</p>
 
-<pre><code>metrics_inbound:
-  aggregations:
-  - display_name: Istio Network
-    label: topology_istio_io_network
-  - display_name: Istio Revision
-    label: istio_io_rev
+<pre><code>spec:
+  kiali_feature_flags:
+    ui_defaults:
+      metrics_inbound:
+        aggregations:
+        - display_name: Istio Network
+          label: topology_istio_io_network
+        - display_name: Istio Revision
+          label: istio_io_rev
 </code></pre>
 
 </div>
@@ -6782,12 +6802,15 @@ An example,</p>
 You will see these configurations in the &lsquo;Metric Settings&rsquo; drop-down.
 An example,</p>
 
-<pre><code>metrics_outbound:
-  aggregations:
-  - display_name: Istio Network
-    label: topology_istio_io_network
-  - display_name: Istio Revision
-    label: istio_io_rev
+<pre><code>spec:
+  kiali_feature_flags:
+    ui_defaults:
+      metrics_outbound:
+        aggregations:
+        - display_name: Istio Network
+          label: topology_istio_io_network
+        - display_name: Istio Revision
+          label: istio_io_rev
 </code></pre>
 
 </div>
