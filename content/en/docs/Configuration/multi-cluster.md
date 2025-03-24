@@ -54,7 +54,7 @@ stringData:
         server: <...the URL to your remote cluster goes here...>
         certificate-authority-data: <...the long CA data goes here...>
 ```
-You can place multiple kubeconfigs in a single secret. A Kiali multi-cluster secret will look similar to a single cluster secret, but with multiple kubeconfigs each with a key that is the name of the remote cluster (in the example below, there are two keys: `my-cluster-name` and `my-other-cluster`). Name the secret `kiali-multi-cluster-secret` for the added benefit of having the operator automatically detect this secret without having to configure anything within the Kiali CR.; e.g.
+You can place multiple kubeconfigs in a single secret. A Kiali multi-cluster secret will look similar to a single cluster secret, but with multiple kubeconfigs each with a key that is the name of the remote cluster (in the example below, there are two keys: `my-cluster-name` and `my-other-cluster`). Name the secret `kiali-multi-cluster-secret` for the added benefit of having the operator automatically detect this secret without having to configure anything within the Kiali CR.
 ```yaml
 apiVersion: v1
 kind: Secret
