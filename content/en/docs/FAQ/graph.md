@@ -191,17 +191,6 @@ This can happen in a workload or app graph. Of course in a service graph the `Di
 
 ### In Kiali v2.x, is the old graph still available?
 
-In Kiali v2.0 the new PatternFly graph implementation became the default, and the Cytoscape implementation was deprecated. The new graph is a big change and has
-been heavily tested. However, if you encounter an issue the Cytoscape graph is still available by setting:
-
-```
-spec:
-  kiali_feature_flags:
-    ui_defaults:
-      graph:
-        impl: "cy"
-```
-
-The Cytoscape graph implementation will be removed after a number of stable releases, so make sure to open a Kiali github issue for any problems you encounter
-with the new PatternFly graph implementation. 
-
+The "old graph" is the Cytoscape implementation. The "new graph" is the PatternFly implementation.
+In Kiali v2.0 the new PatternFly graph implementation became the default, and the old Cytoscape implementation was deprecated.
+In Kiali v2.8, the old Cytoscape graph implementation has been completely removed and is no longer available.
