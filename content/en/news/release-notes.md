@@ -6,6 +6,40 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 2.8.0
+Sprint Release: Apr 07, 2025
+
+Features:
+
+* [Ambient: Include ztunnel specific metrics](https://github.com/kiali/kiali/issues/8024)
+* [Hack scripts: Support for auto-injection-label in all install scripts](https://github.com/kiali/kiali/issues/7952)
+* [Mesh page: Include Kiali resource metrics in side-panel](https://github.com/kiali/kiali/issues/8196)
+* [Operator: Watch for changes to remote cluster secrets](https://github.com/kiali/kiali/issues/6941)
+* [OSSMC: Integrate console tracing  with Kiali plugin](https://github.com/kiali/kiali/issues/7904)
+* [Perf: Ambient graph generation optimization](https://github.com/kiali/kiali/pull/8277)
+* [Perf: Validation MultiMatchChecker optimization](https://github.com/kiali/kiali/issues/8211)
+* [Perf: Validation VirtualServices SubsetPresenceChecker optimization](https://github.com/kiali/kiali/issues/8210)
+* [Security: Use multi-cluster secret if it exists in the namespace](https://github.com/kiali/kiali/issues/7877)
+* [UI: Enhance masthead Istio Status with multi-cluster support and improved UX](https://github.com/kiali/kiali/issues/7724)
+* [UI: Workload detail Pod listing now shows the revision annotation](https://github.com/kiali/kiali/issues/8154)
+
+Fixes:
+
+* [Health: Service Health calculation wrongly](https://github.com/kiali/kiali/issues/8203)
+* [Health: Ambient Inconsistency of Service Health between pages](https://github.com/kiali/kiali/issues/8189)
+* [K8s Gateway: API CRD check improvement](https://github.com/kiali/kiali/issues/8271)
+
+Deprecations:
+
+* [Remove Cytoscape graph implementation](https://github.com/kiali/kiali/issues/8053)
+
+After a 4 month deprecation period the support for Kiali's original, Cytoscape-based, graph implementation has ended.
+The 'spec.kiali_feature_flags.ui_defaults.graph.impl' configuration setting is no longer supported, and the sole
+implementation going forward uses PatternFly Topology. This has allowed for a significant cleanup of the Kiali
+code base, and removal of several dated dependencies. We'd like to thank the [Cytoscape project](https://cytoscape.org/),
+without which Kiali would not have existed. It is an excellent library, and our migration to PatternFly was motivated
+by a need to settle on a uniform component library.
+
 ## 2.7.0
 Sprint Release: Mar 17, 2025
 
