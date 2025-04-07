@@ -37,8 +37,6 @@ spec:
     namespace: ""
 
   kiali:
-    graph:
-      impl: "pf"
     serviceName: ""
     serviceNamespace: ""
     servicePort: 0
@@ -244,39 +242,6 @@ operator itself was configured.</p>
 <div class="property-body">
 <div class="property-meta">
 <span class="property-type">(object)</span>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-2">
-<div class="property-header">
-<hr/>
-<h3 class="property-path" id=".spec.kiali.graph">.spec.kiali.graph</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(object)</span>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-3">
-<div class="property-header">
-<hr/>
-<h3 class="property-path" id=".spec.kiali.graph.impl">.spec.kiali.graph.impl</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(string)</span>
-
-</div>
-
-<div class="property-description">
-<p>The graph implementation used by OSSMC. Possible values are &lsquo;cy&rsquo; (Cytoscape) and &lsquo;pf&rsquo; (Patternfly). By default the patternfly graph is used.</p>
 
 </div>
 
