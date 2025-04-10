@@ -3,6 +3,14 @@ title: "Installation"
 description: "Questions about Kiali installation options or issues."
 ---
 
+### What is the difference between the operator and the server helm chart?
+
+There are two installation mechanisms from which you can choose when installing the Kiali Server. The first is the recommended installation mechanism - the Kiali Operator. The second installation mechanism is the server helm chart. There are some features that you get with the Kiali Operator that you do not get with the server helm chart. The main differences between the two are mentioned below, though this list may be incomplete.
+
+1. The operator watches for changes to the multi-cluster remote cluster secret - if a change is detected, the operator automatically rolls out a new Kiali server pod so the server picks up the changes immediately. See the [multi-cluster docs](/docs/configuration/multi-cluster/#setup) for more details.
+1. When installing via the operator, cluster-wide-access mode can be disabled (`deployment.cluster_wide_access=false`) This means the Kiali Server will be given a restricted service account with Roles that only give it access to a sub-set of namespaces. If you install the Kiali Server using the server helm chart, only cluster-wide access mode is available (`deployment.cluster_wide_access` must be set to `true`). See the [Namespace Management docs](https://kiali.io/docs/configuration/namespace-management/#accessible-namespaces) for more details.
+1. When installing via server helm chart, you have to explicitly declare your custom secrets when defining external services credentials of the form `secret:<secretName>:<secretKey>`. You do not have to do this when installing via the operator. See [related FAQ](/docs/faq/installation/#how-can-i-use-a-secret-to-pass-external-service-credentials-to-the-kiali-server)
+
 ### Operator fails due to `cannot list resource "clusterroles"` error
 
 When the Kiali Operator installs a Kiali Server, the Operator will assign the Kiali Server the proper roles/rolebindings so the Kiali Server can access the appropriate namespaces.

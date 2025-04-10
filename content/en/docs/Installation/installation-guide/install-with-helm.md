@@ -20,9 +20,10 @@ Charts are provided:
   the Operator nor a Kiali CR.
 
 {{% alert color="warning" %}}
-The `kiali-server` Helm Chart does not provide all the functionality that the Operator
+The `kiali-server` Helm Chart does not provide all the functionality that the Kiali Operator
 provides. Some features you read about in the documentation may only be available if
-you install Kiali using the Operator. Therefore, although the `kiali-server` Helm Chart
+you install the Kiali Server using the Kiali Operator (see this [FAQ](/docs/faq/installation/#what-is-the-difference-between-the-operator-and-the-server-helm-chart) for details).
+Therefore, although the `kiali-server` Helm Chart
 is actively maintained, it is not recommended and is only provided for convenience.
 If using Helm, the recommended method is to install the `kiali-operator` Helm Chart
 and then create a Kiali CR to let the Operator deploy Kiali.
