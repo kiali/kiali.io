@@ -69,11 +69,11 @@ In addition to the embedded integration that Kiali provides with Jaeger, it is p
       external_url: "http://jaeger.example.com/"
 ```
 
-When configured, this URL will be used to generate a couple of links to Jaeger within Kiali. It's also visible in the About modal:
+When configured, this URL will be used to generate a couple of links to Jaeger within Kiali. It's also visible in the Mesh page:
 
-![About menu](/images/documentation/faq/tracing/about_menu.png)
+![Mesh page](/images/documentation/faq/tracing/mesh-page.png)
 
-![About modal](/images/documentation/faq/tracing/about.png)
+![Mesh page Jaeger](/images/documentation/faq/tracing/jaeger_node.png)
 
 
 ### Why do I see an external link instead of Kiali's own Tracing page?
@@ -101,3 +101,62 @@ internal_url: "http://jaeger_url:16686/jaeger"
 ```
 
 That should be solved when `use_grpc: false` or using the grpc port `internal_url: "http://jaeger_url:16685/jaeger"` 
+
+### Why do I see "[gRPC Tempo] GetAppTraces, Tracing gRPC client error: rpc error" error when Kiali is not able to fetch Traces in Tempo?
+
+This error can occur when `use_grpc` is `true`, but the port is not open/accessible.  
+
+### Why do I see "invalid character 'p' after top-level value" error when Kiali is not able to fetch Traces in Tempo?
+
+The Tempo URL is set in `internal_url`, but the configuration in Kiali CR for `external_services.tracing.provider` is not `tempo`.
+
+![Error 503](/images/documentation/faq/tracing/503.png)
+
+### Why do I see "Error fetching traces. AxiosError: Request failed with status code 503" error when Kiali is not able to fetch Traces from Tempo?
+
+This error can occur for several reasons, but it usually means that the internal URL is not the right Tracing API.
+
+Note that Grafana Tempo can also expose a Jaeger API, but the right url needs to be set in the Kiali CR pointing to the Jaeger endpoint.
+
+If that is not the issue, here there are some troubleshooting steps:
+
+- Expand the messages icon to find more information about the error.
+- In the Mesh page, check that the tracing provider is reachable.
+- In the Mesh page, check the configuration for the tracing provider. Verify the URLs are correct. 
+- Verify the provider (jaeger/tempo) matches the internal/external URL that is configured.
+- Review the Kiali logs and check for specific tracing errors. Might be helpful to set the log level to `debug`.
+- When the log level is set to debug, Kiali will log the complete trace query. It might be useful to test it from a cURL to verify if that is reachable from the Kiali pod and it has results. 
+
+Sometimes Tempo is configured outside the Kiali namespace, so there might be additional issues like reachability, certificates setup, etc.
+
+### Why can't I see the link "View in Tracing" when using Tempo?
+
+When Tempo is set in the Kiali CR `external_services.tracing.provider` but Grafana is not enabled, as Grafana is the default UI for Tempo, Kiali will hide the `View in Tracing links`
+If the Jaeger UI is enabled in Tempo, configure:
+
+```yaml
+tracing:
+  provider: "tempo"
+  external_url: "http://jaeger_url"
+  tempo_config:
+    url_format: "jaeger"
+```
+
+![View in Tracing](/images/documentation/faq/tracing/view-in-tracing.png)
+
+For [OSSMC]({{< ref "/docs/OSSMC/users-guide#workload-traces" >}}), when the tracing plugin is enabled, it will redirect automatically to the Tracing UI plugin.
+
+### Why can't I see traces and there are no errors?
+
+First thing to verify will be if Istio is correctly configured to send traces and verify in the Tracing backend if traces do exist.
+
+If the tracing is configured correctly, verify in the tracing backend if there are traces for the services in the Mesh that you are expecting to have traces.
+
+By default, Kiali will search for the service name using `service.namespace`, but if the traces are create within the namespace selector, the following CR setting should be changed:
+
+```yaml
+tracing:
+  namespace_selector: false
+```
+
+For further Tempo configuration options, take a look at the [Tempo configuration page]({{< ref "/docs/configuration/p8s-jaeger-grafana/tracing/tempo" >}})
