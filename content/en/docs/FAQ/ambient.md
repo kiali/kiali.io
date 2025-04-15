@@ -13,7 +13,7 @@ Make sure you see the Ambient label in the control plane card in Kiali, or make 
 
 ![Ambient dataplane](/images/documentation/faq/ambient/dataplane.png)
 
-This means that the traffic graph will have L4 metrics if there are traffic, so make sure the traffic selectors are matching this type of traffic:
+This means that the traffic graph will have L4 metrics if there is traffic. You want to make sure the traffic selectors select `ZTunnel` as well as the type of traffic (e.g. `Tcp`) that is flowing:
 
 ![Ambient traffic](/images/documentation/faq/ambient/ambient-traffic.png)
 
