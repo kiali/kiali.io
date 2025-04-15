@@ -49,7 +49,7 @@ Also, it must be correctly enrolled in a Waypoint proxy. Check the application d
 
 - Is there any traffic?
 
-The traffic is created based on the period of time selected. If there are no traffic, the graph won't be shown.
+The traffic is created based on the period of time selected. If there is no traffic, the graph won't be shown.
 Try to select a bigger period of time or enable the Display option to see the idle nodes.
 
 ![Idle nodes](/images/documentation/faq/ambient/idle-nodes.png)
