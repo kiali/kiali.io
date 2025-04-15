@@ -102,23 +102,26 @@ internal_url: "http://jaeger_url:16686/jaeger"
 
 That should be solved when `use_grpc: false` or using the grpc port `internal_url: "http://jaeger_url:16685/jaeger"` 
 
-### Why do I see "error 503" error when Kiali is not able to fetch Traces?
+### Why do I see "[gRPC Tempo] GetAppTraces, Tracing gRPC client error: rpc error" error when Kiali is not able to fetch Traces in Tempo?
 
-This error can occur for several reasons, but it usually means that the internal URL is not the right Tracing API.
+This error can occur when `use_grpc` is `true`, but the port is not open/accessible.  
 
-For example, when using Grafana Tempo, the Tempo URL is set in `internal_url`, but the configuration in Kiali CR for `external_services.tracing.provider` is not `tempo`, the following error will be displayed:
+### Why do I see "invalid character 'p' after top-level value" error when Kiali is not able to fetch Traces in Tempo?
 
-```yaml
-invalid character 'p' after top-level value
-```
+The Tempo URL is set in `internal_url`, but the configuration in Kiali CR for `external_services.tracing.provider` is not `tempo`.
 
 ![Error 503](/images/documentation/faq/tracing/503.png)
+
+### Why do I see "Error fetching traces. AxiosError: Request failed with status code 503" error when Kiali is not able to fetch Traces from Tempo?
+
+This error can occur for several reasons, but it usually means that the internal URL is not the right Tracing API.
 
 Note that Grafana Tempo can also expose a Jaeger API, but the right url needs to be set in the Kiali CR pointing to the Jaeger endpoint.
 
 If that is not the issue, here there are some troubleshooting steps:
 
-- In the Mesh page, check that the tracing provider is reachable
+- Expand the messages icon to find more information about the error.
+- In the Mesh page, check that the tracing provider is reachable.
 - In the Mesh page, check the configuration for the tracing provider. Verify the URLs are correct. 
 - Verify the provider (jaeger/tempo) matches the internal/external URL that is configured.
 - Review the Kiali logs and check for specific tracing errors. Might be helpful to set the log level to `debug`.
