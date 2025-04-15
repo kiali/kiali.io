@@ -72,7 +72,7 @@ First, check if the Waypoint proxy is generating traces in the Tracing provider:
 
 ![Waypoint traces](/images/documentation/faq/ambient/waypoint-traces.png)
 
-If there are not, verify that the Waypoint proxy is handling traffic.
+If there are no traces, verify that the Waypoint proxy is handling traffic.
 
 If there are, verify that the Waypoint proxy has traces in Kiali.
 
