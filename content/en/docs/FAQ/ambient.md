@@ -34,7 +34,7 @@ For this particular scenario, the most important ones would be the `istio_tcp_re
 
 Other graph issues are listed [here]({{< ref "/docs/FAQ/graph" >}}).
 
-### Why I can't see the traffic graph when the application has a Waypoint proxy?
+### Why can't I see the traffic graph when the application has a Waypoint proxy?
 
 There can be multiple reasons, but here there are some troubleshooting steps:
 
