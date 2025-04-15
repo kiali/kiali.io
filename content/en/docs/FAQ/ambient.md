@@ -58,7 +58,7 @@ Try to select a longer period of time or enable the Display option to see the id
 
 Kiali requires some metrics and attributes to generate the graph. Refer to [this FAQ]({{< ref "/docs/FAQ/general#requiredmetrics" >}} to help you ensure you have the required metrics in your Prometheus server).
 
-For this particular scenario, the most important ones would be the `istio_requests_total` where `reporter=waypoint`. It can be checked if they exist in Prometheus.
+For this particular scenario, the most important ones would be the `istio_requests_total` where `reporter=waypoint`. Make sure those metrics exist in Prometheus.
 
 Other graph issues are listed [here]({{< ref "/docs/FAQ/graph" >}}).
 
