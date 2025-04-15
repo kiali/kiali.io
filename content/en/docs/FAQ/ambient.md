@@ -30,7 +30,7 @@ Try to select a longer period of time or enable the Display option to see the id
 
 Kiali requires some metrics and attributes to generate the graph. Refer to [this FAQ]({{< ref "/docs/FAQ/general#requiredmetrics" >}} to help you ensure you have the required metrics in your Prometheus server).
 
-For this particular scenario, the most important ones would be the `istio_tcp_received_bytes_total` and `istio_tcp_sent_bytes_total` where `app=ztunnel`. It can be checked if they exist in Prometheus. 
+For this particular scenario, the most important ones would be the `istio_tcp_received_bytes_total` and `istio_tcp_sent_bytes_total` where `app=ztunnel`. Make sure those metrics exist in Prometheus. 
 
 Other graph issues are listed [here]({{< ref "/docs/FAQ/graph" >}}).
 
