@@ -72,7 +72,10 @@ First, check if the Waypoint proxy is generating traces in the Tracing provider:
 
 ![Waypoint traces](/images/documentation/faq/ambient/waypoint-traces.png)
 
-If there are no traces, verify that the Waypoint proxy is handling traffic.
+If there are no traces, verify:
+- If Istio is configured correctly to send traces to the tracing backend
+- If the Waypoint proxy is handling traffic
+- If the Waypoint proxy is configured correctly to send traces
 
 If there are traces, verify that the Waypoint proxy has traces in Kiali.
 
