@@ -95,7 +95,7 @@ When the application is part of the Ambient Mesh and also has a Waypoint proxy, 
 
 ![Duplicated Edges](/images/documentation/faq/ambient/duplicated-edges.png)
 
-We can filter by just the Waypoint Traffic to remove the same telemetry reported from different components.
+You can filter by just the Waypoint Traffic to remove the same telemetry reported from different components.
 
 ![Waypoint traffic](/images/documentation/faq/ambient/waypoint-traffic.png)
 
