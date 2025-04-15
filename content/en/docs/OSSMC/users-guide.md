@@ -79,7 +79,7 @@ If you hover over a cell in a heatmap, a tooltip will give some details on the c
 ![Workload: Traces Heatmap](/images/documentation/installation/installation-guide/29-workload-traces-heatmap.png)
 
 When the OpenShift tracing UI plugin is enabled, Kiali will try to auto discover the plugin settings and the `View in Tracing` Kiali link will redirect to the plugin (for Kiali 2.8.0+). 
-If the plugin config needs to be adjusted, the following settings should be updated:
+If the plugin config needs to be adjusted, the following settings should be updated in the `plugin-conf` ConfigMap:
 
 ```yaml
 {
