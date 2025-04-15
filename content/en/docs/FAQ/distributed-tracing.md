@@ -150,7 +150,7 @@ For [OSSMC]({{< ref "/docs/OSSMC/users-guide#workload-traces" >}}), when the tra
 
 First thing to verify will be if Istio is correctly configured to send traces and verify in the Tracing backend if traces do exist.
 
-If the tracing is configured correctly, verify in the tracing backend if there are traces for the services in the Mesh that we are expecting to have traces.
+If the tracing is configured correctly, verify in the tracing backend if there are traces for the services in the Mesh that you are expecting to have traces.
 
 By default, Kiali will search for the service name using `service.namespace`, but if the traces are create within the namespace selector, the following CR setting should be changed:
 
