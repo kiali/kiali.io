@@ -56,7 +56,7 @@ Try to select a longer period of time or enable the Display option to see the id
 
 - Are the right metrics generated in Prometheus?
 
-Kiali requires some metrics and attributes to generate the graph. Refer to [this FAQ]({{< ref "/docs/FAQ/general#requiredmetrics" >}} to help you ensure you have the required metrics in your Prometheus server).
+Kiali requires some metrics and attributes to generate the graph. Refer to [this FAQ]({{< ref "/docs/FAQ/general#requiredmetrics" >}}) to help you ensure you have the required metrics in your Prometheus server.
 
 For this particular scenario, the most important ones would be the `istio_requests_total` where `reporter=waypoint`. Make sure those metrics exist in Prometheus.
 
