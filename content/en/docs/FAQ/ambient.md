@@ -4,7 +4,7 @@ description: "Questions about Ambient Mesh features."
 ---
 
 
-### Why I can't see the traffic graph when not using a Waypoint?
+### Why can't I see the traffic graph when not using a Waypoint?
 
 There can be multiple reasons, but here there are some troubleshooting steps: 
 
