@@ -39,7 +39,7 @@ Other graph issues are listed [here]({{< ref "/docs/FAQ/graph" >}}).
 There can be multiple reasons, but here are some troubleshooting steps:
 
 - Is the application correctly enrolled in Ambient?
-  We can check if there is the Ambient label in the control plane card in Kiali, or the namespace is labeled with `istio.io/dataplane-mode=ambient`.
+Make sure you see the Ambient label in the control plane card in Kiali, or make sure the namespace is labeled with `istio.io/dataplane-mode=ambient`. 
 
 ![Ambient dataplane](/images/documentation/faq/ambient/dataplane.png)
 
