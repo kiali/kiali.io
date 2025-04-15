@@ -80,7 +80,7 @@ If there are, verify that the Waypoint proxy has traces in Kiali.
 
 If there are not, there might be a problem configuring the [distributed tracing]({{< ref "/docs/FAQ/distributed-tracing" >}}). 
 
-If there traces, from Kiali 2.5.0, they will be filtered by the service name to be shown in the application details. 
+If there are traces, they will be filtered by the service name to be shown in the application details (for Kiali 2.5.0+).
 
 ![Kiali app traces](/images/documentation/faq/ambient/kiali-app-traces.png)
 
