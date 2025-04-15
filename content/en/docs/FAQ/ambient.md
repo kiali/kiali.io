@@ -78,7 +78,7 @@ If there are traces, verify that the Waypoint proxy has traces in Kiali.
 
 ![Waypoint traces Kiali](/images/documentation/faq/ambient/waypoint-traces-kiali.png)
 
-If there are no traces in Kiali, there might be a problem with its distributed tracing configuration. Please refer to the [distributed tracing FAQ]({{< ref "/docs/FAQ/distributed-tracing" >}} for additional help). 
+If there are no traces in Kiali, there might be a problem with its distributed tracing configuration. Please refer to the [distributed tracing FAQ]({{< ref "/docs/FAQ/distributed-tracing" >}}) for additional help. 
 
 If there are traces, they will be filtered by the service name to be shown in the application details (for Kiali 2.5.0+).
 
