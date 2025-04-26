@@ -6,6 +6,30 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 2.9.0
+Sprint Release: Apr 25
+
+Features:
+
+* [CI: Use the sail operator instead of istioctl to deploy istio](https://github.com/kiali/kiali/issues/7830)
+* [CI: Update primary-remote (multicluster) pipeline to use Sail Operator](https://github.com/kiali/kiali/issues/8097)
+* [CI: Update external control plane pipeline to use Sail Operator](https://github.com/kiali/kiali/issues/8098)
+* [CI: Update workflows /test-istio-version.yml to use sail operator](https://github.com/kiali/kiali/issues/8289)
+* [Kiali.io: document the features that are supported by the operator but not by the server helm chart](https://github.com/kiali/kiali/issues/8314)
+* [Operator: Allow providing extra labels for server and operator](https://github.com/kiali/kiali/issues/8315)
+* [UI: Add "Manual" refresh interval](https://github.com/kiali/kiali/issues/8344)
+* [UI: Scroll in tables with sticky headers](https://github.com/kiali/kiali/issues/8197)
+
+Fixes:
+
+* [Demos: Service Spawner demo not generating traffic ](https://github.com/kiali/kiali/issues/6357)
+* [Perf: Kiali uses a lot of CPU (in validations)](https://github.com/kiali/kiali/issues/8007)
+* [Perf: Mesh page hangs for a long time when a component status is unhealthy](https://github.com/kiali/kiali/issues/8304)
+* [Server: Kiali not working when Istio native sidecars feature is disabled](https://github.com/kiali/kiali/issues/8259)
+* [Server: Difference in Istio and Kiali Workload Name for Argo Rollouts](https://github.com/kiali/kiali/issues/8284)
+* [Operator: defining an inaccessible cluster in Kiali CR breaks the operator](https://github.com/kiali/kiali/issues/8321)
+* [UI: Node selection not working when navigating to graph from trace detail](https://github.com/kiali/kiali/issues/8258)
+
 ## 2.8.0
 Sprint Release: Apr 07, 2025
 
