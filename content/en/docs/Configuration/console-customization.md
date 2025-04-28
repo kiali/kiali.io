@@ -39,20 +39,20 @@ Most Kiali pages show _metrics per refresh_ and _refresh interval_
 drop-downs. These are located at the top-right of the page.
 
 _Metrics per refresh_ specifies the time range back from the current
-instant to fetch metrics and/or distributed tracing data. By default, a
-1-minute time range is selected.
+instant to fetch metrics and/or distributed tracing data. Also known as the query duration.
+By default, a 1-minute time range is selected, or the lowest valid setting.
 
 _Refresh interval_ specifies how often Kiali will automatically refresh the
-data shown. By default, Kiali refreshes data every 15 seconds.
+data shown. By default, Kiali refreshes data every 60 seconds.
 
 ```yaml
 spec:
   kiali_feature_flags:
     ui_defaults:
-      # Valid values: 1m, 5m, 10m, 30m, 1h, 3h, 6h, 12h, 1d, 7d, 30d
+      # Valid values: 1m, 2m, 5m, 10m, 30m, 1h, 3h, 6h, 12h, 1d, 7d, 30d
       metrics_per_refresh: "1m"
 
-      # Valid values: pause, 10s, 15s, 30s, 1m, 5m, 15m
+      # Valid values: pause, manual, 10s, 15s, 30s, 1m, 5m, 15m
       refresh_interval: "15s"
 ```
 
