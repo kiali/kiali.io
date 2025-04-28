@@ -173,6 +173,13 @@ spec:
           value: "1"
       # default: policy is empty
       policy: "ClusterFirst"
+    extra_labels: {}
+    # default: host_aliases is an empty list
+    host_aliases:
+    - ip: "192.168.1.100"
+      hostnames:
+      - "foo.local"
+      - "bar.local"
     hpa:
       api_version: ""
       # default: spec is empty
@@ -186,12 +193,6 @@ spec:
             target:
               type: Utilization
               averageUtilization: 50
-    # default: host_aliases is an empty list
-    host_aliases:
-    - ip: "192.168.1.100"
-      hostnames:
-      - "foo.local"
-      - "bar.local"
     image_digest: ""
     image_name: ""
     image_pull_policy: "IfNotPresent"
@@ -234,7 +235,7 @@ spec:
       nodeSelector: "nodeSelectorValue"
     # default: pod_annotations is empty
     pod_annotations:
-      podAnnotation: "podAnnotationValue"
+      proxy.istio.io/config: '{ "holdApplicationUntilProxyStarts": true }'
     # default: pod_labels is empty
     pod_labels:
       sidecar.istio.io/inject: "true"
@@ -1971,6 +1972,29 @@ For further details, consult the Kubernetes documentation - <a href="https://kub
 <div class="property depth-2">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.deployment.extra_labels">.spec.deployment.extra_labels</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>Extra name/value pairs to be added to the labels of all resources created by the operator.
+These are added to the labels the operator creates by default. These will not overwrite
+labels that the operator creates itself. For example, if you set &ldquo;app.kubernetes.io/name&rdquo;
+as an extra label, it will be silently ignored because that is one of the labels the operator
+creates on all resources.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.deployment.host_aliases">.spec.deployment.host_aliases</h3>
 </div>
 <div class="property-body">
@@ -2591,7 +2615,15 @@ Example,</p>
 </div>
 
 <div class="property-description">
-<p>Custom annotations to be created on the Kiali pod.</p>
+<p>Custom annotations to be created on the Kiali pod.
+By default, the following annotation is applied:</p>
+
+<pre><code>proxy.istio.io/config: '{ &quot;holdApplicationUntilProxyStarts&quot;: true }'
+</code></pre>
+
+<p>If you define your own pod_annotations, they will overwrite this default.
+To retain the default behavior while adding your own annotations,
+make sure to include this value alongside your custom annotations.</p>
 
 </div>
 
@@ -6938,7 +6970,7 @@ An example,</p>
 </div>
 
 <div class="property-description">
-<p>The automatic refresh interval for pages offering automatic refresh. Value must be one of: <code>pause</code>, <code>10s</code>, <code>15s</code>, <code>30s</code>, <code>1m</code>, <code>5m</code> or <code>15m</code></p>
+<p>The automatic refresh interval for pages offering automatic refresh. <code>Manual</code> requires user action even for initial page load. Value must be one of: <code>pause</code>, <code>manual</code>, <code>10s</code>, <code>15s</code>, <code>30s</code>, <code>1m</code>, <code>5m</code> or <code>15m</code></p>
 
 </div>
 
@@ -7015,6 +7047,25 @@ An example,</p>
 
 <div class="property-description">
 <p>The KIA0301 validation checks duplicity of host and port combinations across all Istio Gateways. This includes also Gateways with &lsquo;*&rsquo; in hosts. But Istio considers such a Gateway with a wildcard in hosts as the last in order, after the Gateways with FQDN in hosts. This option is to skip Gateways with wildcards in hosts from the KIA0301 validations but still keep Gateways with FQDN hosts.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-1">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_internal">.spec.kiali_internal</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>Unstructured section for internal testing and debugging features.</p>
 
 </div>
 
