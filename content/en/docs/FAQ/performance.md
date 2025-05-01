@@ -5,7 +5,7 @@ description: "Questions about Kiali Performance measurements and improvements."
 
 ### What are some Tips for working with a large mesh?
 
-It can be a observability challenge to work with a large mesh. Here are a few things that can be done to improve the situation.
+It can be an observability challenge to work with a large mesh. Here are a few things that can be done to improve the situation.
 
 #### Resources and Connectivity
 
