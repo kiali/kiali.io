@@ -57,7 +57,7 @@ After your graph is generated and rendered in the UI, there are client-side ways
   - It is possible to pre-define Find and Hide expressions in your Kiali CR. These pre-defined expressions can even be configured to be applied automatically.
 - Layouts
   - Kiali provides multiple layouts. Many graphs looks best using the default layout, but others may improve using a different layout.
-  - Layouts are available by clicking the on screen icons at the bottom of the graph.
+  - Layouts are available by clicking the on-screen icons at the bottom of the graph.
 
 ##### Mini-Graphs
 
