@@ -30,7 +30,7 @@ Working with large graphs is difficult. A graph does not have to be very large b
 ##### Tips to reduce graph size and speed up generation
 
 - Limit the namespaces selected.
-  - Each requested namespace is like it's own graph request, and then each resulting namespace graph is "stitched" together.
+  - Each requested namespace is like its own graph request, and then each resulting namespace graph is "stitched" together.
   - This may not be possible, in some mesh designs even a single namespace is very populated.
 - Reduce the protocols selected
   - Using the Traffic dropdown, only fetch TCP or HTTP, not both. Different queries are performed for the different protocols.
