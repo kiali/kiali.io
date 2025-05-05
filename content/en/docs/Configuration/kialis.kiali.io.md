@@ -349,7 +349,6 @@ spec:
       egress_gateway_namespace: ""
       envoy_admin_local_port: 15000
       gateway_api_classes: []
-      gateway_api_classes_label_selector: ""
       ingress_gateway_namespace: ""
       istio_api_enabled: true
       # default: istio_canary_revision is undefined
@@ -4418,25 +4417,6 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property-description">
 <p>The name of the Gateway API implementation.</p>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-5">
-<div class="property-header">
-<hr/>
-<h3 class="property-path" id=".spec.external_services.istio.gateway_api_classes_label_selector">.spec.external_services.istio.gateway_api_classes_label_selector</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(string)</span>
-
-</div>
-
-<div class="property-description">
-<p>Specifies the label selector for automatic discovery of K8s Gateway API Classes. This setting is used when the <code>gateway_api_classes</code> configuration is not explicitly defined. It defaults to empty, which means all Gateway API Classes will be loaded.</p>
 
 </div>
 
