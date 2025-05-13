@@ -21,7 +21,7 @@ In the dropdown, Kiali offers the "Manual" refresh setting. If selected, Kiali w
 
 #### URL Bookmarks
 
-Because most of Kiali is bookmarkable, it can be useful to save bookmarks of pages you like. Then, use these bookmarks to immediately apply the settings you want to the Kiali page you are visiting.
+Kiali pages store most, if not all, of their settings as URL query parameters. So, it can be useful to bookmark pages you've configured with desired options and filters. By visiting the bookmarked page those options and filters will be applied immediately.
 
 #### Large Graphs
 
@@ -36,7 +36,7 @@ Working with large graphs is difficult. A graph does not have to be very large b
   - Using the Traffic dropdown, only fetch TCP or HTTP, not both. Different queries are performed for the different protocols.
   - In Ambient, you can also choose between ztunnel and waypoint telemetry. This can reduce the number of queries and/or the size of your graph.
 - Prefer smaller Duration dropdown values.
-  - The larger the duration the more metric data being processed.
+  - The larger the duration, the more metric data that must be processed.
 - Enable response time edge labels only after minimizing the size of your graph.
   - This requires extra queries against Prometheus histograms, and can be expensive.
 - Enable the Security Display option only after minimizing the size of your graph.
@@ -55,6 +55,7 @@ After your graph is generated and rendered in the UI, there are client-side ways
   - Find will highlight the nodes and edges that match the expression. This can help locate nodes and edges in a large graph (or even a small graph).
   - Hide will temporarily remove the matching nodes and edges. This can effectively clean up a large graph into a very focused view.
   - It is possible to pre-define Find and Hide expressions in your Kiali CR. These pre-defined expressions can even be configured to be applied automatically.
+    - For more, see [find_options](/docs/configuration/kialis.kiali.io/#.spec.kiali_feature_flags.ui_defaults.graph.find_options) and [hide_options](/docs/configuration/kialis.kiali.io/#.spec.kiali_feature_flags.ui_defaults.graph.hide_options) in the [Kiali CR Reference](/docs/configuration/kialis.kiali.io/#example-cr).
 - Layouts
   - Kiali provides multiple layouts. Many graphs looks best using the default layout, but others may improve using a different layout.
   - Layouts are available by clicking the on-screen icons at the bottom of the graph.
