@@ -1116,7 +1116,7 @@ A k8s Gateway is referencing to a GatewayClass which is not configured in Kiali 
 
 #### Resolution
 
-Change the `gatewayClassName` field to reference to existing configured GatewayClass or add the missing GatewayClass into `gateway_api_classes` configuration of Kiali CR. More info about configuring K8s Gateway API implementations can be found in [Gateway API Implementations](https://gateway-api.sigs.k8s.io/implementations/)
+Change the `gatewayClassName` field to reference to existing configured GatewayClass in the system, or add the missing GatewayClass into `gateway_api_classes` configuration of Kiali CR if this configuration is set. More info about configuring K8s Gateway API implementations can be found in [Gateway API Implementations](https://gateway-api.sigs.k8s.io/implementations/)
 
 #### Severity
 
