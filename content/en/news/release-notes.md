@@ -6,8 +6,29 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 2.10.0
+Sprint Release: May 18, 2025
+
+Features:
+
+* [Ambient: Include ztunnel table filters](https://github.com/kiali/kiali/issues/7996)
+* [Code: Adopt controller-runtime client](https://github.com/kiali/kiali/issues/8355)
+* [Code: Adopt github.com/go-jose/go-jose/v3 instead of github.com/go-jose/go-jose](https://github.com/kiali/kiali/issues/8373)
+* [Gateway API: Load all k8s gateway API classes that use Istio as a controller](https://github.com/kiali/kiali/issues/8220)
+* [Kiali.io: Document features that enable you to more easily view a large graph](https://github.com/kiali/kiali/issues/5043)
+* [Mesh Page: Load user config, if configured, and show on mesh page for istiod](https://github.com/kiali/kiali/pull/8330)
+* [Support: Add structured logging](https://github.com/kiali/kiali/issues/8346)
+* [Validation: Allow disabling validations](https://github.com/kiali/kiali/issues/8317)
+
+Fixes:
+
+* [Ambient: Error Unmarshalling the config_dump in Istio Ambient 1.26](https://github.com/kiali/kiali/issues/8381)
+* [Build: Not able to build v1.73 integration test image + runtime GLIBC error from `oc`](https://github.com/kiali/kiali/issues/8376)
+* [OSSMC: Trying to show traffic animation in OpenShift console leads to error](https://github.com/kiali/kiali/issues/8417)
+* [Tempo: Does not return traces with error](https://github.com/kiali/kiali/issues/8406)
+
 ## 2.9.0
-Sprint Release: Apr 25
+Sprint Release: Apr 25, 2025
 
 Features:
 
