@@ -349,6 +349,7 @@ spec:
       egress_gateway_namespace: ""
       envoy_admin_local_port: 15000
       gateway_api_classes: []
+      gateway_api_classes_label_selector: ""
       ingress_gateway_namespace: ""
       istio_api_enabled: true
       # default: istio_canary_revision is undefined
@@ -535,8 +536,8 @@ spec:
         enabled: true
         port: 9090
       tracing:
-        collector_type: "jaeger"
-        collector_url: "http://jaeger-collector.istio-system:14268/api/traces"
+        collector_type: "otel"
+        collector_url: "jaeger-collector.istio-system:4318"
         enabled: false
         otel:
           ca_name: ""
@@ -4417,6 +4418,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property-description">
 <p>The name of the Gateway API implementation.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.istio.gateway_api_classes_label_selector">.spec.external_services.istio.gateway_api_classes_label_selector</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>Label selector for auto-discovering K8s Gateway API Classes. Used if <code>gateway_api_classes</code> is unset. When left empty then all K8s Gateway API Classes will be loaded.</p>
 
 </div>
 
