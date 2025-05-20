@@ -3,10 +3,6 @@ title: "Multi-cluster"
 description: "Advanced Mesh Deployment and Multi-cluster support."
 ---
 
-{{% alert color="warning" %}}
-Support for multi-cluster deployments is currently **experimental** and subject to change.
-{{% /alert %}}
-
 A basic Istio mesh deployment has a single control plane with a single data plane, deployed on a single Kubernetes cluster. But Istio supports a variety of advanced
 [deployment models](https://istio.io/latest/docs/ops/deployment/deployment-models/). It allows a mesh to span multiple primary (control plane) and/or remote (data plane only) clusters, and can use a single or
 [multi-network](https://istio.io/latest/docs/ops/deployment/deployment-models/#multiple-networks) approach. The only strict rule is that within a mesh service names are unique. A non-basic mesh deployment generally involves multiple clusters. See [installation instructions](https://istio.io/docs/setup/install/multicluster/) for more detail on installing advanced mesh deployments.
@@ -50,7 +46,3 @@ The overview page shows namespace information across all configured clusters.
 The mesh graph displays infrastructure information for multiple clusters, Istio control planes, and data planes according to the Istio deployment (primary-remote or multi-primary).
 
 ![Multi-cluster mesh](/images/documentation/features/multi-cluster-mesh.png "Multi-cluster mesh")
-
-## Roadmap
-
-See [this issue](https://github.com/kiali/kiali/issues/5618) to see the multi-cluster roadmap for Kiali.

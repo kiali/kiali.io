@@ -16,6 +16,7 @@ Features:
 * [Code: Adopt github.com/go-jose/go-jose/v3 instead of github.com/go-jose/go-jose](https://github.com/kiali/kiali/issues/8373)
 * [Gateway API: Load all k8s gateway API classes that use Istio as a controller](https://github.com/kiali/kiali/issues/8220)
 * [Kiali.io: Document features that enable you to more easily view a large graph](https://github.com/kiali/kiali/issues/5043)
+* [Mesh Page: Load user config, if configured, and show on mesh page for istiod](https://github.com/kiali/kiali/pull/8330)
 * [Support: Add structured logging](https://github.com/kiali/kiali/issues/8346)
 * [Validation: Allow disabling validations](https://github.com/kiali/kiali/issues/8317)
 
