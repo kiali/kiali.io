@@ -109,7 +109,7 @@ Some routes that may be of interest are:
 
 #### Show logs of processing times
 
-Kiali collects metrics of its internal systems to track its performance (see the next section, "Metrics"). Many of these metrics use a timer to measure the duration of time that Kiali takes to process some unit of work (for example, the time it takes to generate a graph). Kiali will log these duration times as well as export them to Promtheus. To see what metric timers Kiali is tracking internally, you can do this:
+Kiali collects metrics of its internal systems to track its performance (see the next section, "Metrics"). Many of these metrics use a timer to measure the duration of time that Kiali takes to process some unit of work (for example, the time it takes to generate a graph). Kiali will log these duration times as well as export them to Prometheus. To see what metric timers Kiali is tracking internally, you can do this:
 
 | | |
 |-|-|
