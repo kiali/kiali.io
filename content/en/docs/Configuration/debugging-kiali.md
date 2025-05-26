@@ -69,7 +69,7 @@ Some log messages are associated with a single, specific request. You can obtain
 | | |
 |-|-|
 | text: | `grep 'request-id=abc123'` |
-| json: | `jq -rR 'fromjson? \| select(."request-id" == "abc123")` |
+| json: | `jq -rR 'fromjson? \| select(."request-id" == "abc123")'` |
 
 <br/>But just having a list of every request ID is likely not enough. You most likely want to look at the logs for requests for a specific Kiali API (like the graph generation API). To see all the different routes into the Kiali API server that were requested, you can get their route names like this:
 
