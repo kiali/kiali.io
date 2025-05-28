@@ -129,13 +129,13 @@ One timer is especially useful - the timer named "GraphGenerationTime". You can 
 
 Some timers that may be of interest are:
 * `APIProcessingTime`: The time it takes to process an API request in its entirety
-* `GraphGenerationTime`: The time it takes to generate a full graph
+* `CheckerProcessingTime`: The time it takes to run a specific validation checker
 * `GraphAppenderTime`: The time it takes for an appender to decorate a graph
+* `GraphGenerationTime`: The time it takes to generate a full graph
 * `PrometheusProcessingTime`:  The time it takes to run Prometheus queries
+* `SingleValidationProcessingTime`: The time it takes to validate an Istio configuration resource
 * `TracingProcessingTime`: The time it takes to run Tracing queries
 * `ValidationProcessingTime`: The time it takes to validate a set of Istio configuration resources
-* `SingleValidationProcessingTime`: The time it takes to validate an Istio configuration resource
-* `CheckerProcessingTime`: The time it takes to run a specific validation checker
 
 ## Metrics
 
