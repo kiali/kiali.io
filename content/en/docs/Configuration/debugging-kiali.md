@@ -89,23 +89,23 @@ Some log messages are associated with a single, specific request. You can obtain
 
 Some routes that may be of interest are:
 
-* `Authenticate`: authenticates users
-* `NamespaceList`: gets the list of available namespaces
-* `IstioConfigList`: gets the list of Istio configuration resources in a namespace
-* `IstioConfigDetails`: gets the content of an Istio configuration resource
-* `AppSpans`, `WorkloadSpans`, `ServiceSpans`: gets tracing spans for a given resource
-* `AppTraces`, `WorkloadTraces`, `ServiceTraces`: gets traces for a given resource
-* `TracesDetails`: gets detailed information on a specific trace
-* `AppMetrics`, `WorkloadMetrics`, `ServiceMetrics`: gets metrics for a given resource
-* `ControlPlaneMetrics`: gets metrics for a single control plane
-* `NamespaceMetrics`: gets metrics for a single namespace
 * `AggregateMetrics`: aggregate metrics for a given resource
+* `AppMetrics`, `ServiceMetrics`, `WorkloadMetrics`: gets metrics for a given resource
+* `AppSpans`, `ServiceSpans`, `WorkloadSpans`: gets tracing spans for a given resource
+* `AppTraces`, `ServiceTraces`, `WorkloadTraces`: gets traces for a given resource
+* `Authenticate`: authenticates users
 * `ClustersHealth`: gets the health data for all resources in a namespace within a single cluster
-* `NamespaceValidationSummary`: gets the validation summary for all resources in a given namespace
 * `ConfigValidationSummary`: gets the validation summary for all resources in given namespaces
-* `GraphNamespaces`: generates a namespaces graph
+* `ControlPlaneMetrics`: gets metrics for a single control plane
 * `GraphAggregate`: generates a node detail graph
+* `GraphNamespaces`: generates a namespaces graph
+* `IstioConfigDetails`: gets the content of an Istio configuration resource
+* `IstioConfigList`: gets the list of Istio configuration resources in a namespace
 * `MeshGraph`: generates a mesh graph
+* `NamespaceList`: gets the list of available namespaces
+* `NamespaceMetrics`: gets metrics for a single namespace
+* `NamespaceValidationSummary`: gets the validation summary for all resources in a given namespace
+* `TracesDetails`: gets detailed information on a specific trace
 
 #### Show logs of processing times
 
