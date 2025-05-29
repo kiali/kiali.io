@@ -102,6 +102,14 @@ stringData:
         server: <...the URL to your remote cluster goes here...>
         certificate-authority-data: <...the long CA data goes here...>
 ```
+
+The [verify-kiali-permissions.sh script](https://github.com/kiali/kiali/blob/master/hack/istio/multicluster/verify-kiali-permissions.sh) can be used to check that your remote cluster secret provides the necessary permissions that Kiali needs to access the remote cluster. See the comments at the top of the script and its `--help` output for details on how to run it, but here's an example:
+   ```sh
+   curl -L -o verify-kiali-permissions.sh https://raw.githubusercontent.com/kiali/kiali/master/hack/istio/multicluster/verify-kiali-permissions.sh
+   chmod +x verify-kiali-permissions.sh
+   ./verify-kiali-permissions.sh --kubeconfig-secret istio-system:kiali-multi-cluster-secret:my-cluster-name --kiali-version v2.10.0
+   ```
+
 It is up to you how you want to create and manage the token and secret, however, you can use the [kiali-prepare-remote-cluster.sh script](https://github.com/kiali/kiali/blob/master/hack/istio/multicluster/kiali-prepare-remote-cluster.sh) (with the `--process-kiali-secret true` option) to simplify this process for you.
 
 {{% alert color="info" %}}
