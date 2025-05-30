@@ -380,20 +380,15 @@ You can use Prometheus to look at Kiali's metrics to help analyze problems. Even
 
 We can look at the metrics that are emitted by the graph appenders to see how they are performing. This shows the top-5 slowest graph appenders for this specific Kiali environment - and here we see the `idleNode` appender is by far the worst offender. Again, this helps pin-point a cause of slow graph generation - in this case, the `idleNode` graph appender code:
 
-----
 Prometheus query: `topk(5, rate(kiali_graph_appender_duration_seconds_sum[5m]) / rate(kiali_graph_appender_duration_seconds_count[5m]))`
 
 ![Prometheus showing slow appender metrics](/images/documentation/configuration/prometheus-slow-appender.png)
-
-----
 
 If you are not sure what exactly is slowing down the Kiali Server, one of the first things to examine is the duration of time each API takes to complete. Here are the top-2 slowest Kiali APIs for this specific Kiali environment:
 
 Prometheus query: `topk(2, rate(kiali_api_processing_duration_seconds_sum[5m]) / rate(kiali_api_processing_duration_seconds_count[5m]))`
 
 ![Prometheus showing the top-2 slowest Kiali APIs](/images/documentation/configuration/prometheus-top-2-apis.png)
-
-----
 
 The above shows that the graph generation is slow. So let's next look at the graph appenders to see if any one of them could be the culprit of the poor performance:
 
@@ -413,7 +408,18 @@ Here it looks like Prometheus itself might be the source of the poor performance
 
 Kiali itself can be used to help find its own internal problems.
 
+Navigate to the Kiali workload, and select the _Kiali Internal Metrics_ tab. In this case, we can see some APIs are very slow due to the high p99 and average values. We can eliminate the tracing integration as the source of the problem because all processing of tracing requests are taking an average of about 20ms to complete. However, the graph generation appears to be very slow, taking an average of between 15 and 30 seconds to complete each request:
+
 ![Kiali workload metrics](/images/documentation/configuration/kiali-workload-metrics.png)
+
+The Kiali UI allows you to expand each mini-chart into a full size chart for easier viewing. You can also display the different metric labels as separate chart lines. In this case, the graph is showing the duration times for the GraphNamespaces and GraphWorkload APIs:
+
 ![Kiali workload graph metrics](/images/documentation/configuration/kiali-workload-metrics-ns.png)
+
+The above metric charts clearly show a performance problem in the graph generation. Because the graph generation code requests many Prometheus queries, one of the next things to check is the performance of the Kiali-Prometheus integration. One fast and easy way to see how the Prometheus queries are performing is to look at the Kiali workload's _Overview_ tab, specifically, the graph shown on the right side. Look at the edge between the Kiali node and the Prometheus node for indications of problems (the edge label will show you throughput numbers; the color of the edge will indicate request errors):
+
+{{% alert color="info" %}}
+This traffic data between Kiali and Prometheus is only available if Kiali is located inside the mesh (e.g. Kiali has an Istio sidecar).
+{{% /alert %}}
+
 ![Kiali workload overview](/images/documentation/configuration/kiali-workload-overview.png)
-![Kiali traces](/images/documentation/configuration/kiali-workload-traces.png)
