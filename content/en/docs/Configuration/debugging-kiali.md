@@ -258,6 +258,8 @@ The following are just some examples of how you can use the Kiali signals to hel
 The examples below assume Kiali is outputting logs in JSON format (`spec.deployment.logger.log_format` = `json`). Use `grep`, `sed`, and related tools to query logs if Kiali is logging the output as `text`.
 {{% /alert %}}
 
+Make sure you turn on trace logging (`spec.deployment.logger.log_level` = `trace`) in order to get the log messages needed for this kind of analysis.
+
 Find all the logs that show APIs with long execution times. Because Kiali is not logging times faster than 3 seconds, this query will return all the routes (i.e. the API endpoints) that were 3 seconds or slower:
 ```sh
 kubectl logs -n istio-system deployments/kiali | \
