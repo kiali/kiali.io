@@ -247,3 +247,256 @@ Your browser will be opened to `http://localhost:8080/ui` which allows you to se
 ## Kiali CR Status
 
 When you install the Kiali Server via the Kiali Operator, you do so by creating a Kiali CR. One quick way to debug the status of a Kiali Server installation is to look at the Kiali CR's `status` field (e.g. `kubectl get kiali --all-namespaces -o jsonpath='{..status}'`). The operator will report any installation errors within this Kiali CR status. If the Kiali Server fails to install, always check the Kiali CR status field first because in many instances you will find an error message there that can provide clear guidance on what to do next.
+
+## Examples
+
+The following are just some examples of how you can use the Kiali signals to help diagnose problems within Kiali itself.
+
+### Use log messages to find out what is slow
+
+{{% alert color="info" %}}
+The examples below assume Kiali is outputting logs in JSON format (`spec.deployment.logger.log_format` = `json`). Use `grep`, `sed`, and related tools to query logs if Kiali is logging the output as `text`.
+{{% /alert %}}
+
+Find all the logs that show APIs with long execution times. Because Kiali is not logging times faster than 3 seconds, this query will return all the routes (i.e. the API endpoints) that were 3 seconds or slower:
+```sh
+kubectl logs -n istio-system deployments/kiali | \
+  jq -rR 'fromjson? | select(.timer) | .route' | \
+  sort -u
+```
+
+Suppose that returned only one route name - `GraphNamespaces`. This means the main graph page was slow. Let's examine the logs for a request for that API. We first find the ID of the last request that was made for the GraphNamespaces API:
+
+```sh
+kubectl logs -n istio-system deployments/kiali | \
+  jq -rR 'fromjson? | select(.route == "GraphNamespaces") | .["request-id"]' | tail -n 1
+```
+
+Take the ID string that was output (in this example, it is `d0staq6nq35s73b6mdug`) and use it to examine the logs for that request only:
+
+```sh
+kubectl logs -n istio-system deployments/kiali | \
+  jq -rR 'fromjson? | select(."request-id" == "d0staq6nq35s73b6mdug")'
+```
+
+The output of that command is the log messages, in chronological order, as the request to generate the graph was processed in the Kiali server. Examining timestamps, timer durations, warnings, and other data in these messages can help determine what made the request slow:
+
+```json
+{
+  "level": "trace",
+  "route": "GraphNamespaces",
+  "route-pattern": "/api/namespaces/graph",
+  "group": "graph",
+  "request-id": "d0staq6nq35s73b6mdug",
+  "ts": "2025-05-30T15:57:28Z",
+  "msg": "Build [versionedApp] graph for [1] namespaces [map[bookinfo:{bookinfo 1m0s false false}]]"
+}
+{
+  "level": "trace",
+  "route": "GraphNamespaces",
+  "route-pattern": "/api/namespaces/graph",
+  "group": "graph",
+  "request-id": "d0staq6nq35s73b6mdug",
+  "ts": "2025-05-30T15:57:28Z",
+  "msg": "Build traffic map for namespace [{bookinfo 1m0s false false}]"
+}
+{
+  "level": "trace",
+  "route": "GraphNamespaces",
+  "route-pattern": "/api/namespaces/graph",
+  "group": "graph",
+  "request-id": "d0staq6nq35s73b6mdug",
+  "appender": "workloadEntry",
+  "ts": "2025-05-30T15:57:28Z",
+  "msg": "Running workload entry appender"
+}
+{
+  "level": "trace",
+  "route": "GraphNamespaces",
+  "route-pattern": "/api/namespaces/graph",
+  "group": "graph",
+  "request-id": "d0staq6nq35s73b6mdug",
+  "appender": "workloadEntry",
+  "ts": "2025-05-30T15:57:28Z",
+  "msg": "WorkloadEntries found: 0"
+}
+{
+  "level": "trace",
+  "route": "GraphNamespaces",
+  "route-pattern": "/api/namespaces/graph",
+  "group": "graph",
+  "request-id": "d0staq6nq35s73b6mdug",
+  "appender": "workloadEntry",
+  "ts": "2025-05-30T15:57:28Z",
+  "msg": "WorkloadEntries found: 0"
+}
+{
+  "level": "trace",
+  "route": "GraphNamespaces",
+  "route-pattern": "/api/namespaces/graph",
+  "group": "graph",
+  "request-id": "d0staq6nq35s73b6mdug",
+  "appender": "workloadEntry",
+  "ts": "2025-05-30T15:57:28Z",
+  "msg": "WorkloadEntries found: 0"
+}
+{
+  "level": "trace",
+  "route": "GraphNamespaces",
+  "route-pattern": "/api/namespaces/graph",
+  "group": "graph",
+  "request-id": "d0staq6nq35s73b6mdug",
+  "appender": "workloadEntry",
+  "ts": "2025-05-30T15:57:28Z",
+  "msg": "WorkloadEntries found: 0"
+}
+{
+  "level": "trace",
+  "route": "GraphNamespaces",
+  "route-pattern": "/api/namespaces/graph",
+  "group": "graph",
+  "request-id": "d0staq6nq35s73b6mdug",
+  "appender": "workloadEntry",
+  "ts": "2025-05-30T15:57:28Z",
+  "msg": "WorkloadEntries found: 0"
+}
+{
+  "level": "trace",
+  "route": "GraphNamespaces",
+  "route-pattern": "/api/namespaces/graph",
+  "group": "graph",
+  "request-id": "d0staq6nq35s73b6mdug",
+  "appender": "workloadEntry",
+  "ts": "2025-05-30T15:57:28Z",
+  "msg": "WorkloadEntries found: 0"
+}
+{
+  "level": "trace",
+  "route": "GraphNamespaces",
+  "route-pattern": "/api/namespaces/graph",
+  "group": "graph",
+  "request-id": "d0staq6nq35s73b6mdug",
+  "appender": "workloadEntry",
+  "ts": "2025-05-30T15:57:28Z",
+  "msg": "WorkloadEntries found: 0"
+}
+{
+  "level": "trace",
+  "route": "GraphNamespaces",
+  "route-pattern": "/api/namespaces/graph",
+  "group": "graph",
+  "request-id": "d0staq6nq35s73b6mdug",
+  "appender": "idleNode",
+  "namespace": "bookinfo",
+  "timer": "GraphAppenderTime",
+  "duration": "3.153312011s",
+  "ts": "2025-05-30T15:57:31Z",
+  "msg": "Namespace graph appender time"
+}
+{
+  "level": "trace",
+  "route": "GraphNamespaces",
+  "route-pattern": "/api/namespaces/graph",
+  "group": "graph",
+  "request-id": "d0staq6nq35s73b6mdug",
+  "ts": "2025-05-30T15:57:31Z",
+  "msg": "Generating config for [common] graph..."
+}
+{
+  "level": "trace",
+  "route": "GraphNamespaces",
+  "route-pattern": "/api/namespaces/graph",
+  "group": "graph",
+  "request-id": "d0staq6nq35s73b6mdug",
+  "ts": "2025-05-30T15:57:31Z",
+  "msg": "Done generating config for [common] graph"
+}
+{
+  "level": "trace",
+  "route": "GraphNamespaces",
+  "route-pattern": "/api/namespaces/graph",
+  "group": "graph",
+  "request-id": "d0staq6nq35s73b6mdug",
+  "inject-service-nodes": "true",
+  "graph-kind": "namespace",
+  "graph-type": "versionedApp",
+  "timer": "GraphGenerationTime",
+  "duration": "3.280609145s",
+  "ts": "2025-05-30T15:57:31Z",
+  "msg": "Namespace graph generation time"
+}
+{
+  "level": "trace",
+  "route": "GraphNamespaces",
+  "route-pattern": "/api/namespaces/graph",
+  "group": "graph",
+  "request-id": "d0staq6nq35s73b6mdug",
+  "status-code": "200",
+  "timer": "APIProcessingTime",
+  "duration": "3.280986943s",
+  "ts": "2025-05-30T15:57:31Z",
+  "msg": "API processing time"
+}
+```
+
+Examining those log messages of a single request to generate the graph easily shows that the `idleNode` graph appender code is very slow (taking over 3 seconds to complete). Thus, the first thing that should be suspected as the cause of the slow graph generation is the code that generates idle nodes in the graph:
+
+```json
+{
+  "level": "trace",
+  "route": "GraphNamespaces",
+  "route-pattern": "/api/namespaces/graph",
+  "group": "graph",
+  "request-id": "d0staq6nq35s73b6mdug",
+  "appender": "idleNode",
+  "namespace": "bookinfo",
+  "timer": "GraphAppenderTime",
+  "duration": "3.153312011s",
+  "ts": "2025-05-30T15:57:31Z",
+  "msg": "Namespace graph appender time"
+}
+```
+
+### Use Prometheus to find out what is slow
+
+You can use Prometheus to look at Kiali's metrics to help analyze problems. Even though Kiali does not log metric timers that are faster than 3 seconds, those metrics are still stored in Prometheus.
+
+We can look at the metrics that are emitted by the graph appenders to see how they are performing. This shows the top-5 slowest graph appenders for this specific Kiali environment - and here we see the `idleNode` appender is by far the worst offender. Again, this helps pin-point a cause of slow graph generation - in this case, the `idleNode` graph appender code:
+
+----
+Prometheus query: `topk(5, rate(kiali_graph_appender_duration_seconds_sum[5m]) / rate(kiali_graph_appender_duration_seconds_count[5m]))`
+
+![Prometheus showing slow appender metrics](/images/documentation/configuration/prometheus-slow-appender.png)
+
+----
+
+If you are not sure what exactly is slowing down the Kiali Server, one of the first things to examine is the duration of time each API takes to complete. Here are the top-2 slowest Kiali APIs for this specific Kiali environment:
+
+Prometheus query: `topk(2, rate(kiali_api_processing_duration_seconds_sum[5m]) / rate(kiali_api_processing_duration_seconds_count[5m]))`
+
+![Prometheus showing the top-2 slowest Kiali APIs](/images/documentation/configuration/prometheus-top-2-apis.png)
+
+----
+
+The above shows that the graph generation is slow. So let's next look at the graph appenders to see if any one of them could be the culprit of the poor performance:
+
+Prometheus query: `topk(5, rate(kiali_graph_appender_duration_seconds_sum[5m]) / rate(kiali_graph_appender_duration_seconds_count[5m]))`
+
+![Prometheus showing the top-5 slowest Kiali graph appenders](/images/documentation/configuration/prometheus-top-5-appenders.png)
+
+In this specific case, it does not look like any one of the appenders is the source of the problem. They all appear to be having issues with poor performance. Since the graph generation relies heavily on querying the Prometheus server, another thing to check is the time it takes for Kiali to query Prometheus:
+
+Prometheus query: `topk(5, rate(kiali_prometheus_processing_duration_seconds_sum[5m]) / rate(kiali_prometheus_processing_duration_seconds_count[5m]))`
+
+![Prometheus processing metrics](/images/documentation/configuration/prometheus-queries.png)
+
+Here it looks like Prometheus itself might be the source of the poor performance. All of the Prometheus queries Kiali is requesting are taking over a full second to complete (some are taking as much as 3.5 seconds). At this point, you should check the Prometheus server and the network connection between Kiali and Prometheus as possible causes of the slow Kiali performance. Perhaps Kiali is asking for so much data from Prometheus, Prometheus cannot keep up. Perhaps there is a network outage causing the Kiali requests to Prometheus being slow. But at least in this case we've pin-pointed a bottleneck and can narrow our focus when searching for the root cause of the problem.
+
+### Use Kiali to find out what is slow
+
+Kiali itself can be used to help find its own internal problems.
+
+![Kiali workload metrics](/images/documentation/configuration/kiali-workload-metrics.png)
+![Kiali workload graph metrics](/images/documentation/configuration/kiali-workload-metrics-ns.png)
+![Kiali workload overview](/images/documentation/configuration/kiali-workload-overview.png)
+![Kiali traces](/images/documentation/configuration/kiali-workload-traces.png)
