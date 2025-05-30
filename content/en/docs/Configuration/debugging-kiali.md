@@ -279,113 +279,66 @@ kubectl logs -n istio-system deployments/kiali | \
   jq -rR 'fromjson? | select(."request-id" == "d0staq6nq35s73b6mdug")'
 ```
 
+To make the output less verbose, we can eliminate some of the message's attributes that we do not need to see:
+
+```sh
+kubectl logs -n istio-system deployments/kiali | \
+  jq -rR 'fromjson? | select(."request-id" == "d0staq6nq35s73b6mdug") | \
+  del(.["level", "route", "route-pattern", "group", "request-id"])'
+```
+
 The output of that command is the log messages, in chronological order, as the request to generate the graph was processed in the Kiali server. Examining timestamps, timer durations, warnings, and other data in these messages can help determine what made the request slow:
 
 ```json
 {
-  "level": "trace",
-  "route": "GraphNamespaces",
-  "route-pattern": "/api/namespaces/graph",
-  "group": "graph",
-  "request-id": "d0staq6nq35s73b6mdug",
   "ts": "2025-05-30T15:57:28Z",
   "msg": "Build [versionedApp] graph for [1] namespaces [map[bookinfo:{bookinfo 1m0s false false}]]"
 }
 {
-  "level": "trace",
-  "route": "GraphNamespaces",
-  "route-pattern": "/api/namespaces/graph",
-  "group": "graph",
-  "request-id": "d0staq6nq35s73b6mdug",
   "ts": "2025-05-30T15:57:28Z",
   "msg": "Build traffic map for namespace [{bookinfo 1m0s false false}]"
 }
 {
-  "level": "trace",
-  "route": "GraphNamespaces",
-  "route-pattern": "/api/namespaces/graph",
-  "group": "graph",
-  "request-id": "d0staq6nq35s73b6mdug",
   "appender": "workloadEntry",
   "ts": "2025-05-30T15:57:28Z",
   "msg": "Running workload entry appender"
 }
 {
-  "level": "trace",
-  "route": "GraphNamespaces",
-  "route-pattern": "/api/namespaces/graph",
-  "group": "graph",
-  "request-id": "d0staq6nq35s73b6mdug",
   "appender": "workloadEntry",
   "ts": "2025-05-30T15:57:28Z",
   "msg": "WorkloadEntries found: 0"
 }
 {
-  "level": "trace",
-  "route": "GraphNamespaces",
-  "route-pattern": "/api/namespaces/graph",
-  "group": "graph",
-  "request-id": "d0staq6nq35s73b6mdug",
   "appender": "workloadEntry",
   "ts": "2025-05-30T15:57:28Z",
   "msg": "WorkloadEntries found: 0"
 }
 {
-  "level": "trace",
-  "route": "GraphNamespaces",
-  "route-pattern": "/api/namespaces/graph",
-  "group": "graph",
-  "request-id": "d0staq6nq35s73b6mdug",
   "appender": "workloadEntry",
   "ts": "2025-05-30T15:57:28Z",
   "msg": "WorkloadEntries found: 0"
 }
 {
-  "level": "trace",
-  "route": "GraphNamespaces",
-  "route-pattern": "/api/namespaces/graph",
-  "group": "graph",
-  "request-id": "d0staq6nq35s73b6mdug",
   "appender": "workloadEntry",
   "ts": "2025-05-30T15:57:28Z",
   "msg": "WorkloadEntries found: 0"
 }
 {
-  "level": "trace",
-  "route": "GraphNamespaces",
-  "route-pattern": "/api/namespaces/graph",
-  "group": "graph",
-  "request-id": "d0staq6nq35s73b6mdug",
   "appender": "workloadEntry",
   "ts": "2025-05-30T15:57:28Z",
   "msg": "WorkloadEntries found: 0"
 }
 {
-  "level": "trace",
-  "route": "GraphNamespaces",
-  "route-pattern": "/api/namespaces/graph",
-  "group": "graph",
-  "request-id": "d0staq6nq35s73b6mdug",
   "appender": "workloadEntry",
   "ts": "2025-05-30T15:57:28Z",
   "msg": "WorkloadEntries found: 0"
 }
 {
-  "level": "trace",
-  "route": "GraphNamespaces",
-  "route-pattern": "/api/namespaces/graph",
-  "group": "graph",
-  "request-id": "d0staq6nq35s73b6mdug",
   "appender": "workloadEntry",
   "ts": "2025-05-30T15:57:28Z",
   "msg": "WorkloadEntries found: 0"
 }
 {
-  "level": "trace",
-  "route": "GraphNamespaces",
-  "route-pattern": "/api/namespaces/graph",
-  "group": "graph",
-  "request-id": "d0staq6nq35s73b6mdug",
   "appender": "idleNode",
   "namespace": "bookinfo",
   "timer": "GraphAppenderTime",
@@ -394,29 +347,14 @@ The output of that command is the log messages, in chronological order, as the r
   "msg": "Namespace graph appender time"
 }
 {
-  "level": "trace",
-  "route": "GraphNamespaces",
-  "route-pattern": "/api/namespaces/graph",
-  "group": "graph",
-  "request-id": "d0staq6nq35s73b6mdug",
   "ts": "2025-05-30T15:57:31Z",
   "msg": "Generating config for [common] graph..."
 }
 {
-  "level": "trace",
-  "route": "GraphNamespaces",
-  "route-pattern": "/api/namespaces/graph",
-  "group": "graph",
-  "request-id": "d0staq6nq35s73b6mdug",
   "ts": "2025-05-30T15:57:31Z",
   "msg": "Done generating config for [common] graph"
 }
 {
-  "level": "trace",
-  "route": "GraphNamespaces",
-  "route-pattern": "/api/namespaces/graph",
-  "group": "graph",
-  "request-id": "d0staq6nq35s73b6mdug",
   "inject-service-nodes": "true",
   "graph-kind": "namespace",
   "graph-type": "versionedApp",
@@ -426,11 +364,6 @@ The output of that command is the log messages, in chronological order, as the r
   "msg": "Namespace graph generation time"
 }
 {
-  "level": "trace",
-  "route": "GraphNamespaces",
-  "route-pattern": "/api/namespaces/graph",
-  "group": "graph",
-  "request-id": "d0staq6nq35s73b6mdug",
   "status-code": "200",
   "timer": "APIProcessingTime",
   "duration": "3.280986943s",
@@ -439,23 +372,7 @@ The output of that command is the log messages, in chronological order, as the r
 }
 ```
 
-Examining those log messages of a single request to generate the graph easily shows that the `idleNode` graph appender code is very slow (taking over 3 seconds to complete). Thus, the first thing that should be suspected as the cause of the slow graph generation is the code that generates idle nodes in the graph:
-
-```json
-{
-  "level": "trace",
-  "route": "GraphNamespaces",
-  "route-pattern": "/api/namespaces/graph",
-  "group": "graph",
-  "request-id": "d0staq6nq35s73b6mdug",
-  "appender": "idleNode",
-  "namespace": "bookinfo",
-  "timer": "GraphAppenderTime",
-  "duration": "3.153312011s",
-  "ts": "2025-05-30T15:57:31Z",
-  "msg": "Namespace graph appender time"
-}
-```
+Examining those log messages of a single request to generate the graph easily shows that the `idleNode` graph appender code is very slow (taking over 3 seconds to complete). Thus, the first thing that should be suspected as the cause of the slow graph generation is the code that generates idle nodes in the graph.
 
 ### Use Prometheus to find out what is slow
 
