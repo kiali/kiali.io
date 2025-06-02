@@ -38,15 +38,19 @@ spec:
       internal_url: 'http://grafana.telemetry:3000/'
       # Public facing URL of Grafana
       external_url: 'http://my-ingress-host/grafana'
+      # Grafana datasource UID when there are multiple
+      datasource_uid: ""
       dashboards:
       - name: "Istio Service Dashboard"
         variables:
           namespace: "var-namespace"
           service: "var-service"
+          datasource: "var-datasource"
       - name: "Istio Workload Dashboard"
         variables:
           namespace: "var-namespace"
           workload: "var-workload"
+          datasource: "var-datasource"
       - name: "Istio Mesh Dashboard"
       - name: "Istio Control Plane Dashboard"
       - name: "Istio Performance Dashboard"
