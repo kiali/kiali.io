@@ -43,11 +43,12 @@ spec:
       dashboards:
       - name: "Istio Service Dashboard"
         variables:
+          datasource: "var-datasource"
           namespace: "var-namespace"
           service: "var-service"
-          datasource: "var-datasource"
       - name: "Istio Workload Dashboard"
         variables:
+          datasource: "var-datasource"          
           namespace: "var-namespace"
           workload: "var-workload"
           datasource: "var-datasource"
