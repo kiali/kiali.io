@@ -3,6 +3,10 @@ title: "Distributed Tracing"
 description: "Questions about the Jaeger integration."
 ---
 
+### How to know which is the URL for Jaeger or Tempo?
+
+From Kiali 2.11, a new [tracing tool](/docs/configuration/debugging-kiali/#tracing-integration) in the Mesh page is provided to help troubleshooting and provide possible valid tracing configurations. 
+
 ### Why is Jaeger unreachable or Kiali showing the error "Could not fetch traces"?
 
 Istio components status indicator shows "Jaeger unreachable":

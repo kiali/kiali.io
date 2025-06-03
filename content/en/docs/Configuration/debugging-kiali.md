@@ -211,6 +211,18 @@ The traces emitted by Kiali can be searched in the _Kiali_ workload:
 
 ![Kiali traces](/images/documentation/configuration/kiali_own_traces.png)
 
+### Tracing Integration
+
+Sometimes integration with tracing can be complex, but since version 2.11, a tool is available to help discover possible open ports and configurations that might work. It's available on the mesh page, by clicking on the tracing node. From there, under "Check status," it will suggest possible configuration combinations.
+
+It's important that at least the URL is properly defined - `external_services.tracing.internal_url` if it's inside the cluster, or `external_services.tracing.external_url` if it's outside.
+
+![Tracing tool](/images/documentation/configuration/tracing_tool.png)
+
+The `View logs` link will provide more insights about the tests done, the open ports, the errors found, that can help to troubleshoot in case of more complex scenarios, like urls with tenant configurations or https.
+
+![Tracing tool logs](/images/documentation/configuration/tracing_tool_logs.png)
+
 ## Profiler
 
 The Kial Server is integrated with the Go pprof profiler. By default, the integration is disabled. If you want the Kiali Server to generate profile reports, enable it in the Kiali CR:
