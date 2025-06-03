@@ -116,6 +116,11 @@ When you click on an edge, the summary panel will display the waypoint proxy as 
 
 ![bidirectional edges](/images/documentation/features/ambient/double-edges.png)
 
+When the ingress waypoint routing is enabled on a service (`istio.io/ingress-use-waypoint=true`), the traffic goes from the gateway to the waypoint, instead of going to the service. 
+In that case, the gateway node will show the waypoint icon:
+
+![ingress use waypoint](/images/documentation/features/ambient/gateway-waypoint.png)
+
 #### Ambient Tracing
 
 Ambient traces are emitted from the waypoint proxies. The traces involving a workload can be found looking for the waypoint service name. 
