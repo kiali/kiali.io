@@ -5,14 +5,7 @@ description: "Questions about the Jaeger integration."
 
 ### How to know which is the URL for Jaeger or Tempo?
 
-From Kiali 2.11, a new tracing tool in the Mesh page is provided to help troubleshooting and provide possible valid tracing configurations. 
-For this, at least the host in the `internal_url` setting must be provided (Or the `external_url` is it is deployed outside the cluster).
-
-![Tracing tool](/images/documentation/faq/tracing/tracing-tool.png)
-
-In the link `View logs` there is more information about the url's that has been checked, which can provide further information about possible errors. 
-
-![Tracing logs](/images/documentation/faq/tracing/tracing-logs.png)
+From Kiali 2.11, a new [tracing tool](/docs/configuration/debugging-kiali/#tracing-integration) in the Mesh page is provided to help troubleshooting and provide possible valid tracing configurations. 
 
 ### Why is Jaeger unreachable or Kiali showing the error "Could not fetch traces"?
 
