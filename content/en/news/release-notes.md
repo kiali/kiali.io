@@ -6,6 +6,29 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 2.11.0
+Sprint Release: Jun 09, 2025
+
+Features:
+
+* [Ambient: Support for ingress-use-waypoint](https://github.com/kiali/kiali/issues/8338)
+* [Grafana: support datasource_uid parameter for Grafana dashboards links](https://github.com/kiali/kiali/issues/7760)
+* [Istio: Support merging of multiple Istio configmaps](https://github.com/kiali/kiali/issues/8248)
+* [Kiali.io: document how to test a remote cluster secret / kubeconfig](https://github.com/kiali/kiali/issues/8358)
+* [Kiali.io: document how to use Kiali diagnostics for measuring performance](https://github.com/kiali/kiali/issues/8449)
+* [Operator: Refactor to not use kubernetes.core.k8s_cluster_info task](https://github.com/kiali/kiali/issues/8459)
+* [Perf: Remove Endpoints caching](https://github.com/kiali/kiali/issues/8396)
+* [Tracing: Mesh page "Check Status" option to help troubleshooting](https://github.com/kiali/kiali/issues/8361)
+* [Usability: Improve Kiali Logs and metrics for timing of a request](https://github.com/kiali/kiali/issues/8348)
+
+Fixes:
+
+* [Ambient: Mode detection fix - DaemonSet filtering label matching assumes exact map match, uses wrong source of data](https://github.com/kiali/kiali/issues/8464)
+* [Ambient: Fix runtime error starting Kiali outside the cluster with Istio Ambient](https://github.com/kiali/kiali/issues/8480)
+* [UI: Show GW API Icon for GWs in the graph](https://github.com/kiali/kiali/issues/8442)
+* [UI: Fix internal server error when editing a workload](https://github.com/kiali/kiali/issues/8478)
+* [Usability: Fix missing Kiali metrics](https://github.com/kiali/kiali/issues/8458)
+
 ## 2.10.0
 Sprint Release: May 18, 2025
 
