@@ -326,16 +326,19 @@ spec:
       dashboards:
       - name: "Istio Service Dashboard"
         variables:
+          datasource: "var-datasource"
           namespace: "var-namespace"
           service: "var-service"
       - name: "Istio Workload Dashboard"
         variables:
+          datasource: "var-datasource"
           namespace: "var-namespace"
           workload: "var-workload"
       - name: "Istio Mesh Dashboard"
       - name: "Istio Control Plane Dashboard"
       - name: "Istio Performance Dashboard"
       - name: "Istio Wasm Extension Dashboard"
+      datasource_uid: ""
       enabled: true
       external_url: ""
       health_check_url: ""
@@ -3981,6 +3984,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 <div class="property depth-6">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.external_services.grafana.dashboards[*].variables.datasource">.spec.external_services.grafana.dashboards[*].variables.datasource</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The name of the variable that holds the Datasource UID, required if Grafana has multiple datasources configured (else it must be omitted).</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.external_services.grafana.dashboards[*].variables.namespace">.spec.external_services.grafana.dashboards[*].variables.namespace</h3>
 </div>
 <div class="property-body">
@@ -4029,6 +4051,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property-description">
 <p>The name of a variable that holds the workload name, if used in that dashboard (else it must be omitted).</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.grafana.datasource_uid">.spec.external_services.grafana.datasource_uid</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The UID of the Datasource configured in Grafana must be specified if multiple datasources are configured. It is empty by default and is used only in conjunction with the <code>datasource</code> variable.</p>
 
 </div>
 
