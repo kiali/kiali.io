@@ -49,7 +49,7 @@ $ helm install \
 Next, the first Kiali Server will be installed. This server will require the user to enter a Kubernetes token in order to log into the Kiali dashboard and will provide the user with read-write access. To do this, a Kiali CR will be created that looks like this (file: `kiali-cr-token.yaml`):
 
 ```yaml
-apiVersion: kiali.io/v1alpha1
+apiVersion: kiali.io/v1
 kind: Kiali
 metadata:
   name: kiali
@@ -141,7 +141,7 @@ The output of that command above can be used to log into the Kiali login screen.
 The second Kiali Server will next be installed. This server will not require the user to enter any login credentials but will only provide a view-only look at the service mesh. To do this, a Kiali CR will be created that looks like this (file: `kiali-cr-anon.yaml`):
 
 ```yaml
-apiVersion: kiali.io/v1alpha1
+apiVersion: kiali.io/v1
 kind: Kiali
 metadata:
   name: kiali

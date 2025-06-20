@@ -22,7 +22,7 @@ spec:
 You will need to take this YAML snippet and apply it to your Kiali CR. As an example, an almost minimal Kiali CR using the previous configuration snippet would be the following:
 
 ```yaml
-apiVersion: kiali.io/v1alpha1
+apiVersion: kiali.io/v1
 kind: Kiali
 metadata:
   namespace: kiali-namespace

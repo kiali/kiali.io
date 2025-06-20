@@ -39,7 +39,7 @@ To instruct the Kiali Operator to install the plugin, simply create a small OSSM
 
 ```bash
 cat <<EOM | oc apply -f -
-apiVersion: kiali.io/v1alpha1
+apiVersion: kiali.io/v1
 kind: OSSMConsole
 metadata:
   namespace: openshift-operators

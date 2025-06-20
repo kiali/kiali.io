@@ -138,7 +138,7 @@ metadata:
 EOM
 
 cat <<EOM | oc apply -f -
-apiVersion: kiali.io/v1alpha1
+apiVersion: kiali.io/v1
 kind: Kiali
 metadata:
   name: kiali

@@ -18,7 +18,7 @@ The Operator provides comprehensive defaults for all properties of the Kiali
 CR. Hence, the minimal Kiali CR does not have a `spec`:
 
 ```yaml
-apiVersion: kiali.io/v1alpha1
+apiVersion: kiali.io/v1
 kind: Kiali
 metadata:
   name: kiali
@@ -51,7 +51,7 @@ Name:         kiali
 Namespace:    istio-system
 Labels:       <none>
 Annotations:  <none>
-API Version:  kiali.io/v1alpha1
+API Version:  kiali.io/v1
 Kind:         Kiali
 
   (...some output is removed...)
