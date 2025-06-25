@@ -82,6 +82,12 @@ Traffic Management Wizards allows defining Circuit Breakers on Services as part 
 
 ![Circuit Breaker](/images/documentation/features/actions-service-advanced-circuit-breaker.png "Circuit Breaker")
 
+### Routing Rules Preview
+
+Kiali provides a safe preview environment where user can review the complete YAML definition of the routing configuration and edit the configuration inline before creating.
+
+![Preview Configuration](/images/documentation/features/actions-service-preview.png "Preview Configuration")
+
 ### Security: Traffic Policy
 
 Traffic Management Advanced Options allows defining Security and Load Balancing settings.
