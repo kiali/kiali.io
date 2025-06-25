@@ -22,7 +22,7 @@ weight: 2
 - [Tempo tuning](#tempo-tuning) 
   - [Resources consumption](#resources-consumption) 
   - [Caching](#caching)
-  - [Resources consumption](#tune-search-pipeline)
+  - [Tune search pipeline](#tune-search-pipeline)
   - [Dedicated attribute columns](#dedicated-attribute-columns)
 - [Tempo cache](#tempo-cache)
 - [Tempo authentication configuration](#tempo-authentication-configuration)

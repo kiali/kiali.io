@@ -164,3 +164,11 @@ tracing:
 ```
 
 For further Tempo configuration options, take a look at the [Tempo configuration page]({{< ref "/docs/configuration/p8s-jaeger-grafana/tracing/tempo" >}})
+
+### How do I modify the trace limit?
+
+The trace limit can be changed from the UI, and it is available as a Display menu option: 
+
+![Trace limit](/images/documentation/faq/tracing/trace_limit.png)
+
+The default value (Set to 100) can be modified in the Kiali CR setting `kiali_feature_flags.ui_defaults.tracing.limit`. 

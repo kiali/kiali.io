@@ -213,15 +213,25 @@ The traces emitted by Kiali can be searched in the _Kiali_ workload:
 
 ### Tracing Integration
 
-Sometimes integration with tracing can be complex, but since version 2.11, a tool is available to help discover possible open ports and configurations that might work. It's available on the mesh page, by clicking on the tracing node. From there, under "Check status," it will suggest possible configuration combinations.
-
-It's important that at least the URL is properly defined - `external_services.tracing.internal_url` if it's inside the cluster, or `external_services.tracing.external_url` if it's outside.
+Sometimes integration with tracing can be complex, but since version 2.11, a tool is available to help with the configuration.
+It's available on the mesh page, by clicking on the tracing node. From there, under "Configuration Tester," it will show 2 different features: 
 
 ![Tracing tool](/images/documentation/configuration/tracing_tool.png)
 
-The `View logs` link will provide more insights about the tests done, the open ports, the errors found, that can help to troubleshoot in case of more complex scenarios, like urls with tenant configurations or https.
+* Discovery tool 
+* Configuration tester
 
-![Tracing tool logs](/images/documentation/configuration/tracing_tool_logs.png)
+The discovery feature will show possible valid configurations that might work based on the tracing open ports. 
+It's important that at least the URL is properly defined - `external_services.tracing.internal_url` if it's inside the cluster, or `external_services.tracing.external_url` if it's outside.
+
+The `logs` section will provide more insights about the tests done, the open ports, the errors found, that can help to troubleshoot in case of more complex scenarios, like urls with tenants or https.
+
+![Tracing discovery](/images/documentation/configuration/tracing_discovery.png)
+
+The configuration tester allows to test a specific configuration without having to edit the config map and wait for the Kiali pod to be restarted. 
+Please note that the configuration will not be saved permanently. 
+
+![Tracing configuration tester](/images/documentation/configuration/configuration_tester.png)
 
 ## Profiler
 
