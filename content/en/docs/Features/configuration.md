@@ -58,6 +58,14 @@ Istio Sidecar resources:
 
 ![Sidecar](/images/documentation/features/istio-config-wizard-sidecar.png "Sidecar")
 
+K8s Gateway resources:
+
+![K8sGateway](/images/documentation/features/istio-config-wizard-k8s-gateway.png "K8sGateway")
+
+K8s Reference Grants resources:
+
+![K8sReferenceGrant](/images/documentation/features/istio-config-wizard-k8s-referencegrants.png "K8sReferenceGrant")
+
 ###  Other Kiali Wizards
 
 Kiali also has Wizards available from the Overview page, and many details pages, such as Service Detail to create routing rules. The Kiali [Travel Tutorial]({{< ref "/docs/tutorials/travels" >}}) goes into several of these wizards.
