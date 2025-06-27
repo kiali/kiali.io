@@ -7,7 +7,7 @@ Kiali help users know whether their service mesh is healthy. This includes the h
 
 ## Service Mesh Infrastructure Health
 
-Users can quickly confirm the health of their infrastructure by looking at the Kiali Masthead. If Kiali detects any health issues with the infrastructure of the mesh it will show an indication in the masthead, severity will be reflected via color, and hovring will show the detail:
+Users can quickly confirm the health of their infrastructure by looking at the Kiali Masthead. If Kiali detects any health issues with the infrastructure of the mesh, including multi-cluster setups, it will show an indication in the masthead, severity will be reflected via color, and hovering will show the detail:
 
 ![Masthead Health](/images/documentation/features/health-masthead.png "Masthead Health")
 
