@@ -16,7 +16,7 @@ Features:
 * [Usability: Show json logs in a more human readable format](https://github.com/kiali/kiali/issues/7066)
 * [Usability: Improve diagnostics for measuring performance](https://github.com/kiali/kiali/issues/8345)
 * [Usability: Improve tracing tool](https://github.com/kiali/kiali/issues/8472)
-* [Heml: be able to tell helm to skip creation of some resources](https://github.com/kiali/kiali/issues/8491)
+* [Helm: be able to tell helm to skip creation of some resources](https://github.com/kiali/kiali/issues/8491)
 * [Operator: Adapt bundle CSV to FBC](https://github.com/kiali/kiali/issues/8507)
 * [Tracing: Be able to change the Trace limit default](https://github.com/kiali/kiali/issues/8517)
 * [Molecule: try to workaround another transient ansible galaxy error](https://github.com/kiali/kiali/issues/8527)
