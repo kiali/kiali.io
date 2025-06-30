@@ -508,6 +508,8 @@ spec:
       # default: namespaces is an empty list
       namespaces: ["istio-system"]
       refresh_interval: "1m"
+      tracing:
+        limit: 100
     validations:
       ignore: ["KIA1301"]
       skip_wildcard_gateway_hosts: false
@@ -7032,6 +7034,44 @@ An example,</p>
 
 <div class="property-description">
 <p>The automatic refresh interval for pages offering automatic refresh. <code>Manual</code> requires user action even for initial page load. Value must be one of: <code>pause</code>, <code>manual</code>, <code>10s</code>, <code>15s</code>, <code>30s</code>, <code>1m</code>, <code>5m</code> or <code>15m</code></p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.ui_defaults.tracing">.spec.kiali_feature_flags.ui_defaults.tracing</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>Default settings for the Tracing UI.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.ui_defaults.tracing.limit">.spec.kiali_feature_flags.ui_defaults.tracing.limit</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(integer)</span>
+
+</div>
+
+<div class="property-description">
+<p>The default limit for the number of traces that will be fetched. It can be customized in the UI. 100 by default, must be a number between 10 and 1000.</p>
 
 </div>
 
