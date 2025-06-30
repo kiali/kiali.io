@@ -11,27 +11,27 @@ Sprint Release: Jun 27, 2025
 
 Features:
 
-* [Cleanup logs](https://github.com/kiali/kiali/issues/8347)
-* [Easy configuration/export of diagnostics](https://github.com/kiali/kiali/issues/8349)
-* [Show json logs in a more human readable format](https://github.com/kiali/kiali/issues/7066)
-* [Improve diagnostics for measuring performance](https://github.com/kiali/kiali/issues/8345)
-* [Improve tracing tool](https://github.com/kiali/kiali/issues/8472)
-* [(helm) be able to tell helm to skip creation of some resources](https://github.com/kiali/kiali/issues/8491)
-* [(CI) Grafana Test Flake in OSSMC](https://github.com/kiali/kiali/issues/8503)
-* [(operator) Adapt bundle CSV to FBC](https://github.com/kiali/kiali/issues/8507)
-* [Be able to change the Trace limit default](https://github.com/kiali/kiali/issues/8517)
-* [(CI) Shared Mesh page flaky test](https://github.com/kiali/kiali/issues/8518)
-* [(molecule) try to workaround another transient ansible galaxy error](https://github.com/kiali/kiali/issues/8527)
-* [(doc) Kiali.io Features update](https://github.com/kiali/kiali/issues/8531)
-* [(CI) Add test coverage for the tracing tool](https://github.com/kiali/kiali/issues/8528)
+* [Usability: Cleanup logs](https://github.com/kiali/kiali/issues/8347)
+* [Usability: Easy configuration/export of diagnostics](https://github.com/kiali/kiali/issues/8349)
+* [Usability: Show json logs in a more human readable format](https://github.com/kiali/kiali/issues/7066)
+* [Usability: Improve diagnostics for measuring performance](https://github.com/kiali/kiali/issues/8345)
+* [Usability: Improve tracing tool](https://github.com/kiali/kiali/issues/8472)
+* [Heml: be able to tell helm to skip creation of some resources](https://github.com/kiali/kiali/issues/8491)
+* [Operator: Adapt bundle CSV to FBC](https://github.com/kiali/kiali/issues/8507)
+* [Tracing: Be able to change the Trace limit default](https://github.com/kiali/kiali/issues/8517)
+* [Molecule: try to workaround another transient ansible galaxy error](https://github.com/kiali/kiali/issues/8527)
+* [Kiali.io: Features update](https://github.com/kiali/kiali/issues/8531)
+* [CI: Grafana Test Flake in OSSMC](https://github.com/kiali/kiali/issues/8503)
+* [CI: Shared Mesh page flaky test](https://github.com/kiali/kiali/issues/8518)
+* [CI: Add test coverage for the tracing tool](https://github.com/kiali/kiali/issues/8528)
 
 Fixes:
 
-* [(CI) OSSMC: Cannot create property 'url' on string 'GET'](https://github.com/kiali/kiali/issues/8495)
-* [(Tracing tool) Improve coverage when auth is specified but not required](https://github.com/kiali/kiali/issues/8494)
-* [(operator) change of kiali version produces error in op logs](https://github.com/kiali/kiali/issues/8505)
-* [Adapt OSSMC cypress tests to OCP 4.19](https://github.com/kiali/openshift-servicemesh-plugin/issues/455)
-* [(CI) OSSMC failure in Workload logs tab](https://github.com/kiali/kiali/issues/8540)
+* [Tracing: Improve coverage when auth is specified but not required](https://github.com/kiali/kiali/issues/8494)
+* [Operator: change of kiali version produces error in op logs](https://github.com/kiali/kiali/issues/8505)
+* [OSSMC (CI): Adapt OSSMC cypress tests to OCP 4.19](https://github.com/kiali/openshift-servicemesh-plugin/issues/455)
+* [OSSMC (CI): Cannot create property 'url' on string 'GET'](https://github.com/kiali/kiali/issues/8495)
+* [OSSMC (CI): failure in Workload logs tab](https://github.com/kiali/kiali/issues/8540)
 
 ## 2.11.0
 Sprint Release: Jun 09, 2025
