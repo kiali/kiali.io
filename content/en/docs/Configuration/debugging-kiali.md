@@ -13,18 +13,20 @@ Each log message is logged at a specific level. The different log levels are `tr
 
 ```yaml
 spec:
-  deployment:
-    logger:
-      log_level: debug
+  server:
+    observability:
+      logger:
+        log_level: debug
 ```
 
 By default, Kiali will log messages in a basic text format. You can have Kiali log messages in JSON format, which can sometimes make reading, querying, and filtering the logs easier:
 
 ```yaml
 spec:
-  deployment:
-    logger:
-      log_format: json
+  server:
+    observability:
+      logger:
+        log_format: json
 ```
 
 ### Filtering logs
@@ -240,8 +242,9 @@ The Kial Server is integrated with the Go pprof profiler. By default, the integr
 ```yaml
 spec:
   server:
-    profiler:
-      enabled: true
+    observability:
+      profiler:
+        enabled: true
 ```
 
 Once the profiler is enabled, you can access the profile reports by pointing your browser to the `<kiali-root-url>/debug/pprof` endpoint and click the link to the profile report you want. You can obtain a specific profile report by appending the name of the profile to the URL. For example, if your Kiali Server is found at the root URL of "http://localhost:20001/kiali", and you want the heap profile report, the URL `http://localhost:20001/kiali/debug/pprof/heap` will provide the data for that report.
@@ -277,10 +280,10 @@ The following are just some examples of how you can use the Kiali signals to hel
 ### Use log messages to find out what is slow
 
 {{% alert color="info" %}}
-The examples below assume Kiali is outputting logs in JSON format (`spec.deployment.logger.log_format` = `json`). Use `grep`, `sed`, and related tools to query logs if Kiali is logging the output as `text`.
+The examples below assume Kiali is outputting logs in JSON format (`spec.server.observability.logger.log_format` = `json`). Use `grep`, `sed`, and related tools to query logs if Kiali is logging the output as `text`.
 {{% /alert %}}
 
-Make sure you turn on trace logging (`spec.deployment.logger.log_level` = `trace`) in order to get the log messages needed for this kind of analysis.
+Make sure you turn on trace logging (`spec.server.observability.logger.log_level` = `trace`) in order to get the log messages needed for this kind of analysis.
 
 Find all the logs that show APIs with long execution times. Because Kiali is not logging times faster than 3 seconds, this query will return all the routes (i.e. the API endpoints) that were 3 seconds or slower:
 ```sh

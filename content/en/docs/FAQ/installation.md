@@ -277,7 +277,7 @@ When you start the Kiali Server, you should now see a debug message in its logs 
 Credentials loaded from secret file [/kiali-override-secrets/prometheus-password/value.txt]
 ```
 
-NOTE: You must have [enabled logging at the debug level](https://kiali.io/docs/configuration/kialis.kiali.io/#.spec.deployment.logger.log_level) to see the above message in the logs.
+NOTE: You must have [enabled logging at the debug level](https://kiali.io/docs/configuration/kialis.kiali.io/#.spec.server.observability.logger.log_level) to see the above message in the logs.
 
 This should work with the other credentials that can be read from a mounted secret. They all need to be mounted as a file called `value.txt` that goes into their own sub-directory under `/kiali-override-secrets` - one of:
 * grafana-username

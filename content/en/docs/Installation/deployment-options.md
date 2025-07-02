@@ -49,13 +49,14 @@ following example:
 
 ```yaml
 spec:
-  deployment:
-    logger:
-      # Supported values are "trace", "debug", "info", "warn", "error" and "fatal"
-      log_level: error  
-      # Supported values are "text" and "json".
-      log_format: json  
-      time_field_format: "2006-01-02T15:04:05Z07:00"
+  server:
+    observability:
+      logger:
+        # Supported values are "trace", "debug", "info", "warn", "error" and "fatal"
+        log_level: error
+        # Supported values are "text" and "json".
+        log_format: json
+        time_field_format: "2006-01-02T15:04:05Z07:00"
 ```
 
 The syntax for the `time_field_format` is the same as the [`Time.Format`
@@ -128,7 +129,7 @@ Although some labels and annotations are set on the Kiali pod and on its
 service (depending on configurations), you can add additional ones. For the
 pod, use the `spec.deployment.pod_labels` and `spec.deployment.pod_annotations`
 attributes. For the service, you can only add annotations using the
-`spec.deployment.service_annotations` attribute. For example:
+`spec.deployment.service.annotations` attribute. For example:
 
 ```yaml
 spec:
@@ -137,8 +138,9 @@ spec:
       a8r.io/repository: "https://github.com/kiali/kiali"
     pod_labels:
       sidecar.istio.io/inject: "true"
-    service_annotations:
-      a8r.io/documentation: "https://kiali.io/docs/installation/deployment-configuration"
+    service:
+      annotations:
+        a8r.io/documentation: "https://kiali.io/docs/installation/deployment-configuration"
 ```
 
 ## Kiali page title (browser title bar)

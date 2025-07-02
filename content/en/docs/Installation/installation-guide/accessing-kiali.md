@@ -137,7 +137,8 @@ follows:
 ```yaml
 spec:
   deployment:
-    service_type: LoadBalancer
+    service:
+      type: LoadBalancer
 ```
 
 Once the Kiali operator updates the installation, you should be able to use
