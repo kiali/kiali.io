@@ -1,0 +1,29 @@
+name: Docs Linter (textlint)
+
+on:
+  pull_request:
+    branches: [ current, staging ]
+
+jobs:
+  textlint:
+    name: textlint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run textlint
+        uses: textlint/action@v2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-review
+          files: 'content/**/*.md'

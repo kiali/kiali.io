@@ -1,0 +1,20 @@
+{
+  "filters": {
+    "comments": true
+  },
+  "rules": {
+    "preset-google": true,
+    "spellcheck": {
+      "lang": "en-US"
+    },
+    "terminology": {
+      "terms": [
+        "configmap",
+        "Istio",
+        "istiod",
+        "Kiali",
+        "Patternfly"
+      ]
+    }
+  }
+}
