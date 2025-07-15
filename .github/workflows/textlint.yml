@@ -22,7 +22,7 @@ jobs:
         run: npm ci
 
       - name: Run textlint
-        uses: textlint/action@v2
+        uses: reviewdog/action-textlint@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: github-pr-review
