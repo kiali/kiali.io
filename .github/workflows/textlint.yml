@@ -17,21 +17,24 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
+      - name: Install textlint and rules
+        run: |
+          npm install --no-save textlint textlint-rule-no-todo textlint-rule-preset-ja-technical-writing
       - name: textlint-github-pr-check
         uses: tsuyoshicho/action-textlint@v3
         with:
           github_token: ${{ secrets.github_token }}
           reporter: github-pr-check
-          textlint_flags: "content/**"
+          textlint_flags: "content/**/*.md"
       - name: textlint-github-check
         uses: tsuyoshicho/action-textlint@v3
         with:
           github_token: ${{ secrets.github_token }}
           reporter: github-check
-          textlint_flags: "content/**"
+          textlint_flags: "content/**/*.md"
       - name: textlint-github-pr-review
         uses: tsuyoshicho/action-textlint@v3
         with:
           github_token: ${{ secrets.github_token }}
           reporter: github-pr-review
-          textlint_flags: "content/**"
+          textlint_flags: "content/**/*.md"
