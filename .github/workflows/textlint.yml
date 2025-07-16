@@ -29,5 +29,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: github-pr-check
           level: warning
-          workdir: .
-          textlint_input: "content/**/*.md"          
+          textlint_flags: "content/**/*.md"          
