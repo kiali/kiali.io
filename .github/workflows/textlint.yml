@@ -1,31 +1,33 @@
-name: Text Lint Check
+name: Docs Linter (textlint)
+
 on:
   pull_request:
-    paths:
-      - '**/*.md'
-  push:
-    branches:
-      - staging
-      - current
+    branches: [ staging, current ]
+
 jobs:
   textlint:
+    name: textlint
     runs-on: ubuntu-latest
-    name: Run textlint on markdown files
-
     steps:
-      - name: Checkout code
+      - name: Check out repository
         uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
 
       - name: Install dependencies
         run: |
           npm install --no-save textlint textlint-rule-preset-ja-technical-writing textlint-rule-no-todo
 
-      - name: Run textlint
-        run: |
-          npx textlint "**/*.md"
 
+      - name: Run textlint
+        uses: tsuyoshicho/action-textlint@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-check
+          level: warning
+          workdir: .
+          textlint_input: "content/**/*.md"          
