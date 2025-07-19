@@ -20,7 +20,7 @@ Fixes:
 
 * [MeshPage: Fix dataplane namespace count](https://github.com/kiali/kiali/pull/8573)
 
-## v2.12.0
+## 2.12.0
 Sprint Release: Jun 30, 2025
 
 Features:
