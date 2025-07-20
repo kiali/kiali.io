@@ -6,7 +6,21 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
-## v2.12.0
+## 2.13.0
+Sprint Release: July 21, 2025
+
+Features:
+
+* [I18N: Spanish localization (partial)](https://github.com/kiali/kiali/pull/8567)
+* [Istio Config: Initial support for GW API Inference extension](https://github.com/kiali/kiali/issues/8555)
+* [Mesh Page: Unify config format](https://github.com/kiali/kiali/issues/8493)
+* [Mesh Page: Consistent istio Metrics](https://github.com/kiali/kiali/issues/8552)
+
+Fixes:
+
+* [MeshPage: Fix dataplane namespace count](https://github.com/kiali/kiali/pull/8573)
+
+## 2.12.0
 Sprint Release: Jun 30, 2025
 
 Features:
