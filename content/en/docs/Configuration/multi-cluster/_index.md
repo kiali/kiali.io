@@ -3,7 +3,7 @@ title: "Multi-cluster"
 description: "Configuring Kiali for a multi-cluster mesh."
 ---
 
-Kiali has [support for Istio multi-cluster installations]({{< relref "../../../Features/multi-cluster" >}}).
+Kiali has [support for Istio multi-cluster installations]({{< relref "../../Features/multi-cluster" >}}).
 
 ![Kiali multi-cluster](/images/documentation/configuration/multi-cluster.png)
 
