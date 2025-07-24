@@ -144,7 +144,6 @@ metadata:
   name: kiali
   namespace: ${NAMESPACE}
 spec:
-  istio_namespace: istio-system
   auth:
     strategy: anonymous
   deployment:

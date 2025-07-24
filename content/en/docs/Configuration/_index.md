@@ -28,7 +28,6 @@ metadata:
   namespace: kiali-namespace
   name: kiali
 spec:
-  istio_namespace: istio-system
   deployment:
     namespace: kiali-namespace
   auth:
