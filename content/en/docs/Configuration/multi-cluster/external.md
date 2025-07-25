@@ -7,7 +7,7 @@ Larger mesh deployments may desire to separate mesh operation from mesh observab
 
 ### Deployment Model
 
-This deployment model requires a minimum of two clusters. The "management" cluster is where Kiali will be deployed. The "mesh" cluster(s) will be where your service mesh is deployed. The mesh deployment will still conform to any of the Istio deployment models that Kiali already supports. The fundamental difference is that Kiali will not be co-located with an Istio control plane, but instead will reside away from the mesh. For multi-cluster mesh deployments, all of the same requirements apply, such as unified metrics and traces, etc.
+This deployment model requires a minimum of two clusters. The Kiali "home" cluster (where Kiali is deployed) will serve as the "management" cluster. The "mesh" cluster(s) will be where your service mesh is deployed. The mesh deployment will still conform to any of the Istio deployment models that Kiali already supports. The fundamental difference is that Kiali will not be co-located with an Istio control plane, but instead will reside away from the mesh. For multi-cluster mesh deployments, all of the same requirements apply, such as unified metrics and traces, etc.
 
 It is recommended, but not required, that joining Kiali on the "management" cluster, you also place your other observability tooling, like the metrics store. This will further reduce observability resources on the mesh cluster(s), and will likely reduce latency between Kiali and those data stores.
 
