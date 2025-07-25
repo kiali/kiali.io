@@ -18,7 +18,7 @@ The high-level deployment model looks like this:
 
 Configuring Kiali for the external deployment model has the same requirements needed for a co-located Kiali in a [multi-cluster installation]({{< relref "../Multi-cluster" >}}). Kiali still needs the necessary secrets for accessing the remote clusters. 
 
-Additionally, The configuration needs to indicate that Kiali will not be managing its home cluster. This is done in the Kiali CR by setting:
+Additionally, the configuration needs to indicate that Kiali will not be managing its home cluster. This is done in the Kiali CR by setting:
 
 ```
 clustering:
