@@ -25,7 +25,7 @@ clustering:
   ignore_home_cluster: true
 ```
 
-Kiali typically sets its home cluster name to the same cluster name set by the co-located Istio control plane. In an external deployment there is no co-located Istio control plane, and therefore the cluster name must also be set in the configuration. This should be the same name as reflected in the .kube config.
+Kiali typically sets its home cluster name to the same cluster name set by the co-located Istio control plane. In an external deployment there is no co-located Istio control plane, and therefore the cluster name must also be set in the configuration. The name must be unique within the set of multi-cluster cluster names.
 
 ```
 kubernetes_config:

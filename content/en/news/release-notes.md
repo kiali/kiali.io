@@ -8,7 +8,7 @@ For additional information check our [sprint demo videos](https://www.youtube.co
 
 Upgrade Change Notes:
 
-The following fields are no longer used by the Kiali CR and may be safely removed, if set. Leaving them in an existing CR will not be a problem, but they are unused.
+The following fields are no longer used by the Kiali CR and MUST be removed, if currently set.
 
 * spec.istio_namespace
 * spec.in_cluster
