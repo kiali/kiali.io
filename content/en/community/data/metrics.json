@@ -684,13 +684,19 @@
                     "issues": 137,
                     "stars": 3485,
                     "size": 70188
+                },
+                "2025-07-25": {
+                    "forks": 516,
+                    "issues": 138,
+                    "stars": 3486,
+                    "size": 70230
                 }
             },
             "language": {
-                "Go": 4179749,
-                "TypeScript": 3586469,
-                "Shell": 826863,
-                "Gherkin": 194196,
+                "Go": 4164704,
+                "TypeScript": 3587698,
+                "Shell": 828388,
+                "Gherkin": 194481,
                 "Makefile": 104676,
                 "SCSS": 41157,
                 "HTML": 2079,
@@ -1017,13 +1023,19 @@
                     "issues": 5,
                     "stars": 85,
                     "size": 2691
+                },
+                "2025-07-23": {
+                    "forks": 121,
+                    "issues": 4,
+                    "stars": 86,
+                    "size": 2710
                 }
             },
             "language": {
                 "Shell": 64597,
-                "Dockerfile": 29005,
+                "Dockerfile": 29475,
                 "Python": 27842,
-                "Makefile": 9692
+                "Makefile": 10885
             }
         },
         "openshift-servicemesh-plugin": {
@@ -1260,11 +1272,17 @@
                     "issues": 2,
                     "stars": 7,
                     "size": 9764
+                },
+                "2025-07-23": {
+                    "forks": 17,
+                    "issues": 2,
+                    "stars": 7,
+                    "size": 9847
                 }
             },
             "language": {
-                "TypeScript": 3633555,
-                "Gherkin": 213801,
+                "TypeScript": 3637230,
+                "Gherkin": 214343,
                 "SCSS": 41251,
                 "Makefile": 17313,
                 "Shell": 13179,
