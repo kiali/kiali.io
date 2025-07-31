@@ -148,7 +148,6 @@ metadata:
   namespace: kialianon
 spec:
   installation_tag: "Kiali - View Only"
-  istio_namespace: "istio-system"
   auth:
     strategy: "anonymous"
   deployment:

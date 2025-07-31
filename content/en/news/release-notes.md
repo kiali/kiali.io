@@ -6,6 +6,14 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+Upgrade Change Notes:
+
+The following fields are no longer used by the Kiali CR and MUST be removed, if currently set.
+
+* spec.istio_namespace
+* spec.in_cluster
+* spec.deployment.remote_secret_path
+
 ## 2.13.0
 Sprint Release: July 21, 2025
 

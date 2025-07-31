@@ -31,16 +31,6 @@ spec:
     namespace: "custom-kiali-namespace"
 ```
 
-It is assumed that Kiali is installed to the same namespace as Istio. Kiali
-reads some Istio resources and may not work properly if those resources are not
-found. Thus, if you are installing Kiali and Istio on different namespaces, you
-must specify what is the Istio namespace:
-
-```yaml
-spec:
-  istio_namespace: "istio-system"
-```
-
 ## Log level and format
 
 By default, Kiali will print up to `INFO`-level messages in simple text format.
