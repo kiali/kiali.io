@@ -976,6 +976,142 @@ Add Autorization Policy which selector matches with Workload's label selector.
 - [Definition of a source](https://istio.io/docs/reference/config/security/authorization-policy/#Source)
 
 
+## Ambient Workloads {#ambient_workloads}
+
+### KIA1311 - This workload has both sidecar and Ambient label
+
+Workload has both a sidecar and Ambient annotation (`ambient.istio.io/redirection`).
+Workload should not have a sidecar if it's running in Ambient mode.
+
+#### Resolution
+
+Remove either the sidecar or the Ambient annotation depending on your desired setup.
+
+#### Severity
+
+<i class="fas fa-times-circle text-danger"></i> Error
+
+#### See Also
+
+- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/workloads/ambient/ambient_workload_checker.go)
+- [Istio documentation](https://istio.io/latest/docs/ambient/usage/add-workloads/)
+- [Troubleshooting Istio Ambient](https://github.com/istio/istio/wiki/Troubleshooting-Istio-Ambient)
+
+### KIA1312 - This workload has waypoint labels but is not in Ambient
+
+Workload has waypoint annotations but is not in Ambient.
+Waypoint annotations are only used with Ambient workloads.
+
+#### Resolution
+
+Ensure the workload is in an Ambient-enabled namespace or remove the annotation.
+
+#### Severity
+
+<i class="fas fa-times-circle text-danger"></i> Error
+
+#### See Also
+
+- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/workloads/ambient/ambient_workload_checker.go)
+- [Istio documentation](https://istio.io/latest/docs/ambient/usage/add-workloads/)
+- [Troubleshooting Istio Ambient](https://github.com/istio/istio/wiki/Troubleshooting-Istio-Ambient)
+
+### KIA1313 - This workload has annotated waypoint but it does not exist or is misconfigured
+
+Waypoint is annotated but does not exist or is misconfigured.
+The specified waypoint is not found or incorrectly referenced.
+
+#### Resolution
+
+Check the name and namespace of the waypoint or remove the annotation.
+
+#### Severity
+
+<i class="fas fa-times-circle text-danger"></i> Error
+
+#### See Also
+
+- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/workloads/ambient/ambient_workload_checker.go)
+- [Istio documentation](https://istio.io/latest/docs/ambient/usage/add-workloads/)
+- [Troubleshooting Istio Ambient](https://github.com/istio/istio/wiki/Troubleshooting-Istio-Ambient)
+
+### KIA1314 - This workload has a sidecar label and ambient redirection
+
+Pod has both a sidecar container and `ambient.istio.io/redirection: enabled`.
+The pod may have had a sidecar injected before switching to Ambient. Ambient redirection won't take effect until the sidecar is removed.
+
+#### Resolution
+
+Restart the pod to remove the sidecar and allow Ambient redirection to take effect.
+
+#### Severity
+
+<i class="fas fa-times-circle text-danger"></i> Error
+
+#### See Also
+
+- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/workloads/ambient/ambient_workload_checker.go)
+- [Istio documentation](https://istio.io/latest/docs/ambient/usage/add-workloads/)
+- [Troubleshooting Istio Ambient](https://github.com/istio/istio/wiki/Troubleshooting-Istio-Ambient)
+
+### KIA1315 - This workload has a pod with both a sidecar container and ambient labels
+
+Direct conflict between sidecar and Ambient.
+Workload has both `sidecar.istio.io/inject: true` and `ambient.istio.io/redirection: enabled`.
+
+#### Resolution
+
+Use only one mode: Ambient or Sidecar.
+
+#### Severity
+
+<i class="fas fa-times-circle text-danger"></i> Error
+
+#### See Also
+
+- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/workloads/ambient/ambient_workload_checker.go)
+- [Istio documentation](https://istio.io/latest/docs/ambient/usage/add-workloads/)
+- [Troubleshooting Istio Ambient](https://github.com/istio/istio/wiki/Troubleshooting-Istio-Ambient)
+
+### KIA1316 - This workload has a sidecar but is in an Ambient-enabled namespace
+
+Workload has a sidecar but is in an Ambient-enabled namespace.
+This may cause confusion or unexpected behavior, though it's technically allowed.
+
+#### Resolution
+
+Prefer using either sidecar or Ambient mode — not both.
+
+#### Severity
+
+<i class="fas fa-exclamation-triangle text-warning"></i> Warning
+
+#### See Also
+
+- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/workloads/ambient/ambient_workload_checker.go)
+- [Istio documentation](https://istio.io/latest/docs/ambient/usage/add-workloads/)
+- [Troubleshooting Istio Ambient](https://github.com/istio/istio/wiki/Troubleshooting-Istio-Ambient)
+
+### KIA1317 - This workload has Authorization Policies but no Waypoint
+
+Workload has L7 policies (e.g. AuthorizationPolicy) but no waypoint.
+In Ambient, L7 policies require a waypoint to take effect.
+
+#### Resolution
+
+Add a waypoint so policies are properly enforced.
+
+#### Severity
+
+<i class="fas fa-exclamation-triangle text-warning"></i> Warning
+
+#### See Also
+
+- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/workloads/ambient/ambient_workload_checker.go)
+- [Istio documentation](https://istio.io/latest/docs/ambient/usage/add-workloads/)
+- [Troubleshooting Istio Ambient](https://github.com/istio/istio/wiki/Troubleshooting-Istio-Ambient)
+
+
 ## Generic {#generic}
 
 ### KIA0002 - More than one selector-less object in the same namespace
