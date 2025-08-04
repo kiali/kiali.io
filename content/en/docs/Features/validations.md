@@ -980,12 +980,12 @@ Add Autorization Policy which selector matches with Workload's label selector.
 
 ### KIA1311 - This workload has both sidecar and Ambient label
 
-Workload has both a sidecar and Ambient annotation (`ambient.istio.io/redirection`).
+The workload has both sidecar and Ambient labels, but the traffic it is been redirected to Ambient as it has the Ambient traffic redirection annotation (`ambient.istio.io/redirection`).
 Workload should not have a sidecar if it's running in Ambient mode.
 
 #### Resolution
 
-Remove either the sidecar or the Ambient annotation depending on your desired setup.
+Remove either the sidecar or the Ambient labels depending on your desired setup.
 
 #### Severity
 
@@ -999,16 +999,16 @@ Remove either the sidecar or the Ambient annotation depending on your desired se
 
 ### KIA1312 - This workload has waypoint labels but is not in Ambient
 
-Workload has waypoint annotations but is not in Ambient.
-Waypoint annotations are only used with Ambient workloads.
+The workload has the waypoint labels but is not included in the Ambient Mesh.
+The Waypoint labels are only used with Ambient workloads.
 
 #### Resolution
 
-Ensure the workload is in an Ambient-enabled namespace or remove the annotation.
+Ensure the workload is in an Ambient-enabled namespace or remove the label.
 
 #### Severity
 
-<i class="fas fa-times-circle text-danger"></i> Error
+<i class="fas fa-exclamation-triangle text-warning"></i> Warning
 
 #### See Also
 
@@ -1018,12 +1018,12 @@ Ensure the workload is in an Ambient-enabled namespace or remove the annotation.
 
 ### KIA1313 - This workload has annotated waypoint but it does not exist or is misconfigured
 
-Waypoint is annotated but does not exist or is misconfigured.
+The workload has a Waypoint label but the Waypoint does not exist or is misconfigured.
 The specified waypoint is not found or incorrectly referenced.
 
 #### Resolution
 
-Check the name and namespace of the waypoint or remove the annotation.
+Check the name and namespace of the waypoint or remove the label.
 
 #### Severity
 
@@ -1037,8 +1037,7 @@ Check the name and namespace of the waypoint or remove the annotation.
 
 ### KIA1314 - This workload has a sidecar label and ambient redirection
 
-Pod has both a sidecar container and `ambient.istio.io/redirection: enabled`.
-The pod may have had a sidecar injected before switching to Ambient. Ambient redirection won't take effect until the sidecar is removed.
+The pod has a sidecar injected and the Ambient label. The Ambient redirection won't take effect until the sidecar is removed.
 
 #### Resolution
 
