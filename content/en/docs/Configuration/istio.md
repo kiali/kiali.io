@@ -35,30 +35,6 @@ For example, Istio lets you use the `app` label in one pod and the
 correctly. However, you will have no way to configure Kiali for this case.
 {{% /alert %}}
 
-## Monitoring port of the IstioD pod
-
-Kiali connects directly to the IstioD pod (not the Service) to check for its
-health. By default, the connection is done to port 15014 which is the default
-monitoring port of the IstioD pod.
-
-Under some circumstances, you may need to change the monitoring port of the
-IstioD pod to something else. For example, when running IstioD in [_host
-network mode_](https://kubernetes.io/docs/concepts/services-networking/)
-the network is shared between several pods, requiring to change listening ports
-of some pods to prevent conflicts.
-
-It is possible to map the newly chosen monitoring port of the IstioD pod in the
-related Service to let other services continue working normally. However, since
-Kiali connects directly to the IstioD pod, you need to configure the assigned
-monitoring port in the Kiali CR:
-
-```yaml
-spec:
-  external_services:
-    istio:
-      istiod_pod_monitoring_port: 15014
-```
-
 ## Root namespace
 
 Istio's _root namespace_ is the namespace where you can create some resources
@@ -81,8 +57,8 @@ spec:
 
 ## Sidecar injection, canary upgrade management and Istio revisions
 
-Kiali can assist into configuring automatic sidecar injection, and also can
-assist when you are migrating workloads from an old Istio version to a newer
+Kiali can assist with configuring automatic sidecar injection and
+migrating workloads from an old Istio version to a newer
 one using [the canary upgrade
 method](https://istio.io/latest/docs/setup/upgrade/canary/). Kiali uses the
 [standard Istio labels to control sidecar injection
@@ -98,51 +74,14 @@ spec:
     istio_injection_action: false
 ```
 
-Assistance for migrating workloads between Istio revisions when doing a canary
-upgrade is turned off by default. This is because it is required to know [what
-is the revision name that was used when
-installing](https://istio.io/latest/docs/setup/upgrade/canary/#control-plane)
-each Istio control plane. You can enable and configure the canary upgrade
-support with the following configuration:
+Using Kiali to apply revision labels through the UI during a canary
+upgrade is turned off by default. You can enable this in Kiali with the following configuration:
 
 ```yaml
 spec:
-  external_services:
-    istio:
-      istio_canary_revision:
-        # Revision string of old Istio version
-        current: "1-10-3"
-        # Revision string of new Istio version
-        upgrade: "1-11-0"
   kiali_feature_flags:
     # Turns on canary upgrade support
     istio_upgrade_action: true
-```
-
-{{% alert color="warning" %}}
-Please note that Kiali will use _revision labels_ to control sidecar injection
-policy only when canary upgrade support is enabled; else, non-revision labels
-are used. Make sure you finish the canary upgrade before turning off the canary
-upgrade support. If you need to disable Kiali's canary upgrade feature while an
-upgrade is unfinished, it will be safer if you also disable the sidecar
-injection management feature.
-{{% /alert %}}
-
-It is important to note that canary upgrades require adding a revision name
-during the installation of control planes. You will notice that the revision
-name will be appended to the name of Istio resources. Thus, once/if you are
-using Kiali with an Istio control plane that has a revision name you will need
-to specify what is the name of a few Istio resources that Kiali uses. For
-example, if your control plane has a revision name `1-11-0` you would need to
-set these configurations:
-
-```yaml
-spec:
-  external_services:
-    istio:
-      config_map_name: "istio-1-11-0"
-      istio_sidecar_injector_config_map_name: "istio-sidecar-injector-1-11-0"
-      istiod_deployment_name: "istiod-1-11-0"
 ```
 
 The progress of the canary upgrade process can be tracked on the mesh page, which displays the namespaces pending migration to the canary Istio control plane.
