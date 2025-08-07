@@ -162,7 +162,7 @@ The `default` and `overrides` discovery selectors are processed in the same mann
 
 {{% alert color="info" %}}
 An empty list of discovery selectors has different semantics depending on the value of `deployment.cluster_wide_access`.
-* If `deployment.cluster_wide_access` is `true`, an empty list of discovery selectors means all namespaces will be visible except those that are considered system namespaces (these include namespaces whose names are prefixed with "kube-", "openshift" or "ibm" such as `kube-system`, `openshift-operators`, and `ibm-system`).
+* If `deployment.cluster_wide_access` is `true`, an empty list of discovery selectors means all namespaces will be visible except those that are considered system namespaces. These include namespaces whose names are prefixed with "kube-", "openshift" or "ibm" such as `kube-system`, `openshift-operators`, and `ibm-system`. ([Kubernetes has reserved](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/#working-with-namespaces) all namespaces prefixed with `kube-` as system namespaces and users are cautioned against creating them). System namespaces such as these should not be considered to have service mesh components and so are excluded by Kiali. If, for some reason, you want to consider these namespaces in your service mesh, you can do so by defining discovery selectors, or alternatively you can rename your namespaces so they do not resemble system namespaces.
 * If `deployment.cluster_wide_access` is `false`, an empty list of discovery selectors means only the Istio control plane namespace and the Kiali deployment namespace will be accessible.
 {{% /alert %}}
 
