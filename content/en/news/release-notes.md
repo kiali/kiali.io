@@ -6,13 +6,40 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
-Upgrade Change Notes:
+## 2.14.0
+Sprint Release: August 08, 2025
+
+Features:
+
+* [Ambient: UI support to add namespace to Ambient mesh](https://github.com/kiali/kiali/issues/7901)
+* [Deployment: Support for external kiali deployment option](https://github.com/kiali/kiali/issues/8470)
+* [Gateway API: Upgrade K8s Gateway API to v1.3.0](https://github.com/kiali/kiali/issues/8272)
+* [Gateway API: Support Gateway API Inference Extension](https://github.com/kiali/kiali/issues/8555)
+
+Fixes:
+
+* [Authorization: do not perform cluster-wide query when cluster wide access is disabled](https://github.com/kiali/kiali/issues/8585)
+* [Multi-cluster: Detect monitoring port for each controlplane](https://github.com/kiali/kiali/issues/8553)
+* [Validation: Kiali does not recognize `istio-remote` gateway class](https://github.com/kiali/kiali/issues/8590)
+
+#### Upgrade Change Notes:
 
 The following fields are no longer used by the Kiali CR and MUST be removed, if currently set.
 
-* spec.istio_namespace
-* spec.in_cluster
-* spec.deployment.remote_secret_path
+* no longer used
+  * `spec.istio_namespace`
+  * `spec.in_cluster`
+  * `spec.deployment.remote_secret_path`
+* now auto-discovered
+  * `spec.external_services.istio.config_map_name`
+  * `spec.external_services.istio.istiod_pod_monitoring_port`
+  * `spec.external_services.istio.envoy_admin_local_port`
+  * `spec.external_services.istio.istio_canary_version`
+  * `spec.external_services.istio.istio_injection_annotation`
+  * `spec.external_services.istio.istio_sidecar_annotation`
+  * `spec.external_services.istio.istiod_deployment_name`
+  * `spec.external_services.istio.istiod_pod_monitoring_port`
+  * `spec.external_services.istio.url_service_version`
 
 ## 2.13.0
 Sprint Release: July 21, 2025

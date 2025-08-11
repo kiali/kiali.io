@@ -31,3 +31,6 @@ Kiali typically sets its home cluster name to the same cluster name set by the c
 kubernetes_config:
   cluster_name: <KialiHomeClusterName>
 ```
+### Authorization
+
+The external deployment model currently supports openid and anonymous authorization strategies. OpenShift and token auth are untested and considered experimental.
