@@ -1,12 +1,15 @@
 # The Compatible Version Matrix between upstream Istio and Kiali
 # See: content/en/docs/Installation/installation-guide/prerequisites.md -> {{<compat-table-istio>}}
 versionRange:
+  - meshVersion: "1.27"
+    kialiVersions: "2.12 and higher"
   - meshVersion: "1.26"
     kialiVersions: "2.9 and higher"
   - meshVersion: "1.25"
     kialiVersions: "2.5 and higher"
   - meshVersion: "1.24"
-    kialiVersions: "2.0 and higher"
+    kialiVersions: "2.0-2.13"
+    notes: "Istio 1.24 is out of support."
   - meshVersion: "1.23"
     kialiVersions: "1.87, 2.4-2.8"
     notes: "Istio 1.23 is out of support. Kiali v2 requires migration from Kiali v1 non-default namespace management (i.e. accessible_namespaces) to Discovery Selectors."
