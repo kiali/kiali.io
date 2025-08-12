@@ -8,18 +8,7 @@ weight: 60
 
 During a canary upgrade where multiple controlplanes are present, Kiali will automatically
 detect both controlplanes. You can visit the [mesh page](/docs/features/istio-component-status/#mesh-page)
-to visualize your controlplanes during a canary upgrade. You can also manually
-specify a controlplane you want Kiali to connect to through the Kiali CR however
-if you do this then you will need to update these settings during each canary upgrade.
-
-```yaml
-spec:
-  external_services:
-    istio:
-      config_map_name: "istio"
-      istiod_deployment_name: "istiod"
-      istio_sidecar_injector_config_map_name: "istio-sidecar-injector"
-```
+to visualize your controlplanes during a canary upgrade.
 
 ## Installing a Kiali Server of a different version than the Operator
 
@@ -86,7 +75,7 @@ the `spec.deployment.image_name` setting and you will not need to enable the
 
 To change the default Kiali Server image installed by the operator, set the
 environment variable `RELATED_IMAGE_kiali_default` in the Kiali Operator
-deployment.  The value of that environment variable must be the full image tag
+deployment. The value of that environment variable must be the full image tag
 in the form `repoName/orgName/imageName:versionString` (e.g.
 `my.internal.registry.io/mykiali/mykialiserver:v1.50.0`). You can do this when
 you install the operator via helm:
@@ -100,7 +89,6 @@ $ helm install \
     kiali-operator \
     kiali/kiali-operator
 ```
-
 
 ## Development Install
 
