@@ -32,6 +32,8 @@ spec:
 
   installation_tag: ""
 
+  istio_namespace: ""
+
   version: "default"
 
   auth:
@@ -65,7 +67,6 @@ spec:
       enabled: true
       label: "kiali.io/multiCluster=true"
     clusters: []
-    ignore_home_cluster: false
     kiali_urls: []
 
   # default: custom_dashboards is an empty list
@@ -1234,25 +1235,6 @@ Authorization header and potentially impersonation headers.</li>
 
 <div class="property-description">
 <p>The name of the secret that contains the credentials necessary to connect to the remote cluster. This secret must exist in the Kiali deployment namespace. If a secret name is not provided then it&rsquo;s assumed that the cluster is inaccessible.</p>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-2">
-<div class="property-header">
-<hr/>
-<h3 class="property-path" id=".spec.clustering.ignore_home_cluster">.spec.clustering.ignore_home_cluster</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(boolean)</span>
-
-</div>
-
-<div class="property-description">
-<p>Set to true for an external Kiali deployment, or if Kiali should not try to discover Istio on the home cluster. When set to <code>true</code>, it is required to set <code>kubernetes_config.cluster_name</code>. When not set, this value will default to <code>false</code>.</p>
 
 </div>
 
@@ -3738,7 +3720,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The URL used to query the Prometheus Server. This URL must be accessible from the Kiali pod. If empty, the default will assume Prometheus is in the Istio control plane namespace; e.g. <code>http://prometheus.istio-system:9090</code>.</p>
+<p>The URL used to query the Prometheus Server. This URL must be accessible from the Kiali pod. If empty, the default will assume Prometheus is in the Istio control plane namespace; e.g. <code>http://prometheus.&lt;istio_namespace&gt;:9090</code>.</p>
 
 </div>
 
@@ -4165,7 +4147,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The URL used by Kiali to perform requests and queries to Grafana. An example would be <code>http://grafana.istio-system:3000</code>. This URL can contain query parameters if needed, such as &lsquo;?orgId=1&rsquo;. If not defined, it will default to <code>http://grafana.&lt;istio namespace&gt;:3000</code>.</p>
+<p>The URL used by Kiali to perform requests and queries to Grafana. An example would be <code>http://grafana.istio-system:3000</code>. This URL can contain query parameters if needed, such as &lsquo;?orgId=1&rsquo;. If not defined, it will default to <code>http://grafana.&lt;istio_namespace&gt;:3000</code>.</p>
 
 </div>
 
@@ -4331,7 +4313,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The namespace where the component is installed. It defaults to the Istio control plane namespace (e.g. <code>istio-system</code>). Note that the Istio documentation suggests you install the ingress and egress to different namespaces, so you most likely will want to explicitly set this namespace value for the ingress and egress components.</p>
+<p>The namespace where the component is installed. It defaults to the Istio control plane namespace (e.g. <code>istio_namespace</code>) setting. Note that the Istio documentation suggests you install the ingress and egress to different namespaces, so you most likely will want to explicitly set this namespace value for the ingress and egress components.</p>
 
 </div>
 
@@ -4388,7 +4370,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The namespace where Istio EgressGateway component is read for a status check. When left empty, the control plane namespace is used. e.g. <code>istio-system</code>.</p>
+<p>The namespace where Istio EgressGateway component is read for a status check. When left empty, then <code>istio_namespace</code> value is used.</p>
 
 </div>
 
@@ -4426,7 +4408,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>A list declaring all the Gateway API Classes used in Istio. If empty or undefined, Kiali attempts to auto-discover Gateway Classes if <code>cluster_wide_access</code> is set <code>true</code> for Kiali; otherwise, it defaults to <code>istio</code>, <code>istio-remote</code>, and adds <code>istio-waypoint</code> for Ambient mode or <code>istio-east-west</code> for multicluster setup.</p>
+<p>A list declaring all the Gateways used in Istio. If left empty or undefined, the default is a single list item whose name is <code>Istio</code> and class_name is <code>istio</code>.</p>
 
 </div>
 
@@ -4497,7 +4479,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>Label selector for auto-discovering K8s Gateway API Classes. Used if <code>gateway_api_classes</code> is unset and <code>cluster_wide_access</code> is set <code>true</code> for Kiali. When left empty then all K8s Gateway API Classes will be loaded.</p>
+<p>Label selector for auto-discovering K8s Gateway API Classes. Used if <code>gateway_api_classes</code> is unset. When left empty then all K8s Gateway API Classes will be loaded.</p>
 
 </div>
 
@@ -4516,7 +4498,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The namespace where Istio IngressGateway component is read for a status check. When left empty, the control plane namespace is used. e.g. <code>istio-system</code>.</p>
+<p>The namespace where Istio IngressGateway component is read for a status check. When left empty, then <code>istio_namespace</code> value is used.</p>
 
 </div>
 
@@ -5162,7 +5144,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The URL used to query the Prometheus Server. This URL must be accessible from the Kiali pod. If empty, the default will assume Prometheus is in the Istio control plane namespace; e.g. <code>http://prometheus.istio-system:9090</code>.</p>
+<p>The URL used to query the Prometheus Server. This URL must be accessible from the Kiali pod. If empty, the default will assume Prometheus is in the Istio control plane namespace; e.g. <code>http://prometheus.&lt;istio_namespace&gt;:9090</code>.</p>
 
 </div>
 
@@ -6174,6 +6156,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property-description">
 <p>If using a single scheme for app/version labeling, set this to the version label name being used. This is typically <code>version</code> or <code>app.kubernetes.io/version</code>. The default is unset, and Kiali will handle mixed schemes.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-1">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.istio_namespace">.spec.istio_namespace</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The namespace where Istio is installed. If left empty, it is assumed to be the same namespace as where Kiali is installed (i.e. <code>deployment.namespace</code>).</p>
 
 </div>
 
@@ -7260,7 +7261,7 @@ An example,</p>
 </div>
 
 <div class="property-description">
-<p>The name of the cluster Kiali is deployed in. This is also known as the home cluster. This is only used in multi cluster environments. This must be set when <code>clustering.ignore_home_cluster=true</code>. If not set, Kiali will try to auto detect the cluster name from the Istiod deployment or use the default &lsquo;Kubernetes&rsquo;.</p>
+<p>The name of the cluster Kiali is deployed in. This is only used in multi cluster environments. If not set, Kiali will try to auto detect the cluster name from the Istiod deployment or use the default &lsquo;Kubernetes&rsquo;.</p>
 
 </div>
 
