@@ -15,7 +15,7 @@ They are the same as the ones provided by Grafana Istio addon.
 Thus, it is recommended that you use Perses if you need those advanced
 options.
 
-Kiali can provide a direct link from its metric dashboards to the equivalent or
+Kiali, from version v2.15, can provide a direct link from its metric dashboards to the equivalent or
 most similar Perses dashboard, which is convenient if you need the powerful
 Perses options.
 
@@ -74,7 +74,7 @@ Just basic authentication is supported. This will be configured in Perses as `na
 ```yaml
 spec:
   external_services:
-    grafana:
+    perses:
       enabled: true
       auth:
         ca_file: ""
