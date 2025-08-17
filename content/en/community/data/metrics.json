@@ -702,13 +702,19 @@
                     "issues": 135,
                     "stars": 3495,
                     "size": 70509
+                },
+                "2025-08-16": {
+                    "forks": 525,
+                    "issues": 140,
+                    "stars": 3496,
+                    "size": 70700
                 }
             },
             "language": {
-                "Go": 4191389,
-                "TypeScript": 3593433,
-                "Shell": 860247,
-                "Gherkin": 197063,
+                "Go": 4201062,
+                "TypeScript": 3597785,
+                "Shell": 860092,
+                "Gherkin": 199270,
                 "Makefile": 104547,
                 "SCSS": 41157,
                 "HTML": 2079,
@@ -1053,13 +1059,19 @@
                     "issues": 5,
                     "stars": 85,
                     "size": 2731
+                },
+                "2025-08-14": {
+                    "forks": 122,
+                    "issues": 5,
+                    "stars": 85,
+                    "size": 2717
                 }
             },
             "language": {
-                "Shell": 64296,
-                "Dockerfile": 29475,
+                "Shell": 79419,
+                "Dockerfile": 29945,
                 "Python": 27842,
-                "Makefile": 10885
+                "Makefile": 11191
             }
         },
         "openshift-servicemesh-plugin": {
@@ -1308,11 +1320,17 @@
                     "issues": 2,
                     "stars": 7,
                     "size": 9861
+                },
+                "2025-08-15": {
+                    "forks": 17,
+                    "issues": 2,
+                    "stars": 7,
+                    "size": 9907
                 }
             },
             "language": {
-                "TypeScript": 3637230,
-                "Gherkin": 214343,
+                "TypeScript": 3644194,
+                "Gherkin": 219497,
                 "SCSS": 41251,
                 "Makefile": 17313,
                 "Shell": 13179,
