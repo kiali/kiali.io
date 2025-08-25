@@ -64,11 +64,6 @@ rules:
   - pods/log
   verbs:
   - get
-- apiGroups: ["project.openshift.io"] # Only if you are using OpenShift
-  resources:
-  - projects
-  verbs:
-  - get
 ``` 
 
 {{% alert color="info" %}}
@@ -120,11 +115,6 @@ rules:
   verbs:
   - get
   - list
-- apiGroups: ["project.openshift.io"] # Only if you are using OpenShift
-  resources:
-  - projects
-  verbs:
-  - get
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
