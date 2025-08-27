@@ -12,12 +12,7 @@ Kiali can be run directly on your machine without being installed into a Kuberne
 Running Kiali locally is currently experimental. Functionality may change between releases.
 {{% /alert %}}
 
-Download the binary from the [Kiali GitHub releases page](https://github.com/kiali/kiali/releases/latest) for your OS and Arch.
-
-```
-curl -LO https://github.com/kiali/kiali/archive/refs/tags/<version>/kiali-<os>-<arch>
-chmod +x kiali
-```
+Download the Kiali binary from the [Kiali GitHub releases page](https://github.com/kiali/kiali/releases/latest) for your OS and Arch.
 
 Start Kiali which runs the backend server on localhost and opens your default browser to the Kiali UI.
 
