@@ -4,7 +4,35 @@ description: "Installing Kiali for demo or evaluation."
 weight: 1
 ---
 
-You can quickly install and try Kiali via one of the following two methods.
+## Run Kiali locally
+
+Kiali can be run directly on your machine without being installed into a Kubernetes cluster. It uses your kubeconfig to connect to your cluster(s). If needed, it can port-forward into the cluster to connect to your external services (prometheus, tracing, istio, grafana).
+
+{{% alert color="info" %}}
+Running Kiali locally is currently experimental. Functionality may change between releases.
+{{% /alert %}}
+
+Download the Kiali binary from the [Kiali GitHub releases page](https://github.com/kiali/kiali/releases/latest) for your OS and Arch.
+
+Start Kiali which runs the backend server on localhost and opens your default browser to the Kiali UI.
+
+```
+kiali run
+```
+
+To see the full list of options
+
+```
+kiali run --help
+```
+
+{{% alert color="info" %}}
+If the cluster name in your kubeconfig does not match the cluster name in Istio you can override this with `--cluster-name-overrides kubeconfig-name=istio-cluster-name`. The flag is a comma separated list so you can override as many names as you need.
+{{% /alert %}}
+
+## Install Kiali
+
+You can quickly install Kiali into your cluster via one of the following two methods.
 
 {{% alert color="warning" %}}
 These instructions are not recommended for production environments. Find more detailed information on installing Kiali,
@@ -15,7 +43,7 @@ see the [installation guide]({{< ref "/docs/installation" >}}).
 Before you install Kiali you must have already installed Istio along with its telemetry storage addon (i.e. Prometheus). You might also consider installing Istio's optional tracing addon (i.e. Jaeger) and optional Grafana addon but those are not required by Kiali. Refer to the [Istio documentation](https://istio.io/docs/setup/getting-started) for details.
 {{% /alert %}}
 
-## Install via Istio Addons
+### Install via Istio Addons
 
 If you [downloaded Istio](https://istio.io/latest/docs/setup/getting-started/#download), the easiest way to install and try Kiali is by running:
 
@@ -29,7 +57,7 @@ To uninstall:
 kubectl delete -f ${ISTIO_HOME}/samples/addons/kiali.yaml --ignore-not-found
 ```
 
-## Install via Helm {#install-via-helm}
+### Install via Helm {#install-via-helm}
 
 {{% alert color="warning" %}}
 Only Helm v3 has been tested. Previous Helm versions may or may not work.
