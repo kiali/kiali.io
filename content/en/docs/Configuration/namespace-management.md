@@ -166,7 +166,7 @@ An empty list of discovery selectors has different semantics depending on the va
 * If `deployment.cluster_wide_access` is `false`, an empty list of discovery selectors means only the Kiali deployment namespace will be accessible. This is not particularly useful as it will not include any application namespaces.
 {{% /alert %}}
 
-{{% alert color="info" %}}
+{{% alert color="warning" %}}
 The Kiali deployment namespace will always be made accessible by Kiali. It is required that Istio control plane namespaces are also accessible. Istio control plane namespace(s) not co-located with Kiali must have their namespaces included in the defined discovery selectors.
 {{% /alert %}}
 
