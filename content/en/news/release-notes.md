@@ -12,7 +12,7 @@ TBD: The release notes go here...
 
 #### Upgrade Change Notes:
 
-##### Discovery Selectors
+**Discovery Selectors**
 
 Kiali now properly supports Istio control planes deployed into different namespaces. As part of this
 support both the `spec.istio_namespace` and `spec.external_services.istio.root_namespace` configuration
@@ -21,10 +21,9 @@ control plane namespace(s). If you are using Kiali Discovery Selectors, please e
 new requirement is met. Note that Kiali's deployment namespace is always included, and so co-located
 Istio control planes will be discovered.
 
-##### The following fields are no longer used by the Kiali CR and MUST be removed, if currently set.
+**The following fields are no longer used by the Kiali CR and MUST be removed, if currently set.**
 
-* now auto-discovered
-  * `spec.external_services.istio.root_namespace`
+* `spec.external_services.istio.root_namespace`
 
 
 ## 2.15.0
@@ -72,7 +71,7 @@ Fixes:
 
 #### Upgrade Change Notes:
 
-##### The following fields are no longer used by the Kiali CR and MUST be removed, if currently set.
+**The following fields are no longer used by the Kiali CR and MUST be removed, if currently set.**
 
 * no longer used
   * `spec.istio_namespace`
