@@ -36,7 +36,7 @@ spec:
     perses:
       enabled: true
       # Perses service name is "perses" and is in the "telemetry" namespace.
-      internal_url: 'http://perses.telemetry:3000/'
+      internal_url: 'http://perses.telemetry:4000/'
       # Public facing URL of Perses
       external_url: 'http://my-ingress-host/perses'
       dashboards:
