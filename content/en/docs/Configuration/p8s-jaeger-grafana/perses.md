@@ -8,7 +8,7 @@ description: >
 
 The Perses community dashboards provide [preconfigured Perses
 dashboards](https://github.com/perses/community-dashboards?tab=readme-ov-file#istio) for the
-most relevant metrics of the mesh. Although Kiali offers similar views in its
+most relevant mesh metrics. Although Kiali offers similar views in its
 metrics dashboards, it is not in Kiali's goals to provide the advanced querying
 options, nor the highly customizable settings, that are available in Perses.
 They are the same as the ones provided by Grafana Istio addon. 
