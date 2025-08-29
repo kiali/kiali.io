@@ -233,6 +233,8 @@ You can use secrets as explained above for the following fields in the Kiali CR:
 * `spec.external_services.grafana.auth.username`
 * `spec.external_services.grafana.auth.password`
 * `spec.external_services.grafana.auth.token`
+* `spec.external_services.perses.auth.username`
+* `spec.external_services.perses.auth.password`
 * `spec.external_services.prometheus.auth.username`
 * `spec.external_services.prometheus.auth.password`
 * `spec.external_services.prometheus.auth.token`
@@ -282,6 +284,8 @@ This should work with the other credentials that can be read from a mounted secr
 * grafana-username
 * grafana-password
 * grafana-token
+* perses-username
+* perses-password
 * prometheus-username
 * prometheus-password
 * prometheus-token
