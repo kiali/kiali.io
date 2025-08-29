@@ -11,7 +11,7 @@ dashboards](https://github.com/perses/community-dashboards?tab=readme-ov-file#is
 most relevant mesh metrics. Although Kiali offers similar views in its
 metrics dashboards, it is not in Kiali's goals to provide the advanced querying
 options, nor the highly customizable settings, that are available in Perses.
-They are the same as the ones provided by Grafana Istio addon. 
+They are the same as those provided by Istio's Grafana add-on. 
 Thus, it is recommended that you use Perses if you need those advanced
 options.
 
