@@ -6,7 +6,7 @@ description: >
 
 ## Perses configuration
 
-The Perses community dashboards provides [preconfigured Perses
+The Perses community dashboards provide [preconfigured Perses
 dashboards](https://github.com/perses/community-dashboards?tab=readme-ov-file#istio) for the
 most relevant metrics of the mesh. Although Kiali offers similar views in its
 metrics dashboards, it is not in Kiali's goals to provide the advanced querying
