@@ -296,7 +296,7 @@ spec:
           type: "none"
           use_kiali_token: false
           username: ""
-        cache_duration: 10
+        cache_duration: 7
         cache_enabled: true
         cache_expiration: 300
         # default: custom_headers is empty
@@ -347,26 +347,41 @@ spec:
     istio:
       component_status:
         enabled: true
-      config_map_name: "istio"
-      egress_gateway_namespace: ""
-      envoy_admin_local_port: 15000
       gateway_api_classes: []
       gateway_api_classes_label_selector: ""
-      ingress_gateway_namespace: ""
       istio_api_enabled: true
-      # default: istio_canary_revision is undefined
-      istio_canary_revision:
-        current: "1-9-9"
-        upgrade: "1-10-2"
       istio_identity_domain: "svc.cluster.local"
-      istio_injection_annotation: "sidecar.istio.io/inject"
-      istio_sidecar_annotation: "sidecar.istio.io/status"
-      # default: istio_sidecar_injector_config_map_name is undefined
-      istiod_deployment_name: "istiod"
-      istiod_pod_monitoring_port: 15014
       root_namespace: ""
-      url_service_version: ""
       validation_reconcile_interval: "1m"
+    perses:
+      auth:
+        ca_file: ""
+        insecure_skip_verify: false
+        password: ""
+        type: "none"
+        username: ""
+      dashboards:
+        - name: "Istio Service Dashboard"
+          variables:
+            datasource: "var-datasource"
+            namespace: "var-namespace"
+            service: "var-service"
+        - name: "Istio Workload Dashboard"
+          variables:
+            datasource: "var-datasource"
+            namespace: "var-namespace"
+            workload: "var-workload"
+        - name: "Istio Mesh Dashboard"
+        - name: "Istio Control Plane Dashboard"
+        - name: "Istio Performance Dashboard"
+        - name: "Istio Wasm Extension Dashboard"
+      enabled: false
+      external_url: ""
+      health_check_url: ""
+      # default: internal_url is undefined
+      internal_url: ""
+      is_core: false
+      project: "istio"
     prometheus:
       auth:
         ca_file: ""
@@ -376,7 +391,7 @@ spec:
         type: "none"
         use_kiali_token: false
         username: ""
-      cache_duration: 10
+      cache_duration: 7
       cache_enabled: true
       cache_expiration: 300
       # default: custom_headers is empty
@@ -424,7 +439,7 @@ spec:
         cache_enabled: true
         datasource_uid: ""
         org_id: ""
-        url_format: ""
+        url_format: "grafana"
       use_grpc: true
       whitelist_istio_system: ["jaeger-query", "istio-ingressgateway"]
 
@@ -489,7 +504,6 @@ spec:
         include_istio_resources: true
         include_validations: true
         show_include_toggles: false
-      metrics_per_refresh: "1m"
       # default: metrics_inbound is undefined
       metrics_inbound:
         aggregations:
@@ -504,6 +518,7 @@ spec:
           label: "topology_istio_io_network"
         - display_name: "Istio Revision"
           label: "istio_io_rev"
+      metrics_per_refresh: "1m"
       # default: namespaces is an empty list
       namespaces: ["istio-system"]
       refresh_interval: "1m"
@@ -563,19 +578,7 @@ spec:
 
 ### Validating your Kiali CR
 
-A Kiali tool is available to allow you to check your own Kiali CR to ensure it is valid. Simply download [the validation script](https://raw.githubusercontent.com/kiali/kiali-operator/master/crd-docs/bin/validate-kiali-cr.sh) and run it, passing in the location of the Kiali CRD you wish to validate with (e.g. the latest version is found [here](https://raw.githubusercontent.com/kiali/kiali-operator/master/crd-docs/crd/kiali.io_kialis.yaml)) and the location of your Kiali CR. You must be connected to/logged into a cluster for this validation tool to work.
-
-For example, to validate a Kiali CR named `kiali` in the namespace `istio-system` using the latest version of the Kiali CRD, run the following:
-<pre>
-bash &lt;(curl -sL https://raw.githubusercontent.com/kiali/kiali-operator/master/crd-docs/bin/validate-kiali-cr.sh) \
-  -crd https://raw.githubusercontent.com/kiali/kiali-operator/master/crd-docs/crd/kiali.io_kialis.yaml \
-  --kiali-cr-name kiali \
-  -n istio-system
-</pre>
-
-If you wish to test your Kiali CR with an older version of Kiali, replace `master` in the above `-crd` option with the version you wish to test. For example, to test your Kiali CR with Kiali version v1.53.0, pass in the option `-crd https://raw.githubusercontent.com/kiali/kiali-operator/v1.53.0/crd-docs/crd/kiali.io_kialis.yaml` in the above command.
-
-For additional help in using this validation tool, pass it the `--help` option.
+The Kiali CR has a CRD Schema so it will be validated when you create or update it in your cluster.
 
 <h3 id="property-details">Properties</h3>
 
@@ -691,6 +694,148 @@ For additional help in using this validation tool, pass it the `--help` option.
 
 <div class="property-description">
 <p>The title of the link that Kiali will display. The link will go to the URL specified in the value of the configured <code>annotation</code>.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-1">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.api">.spec.api</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>DEPRECATED AFTER v1.73: These settings control how the Kiali API should be accessed.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.api.namespaces">.spec.api.namespaces</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>DEPRECATED AFTER v1.73: Settings for the API namespaces feature.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.api.namespaces.exclude">.spec.api.namespaces.exclude</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>DEPRECATED AFTER v1.73: A list of namespace names that will be excluded from Kiali API.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.api.namespaces.exclude[*]">.spec.api.namespaces.exclude[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.api.namespaces.include">.spec.api.namespaces.include</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>DEPRECATED AFTER v1.73: A list of namespace names that will be included in Kiali API.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.api.namespaces.include[*]">.spec.api.namespaces.include[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.api.namespaces.label_selector_exclude">.spec.api.namespaces.label_selector_exclude</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>DEPRECATED AFTER v1.73: A Kubernetes label selector expression that will be used to exclude namespaces.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.api.namespaces.label_selector_include">.spec.api.namespaces.label_selector_include</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>DEPRECATED AFTER v1.73: A Kubernetes label selector expression that will be used to include namespaces.</p>
 
 </div>
 
@@ -990,6 +1135,44 @@ For additional help in using this validation tool, pass it the `--help` option.
 <div class="property depth-3">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.auth.openshift.auth_timeout">.spec.auth.openshift.auth_timeout</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(integer)</span>
+
+</div>
+
+<div class="property-description">
+<p>DEPRECATED AFTER v1.73: The amount of time in seconds Kiali will wait for a response from the OpenShift API when requesting authentication information.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.auth.openshift.client_id_prefix">.spec.auth.openshift.client_id_prefix</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>DEPRECATED AFTER v1.73: A prefix that will be applied to the OpenShift OAuth client identifier.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.auth.openshift.redirect_uris">.spec.auth.openshift.redirect_uris</h3>
 </div>
 <div class="property-body">
@@ -1162,7 +1345,7 @@ Authorization header and potentially impersonation headers.</li>
 </div>
 
 <div class="property-description">
-<p>The name and value of a label that exists on all remote cluster secrets. Default is &lsquo;kiali.io/multiCluster=true&rsquo;.</p>
+<p>The name and value of a label that exists on all remote cluster secrets.</p>
 
 </div>
 
@@ -1252,7 +1435,7 @@ Authorization header and potentially impersonation headers.</li>
 </div>
 
 <div class="property-description">
-<p>Set to true for an external Kiali deployment, or if Kiali should not try to discover Istio on the home cluster. When set to <code>true</code>, it is required to set <code>kubernetes_config.cluster_name</code>. When not set, this value will default to <code>false</code>.</p>
+<p>Set to true for an external Kiali deployment, or if Kiali should not try to discover Istio on the home cluster. When set to <code>true</code>, it is required to set <code>kubernetes_config.cluster_name</code>.</p>
 
 </div>
 
@@ -1445,6 +1628,39 @@ empty dashboard.</p>
 <div class="property depth-2">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.deployment.accessible_namespaces">.spec.deployment.accessible_namespaces</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>DEPRECATED AFTER v1.73: A list of namespaces Kiali is allowed to access. This replaces discovery selectors.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.accessible_namespaces[*]">.spec.deployment.accessible_namespaces[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.deployment.additional_service_yaml">.spec.deployment.additional_service_yaml</h3>
 </div>
 <div class="property-body">
@@ -1534,7 +1750,7 @@ empty dashboard.</p>
 </div>
 
 <div class="property-description">
-<p>Determines if the Kiali server will be granted cluster-wide permissions to see all namespaces. When true, this provides more efficient caching within the Kiali server. It must be <code>true</code> if <code>deployment.discovery_selectors.default</code> is left unset. To limit the namespaces for which Kiali has permissions, set to <code>false</code> and define the desired selectors in <code>deployment.discovery_selectors.default</code>. When not set, this value will default to <code>true</code>.</p>
+<p>Determines if the Kiali server will be granted cluster-wide permissions to see all namespaces. When true, this provides more efficient caching within the Kiali server. It must be <code>true</code> if <code>deployment.discovery_selectors.default</code> is left unset. To limit the namespaces for which Kiali has permissions, set to <code>false</code> and define the desired selectors in <code>deployment.discovery_selectors.default</code>.</p>
 
 </div>
 
@@ -1750,7 +1966,7 @@ An example configuration is,</p>
 </div>
 
 <div class="property-description">
-<p>Indicates if the secret may or may not exist at the time the Kiali pod starts. This will default to &lsquo;false&rsquo; if not specified. This is ignored if <code>csi</code> is specified - CSI secrets must exist when specified.</p>
+<p>Indicates if the secret may or may not exist at the time the Kiali pod starts. This is ignored if <code>csi</code> is specified - CSI secrets must exist when specified.</p>
 
 </div>
 
@@ -3084,6 +3300,25 @@ If you do not set this at all, the default is,</p>
 <div class="property depth-2">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.deployment.verbose_mode">.spec.deployment.verbose_mode</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>DEPRECATED AFTER v1.73: When true, Kiali will log additional debug information about its operations.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.deployment.version_label">.spec.deployment.version_label</h3>
 </div>
 <div class="property-body">
@@ -3282,7 +3517,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>Enable, disable or set &lsquo;auto&rsquo; mode to the dashboards discovery process. If set to &lsquo;true&rsquo;, Kiali will always try to discover dashboards based on metrics. Note that this can generate performance penalties while discovering dashboards for workloads having many pods (thus many metrics). When set to &lsquo;auto&rsquo;, Kiali will skip dashboards discovery for workloads with more than a configured threshold of pods (see <code>discovery_auto_threshold</code>). When discovery is disabled or auto/skipped, it is still possible to tie workloads with dashboards through annotations on pods (refer to the doc <a href="https://kiali.io/docs/configuration/custom-dashboard/#pod-annotations">https://kiali.io/docs/configuration/custom-dashboard/#pod-annotations</a>). Value must be one of: <code>true</code>, <code>false</code>, <code>auto</code>.</p>
+<p>Enable, disable or set &lsquo;auto&rsquo; mode to the dashboards discovery process. If set to &lsquo;true&rsquo;, Kiali will always try to discover dashboards based on metrics. Note that this can generate performance penalties while discovering dashboards for workloads having many pods (thus many metrics). When set to &lsquo;auto&rsquo;, Kiali will skip dashboards discovery for workloads with more than a configured threshold of pods (see <code>discovery_auto_threshold</code>). When discovery is disabled or auto/skipped, it is still possible to tie workloads with dashboards through annotations on pods (refer to the doc <a href="https://kiali.io/docs/configuration/custom-dashboard/#pod-annotations">https://kiali.io/docs/configuration/custom-dashboard/#pod-annotations</a>). Value must be a string and be one of: <code>true</code>, <code>false</code>, <code>auto</code>.</p>
 
 </div>
 
@@ -3472,7 +3707,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The type of authentication to use when contacting the server. Use <code>bearer</code> to send the token to the Prometheus server. Use <code>basic</code> to connect with username and password credentials. Use <code>none</code> to not use any authentication (this is the default).</p>
+<p>The type of authentication to use when contacting the server. Use <code>bearer</code> to send the token to the Prometheus server. Use <code>basic</code> to connect with username and password credentials. Use <code>none</code> to not use any authentication.</p>
 
 </div>
 
@@ -3871,7 +4106,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The type of authentication to use when contacting the server. Use <code>bearer</code> to send the token to the Grafana server. Use <code>basic</code> to connect with username and password credentials. Use <code>none</code> to not use any authentication (this is the default).</p>
+<p>The type of authentication to use when contacting the server. Use <code>bearer</code> to send the token to the Grafana server. Use <code>basic</code> to connect with username and password credentials. Use <code>none</code> to not use any authentication.</p>
 
 </div>
 
@@ -4156,6 +4391,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 <div class="property depth-3">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.external_services.grafana.in_cluster_url">.spec.external_services.grafana.in_cluster_url</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>DEPRECATED AFTER v1.73: The URL used for in-cluster access to Grafana.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.external_services.grafana.internal_url">.spec.external_services.grafana.internal_url</h3>
 </div>
 <div class="property-body">
@@ -4185,6 +4439,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property-description">
 <p>Used in the Components health feature. When true, the unhealthy scenarios will be raised as errors. Otherwise, they will be raised as a warning.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.grafana.url">.spec.external_services.grafana.url</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>DEPRECATED AFTER v1.73: The URL used to access Grafana from external sources.</p>
 
 </div>
 
@@ -4369,7 +4642,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The name of the istio control plane config map.</p>
+<p>DEPRECATED AFTER v2.11: This setting is deprecated and will be ignored. The name of the istio control plane config map is now autodetected based on revision.</p>
 
 </div>
 
@@ -4407,7 +4680,26 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The port which kiali will open to fetch envoy config data information.</p>
+<p>DEPRECATED AFTER v2.11: This setting is deprecated and will be ignored. The port which Kiali will open to fetch envoy config data information is now hardcoded to the standard Envoy port.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.istio.gateway_api_class_name">.spec.external_services.istio.gateway_api_class_name</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>DEPRECATED AFTER v1.73: The name of the Gateway API Class used by Istio.</p>
 
 </div>
 
@@ -4507,25 +4799,6 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 <div class="property depth-3">
 <div class="property-header">
 <hr/>
-<h3 class="property-path" id=".spec.external_services.istio.ingress_gateway_namespace">.spec.external_services.istio.ingress_gateway_namespace</h3>
-</div>
-<div class="property-body">
-<div class="property-meta">
-<span class="property-type">(string)</span>
-
-</div>
-
-<div class="property-description">
-<p>The namespace where Istio IngressGateway component is read for a status check. When left empty, the control plane namespace is used. e.g. <code>istio-system</code>.</p>
-
-</div>
-
-</div>
-</div>
-
-<div class="property depth-3">
-<div class="property-header">
-<hr/>
 <h3 class="property-path" id=".spec.external_services.istio.istio_api_enabled">.spec.external_services.istio.istio_api_enabled</h3>
 </div>
 <div class="property-body">
@@ -4535,7 +4808,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>Indicates if Kiali has access to istiod. true by default.</p>
+<p>Indicates if Kiali has access to istiod.</p>
 
 </div>
 
@@ -4554,7 +4827,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>These values are used in Canary upgrade/downgrade functionality when <code>istio_upgrade_action</code> is true.</p>
+<p>DEPRECATED AFTER v2.11: This setting is deprecated and will be ignored. Canary upgrade/downgrade functionality now autodetects canary revisions from running istiod pods.</p>
 
 </div>
 
@@ -4573,7 +4846,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The currently installed Istio revision.</p>
+<p>DEPRECATED AFTER v2.11: The currently installed Istio revision.</p>
 
 </div>
 
@@ -4592,7 +4865,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The installed Istio canary revision to upgrade to.</p>
+<p>DEPRECATED AFTER v2.11: The installed Istio canary revision to upgrade to.</p>
 
 </div>
 
@@ -4630,7 +4903,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The name of the field that annotates a workload to indicate a sidecar should be automatically injected by Istio. This is the name of a Kubernetes annotation. Note that some Istio implementations also support labels by the same name. In other words, if a workload has a Kubernetes label with this name, that may also trigger automatic sidecar injection.</p>
+<p>DEPRECATED AFTER v2.11: This setting is deprecated and will be ignored. The name of the field that annotates a workload to indicate a sidecar should be automatically injected by Istio is now hardcoded to the standard value.</p>
 
 </div>
 
@@ -4649,7 +4922,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The pod annotation used by Istio to identify the sidecar.</p>
+<p>DEPRECATED AFTER v2.11: This setting is deprecated and will be ignored. The pod annotation used by Istio to identify the sidecar is now hardcoded to the standard value.</p>
 
 </div>
 
@@ -4668,7 +4941,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The name of the istio-sidecar-injector config map.</p>
+<p>DEPRECATED AFTER v2.11: This setting is deprecated and will be ignored. The name of the istio-sidecar-injector config map is now autodetected based on revision.</p>
 
 </div>
 
@@ -4687,7 +4960,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The name of the istiod deployment.</p>
+<p>DEPRECATED AFTER v2.11: This setting is deprecated and will be ignored. The name of the istiod deployment is now autodetected.</p>
 
 </div>
 
@@ -4706,7 +4979,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The monitoring port of the IstioD pod (not the Service).</p>
+<p>DEPRECATED AFTER v2.11: This setting is deprecated and will be ignored. The monitoring port of the IstioD pod is now autodetected from the deployment args.</p>
 
 </div>
 
@@ -4744,7 +5017,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The Istio service used to determine the Istio version. If empty, assumes the URL for the well-known Istio version endpoint.</p>
+<p>DEPRECATED AFTER v2.11: This setting is deprecated and will be ignored. The Istio service used to determine the Istio version is now autodetected from services.</p>
 
 </div>
 
@@ -4764,6 +5037,414 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property-description">
 <p>Configures how often Kiali will validate Istio configuration. Validations cannot be disabled at the moment but you can set this to a long period of time. Accepts a golang duration string e.g. &lsquo;1h&rsquo; or &lsquo;30m&rsquo;.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.perses">.spec.external_services.perses</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>Configuration used to access the Perses dashboards.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.perses.auth">.spec.external_services.perses.auth</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>Settings used to authenticate with the Perses instance.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.perses.auth.ca_file">.spec.external_services.perses.auth.ca_file</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The certificate authority file to use when accessing Perses using https. An empty string means no extra certificate authority file is used.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.perses.auth.insecure_skip_verify">.spec.external_services.perses.auth.insecure_skip_verify</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>Set true to skip verifying certificate validity when Kiali contacts Perses over https.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.perses.auth.password">.spec.external_services.perses.auth.password</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>Password to be used when making requests to Perses, for basic authentication. May refer to a secret.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.perses.auth.type">.spec.external_services.perses.auth.type</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The type of authentication to use when contacting the server. Use <code>basic</code> to connect with username and password credentials. Use <code>none</code> to not use any authentication.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.perses.auth.username">.spec.external_services.perses.auth.username</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>Username to be used when making requests to Perses with <code>basic</code> authentication. May refer to a secret.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.perses.dashboards">.spec.external_services.perses.dashboards</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>A list of Perses dashboards that Kiali can link to.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.perses.dashboards[*]">.spec.external_services.perses.dashboards[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.perses.dashboards[*].name">.spec.external_services.perses.dashboards[*].name</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The name of the Perses dashboard.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.perses.dashboards[*].variables">.spec.external_services.perses.dashboards[*].variables</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.perses.dashboards[*].variables.app">.spec.external_services.perses.dashboards[*].variables.app</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The name of a variable that holds the app name, if used in that dashboard (else it must be omitted).</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.perses.dashboards[*].variables.datasource">.spec.external_services.perses.dashboards[*].variables.datasource</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The name of the variable that holds the Datasource UID, required if Perses has multiple datasources configured (else it must be omitted).</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.perses.dashboards[*].variables.namespace">.spec.external_services.perses.dashboards[*].variables.namespace</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The name of a variable that holds the namespace, if used in that dashboard (else it must be omitted).</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.perses.dashboards[*].variables.service">.spec.external_services.perses.dashboards[*].variables.service</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The name of a variable that holds the service name, if used in that dashboard (else it must be omitted).</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.perses.dashboards[*].variables.workload">.spec.external_services.perses.dashboards[*].variables.workload</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The name of a variable that holds the workload name, if used in that dashboard (else it must be omitted).</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.perses.enabled">.spec.external_services.perses.enabled</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>When true, Perses support will be enabled in Kiali.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.perses.external_url">.spec.external_services.perses.external_url</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The URL that the Kiali UI uses when displaying Perses links to the user. This URL must be accessible to clients external to the cluster (e.g. a browser) in order for the integration to work properly. If empty, an attempt to auto-discover it is made. This URL can contain query parameters if needed, such as &lsquo;?orgId=1&rsquo;.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.perses.health_check_url">.spec.external_services.perses.health_check_url</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>Used in the Components health feature. This is the URL which Kiali will ping to determine whether the component is reachable or not. It defaults to <code>internal_url</code> when not provided.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.perses.internal_url">.spec.external_services.perses.internal_url</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The URL used by Kiali to perform requests and queries to Perses. An example would be <code>http://perses.istio-system:4000</code>. This URL can contain query parameters if needed, such as &lsquo;?orgId=1&rsquo;. If not defined, it will default to <code>http://perses.&lt;istio_namespace&gt;:4000</code>.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.perses.is_core">.spec.external_services.perses.is_core</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>Used in the Components health feature. When true, the unhealthy scenarios will be raised as errors. Otherwise, they will be raised as a warning.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.perses.project">.spec.external_services.perses.project</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The name of the project where the Dashboards are defined.</p>
 
 </div>
 
@@ -5371,7 +6052,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>When true, the version of the Tracing backend will not be retrieved. This will mean Kiali will not be able to display the version of your Tracing component in the Kiali UI. This may be needed in order to avoid Kiali reporting errors in cases where the full version endpoint is not accessible or is unknown. A common use case is when using Jaeger with gRPC and the HTTP endpoint is not deployed in the standard port (80). Defaults to <code>false</code></p>
+<p>When true, the version of the Tracing backend will not be retrieved. This will mean Kiali will not be able to display the version of your Tracing component in the Kiali UI. This may be needed in order to avoid Kiali reporting errors in cases where the full version endpoint is not accessible or is unknown. A common use case is when using Jaeger with gRPC and the HTTP endpoint is not deployed in the standard port (80).</p>
 
 </div>
 
@@ -5428,7 +6109,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>Set port number when <code>use_grpc</code> is true and <code>provider</code> is <code>tempo</code>. By default is <code>9095</code></p>
+<p>Set port number when <code>use_grpc</code> is true and <code>provider</code> is <code>tempo</code>.</p>
 
 </div>
 
@@ -5448,6 +6129,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property-description">
 <p>Used in the Components health feature. This is the url which Kiali will ping to determine whether the component is reachable or not. It defaults to <code>url</code> when not provided.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.tracing.in_cluster_url">.spec.external_services.tracing.in_cluster_url</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>DEPRECATED AFTER v1.73: The URL used for in-cluster access to the tracing service.</p>
 
 </div>
 
@@ -5599,7 +6299,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>When <code>cache_enabled</code> is true, the number of traces saved in the cache. 200 by default.</p>
+<p>When <code>cache_enabled</code> is true, the number of traces saved in the cache.</p>
 
 </div>
 
@@ -5685,6 +6385,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 <div class="property depth-3">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.external_services.tracing.url">.spec.external_services.tracing.url</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>DEPRECATED AFTER v1.73: The URL used to access the tracing service from external sources.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.external_services.tracing.use_grpc">.spec.external_services.tracing.use_grpc</h3>
 </div>
 <div class="property-body">
@@ -5694,7 +6413,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>Set to true in order to enable GRPC connections between Kiali and Jaeger which will speed up the queries. In some setups you might not be able to use GRPC (e.g. if Jaeger is behind some reverse proxy that doesn&rsquo;t support it). If not specified, this will defalt to &lsquo;true&rsquo;.</p>
+<p>Set to true in order to enable GRPC connections between Kiali and Jaeger which will speed up the queries. In some setups you might not be able to use GRPC (e.g. if Jaeger is behind some reverse proxy that doesn&rsquo;t support it).</p>
 
 </div>
 
@@ -6183,6 +6902,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 <div class="property depth-1">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.istio_namespace">.spec.istio_namespace</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>DEPRECATED AFTER v2.11: This setting is deprecated and will be ignored. The namespace where Istio is installed is now autodetected. If left empty, it was previously assumed to be the same namespace as where Kiali is installed (i.e. <code>deployment.namespace</code>).</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-1">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.kiali_feature_flags">.spec.kiali_feature_flags</h3>
 </div>
 <div class="property-body">
@@ -6193,6 +6931,333 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property-description">
 <p>Kiali features that can be enabled or disabled.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.certificates_information_indicators">.spec.kiali_feature_flags.certificates_information_indicators</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>DEPRECATED AFTER v1.73: Settings for certificate information indicators.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.certificates_information_indicators.enabled">.spec.kiali_feature_flags.certificates_information_indicators.enabled</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>DEPRECATED AFTER v1.73: When true, certificate information indicators will be displayed.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.certificates_information_indicators.secrets">.spec.kiali_feature_flags.certificates_information_indicators.secrets</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>DEPRECATED AFTER v1.73: List of secrets that contain certificate information.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.certificates_information_indicators.secrets[*]">.spec.kiali_feature_flags.certificates_information_indicators.secrets[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.clustering">.spec.kiali_feature_flags.clustering</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>DEPRECATED AFTER v1.73: Multi-cluster related features.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.clustering.autodetect_secrets">.spec.kiali_feature_flags.clustering.autodetect_secrets</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>DEPRECATED AFTER v1.73: Settings to allow cluster secrets to be auto-detected.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.clustering.autodetect_secrets.enabled">.spec.kiali_feature_flags.clustering.autodetect_secrets.enabled</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>DEPRECATED AFTER v1.73: If true then remote cluster secrets will be autodetected.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.clustering.autodetect_secrets.label">.spec.kiali_feature_flags.clustering.autodetect_secrets.label</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>DEPRECATED AFTER v1.73: The name and value of a label that exists on all remote cluster secrets.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.clustering.clusters">.spec.kiali_feature_flags.clustering.clusters</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>DEPRECATED AFTER v1.73: A list of clusters that the Kiali Server can access.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.clustering.clusters[*]">.spec.kiali_feature_flags.clustering.clusters[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.clustering.clusters[*].name">.spec.kiali_feature_flags.clustering.clusters[*].name</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>DEPRECATED AFTER v1.73: The name of the cluster.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.clustering.clusters[*].secret_name">.spec.kiali_feature_flags.clustering.clusters[*].secret_name</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>DEPRECATED AFTER v1.73: The name of the secret that contains the credentials necessary to connect to the remote cluster.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.clustering.kiali_urls">.spec.kiali_feature_flags.clustering.kiali_urls</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>DEPRECATED AFTER v1.73: A map between cluster name, instance name and namespace to a Kiali URL.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.clustering.kiali_urls[*]">.spec.kiali_feature_flags.clustering.kiali_urls[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.clustering.kiali_urls[*].cluster_name">.spec.kiali_feature_flags.clustering.kiali_urls[*].cluster_name</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>DEPRECATED AFTER v1.73: The name of the cluster.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.clustering.kiali_urls[*].instance_name">.spec.kiali_feature_flags.clustering.kiali_urls[*].instance_name</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>DEPRECATED AFTER v1.73: The instance name of this Kiali installation.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.clustering.kiali_urls[*].namespace">.spec.kiali_feature_flags.clustering.kiali_urls[*].namespace</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>DEPRECATED AFTER v1.73: The namespace into which Kiali is installed.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.clustering.kiali_urls[*].url">.spec.kiali_feature_flags.clustering.kiali_urls[*].url</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>DEPRECATED AFTER v1.73: The URL of Kiali in the cluster.</p>
 
 </div>
 
@@ -6282,7 +7347,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>Flag to activate the Kiali functionality of upgrading namespaces to point to an installed Istio Canary revision. Related Canary upgrade and current revisions of Istio should be defined in <code>istio_canary_revision</code> section.</p>
+<p>Flag to activate the Kiali functionality of upgrading namespaces to point to an installed Istio Canary revision.</p>
 
 </div>
 
@@ -6538,7 +7603,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The traffic animation style. Value must be one of: <code>dash</code> or <code>point</code>. Default is <code>point</code>.</p>
+<p>The traffic animation style. Value must be one of: <code>dash</code> or <code>point</code>.</p>
 
 </div>
 
@@ -6690,7 +7755,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>If true Kiali masthead displays language selector icon. Default is false.</p>
+<p>If true Kiali masthead displays language selector icon.</p>
 
 </div>
 
@@ -6785,7 +7850,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>If true list pages display checkbox toggles for the include options, Otherwise the configured settings are applied but can not be changed by the user. Default is false.</p>
+<p>If true list pages display checkbox toggles for the include options, Otherwise the configured settings are applied but can not be changed by the user.</p>
 
 </div>
 
@@ -7070,7 +8135,7 @@ An example,</p>
 </div>
 
 <div class="property-description">
-<p>The default limit for the number of traces that will be fetched. It can be customized in the UI. 100 by default, must be a number between 10 and 1000.</p>
+<p>The default limit for the number of traces that will be fetched. It can be customized in the UI. It must be a number between 10 and 1000.</p>
 
 </div>
 
@@ -7592,7 +8657,7 @@ An example,</p>
 </div>
 
 <div class="property-description">
-<p>The collector type to use. Value must be one of: <code>jaeger</code> or <code>otel</code>.</p>
+<p>The collector type to use. Today the only valid value is <code>otel</code>.</p>
 
 </div>
 
@@ -7611,7 +8676,7 @@ An example,</p>
 </div>
 
 <div class="property-description">
-<p>The URL used to determine where the Kiali server tracing data will be stored.</p>
+<p>Usd to determine where the Kiali server tracing data will be stored.</p>
 
 </div>
 
@@ -7687,7 +8752,7 @@ An example,</p>
 </div>
 
 <div class="property-description">
-<p>Protocol. Supported values are: <code>http</code>, <code>https</code> or <code>grpc</code>.</p>
+<p>Protocol. Value must be one of: <code>http</code>, <code>https</code> or <code>grpc</code>.</p>
 
 </div>
 
@@ -7915,9 +8980,9 @@ An example,</p>
 </div>
 
 <div class="property-description">
-<p>The maximum duration, in seconds, before timing out writes of the HTTP response back to the client. Default is 30.</p>
+<p>The maximum duration, in seconds, before timing out writes of the HTTP response back to the client.</p>
 
-<p>In OpenShift clusters, the route request time out should be also increased as the default is 30 seconds.
+<p>In OpenShift clusters, the route request time out should be also increased.
 This can be done by annotating the specific route with <code>haproxy.router.openshift.io/timeout</code>.
 See <a href="https://docs.openshift.com/container-platform/4.16/networking/routes/route-configuration.html#nw-configuring-route-timeouts_route-configuration">https://docs.openshift.com/container-platform/4.16/networking/routes/route-configuration.html#nw-configuring-route-timeouts_route-configuration</a> for further details.</p>
 
