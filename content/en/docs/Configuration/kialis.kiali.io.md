@@ -347,6 +347,7 @@ spec:
       is_core: false
     istio:
       component_status:
+        components: []
         enabled: true
       gateway_api_classes: []
       gateway_api_classes_label_selector: ""
@@ -475,6 +476,8 @@ spec:
     version_label_name: ""
 
   kiali_feature_flags:
+    clustering:
+      enable_exec_provider: false
     disabled_features: []
     istio_annotation_action: true
     istio_injection_action: true
@@ -520,15 +523,19 @@ spec:
         aggregations:
         - display_name: "Istio Network"
           label: "topology_istio_io_network"
+          single_selection: false
         - display_name: "Istio Revision"
           label: "istio_io_rev"
+          single_selection: false
       # default: metrics_outbound is undefined
       metrics_outbound:
         aggregations:
         - display_name: "Istio Network"
           label: "topology_istio_io_network"
+          single_selection: false
         - display_name: "Istio Revision"
           label: "istio_io_rev"
+          single_selection: false
       metrics_per_refresh: "1m"
       # default: namespaces is an empty list
       namespaces: ["istio-system"]
@@ -1448,6 +1455,25 @@ Authorization header and potentially impersonation headers.</li>
 
 <div class="property-description">
 <p>The name of the secret that contains the credentials necessary to connect to the remote cluster. This secret must exist in the Kiali deployment namespace. If a secret name is not provided then it&rsquo;s assumed that the cluster is inaccessible.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.clustering.enable_exec_provider">.spec.clustering.enable_exec_provider</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>Flag to enable exec provider for clustering authentication.</p>
 
 </div>
 
@@ -4626,6 +4652,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 <div class="property depth-6">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.external_services.istio.component_status.components[*].is_multicluster">.spec.external_services.istio.component_status.components[*].is_multicluster</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>Whether the component is a multi-cluster component.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.external_services.istio.component_status.components[*].is_proxy">.spec.external_services.istio.component_status.components[*].is_proxy</h3>
 </div>
 <div class="property-body">
@@ -7265,6 +7310,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 <div class="property depth-3">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.clustering.enable_exec_provider">.spec.kiali_feature_flags.clustering.enable_exec_provider</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>DEPRECATED AFTER v1.73: Flag to enable exec provider for clustering authentication.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.kiali_feature_flags.clustering.kiali_urls">.spec.kiali_feature_flags.clustering.kiali_urls</h3>
 </div>
 <div class="property-body">
@@ -8251,6 +8315,25 @@ An example,</p>
 </div>
 </div>
 
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.ui_defaults.metrics_inbound.aggregations[*].single_selection">.spec.kiali_feature_flags.ui_defaults.metrics_inbound.aggregations[*].single_selection</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>Flag to indicate if only one option can be selected for this aggregation.</p>
+
+</div>
+
+</div>
+</div>
+
 <div class="property depth-3">
 <div class="property-header">
 <hr/>
@@ -8333,6 +8416,25 @@ An example,</p>
 <div class="property-body">
 <div class="property-meta">
 <span class="property-type">(string)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.ui_defaults.metrics_outbound.aggregations[*].single_selection">.spec.kiali_feature_flags.ui_defaults.metrics_outbound.aggregations[*].single_selection</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>Flag to indicate if only one option can be selected for this aggregation.</p>
 
 </div>
 
