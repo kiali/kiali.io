@@ -328,11 +328,13 @@ spec:
           datasource: "var-datasource"
           namespace: "var-namespace"
           service: "var-service"
+          version: "var-version"
       - name: "Istio Workload Dashboard"
         variables:
           datasource: "var-datasource"
           namespace: "var-namespace"
           workload: "var-workload"
+          version: "var-version"
       - name: "Istio Mesh Dashboard"
       - name: "Istio Control Plane Dashboard"
       - name: "Istio Performance Dashboard"
@@ -341,8 +343,7 @@ spec:
       enabled: true
       external_url: ""
       health_check_url: ""
-      # default: internal_url is undefined
-      internal_url: ""
+      internal_url: "http://grafana.istio-system:3000"
       is_core: false
     istio:
       component_status:
@@ -351,7 +352,9 @@ spec:
       gateway_api_classes_label_selector: ""
       istio_api_enabled: true
       istio_identity_domain: "svc.cluster.local"
+      istiod_polling_interval_seconds: 20
       root_namespace: ""
+      validation_change_detection_enabled: true
       validation_reconcile_interval: "1m"
     perses:
       auth:
@@ -361,25 +364,26 @@ spec:
         type: "none"
         username: ""
       dashboards:
-        - name: "Istio Service Dashboard"
-          variables:
-            datasource: "var-datasource"
-            namespace: "var-namespace"
-            service: "var-service"
-        - name: "Istio Workload Dashboard"
-          variables:
-            datasource: "var-datasource"
-            namespace: "var-namespace"
-            workload: "var-workload"
-        - name: "Istio Mesh Dashboard"
-        - name: "Istio Control Plane Dashboard"
-        - name: "Istio Performance Dashboard"
-        - name: "Istio Wasm Extension Dashboard"
+      - name: "Istio Service Dashboard"
+        variables:
+          datasource: "var-datasource"
+          namespace: "var-namespace"
+          service: "var-service"
+          version: "var-version"
+      - name: "Istio Workload Dashboard"
+        variables:
+          datasource: "var-datasource"
+          namespace: "var-namespace"
+          workload: "var-workload"
+          version: "var-version"
+      - name: "Istio Mesh Dashboard"
+      - name: "Istio Control Plane Dashboard"
+      - name: "Istio Performance Dashboard"
+      - name: "Istio Wasm Extension Dashboard"
       enabled: false
       external_url: ""
       health_check_url: ""
-      # default: internal_url is undefined
-      internal_url: ""
+      internal_url: "http://perses.istio-system:4000"
       is_core: false
       project: "istio"
     prometheus:
@@ -504,6 +508,13 @@ spec:
         include_istio_resources: true
         include_validations: true
         show_include_toggles: false
+      mesh:
+        find_options:
+        - description: "Find: unhealthy nodes"
+          expression: "! healthy"
+        hide_options:
+        - description: "Hide: healthy nodes"
+          expression: "healthy"
       # default: metrics_inbound is undefined
       metrics_inbound:
         aggregations:
@@ -563,16 +574,17 @@ spec:
           protocol: "http"
           skip_verify: false
           tls_enabled: false
+        sampling_rate: 0.5
     port: 20001
     profiler:
       enabled: false
     require_auth: false
     web_fqdn: ""
-    web_history_mode: ""
+    web_history_mode: "browser"
     web_port: ""
     web_root: ""
     web_schema: ""
-    write_timeout: 30
+    write_timeout: "60s"
 ```
 
 
@@ -1173,6 +1185,25 @@ The Kiali CR has a CRD Schema so it will be validated when you create or update 
 <div class="property depth-3">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.auth.openshift.insecure_skip_verify_tls">.spec.auth.openshift.insecure_skip_verify_tls</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>Set true to skip verifying certificate validity when Kiali contacts OpenShift over https.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.auth.openshift.redirect_uris">.spec.auth.openshift.redirect_uris</h3>
 </div>
 <div class="property-body">
@@ -1182,7 +1213,7 @@ The Kiali CR has a CRD Schema so it will be validated when you create or update 
 </div>
 
 <div class="property-description">
-<p>The OAuthClient redirect URIs. You normally do not have to set this unless you are creating remote cluster resources (see <code>deployment.remote_cluster_resources_only</code>) with <code>auth.strategy</code> set to <code>openshift</code>.</p>
+<p>Custom redirect URIs for the OpenShift OAuth client. These URIs specify where users will be redirected after successful authentication. If not specified, Kiali will automatically generate appropriate redirect URIs based on the Kiali server&rsquo;s route. You normally do not have to set this unless you are creating remote cluster resources (see <code>deployment.remote_cluster_resources_only</code>) with <code>auth.strategy</code> set to <code>openshift</code>.</p>
 
 </div>
 
@@ -1215,7 +1246,7 @@ The Kiali CR has a CRD Schema so it will be validated when you create or update 
 </div>
 
 <div class="property-description">
-<p>Timeout that overrides the default OpenShift token inactivity timeout. This value represents the maximum amount of time in seconds that can occur between consecutive uses of the token. Tokens become invalid if they are not used within this temporal window. If 0, the Kiali tokens never timeout. OpenShift may have a minimum allowed value - see the OpenShift documentation specific for the version of OpenShift you are using. WARNING: existing tokens will not be affected by changing this setting.</p>
+<p>Sets the maximum time in seconds that can elapse between consecutive uses of an OAuth access token before it expires due to inactivity. This helps improve security by automatically expiring unused tokens. If set to 0, tokens will not expire due to inactivity. Note that OpenShift may enforce minimum values for this setting, and existing tokens are not affected by changes to this configuration.</p>
 
 </div>
 
@@ -1234,7 +1265,7 @@ The Kiali CR has a CRD Schema so it will be validated when you create or update 
 </div>
 
 <div class="property-description">
-<p>A time duration in seconds that overrides the default OpenShift access token max age. If 0 then there will be no expiration of tokens.</p>
+<p>Sets the absolute maximum lifetime in seconds for OAuth access tokens, regardless of activity. After this time period, tokens will expire and users must re-authenticate. If set to 0, tokens will not have an absolute expiration time and will only expire due to inactivity (if token_inactivity_timeout is configured).</p>
 
 </div>
 
@@ -4296,6 +4327,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 <div class="property depth-6">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.external_services.grafana.dashboards[*].variables.version">.spec.external_services.grafana.dashboards[*].variables.version</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The name of a variable that holds the version, if used in that dashboard (else it must be omitted).</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.external_services.grafana.dashboards[*].variables.workload">.spec.external_services.grafana.dashboards[*].variables.workload</h3>
 </div>
 <div class="property-body">
@@ -4989,6 +5039,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 <div class="property depth-3">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.external_services.istio.istiod_polling_interval_seconds">.spec.external_services.istio.istiod_polling_interval_seconds</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(integer)</span>
+
+</div>
+
+<div class="property-description">
+<p>How often in seconds Kiali will poll istiod(s) for proxy status and registry services. Polling is not performed if istio_api_enabled is false.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.external_services.istio.root_namespace">.spec.external_services.istio.root_namespace</h3>
 </div>
 <div class="property-body">
@@ -5018,6 +5087,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property-description">
 <p>DEPRECATED AFTER v2.11: This setting is deprecated and will be ignored. The Istio service used to determine the Istio version is now autodetected from services.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.istio.validation_change_detection_enabled">.spec.external_services.istio.validation_change_detection_enabled</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>When true, Kiali will detect changes in Istio configuration and trigger validation reconciliation.</p>
 
 </div>
 
@@ -5312,6 +5400,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property-description">
 <p>The name of a variable that holds the service name, if used in that dashboard (else it must be omitted).</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.perses.dashboards[*].variables.version">.spec.external_services.perses.dashboards[*].variables.version</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The name of a variable that holds the version, if used in that dashboard (else it must be omitted).</p>
 
 </div>
 
@@ -7860,6 +7967,205 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 <div class="property depth-3">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.ui_defaults.mesh">.spec.kiali_feature_flags.ui_defaults.mesh</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>Default settings for the Mesh UI.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.ui_defaults.mesh.find_options">.spec.kiali_feature_flags.ui_defaults.mesh.find_options</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>A list of commonly used and useful find expressions that will be provided to the user out-of-box.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.ui_defaults.mesh.find_options[*]">.spec.kiali_feature_flags.ui_defaults.mesh.find_options[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.ui_defaults.mesh.find_options[*].auto_select">.spec.kiali_feature_flags.ui_defaults.mesh.find_options[*].auto_select</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>If true this option will be selected and take effect automatically. Note that only one option in the list can have this value be set to true.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.ui_defaults.mesh.find_options[*].description">.spec.kiali_feature_flags.ui_defaults.mesh.find_options[*].description</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>Human-readable text to let the user know what the expression does.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.ui_defaults.mesh.find_options[*].expression">.spec.kiali_feature_flags.ui_defaults.mesh.find_options[*].expression</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The find expression.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.ui_defaults.mesh.hide_options">.spec.kiali_feature_flags.ui_defaults.mesh.hide_options</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>A list of commonly used and useful hide expressions that will be provided to the user out-of-box.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.ui_defaults.mesh.hide_options[*]">.spec.kiali_feature_flags.ui_defaults.mesh.hide_options[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.ui_defaults.mesh.hide_options[*].auto_select">.spec.kiali_feature_flags.ui_defaults.mesh.hide_options[*].auto_select</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>If true this option will be selected and take effect automatically. Note that only one option in the list can have this value be set to true.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.ui_defaults.mesh.hide_options[*].description">.spec.kiali_feature_flags.ui_defaults.mesh.hide_options[*].description</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>Human-readable text to let the user know what the expression does.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.ui_defaults.mesh.hide_options[*].expression">.spec.kiali_feature_flags.ui_defaults.mesh.hide_options[*].expression</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The hide expression.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.kiali_feature_flags.ui_defaults.metrics_inbound">.spec.kiali_feature_flags.ui_defaults.metrics_inbound</h3>
 </div>
 <div class="property-body">
@@ -8797,6 +9103,25 @@ An example,</p>
 </div>
 </div>
 
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.server.observability.tracing.sampling_rate">.spec.server.observability.tracing.sampling_rate</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(number)</span>
+
+</div>
+
+<div class="property-description">
+<p>Sampling rate for Kiali server traces. &gt;= 1.0 always samples and &lt;= 0 never samples.</p>
+
+</div>
+
+</div>
+</div>
+
 <div class="property depth-2">
 <div class="property-header">
 <hr/>
@@ -8975,12 +9300,13 @@ An example,</p>
 </div>
 <div class="property-body">
 <div class="property-meta">
-<span class="property-type">(integer)</span>
+
 
 </div>
 
 <div class="property-description">
-<p>The maximum duration, in seconds, before timing out writes of the HTTP response back to the client.</p>
+<p>The maximum duration before timing out writes of the HTTP response back to the client.
+Can be specified as a number (seconds) or duration string (e.g., &ldquo;30s&rdquo;, &ldquo;1h&rdquo;, &ldquo;2m30s&rdquo;).</p>
 
 <p>In OpenShift clusters, the route request time out should be also increased.
 This can be done by annotating the specific route with <code>haproxy.router.openshift.io/timeout</code>.
