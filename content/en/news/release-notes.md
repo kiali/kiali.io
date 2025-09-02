@@ -6,6 +6,33 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 2.15.0
+Sprint Release: September 02, 2025
+
+Features:
+
+* [Ambient: Improvements to Ambient workload validation](https://github.com/kiali/kiali/issues/6041)
+* [CI: Run all cypress tests from tags](https://github.com/kiali/kiali/issues/8607)
+* [CI: Add tests for kiali server/operator helm-charts](https://github.com/kiali/kiali/issues/8659)
+* [CI: Validate CRDs are synced during release](https://github.com/kiali/kiali/issues/8681)
+* [Deployment: Add support for "local" mode](https://github.com/kiali/kiali/issues/8632)
+* [Deployment: Provide a schema for the Kiali CRD](https://github.com/kiali/kiali/issues/8237)
+* [Deployment: Support multiple control planes in different namespaces on the same cluster](https://github.com/kiali/kiali/issues/8606)
+* [Operator: provide a way to verify operator permissions are correct](https://github.com/kiali/kiali/issues/8643)
+* [Perf: Only cache ConfigMaps in namespaces with controlplanes](https://github.com/kiali/kiali/issues/8394)
+* [Perses: Add support for Perses Dashboard](https://github.com/kiali/kiali/issues/8578)
+
+Fixes:
+
+* [Ambient: fix startup OOM in ambient environments](https://github.com/kiali/kiali/issues/8657)
+* [Operator: operator-sdk is now gone - operator release needs another way to verify bundle](https://github.com/kiali/kiali/issues/8621)
+* [Operator: missing permission in CSV for OLM installs](https://github.com/kiali/kiali/issues/8639)
+* [UI: Multicluster Workload Validations icon padding](https://github.com/kiali/kiali/issues/8648)
+
+#### Upgrade Change Notes:
+
+Version 2.15.0 introduces a CRD schema for Kiali. The CRD version has not changed. But, validation will now occur on the cluster when the Kiali CRs are created or modified.
+
 ## 2.14.0
 Sprint Release: August 08, 2025
 
