@@ -6,6 +6,27 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 2.16.0
+
+TBD: The release notes go here...
+
+#### Upgrade Change Notes:
+
+**Discovery Selectors**
+
+Kiali now properly supports Istio control planes deployed into different namespaces. As part of this
+support both the `spec.istio_namespace` and `spec.external_services.istio.root_namespace` configuration
+fields have been removed. As such, Kiali Discovery Selectors, when defined, must include Istio's
+control plane namespace(s). If you are using Kiali Discovery Selectors, please ensure that this
+new requirement is met. Note that Kiali's deployment namespace is always included, and so co-located
+Istio control planes will be discovered.
+
+**The following fields are no longer used by the Kiali CR and MUST be removed, if currently set.**
+
+* `spec.external_services.istio.root_namespace`
+
+
+## 2.15.0
 Sprint Release: September 02, 2025
 
 Features:
@@ -50,7 +71,7 @@ Fixes:
 
 #### Upgrade Change Notes:
 
-The following fields are no longer used by the Kiali CR and MUST be removed, if currently set.
+**The following fields are no longer used by the Kiali CR and MUST be removed, if currently set.**
 
 * no longer used
   * `spec.istio_namespace`
