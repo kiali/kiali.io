@@ -7,8 +7,19 @@ weight: 1
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
 ## 2.16.0
+Sprint Release: September 22, 2025
 
-TBD: The release notes go here...
+Features:
+
+* [CRD: Autodetect `RootNamespace`](https://github.com/kiali/kiali/issues/8674)
+* [GatewayAPI: Support clusters that only have Gateway API gateways but no Istio gateways](https://github.com/kiali/kiali/issues/8655)
+* [Perf: graph "Show Virtual Services" option controls "istio_detail" appender execution](https://github.com/kiali/kiali/issues/8732)
+* [Perf: optimizations for the istio_detail graph appender](https://github.com/kiali/kiali/issues/8731)
+
+Fixes:
+
+* [Ambient: Fix validations in KIA1312, KIA1313 and KIA1316](https://github.com/kiali/kiali/issues/8678)
+* [UI: Fix missing version info in About box](https://github.com/kiali/kiali/issues/8700)
 
 #### Upgrade Change Notes:
 
