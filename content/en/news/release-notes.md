@@ -6,6 +6,16 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 2.17.0
+
+!!! RELNOTES GO HERE !!!
+
+#### Upgrade Change Notes:
+
+**The following fields are no longer used by the Kiali CR and MUST be removed, if currently set.**
+
+* `spec.external_services.istio.registry`
+
 ## 2.16.0
 Sprint Release: September 22, 2025
 
