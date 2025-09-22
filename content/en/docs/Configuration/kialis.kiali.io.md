@@ -354,7 +354,6 @@ spec:
       istio_api_enabled: true
       istio_identity_domain: "svc.cluster.local"
       istiod_polling_interval_seconds: 20
-      root_namespace: ""
       validation_change_detection_enabled: true
       validation_reconcile_interval: "1m"
     perses:
@@ -5112,7 +5111,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The namespace to treat as the administrative root namespace for Istio configuration.</p>
+<p>DEPRECATED AFTER v2.11: This setting is deprecated and will be ignored. The namespace to treat as the administrative root namespace for Istio configuration.</p>
 
 </div>
 
