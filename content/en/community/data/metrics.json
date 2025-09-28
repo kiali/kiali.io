@@ -738,13 +738,19 @@
                     "issues": 143,
                     "stars": 3512,
                     "size": 71161
+                },
+                "2025-09-26": {
+                    "forks": 530,
+                    "issues": 147,
+                    "stars": 3516,
+                    "size": 71583
                 }
             },
             "language": {
-                "Go": 4278825,
-                "TypeScript": 3617326,
-                "Shell": 929708,
-                "Gherkin": 200199,
+                "Go": 4323290,
+                "TypeScript": 3625250,
+                "Shell": 937416,
+                "Gherkin": 203859,
                 "Makefile": 106023,
                 "SCSS": 41157,
                 "HTML": 2079,
@@ -1125,11 +1131,17 @@
                     "issues": 3,
                     "stars": 86,
                     "size": 2777
+                },
+                "2025-09-22": {
+                    "forks": 124,
+                    "issues": 6,
+                    "stars": 86,
+                    "size": 2797
                 }
             },
             "language": {
                 "Shell": 92754,
-                "Dockerfile": 30415,
+                "Dockerfile": 30885,
                 "Python": 27842,
                 "Makefile": 17736
             }
@@ -1398,11 +1410,17 @@
                     "issues": 5,
                     "stars": 7,
                     "size": 9946
+                },
+                "2025-09-23": {
+                    "forks": 18,
+                    "issues": 5,
+                    "stars": 7,
+                    "size": 9986
                 }
             },
             "language": {
                 "TypeScript": 3661482,
-                "Gherkin": 219249,
+                "Gherkin": 219275,
                 "SCSS": 41251,
                 "Makefile": 17313,
                 "Shell": 13179,
