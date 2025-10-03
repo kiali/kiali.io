@@ -135,9 +135,9 @@ Sometimes Tempo is configured outside the Kiali namespace, so there might be add
 
 ### Why can't I see the link "View in Tracing" when using Tempo?
 
-When Tempo is set in the Kiali CR `external_services.tracing.provider` but Grafana is not enabled, as Grafana is the default UI for Tempo, Kiali will hide the `View in Tracing links`
-If the Jaeger UI is enabled in Tempo, configure:
+Some settings needs to be configured in order to enable the external_url.
 
+When Tempo is set in the Kiali CR `external_services.tracing.provider`, the default `url_format` is set to `jaeger` and `external_services.tracing.external_url` needs to be set.
 ```yaml
 tracing:
   provider: "tempo"
@@ -145,6 +145,30 @@ tracing:
   tempo_config:
     url_format: "jaeger"
 ```
+
+When `url_format` is set to `grafana`, Grafana should be enabled, and the `external_services.grafana.external_url` needs to be set. 
+```yaml
+tracing:
+  provider: "tempo"
+  tempo_config:
+    url_format: "grafana"
+grafana: 
+  enabled: "true"
+  external_url: "http://grafana_url"
+```
+
+When `url_format` is set to `openshift`, there are additional parameters to set.
+```yaml
+tracing:
+  provider: "tempo"
+  tempo_config:
+    name: "sample"
+    namespace: "tempo"
+    tenant: "default"
+    url_format: "openshift"
+```
+
+Where name, is the name of the Tempo instance, the namespace where is installed and the tenant name where the traces are sent. 
 
 ![View in Tracing](/images/documentation/faq/tracing/view-in-tracing.png)
 
