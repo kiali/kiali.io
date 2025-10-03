@@ -70,10 +70,10 @@ spec:
 ```
 
 Kiali will use the _external_url_ to redirect to the Tracing UI, in the "View in tracing" links. 
-For the Tempo provider, by default, the _url_format_ is set to _jaeger_ (Changed from Grafana in Kiali 2.17).
-Kiali will use the _external_url_ set in the tracing section, and the url path and query will be following the Jaeger UI format.
+For the Tempo provider, by default, _url_format_ is set to _jaeger_ (Changed from Grafana in Kiali 2.17).
+Kiali will use the _external_url_ configuration to create the redirection link. The URL will have the Jaeger UI format to redirect to specific services and traces.
 
-When set to _grafana_, Kiali will use the _external_url_ set in the Grafana section, such as this example:
+When the url_format is set to _grafana_, Kiali will use the _external_url_ set in the Grafana section, such as this example:
 
 ```yaml
 spec:
@@ -83,7 +83,7 @@ spec:
       external_url: https://grafana.apps-crc.testing/
 ```
 
-It is also possible to set _url_format_ to "openshift". In that case, Kiali will use the url format to redirect to the UI Plugin in OpenShift. 
+It is also possible to set _url_format_ to "openshift". In that case, the url will redirect to the UI Plugin in OpenShift. 
 When it is set to _openshift_, there are other settings as well: 
 
 ```yaml

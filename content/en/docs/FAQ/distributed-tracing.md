@@ -146,7 +146,7 @@ tracing:
     url_format: "jaeger"
 ```
 
-When `url_format` is set to `grafana`, Grafana should be enabled, and the `external_services.grafana.external_url` needs to be set. 
+When `url_format` is set to `grafana`, Grafana should be enabled, and the `external_services.grafana.external_url` needs to be set: 
 ```yaml
 tracing:
   provider: "tempo"
@@ -157,7 +157,7 @@ grafana:
   external_url: "http://grafana_url"
 ```
 
-When `url_format` is set to `openshift`, there are additional parameters to set.
+When `url_format` is set to `openshift`, there are additional parameters to set:
 ```yaml
 tracing:
   provider: "tempo"
@@ -168,7 +168,10 @@ tracing:
     url_format: "openshift"
 ```
 
-Where name, is the name of the Tempo instance, the namespace where is installed and the tenant name where the traces are sent. 
+Where:
+- name: is the name of the Tempo instance
+- namespace where the Tempo instance is installed 
+- tenant: The tenant name where the traces are sent
 
 ![View in Tracing](/images/documentation/faq/tracing/view-in-tracing.png)
 
