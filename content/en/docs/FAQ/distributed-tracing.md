@@ -135,26 +135,26 @@ Sometimes Tempo is configured outside the Kiali namespace, so there might be add
 
 ### Why can't I see the link "View in Tracing" when using Tempo?
 
-Some settings needs to be configured in order to enable the external_url.
+Some settings need to be configured in order to enable the external_url.
 
-When _tempo_ is set in the Kiali CR `external_services.tracing.provider`, the default `url_format` is `jaeger`, and `external_services.tracing.external_url` needs to be set accordingly.
+When _tempo_ is set in the Kiali CR `external_services.tracing.provider`, the default `url_format` is `grafana`, and `external_services.tracing.external_url` needs to be set accordingly.
 ```yaml
 tracing:
   provider: "tempo"
-  external_url: "http://jaeger_url"
-  tempo_config:
-    url_format: "jaeger"
-```
-
-When `url_format` is set to _grafana_, Grafana should be enabled, and the `external_services.grafana.external_url` needs to be set: 
-```yaml
-tracing:
-  provider: "tempo"
+  external_url: "http://external-grafana-url"
   tempo_config:
     url_format: "grafana"
+```
+
+When `url_format` is set to _jaeger_, the `external_services.grafana.external_url` needs to be set as well: 
+```yaml
+tracing:
+  provider: "tempo"
+  tempo_config:
+    url_format: "jaeger"
 grafana: 
   enabled: "true"
-  external_url: "http://grafana_url"
+  external_url: "https://tempo-tempo-query-frontend-tempo.apps-crc.testing/"
 ```
 
 When `url_format` is set to _openshift_, there are additional parameters to set:

@@ -66,22 +66,12 @@ spec:
         url_format: "grafana"
       use_grpc: false
       # Public facing URL of Tempo 
-      external_url: "https://tempo-tempo-query-frontend-tempo.apps-crc.testing/"
+      external_url: "https://grafana-istio-system.apps-crc.testing/"
 ```
 
 Kiali uses the _external_url_ to construct "View in tracing" links in the UI. 
-For the Tempo provider the default _url_format_ is _jaeger_ (changed from _grafana_ in Kiali v2.17).
-So, by default the URL will have the Jaeger UI format when linking to specific services and traces.
-
-If `spec.external_services.tracing.tempo_config.url_format` is set to _grafana_, Kiali will use the _external_url_ set in the `spec.external_services.grafana` section, such as this example:
-
-```yaml
-spec:
-  external_services:
-    grafana:
-      enabled: true
-      external_url: https://grafana.apps-crc.testing/
-```
+For the Tempo provider the default _url_format_ is _grafana_.
+So, by default the URL will have the Grafana UI format when linking to specific services and traces.
 
 It is also possible to set _url_format_ to _openshift_. In this case the URL will redirect to the UI Plugin in the OpenShift console.
 When it is set to _openshift_, there are other settings as well: 
@@ -96,6 +86,8 @@ spec:
         tenant: "default"
         url_format: "openshift"
 ```
+
+The other valid option for _url_format_ is _jaeger_, used when the Jaeger UI is available in Tempo.
 
 #### Set up a Tempo Datasource in Grafana
 
