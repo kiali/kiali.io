@@ -83,7 +83,7 @@ spec:
       external_url: https://grafana.apps-crc.testing/
 ```
 
-It is also possible to set _url_format_ to "openshift". In that case, the url will redirect to the UI Plugin in OpenShift. 
+It is also possible to set _url_format_ to _openshift_. In this case the URL will redirect to the UI Plugin in the OpenShift console.
 When it is set to _openshift_, there are other settings as well: 
 
 ```yaml
