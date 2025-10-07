@@ -157,7 +157,7 @@ grafana:
   external_url: "http://grafana_url"
 ```
 
-When `url_format` is set to `openshift`, there are additional parameters to set:
+When `url_format` is set to _openshift_, there are additional parameters to set:
 ```yaml
 tracing:
   provider: "tempo"
