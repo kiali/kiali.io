@@ -137,7 +137,7 @@ Sometimes Tempo is configured outside the Kiali namespace, so there might be add
 
 Some settings needs to be configured in order to enable the external_url.
 
-When Tempo is set in the Kiali CR `external_services.tracing.provider`, the default `url_format` is set to `jaeger` and `external_services.tracing.external_url` needs to be set.
+When _tempo_ is set in the Kiali CR `external_services.tracing.provider`, the default `url_format` is `jaeger`, and `external_services.tracing.external_url` needs to be set accordingly.
 ```yaml
 tracing:
   provider: "tempo"
