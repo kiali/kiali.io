@@ -69,7 +69,7 @@ spec:
       external_url: "https://tempo-tempo-query-frontend-tempo.apps-crc.testing/"
 ```
 
-Kiali uses the _external_url_ to construct "View in tracing links in the UI. 
+Kiali uses the _external_url_ to construct "View in tracing" links in the UI. 
 For the Tempo provider the default _url_format_ is _jaeger_ (changed from _grafana_ in Kiali v2.17).
 So, by default the URL will have the Jaeger UI format when linking to specific services and traces.
 
