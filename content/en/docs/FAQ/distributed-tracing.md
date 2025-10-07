@@ -146,7 +146,7 @@ tracing:
     url_format: "jaeger"
 ```
 
-When `url_format` is set to `grafana`, Grafana should be enabled, and the `external_services.grafana.external_url` needs to be set: 
+When `url_format` is set to _grafana_, Grafana should be enabled, and the `external_services.grafana.external_url` needs to be set: 
 ```yaml
 tracing:
   provider: "tempo"
