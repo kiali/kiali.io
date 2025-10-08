@@ -146,21 +146,20 @@ tracing:
     url_format: "grafana"
 ```
 
-When `url_format` is set to _jaeger_, the `external_services.grafana.external_url` needs to be set as well: 
+When `url_format` is set to _jaeger_, the `external_services.tracing.external_url` needs to be set as well: 
 ```yaml
 tracing:
   provider: "tempo"
+  external_url: "https://tempo-tempo-query-frontend-tempo.apps-crc.testing/"
   tempo_config:
     url_format: "jaeger"
-grafana: 
-  enabled: "true"
-  external_url: "https://tempo-tempo-query-frontend-tempo.apps-crc.testing/"
 ```
 
 When `url_format` is set to _openshift_, there are additional parameters to set:
 ```yaml
 tracing:
   provider: "tempo"
+  external_url: "https://console-openshift-console.apps-crc.testing/"
   tempo_config:
     name: "sample"
     namespace: "tempo"
