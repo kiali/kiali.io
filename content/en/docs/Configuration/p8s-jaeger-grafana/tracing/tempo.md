@@ -87,6 +87,13 @@ spec:
         url_format: "openshift"
 ```
 
+When the tenant is specified, if _internal_url_ doesn't have a path, it will be autocompleted with the Tempo path. For this example:
+```yaml
+internal_url: https://tempo-sample-gateway.tempo.svc.cluster.local:8080/
+```
+
+Will be autocompleted to: _https://tempo-sample-gateway.tempo.svc.cluster.local:8080/api/traces/v1/{tenant}/tempo_
+
 The other valid option for _url_format_ is _jaeger_, used when the Jaeger UI is available in Tempo.
 
 #### Set up a Tempo Datasource in Grafana
