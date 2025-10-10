@@ -66,21 +66,35 @@ spec:
         url_format: "grafana"
       use_grpc: false
       # Public facing URL of Tempo 
-      external_url: "https://tempo-tempo-query-frontend-tempo.apps-crc.testing/"
+      external_url: "https://grafana-istio-system.apps-crc.testing/"
 ```
 
-Kiali will use the _external_url_ to redirect to the Tracing UI, in the "View in tracing" links. 
-In Tempo, by default, the _url_format_ is set to _grafana_. This will use a particular url path and query for each link. The default UI for Grafana Tempo is Grafana, so it will use the _external_url_ set in the Grafana section, such as this example: 
+Kiali uses the _external_url_ to construct "View in tracing" links in the UI. 
+For the Tempo provider the default _url_format_ is _grafana_.
+So, by default the URL will have the Grafana UI format when linking to specific services and traces.
+
+It is also possible to set _url_format_ to _openshift_. In this case the URL will redirect to the UI Plugin in the OpenShift console.
+When it is set to _openshift_, there are other settings as well: 
 
 ```yaml
 spec:
   external_services:
-    grafana:
-      enabled: true
-      external_url: https://grafana.apps-crc.testing/
+    tracing:
+      tempo_config:
+        name: "sample"
+        namespace: "tempo"
+        tenant: "default"
+        url_format: "openshift"
 ```
 
-It is also possible to set _url_format_ to "jaeger". In that case, Kiali will use the _external_url_ set in the tracing section, and the url path and query will be following the Jaeger UI format. 
+When the tenant is specified, if _internal_url_ doesn't have a path, it will be autocompleted with the Tempo path. For this example:
+```yaml
+internal_url: https://tempo-sample-gateway.tempo.svc.cluster.local:8080/
+```
+
+Will be autocompleted to: _https://tempo-sample-gateway.tempo.svc.cluster.local:8080/api/traces/v1/{tenant}/tempo_
+
+The other valid option for _url_format_ is _jaeger_, used when the Jaeger UI is available in Tempo.
 
 #### Set up a Tempo Datasource in Grafana
 
