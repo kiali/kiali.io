@@ -993,7 +993,7 @@ Remove either the sidecar or the Ambient labels depending on your desired setup.
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/workloads/ambient/ambient_workload_checker.go)
+- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/ambient/ambient_workload_checker.go)
 - [Istio documentation](https://istio.io/latest/docs/ambient/usage/add-workloads/)
 - [Troubleshooting Istio Ambient](https://github.com/istio/istio/wiki/Troubleshooting-Istio-Ambient)
 
@@ -1012,7 +1012,7 @@ Ensure the workload is in an Ambient-enabled namespace or remove the label.
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/workloads/ambient/ambient_workload_checker.go)
+- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/ambient/ambient_workload_checker.go)
 - [Istio documentation](https://istio.io/latest/docs/ambient/usage/add-workloads/)
 - [Troubleshooting Istio Ambient](https://github.com/istio/istio/wiki/Troubleshooting-Istio-Ambient)
 
@@ -1031,7 +1031,7 @@ Check the name and namespace of the waypoint or remove the label.
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/workloads/ambient/ambient_workload_checker.go)
+- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/ambient/ambient_workload_checker.go)
 - [Istio documentation](https://istio.io/latest/docs/ambient/usage/add-workloads/)
 - [Troubleshooting Istio Ambient](https://github.com/istio/istio/wiki/Troubleshooting-Istio-Ambient)
 
@@ -1049,7 +1049,7 @@ Restart the pod to remove the sidecar and allow Ambient redirection to take effe
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/workloads/ambient/ambient_workload_checker.go)
+- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/ambient/ambient_workload_checker.go)
 - [Istio documentation](https://istio.io/latest/docs/ambient/usage/add-workloads/)
 - [Troubleshooting Istio Ambient](https://github.com/istio/istio/wiki/Troubleshooting-Istio-Ambient)
 
@@ -1068,7 +1068,7 @@ Use only one mode: Ambient or Sidecar.
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/workloads/ambient/ambient_workload_checker.go)
+- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/ambient/ambient_workload_checker.go)
 - [Istio documentation](https://istio.io/latest/docs/ambient/usage/add-workloads/)
 - [Troubleshooting Istio Ambient](https://github.com/istio/istio/wiki/Troubleshooting-Istio-Ambient)
 
@@ -1087,7 +1087,7 @@ Prefer using either sidecar or Ambient mode — not both.
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/workloads/ambient/ambient_workload_checker.go)
+- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/ambient/ambient_workload_checker.go)
 - [Istio documentation](https://istio.io/latest/docs/ambient/usage/add-workloads/)
 - [Troubleshooting Istio Ambient](https://github.com/istio/istio/wiki/Troubleshooting-Istio-Ambient)
 
@@ -1106,7 +1106,7 @@ Add a waypoint so policies are properly enforced.
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/workloads/ambient/ambient_workload_checker.go)
+- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/ambient/ambient_workload_checker.go)
 - [Istio documentation](https://istio.io/latest/docs/ambient/usage/add-workloads/)
 - [Troubleshooting Istio Ambient](https://github.com/istio/istio/wiki/Troubleshooting-Istio-Ambient)
 
