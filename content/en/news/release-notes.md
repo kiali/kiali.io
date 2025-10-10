@@ -7,8 +7,26 @@ weight: 1
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
 ## 2.17.0
+Sprint Release: October 13, 2025
 
-!!! RELNOTES GO HERE !!!
+Features:
+
+* [Auth: Support of multiple audiences in OIDC](https://github.com/kiali/kiali/issues/8717)
+* [Config: Remove use of conf.ExternalServices.Istio.Registry](https://github.com/kiali/kiali/issues/8692)
+* [Dependencies: Update GoLang to 1.24.4](https://github.com/kiali/kiali/issues/8755)
+* [GW API: Support Inference Extension v1](https://github.com/kiali/kiali/issues/8782)
+* [Mesh Page: Show Kiali when in Local mode](https://github.com/kiali/kiali/issues/8668)
+* [OSSMC: New "openshift" url_format for Tracing configuration](https://github.com/kiali/kiali/issues/8762)
+* [Security: Allow configuration of NetworkPolicy to restrict Kiali ingress traffic](https://github.com/kiali/kiali/issues/8536)
+* [Troubleshooting: Improve Kiali tracing by forwarding `x-request-id` header to prometheus calls](https://github.com/kiali/kiali/issues/8468)
+
+Fixes:
+
+* [OSSMC: Handle correctly pods page with no controller](https://github.com/kiali/kiali/issues/8749)
+* [OSSMC: Distributed tracing plugin not doing redirection](https://github.com/kiali/kiali/issues/8765)
+* [Server: Fix potential crash in Mesh Discovery](https://github.com/kiali/kiali/issues/8759)
+* [UI: Scroll issue in Istio Config page](https://github.com/kiali/kiali/issues/8751)
+* [UI: Kiali observability detail views not available to custom GVKs](https://github.com/kiali/kiali/issues/8781)
 
 #### Upgrade Change Notes:
 
