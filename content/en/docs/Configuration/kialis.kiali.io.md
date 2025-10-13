@@ -229,6 +229,8 @@ spec:
       sampler_rate: "1"
       time_field_format: "2006-01-02T15:04:05Z07:00"
     namespace: "istio-system"
+    network_policy:
+      enabled: true
     # default: node_selector is empty
     node_selector:
       nodeSelector: "nodeSelectorValue"
@@ -442,7 +444,10 @@ spec:
         cache_capacity: 200
         cache_enabled: true
         datasource_uid: ""
+        name: ""
+        namespace: ""
         org_id: ""
+        tenant: ""
         url_format: "grafana"
       use_grpc: true
       whitelist_istio_system: ["jaeger-query", "istio-ingressgateway"]
@@ -477,6 +482,11 @@ spec:
   kiali_feature_flags:
     clustering:
       enable_exec_provider: false
+    # default: custom_workload_types is an empty list
+    custom_workload_types:
+    - group: "argoproj.io"
+      version: "v1alpha1"
+      kind: "Rollout"
     disabled_features: []
     istio_annotation_action: true
     istio_injection_action: true
@@ -2874,6 +2884,44 @@ Example,</p>
 
 <div class="property-description">
 <p>The namespace into which Kiali is to be installed. If this is empty or not defined, the default will be the namespace where the Kiali CR is located.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.network_policy">.spec.deployment.network_policy</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>Configures if the Kiali server pod should be protected by a NetworkPolicy resource that restricts both ingress and egress traffic.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.network_policy.enabled">.spec.deployment.network_policy.enabled</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>If true, a NetworkPolicy resource is created to restrict traffic to the Kiali server pod. The NetworkPolicy will allow ingress traffic only to the Kiali server API port and, if enabled, the metrics port.</p>
 
 </div>
 
@@ -6498,6 +6546,44 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 <div class="property depth-4">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.external_services.tracing.tempo_config.name">.spec.external_services.tracing.tempo_config.name</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The name of the Tempo instance for the <code>url_format</code> of <code>openshift</code> in the Plugin UI.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.tracing.tempo_config.namespace">.spec.external_services.tracing.tempo_config.namespace</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The namespace of the Tempo instance for the <code>url_format</code> of <code>openshift</code> in the Plugin UI.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.external_services.tracing.tempo_config.org_id">.spec.external_services.tracing.tempo_config.org_id</h3>
 </div>
 <div class="property-body">
@@ -6517,6 +6603,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 <div class="property depth-4">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.external_services.tracing.tempo_config.tenant">.spec.external_services.tracing.tempo_config.tenant</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The name of the Tempo tenant for the <code>url_format</code> of <code>openshift</code> in the Plugin UI.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.external_services.tracing.tempo_config.url_format">.spec.external_services.tracing.tempo_config.url_format</h3>
 </div>
 <div class="property-body">
@@ -6526,7 +6631,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The URL format for the external url. Can be &lsquo;jaeger&rsquo; or &lsquo;grafana&rsquo;. Default to &lsquo;grafana&rsquo;. Grafana will need a Grafana url in the Grafana settings.</p>
+<p>The URL format for the external url. Can be &lsquo;jaeger&rsquo;, &lsquo;grafana&rsquo; or &lsquo;openshift&rsquo;. Default to &lsquo;grafana&rsquo;. Openshift will need the name, namespace and tenant in the <code>tempo_config</code> settings.</p>
 
 </div>
 
@@ -7428,6 +7533,96 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property-description">
 <p>DEPRECATED AFTER v1.73: The URL of Kiali in the cluster.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.custom_workload_types">.spec.kiali_feature_flags.custom_workload_types</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>Enable observability tabs (Traffic, Logs, Metrics, Traces) for custom workload types beyond the built-in Kubernetes controllers.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.custom_workload_types[*]">.spec.kiali_feature_flags.custom_workload_types[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.custom_workload_types[*].group">.spec.kiali_feature_flags.custom_workload_types[*].group</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+<span class="property-required">*Required*</span>
+</div>
+
+<div class="property-description">
+<p>The API group of the custom workload type (e.g., &lsquo;argoproj.io&rsquo;).</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.custom_workload_types[*].kind">.spec.kiali_feature_flags.custom_workload_types[*].kind</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+<span class="property-required">*Required*</span>
+</div>
+
+<div class="property-description">
+<p>The kind of the custom workload type (e.g., &lsquo;Rollout&rsquo;).</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.custom_workload_types[*].version">.spec.kiali_feature_flags.custom_workload_types[*].version</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+<span class="property-required">*Required*</span>
+</div>
+
+<div class="property-description">
+<p>The API version of the custom workload type (e.g., &lsquo;v1alpha1&rsquo;).</p>
 
 </div>
 
