@@ -66,6 +66,7 @@ generate_metrics_json:
 # 5. URLs to kiali.io and kiali to edit doc files or create new doc files or create new issues
 # 6. URLs to kiali.io commits
 # 7. URLs in examples
+# 8. Internal Kubernetes cluster URLs (*.svc.cluster.local) used in examples
 URL_IGNORE=\#$\
           ,/^https:\/\/github.com\/kiali\/kiali\/pull\/\d+/$\
           ,/^https:\/\/github.com\/kiali\/kiali\/issues\/\d+/$\
@@ -77,8 +78,9 @@ URL_IGNORE=\#$\
           ,/^https:\/\/github.com\/kiali\/kiali\.io\/commit\//$\
           ,/^https:\/\/github.com\/kiali\/kiali\.io\/issues\/new/$\
           ,/.*web.libera.chat.*/$\
-          ,/^http://tracing.istio-system.*/$\
-          ,/^https://tracing-service.*/
+          ,/^http:\/\/tracing\.istio-system.*/$\
+          ,/.*tracing-service.*/$\
+          ,/.*\.svc\.cluster\.local.*/
 
 NEW_URLS=$(shell scripts/ignore_new_urls.sh 2> /dev/null)
 URL_IGNORE:=$(URL_IGNORE)$(NEW_URLS)
