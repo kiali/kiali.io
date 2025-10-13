@@ -79,7 +79,7 @@ URL_IGNORE=\#$\
           ,/^https:\/\/github.com\/kiali\/kiali\.io\/issues\/new/$\
           ,/.*web.libera.chat.*/$\
           ,/^http:\/\/tracing\.istio-system.*/$\
-          ,/.*tracing-service.*/\
+          ,/.*tracing-service.*/$\
           ,/.*\.svc\.cluster\.local.*/
 
 NEW_URLS=$(shell scripts/ignore_new_urls.sh 2> /dev/null)
