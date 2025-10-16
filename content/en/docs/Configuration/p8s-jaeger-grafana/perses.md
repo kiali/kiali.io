@@ -63,7 +63,7 @@ spec:
 The described configuration is done in the Kiali CR when Kiali is installed using the Kiali Operator. If Kiali is installed with the Helm chart then the correct way to configure this is via regular --set flags.
 {{% /alert %}}
 
-When running Perses with the cluster observability operator in OpenShift, it requires a new configuration (Kiali >2.17):
+When running Perses with the cluster observability operator in OpenShift, it requires an additional configuration item (Available from Kiali >2.17), so the url format can be compatible with the plugin UI URL:
 
 ```yaml
 spec:
@@ -74,6 +74,7 @@ spec:
 ```
 
 The internal URL shouldn't be set to avoid an internal validation of the Dashboards. 
+The external URL should be set to the OpenShift cluster, without the additional path.
 
 ### Perses authentication configuration
 
