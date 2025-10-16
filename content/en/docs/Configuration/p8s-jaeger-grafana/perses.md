@@ -63,6 +63,18 @@ spec:
 The described configuration is done in the Kiali CR when Kiali is installed using the Kiali Operator. If Kiali is installed with the Helm chart then the correct way to configure this is via regular --set flags.
 {{% /alert %}}
 
+When running Perses with the cluster observability operator in OpenShift, it requires a new configuration (Kiali >2.17):
+
+```yaml
+spec:
+  external_services:
+    perses:
+      ...
+      url_format: "openshift"
+```
+
+The internal URL shouldn't be set to avoid an internal validation of the Dashboards. 
+
 ### Perses authentication configuration
 
 The Kiali CR provides authentication configuration that will be used to connect to your perses instance and for detecting your perses version in the Mesh graph.
