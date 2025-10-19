@@ -756,14 +756,20 @@
                     "issues": 131,
                     "stars": 3520,
                     "size": 71714
+                },
+                "2025-10-17": {
+                    "forks": 529,
+                    "issues": 131,
+                    "stars": 3522,
+                    "size": 71818
                 }
             },
             "language": {
-                "Go": 4375307,
-                "TypeScript": 3640497,
-                "Shell": 955602,
-                "Gherkin": 204080,
-                "Makefile": 106049,
+                "Go": 4375357,
+                "TypeScript": 3649817,
+                "Shell": 987741,
+                "Gherkin": 204094,
+                "Makefile": 106304,
                 "SCSS": 41157,
                 "HTML": 2079,
                 "Dockerfile": 1595,
@@ -1161,13 +1167,19 @@
                     "issues": 3,
                     "stars": 86,
                     "size": 2807
+                },
+                "2025-10-18": {
+                    "forks": 125,
+                    "issues": 4,
+                    "stars": 86,
+                    "size": 2811
                 }
             },
             "language": {
-                "Shell": 92717,
-                "Dockerfile": 30885,
-                "Python": 27842,
-                "Makefile": 17736
+                "Shell": 113076,
+                "Python": 32522,
+                "Dockerfile": 31355,
+                "Makefile": 18186
             }
         },
         "openshift-servicemesh-plugin": {
@@ -1446,11 +1458,17 @@
                     "issues": 3,
                     "stars": 7,
                     "size": 10001
+                },
+                "2025-10-15": {
+                    "forks": 18,
+                    "issues": 8,
+                    "stars": 7,
+                    "size": 10372
                 }
             },
             "language": {
-                "TypeScript": 3671009,
-                "Gherkin": 220476,
+                "TypeScript": 3691625,
+                "Gherkin": 224357,
                 "SCSS": 41251,
                 "Makefile": 17313,
                 "Shell": 13880,
