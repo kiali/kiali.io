@@ -37,7 +37,28 @@ configuration settings that most people will never need but are available in cas
 a situation where the customization is needed. See the Kiali CR Reference page for the
 documentation on those settings.
 
-### Multi-Cluster - Using an internal or self-signed certificate
+### Multi-Cluster
+
+There are some things to know when using the `openshift` strategy with Kiali in a multi-cluster environment.
+
+#### Consistent Kiali Namespace and Instance-Name
+
+The default namespace for Kiali is `istio-system`. But many users prefer to use a dedicated namespace for Kiali, such as `kiali`, `kiali-server`, etc. In a multi-cluster environment Kiali must be deployed in the same namespace on each cluster. Clusters that don't have a Kiali deployment must still provide the namespace, to hold the remote cluster resources.
+
+The default instance-name for kiali is `kiali`. Any change to the default must also be made consistently across all clusters.
+
+Assuming Kiali is installed via the Kiali Operator. Any customization would be done via the following CR settings:
+
+- `spec.deployment.namespace`
+- `spec.deployment.instance_name`
+
+{{% alert color="info" %}}
+It is recommended that the Kiali Operator be deployed on all clusters, even if Kiali itself is not deployed. This will ensure that the proper directory and remote cluster resources are provided. For clusters without Kiali, requiring only the remote cluster resources (for auth), configure the CR with:
+
+- `spec.deployment.remote_cluster_resources_only: true`
+  {{% /alert %}}
+
+#### Using an internal or self-signed certificate
 
 If you have a multi-cluster Kiali deployment and the OAuth server is configured with an external IdP that uses an internal or self-signed certificate, you can configure Kiali to trust the server's certificate by creating a ConfigMap named `kiali-oauth-cabundle` containing the CA certificate bundle for the server under the `oauth-server-ca.crt` key:
 
