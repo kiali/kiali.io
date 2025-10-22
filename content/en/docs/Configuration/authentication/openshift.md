@@ -17,7 +17,7 @@ logged in if the user has enough privileges.
 
 The `openshift` strategy supports [namespace access control]({{< relref "../rbac" >}}).
 
-The `openshift` strategy is only supported for single cluster.
+The `openshift` strategy is supported for single and multi-cluster deployments.
 
 ## Set-up
 
@@ -53,7 +53,7 @@ Assuming Kiali is installed via the Kiali Operator. Any customization would be d
 - `spec.deployment.instance_name`
 
 {{% alert color="info" %}}
-It is recommended that the Kiali Operator be deployed on all clusters, even if Kiali itself is not deployed. This will ensure that the proper directory and remote cluster resources are provided. For clusters without Kiali, requiring only the remote cluster resources (for auth), configure the CR with:
+It is recommended that the Kiali Operator be deployed on all clusters, even if Kiali itself is not deployed. This will ensure that the proper namespace and remote cluster resources are created. For clusters without Kiali, requiring only the remote cluster resources (for auth), configure the CR with:
 
 - `spec.deployment.remote_cluster_resources_only: true`
   {{% /alert %}}

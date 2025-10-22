@@ -16,7 +16,7 @@ This separation allows for:
 
 This deployment model requires a minimum of two clusters. The Kiali "home" cluster (where Kiali is deployed) will serve as the "management" cluster. The "mesh" cluster(s) will be where your service mesh is deployed. The mesh deployment will still conform to any of the Istio deployment models that Kiali already supports. The fundamental difference is that Kiali will not be co-located with an Istio control plane, but instead will reside away from the mesh. For multi-cluster mesh deployments, all of the same requirements apply, such as unified metrics and traces, etc.
 
-It is recommended, but not required, that joining Kiali on the "management" cluster is other observability tooling, like the metrics store. This will further reduce observability resources on the mesh cluster(s), and will likely reduce latency between Kiali and those data stores. But, it may require additional work, like federating Prometheus databases, etc.
+It can be beneficial to co-locate other observability tooling on the management cluster. For example, co-locating Prometheus will likely improve Kiali's metric query performance, while also reducing Prometheus resource consumption on the mesh cluster(s). Although, it may require additional configuration, like federating Prometheus databases, etc.
 
 The high-level deployment model looks like this:
 ![Kiali multi-cluster](/images/documentation/configuration/external-kiali.png)

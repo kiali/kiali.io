@@ -8,7 +8,7 @@ These are specific notes for the External Kiali deployment model on OpenShift.
 
 ## Installation
 
-It is highly recommended that the Kiali Operator be deployed on all clusters, even if Kiali itself is not deployed. This will ensure that the proper directory and remote cluster resources are provided. Clusters without Kiali require only the remote cluster resources (for auth), configure the CR with:
+It is highly recommended that the Kiali Operator be deployed on all clusters, even if Kiali itself is not deployed. This will ensure that the proper namespace and remote cluster resources are created. Clusters without Kiali require only the remote cluster resources (for auth), configure the CR with:
 
 - `spec.deployment.remote_cluster_resources_only: true`
 
