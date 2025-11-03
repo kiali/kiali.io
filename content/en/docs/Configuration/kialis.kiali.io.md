@@ -364,6 +364,7 @@ spec:
         insecure_skip_verify: false
         password: ""
         type: "none"
+        use_kiali_token: false
         username: ""
       dashboards:
       - name: "Istio Service Dashboard"
@@ -385,9 +386,10 @@ spec:
       enabled: false
       external_url: ""
       health_check_url: ""
-      internal_url: "http://perses.istio-system:4000"
+      internal_url: ""
       is_core: false
       project: "istio"
+      url_format: ""
     prometheus:
       auth:
         ca_file: ""
@@ -5330,7 +5332,26 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The type of authentication to use when contacting the server. Use <code>basic</code> to connect with username and password credentials. Use <code>none</code> to not use any authentication.</p>
+<p>The type of authentication to use when contacting the server. Use <code>bearer</code> to send the token to the Perses server. Use <code>basic</code> to connect with username and password credentials. Use <code>none</code> to not use any authentication.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.perses.auth.use_kiali_token">.spec.external_services.perses.auth.use_kiali_token</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>When true and if <code>auth.type</code> is <code>bearer</code>, Kiali Service Account token will be used for the API calls to Perses (in this case, <code>auth.token</code> config is ignored).</p>
 
 </div>
 
@@ -5644,6 +5665,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property-description">
 <p>The name of the project where the Dashboards are defined.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.perses.url_format">.spec.external_services.perses.url_format</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The url format. Use <code>openshift</code> when using Perses Dashboards via the Cluster Observability operator in OpenShift. Use <code>default</code> for standard Perses upstream.</p>
 
 </div>
 
