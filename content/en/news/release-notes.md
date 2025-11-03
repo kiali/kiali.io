@@ -6,6 +6,22 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 2.18.0
+Sprint Release: November 03, 2025
+
+Features:
+
+* [Mesh Page: improvements for multiple controlplanes](https://github.com/kiali/kiali/issues/8684)
+* [Perses: 'openshift' URL format](https://github.com/kiali/kiali/issues/8806)
+* [Operator: Sidecar usage extension](https://github.com/kiali/kiali/issues/5028)
+* [Operator: NetworkPolicy for OLM-installed operator](https://github.com/kiali/kiali/issues/8813)
+* [OSSMC: Add Netobserv Navigation traffic graph side-panel](https://github.com/kiali/openshift-servicemesh-plugin/issues/507)
+
+Fixes:
+
+* [URI too large](https://github.com/kiali/kiali/issues/8827)
+* [Making cluster-wide namespace query when cluster-wide-access is false](https://github.com/kiali/kiali/issues/8826)
+
 ## 2.17.0
 Sprint Release: October 13, 2025
 
