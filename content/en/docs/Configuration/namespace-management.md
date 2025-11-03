@@ -64,7 +64,13 @@ Because the Kiali Server utilizes Kubernetes watches to watch all accessible nam
 {{% /alert %}}
 
 {{% alert color="warning" %}}
-If you install Kiali using the [Server Helm Chart]({{< ref "/docs/installation/installation-guide/install-with-helm" >}}), these Roles will not be created; so cluster-wide access must be enabled. This security feature is provided by the operator only, and is one reason why it is recommended to use the operator. The Server Helm Chart is provided only as a convenience.
+If you install Kiali using the [Server Helm Chart]({{< ref "/docs/installation/installation-guide/install-with-helm" >}}), these Roles will be created when `cluster_wide_access=false`. However, the Server Helm Chart does not provide the same lifecycle management features as the operator:
+- The operator automatically cleans up Roles/RoleBindings from namespaces that are no longer accessible when discovery selectors (`deployment.discovery_selectors.default`) change
+- The operator handles transitions when `view_only_mode` or `auth.strategy` settings change (RoleBindings are immutable and must be deleted/recreated)
+- The operator explicitly cleans up ClusterRole/ClusterRoleBinding resources when switching from `cluster_wide_access=true` to `false`
+- The operator adds labels to accessible namespaces to mark which Kiali instance manages them
+
+With the Server Helm Chart, you may need to manually clean up resources when changing these configurations. For full lifecycle management, use the operator. The Server Helm Chart is provided only as a convenience.
 {{% /alert %}}
 
 {{% alert color="warning" %}}
