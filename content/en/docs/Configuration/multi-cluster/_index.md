@@ -13,6 +13,10 @@ Before proceeding with the setup, ensure you meet the requirements.
 
 1. **Aggregated metrics and traces.** Kiali needs a single endpoint for metrics and a single endpoint for traces where it can consume aggregated metrics/traces across all clusters. There are many ways to aggregate metrics/traces such as Prometheus federation or using OTEL collector pipelines but setting these up are outside of the scope of Kiali.
 
+   {{% alert color="info" %}}
+   **For OpenShift/OSSM environments**: Red Hat Advanced Cluster Management (ACM) with Observability Service is the recommended approach for aggregating metrics in multi-cluster deployments. ACM scales horizontally and integrates with OpenShift's User Workload Monitoring. See the [ACM Observability Integration guide]({{< relref "external/acm-observability" >}}) for details.
+   {{% /alert %}}
+
 2. **Anonymous, OpenID or OpenShift authentication strategy.** The unified multi-cluster configuration currently only supports anonymous, OpenID and OpenShift [authentication strategies]({{< relref "../../Configuration/authentication" >}}). In addition, current support varies by provider for OpenID across clusters.
 
 ### Setup

@@ -42,3 +42,24 @@ kubernetes_config:
 ### Authorization
 
 The external deployment model currently supports `openid`, `openshift`, and `anonymous` authorization strategies. `token` auth is untested and considered experimental.
+
+### Metrics Aggregation
+
+For external Kiali deployments, you need a unified metrics endpoint that aggregates metrics from all mesh clusters.
+
+#### ACM Observability Integration
+
+For OpenShift environments using Red Hat Advanced Cluster Management (ACM), you can leverage ACM Observability Service to aggregate metrics from multiple clusters. This provides:
+
+- **Unified metrics** through Thanos Querier on the hub cluster
+- **Long-lived credentials** via certificate-based authentication
+- **Automatic credential rotation** without pod restarts
+- **Horizontal scalability** for metrics storage across large deployments
+
+See the [ACM Observability Integration guide]({{< relref "acm-observability" >}}) for detailed configuration instructions.
+
+Key benefits:
+- Eliminates short-lived (24-hour) OAuth token limitations
+- Supports automatic certificate rotation via cert-manager or ACM
+- Credentials are read on-use, picking up rotated values without restart
+- Integrates with OpenShift's standard observability stack

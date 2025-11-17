@@ -234,24 +234,54 @@ spec:
         username: my-user-name
         password: secret:my-secret:my-cred
 ```
+
+For certificate-based authentication (e.g., mTLS to ACM Observability Service), reference certificate files from a secret containing TLS certificates:
+```yaml
+spec:
+  external_services:
+    prometheus:
+      auth:
+        type: none  # No bearer token, just mTLS
+        ca_file: secret:acm-certs:ca.crt
+        cert_file: secret:acm-certs:tls.crt
+        key_file: secret:acm-certs:tls.key
+```
+
 Note that you can share a secret across multiple external services if they use the same credentials, or you can create multiple secrets if you need to use different credentials for the different external services.
 
+The `secret:` pattern works for both simple credential values (tokens, passwords, usernames) and file-based credentials (certificates and keys). For certificate files, the secret key name (e.g., `tls.crt`, `tls.key`) will be preserved when mounted.
+
 You can use secrets as explained above for the following fields in the Kiali CR:
-* `spec.external_services.grafana.auth.username`
+* `spec.external_services.grafana.auth.ca_file`
+* `spec.external_services.grafana.auth.cert_file`
+* `spec.external_services.grafana.auth.key_file`
 * `spec.external_services.grafana.auth.password`
 * `spec.external_services.grafana.auth.token`
-* `spec.external_services.perses.auth.username`
+* `spec.external_services.grafana.auth.username`
+* `spec.external_services.perses.auth.ca_file`
+* `spec.external_services.perses.auth.cert_file`
+* `spec.external_services.perses.auth.key_file`
 * `spec.external_services.perses.auth.password`
-* `spec.external_services.prometheus.auth.username`
+* `spec.external_services.perses.auth.username`
+* `spec.external_services.prometheus.auth.ca_file`
+* `spec.external_services.prometheus.auth.cert_file`
+* `spec.external_services.prometheus.auth.key_file`
 * `spec.external_services.prometheus.auth.password`
 * `spec.external_services.prometheus.auth.token`
-* `spec.external_services.tracing.auth.username`
+* `spec.external_services.prometheus.auth.username`
+* `spec.external_services.tracing.auth.ca_file`
+* `spec.external_services.tracing.auth.cert_file`
+* `spec.external_services.tracing.auth.key_file`
 * `spec.external_services.tracing.auth.password`
 * `spec.external_services.tracing.auth.token`
-* `spec.login_token.signing_key`
-* `spec.external_services.custom_dashboards.prometheus.auth.username`
+* `spec.external_services.tracing.auth.username`
+* `spec.external_services.custom_dashboards.prometheus.auth.ca_file`
+* `spec.external_services.custom_dashboards.prometheus.auth.cert_file`
+* `spec.external_services.custom_dashboards.prometheus.auth.key_file`
 * `spec.external_services.custom_dashboards.prometheus.auth.password`
 * `spec.external_services.custom_dashboards.prometheus.auth.token`
+* `spec.external_services.custom_dashboards.prometheus.auth.username`
+* `spec.login_token.signing_key`
 
 **When Using Kiali Server Helm Chart**
 
@@ -282,26 +312,70 @@ helm install -f my-values.yaml -n istio-system kiali-server kiali/kiali-server
 
 When you start the Kiali Server, you should now see a debug message in its logs that says:
 ```
-Credentials loaded from secret file [/kiali-override-secrets/prometheus-password/value.txt]
+Credential file path configured: [/kiali-override-secrets/prometheus-password/value.txt]
 ```
 
 NOTE: You must have [enabled logging at the debug level](https://kiali.io/docs/configuration/kialis.kiali.io/#.spec.deployment.logger.log_level) to see the above message in the logs.
 
-This should work with the other credentials that can be read from a mounted secret. They all need to be mounted as a file called `value.txt` that goes into their own sub-directory under `/kiali-override-secrets` - one of:
-* grafana-username
-* grafana-password
-* grafana-token
-* perses-username
-* perses-password
-* prometheus-username
-* prometheus-password
-* prometheus-token
-* tracing-username
-* tracing-password
-* tracing-token
-* login-token-signing-key
-* customdashboards-prometheus-username
+This should work with the other credentials that can be read from a mounted secret. For simple credentials (tokens, passwords, usernames), they all need to be mounted as a file called `value.txt` that goes into their own sub-directory under `/kiali-override-secrets` - one of:
 * customdashboards-prometheus-password
 * customdashboards-prometheus-token
+* customdashboards-prometheus-username
+* grafana-password
+* grafana-token
+* grafana-username
+* login-token-signing-key
+* perses-password
+* perses-username
+* prometheus-password
+* prometheus-token
+* prometheus-username
+* tracing-password
+* tracing-token
+* tracing-username
+
+For certificate files (`ca_file`, `cert_file`, `key_file`), the secret key name is preserved when mounted. They go into their own sub-directory under `/kiali-override-secrets` - one of:
+* customdashboards-prometheus-ca
+* customdashboards-prometheus-cert
+* customdashboards-prometheus-key
+* grafana-ca
+* grafana-cert
+* grafana-key
+* perses-ca
+* perses-cert
+* perses-key
+* prometheus-ca
+* prometheus-cert
+* prometheus-key
+* tracing-ca
+* tracing-cert
+* tracing-key
 
 So, for example, if you are mounting a custom secret for the Grafana token, the mount location should be declared as `/kiali-override-secrets/grafana-token`.
+
+For certificate files, if you use `cert_file: secret:my-certs:tls.crt`, the file will be mounted as `/kiali-override-secrets/prometheus-cert/tls.crt` (the secret key name `tls.crt` is preserved, not renamed to `value.txt`).
+
+### How does Kiali handle automatic credential rotation?
+
+Kiali supports automatic credential rotation without requiring a pod restart. This applies to all secret-backed credentials including tokens, passwords, usernames, and certificate files.
+
+**How it works:**
+
+1. **Kubernetes Secret Update**: When an external system (cert-manager, ACM, OpenShift service CA, etc.) updates a Kubernetes secret, Kubernetes automatically updates the mounted files in the Kiali pod within approximately 60 seconds.
+
+2. **Read-on-Use Pattern**: Kiali reads credentials from the mounted files each time they are needed, not just at startup. This means updated credentials are automatically picked up.
+
+3. **No Pod Restart**: Because credentials are read dynamically, there's no need to restart the Kiali pod when secrets are rotated.
+
+**Which credentials support auto-rotation:**
+
+All credentials mounted from secrets support automatic rotation:
+- Tokens (`auth.token`)
+- Passwords (`auth.password`)
+- Usernames (`auth.username`)
+- CA certificates (`auth.ca_file`)
+- Client certificates (`auth.cert_file`)
+- Client private keys (`auth.key_file`)
+- Login token signing key (`login_token.signing_key`)
+
+**Note**: Credentials specified as literal values in the Kiali CR (not using the `secret:` pattern) are loaded at startup and do not support automatic rotation.
