@@ -106,6 +106,8 @@ print("\nFeatures:\n")
 
 for card in project["items"]["nodes"]:
      issue = card["content"]
+     if issue is None:
+         continue
      labels = issue.get("labels")
      if issue.get("state") in ["CLOSED", "MERGED"]:
          if labels:
@@ -118,6 +120,8 @@ print("\nFixes:\n")
 
 for card in project["items"]["nodes"]:
      issue = card["content"]
+     if issue is None:
+         continue
      labels = issue.get("labels")
      if issue.get("state") in ["CLOSED", "MERGED"]:
          if labels:
