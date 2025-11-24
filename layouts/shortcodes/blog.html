@@ -1,5 +1,5 @@
 {{- $maxBlogPosts := 3 }}
-{{- $mediumURL    := "https://www.toptal.com/developers/feed2json/convert?url=https://medium.com/feed/kialiproject" }}
+{{- $mediumURL    := "https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/kialiproject" }}
 {{- $json         := getJSON $mediumURL }}
 {{- $posts        := first $maxBlogPosts $json.items }}
 {{- $latestPost   := index $json.items 1 }}
@@ -12,12 +12,12 @@
 </h3>
 
 {{ range $posts }}
-  {{ $link    := .url }}
+  {{ $link    := .link }}
   {{ $title   := .title }}
-  {{ $author  := .author.name }}
-  {{ $dateRaw := .date_published }}
+  {{ $author  := .author }}
+  {{ $dateRaw := .pubDate }}
   {{ $date    := dateFormat "January 2, 2006" $dateRaw }}
-  {{ $summary := .content_html | plainify | truncate 200 }}
+  {{ $summary := .description | plainify | truncate 200 }}
   <div class="col-lg-4 mb-5 mb-lg-0 text-center ">
     <div class="blog-card">
       <figure>
