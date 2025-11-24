@@ -73,6 +73,8 @@ spec:
   - name: "envoy"
 
   deployment:
+    additional_pod_containers_yaml: []
+    additional_pod_init_containers_yaml: []
     # default: additional_service_yaml is empty
     additional_service_yaml:
       externalName: "kiali.example.com"
@@ -1720,6 +1722,72 @@ empty dashboard.</p>
 <div class="property-body">
 <div class="property-meta">
 <span class="property-type">(string)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.additional_pod_containers_yaml">.spec.deployment.additional_pod_containers_yaml</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>Additional containers to add to the list of pod containers. Use this to add container(s) to the Kiali pod. SECURITY: By default, the operator will forcibly apply a restrictive security context to all containers (allowPrivilegeEscalation: false, privileged: false, readOnlyRootFilesystem: true, runAsNonRoot: true, capabilities dropped). However, if the operator&rsquo;s ALLOW_SECURITY_CONTEXT_OVERRIDE environment variable is set to &lsquo;true&rsquo;, containers can define their own security contexts which will be preserved. Secret-backed volumes are automatically forced to read-only regardless of the security context override setting. Use with care since containers may cause the Kiali container itself to operate incorrectly. It is up to the user who added the additional containers to ensure it works properly inside the Kiali pod; Kiali makes no guarantee additional containers will work.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.additional_pod_containers_yaml[*]">.spec.deployment.additional_pod_containers_yaml[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.additional_pod_init_containers_yaml">.spec.deployment.additional_pod_init_containers_yaml</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>Additional initContainers to add to the list of pod initContainers. Use this to add initContainer(s) to the Kiali pod. SECURITY: By default, the operator will forcibly apply a restrictive security context to all initContainers (allowPrivilegeEscalation: false, privileged: false, readOnlyRootFilesystem: true, runAsNonRoot: true, capabilities dropped). However, if the operator&rsquo;s ALLOW_SECURITY_CONTEXT_OVERRIDE environment variable is set to &lsquo;true&rsquo;, initContainers can define their own security contexts which will be preserved. Secret-backed volumes are automatically forced to read-only regardless of the security context override setting. Use with care since initContainers may cause the Kiali container itself to operate incorrectly. It is up to the user who added the additional initContainers to ensure it works properly inside the Kiali pod; Kiali makes no guarantee additional initContainers will work.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.additional_pod_init_containers_yaml[*]">.spec.deployment.additional_pod_init_containers_yaml[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
 
 </div>
 
