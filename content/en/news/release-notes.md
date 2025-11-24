@@ -6,6 +6,22 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 2.19.0
+Sprint Release: November 24, 2025
+
+Features:
+
+* [AI: Kiali now has AI and Agent Policy and Contribution guidelines](https://github.com/kiali/kiali/issues/8872)
+* [Config: Kiali CR now supports adding custom initContainers to the Kiali deployment](https://github.com/kiali/kiali/issues/8616)
+* [Helm Charts: Server helm chart now supports cluster_wide_access=false](https://github.com/kiali/kiali/issues/8854)
+* [K8s GW API: v1.4.0 support](https://github.com/kiali/kiali/issues/8791)
+
+Fixes:
+
+* [Ambient: Fix "isAmbient" CP identification and Overview page badging](https://github.com/kiali/kiali/issues/8867)
+* [Mesh Page: Fix missing validations for Data Plane side-panel](https://github.com/kiali/kiali/issues/8863)
+* [UI: Masthead tooltip fixes for status and duplication](https://github.com/kiali/kiali/issues/8830)
+
 ## 2.18.0
 Sprint Release: November 03, 2025
 
