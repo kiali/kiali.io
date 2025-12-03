@@ -253,16 +253,14 @@ testing purposes.
 
 However, if your organization or internal network has an internal trusted
 certificate authority (CA), and your OpenID server is using a certificate
-issued by this CA, you can configure Kiali to trust certificates from this CA,
+issued by this CA, you can configure Kiali to trust certificates from this CA
 rather than disabling verification.
 
-Add your CA certificate to the `kiali-cabundle` ConfigMap. You can use either
-the global `additional-ca-bundle.pem` key (which makes the CA trusted for all
-HTTPS connections Kiali makes) or the OpenID-specific `openid-server-ca.crt`
-key. Both keys are supported and merged into Kiali's certificate pool.
-
 See the [TLS Configuration]({{< relref "../p8s-jaeger-grafana/tls-configuration" >}})
-page for detailed instructions on configuring custom CA certificates.
+page for detailed instructions on configuring custom CA certificates. You can use either
+the global `additional-ca-bundle.pem` key (which makes the CA trusted for all
+HTTPS connections) or the OpenID-specific `openid-server-ca.crt` key in the
+`kiali-cabundle` ConfigMap.
 
 ### Using an HTTP/HTTPS Proxy
 

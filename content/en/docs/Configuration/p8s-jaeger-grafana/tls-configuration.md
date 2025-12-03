@@ -38,7 +38,11 @@ data:
 ```
 
 {{% alert color="info" %}}
-**Key name**: The key must be `additional-ca-bundle.pem`. You can include multiple CA certificates in PEM format in the same file. For OpenID authentication specifically, you can also use the key `openid-server-ca.crt`.
+**Key name**: The key must be `additional-ca-bundle.pem`. You can include multiple CA certificates in PEM format in the same file.
+
+**For OpenID authentication**: You can optionally use the key `openid-server-ca.crt` instead of `additional-ca-bundle.pem` if you want the CA to only be trusted for OpenID server connections. However, using `additional-ca-bundle.pem` is simpler as it works for all connections.
+
+**For OpenShift OAuth authentication**: Note that OpenShift OAuth uses a separate ConfigMap named `<instance-name>-oauth-cabundle` with the key `oauth-server-ca.crt`. See the [OpenShift authentication]({{< relref "../authentication/openshift#using-an-internal-or-self-signed-certificate" >}}) documentation for details.
 {{% /alert %}}
 
 ### On OpenShift

@@ -69,10 +69,11 @@ external_services:
   prometheus:
     auth:
       type: none  # No Authorization header
-      ca_file: secret:acm-observability-certs:ca.crt
       cert_file: secret:acm-observability-certs:tls.crt
       key_file: secret:acm-observability-certs:tls.key
 ```
+
+Add the Thanos CA certificate to the `kiali-cabundle` ConfigMap so that HTTPS server trust is established (see Step 3).
 
 ### Bearer Token (Authorization Header)
 
@@ -84,10 +85,11 @@ external_services:
     auth:
       type: bearer  # Sends token in Authorization header
       token: secret:acm-bearer-token:token
-      ca_file: secret:acm-observability-certs:ca.crt
       cert_file: secret:acm-observability-certs:tls.crt
       key_file: secret:acm-observability-certs:tls.key
 ```
+
+Again, configure the CA trust chain via the `kiali-cabundle` ConfigMap.
 
 **Important**: The `type` field (none/bearer/basic) controls the **Authorization HTTP header**, not TLS client certificates. mTLS authentication happens at the transport layer independently of the `type` setting.
 
@@ -99,6 +101,8 @@ You need three certificate files:
 1. **CA Certificate** (`ca.crt`) - The CA that signed the Thanos Querier's server certificate
 2. **Client Certificate** (`tls.crt`) - Kiali's client certificate for mTLS authentication
 3. **Client Private Key** (`tls.key`) - The private key for the client certificate
+
+The CA certificate is referenced by the `kiali-cabundle` ConfigMap, while the client certificate/key are supplied via the `acm-observability-certs` secret.
 
 **Recommended approach**: Use cert-manager or OpenShift service CA to generate certificates signed by a CA trusted by ACM Observability Service. Consult your ACM administrator for:
 - The CA to use for signing client certificates
@@ -119,24 +123,36 @@ openssl x509 -req -in kiali-client.csr -CA ca.crt -CAkey ca.key -CAcreateserial 
 
 ### Step 2: Create Kubernetes Secret
 
-Store all three certificate files in a Kubernetes secret in the Kiali deployment namespace:
+Store the client certificate and key in a Kubernetes secret in the Kiali deployment namespace:
 
 ```bash
 oc create secret generic acm-observability-certs \
   -n istio-system \
-  --from-file=ca.crt=/path/to/thanos-server-ca.crt \
   --from-file=tls.crt=/path/to/kiali-client.crt \
   --from-file=tls.key=/path/to/kiali-client.key
 ```
 
 Where:
-- `ca.crt` = CA certificate that signed the Thanos Querier's server certificate (for server verification)
 - `tls.crt` = Kiali's client certificate (for client authentication)
 - `tls.key` = Kiali's client private key (for client authentication)
 
-**Note**: The secret keys (`ca.crt`, `tls.crt`, `tls.key`) can be any name - they will be preserved when mounted to the Kiali pod. If you use different key names, update the `secret:` references in your Kiali CR accordingly.
+**Note**: The secret keys (`tls.crt`, `tls.key`) can be any name—they will be preserved when mounted to the Kiali pod. If you use different key names, update the `secret:` references in your Kiali CR accordingly.
 
-### Step 3: Configure Certificate Auto-Rotation
+### Step 3: Provide the CA bundle via `kiali-cabundle`
+
+Add the Thanos/ACM CA certificate to the `kiali-cabundle` ConfigMap so Kiali trusts the server's certificate:
+
+```bash
+oc create configmap kiali-cabundle \
+  -n istio-system \
+  --from-file=additional-ca-bundle.pem=/path/to/thanos-server-ca.crt
+```
+
+If the ConfigMap already exists (for example, because the operator created it), merge the PEM data into the existing `additional-ca-bundle.pem` key instead of recreating the resource.
+
+For more details about CA bundle configuration, see the [TLS Configuration]({{< relref "../../p8s-jaeger-grafana/tls-configuration" >}}) page.
+
+### Step 4: Configure Certificate Auto-Rotation
 
 For automatic certificate rotation with cert-manager:
 
@@ -195,7 +211,6 @@ spec:
       auth:
         # Scenario 1: mTLS only
         type: none
-        ca_file: secret:acm-observability-certs:ca.crt
         cert_file: secret:acm-observability-certs:tls.crt
         key_file: secret:acm-observability-certs:tls.key
 
@@ -218,7 +233,7 @@ spec:
 
 **URL**: Points to the Thanos Querier service in the ACM Observability namespace. Default port is typically 9090 or 10902 depending on your ACM version.
 
-**auth.ca_file**: CA certificate to verify the Thanos Querier server. Uses `secret:` pattern to reference a Kubernetes secret.
+**CA trust**: Add the Thanos CA certificate to the `kiali-cabundle` ConfigMap (Step 3). Per-service `auth.ca_file` settings are deprecated and ignored.
 
 **auth.cert_file**: Client certificate for mTLS authentication. When the secret is updated (certificate rotation), Kiali automatically uses the new certificate on next connection.
 
@@ -278,7 +293,7 @@ Kiali supports automatic credential rotation without pod restart for all secret-
 4. **No Restart Required**: New connections automatically use updated certificates
 
 This applies to:
-- CA certificates (`ca_file`)
+- CA certificates stored in the `kiali-cabundle` ConfigMap
 - Client certificates (`cert_file`, `key_file`)
 - Bearer tokens (`token`)
 - Basic auth credentials (`username`, `password`)
@@ -320,7 +335,7 @@ oc get pods -n istio-system -l app.kubernetes.io/name=kiali
 ### Certificate Validation Failures
 
 If you see errors like "x509: certificate signed by unknown authority":
-- Verify the `ca_file` contains the CA that signed the Thanos Querier server certificate
+- Verify the `kiali-cabundle` ConfigMap contains the CA that signed the Thanos Querier server certificate
 - Check that the CA cert is properly formatted PEM
 
 ### mTLS Handshake Failures
