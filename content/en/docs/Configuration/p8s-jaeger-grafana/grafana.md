@@ -64,7 +64,7 @@ The described configuration is done in the Kiali CR when Kiali is installed usin
 
 ### Grafana authentication configuration
 
-The Kiali CR provides authentication configuration that will be used to connect to your grafana instance and for detecting your grafana version in the Mesh graph. 
+The Kiali CR provides authentication configuration that will be used to connect to your Grafana instance and for detecting your Grafana version in the Mesh graph.
 
 ```yaml
 spec:
@@ -72,7 +72,6 @@ spec:
     grafana:
       enabled: true
       auth:
-        ca_file: ""
         insecure_skip_verify: false
         password: "pwd"
         token: ""
@@ -82,4 +81,8 @@ spec:
       health_check_url: ""
 ```
 
-To configure a secret to be used as a password, see this [FAQ entry]({{< relref "../../FAQ/installation#how-can-i-use-a-secret-to-pass-external-service-credentials-to-the-kiali-server" >}})
+To configure a secret to be used as a password, see this [FAQ entry]({{< relref "../../FAQ/installation#how-can-i-use-a-secret-to-pass-external-service-credentials-to-the-kiali-server" >}}).
+
+### TLS Certificate Configuration
+
+If your Grafana server uses HTTPS with a certificate issued by a private CA, see the [TLS Configuration]({{< relref "./tls-configuration" >}}) page to learn how to configure Kiali to trust your CA.

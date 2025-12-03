@@ -254,22 +254,15 @@ testing purposes.
 However, if your organization or internal network has an internal trusted
 certificate authority (CA), and your OpenID server is using a certificate
 issued by this CA, you can configure Kiali to trust certificates from this CA,
-rather than disabling verification. For this, create a ConfigMap named
-`kiali-cabundle` containing the root CA certificate (the public component)
-under the `openid-server-ca.crt` key:
+rather than disabling verification.
 
-```yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: kiali-cabundle
-  namespace: istio-system # This is Kiali's install namespace
-data:
-  openid-server-ca.crt: <the public component of your CA root certificate>
-```
+Add your CA certificate to the `kiali-cabundle` ConfigMap. You can use either
+the global `additional-ca-bundle.pem` key (which makes the CA trusted for all
+HTTPS connections Kiali makes) or the OpenID-specific `openid-server-ca.crt`
+key. Both keys are supported and merged into Kiali's certificate pool.
 
-After restarting the Kiali pod, Kiali will trust this root certificate for all
-HTTPS requests related to OpenID authentication.
+See the [TLS Configuration]({{< relref "../p8s-jaeger-grafana/tls-configuration" >}})
+page for detailed instructions on configuring custom CA certificates.
 
 ### Using an HTTP/HTTPS Proxy
 

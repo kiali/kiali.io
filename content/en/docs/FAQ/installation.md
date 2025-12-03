@@ -242,7 +242,6 @@ spec:
     prometheus:
       auth:
         type: none  # No bearer token, just mTLS
-        ca_file: secret:acm-certs:ca.crt
         cert_file: secret:acm-certs:tls.crt
         key_file: secret:acm-certs:tls.key
 ```
@@ -251,31 +250,30 @@ Note that you can share a secret across multiple external services if they use t
 
 The `secret:` pattern works for both simple credential values (tokens, passwords, usernames) and file-based credentials (certificates and keys). For certificate files, the secret key name (e.g., `tls.crt`, `tls.key`) will be preserved when mounted.
 
+{{% alert color="info" %}}
+**Note about CA certificates**: To configure custom CA certificates that Kiali should trust when connecting to external services over HTTPS, see the [TLS Configuration](/docs/configuration/p8s-jaeger-grafana/tls-configuration/) page. CA certificates are configured globally via a ConfigMap, not per-service.
+{{% /alert %}}
+
 You can use secrets as explained above for the following fields in the Kiali CR:
-* `spec.external_services.grafana.auth.ca_file`
 * `spec.external_services.grafana.auth.cert_file`
 * `spec.external_services.grafana.auth.key_file`
 * `spec.external_services.grafana.auth.password`
 * `spec.external_services.grafana.auth.token`
 * `spec.external_services.grafana.auth.username`
-* `spec.external_services.perses.auth.ca_file`
 * `spec.external_services.perses.auth.cert_file`
 * `spec.external_services.perses.auth.key_file`
 * `spec.external_services.perses.auth.password`
 * `spec.external_services.perses.auth.username`
-* `spec.external_services.prometheus.auth.ca_file`
 * `spec.external_services.prometheus.auth.cert_file`
 * `spec.external_services.prometheus.auth.key_file`
 * `spec.external_services.prometheus.auth.password`
 * `spec.external_services.prometheus.auth.token`
 * `spec.external_services.prometheus.auth.username`
-* `spec.external_services.tracing.auth.ca_file`
 * `spec.external_services.tracing.auth.cert_file`
 * `spec.external_services.tracing.auth.key_file`
 * `spec.external_services.tracing.auth.password`
 * `spec.external_services.tracing.auth.token`
 * `spec.external_services.tracing.auth.username`
-* `spec.external_services.custom_dashboards.prometheus.auth.ca_file`
 * `spec.external_services.custom_dashboards.prometheus.auth.cert_file`
 * `spec.external_services.custom_dashboards.prometheus.auth.key_file`
 * `spec.external_services.custom_dashboards.prometheus.auth.password`
@@ -334,26 +332,25 @@ This should work with the other credentials that can be read from a mounted secr
 * tracing-token
 * tracing-username
 
-For certificate files (`ca_file`, `cert_file`, `key_file`), the secret key name is preserved when mounted. They go into their own sub-directory under `/kiali-override-secrets` - one of:
-* customdashboards-prometheus-ca
+For client certificate files (`cert_file`, `key_file`), the secret key name is preserved when mounted. They go into their own sub-directory under `/kiali-override-secrets` - one of:
 * customdashboards-prometheus-cert
 * customdashboards-prometheus-key
-* grafana-ca
 * grafana-cert
 * grafana-key
-* perses-ca
 * perses-cert
 * perses-key
-* prometheus-ca
 * prometheus-cert
 * prometheus-key
-* tracing-ca
 * tracing-cert
 * tracing-key
 
 So, for example, if you are mounting a custom secret for the Grafana token, the mount location should be declared as `/kiali-override-secrets/grafana-token`.
 
 For certificate files, if you use `cert_file: secret:my-certs:tls.crt`, the file will be mounted as `/kiali-override-secrets/prometheus-cert/tls.crt` (the secret key name `tls.crt` is preserved, not renamed to `value.txt`).
+
+{{% alert color="info" %}}
+**Note about CA certificates**: To configure custom CA certificates for server verification, see the [TLS Configuration](/docs/configuration/p8s-jaeger-grafana/tls-configuration/) page. CA certificates are configured globally via a ConfigMap named `<instance-name>-cabundle`, not per-service via secrets.
+{{% /alert %}}
 
 ### How does Kiali handle automatic credential rotation?
 
