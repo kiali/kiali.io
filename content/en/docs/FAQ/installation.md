@@ -326,7 +326,7 @@ external_services:
 For certificate files, the secret key name (e.g., `tls.crt`, `tls.key`) is preserved in the mounted file path.
 
 {{% alert color="info" %}}
-**Service Enabled Conditions**: For Grafana, Tracing, and Perses services, credentials are only auto-mounted when the respective service is enabled (e.g., `external_services.grafana.enabled=true`). Prometheus and Custom Dashboards credentials are always processed.
+**Service Enabled Conditions**: For Grafana, Tracing, Perses, and Custom Dashboards services, credentials are only auto-mounted when the respective service is enabled (e.g., `external_services.grafana.enabled=true`, `external_services.custom_dashboards.enabled=true`). Prometheus credentials are always processed regardless of any enabled flag.
 {{% /alert %}}
 
 {{% alert color="info" %}}
