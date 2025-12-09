@@ -333,12 +333,6 @@ For certificate files, the secret key name (e.g., `tls.crt`, `tls.key`) is prese
 **Note about CA certificates**: To configure custom CA certificates for server verification, see the [TLS Configuration]({{< relref "../Configuration/p8s-jaeger-grafana/tls-configuration" >}}) page. CA certificates are configured globally via a ConfigMap named `<instance-name>-cabundle`, not per-service via secrets.
 {{% /alert %}}
 
-**Legacy Manual Approach (Optional)**
-
-If you need more control over how secrets are mounted, you can still use the `deployment.custom_secrets` configuration to manually declare secret mounts. This is useful for advanced use cases or when you need to mount secrets from CSI providers.
-
-See the [custom_secrets documentation](https://kiali.io/docs/configuration/kialis.kiali.io/#.spec.deployment.custom_secrets) for details on this alternative approach.
-
 ### How does Kiali handle automatic credential rotation?
 
 Kiali supports automatic credential rotation without requiring a pod restart. This applies to all secret-backed credentials including tokens, passwords, usernames, and certificate files.
