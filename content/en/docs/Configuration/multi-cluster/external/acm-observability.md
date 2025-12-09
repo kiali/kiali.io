@@ -223,10 +223,6 @@ spec:
         enabled: true
         retention_period: 7d
         scrape_interval: 30s
-
-      # Filter metrics by cluster (adjust cluster names as needed)
-      query_scope:
-        cluster: east,west  # Comma-separated list of spoke cluster names
 ```
 
 ### Configuration Fields Explained
@@ -245,28 +241,6 @@ spec:
 - `basic`: Sends username/password in Authorization header
 
 **thanos_proxy.enabled**: Set to `true` when querying through Thanos. This adjusts how Kiali constructs PromQL queries.
-
-**query_scope**: Label filters applied to all Prometheus queries. ACM adds a `cluster` label to all aggregated metrics. Use this to limit queries to specific spoke clusters.
-
-To find your cluster label names:
-
-```bash
-# Query Thanos to see available cluster label values
-oc exec -n open-cluster-management-observability deployment/observability-thanos-querier -- \
-  curl -s 'http://localhost:9090/api/v1/label/cluster/values' | jq .
-
-# Or check your ACM managed clusters
-oc get managedclusters
-```
-
-The query_scope format is a key-value map where the key is the label name and the value is a comma-separated list of allowed values:
-
-```yaml
-query_scope:
-  cluster: east,west,central  # Only query metrics from these clusters
-```
-
-If you omit `query_scope`, Kiali will query metrics from all clusters aggregated by ACM.
 
 ## Finding the Thanos Querier URL
 
