@@ -40,9 +40,9 @@ data:
 {{% alert color="info" %}}
 **Key name**: The key must be `additional-ca-bundle.pem`. You can include multiple CA certificates in PEM format in the same file.
 
-**For OpenID authentication**: You can optionally use the key `openid-server-ca.crt` instead of `additional-ca-bundle.pem` if you want the CA to only be trusted for OpenID server connections. However, using `additional-ca-bundle.pem` is simpler as it works for all connections.
+**Alternative keys**: You can also use `openid-server-ca.crt` or (on OpenShift) `oauth-server-ca.crt` as key names. While these names suggest specific purposes, all CAs are loaded into Kiali's global certificate pool and trusted for all TLS connections. Using `additional-ca-bundle.pem` is recommended for clarity.
 
-**For OpenShift OAuth authentication**: Note that OpenShift OAuth uses a separate ConfigMap named `<instance-name>-oauth-cabundle` with the key `oauth-server-ca.crt`. See the [OpenShift authentication]({{< relref "../authentication/openshift#using-an-internal-or-self-signed-certificate" >}}) documentation for details.
+**For OpenShift OAuth authentication**: On OpenShift, you can alternatively create a separate ConfigMap named `<instance-name>-oauth-cabundle` with the key `oauth-server-ca.crt`. See the [OpenShift authentication]({{< relref "../authentication/openshift#using-an-internal-or-self-signed-certificate" >}}) documentation for details. However, adding your CA to `kiali-cabundle` under `additional-ca-bundle.pem` achieves the same result.
 {{% /alert %}}
 
 ### On OpenShift
