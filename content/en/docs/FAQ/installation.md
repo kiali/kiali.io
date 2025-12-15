@@ -345,6 +345,16 @@ Kiali supports automatic credential rotation without requiring a pod restart. Th
 
 3. **No Pod Restart**: Because credentials are read dynamically, there's no need to restart the Kiali pod when secrets are rotated.
 
+**Timing expectations:**
+
+When a secret or ConfigMap is updated in Kubernetes, there are two phases before Kiali uses the new values:
+
+1. **Kubernetes volume sync** (0-60 seconds): The kubelet periodically syncs mounted secrets and ConfigMaps to the pod's filesystem. By default, this happens every 60 seconds (controlled by the kubelet's `syncFrequency` setting). In the worst case, you may wait up to 60 seconds for the files to be updated on disk.
+
+2. **Kiali file detection** (near-instant): Once Kubernetes updates the files, Kiali's filesystem watcher (fsnotify) detects the change immediately and reloads the credentials.
+
+In practice, expect credential updates to take effect within **0-90 seconds** after updating the secret, depending on where you are in the kubelet's sync cycle. If your cluster administrator has configured a different `syncFrequency`, adjust expectations accordingly.
+
 **Which credentials support auto-rotation:**
 
 All credentials mounted from secrets support automatic rotation:

@@ -262,7 +262,7 @@ https://observability-thanos-querier.open-cluster-management-observability.svc:9
 Kiali supports automatic credential rotation without pod restart for all secret-backed credentials:
 
 1. **Certificate/Key Updates**: When certificates are rotated (by cert-manager, ACM, etc.), the secret is updated
-2. **Kubernetes Mount Update**: Kubernetes updates the mounted files in the Kiali pod (usually within 60 seconds)
+2. **Kubernetes Mount Update**: Kubernetes updates the mounted files in the Kiali pod (typically 0-60 seconds, based on kubelet sync interval)
 3. **Kiali Auto-Detection**: Kiali reads certificates from the filesystem on each TLS handshake
 4. **No Restart Required**: New connections automatically use updated certificates
 

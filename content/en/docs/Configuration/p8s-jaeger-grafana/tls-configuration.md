@@ -73,7 +73,7 @@ When Kiali starts, it loads certificates from:
 All these certificates are combined into a single certificate pool used for all HTTPS connections to external services.
 
 {{% alert color="success" %}}
-**Automatic refresh**: Kiali watches CA bundle files for changes using filesystem notifications and automatically refreshes the certificate pool without requiring a pod restart. When you update the ConfigMap, Kubernetes will propagate the changes to the mounted volume (typically within 60 seconds), and Kiali will detect and apply them immediately.
+**Automatic refresh**: Kiali watches CA bundle files for changes using filesystem notifications (fsnotify) and automatically refreshes the certificate pool without requiring a pod restart. When you update the ConfigMap, Kubernetes propagates the changes to the mounted volume based on the kubelet's sync interval (default: 60 seconds). Once the files are updated on disk, Kiali detects and applies them immediately. Total propagation time is typically 0-90 seconds after the ConfigMap update.
 {{% /alert %}}
 
 ## Skipping Certificate Verification
