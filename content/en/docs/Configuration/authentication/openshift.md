@@ -76,7 +76,7 @@ data:
   oauth-server-ca.crt: <PEM encoded CA root certificate>
 ```
 
-After restarting the Kiali pod, Kiali will trust this root certificate for all HTTPS requests (not just OAuth). The certificate is loaded into Kiali's global certificate pool. If you have multiple different CAs, for different clusters, include each as a separate block in the bundle.
+Kiali will automatically trust this root certificate for all HTTPS requests (not just OAuth). The certificate is loaded into Kiali's global certificate pool. Kiali watches for changes to the CA bundle and automatically refreshes without requiring a pod restart. If you have multiple different CAs, for different clusters, include each as a separate block in the bundle.
 
 {{% alert color="info" %}}
 For most use cases, you can simply add your CA to the `kiali-cabundle` ConfigMap under the `additional-ca-bundle.pem` key instead of creating a separate `kiali-oauth-cabundle` ConfigMap. Both approaches result in the CA being trusted globally.

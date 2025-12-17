@@ -47,19 +47,29 @@ data:
 
 ### On OpenShift
 
-On OpenShift, the Kiali Operator automatically creates the `kiali-cabundle` ConfigMap with the annotation `service.beta.openshift.io/inject-cabundle: "true"`. This tells OpenShift to automatically inject the cluster's service CA into the ConfigMap.
+On OpenShift, the Kiali Operator automatically creates a ConfigMap named `<kiali-instance-name>-cabundle-openshift` (e.g., `kiali-cabundle-openshift`) with the annotation `service.beta.openshift.io/inject-cabundle: "true"`. This tells OpenShift to automatically inject the cluster's service CA into the ConfigMap.
 
 This means that by default, Kiali on OpenShift already trusts:
 - The system CAs
 - The OpenShift service CA (used by services with serving certificates)
 
-If you need to add additional CAs beyond the OpenShift service CA, you can edit the ConfigMap to add your CAs:
+If you need to add additional CAs beyond the OpenShift service CA, create a separate ConfigMap named `<kiali-instance-name>-cabundle` (e.g., `kiali-cabundle`):
 
-```bash
-kubectl edit configmap kiali-cabundle -n istio-system
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kiali-cabundle
+  namespace: istio-system  # Or your Kiali namespace
+data:
+  additional-ca-bundle.pem: |
+    -----BEGIN CERTIFICATE-----
+    MIIDxTCCAq2gAwIBAgIQAqxcJmoLQ...
+    ... (your CA certificate) ...
+    -----END CERTIFICATE-----
 ```
 
-Add your CA certificates under the `additional-ca-bundle.pem` key (the OpenShift-injected `service-ca.crt` key will remain and continue to work).
+The operator uses a projected volume that automatically combines both ConfigMaps, so your custom CAs work alongside the OpenShift service CA.
 
 ## How It Works
 
@@ -67,10 +77,15 @@ When Kiali starts, it loads certificates from:
 
 1. **System certificate pool**: The default trusted CAs from the container's operating system
 2. **Additional CA bundle**: Certificates from `/kiali-cabundle/additional-ca-bundle.pem` (if present)
-3. **OpenShift service CA** (OpenShift only): Certificates from `/kiali-cabundle/service-ca.crt` (automatically injected)
+3. **OpenShift service CA** (OpenShift only): Certificates from `/kiali-cabundle/service-ca.crt` (automatically injected from the `<instance-name>-cabundle-openshift` ConfigMap)
 4. **OpenID server CA** (OpenID auth only): Certificates from `/kiali-cabundle/openid-server-ca.crt` (if present)
+5. **OAuth CA bundle** (OpenShift with OAuth auth): Certificates from `/kiali-cabundle/oauth-server-ca.crt` (if the `<instance-name>-oauth-cabundle` ConfigMap exists)
 
 All these certificates are combined into a single certificate pool used for all HTTPS connections to external services.
+
+{{% alert color="info" %}}
+**On OpenShift**: The operator uses a projected volume that automatically combines multiple ConfigMap sources (`<instance-name>-cabundle-openshift`, `<instance-name>-cabundle`, and `<instance-name>-oauth-cabundle`) into the `/kiali-cabundle` mount path. This means you don't need to manually merge ConfigMaps - each ConfigMap can be managed independently.
+{{% /alert %}}
 
 {{% alert color="success" %}}
 **Automatic refresh**: Kiali watches CA bundle files for changes using filesystem notifications (fsnotify) and automatically refreshes the certificate pool without requiring a pod restart. When you update the ConfigMap, Kubernetes propagates the changes to the mounted volume based on the kubelet's sync interval (default: 60 seconds). Once the files are updated on disk, Kiali detects and applies them immediately. Total propagation time is typically 0-90 seconds after the ConfigMap update.

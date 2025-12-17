@@ -148,7 +148,11 @@ oc create configmap kiali-cabundle \
   --from-file=additional-ca-bundle.pem=/path/to/thanos-server-ca.crt
 ```
 
-If the ConfigMap already exists (for example, because the operator created it), merge the PEM data into the existing `additional-ca-bundle.pem` key instead of recreating the resource.
+If the ConfigMap already exists, merge the PEM data into the existing `additional-ca-bundle.pem` key instead of recreating the resource.
+
+{{% alert color="info" %}}
+**On OpenShift**: The operator automatically creates a separate ConfigMap named `<instance-name>-cabundle-openshift` for the OpenShift service CA. You should create or edit the `<instance-name>-cabundle` ConfigMap (default: `kiali-cabundle`) for your custom Thanos CA. The operator uses a projected volume that automatically combines both ConfigMaps.
+{{% /alert %}}
 
 For more details about CA bundle configuration, see the [TLS Configuration]({{< relref "../../p8s-jaeger-grafana/tls-configuration" >}}) page.
 
