@@ -44,7 +44,7 @@ Working with large graphs is difficult. A graph does not have to be very large b
 - Disable the Service Nodes Display option, if not needed.
   - This is enabled by default, and provides valuable routing information, but it does also add extra nodes and edges.
 - Disable the Virtual Services Display option, if not needed. 
-  - This will take away some of the graph decoration but stops the need to interact heavily with k8s API/objects, which can be heavy.
+  - This will take away some of the graph decoration but stops the need to interact with k8s API/objects, which can be heavy.
 - Prefer workload graph type
   - This graph type often renders more quickly than other graph types.
 - Only enable Operation Nodes as needed.
