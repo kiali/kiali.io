@@ -6,6 +6,22 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 2.20.0
+Sprint Release: December 22, 2025
+
+Features:
+
+* [Maintenance: Upgrade to TypeScript 5](https://github.com/kiali/kiali/issues/8539)
+* [OSSMC: Upgrade to Patternfly 6](https://github.com/kiali/openshift-servicemesh-plugin/issues/518)
+* [UI: Upgrade to PatternFly 6](https://github.com/kiali/kiali/issues/8022)
+* [UI: Replace legacy message center](https://github.com/kiali/kiali/issues/8911)
+
+Fixes:
+
+* [GWAPI IE: Errors in Kiali logs when namespace stack](https://github.com/kiali/kiali/issues/8918)
+* [Mesh Page: sporadic null reference in SummaryPanelClusterBox](https://github.com/kiali/kiali/issues/8903)
+* [UI: Could not fetch workloads list](https://github.com/kiali/kiali/issues/8908)
+
 ## 2.19.0
 Sprint Release: November 24, 2025
 
