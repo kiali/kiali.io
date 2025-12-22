@@ -50,8 +50,8 @@ jobs:
         cat <<-EOF > minor.py
         import datetime
 
-        # The base date can be any end of sprint from the past
-        base = int(datetime.datetime.strptime("24/04/2022", "%d/%m/%Y").timestamp())
+        # The base date is set so that releases occur every 3 weeks starting from January 26, 2026
+        base = int(datetime.datetime.strptime("19/01/2026", "%d/%m/%Y").timestamp())
         now = int(datetime.datetime.now().timestamp())
 
         diff = now - base
