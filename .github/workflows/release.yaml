@@ -60,7 +60,7 @@ jobs:
         weeks_elapsed = int(days_elapsed / 7)
         weeks_mod3 = int(weeks_elapsed % 3)
 
-        # Only release when weeks_elapsed >= 0 (past the base date) and weeks_mod3 == 1
+        # Only release when weeks_elapsed >= 0 (past the base date) and weeks_mod3 == 0
         print (weeks_elapsed >= 0 and weeks_mod3 == 0) # True in case of release
         EOF
 
