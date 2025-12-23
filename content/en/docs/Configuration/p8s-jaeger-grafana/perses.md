@@ -78,11 +78,11 @@ The external URL should be set to the OpenShift cluster, without the additional 
 
 ### Perses authentication configuration
 
-The Kiali CR provides authentication configuration that will be used to connect to your perses instance and for detecting your perses version in the Mesh graph.
+The Kiali CR provides authentication configuration that will be used to connect to your Perses instance and for detecting your Perses version in the Mesh graph.
 
 ![Kiali Perses Mesh_page](/images/documentation/configuration/perses-meshpage.png)
 
-Just basic authentication is supported. This will be configured in Perses as `native` authentication. 
+Just basic authentication is supported. This will be configured in Perses as `native` authentication.
 
 ```yaml
 spec:
@@ -90,7 +90,6 @@ spec:
     perses:
       enabled: true
       auth:
-        ca_file: ""
         insecure_skip_verify: false
         password: "pwd"
         type: "basic"
@@ -98,4 +97,8 @@ spec:
       health_check_url: ""
 ```
 
-To configure a secret to be used as a user or password, see this [FAQ entry]({{< relref "../../FAQ/installation#how-can-i-use-a-secret-to-pass-external-service-credentials-to-the-kiali-server" >}})
+To configure a secret to be used as a user or password, see this [FAQ entry]({{< relref "../../FAQ/installation#how-can-i-use-a-secret-to-pass-external-service-credentials-to-the-kiali-server" >}}).
+
+### TLS Certificate Configuration
+
+If your Perses server uses HTTPS with a certificate issued by a private CA, see the [TLS Configuration]({{< relref "./tls-configuration" >}}) page to learn how to configure Kiali to trust your CA.

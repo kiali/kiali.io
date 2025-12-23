@@ -42,3 +42,7 @@ kubernetes_config:
 ### Authorization
 
 The external deployment model currently supports `openid`, `openshift`, and `anonymous` authorization strategies. `token` auth is untested and considered experimental.
+
+### Metrics Aggregation
+
+For external Kiali deployments, you need a unified metrics endpoint that aggregates metrics from all mesh clusters.

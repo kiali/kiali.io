@@ -15,8 +15,6 @@ There are two installation mechanisms from which you can choose when installing 
     - The operator explicitly cleans up ClusterRole/ClusterRoleBinding resources when switching from `cluster_wide_access=true` to `false`
     - The operator adds labels to accessible namespaces to mark which Kiali instance manages them
 
-1. When installing via server helm chart, you have to explicitly declare your custom secrets when defining external services credentials of the form `secret:<secretName>:<secretKey>`. You do not have to do this when installing via the operator. See [related FAQ](/docs/faq/installation/#how-can-i-use-a-secret-to-pass-external-service-credentials-to-the-kiali-server)
-
 ### Operator fails due to `cannot list resource "clusterroles"` error
 
 When the Kiali Operator installs a Kiali Server, the Operator will assign the Kiali Server the proper roles/rolebindings so the Kiali Server can access the appropriate namespaces.
@@ -234,45 +232,73 @@ spec:
         username: my-user-name
         password: secret:my-secret:my-cred
 ```
+
+For certificate-based authentication (e.g., mTLS to ACM Observability Service), reference certificate files from a secret containing TLS certificates:
+```yaml
+spec:
+  external_services:
+    prometheus:
+      auth:
+        type: none  # No bearer token, just mTLS
+        cert_file: secret:acm-certs:tls.crt
+        key_file: secret:acm-certs:tls.key
+```
+
 Note that you can share a secret across multiple external services if they use the same credentials, or you can create multiple secrets if you need to use different credentials for the different external services.
 
+The `secret:` pattern works for both simple credential values (tokens, passwords, usernames) and file-based credentials (certificates and keys). For certificate files, the secret key name (e.g., `tls.crt`, `tls.key`) will be preserved when mounted.
+
+{{% alert color="info" %}}
+**Note about CA certificates**: To configure custom CA certificates that Kiali should trust when connecting to external services over HTTPS, see the [TLS Configuration]({{< relref "../Configuration/p8s-jaeger-grafana/tls-configuration" >}}) page. CA certificates are configured globally via a ConfigMap, not per-service.
+{{% /alert %}}
+
 You can use secrets as explained above for the following fields in the Kiali CR:
-* `spec.external_services.grafana.auth.username`
+* `spec.external_services.grafana.auth.cert_file`
+* `spec.external_services.grafana.auth.key_file`
 * `spec.external_services.grafana.auth.password`
 * `spec.external_services.grafana.auth.token`
-* `spec.external_services.perses.auth.username`
+* `spec.external_services.grafana.auth.username`
+* `spec.external_services.perses.auth.cert_file`
+* `spec.external_services.perses.auth.key_file`
 * `spec.external_services.perses.auth.password`
-* `spec.external_services.prometheus.auth.username`
+* `spec.external_services.perses.auth.username`
+* `spec.external_services.prometheus.auth.cert_file`
+* `spec.external_services.prometheus.auth.key_file`
 * `spec.external_services.prometheus.auth.password`
 * `spec.external_services.prometheus.auth.token`
-* `spec.external_services.tracing.auth.username`
+* `spec.external_services.prometheus.auth.username`
+* `spec.external_services.tracing.auth.cert_file`
+* `spec.external_services.tracing.auth.key_file`
 * `spec.external_services.tracing.auth.password`
 * `spec.external_services.tracing.auth.token`
-* `spec.login_token.signing_key`
-* `spec.external_services.custom_dashboards.prometheus.auth.username`
+* `spec.external_services.tracing.auth.username`
+* `spec.external_services.custom_dashboards.prometheus.auth.cert_file`
+* `spec.external_services.custom_dashboards.prometheus.auth.key_file`
 * `spec.external_services.custom_dashboards.prometheus.auth.password`
 * `spec.external_services.custom_dashboards.prometheus.auth.token`
+* `spec.external_services.custom_dashboards.prometheus.auth.username`
+* `spec.login_token.signing_key`
 
 **When Using Kiali Server Helm Chart**
 
-If you are using the Kiali Server Helm Chart, this feature isn't directly available. However, you can set some configuration options to obtain the same results. Follow the instructions below if you are using the Kiali Server Helm Chart:
-1. Create a secret with your password or token in it. Note that the key must be `value.txt`. For example:
+The Kiali Server Helm Chart supports the same `secret:<secretName>:<secretKey>` syntax as the Kiali Operator. The Helm chart automatically detects when you use this pattern and mounts the referenced secret into the Kiali pod.
+
+For example, to configure Prometheus authentication using a secret:
+
+1. Create a secret with your credentials:
 ```
-kubectl -n istio-system create secret generic my-credentials --from-literal=value.txt=abc123xyz789
+kubectl -n istio-system create secret generic my-prometheus-creds --from-literal=password=abc123xyz789
 ```
 
-2. Create a Helm values file that (a) defines a custom secret to refer to your secret and mounts it to the place that the Kiali Server expects to see it and (b) tell Kiali to use that secret for the appropriate password or token. For example, if you are setting the Prometheus password, create a `my-values.yaml` file with the following content:
+2. Create a Helm values file that references the secret using the `secret:` pattern:
 
 ```yaml
-deployment:
-  custom_secrets:
-  - name: "my-credentials"
-    mount: "/kiali-override-secrets/prometheus-password"
-
 external_services:
   prometheus:
     auth:
-      password: "secret:my-credentials:value.txt"
+      type: basic
+      username: my-user
+      password: "secret:my-prometheus-creds:password"
 ```
 
 3. Install with the Kiali Server Helm Chart using that values file. For example, to install in the istio-system namespace:
@@ -280,28 +306,67 @@ external_services:
 helm install -f my-values.yaml -n istio-system kiali-server kiali/kiali-server
 ```
 
-When you start the Kiali Server, you should now see a debug message in its logs that says:
+The Helm chart will automatically mount the secret and configure Kiali to read the credentials from the mounted file. When you start the Kiali Server, you should see a debug message in its logs that says:
 ```
-Credentials loaded from secret file [/kiali-override-secrets/prometheus-password/value.txt]
+Credential file path configured: [/kiali-override-secrets/prometheus-password/value.txt]
 ```
 
 NOTE: You must have [enabled logging at the debug level](https://kiali.io/docs/configuration/kialis.kiali.io/#.spec.deployment.logger.log_level) to see the above message in the logs.
 
-This should work with the other credentials that can be read from a mounted secret. They all need to be mounted as a file called `value.txt` that goes into their own sub-directory under `/kiali-override-secrets` - one of:
-* grafana-username
-* grafana-password
-* grafana-token
-* perses-username
-* perses-password
-* prometheus-username
-* prometheus-password
-* prometheus-token
-* tracing-username
-* tracing-password
-* tracing-token
-* login-token-signing-key
-* customdashboards-prometheus-username
-* customdashboards-prometheus-password
-* customdashboards-prometheus-token
+For certificate-based authentication, use the same `secret:` pattern:
+```yaml
+external_services:
+  prometheus:
+    auth:
+      type: none
+      cert_file: "secret:my-tls-certs:tls.crt"
+      key_file: "secret:my-tls-certs:tls.key"
+```
 
-So, for example, if you are mounting a custom secret for the Grafana token, the mount location should be declared as `/kiali-override-secrets/grafana-token`.
+For certificate files, the secret key name (e.g., `tls.crt`, `tls.key`) is preserved in the mounted file path.
+
+{{% alert color="info" %}}
+**Service Enabled Conditions**: For Grafana, Tracing, Perses, and Custom Dashboards services, credentials are only auto-mounted when the respective service is enabled (e.g., `external_services.grafana.enabled=true`, `external_services.custom_dashboards.enabled=true`). Prometheus credentials are always processed regardless of any enabled flag.
+{{% /alert %}}
+
+{{% alert color="info" %}}
+**Note about CA certificates**: To configure custom CA certificates for server verification, see the [TLS Configuration]({{< relref "../Configuration/p8s-jaeger-grafana/tls-configuration" >}}) page. CA certificates are configured globally via a ConfigMap named `<instance-name>-cabundle`, not per-service via secrets.
+{{% /alert %}}
+
+### How does Kiali handle automatic credential rotation?
+
+Kiali supports automatic credential rotation without requiring a pod restart. This applies to all secret-backed credentials including tokens, passwords, usernames, and certificate files.
+
+**How it works:**
+
+1. **Kubernetes Secret Update**: When an external system (cert-manager, ACM, OpenShift service CA, etc.) updates a Kubernetes secret, Kubernetes automatically updates the mounted files in the Kiali pod within approximately 60 seconds.
+
+2. **Read-on-Use Pattern**: Kiali reads credentials from the mounted files each time they are needed, not just at startup. This means updated credentials are automatically picked up.
+
+3. **No Pod Restart**: Because credentials are read dynamically, there's no need to restart the Kiali pod when secrets are rotated.
+
+**Timing expectations:**
+
+When a secret or ConfigMap is updated in Kubernetes, there are two phases before Kiali uses the new values:
+
+1. **Kubernetes volume sync** (0-60 seconds): The kubelet periodically syncs mounted secrets and ConfigMaps to the pod's filesystem. By default, this happens every 60 seconds (controlled by the kubelet's `syncFrequency` setting). In the worst case, you may wait up to 60 seconds for the files to be updated on disk.
+
+2. **Kiali file detection** (near-instant): Once Kubernetes updates the files, Kiali's filesystem watcher (fsnotify) detects the change immediately and reloads the credentials.
+
+In practice, expect credential updates to take effect within **0-90 seconds** after updating the secret, depending on where you are in the kubelet's sync cycle. If your cluster administrator has configured a different `syncFrequency`, adjust expectations accordingly.
+
+**Which credentials support auto-rotation:**
+
+All credentials mounted from secrets support automatic rotation:
+- Tokens (`auth.token`)
+- Passwords (`auth.password`)
+- Usernames (`auth.username`)
+- Client certificates (`auth.cert_file`)
+- Client private keys (`auth.key_file`)
+- Login token signing key (`login_token.signing_key`)
+
+{{% alert color="info" %}}
+Custom CA bundles are configured via the `kiali-cabundle` ConfigMap (either the global `additional-ca-bundle.pem` key or a component-specific key such as `openid-server-ca.crt`). See the [TLS Configuration]({{< relref "../Configuration/p8s-jaeger-grafana/tls-configuration" >}}) page for details. The deprecated per-service `auth.ca_file` setting is ignored. To rotate CA certificates, update the ConfigMap content and Kubernetes will refresh the projected volume automatically.
+{{% /alert %}}
+
+**Note**: Credentials specified as literal values in the Kiali CR (not using the `secret:` pattern) are loaded at startup and do not support automatic rotation.
