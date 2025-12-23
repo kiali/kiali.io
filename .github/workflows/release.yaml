@@ -68,7 +68,7 @@ jobs:
       id: release_type
       run: |
         DO_RELEASE=$(python minor.py)
-        if [[ $DO_RELEASE == "1" ]]
+        if [[ $DO_RELEASE == "True" ]]
         then
             echo "release_type=minor" >> $GITHUB_OUTPUT
         else
