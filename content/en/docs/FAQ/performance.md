@@ -43,7 +43,7 @@ Working with large graphs is difficult. A graph does not have to be very large b
   - This requires extra Prometheus queries.
 - Disable the Service Nodes Display option, if not needed.
   - This is enabled by default, and provides valuable routing information, but it does also add extra nodes and edges.
-- Disable the Virtual Services Display option, if not needed. 
+- Disable the Virtual Services Display option, if not needed.
   - This will take away some of the graph decoration but stops the need to interact with k8s API/objects, which can be heavy.
 - Prefer workload graph type
   - This graph type often renders more quickly than other graph types.
@@ -68,6 +68,25 @@ After your graph is generated and rendered in the UI, there are client-side ways
 
 One way to avoid a large graph is to avoid it completely. Instead, navigate to a specific object of interest. The detail page offers a mini-graph, centered on the specific service, app or workload. Clicking a node on the mini-graph navigates to that node's detail page. Mini-graphs tend to generate quickly because they are much more specific than a namespace graph. You can also navigate from the mini-graph back to the main graph, or a node graph. The node graph is similar to the mini-graph but offers all of the main graph options.
 
+##### Graph Caching
+
+Graph caching was added starting with Kiali v2.21. It caches, with background re-compute, the most recent namespace graph per session. The initial graph is generated synchonously, and is placed in the cache. Due to the vast number of options, there is no easy way to pre-compute the initial graph before it is requested by the user. The graph will then be re-computed in the background with a frequency related to the refresh interval set by the user on the graph page. The larger the interval the less often the graph is re-computed. Subsequent requests for the same graph will return the most recently computed cache entry, and so it should return quickly. The cache entry is evicted if the graph options change, or if the cache is not hit for the configured "inactivity_timeout" duration. This allows a user to navigate away in the UI, and when returning to the graph find that it is ready and updated.
+
+A few notes:
+
+- Different tabs in the same browser, for the same user, share a session and therefore a cache entry.
+- Anonymous login strategy is session-less. and so all anonymous logins share a cache entry.
+- This feature is considered beta-level, and it's configuration is not yet part of the CRD schema. Here is the relevant configuration, with the default settings:
+
+```yaml
+spec:
+  kiali_internal:
+    graph_cache:
+      enabled: true
+      inactivity_timeout: "10m"
+      max_cache_memory_mb: 1000
+      refresh_interval: "60s"
+```
 
 ### What performance and scalability measurements are done?
 
@@ -77,22 +96,21 @@ Performance tests are conducted on setups with **10**, **50**, **200**, **300**,
 - 2 Workloads
 - 2 Istio configurations
 
-
 ### What improvements have been made to Kiali's performance in recent versions?
 
 Performance data is collected using automated performance tests on various setups, ensuring a comprehensive evaluation of improvements.
-Since the release of Kiali v1.80, significant performance enhancements have been implemented, resulting in up to a **5x improvement** in page load times. 
+Since the release of Kiali v1.80, significant performance enhancements have been implemented, resulting in up to a **5x improvement** in page load times.
 The performance improvements were achieved by reducing the number of requests made from the Kiali UI to the services. Instead of multiple requests, the process was streamlined to unify these into a single request per cluster.
 The enhanced performance significantly reduces the time users spend waiting for pages to load, leading to a more efficient and smooth user experience.
 
 **Performance Improvements Matrix Per Kiali Version And Section**
 
-| <div style="width:100px">Kiali</div> | <div style="width:300px">Section</div> | Improvements                      |
-| ------------------------------------ | -------------------------------------- | --------------------------------  |
-| 1.80                                 | Graph Page                             | Validations                       |
-| 1.81                                 | Overview Page                          | mTLS, Metrics, Health             |
-| 1.82                                 | Applications List                      | Overall loading                   |
-| 1.83                                 | Workloads List, Services List          | Overall loading                   |
+| <div style="width:100px">Kiali</div> | <div style="width:300px">Section</div> | Improvements          |
+| ------------------------------------ | -------------------------------------- | --------------------- |
+| 1.80                                 | Graph Page                             | Validations           |
+| 1.81                                 | Overview Page                          | mTLS, Metrics, Health |
+| 1.82                                 | Applications List                      | Overall loading       |
+| 1.83                                 | Workloads List, Services List          | Overall loading       |
 
 <br />
 
