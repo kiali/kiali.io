@@ -13,6 +13,9 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v4
+        with:
+          # Full history needed for ignore_new_urls.sh to detect new files via git diff
+          fetch-depth: 0
 
       - name: Validate
         run: make validate-site
