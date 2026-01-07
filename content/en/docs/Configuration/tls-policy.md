@@ -8,7 +8,7 @@ Kiali uses one TLS policy for both its inbound server endpoint and every outboun
 
 ## Configuration
 - `deployment.tls_config.source` (required) accepts `auto` or `config`. If `auto`, Kiali (on OpenShift) reads and enforces `APIServer/cluster` `spec.tlsSecurityProfile`; startup fails on read errors or when running on non-OpenShift clusters. If `config`, Kiali skips auto-discovery and uses only the explicit values you set.
-- `deployment.tls_config.min_version` and `max_version` set the allowed TLS versions (for example, `TLSv1.2` or `TLSv1.3`). When you select TLS 1.3, Kiali sets both Min and Max to TLS 1.3 and ignores `cipher_suites` because the Go TLS 1.3 cipher set is fixed.
+- `deployment.tls_config.min_version` and `max_version` set the allowed TLS versions (for example, `TLSv1.2` or `TLSv1.3`). When `min_version` is set to TLS 1.3, Kiali enforces TLS 1.3-only mode (setting both Min and Max to TLS 1.3) and ignores `cipher_suites` because the Go TLS 1.3 cipher set is fixed. If you want to allow both TLS 1.2 and TLS 1.3 connections, set `min_version=TLSv1.2` and `max_version=TLSv1.3`—the configured cipher suites will apply to TLS 1.2 connections while TLS 1.3 connections use Go's default ciphers.
 - `deployment.tls_config.cipher_suites` lists OpenSSL cipher names for TLS 1.2. Unsupported names fail validation; if you leave this empty, Kiali applies a secure default list.
 - If `source=config` is set and the other fields are left empty, Kiali enforces TLS 1.2 or higher and uses its secure default TLS 1.2 cipher list (TLS 1.3 continues to use Go’s fixed ciphers automatically).
 
@@ -34,6 +34,7 @@ Kiali uses one TLS policy for both its inbound server endpoint and every outboun
 - Fail-fast safety: Kiali refuses to start if the `source` value is invalid, if `source=auto` is used with non-OpenShift clusters, or if the OpenShift profile cannot be read (error messages will suggest switching to `source=config` when appropriate).
 - Enforcement scope: The resolved policy applies to the Kiali server's own TLS configuration and to all outbound HTTP clients (Prometheus, Grafana, tracing exporters, auth flows, etc.) as well as outbound gRPC clients.
 - Enforcement rules: The chosen policy sets the TLS min/max versions; TLS 1.3 ignores `cipher_suites`, while TLS 1.2 uses the configured or default cipher list. Skip-verify only bypasses certificate validation—TLS versions and ciphers are still enforced.
+- Policy refresh: The TLS policy is resolved **once at startup** and cached for the lifetime of the Kiali process. When using `source=auto`, if you change the OpenShift TLSSecurityProfile, you must **restart the Kiali pod** for the changes to take effect.
 
 ## Logging
 On startup, Kiali logs which TLS policy source is active and the resolved min/max versions and cipher count. This helps verify the policy in effect and aids troubleshooting when startup fails due to policy errors.
