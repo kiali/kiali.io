@@ -84,6 +84,8 @@ spec:
     istio_upgrade_action: true
 ```
 
+![Canary upgrade action](/images/documentation/configuration/canary-upgrade-action.png "Canary upgrade action")
+
 The progress of the canary upgrade process can be tracked on the mesh page, which displays the namespaces pending migration to the canary Istio control plane.
 
 ![Canary upgrade process](/images/documentation/configuration/istio-canary-upgrade.png "Canary upgrade process")
