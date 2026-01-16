@@ -141,10 +141,16 @@ Some timers that may be of interest are:
 
 Kiali has a [metrics endpoint that can be enabled](/docs/configuration/kialis.kiali.io/#.spec.server.observability.metrics.enabled), allowing Prometheus to collect Kiali metrics. You can then use Prometheus (or Kiali itself) to examine and analyze these metrics.
 
+The metrics server uses the same TLS configuration as the main Kiali server. When TLS is enabled (via `identity.cert_file` and `identity.private_key_file`), the metrics endpoint requires HTTPS and enforces the same [TLS policy](/docs/configuration/tls-policy) (versions and cipher suites). When TLS is not configured, the metrics endpoint uses plain HTTP.
+
 To see the metrics that are currently being emitted by Kiali, you can run the following command which simply parses the metrics endpoint data and outputs all the metrics it finds:
 
 ```sh
+# For HTTP (when TLS not configured):
 curl -s http://<KIALI_HOSTNAME>:9090/metrics | grep -o '^# HELP kiali_.*' | awk '{print $3}'
+
+# For HTTPS (when TLS configured):
+curl -s -k https://<KIALI_HOSTNAME>:9090/metrics | grep -o '^# HELP kiali_.*' | awk '{print $3}'
 ```
 
 The Kiali UI itself graphs some of these metrics. In the Kiali UI, navigate to the _Kiali_ workload and select the "Kiali Internal Metrics" tab:
