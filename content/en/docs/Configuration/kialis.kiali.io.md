@@ -55,6 +55,11 @@ spec:
       issuer_uri: ""
       scopes: ["openid", "profile", "email"]
       username_claim: "sub"
+      discovery_override:
+        authorization_endpoint: ""
+        jwks_uri: ""
+        token_endpoint: ""
+        userinfo_endpoint: ""
     openshift:
       #redirect_uris:
       #token_inactivity_timeout:
@@ -293,7 +298,6 @@ spec:
       namespace_label: "namespace"
       prometheus:
         auth:
-          ca_file: ""
           insecure_skip_verify: false
           password: ""
           token: ""
@@ -319,7 +323,6 @@ spec:
         url: ""
     grafana:
       auth:
-        ca_file: ""
         insecure_skip_verify: false
         password: ""
         token: ""
@@ -362,7 +365,6 @@ spec:
       validation_reconcile_interval: "1m"
     perses:
       auth:
-        ca_file: ""
         insecure_skip_verify: false
         password: ""
         type: "none"
@@ -394,7 +396,6 @@ spec:
       url_format: ""
     prometheus:
       auth:
-        ca_file: ""
         insecure_skip_verify: false
         password: ""
         token: ""
@@ -420,7 +421,6 @@ spec:
       url: ""
     tracing:
       auth:
-        ca_file: ""
         insecure_skip_verify: false
         password: ""
         token: ""
@@ -1016,6 +1016,11 @@ The Kiali CR has a CRD Schema so it will be validated when you create or update 
 
 </div>
 
+<div class="property-description">
+<p>DEPRECATED since v2.21: Use auth.openid.discovery_override.authorization_endpoint instead. The URL of the provider&rsquo;s authorization endpoint.</p>
+
+</div>
+
 </div>
 </div>
 
@@ -1041,6 +1046,101 @@ The Kiali CR has a CRD Schema so it will be validated when you create or update 
 <div class="property-body">
 <div class="property-meta">
 <span class="property-type">(boolean)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.auth.openid.discovery_override">.spec.auth.openid.discovery_override</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>Optional configuration to override OpenID Connect auto-discovery. Use when the IdP restricts access to /.well-known/openid-configuration endpoint.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.auth.openid.discovery_override.authorization_endpoint">.spec.auth.openid.discovery_override.authorization_endpoint</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The URL of the provider&rsquo;s authorization endpoint.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.auth.openid.discovery_override.jwks_uri">.spec.auth.openid.discovery_override.jwks_uri</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The URL of the provider&rsquo;s JWK Set document.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.auth.openid.discovery_override.token_endpoint">.spec.auth.openid.discovery_override.token_endpoint</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The URL of the provider&rsquo;s token endpoint.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.auth.openid.discovery_override.userinfo_endpoint">.spec.auth.openid.discovery_override.userinfo_endpoint</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The URL of the provider&rsquo;s UserInfo endpoint.</p>
 
 </div>
 
@@ -1997,8 +2097,8 @@ empty dashboard.</p>
 <div class="property-description">
 <p>Defines additional secrets that are to be mounted in the Kiali pod.</p>
 
-<p>These are useful to contain certs that are used by Kiali to securely connect to third party systems
-(for example, see <code>external_services.tracing.auth.ca_file</code>).</p>
+<p>These are useful to contain client certificates that are used by Kiali to authenticate to third party systems
+using mTLS (for example, see <code>external_services.tracing.auth.cert_file</code> and <code>external_services.tracing.auth.key_file</code>).</p>
 
 <p>These secrets must be created by an external mechanism. Kiali will not generate these secrets; it
 is assumed these secrets are externally managed. You can define 0, 1, or more secrets.
@@ -2064,7 +2164,7 @@ An example configuration is,</p>
 </div>
 
 <div class="property-description">
-<p>The file path location where the secret content will be mounted. The custom secret cannot be mounted on a path that the operator will use to mount its secrets. Make sure you set your custom secret mount path to a unique, unused path. Paths such as <code>/kiali-configuration</code>, <code>/kiali-cert</code>, <code>/kiali-cabundle</code>, and <code>/kiali-secret</code> should not be used as mount paths for custom secrets because the operator may want to use one of those paths.</p>
+<p>The file path location where the secret content will be mounted. The custom secret cannot be mounted on a path that the operator will use to mount its secrets. Make sure you set your custom secret mount path to a unique, unused path. Paths such as <code>/kiali-configuration</code>, <code>/kiali-cert</code>, <code>/kiali-cabundle</code>, <code>/kiali-secret</code>, <code>/kiali-override-secrets</code>, and <code>/kiali-remote-cluster-secrets</code> should not be used as mount paths for custom secrets because the operator may want to use one of those paths.</p>
 
 </div>
 
@@ -3408,6 +3508,115 @@ If you do not set this at all, the default is,</p>
 <div class="property depth-2">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.deployment.tls_config">.spec.deployment.tls_config</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>TLS policy configuration. When source is &lsquo;auto&rsquo; on OpenShift, the APIServer TLSSecurityProfile is used. Otherwise, the explicit config values are enforced.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.tls_config.cipher_suites">.spec.deployment.tls_config.cipher_suites</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>Explicit TLS cipher suites (OpenSSL names). Ignored for TLS 1.3.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.tls_config.cipher_suites[*]">.spec.deployment.tls_config.cipher_suites[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.tls_config.max_version">.spec.deployment.tls_config.max_version</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>Maximum TLS version (e.g., TLSv1.3, TLSv1.2).</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.tls_config.min_version">.spec.deployment.tls_config.min_version</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>Minimum TLS version (e.g., TLSv1.3, TLSv1.2).</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.tls_config.source">.spec.deployment.tls_config.source</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>TLS policy source: &lsquo;auto&rsquo; to use OpenShift TLSSecurityProfile; &lsquo;config&rsquo; to use explicit settings.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.deployment.tolerations">.spec.deployment.tolerations</h3>
 </div>
 <div class="property-body">
@@ -3805,7 +4014,26 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The certificate authority file to use when accessing Prometheus using https. An empty string means no extra certificate authority file is used.</p>
+<p>DEPRECATED since v2.20: This setting is deprecated and will be ignored. To configure custom CA certificates, use the kiali-cabundle ConfigMap instead. See the TLS Configuration documentation for details.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.custom_dashboards.prometheus.auth.cert_file">.spec.external_services.custom_dashboards.prometheus.auth.cert_file</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The client certificate file to use when accessing Prometheus using https with mTLS. An empty string means no client certificate is used. May refer to a secret using the pattern <code>secret:&lt;secretName&gt;:&lt;secretKey&gt;</code>. When using a secret, the certificate is cached and automatically refreshed when the secret changes, enabling rotation without pod restart.</p>
 
 </div>
 
@@ -3834,6 +4062,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 <div class="property depth-5">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.external_services.custom_dashboards.prometheus.auth.key_file">.spec.external_services.custom_dashboards.prometheus.auth.key_file</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The client private key file to use when accessing Prometheus using https with mTLS. An empty string means no client private key is used. May refer to a secret using the pattern <code>secret:&lt;secretName&gt;:&lt;secretKey&gt;</code>. When using a secret, the key is cached and automatically refreshed when the secret changes, enabling rotation without pod restart.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.external_services.custom_dashboards.prometheus.auth.password">.spec.external_services.custom_dashboards.prometheus.auth.password</h3>
 </div>
 <div class="property-body">
@@ -3843,7 +4090,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>Password to be used when making requests to Prometheus, for basic authentication. May refer to a secret.</p>
+<p>Password to be used when making requests to Prometheus, for basic authentication. May refer to a secret using the pattern <code>secret:&lt;secretName&gt;:&lt;secretKey&gt;</code>. When using a secret, the password is cached and automatically refreshed when the secret changes, enabling rotation without pod restart.</p>
 
 </div>
 
@@ -3862,7 +4109,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>Token / API key to access Prometheus, for token-based authentication. May refer to a secret.</p>
+<p>Token / API key to access Prometheus, for token-based authentication. May refer to a secret using the pattern <code>secret:&lt;secretName&gt;:&lt;secretKey&gt;</code>. When using a secret, the token is cached and automatically refreshed when the secret changes, enabling rotation without pod restart.</p>
 
 </div>
 
@@ -3919,7 +4166,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>Username to be used when making requests to Prometheus with <code>basic</code> authentication. May refer to a secret.</p>
+<p>Username to be used when making requests to Prometheus with <code>basic</code> authentication. May refer to a secret using the pattern <code>secret:&lt;secretName&gt;:&lt;secretKey&gt;</code>. When using a secret, the username is cached and automatically refreshed when the secret changes, enabling rotation without pod restart.</p>
 
 </div>
 
@@ -4109,7 +4356,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>Thanos Retention period value expresed as a string.</p>
+<p>Thanos Retention period value expressed as a string.</p>
 
 </div>
 
@@ -4128,7 +4375,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>Thanos Scrape interval value expresed as a string.</p>
+<p>Thanos Scrape interval value expressed as a string.</p>
 
 </div>
 
@@ -4204,7 +4451,26 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The certificate authority file to use when accessing Grafana using https. An empty string means no extra certificate authority file is used.</p>
+<p>DEPRECATED since v2.20: This setting is deprecated and will be ignored. To configure custom CA certificates, use the kiali-cabundle ConfigMap instead. See the TLS Configuration documentation for details.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.grafana.auth.cert_file">.spec.external_services.grafana.auth.cert_file</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The client certificate file to use when accessing Grafana using https with mTLS. An empty string means no client certificate is used. May refer to a secret using the pattern <code>secret:&lt;secretName&gt;:&lt;secretKey&gt;</code>. When using a secret, the certificate is cached and automatically refreshed when the secret changes, enabling rotation without pod restart.</p>
 
 </div>
 
@@ -4233,6 +4499,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 <div class="property depth-4">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.external_services.grafana.auth.key_file">.spec.external_services.grafana.auth.key_file</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The client private key file to use when accessing Grafana using https with mTLS. An empty string means no client private key is used. May refer to a secret using the pattern <code>secret:&lt;secretName&gt;:&lt;secretKey&gt;</code>. When using a secret, the key is cached and automatically refreshed when the secret changes, enabling rotation without pod restart.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.external_services.grafana.auth.password">.spec.external_services.grafana.auth.password</h3>
 </div>
 <div class="property-body">
@@ -4242,7 +4527,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>Password to be used when making requests to Grafana, for basic authentication. May refer to a secret.</p>
+<p>Password to be used when making requests to Grafana, for basic authentication. May refer to a secret using the pattern <code>secret:&lt;secretName&gt;:&lt;secretKey&gt;</code>. When using a secret, the password is cached and automatically refreshed when the secret changes, enabling rotation without pod restart.</p>
 
 </div>
 
@@ -4261,7 +4546,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>Token / API key to access Grafana, for token-based authentication. May refer to a secret.</p>
+<p>Token / API key to access Grafana, for token-based authentication. May refer to a secret using the pattern <code>secret:&lt;secretName&gt;:&lt;secretKey&gt;</code>. When using a secret, the token is cached and automatically refreshed when the secret changes, enabling rotation without pod restart.</p>
 
 </div>
 
@@ -4318,7 +4603,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>Username to be used when making requests to Grafana with <code>basic</code> authentication. May refer to a secret.</p>
+<p>Username to be used when making requests to Grafana with <code>basic</code> authentication. May refer to a secret using the pattern <code>secret:&lt;secretName&gt;:&lt;secretKey&gt;</code>. When using a secret, the username is cached and automatically refreshed when the secret changes, enabling rotation without pod restart.</p>
 
 </div>
 
@@ -5343,7 +5628,26 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The certificate authority file to use when accessing Perses using https. An empty string means no extra certificate authority file is used.</p>
+<p>DEPRECATED since v2.20: This setting is deprecated and will be ignored. To configure custom CA certificates, use the kiali-cabundle ConfigMap instead. See the TLS Configuration documentation for details.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.perses.auth.cert_file">.spec.external_services.perses.auth.cert_file</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The client certificate file to use when accessing Perses using https with mTLS. An empty string means no client certificate is used. May refer to a secret using the pattern <code>secret:&lt;secretName&gt;:&lt;secretKey&gt;</code>. When using a secret, the certificate is cached and automatically refreshed when the secret changes, enabling rotation without pod restart.</p>
 
 </div>
 
@@ -5372,6 +5676,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 <div class="property depth-4">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.external_services.perses.auth.key_file">.spec.external_services.perses.auth.key_file</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The client private key file to use when accessing Perses using https with mTLS. An empty string means no client private key is used. May refer to a secret using the pattern <code>secret:&lt;secretName&gt;:&lt;secretKey&gt;</code>. When using a secret, the key is cached and automatically refreshed when the secret changes, enabling rotation without pod restart.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.external_services.perses.auth.password">.spec.external_services.perses.auth.password</h3>
 </div>
 <div class="property-body">
@@ -5381,7 +5704,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>Password to be used when making requests to Perses, for basic authentication. May refer to a secret.</p>
+<p>Password to be used when making requests to Perses, for basic authentication. May refer to a secret using the pattern <code>secret:&lt;secretName&gt;:&lt;secretKey&gt;</code>. When using a secret, the password is cached and automatically refreshed when the secret changes, enabling rotation without pod restart.</p>
 
 </div>
 
@@ -5419,7 +5742,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>When true and if <code>auth.type</code> is <code>bearer</code>, Kiali Service Account token will be used for the API calls to Perses (in this case, <code>auth.token</code> config is ignored).</p>
+<p>When true and if <code>auth.type</code> is <code>bearer</code>, Kiali Service Account token will be used for the API calls to Perses.</p>
 
 </div>
 
@@ -5438,7 +5761,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>Username to be used when making requests to Perses with <code>basic</code> authentication. May refer to a secret.</p>
+<p>Username to be used when making requests to Perses with <code>basic</code> authentication. May refer to a secret using the pattern <code>secret:&lt;secretName&gt;:&lt;secretKey&gt;</code>. When using a secret, the username is cached and automatically refreshed when the secret changes, enabling rotation without pod restart.</p>
 
 </div>
 
@@ -5751,7 +6074,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The url format. Use <code>openshift</code> when using Perses Dashboards via the Cluster Observability operator in OpenShift. Use <code>default</code> for standard Perses upstream.</p>
+<p>The URL format. Leave empty (the default) for standard Perses upstream. Use <code>openshift</code> when using Perses Dashboards via the Cluster Observability operator in OpenShift.</p>
 
 </div>
 
@@ -5808,7 +6131,26 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The certificate authority file to use when accessing Prometheus using https. An empty string means no extra certificate authority file is used.</p>
+<p>DEPRECATED since v2.20: This setting is deprecated and will be ignored. To configure custom CA certificates, use the kiali-cabundle ConfigMap instead. See the TLS Configuration documentation for details.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.prometheus.auth.cert_file">.spec.external_services.prometheus.auth.cert_file</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The client certificate file to use when accessing Prometheus using https with mTLS. An empty string means no client certificate is used. May refer to a secret.</p>
 
 </div>
 
@@ -5837,6 +6179,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 <div class="property depth-4">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.external_services.prometheus.auth.key_file">.spec.external_services.prometheus.auth.key_file</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The client private key file to use when accessing Prometheus using https with mTLS. An empty string means no client private key is used. May refer to a secret using the pattern <code>secret:&lt;secretName&gt;:&lt;secretKey&gt;</code>. When using a secret, the key is cached and automatically refreshed when the secret changes, enabling rotation without pod restart.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.external_services.prometheus.auth.password">.spec.external_services.prometheus.auth.password</h3>
 </div>
 <div class="property-body">
@@ -5846,7 +6207,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>Password to be used when making requests to Prometheus, for basic authentication. May refer to a secret.</p>
+<p>Password to be used when making requests to Prometheus, for basic authentication. May refer to a secret using the pattern <code>secret:&lt;secretName&gt;:&lt;secretKey&gt;</code>. When using a secret, the password is cached and automatically refreshed when the secret changes, enabling rotation without pod restart.</p>
 
 </div>
 
@@ -5865,7 +6226,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>Token / API key to access Prometheus, for token-based authentication. May refer to a secret.</p>
+<p>Token / API key to access Prometheus, for token-based authentication. May refer to a secret using the pattern <code>secret:&lt;secretName&gt;:&lt;secretKey&gt;</code>. When using a secret, the token is cached and automatically refreshed when the secret changes, enabling rotation without pod restart.</p>
 
 </div>
 
@@ -5922,7 +6283,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>Username to be used when making requests to Prometheus with <code>basic</code> authentication. May refer to a secret.</p>
+<p>Username to be used when making requests to Prometheus with <code>basic</code> authentication. May refer to a secret using the pattern <code>secret:&lt;secretName&gt;:&lt;secretKey&gt;</code>. When using a secret, the username is cached and automatically refreshed when the secret changes, enabling rotation without pod restart.</p>
 
 </div>
 
@@ -6112,7 +6473,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>Thanos Retention period value expresed as a string.</p>
+<p>Thanos Retention period value expressed as a string.</p>
 
 </div>
 
@@ -6131,7 +6492,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>Thanos Scrape interval value expresed as a string.</p>
+<p>Thanos Scrape interval value expressed as a string.</p>
 
 </div>
 
@@ -6207,7 +6568,26 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The certificate authority file to use when accessing the Tracing server using https. An empty string means no extra certificate authority file is used.</p>
+<p>DEPRECATED since v2.20: This setting is deprecated and will be ignored. To configure custom CA certificates, use the kiali-cabundle ConfigMap instead. See the TLS Configuration documentation for details.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.tracing.auth.cert_file">.spec.external_services.tracing.auth.cert_file</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The client certificate file to use when accessing the Tracing server using https with mTLS. An empty string means no client certificate is used. May refer to a secret using the pattern <code>secret:&lt;secretName&gt;:&lt;secretKey&gt;</code>. When using a secret, the certificate is cached and automatically refreshed when the secret changes, enabling rotation without pod restart.</p>
 
 </div>
 
@@ -6236,6 +6616,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 <div class="property depth-4">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.external_services.tracing.auth.key_file">.spec.external_services.tracing.auth.key_file</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The client private key file to use when accessing the Tracing server using https with mTLS. An empty string means no client private key is used. May refer to a secret using the pattern <code>secret:&lt;secretName&gt;:&lt;secretKey&gt;</code>. When using a secret, the key is cached and automatically refreshed when the secret changes, enabling rotation without pod restart.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.external_services.tracing.auth.password">.spec.external_services.tracing.auth.password</h3>
 </div>
 <div class="property-body">
@@ -6245,7 +6644,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>Password to be used when making requests to the Tracing server, for basic authentication. May refer to a secret.</p>
+<p>Password to be used when making requests to the Tracing server, for basic authentication. May refer to a secret using the pattern <code>secret:&lt;secretName&gt;:&lt;secretKey&gt;</code>. When using a secret, the password is cached and automatically refreshed when the secret changes, enabling rotation without pod restart.</p>
 
 </div>
 
@@ -6264,7 +6663,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>Token / API key to access the Tracing server, for token-based authentication. May refer to a secret.</p>
+<p>Token / API key to access the Tracing server, for token-based authentication. May refer to a secret using the pattern <code>secret:&lt;secretName&gt;:&lt;secretKey&gt;</code>. When using a secret, the token is cached and automatically refreshed when the secret changes, enabling rotation without pod restart.</p>
 
 </div>
 
@@ -6321,7 +6720,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>Username to be used when making requests to the Tracing server with <code>basic</code> authentication. May refer to a secret.</p>
+<p>Username to be used when making requests to the Tracing server with <code>basic</code> authentication. May refer to a secret using the pattern <code>secret:&lt;secretName&gt;:&lt;secretKey&gt;</code>. When using a secret, the username is cached and automatically refreshed when the secret changes, enabling rotation without pod restart.</p>
 
 </div>
 
@@ -9139,7 +9538,7 @@ An example,</p>
 </div>
 
 <div class="property-description">
-<p>The signing key used to generate tokens for user authentication. Because this is potentially sensitive, you have the option to store this value in a secret. If you store this signing key value in a secret, you must indicate what key in what secret by setting this value to a string in the form of <code>secret:&lt;secretName&gt;:&lt;secretKey&gt;</code>. If left as an empty string, a secret with a random signing key will be generated for you. The signing key must be 16, 24 or 32 byte long.</p>
+<p>The signing key used to generate tokens for user authentication. Because this is potentially sensitive, you have the option to store this value in a secret using the pattern <code>secret:&lt;secretName&gt;:&lt;secretKey&gt;</code>. When using a secret, the signing key is read dynamically, enabling automatic rotation without pod restart. If left as an empty string, a secret with a random signing key will be generated for you. The signing key must be 16, 24 or 32 byte long.</p>
 
 </div>
 
@@ -9386,7 +9785,7 @@ An example,</p>
 </div>
 
 <div class="property-description">
-<p>Usd to determine where the Kiali server tracing data will be stored.</p>
+<p>Used to determine where the Kiali server tracing data will be stored.</p>
 
 </div>
 
@@ -9443,7 +9842,7 @@ An example,</p>
 </div>
 
 <div class="property-description">
-<p>The name of the CA cert; this is used when <code>tls_enabled</code> is <code>true</code> and <code>skip_verify</code> is <code>false</code>.</p>
+<p>DEPRECATED since v2.20: This setting is deprecated and will be ignored. To configure custom CA certificates, use the kiali-cabundle ConfigMap instead. See the TLS Configuration documentation for details.</p>
 
 </div>
 
@@ -9500,7 +9899,7 @@ An example,</p>
 </div>
 
 <div class="property-description">
-<p>Enable TLS for the collector. This must be specified when <code>protocol</code> is <code>https</code> or <code>grpc</code>. When you set this to <code>true</code>, you must also set a <code>ca_name</code> or set <code>skip_verify</code> to true.</p>
+<p>Enable TLS for the collector. This must be specified when <code>protocol</code> is <code>https</code> or <code>grpc</code>.</p>
 
 </div>
 
