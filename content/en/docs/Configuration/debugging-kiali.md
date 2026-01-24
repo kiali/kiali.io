@@ -143,6 +143,95 @@ Kiali has a [metrics endpoint that can be enabled](/docs/configuration/kialis.ki
 
 The metrics server uses the same TLS configuration as the main Kiali server. When TLS is enabled (via `identity.cert_file` and `identity.private_key_file`), the metrics endpoint requires HTTPS and enforces the same [TLS policy](/docs/configuration/tls-policy) (versions and cipher suites). When TLS is not configured, the metrics endpoint uses plain HTTP.
 
+### Configuring Prometheus to Scrape Kiali Metrics
+
+When Kiali's metrics endpoint is enabled, the Kiali pod includes standard `prometheus.io/*` annotations that many Prometheus deployments use for auto-discovery:
+
+- `prometheus.io/scrape: "true"`
+- `prometheus.io/port: "<metrics-port>"` (default: 9090)
+- `prometheus.io/scheme: "http"` or `"https"` (depending on TLS configuration)
+
+**For HTTP (no TLS configured):** If your Prometheus setup is configured to honor `prometheus.io/*` pod annotations (for example, the standard `kubernetes-pods` scrape job), it can scrape Kiali metrics without additional configuration. If you're using Prometheus Operator and do not have a pod-annotation scrape job, create a `PodMonitor` or `ServiceMonitor` instead.
+
+**For HTTPS (TLS configured):** When TLS is enabled, Prometheus needs additional configuration to properly scrape the metrics endpoint. This is particularly relevant on OpenShift where Kiali automatically uses [service-serving certificates](https://docs.openshift.com/container-platform/latest/security/certificates/service-serving-certificate.html).
+
+The challenge is that service-serving certificates are valid for the **Service DNS name** (e.g., `kiali.istio-system.svc`), not for pod IP addresses. When Prometheus scrapes pods directly by IP address (as the standard `kubernetes-pods` job does), TLS certificate validation fails. The solutions below address this by ensuring Prometheus uses the Service DNS name for TLS validation, even when the actual scrape target is a pod IP.
+
+#### Option 1: ServiceMonitor (Prometheus Operator)
+
+If you're using the [Prometheus Operator](https://prometheus-operator.dev/), create a `ServiceMonitor` that scrapes through the Kiali Service (where the certificate is valid):
+
+```yaml
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: kiali
+  namespace: istio-system  # Or your Kiali namespace
+spec:
+  endpoints:
+  - port: tcp-metrics
+    scheme: https
+    tlsConfig:
+      # For OpenShift cluster monitoring, the service CA is available at this path
+      caFile: /etc/prometheus/configmaps/serving-certs-ca-bundle/service-ca.crt
+      # serverName must match the certificate's SAN
+      serverName: kiali.istio-system.svc
+  namespaceSelector:
+    matchNames:
+    - istio-system  # Or your Kiali namespace
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: kiali
+```
+
+{{% alert color="info" %}}
+**CA File Path Note**
+
+The `caFile` path shown above (`/etc/prometheus/configmaps/serving-certs-ca-bundle/service-ca.crt`) is specific to **OpenShift's built-in cluster monitoring** Prometheus. If you're using a different Prometheus deployment, you'll need to:
+1. Mount the OpenShift service CA into your Prometheus pod
+2. Adjust the `caFile` path accordingly
+
+To get the service CA, create a ConfigMap with the annotation `service.beta.openshift.io/inject-cabundle: "true"` and OpenShift will automatically populate it with the service CA certificate.
+{{% /alert %}}
+
+#### Option 2: Static Scrape Configuration
+
+For non-Operator Prometheus deployments, add a scrape job to your Prometheus configuration file (`prometheus.yml`) that targets the Kiali Service:
+
+```yaml
+scrape_configs:
+- job_name: 'kiali'
+  scheme: https
+  tls_config:
+    ca_file: /path/to/service-ca.crt
+    server_name: kiali.istio-system.svc
+  static_configs:
+  - targets:
+    - kiali.istio-system.svc:9090
+```
+
+#### Option 3: Skip Certificate Verification (Not Recommended)
+
+For testing purposes only, you can configure Prometheus to skip certificate verification. In a ServiceMonitor resource, add `insecureSkipVerify` to the `tlsConfig`:
+
+```yaml
+tlsConfig:
+  insecureSkipVerify: true
+```
+
+Or in your Prometheus configuration file (`prometheus.yml`), add `insecure_skip_verify` to the `tls_config`:
+
+```yaml
+tls_config:
+  insecure_skip_verify: true
+```
+
+{{% alert color="danger" %}}
+**Security Warning:** Skipping certificate verification defeats the purpose of TLS and makes your metrics collection vulnerable to man-in-the-middle attacks. Only use this for testing, never in production.
+{{% /alert %}}
+
+### Viewing and Analyzing Kiali Metrics
+
 To see the metrics that are currently being emitted by Kiali, you can run the following command which simply parses the metrics endpoint data and outputs all the metrics it finds:
 
 ```sh
