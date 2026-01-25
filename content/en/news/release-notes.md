@@ -6,6 +6,38 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 2.21.0
+Sprint Release: January 26, 2026
+
+Features:
+
+* [Auth: Provide explicit OIDC config if .well-known/openid-configuration is locked down](https://github.com/kiali/kiali/issues/8777)
+* [Auth: Use auto-rotated certificates for external service (e.g. prometheus) connectivity](https://github.com/kiali/kiali/issues/8888)
+* [Auth: Support OpenID Authorization Code Flow with PKCE (SSO)](https://github.com/kiali/kiali/issues/8421)
+* [Perf: Introduce background graph refresh and caching](https://github.com/kiali/kiali/issues/8871)
+* [Perf: Improve traffic graph client-side rendering, particularly when displaying many service nodes](https://github.com/kiali/kiali/pull/9005)
+* [Security: Enforce platform TLS profiles in Kiali via OpenShift-aware auto mode and kiali config fallback](https://github.com/kiali/kiali/issues/9033)
+* [UI: Masthead status improved layout and multi-mesh handling](https://github.com/kiali/kiali/issues/8710)
+* [UI: Notification center improvements for message detail handling](https://github.com/kiali/kiali/issues/8979)
+
+Fixes:
+
+* [Ambient: Fix missing Idle Node display in traffic graph, when not showing Waypoints](https://github.com/kiali/kiali/issues/9009)
+* [Auth: Session persistor fixes re: chunked sessions and multi-session scenarios](https://github.com/kiali/kiali/issues/8990)
+* [Perses: Validate OpenShift dashboards](https://github.com/kiali/kiali/issues/9014)
+
+#### Upgrade Change Notes:
+
+**Traffic Graph Caching**
+
+Kiali v2.21 introduces traffic graph caching. Enabled by default. When a user navigates to the Traffic Graph and renders the initial graph, Kiali will start a background job to regenerate the graph periodically, based on the refresh interval set in the UI. The background job will cache the resulting graph and return it on subsequent UI requests. This can greatly improve re-render times, especially for larger graphs. Note that the initial graph render time will be unchanged. It is still recommended to use "Manual" refresh when working with large meshes, in order to fully define the desired graph before performing the initial request. Any fundamental change to the graph definition will invalidate the cache and restart a new refresh job. Users can navigate away and then back to the traffic graph, and resume with the latest cached graph, within the timeout period (10m by default).
+
+Backend resource utilization may be affected, although is not anticipated to change significantly. The caching can be disabled in the Kiali config via:
+
+`spec.kiali_internal.graph_cache.enabled: false`
+
+Any questions, comments or feedback appreciated. Visit `#kiali` on Istio Slack or start a Discussion in Github at `https://github.com/kiali/kiali`.
+
 ## 2.20.0
 Sprint Release: December 22, 2025
 
