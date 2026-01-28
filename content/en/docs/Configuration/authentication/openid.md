@@ -394,9 +394,9 @@ refresh your Kiali Pod to _set_ the Secret if you add the Secret after the Kiali
 
 ### Using with OpenShift and an external OIDC provider {#openshift-oidc}
 
-Starting with OpenShift 4.20 (or 4.19 as Technology Preview), you can configure
-your OpenShift cluster to authenticate users against an external OpenID Connect
-(OIDC) provider instead of using the built-in OAuth server. This is sometimes called
+Starting with OpenShift 4.20, you can configure your OpenShift cluster to
+authenticate users against an external OpenID Connect (OIDC) provider instead
+of using the built-in OAuth server. This is sometimes called
 "Bring Your Own OIDC" (BYO OIDC). When OpenShift is configured this way, Kiali
 can use the `openid` authentication strategy with full namespace access control
 support.
@@ -410,20 +410,12 @@ strategy]({{< relref "openshift" >}}) instead.
 
 #### Prerequisites
 
-- OpenShift 4.20 or later for GA support, or OpenShift 4.19 with the
-  `TechPreviewNoUpgrade` feature set enabled (see warning below)
+- OpenShift 4.20 or later
 - An external OIDC provider configured and accessible from your OpenShift cluster
 - The OIDC provider must be configured as an authentication source for both
   OpenShift and Kiali (they share the same provider)
 - A certificate-based kubeconfig or long-lived service account token for
   emergency cluster access (the built-in OAuth will be disabled)
-
-{{% alert color="danger" %}}
-**OpenShift 4.19 only**: The external OIDC feature requires enabling the
-`TechPreviewNoUpgrade` feature set. Once enabled, **the cluster can no longer
-be upgraded and this setting cannot be reverted**. For production environments,
-use OpenShift 4.20 or later where this feature is generally available.
-{{% /alert %}}
 
 #### Step 1: Configure OpenShift for external OIDC authentication
 
