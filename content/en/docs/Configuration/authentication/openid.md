@@ -392,6 +392,267 @@ data:
 Once all these settings are complete just set your Kiali CR and the Kiali secret to your cluster. You may need to
 refresh your Kiali Pod to _set_ the Secret if you add the Secret after the Kiali pod is created.
 
+### Using with OpenShift and an external OIDC provider {#openshift-oidc}
+
+Starting with OpenShift 4.20 (or 4.19 as Technology Preview), you can configure
+your OpenShift cluster to authenticate users against an external OpenID Connect
+(OIDC) provider instead of using the built-in OAuth server. This is sometimes called
+"Bring Your Own OIDC" (BYO OIDC). When OpenShift is configured this way, Kiali
+can use the `openid` authentication strategy with full namespace access control
+support.
+
+{{% alert color="info" %}}
+This section applies when you want to use an external OIDC provider (such as
+Keycloak, Okta, Auth0, or others) with OpenShift. If you want to use
+OpenShift's built-in OAuth server, use the [`openshift` authentication
+strategy]({{< relref "openshift" >}}) instead.
+{{% /alert %}}
+
+#### Prerequisites
+
+- OpenShift 4.20 or later for GA support, or OpenShift 4.19 with the
+  `TechPreviewNoUpgrade` feature set enabled (see warning below)
+- An external OIDC provider configured and accessible from your OpenShift cluster
+- The OIDC provider must be configured as an authentication source for both
+  OpenShift and Kiali (they share the same provider)
+- A certificate-based kubeconfig or long-lived service account token for
+  emergency cluster access (the built-in OAuth will be disabled)
+
+{{% alert color="danger" %}}
+**OpenShift 4.19 only**: The external OIDC feature requires enabling the
+`TechPreviewNoUpgrade` feature set. Once enabled, **the cluster can no longer
+be upgraded and this setting cannot be reverted**. For production environments,
+use OpenShift 4.20 or later where this feature is generally available.
+{{% /alert %}}
+
+#### Step 1: Configure OpenShift for external OIDC authentication
+
+First, configure your OpenShift cluster to use your external OIDC provider.
+This involves modifying the cluster's `Authentication` resource to specify your
+OIDC provider details.
+
+Refer to the official OpenShift documentation for detailed instructions:
+[Enabling direct authentication with an external OIDC identity provider](https://docs.redhat.com/en/documentation/openshift_container_platform/4.20/html/authentication_and_authorization/external-auth).
+
+The key configuration elements include:
+
+- **Issuer URL**: The URL of your OIDC provider
+- **Client ID**: The OAuth2 client ID registered with your OIDC provider
+- **Audiences**: The list of acceptable audiences for tokens (must include your Kiali client ID)
+- **Username claim mapping**: How the OIDC token claims map to Kubernetes usernames
+- **Username prefix**: Optional prefix to distinguish OIDC users (e.g., `oidc:`)
+- **CA certificate**: If your OIDC provider uses a private CA
+- **`webhookTokenAuthenticator: null`**: Must be set when `type` is `OIDC`
+
+{{% alert color="warning" %}}
+When OpenShift is configured with external OIDC authentication, the built-in
+OAuth server is disabled. This means:
+- Users cannot log in using OpenShift's standard login page
+- The `OAuthClient` API becomes unavailable
+- Keep a certificate-based kubeconfig (or other long-lived admin credentials) available for emergency access because the normal OAuth login paths and OAuth APIs are unavailable in this mode
+
+Ensure your OIDC provider is properly configured and you have set up RBAC
+policies **before** enabling external OIDC authentication.
+{{% /alert %}}
+
+#### Step 2: Configure user RBAC
+
+When using external OIDC with OpenShift, user identities in Kubernetes are
+derived from the OIDC token claims. OpenShift typically adds a configurable
+prefix to the username (e.g., `oidc:`) to distinguish OIDC users from other
+identity sources.
+
+For example, if your OIDC provider returns `user@example.com` in the email
+claim and you configured a prefix of `oidc:`, the Kubernetes username becomes
+`oidc:user@example.com`.
+
+Create RBAC resources to grant users access to the namespaces they need. See
+[Namespace access control]({{< relref "../rbac" >}}) for details on the required
+privileges.
+
+Example `Role` and `RoleBinding` to grant a user access to the `istio-system` namespace:
+
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: kiali-user-access
+  namespace: istio-system
+rules:
+- apiGroups: [""]
+  resources:
+  - namespaces
+  - pods/log
+  verbs:
+  - get
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: kiali-user-access
+  namespace: istio-system
+subjects:
+- kind: User
+  name: "oidc:user@example.com"  # Use the prefixed username
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: kiali-user-access
+  apiGroup: rbac.authorization.k8s.io
+```
+
+{{% alert color="info" %}}
+The username prefix (e.g., `oidc:`) is configured in OpenShift's
+`Authentication` resource under `spec.oidcProviders[].claimMappings.username.prefix.prefixString`.
+Make sure your RBAC resources use the same prefixed username format.
+{{% /alert %}}
+
+#### Step 3: Create the OIDC client secret
+
+If your OIDC provider requires a client secret, create a Kubernetes secret to
+store it:
+
+```bash
+oc create secret generic kiali --from-literal="oidc-secret=$CLIENT_SECRET" -n istio-system
+```
+
+Replace `$CLIENT_SECRET` with the client secret from your OIDC provider.
+
+#### Step 4: Configure the CA certificate (if needed)
+
+If your OIDC provider uses a certificate issued by a private CA (not a public
+CA), you need to configure Kiali to trust it. Create a ConfigMap with the CA
+certificate:
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kiali-cabundle
+  namespace: istio-system
+data:
+  openid-server-ca.crt: |
+    -----BEGIN CERTIFICATE-----
+    MIIDxTCCAq2gAwIBAgIQAqxcJmoLQ...
+    ... (your OIDC provider's CA certificate) ...
+    -----END CERTIFICATE-----
+```
+
+See [TLS Configuration]({{< relref "../p8s-jaeger-grafana/tls-configuration" >}})
+for more details on configuring custom CA certificates.
+
+#### Step 5: Configure the Kiali CR
+
+Configure Kiali to use the `openid` authentication strategy. The `client_id`
+and `issuer_uri` must match the values configured in OpenShift's
+`Authentication` resource:
+
+```yaml
+spec:
+  auth:
+    strategy: openid
+    openid:
+      client_id: "kiali-client"
+      issuer_uri: "https://your-oidc-provider.example.com"
+      scopes:
+      - "openid"
+      - "email"
+      username_claim: "email"
+```
+
+{{% alert color="warning" %}}
+The `client_id` must be listed in the `audiences` array of your OpenShift OIDC
+configuration, and the `issuer_uri` must exactly match the issuer URL configured
+in OpenShift. If these don't match, authentication will fail.
+{{% /alert %}}
+
+**Important configuration notes:**
+
+- **`username_claim`**: Should match the claim mapping configured in OpenShift
+  (commonly `email` or `preferred_username`)
+- **`scopes`**: Request the scopes that provide the claims you need (typically
+  `openid` and `email`)
+- **`disable_rbac`**: Do **not** set this to `true` if you want per-user
+  namespace access control. When `disable_rbac` is `false` (the default), Kiali
+  uses the user's OIDC token for Kubernetes API calls, enabling per-user RBAC.
+
+#### Complete example
+
+Here's a complete example of the Kiali CR configuration for OpenShift with an
+external OIDC provider:
+
+```yaml
+apiVersion: kiali.io/v1alpha1
+kind: Kiali
+metadata:
+  name: kiali
+  namespace: istio-system
+spec:
+  auth:
+    strategy: openid
+    openid:
+      client_id: "kiali-client"
+      issuer_uri: "https://your-oidc-provider.example.com"
+      scopes:
+      - "openid"
+      - "email"
+      username_claim: "email"
+```
+
+With the supporting resources:
+
+```yaml
+# OIDC client secret (if required by your provider)
+apiVersion: v1
+kind: Secret
+metadata:
+  name: kiali
+  namespace: istio-system
+type: Opaque
+stringData:
+  oidc-secret: "your-client-secret-here"
+---
+# CA certificate (if using a private CA)
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kiali-cabundle
+  namespace: istio-system
+data:
+  openid-server-ca.crt: |
+    -----BEGIN CERTIFICATE-----
+    ... (your CA certificate) ...
+    -----END CERTIFICATE-----
+---
+# RBAC for a user (repeat for each user/namespace combination)
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: kiali-user-access
+  namespace: istio-system
+rules:
+- apiGroups: [""]
+  resources:
+  - namespaces
+  - pods/log
+  verbs:
+  - get
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: kiali-user-access
+  namespace: istio-system
+subjects:
+- kind: User
+  name: "oidc:user@example.com"
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: kiali-user-access
+  apiGroup: rbac.authorization.k8s.io
+```
+
 ### Using with Azure: AKS and AAD
 
 {{% alert color="warning" %}}
