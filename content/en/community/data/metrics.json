@@ -846,19 +846,25 @@
                     "issues": 142,
                     "stars": 3557,
                     "size": 75003
+                },
+                "2026-01-30": {
+                    "forks": 536,
+                    "issues": 163,
+                    "stars": 3563,
+                    "size": 75462
                 }
             },
             "language": {
-                "Go": 4834579,
-                "TypeScript": 3730562,
-                "Shell": 1083270,
-                "Gherkin": 211406,
-                "Makefile": 106735,
-                "SCSS": 40984,
+                "Go": 5007116,
+                "TypeScript": 4007860,
+                "Shell": 1143046,
+                "Gherkin": 211449,
+                "Makefile": 108866,
+                "SCSS": 11277,
                 "HTML": 2079,
                 "Dockerfile": 1595,
-                "Python": 246,
-                "JavaScript": 113
+                "JavaScript": 1284,
+                "Python": 246
             }
         },
         "kiali-operator": {
@@ -1317,12 +1323,18 @@
                     "issues": 2,
                     "stars": 88,
                     "size": 2973
+                },
+                "2026-01-29": {
+                    "forks": 127,
+                    "issues": 2,
+                    "stars": 88,
+                    "size": 2926
                 }
             },
             "language": {
                 "Shell": 113259,
-                "Python": 34018,
-                "Dockerfile": 32765,
+                "Python": 35514,
+                "Dockerfile": 33403,
                 "Makefile": 18186
             }
         },
@@ -1680,12 +1692,18 @@
                     "issues": 2,
                     "stars": 7,
                     "size": 11383
+                },
+                "2026-01-28": {
+                    "forks": 18,
+                    "issues": 4,
+                    "stars": 7,
+                    "size": 11437
                 }
             },
             "language": {
-                "TypeScript": 3739245,
-                "Gherkin": 228306,
-                "SCSS": 40946,
+                "TypeScript": 3781627,
+                "Gherkin": 231683,
+                "SCSS": 41078,
                 "Makefile": 19420,
                 "Shell": 13880,
                 "Dockerfile": 1167
