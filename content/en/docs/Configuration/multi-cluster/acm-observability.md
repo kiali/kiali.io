@@ -287,25 +287,42 @@ helm install kiali kiali-server \
 
 ## Important Configuration Notes
 
-### Use Observatorium API, Not Internal Services
+### Choosing Between Observatorium API and Internal Thanos Services
 
-**Correct**: Use the external Observatorium API route with HTTPS and mTLS:
-```
+You have two options for connecting Kiali to ACM metrics:
+
+**Option 1: Observatorium API Route (HTTPS with mTLS)**
+```yaml
 url: "https://observatorium-api-<namespace>.<apps-domain>/api/metrics/v1/default"
+auth:
+  type: none
+  cert_file: "secret:acm-observability-certs:tls.crt"
+  key_file: "secret:acm-observability-certs:tls.key"
 ```
 
-**Incorrect**: Do not use internal Thanos services directly:
-```
-# ❌ Wrong - internal services are HTTP only
+Provides:
+- HTTPS with mTLS authentication and encryption
+- External access (can be accessed from outside the cluster if needed)
+- RBAC enforcement via Observatorium
+- Multi-tenant isolation
+- Requires certificate setup
+
+**Option 2: Internal Thanos Service (HTTP)**
+```yaml
 url: "http://observability-thanos-query-frontend.open-cluster-management-observability.svc:9090"
+auth:
+  type: none
 ```
 
-The Observatorium API provides:
-- External HTTPS access with proper certificate management
-- mTLS client authentication
-- RBAC enforcement
-- Proper multi-tenant isolation
-- Proxying to internal Thanos services
+Provides:
+- Simpler setup (no certificates required)
+- Direct access to Thanos (potentially lower latency)
+- Internal cluster networking only
+- HTTP only (no encryption between Kiali and Thanos)
+
+**Recommendation**: Use the Observatorium API for production environments where you want encrypted connections and proper authentication. Use internal services for development/testing environments where simplicity is preferred or where network security is already provided by the cluster infrastructure.
+
+This guide focuses on the Observatorium API approach with mTLS authentication.
 
 ### Metrics Latency
 
@@ -323,19 +340,20 @@ This latency is inherent to ACM's architecture and applies to all managed cluste
 
 ### Thanos Proxy Mode
 
-Always enable `thanos_proxy` when using ACM/Thanos:
+Enable `thanos_proxy` when using ACM/Thanos:
 
 ```yaml
 thanos_proxy:
   enabled: true
   retention_period: "7d"  # How far back Thanos retains data
-  scrape_interval: "30s"  # How often metrics are scraped (matches PodMonitor interval)
+  scrape_interval: "30s"  # Scrape interval (should match your PodMonitor interval)
 ```
 
-This tells Kiali that metrics come from Thanos, which affects:
-- How PromQL queries are constructed
-- Time range handling
-- Label expectations (e.g., `cluster` labels for multi-cluster)
+When `enabled: true`, Kiali uses the configured `scrape_interval` and `retention_period` values directly, rather than querying Prometheus's `/api/v1/status/config` and `/api/v1/status/runtimeinfo` endpoints to discover them. This is necessary because Thanos does not expose these Prometheus configuration endpoints.
+
+**Why these values matter:**
+- **`scrape_interval`**: Used by Kiali's UI to determine appropriate time window sizes and rate calculations
+- **`retention_period`**: Used to limit time range queries to available data
 
 ## Multi-Cluster Setup
 
@@ -345,15 +363,26 @@ For multi-cluster service mesh deployments with ACM:
 
 ACM automatically aggregates metrics from all managed clusters. Each cluster's metrics include a `cluster` label with the cluster name (from the ManagedCluster resource).
 
-Kiali can filter metrics by cluster using `query_scope`:
+Kiali can filter metrics by cluster using `query_scope`. The `query_scope` configuration adds label filters to every Prometheus query:
 
 ```yaml
 external_services:
   prometheus:
+    # Example 1: Filter to a single cluster
     query_scope:
-      cluster_1: "cluster=~\"east-cluster\""
-      cluster_2: "cluster=~\"west-cluster\""
+      cluster: "east-cluster"
+
+    # Example 2: Filter to multiple clusters (using regex)
+    query_scope:
+      cluster: "east-cluster|west-cluster"
+
+    # Example 3: Filter by mesh_id and cluster
+    query_scope:
+      mesh_id: "mesh-1"
+      cluster: "east-cluster"
 ```
+
+Each key-value pair in `query_scope` is added as `key="value"` to every query. For example, `cluster: "east-cluster"` adds `cluster="east-cluster"` to all PromQL queries.
 
 ### 2. Remote Cluster Access (For Workload/Config Data)
 
@@ -382,11 +411,11 @@ See the [External Kiali]({{< relref "./external" >}}) guide for complete externa
 
 ### Automatic Rotation
 
-ACM-issued certificates (`observability-grafana-certs`) have 1-year validity and are automatically rotated by ACM before expiration. When certificates are rotated:
+ACM-issued certificates (stored in the `observability-grafana-certs` secret in the ACM observability namespace) have 1-year validity and are automatically rotated by ACM before expiration. When certificates are rotated:
 
-1. ACM updates the `observability-grafana-certs` secret
-2. You must manually copy the updated certificates to Kiali's namespace (or automate this with a CronJob/operator)
-3. Kubernetes updates mounted files in Kiali pod (within 60 seconds)
+1. ACM updates the `observability-grafana-certs` secret in `open-cluster-management-observability` namespace
+2. You must update the `acm-observability-certs` secret in Kiali's namespace with the new certificate data by re-running the extraction commands from [Step 1: Obtain mTLS Certificates from ACM](#step-1-obtain-mtls-certificates-from-acm) (or automate this with a CronJob/operator that watches ACM's secret and copies the data)
+3. Kubernetes updates the mounted files in Kiali pod (within 60 seconds after the secret update)
 4. Kiali automatically uses new certificates on next connection (no pod restart needed)
 
 ### Using Custom Certificates
