@@ -144,11 +144,12 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: observability-metrics-custom-allowlist
-  namespace: <your-mesh-namespace>  # Must be in source namespace!
+  namespace: <your-mesh-namespace>
 data:
   uwl_metrics_list.yaml: |
     names:
-    # Core Istio metrics (add all 36 metrics from Kiali FAQ)
+    # Core Istio metrics below. For additional metrics that Kiali uses,
+    # see: https://kiali.io/docs/faq/general/#requiredmetrics
     - istio_requests_total
     - istio_request_duration_milliseconds_bucket
     - istio_request_duration_milliseconds_sum
@@ -163,8 +164,6 @@ data:
     - istio_tcp_received_bytes_total
     - istio_tcp_connections_opened_total
     - istio_tcp_connections_closed_total
-    # Add remaining metrics from:
-    # https://kiali.io/docs/faq/general/#requiredmetrics
 ```
 
 **Critical**: The ConfigMap must be in the **source namespace** where metrics originate (e.g., `istio-system`, application namespaces), **NOT** in `open-cluster-management-observability`.
@@ -254,15 +253,7 @@ The URL format is: `https://observatorium-api-<namespace>.<apps-domain>/api/metr
 **Using Kiali Operator (Kiali CR):**
 
 ```yaml
-apiVersion: kiali.io/v1alpha1
-kind: Kiali
-metadata:
-  name: kiali
-  namespace: istio-system
 spec:
-  deployment:
-    logger:
-      log_level: info  # Use 'debug' for troubleshooting
   external_services:
     prometheus:
       # Use Observatorium API route (not internal Thanos service)
@@ -565,25 +556,25 @@ spec:
     logger:
       log_level: info
     image_pull_policy: Always
-  
+
   auth:
     strategy: openshift
-  
+
   clustering:
     ignore_home_cluster: true  # External deployment
-  
+
   kubernetes_config:
     cluster_name: hub
-  
+
   external_services:
     prometheus:
       url: "https://observatorium-api-open-cluster-management-observability.apps-crc.testing/api/metrics/v1/default"
-      
+
       auth:
         type: none
         cert_file: "secret:acm-observability-certs:tls.crt"
         key_file: "secret:acm-observability-certs:tls.key"
-      
+
       thanos_proxy:
         enabled: true
         retention_period: "7d"
