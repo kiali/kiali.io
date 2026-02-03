@@ -271,7 +271,7 @@ spec:
         scrape_interval: "30s"
 ```
 
-**Using Helm Chart:**
+**Using Server Helm Chart:**
 
 ```bash
 helm install kiali kiali-server \
@@ -343,10 +343,12 @@ This latency is inherent to ACM's architecture and applies to all managed cluste
 Enable `thanos_proxy` when using ACM/Thanos:
 
 ```yaml
-thanos_proxy:
-  enabled: true
-  retention_period: "7d"  # How far back Thanos retains data
-  scrape_interval: "30s"  # Scrape interval (should match your PodMonitor interval)
+external_services:
+  prometheus:
+    thanos_proxy:
+      enabled: true
+      retention_period: "7d"  # How far back Thanos retains data
+      scrape_interval: "30s"  # Scrape interval (should match your PodMonitor interval)
 ```
 
 When `enabled: true`, Kiali uses the configured `scrape_interval` and `retention_period` values directly, rather than querying Prometheus's `/api/v1/status/config` and `/api/v1/status/runtimeinfo` endpoints to discover them. This is necessary because Thanos does not expose these Prometheus configuration endpoints.
