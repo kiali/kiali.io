@@ -53,8 +53,16 @@ There are two independent flows:
 4. The hub stores them in **Thanos Receive/Store** and serves them through **Thanos Query Frontend**.
 
 **Query (Kiali → hub):**
-1. **Kiali queries the hub's Observatorium API Route** (HTTPS with mTLS).
-2. **Observatorium forwards the request to Thanos Query Frontend**, which reads from Thanos Store/Receive and returns the result back through Observatorium to Kiali.
+
+Kiali can query metrics through either of these paths:
+
+*Via Observatorium API Route (HTTPS with mTLS):*
+1. **Kiali** queries the external Observatorium API route.
+2. **Observatorium** forwards the request to Thanos Query Frontend.
+3. **Thanos Query Frontend** reads from Thanos Store/Receive and returns the result back through Observatorium to Kiali.
+
+*Via Internal Thanos Service (HTTP):*
+1. **Kiali** queries the internal Thanos Query Frontend service directly within the cluster, bypassing Observatorium.
 
 **Expected Latency**: 5-6 minutes from traffic generation to visibility in Kiali due to the 5-minute push interval.
 
