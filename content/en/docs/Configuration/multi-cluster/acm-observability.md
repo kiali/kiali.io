@@ -454,7 +454,7 @@ While metrics come from ACM's central Thanos, Kiali still needs direct API acces
 - Istio configuration validation
 - Kubernetes resource details
 
-Create remote cluster secrets as described in the [multi-cluster setup guide]({{< relref "../" >}}).
+Create remote cluster secrets as described in the [multi-cluster setup guide]({{< relref "../multi-cluster" >}}).
 
 ### 3. External Deployment Model
 
