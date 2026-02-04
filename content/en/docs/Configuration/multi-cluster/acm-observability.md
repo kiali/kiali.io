@@ -44,21 +44,17 @@ This guide assumes Kiali is deployed on the hub cluster in external deployment m
 
 ### Metrics Flow
 
-```
-Istio Envoy Sidecar (generates metrics)
-  ↓ exposes on :15020/stats/prometheus
-User Workload Monitoring Prometheus (scrapes every 30s)
-  ↓ stores locally
-ACM Metrics Collector (queries UWM Prometheus)
-  ↓ pushes every 5 minutes
-ACM Thanos Receive → Thanos Store
-  ↓ queries via
-Thanos Query Frontend
-  ↓ proxied by
-Observatorium API (HTTPS/mTLS)
-  ↓ queries
-Kiali
-```
+There are two independent flows:
+
+**Ingestion (managed cluster → hub):**
+1. **Envoy** exposes metrics at `:15020/stats/prometheus`.
+2. **User Workload Monitoring Prometheus** scrapes those metrics (typically every 30s).
+3. The **ACM observability collector/agent** on the managed cluster reads from Prometheus and ships metrics to the hub (typically every 5 minutes).
+4. The hub stores them in **Thanos Receive/Store** and serves them through **Thanos Query Frontend**.
+
+**Query (Kiali → hub):**
+1. **Kiali queries the hub's Observatorium API Route** (HTTPS with mTLS).
+2. **Observatorium forwards the request to Thanos Query Frontend**, which reads from Thanos Store/Receive and returns the result back through Observatorium to Kiali.
 
 **Expected Latency**: 5-6 minutes from traffic generation to visibility in Kiali due to the 5-minute push interval.
 
