@@ -12,7 +12,7 @@ weight: 20
 
 Red Hat Advanced Cluster Management (ACM) provides centralized observability for multi-cluster OpenShift environments through its Observability Service. When ACM Observability is enabled, metrics from all managed clusters (including the hub cluster itself) are collected and aggregated into a central Thanos-based storage system.
 
-This guide explains how to configure Kiali running on the hub cluster to query these aggregated metrics through ACM's Observatorium API using mTLS (mutual TLS) authentication.
+Kiali can query these aggregated metrics either through ACM's external Observatorium API (using mTLS authentication) or directly through internal Thanos services. This guide explains both options, with detailed steps for the Observatorium API approach.
 
 ## Architecture
 
@@ -32,7 +32,7 @@ This guide explains how to configure Kiali running on the hub cluster to query t
 **Kiali Deployment Location:**
 
 Kiali can be deployed on **any cluster with network access** to:
-1. The hub cluster's Observatorium API (for querying metrics)
+1. The hub cluster's metrics backend (Observatorium API or internal Thanos services)
 2. Each managed cluster's Kubernetes API (for workload and configuration data)
 
 Common deployment locations:
@@ -621,7 +621,7 @@ oc get --raw "/api/v1/namespaces/open-cluster-management-observability/services/
 
 ## Reference
 
-This example represents a fully configured Kiali installation using ACM Observability:
+This example represents a fully configured Kiali installation using ACM Observability via the Observatorium API with mTLS:
 
 ```yaml
 apiVersion: kiali.io/v1alpha1
