@@ -27,7 +27,7 @@ Kiali can query these aggregated metrics either through ACM's external Observato
 - **User Workload Monitoring (UWM)**: OpenShift's Prometheus for user workloads
 - **PodMonitor/ServiceMonitor**: Scrape Istio sidecar and control plane metrics
 - **Metrics Allowlist ConfigMaps**: Define which metrics ACM should collect
-- **Metrics Collector**: Runs on each managed cluster and pushes its Prometheus metrics to the hub cluster's Thanos every 5 minutes
+- **Metrics Collector**: Runs on each managed cluster and pushes its Prometheus metrics to the hub cluster's Thanos every 5 minutes (default)
 
 **Kiali Deployment Location:**
 
@@ -37,7 +37,7 @@ Kiali can be deployed on **any cluster with network access** to:
 
 Common deployment locations:
 - **Hub cluster** (recommended): Co-located with ACM for lower latency metric queries and simplified networking. Can use internal Thanos services (HTTP) or external Observatorium API (HTTPS). Typically requires external deployment mode (`ignore_home_cluster: true`) since the hub usually doesn't run mesh workloads or an Istio control plane.
-- **Spoke/managed cluster**: Kiali deployed alongside the mesh workloads or the Istio control plane. Must use external Observatorium API route and external deployment mode to manage other clusters.
+- **Spoke/managed cluster**: Kiali deployed alongside the mesh workloads or the Istio control plane. Must use external Observatorium API route.
 - **Separate management cluster**: Kiali deployed externally in dedicated "external deployment" mode (see [External Kiali]({{< relref "./external" >}})). Must use external Observatorium API route.
 
 This guide assumes Kiali is deployed on the hub cluster in external deployment mode, but the configuration applies to any deployment location.
@@ -64,7 +64,7 @@ Kiali can query metrics through either of these paths:
 *Via Internal Thanos Service (HTTP):*
 1. **Kiali** queries the internal Thanos Query Frontend service directly within the cluster, bypassing Observatorium.
 
-**Expected Latency**: 5-6 minutes from traffic generation to visibility in Kiali due to the 5-minute push interval.
+**Expected Latency**: 5-6 minutes from traffic generation to visibility in Kiali due to the 5-minute (default) push interval.
 
 ## Prerequisites
 
@@ -209,7 +209,7 @@ data:
 
 **Critical**: The ConfigMap must be in the **source namespace** where metrics originate (e.g., `istio-system`, application namespaces), **NOT** in `open-cluster-management-observability`.
 
-See: [Adding user workload metrics](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.9/html/observability/customizing-observability#adding-user-workload-metrics)
+See: [Adding user workload metrics](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.12/html-single/observability/index#adding-user-workload-metrics)
 
 ## Configuring Kiali for ACM Observability
 
@@ -271,6 +271,14 @@ oc get secret observability-grafana-certs \
 ```
 
 **Note**: These certificates are created automatically when ACM MultiClusterObservability is deployed and are already trusted by the Observatorium API.
+
+{{% alert color="info" %}}
+**ACM Version Note**: Secret names may vary depending on your ACM version. Before proceeding, verify the secret exists:
+```bash
+oc get secrets -n open-cluster-management-observability | grep -i cert
+```
+If `observability-grafana-certs` doesn't exist, look for similar secrets containing client certificates.
+{{% /alert %}}
 
 ### Step 2: Extract Server CA Certificate
 
@@ -371,7 +379,7 @@ spec:
       # Enable Thanos proxy mode
       thanos_proxy:
         enabled: true
-        retention_period: "7d"
+        retention_period: "5d"
         scrape_interval: "30s"
 ```
 
@@ -395,10 +403,12 @@ helm install kiali kiali-server \
 
 ### Metrics Latency
 
-ACM collects metrics from each cluster's Prometheus and pushes to Thanos **every 5 minutes**. This means:
+ACM collects metrics from each cluster's Prometheus and pushes to Thanos **every 5 minutes** (default). This means:
 
 - **Recent metrics (last 0-5 minutes)**: Not yet visible in Kiali (still in local Prometheus)
 - **Historical metrics (older than 5-6 minutes)**: Available in Kiali through Thanos
+
+**Note**: This interval is configurable via the `spec.observabilityAddonSpec.interval` field (in seconds) in the `MultiClusterObservability` CR on the hub cluster.
 
 **To see data in Kiali**, query time ranges that include data older than 5-6 minutes:
 - ✅ "Last 10 minutes" - will show data from 5-10 minutes ago
@@ -416,7 +426,7 @@ external_services:
   prometheus:
     thanos_proxy:
       enabled: true
-      retention_period: "7d"  # How far back Thanos retains data
+      retention_period: "5d"  # Should match your ACM Thanos retention
       scrape_interval: "30s"  # Scrape interval (should match your PodMonitor interval)
 ```
 
@@ -425,6 +435,8 @@ When `enabled: true`, Kiali uses the configured `scrape_interval` and `retention
 **Why these values matter:**
 - **`scrape_interval`**: Used by Kiali's UI to determine appropriate time window sizes and rate calculations
 - **`retention_period`**: Used to limit time range queries to available data
+
+**Note**: The "5d" value shown in examples matches the ACM CRD default for `retentionResolutionRaw`. Set `retention_period` to match your actual ACM Thanos retention, which is configured via `spec.advanced.retentionConfig` in the `MultiClusterObservability` CR.
 
 ## Multi-Cluster Setup
 
@@ -443,11 +455,7 @@ external_services:
     query_scope:
       cluster: "east-cluster"
 
-    # Example 2: Filter to multiple clusters (using regex)
-    query_scope:
-      cluster: "east-cluster|west-cluster"
-
-    # Example 3: Filter by mesh_id and cluster
+    # Example 2: Filter by mesh_id and cluster
     query_scope:
       mesh_id: "mesh-1"
       cluster: "east-cluster"
@@ -647,7 +655,7 @@ spec:
 
       thanos_proxy:
         enabled: true
-        retention_period: "7d"
+        retention_period: "5d"
         scrape_interval: "30s"
 ```
 
@@ -684,7 +692,7 @@ data:
 
 ## Additional Resources
 
-- [Red Hat ACM Observability Documentation](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.9/html/observability/)
+- [Red Hat ACM Observability Documentation](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.12/html-single/observability/index)
 - [Configuring User Workload Monitoring](https://docs.redhat.com/en/documentation/monitoring_stack_for_red_hat_openshift/4.20/html-single/configuring_user_workload_monitoring/)
 - [OpenShift Service Mesh Observability](https://docs.redhat.com/en/documentation/red_hat_openshift_service_mesh/3.0/html-single/observability/)
 - [Connecting Grafana to ACM Observability (Red Hat Blog)](https://www.redhat.com/en/blog/how-your-grafana-can-fetch-metrics-from-red-hat-advanced-cluster-management-observability-observatorium-and-thanos)
