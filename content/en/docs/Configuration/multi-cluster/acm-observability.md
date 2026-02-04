@@ -550,31 +550,7 @@ oc run test-thanos --image=curlimages/curl:latest \
 2. **Missing source/destination labels**: Verify Istio metrics have proper labels
 3. **Query scope mismatch**: Check `query_scope` cluster names match actual `cluster` label values
 
-## Production Considerations
-
-### High Availability
-
-For production deployments:
-
-1. **Run multiple Kiali replicas** for redundancy
-2. **Monitor ACM Observability** component health
-3. **Set up alerts** for certificate expiration (< 30 days)
-4. **Configure resource limits** appropriate for query load
-
-### Performance
-
-- **Thanos Query**: ACM Observability scales Thanos components based on load
-- **Retention**: Configure `retention_period` based on your needs (default 7 days)
-- **Query scope**: Use `query_scope` to limit queries to relevant clusters
-
-### Security
-
-- **Never use `insecure_skip_verify: true`** in production
-- **Rotate certificates** before expiration
-- **Monitor certificate validity**: Set up alerts for certificates expiring within 30 days
-- **Use RBAC**: Ensure Kiali service account has minimum required permissions
-
-## Reference: Complete Working Example
+## Reference
 
 This example represents a fully configured Kiali installation using ACM Observability:
 
@@ -588,7 +564,6 @@ spec:
   deployment:
     logger:
       log_level: info
-    image_pull_policy: Always
 
   auth:
     strategy: openshift
@@ -619,6 +594,7 @@ spec:
 ```yaml
 ---
 # mTLS client certificates (from ACM)
+# Data extracted from Secret observability-grafana-certs in namespace open-cluster-management-observability
 apiVersion: v1
 kind: Secret
 metadata:
@@ -626,11 +602,12 @@ metadata:
   namespace: istio-system
 type: Opaque
 data:
-  tls.crt: <base64-encoded-certificate>
-  tls.key: <base64-encoded-key>
+  tls.crt: <base64-encoded-certificate>  # From observability-grafana-certs secret, tls.crt key
+  tls.key: <base64-encoded-key>          # From observability-grafana-certs secret, tls.key key
 
 ---
 # Server CA trust (from ACM)
+# Data extracted from Secret observability-client-ca-certs (or observability-server-ca-certs) in namespace open-cluster-management-observability (or open-cluster-management-issuer)
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -639,7 +616,7 @@ metadata:
 data:
   additional-ca-bundle.pem: |
     -----BEGIN CERTIFICATE-----
-    <ACM Observability CA certificate>
+    <ACM Observability CA certificate>  # From ca.crt or tls.crt key (see Step 2 for extraction commands)
     -----END CERTIFICATE-----
 ```
 
