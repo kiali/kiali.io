@@ -205,6 +205,47 @@ See: [Adding user workload metrics](https://docs.redhat.com/en/documentation/red
 
 ## Configuring Kiali for ACM Observability
 
+### Choosing Between Observatorium API and Internal Thanos Services
+
+You have two options for connecting Kiali to ACM metrics:
+
+**Option 1: Observatorium API Route (HTTPS with mTLS)**
+```yaml
+external_services:
+  prometheus:
+    url: "https://observatorium-api-<namespace>.<apps-domain>/api/metrics/v1/default"
+    auth:
+      type: none
+      cert_file: "secret:acm-observability-certs:tls.crt"
+      key_file: "secret:acm-observability-certs:tls.key"
+```
+
+Provides:
+- HTTPS with mTLS authentication and encryption
+- External access (can be accessed from outside the cluster if needed)
+- RBAC enforcement via Observatorium
+- Multi-tenant isolation
+- Requires certificate setup
+
+**Option 2: Internal Thanos Service (HTTP)**
+```yaml
+external_services:
+  prometheus:
+    url: "http://observability-thanos-query-frontend.open-cluster-management-observability.svc:9090"
+    auth:
+      type: none
+```
+
+Provides:
+- Simpler setup (no certificates required)
+- Direct access to Thanos (potentially lower latency)
+- Internal cluster networking only
+- HTTP only (no encryption between Kiali and Thanos)
+
+**Recommendation**: Use the Observatorium API for production environments where you want encrypted connections and proper authentication. Use internal services for development/testing environments where simplicity is preferred or where network security is already provided by the cluster infrastructure.
+
+**The rest of this guide focuses on the Observatorium API approach with mTLS authentication.**
+
 ### Step 1: Obtain mTLS Certificates from ACM
 
 ACM automatically creates long-lived client certificates (1 year validity) for accessing the Observatorium API. Extract these from the hub cluster:
@@ -343,47 +384,6 @@ helm install kiali kiali-server \
 ```
 
 ## Important Configuration Notes
-
-### Choosing Between Observatorium API and Internal Thanos Services
-
-You have two options for connecting Kiali to ACM metrics:
-
-**Option 1: Observatorium API Route (HTTPS with mTLS)**
-```yaml
-external_services:
-  prometheus:
-    url: "https://observatorium-api-<namespace>.<apps-domain>/api/metrics/v1/default"
-    auth:
-      type: none
-      cert_file: "secret:acm-observability-certs:tls.crt"
-      key_file: "secret:acm-observability-certs:tls.key"
-```
-
-Provides:
-- HTTPS with mTLS authentication and encryption
-- External access (can be accessed from outside the cluster if needed)
-- RBAC enforcement via Observatorium
-- Multi-tenant isolation
-- Requires certificate setup
-
-**Option 2: Internal Thanos Service (HTTP)**
-```yaml
-external_services:
-  prometheus:
-    url: "http://observability-thanos-query-frontend.open-cluster-management-observability.svc:9090"
-    auth:
-      type: none
-```
-
-Provides:
-- Simpler setup (no certificates required)
-- Direct access to Thanos (potentially lower latency)
-- Internal cluster networking only
-- HTTP only (no encryption between Kiali and Thanos)
-
-**Recommendation**: Use the Observatorium API for production environments where you want encrypted connections and proper authentication. Use internal services for development/testing environments where simplicity is preferred or where network security is already provided by the cluster infrastructure.
-
-This guide focuses on the Observatorium API approach with mTLS authentication.
 
 ### Metrics Latency
 
