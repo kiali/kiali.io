@@ -19,7 +19,6 @@ This guide explains how to configure Kiali running on the hub cluster to query t
 ### Components
 
 **On the Hub Cluster:**
-- **Kiali**: Management console for service mesh (queries metrics)
 - **ACM Observability Service**: Centralized observability platform
   - **Observatorium API**: External HTTPS endpoint with mTLS authentication
   - **Thanos**: Metrics storage and query engine (Query, Query Frontend, Receive, Store)
@@ -29,6 +28,19 @@ This guide explains how to configure Kiali running on the hub cluster to query t
 - **User Workload Monitoring (UWM)**: OpenShift's Prometheus for user workloads
 - **PodMonitor/ServiceMonitor**: Scrape Istio sidecar and control plane metrics
 - **Metrics Allowlist ConfigMaps**: Define which metrics ACM should collect
+
+**Kiali Deployment Location:**
+
+Kiali can be deployed on **any cluster with network access** to:
+1. The hub cluster's Observatorium API (for querying metrics)
+2. Each managed cluster's Kubernetes API (for workload and configuration data)
+
+Common deployment locations:
+- **Hub cluster** (recommended): Co-located with ACM for lower latency metric queries and simplified networking. Can use internal Thanos services (HTTP) or external Observatorium API (HTTPS). Typically requires external deployment mode (`ignore_home_cluster: true`) since the hub usually doesn't run mesh workloads or an Istio control plane.
+- **Spoke/managed cluster**: Kiali deployed alongside the mesh workloads or the Istio control plane. Must use external Observatorium API route and external deployment mode to manage other clusters.
+- **Separate management cluster**: Kiali deployed externally in dedicated "external deployment" mode (see [External Kiali]({{< relref "./external" >}})). Must use external Observatorium API route.
+
+This guide assumes Kiali is deployed on the hub cluster in external deployment mode, but the configuration applies to any deployment location.
 
 ### Metrics Flow
 
