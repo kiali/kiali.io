@@ -680,6 +680,6 @@ data:
 - [Configuring User Workload Monitoring](https://docs.redhat.com/en/documentation/monitoring_stack_for_red_hat_openshift/4.20/html-single/configuring_user_workload_monitoring/)
 - [OpenShift Service Mesh Observability](https://docs.redhat.com/en/documentation/red_hat_openshift_service_mesh/3.0/html-single/observability/)
 - [Connecting Grafana to ACM Observability (Red Hat Blog)](https://www.redhat.com/en/blog/how-your-grafana-can-fetch-metrics-from-red-hat-advanced-cluster-management-observability-observatorium-and-thanos)
-- [Kiali Multi-cluster Setup]({{< relref "../" >}})
+- [Kiali Multi-cluster Setup]({{< relref "../multi-cluster" >}})
 - [External Kiali Deployment]({{< relref "./external" >}})
 - [TLS Configuration]({{< relref "../p8s-jaeger-grafana/tls-configuration" >}})
