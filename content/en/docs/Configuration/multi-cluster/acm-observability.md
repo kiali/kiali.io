@@ -22,12 +22,12 @@ This guide explains how to configure Kiali running on the hub cluster to query t
 - **ACM Observability Service**: Centralized observability platform
   - **Observatorium API**: External HTTPS endpoint with mTLS authentication
   - **Thanos**: Metrics storage and query engine (Query, Query Frontend, Receive, Store)
-- **Metrics Collectors**: Push metrics from hub cluster's Prometheus to Thanos every 5 minutes
 
 **On Managed Clusters (Hub + Spokes):**
 - **User Workload Monitoring (UWM)**: OpenShift's Prometheus for user workloads
 - **PodMonitor/ServiceMonitor**: Scrape Istio sidecar and control plane metrics
 - **Metrics Allowlist ConfigMaps**: Define which metrics ACM should collect
+- **Metrics Collector**: Runs on each managed cluster and pushes its Prometheus metrics to the hub cluster's Thanos every 5 minutes
 
 **Kiali Deployment Location:**
 
