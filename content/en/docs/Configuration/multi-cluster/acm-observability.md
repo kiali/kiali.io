@@ -622,18 +622,11 @@ metadata:
   name: kiali
   namespace: <kiali-namespace>
 spec:
-  deployment:
-    logger:
-      log_level: info
-
-  auth:
-    strategy: openshift
-
   clustering:
     ignore_home_cluster: true  # External deployment
 
   kubernetes_config:
-    cluster_name: hub
+    cluster_name: "<management-cluster-name>"
 
   external_services:
     prometheus:
