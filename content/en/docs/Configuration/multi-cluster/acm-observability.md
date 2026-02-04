@@ -311,7 +311,7 @@ The URL format is: `https://observatorium-api-<namespace>.<apps-domain>/api/metr
 spec:
   external_services:
     prometheus:
-      # Use Observatorium API route (not internal Thanos service)
+      # Use Observatorium API route
       url: "https://observatorium-api-open-cluster-management-observability.apps-crc.testing/api/metrics/v1/default"
 
       auth:
