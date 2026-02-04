@@ -379,7 +379,7 @@ spec:
       # Enable Thanos proxy mode
       thanos_proxy:
         enabled: true
-        retention_period: "5d"
+        retention_period: "14d"
         scrape_interval: "30s"
 ```
 
@@ -395,7 +395,7 @@ helm install kiali kiali-server \
   --set external_services.prometheus.auth.cert_file="secret:acm-observability-certs:tls.crt" \
   --set external_services.prometheus.auth.key_file="secret:acm-observability-certs:tls.key" \
   --set external_services.prometheus.thanos_proxy.enabled="true" \
-  --set external_services.prometheus.thanos_proxy.retention_period="7d" \
+  --set external_services.prometheus.thanos_proxy.retention_period="14d" \
   --set external_services.prometheus.thanos_proxy.scrape_interval="30s"
 ```
 
@@ -426,7 +426,7 @@ external_services:
   prometheus:
     thanos_proxy:
       enabled: true
-      retention_period: "5d"  # Should match your ACM Thanos retention
+      retention_period: "14d"  # Should match your ACM Thanos retention
       scrape_interval: "30s"  # Scrape interval (should match your PodMonitor interval)
 ```
 
@@ -436,7 +436,7 @@ When `enabled: true`, Kiali uses the configured `scrape_interval` and `retention
 - **`scrape_interval`**: Used by Kiali's UI to determine appropriate time window sizes and rate calculations
 - **`retention_period`**: Used to limit time range queries to available data
 
-**Note**: The "5d" value shown in examples matches the ACM CRD default for `retentionResolutionRaw`. Set `retention_period` to match your actual ACM Thanos retention, which is configured via `spec.advanced.retentionConfig` in the `MultiClusterObservability` CR.
+**Note**: The "14d" value shown in examples is used for demonstration. ACM defaults to 365d retention when `spec.advanced.retentionConfig` is not explicitly configured in the `MultiClusterObservability` CR. If using the default, set `retention_period` to "365d". If configuring custom retention, use at least 10d minimum (Thanos requirement for downsampling to function). Always match `retention_period` to your actual ACM retention configuration.
 
 ## Multi-Cluster Setup
 
@@ -655,7 +655,7 @@ spec:
 
       thanos_proxy:
         enabled: true
-        retention_period: "5d"
+        retention_period: "14d"
         scrape_interval: "30s"
 ```
 
