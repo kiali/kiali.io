@@ -350,11 +350,13 @@ You have two options for connecting Kiali to ACM metrics:
 
 **Option 1: Observatorium API Route (HTTPS with mTLS)**
 ```yaml
-url: "https://observatorium-api-<namespace>.<apps-domain>/api/metrics/v1/default"
-auth:
-  type: none
-  cert_file: "secret:acm-observability-certs:tls.crt"
-  key_file: "secret:acm-observability-certs:tls.key"
+external_services:
+  prometheus:
+    url: "https://observatorium-api-<namespace>.<apps-domain>/api/metrics/v1/default"
+    auth:
+      type: none
+      cert_file: "secret:acm-observability-certs:tls.crt"
+      key_file: "secret:acm-observability-certs:tls.key"
 ```
 
 Provides:
@@ -366,9 +368,11 @@ Provides:
 
 **Option 2: Internal Thanos Service (HTTP)**
 ```yaml
-url: "http://observability-thanos-query-frontend.open-cluster-management-observability.svc:9090"
-auth:
-  type: none
+external_services:
+  prometheus:
+    url: "http://observability-thanos-query-frontend.open-cluster-management-observability.svc:9090"
+    auth:
+      type: none
 ```
 
 Provides:
