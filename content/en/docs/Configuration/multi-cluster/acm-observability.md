@@ -444,7 +444,7 @@ For multi-cluster service mesh deployments with ACM:
 
 ### 1. Metrics Aggregation (Handled by ACM)
 
-ACM automatically aggregates metrics from all managed clusters. Each cluster's metrics include a `cluster` label with the cluster name (from the ManagedCluster resource).
+ACM automatically aggregates metrics from all managed clusters. Each cluster's metrics include a `cluster` label with the cluster name (the `metadata.name` of the ManagedCluster resource).
 
 Kiali can filter metrics by cluster using `query_scope`. The `query_scope` configuration adds label filters to every Prometheus query:
 
