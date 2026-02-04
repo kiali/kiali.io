@@ -312,7 +312,7 @@ spec:
   external_services:
     prometheus:
       # Use Observatorium API route
-      url: "https://observatorium-api-open-cluster-management-observability.apps-crc.testing/api/metrics/v1/default"
+      url: "<observatorium-api-url>"
 
       auth:
         type: none  # mTLS authentication at TLS layer, no Authorization header
@@ -329,9 +329,11 @@ spec:
 **Using Server Helm Chart:**
 
 ```bash
+OBSERVATORIUM_API_URL="$(oc get route observatorium-api -n open-cluster-management-observability -o jsonpath='https://{.spec.host}/api/metrics/v1/default')"
+
 helm install kiali kiali-server \
   --namespace ${KIALI_NAMESPACE} \
-  --set external_services.prometheus.url="https://observatorium-api-open-cluster-management-observability.apps-crc.testing/api/metrics/v1/default" \
+  --set external_services.prometheus.url="${OBSERVATORIUM_API_URL}" \
   --set external_services.prometheus.auth.type="none" \
   --set external_services.prometheus.auth.cert_file="secret:acm-observability-certs:tls.crt" \
   --set external_services.prometheus.auth.key_file="secret:acm-observability-certs:tls.key" \
@@ -631,7 +633,7 @@ spec:
 
   external_services:
     prometheus:
-      url: "https://observatorium-api-open-cluster-management-observability.apps-crc.testing/api/metrics/v1/default"
+      url: "<observatorium-api-url>"
 
       auth:
         type: none
