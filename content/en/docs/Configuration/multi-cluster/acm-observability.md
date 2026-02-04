@@ -93,7 +93,7 @@ See: [Enabling monitoring for user-defined projects](https://docs.redhat.com/en/
 
 ### 3. Istio Metrics Collection
 
-Create ServiceMonitor and PodMonitor resources to collect Istio metrics. These must be created in **each namespace** with Istio sidecars because OpenShift monitoring ignores `namespaceSelector` in these resources.
+Create ServiceMonitor and PodMonitor resources to collect Istio metrics. The **PodMonitor for sidecars** must be created in **each namespace** with Istio sidecars because OpenShift monitoring ignores `namespaceSelector` in these resources. The **ServiceMonitor for `istiod`** is created once in `istio-system`.
 
 **ServiceMonitor for istiod** (in istio-system):
 
