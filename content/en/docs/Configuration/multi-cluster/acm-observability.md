@@ -58,7 +58,7 @@ ACM MultiClusterObservability must be installed on the hub cluster:
 
 ```bash
 # Verify ACM Observability is running
-oc get mco observability -n open-cluster-management-observability
+oc get mco observability
 
 # Check Observatorium API route
 oc get route observatorium-api -n open-cluster-management-observability
@@ -128,8 +128,22 @@ spec:
       regex: "istio-proxy"
     - action: keep
       sourceLabels: [__meta_kubernetes_pod_annotationpresent_prometheus_io_scrape]
-    - sourceLabels: [__meta_kubernetes_namespace]
-      action: replace
+    - action: replace
+      regex: (\d+);(([A-Fa-f0-9]{1,4}::?){1,7}[A-Fa-f0-9]{1,4})
+      replacement: '[$2]:$1'
+      sourceLabels:
+      - __meta_kubernetes_pod_annotation_prometheus_io_port
+      - __meta_kubernetes_pod_ip
+      targetLabel: __address__
+    - action: replace
+      regex: (\d+);((([0-9]+?)(\.|$)){4})
+      replacement: '$2:$1'
+      sourceLabels:
+      - __meta_kubernetes_pod_annotation_prometheus_io_port
+      - __meta_kubernetes_pod_ip
+      targetLabel: __address__
+    - action: replace
+      sourceLabels: [__meta_kubernetes_namespace]
       targetLabel: namespace
 ```
 
@@ -192,32 +206,54 @@ oc get secret observability-grafana-certs \
 
 ### Step 2: Extract Server CA Certificate
 
-Extract the CA certificate that signed the Observatorium API server certificate. Try these locations in order until you find one:
+Extract the CA certificate that signed the Observatorium API server certificate. This is used by Kiali to validate the server's TLS certificate.
+
+**First, identify which CA issued the server certificate:**
 
 ```bash
-# Primary: observability-client-ca-certs (recommended)
-oc get secret observability-client-ca-certs \
-  -n open-cluster-management-issuer \
-  -o jsonpath='{.data.ca\.crt}' | base64 -d > server-ca.crt
+# Get the Observatorium API route hostname
+HOST=$(oc get route observatorium-api -n open-cluster-management-observability -o jsonpath='{.spec.host}')
 
-# Fallback: observability-server-ca-certs (ca.crt key)
-oc get secret observability-server-ca-certs \
-  -n open-cluster-management-observability \
-  -o jsonpath='{.data.ca\.crt}' | base64 -d > server-ca.crt
-
-# Fallback: observability-server-ca-certs (tls.crt key)
-oc get secret observability-server-ca-certs \
-  -n open-cluster-management-observability \
-  -o jsonpath='{.data.tls\.crt}' | base64 -d > server-ca.crt
+# Check who issued the server certificate
+echo | openssl s_client -connect "${HOST}:443" -servername "${HOST}" -showcerts 2>/dev/null | openssl x509 -noout -issuer
 ```
 
+Example output:
+```
+issuer=C=US, O=Red Hat, Inc., CN=observability-server-ca-certificate
+```
+
+**Then, extract the matching CA certificate based on the issuer CN:**
+
+If the issuer CN is `observability-server-ca-certificate`:
+```bash
+oc get secret observability-server-ca-certs \
+  -n open-cluster-management-observability \
+  -o jsonpath='{.data.ca\.crt}' | base64 -d > server-ca.crt
+```
+
+If the issuer CN is `observability-client-ca-certificate`:
+```bash
+oc get secret observability-client-ca-certs \
+  -n open-cluster-management-observability \
+  -o jsonpath='{.data.ca\.crt}' | base64 -d > server-ca.crt
+```
+
+**Note**: Both secrets are in the `open-cluster-management-observability` namespace. The exact CA used may vary depending on your ACM version and configuration.
+
 ### Step 3: Create Kubernetes Resources
+
+{{% alert color="info" %}}
+**Note**: `<kiali-namespace>` and `${KIALI_NAMESPACE}` are used as a placeholder for the namespace where Kiali is deployed. This is commonly `istio-system` but is not required to be - replace with your actual Kiali namespace.
+{{% /alert %}}
 
 **Create the mTLS certificate secret** in Kiali's namespace:
 
 ```bash
+KIALI_NAMESPACE="istio-system"  # Replace with your Kiali namespace
+
 oc create secret generic acm-observability-certs \
-  -n istio-system \
+  -n ${KIALI_NAMESPACE} \
   --from-file=tls.crt=tls.crt \
   --from-file=tls.key=tls.key
 ```
@@ -226,7 +262,7 @@ oc create secret generic acm-observability-certs \
 
 ```bash
 oc create configmap kiali-cabundle \
-  -n istio-system \
+  -n ${KIALI_NAMESPACE} \
   --from-file=additional-ca-bundle.pem=server-ca.crt
 ```
 
@@ -275,7 +311,7 @@ spec:
 
 ```bash
 helm install kiali kiali-server \
-  --namespace istio-system \
+  --namespace ${KIALI_NAMESPACE} \
   --set external_services.prometheus.url="https://observatorium-api-open-cluster-management-observability.apps-crc.testing/api/metrics/v1/default" \
   --set external_services.prometheus.auth.type="none" \
   --set external_services.prometheus.auth.cert_file="secret:acm-observability-certs:tls.crt" \
@@ -434,15 +470,15 @@ If you prefer to use your own certificate infrastructure instead of ACM's certif
 
 ```bash
 # Verify secret exists
-oc get secret acm-observability-certs -n istio-system
+oc get secret acm-observability-certs -n ${KIALI_NAMESPACE}
 
 # Check certificate expiration
-oc get secret acm-observability-certs -n istio-system \
+oc get secret acm-observability-certs -n ${KIALI_NAMESPACE} \
   -o jsonpath='{.data.tls\.crt}' | base64 -d | \
   openssl x509 -noout -enddate
 
 # Verify CA bundle
-oc get configmap kiali-cabundle -n istio-system \
+oc get configmap kiali-cabundle -n ${KIALI_NAMESPACE} \
   -o jsonpath='{.data.additional-ca-bundle\.pem}' | \
   openssl x509 -noout -subject
 ```
@@ -452,10 +488,12 @@ oc get configmap kiali-cabundle -n istio-system \
 Verify certificates are loaded successfully:
 
 ```bash
-oc logs -n istio-system deployment/kiali | grep -i "credential\|certificate"
+oc logs -n ${KIALI_NAMESPACE} deployment/kiali | grep -i "credential\|certificate"
 
-# Expected output:
+# Expected output (at "info" log level):
 # INF Loaded [1] valid CA certificate(s) from [/kiali-cabundle/additional-ca-bundle.pem]
+#
+# Additional output (at "debug" log level):
 # DBG Credential file path configured: [/kiali-override-secrets/prometheus-cert/tls.crt]
 # DBG Credential file path configured: [/kiali-override-secrets/prometheus-key/tls.key]
 ```
@@ -473,10 +511,8 @@ oc logs -n istio-system deployment/kiali | grep -i "credential\|certificate"
 Test that metrics exist in Thanos (from within the hub cluster):
 
 ```bash
-# Query Thanos directly (internal HTTP endpoint)
-oc run test-thanos --image=curlimages/curl:latest \
-  -n open-cluster-management-observability --rm -i --restart=Never -- \
-  curl -s "http://observability-thanos-query-frontend.open-cluster-management-observability.svc:9090/api/v1/query?query=istio_requests_total" | \
+# Query Thanos directly via API server proxy
+oc get --raw "/api/v1/namespaces/open-cluster-management-observability/services/http:observability-thanos-query-frontend:9090/proxy/api/v1/query?query=istio_requests_total" | \
   grep -o '"istio_requests_total"'
 ```
 
@@ -508,19 +544,19 @@ oc run test-thanos --image=curlimages/curl:latest \
 
 1. **Verify CA bundle**: Ensure `kiali-cabundle` ConfigMap has the correct CA
    ```bash
-   oc get configmap kiali-cabundle -n istio-system -o yaml
+   oc get configmap kiali-cabundle -n ${KIALI_NAMESPACE} -o yaml
    ```
 
 2. **Check certificate chain**: Verify client cert is signed by expected CA
    ```bash
-   oc get secret acm-observability-certs -n istio-system \
+   oc get secret acm-observability-certs -n ${KIALI_NAMESPACE} \
      -o jsonpath='{.data.tls\.crt}' | base64 -d | \
      openssl x509 -noout -issuer
    ```
 
 3. **Verify projected volume**: Check both ConfigMaps are mounted
    ```bash
-   oc exec -n istio-system deploy/kiali -- ls -la /kiali-cabundle/
+   oc exec -n ${KIALI_NAMESPACE} deploy/kiali -- ls -la /kiali-cabundle/
    # Should show: additional-ca-bundle.pem, service-ca.crt
    ```
 
@@ -534,11 +570,11 @@ oc run test-thanos --image=curlimages/curl:latest \
 2. **Check ACM is ready**: `oc get mco observability -o jsonpath='{.status.conditions[?(@.type=="Ready")].status}{"\n"}'` (should return "True")
 3. **Test connectivity**:
    ```bash
-   oc run test-thanos --image=curlimages/curl:latest -n open-cluster-management-observability --rm -i --restart=Never -- \
-     curl -sw "\n" http://observability-thanos-query-frontend.open-cluster-management-observability.svc:9090/-/ready
+   # Query via API server proxy
+   oc get --raw "/api/v1/namespaces/open-cluster-management-observability/services/http:observability-thanos-query-frontend:9090/proxy/-/ready"
    ```
    Expected response: `OK`
-4. **Check NetworkPolicies**: Ensure no policies block egress from istio-system
+4. **Check NetworkPolicies**: Ensure no policies block egress from Kiali's namespace
 
 ### Empty Graph Despite Having Metrics
 
@@ -559,7 +595,7 @@ apiVersion: kiali.io/v1alpha1
 kind: Kiali
 metadata:
   name: kiali
-  namespace: istio-system
+  namespace: <kiali-namespace>
 spec:
   deployment:
     logger:
@@ -599,7 +635,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: acm-observability-certs
-  namespace: istio-system
+  namespace: <kiali-namespace>
 type: Opaque
 data:
   tls.crt: <base64-encoded-certificate>  # From observability-grafana-certs secret, tls.crt key
@@ -607,12 +643,12 @@ data:
 
 ---
 # Server CA trust (from ACM)
-# Data extracted from Secret observability-client-ca-certs (or observability-server-ca-certs) in namespace open-cluster-management-observability (or open-cluster-management-issuer)
+# Data extracted from Secret observability-client-ca-certs (or observability-server-ca-certs) in namespace open-cluster-management-observability
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: kiali-cabundle
-  namespace: istio-system
+  namespace: <kiali-namespace>
 data:
   additional-ca-bundle.pem: |
     -----BEGIN CERTIFICATE-----
