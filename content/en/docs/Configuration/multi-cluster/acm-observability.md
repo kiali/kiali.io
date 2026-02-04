@@ -170,7 +170,7 @@ data:
 
 See: [Adding user workload metrics](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.9/html/observability/customizing-observability#adding-user-workload-metrics)
 
-## Configuration
+## Configuring Kiali for ACM Observability
 
 ### Step 1: Obtain mTLS Certificates from ACM
 
@@ -493,15 +493,12 @@ oc run test-thanos --image=curlimages/curl:latest \
 
 2. **Metrics not allowlisted**: ACM doesn't collect metrics by default
    - **Solution**: Create `observability-metrics-custom-allowlist` ConfigMap with `uwl_metrics_list.yaml` key in **source namespace**
-   - **Verify**: Check metrics collector logs for "metrics pushed successfully"
 
 3. **PodMonitor missing**: Prometheus not scraping Istio sidecars
    - **Solution**: Create `istio-proxies-monitor` PodMonitor in **each mesh namespace**
-   - **Verify**: Check targets in Prometheus UI
 
 4. **UWM not enabled**: User Workload Monitoring not configured
-   - **Solution**: Enable `enableUserWorkload: true` in `cluster-monitoring-config`
-   - **Verify**: `oc get pods -n openshift-user-workload-monitoring`
+   - **Solution**: Enable `enableUserWorkload: true` in `cluster-monitoring-config` ConfigMap in `openshift-monitoring` namespace
 
 ### TLS/Certificate Errors
 
@@ -521,7 +518,7 @@ oc run test-thanos --image=curlimages/curl:latest \
      openssl x509 -noout -issuer
    ```
 
-3. **Verify projected volume** (OpenShift only): Check both ConfigMaps are mounted
+3. **Verify projected volume**: Check both ConfigMaps are mounted
    ```bash
    oc exec -n istio-system deploy/kiali -- ls -la /kiali-cabundle/
    # Should show: additional-ca-bundle.pem, service-ca.crt
@@ -534,8 +531,13 @@ oc run test-thanos --image=curlimages/curl:latest \
 **Solutions**:
 
 1. **Verify route exists**: `oc get route observatorium-api -n open-cluster-management-observability`
-2. **Check ACM is ready**: `oc get mco observability` (status should be Ready=True)
-3. **Test connectivity**: Use curl from a pod to test the route
+2. **Check ACM is ready**: `oc get mco observability -o jsonpath='{.status.conditions[?(@.type=="Ready")].status}{"\n"}'` (should return "True")
+3. **Test connectivity**:
+   ```bash
+   oc run test-thanos --image=curlimages/curl:latest -n open-cluster-management-observability --rm -i --restart=Never -- \
+     curl -sw "\n" http://observability-thanos-query-frontend.open-cluster-management-observability.svc:9090/-/ready
+   ```
+   Expected response: `OK`
 4. **Check NetworkPolicies**: Ensure no policies block egress from istio-system
 
 ### Empty Graph Despite Having Metrics
