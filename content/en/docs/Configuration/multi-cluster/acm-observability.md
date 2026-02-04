@@ -458,14 +458,14 @@ Create remote cluster secrets as described in the [multi-cluster setup guide]({{
 
 ### 3. External Deployment Model
 
-For multi-cluster with ACM, deploy Kiali externally on the hub cluster:
+For multi-cluster with ACM, if you deploy Kiali on the hub cluster (or on a separate management cluster), you will typically want to run Kiali in **external deployment mode**:
 
 ```yaml
 clustering:
   ignore_home_cluster: true  # Kiali is external to mesh
 
 kubernetes_config:
-  cluster_name: "hub"  # Unique name for hub cluster
+  cluster_name: "<management-cluster-name>"  # Unique name for the cluster where Kiali runs
 ```
 
 See the [External Kiali]({{< relref "./external" >}}) guide for complete external deployment instructions.
