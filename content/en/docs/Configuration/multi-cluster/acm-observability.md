@@ -623,8 +623,8 @@ oc get --raw "/api/v1/namespaces/open-cluster-management-observability/services/
 
 **Causes and Solutions**:
 
-1. **Time range too recent**: Metrics have 5-6 minute latency
-   - **Solution**: Query time ranges older than 5-6 minutes
+1. **Time range too recent**: Metrics have several minutes-long latency due to ACM's collection interval
+   - **Solution**: In the Kiali UI, use the time range dropdown to select "Last 30m" or longer to ensure the query includes data that has been collected by ACM
 
 2. **Metrics not allowlisted**: ACM doesn't collect metrics by default
    - **Solution**: Create `observability-metrics-custom-allowlist` ConfigMap with `uwl_metrics_list.yaml` key in **source namespace**
