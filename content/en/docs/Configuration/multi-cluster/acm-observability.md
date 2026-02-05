@@ -51,7 +51,7 @@ This guide assumes Kiali is deployed on the hub cluster in external deployment m
 There are two independent flows:
 
 **Ingestion (managed cluster → hub):**
-1. **Envoy** exposes metrics at `:15020/stats/prometheus`.
+1. **Istio data plane components** (sidecars, ztunnel, or waypoint proxies) expose metrics at `:15020/stats/prometheus`.
 2. **User Workload Monitoring Prometheus** scrapes those metrics (typically every 30s).
 3. The **ACM observability collector/agent** on the managed cluster reads from Prometheus and ships metrics to the hub (typically every 5 minutes).
 4. The hub stores them in **Thanos Receive/Store** and serves them through **Thanos Query Frontend**.
