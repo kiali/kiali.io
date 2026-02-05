@@ -622,12 +622,21 @@ oc logs -n ${KIALI_NAMESPACE} deployment/kiali | grep -i "credential\|certificat
 
 ### Verify Metrics in Thanos Directly
 
-Test that metrics exist in Thanos (from within the hub cluster):
+Test that metrics exist in Thanos (from within the hub cluster). The following are different queries you can run to obtain metrics data from the backend metric datastore used by ACM.
+
+{{% alert color="info" %}}
+**Note**: These commands use `jq` to format JSON output. If you don't have jq installed, simply omit `| jq .` to see the full, unfiltered and raw JSON.
+{{% /alert %}}
 
 ```bash
-# Query Thanos directly via API server proxy
-oc get --raw "/api/v1/namespaces/open-cluster-management-observability/services/http:observability-thanos-query-frontend:9090/proxy/api/v1/query?query=istio_requests_total" | \
-  grep -o '"istio_requests_total"'
+# List available metric names (Kiali uses istio_*, pilot_*, and envoy_* metrics)
+oc get --raw "/api/v1/namespaces/open-cluster-management-observability/services/http:observability-thanos-query-frontend:9090/proxy/api/v1/label/__name__/values" | jq -r '.data[] | select(startswith("istio_") or startswith("pilot_") or startswith("envoy_"))'
+
+# Count timeseries for key Istio metrics (shows which metrics have data and how many unique timeseries)
+oc get --raw "/api/v1/namespaces/open-cluster-management-observability/services/http:observability-thanos-query-frontend:9090/proxy/api/v1/query?query=count%20by%20(__name__)%20({__name__=~%22istio_requests_total|istio_tcp.*total%22})" | jq -r '.data.result[] | "\(.metric.__name__): \(.value[1])"'
+
+# Query Istio request metrics with full details (limited to first result to show structure)
+oc get --raw "/api/v1/namespaces/open-cluster-management-observability/services/http:observability-thanos-query-frontend:9090/proxy/api/v1/query?query=istio_requests_total" | jq '.data.result |= .[0:1]'
 ```
 
 ## Troubleshooting
