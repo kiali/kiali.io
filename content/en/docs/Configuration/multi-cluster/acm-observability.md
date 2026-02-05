@@ -180,11 +180,11 @@ spec:
 
 See: [Configuring OpenShift Monitoring with Service Mesh](https://docs.redhat.com/en/documentation/red_hat_openshift_service_mesh/3.0/html-single/observability/index)
 
-### Ambient Mode Metrics
+#### Ambient Mode Metrics
 
 If you are using Istio's **Ambient mode** instead of (or in addition to) sidecar mode, you need additional PodMonitors to collect metrics from the Ambient data plane components.
 
-#### Understanding Ambient Mode Metrics
+##### Understanding Ambient Mode Metrics
 
 Ambient mode uses a layered architecture with different metric sources:
 
@@ -197,7 +197,7 @@ Ambient mode uses a layered architecture with different metric sources:
 - **Waypoint proxies** are optional L7 proxies deployed per-namespace or per-service. When traffic flows through a waypoint, you get full L7 HTTP metrics (same as sidecars).
 - If you only use ztunnel (no waypoints), Kiali will show TCP traffic but not HTTP-level details like response codes or latency histograms.
 
-#### PodMonitor for Ztunnel
+##### PodMonitor for Ztunnel
 
 Create a PodMonitor in the namespace where ztunnel runs. Ztunnel pods expose metrics using the same interface as sidecars:
 
@@ -211,7 +211,7 @@ Because ztunnel uses the same metrics interface, you can use the same PodMonitor
 **Note**: The ztunnel namespace location depends on your Istio installation method. Verify your ztunnel namespace with: `oc get pods -l app=ztunnel -A`
 {{% /alert %}}
 
-#### PodMonitor for Waypoint Proxies
+##### PodMonitor for Waypoint Proxies
 
 Create a PodMonitor in **each namespace with a waypoint**. Waypoint pods also expose metrics using the same interface as sidecars:
 
