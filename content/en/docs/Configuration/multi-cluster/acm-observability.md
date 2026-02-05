@@ -25,7 +25,11 @@ Kiali can query these aggregated metrics either through ACM's external Observato
 
 **On Managed Clusters (Hub + Spokes):**
 - **User Workload Monitoring (UWM)**: OpenShift's Prometheus for user workloads
-- **PodMonitor/ServiceMonitor**: Scrape Istio sidecar and control plane metrics
+- **PodMonitor/ServiceMonitor**: Scrape Istio metrics from:
+  - Sidecar proxies (in application namespaces)
+  - Control plane (istiod in istio-system)
+  - Ztunnel (in ztunnel namespace, for L4 metrics in Ambient mode)
+  - Waypoint proxies (in application namespaces, for L7 metrics in Ambient mode)
 - **Metrics Allowlist ConfigMaps**: Define which metrics ACM should collect
 - **Metrics Collector**: Runs on each managed cluster and pushes its Prometheus metrics to the hub cluster's Thanos every 5 minutes (default)
 
@@ -176,6 +180,47 @@ spec:
 
 See: [Configuring OpenShift Monitoring with Service Mesh](https://docs.redhat.com/en/documentation/red_hat_openshift_service_mesh/3.0/html-single/observability/index)
 
+### Ambient Mode Metrics
+
+If you are using Istio's **Ambient mode** instead of (or in addition to) sidecar mode, you need additional PodMonitors to collect metrics from the Ambient data plane components.
+
+#### Understanding Ambient Mode Metrics
+
+Ambient mode uses a layered architecture with different metric sources:
+
+| Component | Location | Metrics Type | Key Metrics |
+|-----------|----------|--------------|-------------|
+| **Ztunnel** | DaemonSet (namespace varies by installation) | L4 (TCP) only | `istio_tcp_sent_bytes_total`, `istio_tcp_received_bytes_total`, `istio_tcp_connections_opened_total`, `istio_tcp_connections_closed_total` |
+| **Waypoint** | Deployment in application namespace | L7 (HTTP) | `istio_requests_total`, `istio_request_duration_milliseconds_*`, `istio_request_bytes_*`, `istio_response_bytes_*`, plus TCP metrics |
+
+- **Ztunnel** handles all L4 traffic for pods enrolled in ambient mode. It produces TCP-level metrics but not HTTP metrics.
+- **Waypoint proxies** are optional L7 proxies deployed per-namespace or per-service. When traffic flows through a waypoint, you get full L7 HTTP metrics (same as sidecars).
+- If you only use ztunnel (no waypoints), Kiali will show TCP traffic but not HTTP-level details like response codes or latency histograms.
+
+#### PodMonitor for Ztunnel
+
+Create a PodMonitor in the namespace where ztunnel runs. Ztunnel pods expose metrics using the same interface as sidecars:
+
+- Container name: `istio-proxy`
+- Annotation: `prometheus.io/scrape: "true"`
+- Metrics path: `/stats/prometheus` on port 15020
+
+Because ztunnel uses the same metrics interface, you can use the same PodMonitor configuration shown in the [Istio Metrics Collection](#3-istio-metrics-collection) section above, changing only the `namespace` field to match your ztunnel namespace.
+
+{{% alert color="info" %}}
+**Note**: The ztunnel namespace location depends on your Istio installation method. Verify your ztunnel namespace with: `oc get pods -l app=ztunnel -A`
+{{% /alert %}}
+
+#### PodMonitor for Waypoint Proxies
+
+Create a PodMonitor in **each namespace with a waypoint**. Waypoint pods also expose metrics using the same interface as sidecars:
+
+- Container name: `istio-proxy`
+- Annotation: `prometheus.io/scrape: "true"`
+- Metrics path: `/stats/prometheus` on port 15020
+
+Because waypoints use the same metrics interface, you can use the same PodMonitor configuration shown in the [Istio Metrics Collection](#3-istio-metrics-collection) section above.
+
 ### 4. Metrics Allowlist Configuration
 
 ACM only collects metrics that are explicitly allowlisted. For **user workload metrics** (Istio), create a ConfigMap in the **source namespace** with key `uwl_metrics_list.yaml`:
@@ -191,6 +236,8 @@ data:
     names:
     # Core Istio metrics below. For additional metrics that Kiali uses,
     # see: https://kiali.io/docs/faq/general/#requiredmetrics
+    #
+    # L7 (HTTP) metrics - from sidecars and waypoint proxies
     - istio_requests_total
     - istio_request_duration_milliseconds_bucket
     - istio_request_duration_milliseconds_sum
@@ -201,6 +248,7 @@ data:
     - istio_response_bytes_bucket
     - istio_response_bytes_sum
     - istio_response_bytes_count
+    # L4 (TCP) metrics - from sidecars, waypoint proxies, AND ztunnel
     - istio_tcp_sent_bytes_total
     - istio_tcp_received_bytes_total
     - istio_tcp_connections_opened_total
@@ -208,6 +256,10 @@ data:
 ```
 
 **Critical**: The ConfigMap must be in the **source namespace** where metrics originate (e.g., `istio-system`, application namespaces), **NOT** in `open-cluster-management-observability`.
+
+{{% alert color="info" %}}
+**Ambient Mode**: The same allowlist works for all Istio data plane components. However, ztunnel only produces TCP metrics (`istio_tcp_*`), so HTTP metrics in the allowlist will have no data from ztunnel. Waypoints produce both TCP and HTTP metrics, same as sidecars. Create the allowlist ConfigMap in each namespace where you have a PodMonitor, including the namespace where ztunnel runs and any namespaces with waypoint proxies.
+{{% /alert %}}
 
 See: [Adding user workload metrics](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.12/html-single/observability/index#adding-user-workload-metrics)
 
@@ -547,6 +599,12 @@ oc logs -n ${KIALI_NAMESPACE} deployment/kiali | grep -i "credential\|certificat
 4. **Select time range** that includes data older than 5-6 minutes (e.g., "Last 30 minutes")
 5. **Verify metrics** appear in the Metrics tab and traffic graph
 
+{{% alert color="info" %}}
+**Ambient Mode**: If you are using Ambient mode:
+- **Ztunnel-only traffic** (no waypoint): You'll see TCP metrics and traffic edges in the graph, but HTTP details (response codes, latency) will not be available.
+- **Traffic through waypoints**: You'll see full L7 metrics, same as sidecar mode.
+{{% /alert %}}
+
 ### Verify Metrics in Thanos Directly
 
 Test that metrics exist in Thanos (from within the hub cluster):
@@ -627,6 +685,30 @@ oc get --raw "/api/v1/namespaces/open-cluster-management-observability/services/
 2. **Missing source/destination labels**: Verify Istio metrics have proper labels
 3. **Query scope mismatch**: Check `query_scope` cluster names match actual `cluster` label values
 
+### Ambient Mode: No HTTP Metrics
+
+**Symptom**: Ambient mode workloads show TCP traffic in Kiali but no HTTP metrics (response codes, latency)
+
+**Possible causes**:
+
+1. **No waypoint deployed**: Ztunnel only provides L4 (TCP) metrics. Deploy a waypoint proxy for L7 (HTTP) visibility.
+
+2. **Missing waypoint PodMonitor**: Even with a waypoint, metrics won't be collected without a PodMonitor:
+   - Verify waypoint pod exists: `oc get pods -n <namespace> -l gateway.networking.k8s.io/gateway-class-name=istio-waypoint`
+   - Create PodMonitor in the waypoint's namespace (same config as sidecar PodMonitor)
+
+3. **Missing allowlist in waypoint namespace**: Create the `observability-metrics-custom-allowlist` ConfigMap in the namespace where the waypoint runs (see [Metrics Allowlist Configuration](#4-metrics-allowlist-configuration))
+
+### Ambient Mode: No Ztunnel Metrics
+
+**Symptom**: Ambient mode workloads show no traffic at all in Kiali
+
+**Possible causes**:
+
+1. **Missing ztunnel PodMonitor**: Create `istio-proxies-monitor` PodMonitor in the ztunnel namespace
+2. **Wrong ztunnel namespace**: Verify ztunnel location: `oc get pods -l app=ztunnel -A`
+3. **Missing allowlist**: Create `observability-metrics-custom-allowlist` ConfigMap in the ztunnel namespace (see [Metrics Allowlist Configuration](#4-metrics-allowlist-configuration))
+
 ## Reference
 
 This example represents a fully configured Kiali installation using ACM Observability via the Observatorium API with mTLS:
@@ -695,6 +777,8 @@ data:
 - [Red Hat ACM Observability Documentation](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.12/html-single/observability/index)
 - [Configuring User Workload Monitoring](https://docs.redhat.com/en/documentation/monitoring_stack_for_red_hat_openshift/4.20/html-single/configuring_user_workload_monitoring/)
 - [OpenShift Service Mesh Observability](https://docs.redhat.com/en/documentation/red_hat_openshift_service_mesh/3.0/html-single/observability/)
+- [Istio Standard Metrics](https://istio.io/latest/docs/reference/config/metrics/)
+- [Troubleshoot Ztunnel Connectivity (Istio Ambient Mode)](https://istio.io/latest/docs/ambient/usage/troubleshoot-ztunnel/)
 - [Connecting Grafana to ACM Observability (Red Hat Blog)](https://www.redhat.com/en/blog/how-your-grafana-can-fetch-metrics-from-red-hat-advanced-cluster-management-observability-observatorium-and-thanos)
 - [Kiali Multi-cluster Setup]({{< relref "../multi-cluster" >}})
 - [External Kiali Deployment]({{< relref "./external" >}})
