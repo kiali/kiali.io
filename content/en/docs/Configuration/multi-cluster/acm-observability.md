@@ -558,7 +558,9 @@ See the [External Kiali]({{< relref "./external" >}}) guide for complete externa
 ACM-issued certificates (stored in the `observability-grafana-certs` secret in the ACM observability namespace) have 1-year validity and are automatically rotated by ACM before expiration. When certificates are rotated:
 
 1. ACM updates the `observability-grafana-certs` secret in `open-cluster-management-observability` namespace
-2. You must update the `acm-observability-certs` secret in Kiali's namespace with the new certificate data by re-running the extraction commands from [Step 1: Obtain mTLS Certificates from ACM](#step-1-obtain-mtls-certificates-from-acm) (or automate this with a CronJob/operator that watches ACM's secret and copies the data)
+2. You must update the `acm-observability-certs` secret in Kiali's namespace with the new certificate data. Options include:
+   - Re-run the extraction commands from [Step 1: Obtain mTLS Certificates from ACM](#step-1-obtain-mtls-certificates-from-acm) manually
+   - Use an ACM `ConfigurationPolicy` with hub cluster templating to automatically distribute and update the secret to the cluster where Kiali runs (see [ACM Governance documentation](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.13/html/governance/policy-deployment) for details)
 3. Kubernetes updates the mounted files in Kiali pod (within 60 seconds after the secret update)
 4. Kiali automatically uses new certificates on next connection (no pod restart needed)
 
@@ -642,8 +644,8 @@ oc get --raw "/api/v1/namespaces/open-cluster-management-observability/services/
 2. **Metrics not allowlisted**: ACM doesn't collect metrics by default
    - **Solution**: Create `observability-metrics-custom-allowlist` ConfigMap with `uwl_metrics_list.yaml` key in **source namespace**
 
-3. **PodMonitor missing**: Prometheus not scraping Istio sidecars
-   - **Solution**: Create `istio-proxies-monitor` PodMonitor in **each mesh namespace**
+3. **PodMonitor missing**: Prometheus not scraping Istio data plane components
+   - **Solution**: Create `istio-proxies-monitor` PodMonitor in **each mesh namespace** (including the ztunnel namespace and namespaces with waypoint proxies if using Ambient mode)
 
 4. **UWM not enabled**: User Workload Monitoring not configured
    - **Solution**: Enable `enableUserWorkload: true` in `cluster-monitoring-config` ConfigMap in `openshift-monitoring` namespace
