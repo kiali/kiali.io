@@ -186,16 +186,29 @@ If you are using Istio's **Ambient mode** instead of (or in addition to) sidecar
 
 ##### Understanding Ambient Mode Metrics
 
-Ambient mode uses a layered architecture with different metric sources:
+Ambient mode uses a layered architecture with two metric sources:
 
-| Component | Location | Metrics Type | Key Metrics |
-|-----------|----------|--------------|-------------|
-| **Ztunnel** | DaemonSet (namespace varies by installation) | L4 (TCP) only | `istio_tcp_sent_bytes_total`, `istio_tcp_received_bytes_total`, `istio_tcp_connections_opened_total`, `istio_tcp_connections_closed_total` |
-| **Waypoint** | Deployment in application namespace | L7 (HTTP) | `istio_requests_total`, `istio_request_duration_milliseconds_*`, `istio_request_bytes_*`, `istio_response_bytes_*`, plus TCP metrics |
+**Ztunnel (L4 metrics only)**
+- Runs as a DaemonSet (namespace varies by installation)
+- Handles all L4 traffic for pods enrolled in ambient mode
+- Produces TCP-level metrics:
+  - `istio_tcp_sent_bytes_total`
+  - `istio_tcp_received_bytes_total`
+  - `istio_tcp_connections_opened_total`
+  - `istio_tcp_connections_closed_total`
+- Does not produce HTTP metrics
 
-- **Ztunnel** handles all L4 traffic for pods enrolled in ambient mode. It produces TCP-level metrics but not HTTP metrics.
-- **Waypoint proxies** are optional L7 proxies deployed per-namespace or per-service. When traffic flows through a waypoint, you get full L7 HTTP metrics (same as sidecars).
-- If you only use ztunnel (no waypoints), Kiali will show TCP traffic but not HTTP-level details like response codes or latency histograms.
+**Waypoint proxies (L7 metrics)**
+- Run as Deployments in application namespaces
+- Optional L7 proxies deployed per-namespace or per-service
+- Produce full HTTP metrics (same as sidecars):
+  - `istio_requests_total`
+  - `istio_request_duration_milliseconds_*`
+  - `istio_request_bytes_*`
+  - `istio_response_bytes_*`
+  - Plus all TCP metrics listed above
+
+If you only use ztunnel (no waypoints), Kiali will show TCP traffic but not HTTP-level details like response codes or latency histograms.
 
 ##### PodMonitor for Ztunnel
 
