@@ -468,19 +468,11 @@ helm install kiali kiali-server \
 
 ### Metrics Latency
 
-ACM collects metrics from each cluster's Prometheus and pushes to Thanos **every 5 minutes** (default). This means:
-
-- **Recent metrics (last 0-5 minutes)**: Not yet visible in Kiali (still in local Prometheus)
-- **Historical metrics (older than 5-6 minutes)**: Available in Kiali through Thanos
+ACM collects metrics from each cluster's Prometheus and pushes to Thanos **every 5 minutes** (default). This means, by default, there is a 5-6 minute delay before new metrics appear in Kiali. This latency is inherent to ACM's architecture and applies to all managed clusters.
 
 **Note**: This interval is configurable via the `spec.observabilityAddonSpec.interval` field (in seconds) in the `MultiClusterObservability` CR on the hub cluster.
 
-**To see data in Kiali**, query time ranges that include data older than 5-6 minutes:
-- ✅ "Last 10 minutes" - will show data from 5-10 minutes ago
-- ✅ "Last 30 minutes" - will show data from 5-30 minutes ago
-- ❌ "Last 5 minutes" - may appear empty if all traffic is very recent
-
-This latency is inherent to ACM's architecture and applies to all managed clusters.
+**Initial warm-up period**: After deploying a new application, it takes approximately **twice the collection interval** before metrics appear in Kiali. This is because Kiali uses PromQL `rate()` functions which require at least two data points to compute a result, and with ACM's collection interval, two data points take at least two collection cycles to accumulate. For example, with the default 5-minute interval, expect a ~10-minute warm-up period. After this initial warm-up, all time ranges in Kiali should display data normally. However, keep in mind that the most recent data visible in Kiali will always be at least one collection interval old, since metrics must complete a full collection cycle before they appear in Thanos.
 
 ### Thanos Proxy Mode
 
