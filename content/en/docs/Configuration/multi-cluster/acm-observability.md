@@ -236,7 +236,7 @@ Because waypoints use the same metrics interface, you can use the same PodMonito
 
 ### 4. Metrics Allowlist Configuration
 
-ACM only collects metrics that are explicitly allowlisted. For **user workload metrics** (Istio), create a ConfigMap in the **source namespace** with key `uwl_metrics_list.yaml`:
+ACM only collects metrics that are explicitly allowlisted. For Istio metrics to be collected, create a ConfigMap named `observability-metrics-custom-allowlist` in the **source namespace** (see note below) with key `uwl_metrics_list.yaml`:
 
 ```yaml
 apiVersion: v1
@@ -724,7 +724,7 @@ oc get --raw "/api/v1/namespaces/open-cluster-management-observability/services/
    - Verify waypoint pod exists: `oc get pods -n <namespace> -l gateway.networking.k8s.io/gateway-class-name=istio-waypoint`
    - Create PodMonitor in the waypoint's namespace (same config as sidecar PodMonitor)
 
-3. **Missing allowlist in waypoint namespace**: Create the `observability-metrics-custom-allowlist` ConfigMap in the namespace where the waypoint runs (see [Metrics Allowlist Configuration](#4-metrics-allowlist-configuration))
+3. **Missing allowlist in waypoint namespace**: Create a ConfigMap with the name `observability-metrics-custom-allowlist` in the namespace where the waypoint runs (see [Metrics Allowlist Configuration](#4-metrics-allowlist-configuration))
 
 ### Ambient Mode: No Ztunnel Metrics
 
@@ -734,7 +734,7 @@ oc get --raw "/api/v1/namespaces/open-cluster-management-observability/services/
 
 1. **Missing ztunnel PodMonitor**: Create `istio-proxies-monitor` PodMonitor in the ztunnel namespace
 2. **Wrong ztunnel namespace**: Verify ztunnel location: `oc get pods -l app=ztunnel -A`
-3. **Missing allowlist**: Create `observability-metrics-custom-allowlist` ConfigMap in the ztunnel namespace (see [Metrics Allowlist Configuration](#4-metrics-allowlist-configuration))
+3. **Missing allowlist**: Create a ConfigMap with the name `observability-metrics-custom-allowlist` in the ztunnel namespace (see [Metrics Allowlist Configuration](#4-metrics-allowlist-configuration))
 
 ## Reference
 
