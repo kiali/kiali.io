@@ -643,7 +643,7 @@ oc get --raw "/api/v1/namespaces/open-cluster-management-observability/services/
 
 **Causes and Solutions**:
 
-1. **`scrape_interval` too low**: The most common cause. If `thanos_proxy.scrape_interval` is set lower than the ACM collection interval (e.g., "30s" instead of "5m"), Kiali's rate calculations will use windows too narrow to capture enough data points from Thanos
+1. **`scrape_interval` too low**: If `thanos_proxy.scrape_interval` is set lower than the ACM collection interval (e.g., "30s" instead of "5m"), Kiali's rate calculations will use windows too narrow to capture enough data points from Thanos
    - **Solution**: Set `thanos_proxy.scrape_interval` to match the ACM collection interval (default "5m"). See [Thanos Proxy Mode](#thanos-proxy-mode) for details
 
 2. **Still in warm-up period**: After deploying a new application, it takes approximately twice the ACM collection interval (~10 minutes by default) before enough data points exist for rate calculations
