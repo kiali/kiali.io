@@ -472,7 +472,9 @@ ACM collects metrics from each cluster's Prometheus and pushes to Thanos **every
 
 **Note**: This interval is configurable via the `spec.observabilityAddonSpec.interval` field (in seconds) in the `MultiClusterObservability` CR on the hub cluster.
 
-**Initial warm-up period**: After deploying a new application, it takes approximately **twice the collection interval** before metrics appear in Kiali. This is because Kiali uses PromQL `rate()` functions which require at least two data points to compute a result, and with ACM's collection interval, two data points take at least two collection cycles to accumulate. For example, with the default 5-minute interval, expect a ~10-minute warm-up period. After this initial warm-up, all time ranges in Kiali should display data normally. However, keep in mind that the most recent data visible in Kiali will always be at least one collection interval old, since metrics must complete a full collection cycle before they appear in Thanos.
+**Initial warm-up period**: After deploying a new application, it takes approximately **twice the collection interval** before metrics appear in Kiali's metrics tab. This is because Kiali uses PromQL `rate()` functions which require at least two data points to compute a result, and with ACM's collection interval, two data points take at least two collection cycles to accumulate. For example, with the default 5-minute interval, expect a ~10-minute warm-up period. After this initial warm-up, all time ranges in Kiali should display data normally. However, keep in mind that the most recent data visible in Kiali will always be at least one collection interval old, since metrics must complete a full collection cycle before they appear in Thanos.
+
+The graph will appear sooner - after just one collection cycle (default ~5 minutes) - because the graph only needs a single data point to discover which nodes (applications, workloads, services) exist and how they communicate.
 
 ### Thanos Proxy Mode
 
