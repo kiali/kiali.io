@@ -499,12 +499,12 @@ When `enabled: true`, Kiali uses the configured `scrape_interval` and `retention
 
 **Why these values matter:**
 - **`scrape_interval`**: Kiali's UI uses this value to compute PromQL `rate()` intervals and query step sizes. The rate interval must be large enough to contain at least two data points for `rate()` to produce results. With ACM, data points arrive in Thanos at the ACM collection interval (default 5 minutes), **not** at the local Prometheus scrape interval (typically 15-30 seconds). If `scrape_interval` is set too low (e.g., "30s"), the computed rate windows will be too narrow to capture two ACM data points, causing Kiali's metrics tab to show empty charts even though data exists in Thanos.
-- **`retention_period`**: Used to limit time range queries to available data
 
 {{% alert color="warning" %}}
 **Critical**: Set `scrape_interval` to match the **ACM metrics collection interval** (default `"5m"`), not the local Prometheus scrape interval. The ACM collection interval is configured via `spec.observabilityAddonSpec.interval` in the `MultiClusterObservability` CR on the hub cluster. If you have customized this value, set `scrape_interval` to match.
 {{% /alert %}}
 
+- **`retention_period`**: Used to limit time range queries to available data
 **Note**: The "14d" value shown in examples is used for demonstration. ACM defaults to 365d retention when `spec.advanced.retentionConfig` is not explicitly configured in the `MultiClusterObservability` CR. If using the default, set `retention_period` to "365d". If configuring custom retention, use at least 10d minimum (Thanos requirement for downsampling to function). Always match `retention_period` to your actual ACM retention configuration.
 
 ## Multi-Cluster Setup
