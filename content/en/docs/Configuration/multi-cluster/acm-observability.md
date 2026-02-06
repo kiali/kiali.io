@@ -606,10 +606,9 @@ oc logs -n ${KIALI_NAMESPACE} deployment/kiali | grep -i "credential\|certificat
 ### Test Metrics
 
 1. **Generate mesh traffic** in one of your managed clusters
-2. **Wait 5-10 minutes** for metrics to propagate to Thanos
+2. **Wait for the initial warm-up period** (approximately twice the ACM collection interval; default ~10 minutes) for metrics to propagate to Thanos and for enough data points to accumulate for rate calculations. The graph may appear sooner (after ~5 minutes).
 3. **Access Kiali UI** and navigate to a workload
-4. **Select time range** that includes data older than 5-6 minutes (e.g., "Last 30 minutes")
-5. **Verify metrics** appear in the Metrics tab and traffic graph
+4. **Verify metrics** appear in the Metrics tab and traffic graph
 
 {{% alert color="info" %}}
 **Ambient Mode**: If you are using Ambient mode:
@@ -644,16 +643,19 @@ oc get --raw "/api/v1/namespaces/open-cluster-management-observability/services/
 
 **Causes and Solutions**:
 
-1. **Time range too recent**: Metrics have several minutes-long latency due to ACM's collection interval
-   - **Solution**: In the Kiali UI, use the time range dropdown to select "Last 30m" or longer to ensure the query includes data that has been collected by ACM
+1. **`scrape_interval` too low**: The most common cause. If `thanos_proxy.scrape_interval` is set lower than the ACM collection interval (e.g., "30s" instead of "5m"), Kiali's rate calculations will use windows too narrow to capture enough data points from Thanos
+   - **Solution**: Set `thanos_proxy.scrape_interval` to match the ACM collection interval (default "5m"). See [Thanos Proxy Mode](#thanos-proxy-mode) for details
 
-2. **Metrics not allowlisted**: ACM doesn't collect metrics by default
+2. **Still in warm-up period**: After deploying a new application, it takes approximately twice the ACM collection interval (~10 minutes by default) before enough data points exist for rate calculations
+   - **Solution**: Wait for the warm-up period to elapse
+
+3. **Metrics not allowlisted**: ACM doesn't collect metrics by default
    - **Solution**: Create `observability-metrics-custom-allowlist` ConfigMap with `uwl_metrics_list.yaml` key in **source namespace**
 
-3. **PodMonitor missing**: Prometheus not scraping Istio data plane components
+4. **PodMonitor missing**: Prometheus not scraping Istio data plane components
    - **Solution**: Create `istio-proxies-monitor` PodMonitor in **each mesh namespace** (including the ztunnel namespace and namespaces with waypoint proxies if using Ambient mode)
 
-4. **UWM not enabled**: User Workload Monitoring not configured
+5. **UWM not enabled**: User Workload Monitoring not configured
    - **Solution**: Enable `enableUserWorkload: true` in `cluster-monitoring-config` ConfigMap in `openshift-monitoring` namespace
 
 ### TLS/Certificate Errors
@@ -702,8 +704,8 @@ oc get --raw "/api/v1/namespaces/open-cluster-management-observability/services/
 
 **Possible causes**:
 
-1. **Time range**: Graph query may be for recent data not yet in Thanos
-2. **Missing source/destination labels**: Verify Istio metrics have proper labels
+1. **Missing source/destination labels**: Verify Istio metrics have proper workload and namespace labels. The graph builds its topology from these labels
+2. **Namespace not selected**: Ensure the namespace is selected in the graph's namespace dropdown
 3. **Query scope mismatch**: Check `query_scope` cluster names match actual `cluster` label values
 
 ### Ambient Mode: No HTTP Metrics
