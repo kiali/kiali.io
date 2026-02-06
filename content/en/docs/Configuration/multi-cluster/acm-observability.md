@@ -688,14 +688,18 @@ oc get --raw "/api/v1/namespaces/open-cluster-management-observability/services/
 
 **Solutions**:
 
-1. **Verify route exists**: `oc get route observatorium-api -n open-cluster-management-observability`
-2. **Check ACM is ready**: `oc get mco observability -o jsonpath='{.status.conditions[?(@.type=="Ready")].status}{"\n"}'` (should return "True")
-3. **Test connectivity**:
+1. **Verify route exists**:
    ```bash
-   # Query via API server proxy
+   oc get route observatorium-api -n open-cluster-management-observability
+   ```
+2. **Check ACM is ready** (should return "True"):
+   ```bash
+   oc get mco observability -o jsonpath='{.status.conditions[?(@.type=="Ready")].status}{"\n"}'
+   ```
+3. **Test connectivity** (should return "OK"):
+   ```bash
    oc get --raw "/api/v1/namespaces/open-cluster-management-observability/services/http:observability-thanos-query-frontend:9090/proxy/-/ready"
    ```
-   Expected response: `OK`
 4. **Check NetworkPolicies**: Ensure no policies block egress from Kiali's namespace
 
 ### Empty Graph Despite Having Metrics
