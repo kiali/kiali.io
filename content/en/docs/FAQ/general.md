@@ -179,6 +179,7 @@ Istio metrics and attributes:
 
 |Metric                                      |Notes|
 |--------------------------------------------|-----|
+|istio_build                                 |used to display ztunnel version information|
 |istio_requests_total                        |used throughout Kiali and the primary metric for http/grpc request traffic |
 |istio_request_bytes_bucket                  |used in metric displays to calculate throughput percentiles |
 |istio_request_bytes_count                   |used in metric displays to calculate throughput avg |
@@ -195,16 +196,20 @@ Istio metrics and attributes:
 |istio_tcp_connections_opened_total          |used in metric displays   |
 |istio_tcp_received_bytes_total              |used throughout Kiali for tcp received traffic  |
 |istio_tcp_sent_bytes_total                  |used throughout Kiali for tcp sent traffic   |
+|pilot_info                                  |used as discovery metric for the Istiod dashboard|
 |pilot_proxy_convergence_time_sum            |used in control plane overview card to show the average proxy push time |
 |pilot_proxy_convergence_time_count          |used in control plane overview card to show the average proxy push time; used in the Istiod application metrics dashboard|
 |pilot_services                              |used in the Istiod application metrics dashboard|
 |pilot_xds                                   |used in the Istiod application metrics dashboard|
 |pilot_xds_pushes                            |used in the Istiod application metrics dashboard|
+|workload_manager_active_proxy_count         |used for ztunnel workload manager active proxy count|
 
 <br />
 
 |Attribute      |Metric                               |Notes|
 |---------------|-------------------------------------|-----|
+|app                               |istio_tcp_received_bytes_total   |used for filtering ztunnel traffic in TCP queries; also included in TCP traffic groupBy clauses|
+|                                  |istio_tcp_sent_bytes_total   |used for filtering ztunnel traffic in TCP queries; also included in TCP traffic groupBy clauses|
 |connection_security_policy        |istio_requests_total   |used only when graph Security display option is enabled|
 |                                  |istio_tcp_received_bytes_total   |used only when graph Security display option is enabled|
 |                                  |istio_tcp_sent_bytes_total   |used only when graph Security display option is enabled|
