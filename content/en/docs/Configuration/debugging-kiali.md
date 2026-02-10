@@ -1,6 +1,6 @@
 ---
 title: "Debugging Kiali"
-description: "How to debug Kiali using logs, metrics, traces, and profiler."
+description: "How to debug the Kiali Server and the Kiali Operator using logs, metrics, traces, and profiler."
 ---
 
 ## Logs
@@ -364,6 +364,135 @@ Your browser will be opened to `http://localhost:8080/ui` which allows you to se
 ## Kiali CR Status
 
 When you install the Kiali Server via the Kiali Operator, you do so by creating a Kiali CR. One quick way to debug the status of a Kiali Server installation is to look at the Kiali CR's `status` field (e.g. `kubectl get kiali --all-namespaces -o jsonpath='{..status}'`). The operator will report any installation errors within this Kiali CR status. If the Kiali Server fails to install, always check the Kiali CR status field first because in many instances you will find an error message there that can provide clear guidance on what to do next.
+
+## Debugging the Kiali Operator
+
+The Kiali Operator is built on the Ansible Operator SDK. It has multiple independent logging controls that each affect a different subsystem. They are listed here in order of how commonly they are needed for debugging.
+
+### Ansible Playbook Verbosity
+
+This controls how verbose the Ansible playbook output is during reconciliation (equivalent to the `-v`, `-vv`, `-vvv` flags passed to `ansible-runner`). This is useful for debugging issues within the Ansible playbook logic itself, such as seeing the values of variables or the details of each task.
+
+Set the `ansible.sdk.operatorframework.io/verbosity` annotation on the Kiali or OSSMConsole CR. The value is an integer from 0 (default, no extra verbosity) to 5 (most verbose):
+
+```yaml
+metadata:
+  annotations:
+    ansible.sdk.operatorframework.io/verbosity: "1"
+```
+
+See the [Ansible Operator SDK advanced options documentation](https://sdk.operatorframework.io/docs/building-operators/ansible/reference/advanced_options/) for more details on this.
+
+### Ansible Debug Logs
+
+When set to `true`, this causes the operator to print the full `ansible-runner` stdout after each reconciliation completes. This is useful for seeing the complete Ansible output including all task results.
+
+**When Installed via Helm**
+
+Set the `debug.enabled` value:
+
+```sh
+helm upgrade kiali-operator kiali/kiali-operator --set debug.enabled=true
+```
+
+**When Installed via OLM**
+
+Add the environment variable to the Subscription's `spec.config.env`:
+
+```yaml
+spec:
+  config:
+    env:
+    - name: ANSIBLE_DEBUG_LOGS
+      value: "true"
+```
+
+### Go Structured Log Level
+
+`--zap-log-level` controls the log level of the Go-based controller-runtime framework that manages the operator's reconciliation loop. This is the setting needed for diagnosing *why* reconciliation is being triggered, which is typically only necessary when investigating unexpected or periodic reconciliations.
+
+The supported levels are:
+
+- **`info`**: Logs startup information, controller events, and proxy cache reads.
+- **`debug`**: Additionally logs the event handler messages that tell you exactly what event triggered each reconciliation.
+
+When set to `debug`, the operator will emit a log message like the following immediately before each reconciliation:
+
+```json
+{"level":"debug","ts":"2026-02-10T20:06:23Z","logger":"ansible.handler","msg":"Metrics handler event","Event type":"Update","GroupVersionKind":"kiali.io/v1alpha1, Kind=Kiali","Name":"kiali","Namespace":"kiali-operator"}
+```
+
+The key fields in this message are:
+
+- `Event type`: One of `Create`, `Update`, `Delete`, or `Generic` - tells you what kind of change triggered the reconciliation.
+- `GroupVersionKind`: Which resource type changed (e.g. `kiali.io/v1alpha1, Kind=Kiali` or `kiali.io/v1alpha1, Kind=OSSMConsole`).
+- `Name` / `Namespace`: Which specific CR instance was affected.
+
+To find these messages in the logs:
+
+```sh
+kubectl logs deployment/kiali-operator -n <operator-namespace> | grep 'ansible.handler'
+```
+
+The Go log level is controlled by the `--zap-log-level` container argument on the operator deployment. The method for changing this depends on how the operator was installed.
+
+**When Installed via Helm**
+
+When the operator is installed via Helm, you can patch the Deployment directly since there is no OLM to revert the change:
+
+```sh
+kubectl patch deployment kiali-operator -n <operator-namespace> --type='json' \
+  -p='[{"op":"replace","path":"/spec/template/spec/containers/0/args/0","value":"--zap-log-level=debug"}]'
+```
+
+To revert back to normal logging, just run that command again with the `--zap-log-level` set back to `info`.
+
+**When Installed via OLM**
+
+When the operator is installed via OLM (Operator Lifecycle Manager), you cannot patch the Deployment directly because OLM will revert the change. The OLM Subscription `config` also does not support overriding container args. Instead, you must patch the ClusterServiceVersion (CSV), which OLM treats as the authoritative source for the deployment spec.
+
+To enable debug logging:
+
+```sh
+kubectl patch csv $(kubectl get csv -n <operator-namespace> --no-headers -o custom-columns=NAME:.metadata.name | grep '^kiali-operator') \
+  -n <operator-namespace> --type='json' \
+  -p='[{"op":"replace","path":"/spec/install/spec/deployments/0/spec/template/spec/containers/0/args/0","value":"--zap-log-level=debug"}]'
+```
+
+OLM will automatically roll out a new operator pod with the updated args.
+
+To revert back to normal logging, just run that command again with the `--zap-log-level` set back to `info`.
+
+
+{{% alert color="info" %}}
+On OpenShift, the operator namespace is typically `openshift-operators`. On vanilla Kubernetes with OLM, it is typically `operators`.
+{{% /alert %}}
+
+### Ansible Task Profiler
+
+The operator includes an Ansible task profiler that uses the `profile_tasks` Ansible callback plugin. When enabled, it logs the execution time of each Ansible task to the operator pod's log output at the end of each reconciliation run. This is useful for identifying slow tasks in the operator's Ansible playbooks.
+
+**When Installed via Helm**
+
+Set the `debug.enableProfiler` value:
+
+```sh
+helm upgrade kiali-operator kiali/kiali-operator --set debug.enableProfiler=true
+```
+
+**When Installed via OLM**
+
+Set the `ANSIBLE_CONFIG` environment variable to the profiler configuration in the Subscription's `spec.config.env`:
+
+```yaml
+spec:
+  config:
+    env:
+    - name: ANSIBLE_CONFIG
+      value: "/opt/ansible/ansible-profiler.cfg"
+```
+
+To disable the profiler, set the value back to `/etc/ansible/ansible.cfg`.
 
 ## Examples
 
