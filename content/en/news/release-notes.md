@@ -6,6 +6,26 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+<<REPLACE-THIS-TAG-WITH-V2.22-RELNOTES>>
+
+#### Upgrade Change Notes:
+
+**Health Status Pre-Compute and Caching**
+
+Kiali v2.22 introduces health status pre-compute and caching. Enabled by default. Production mesh sizes are growing and Kiali render times have been increasing, particularly for the Overview and List pages. In response, Kiali v.22 changes its approach to health status calculation. In prior versions Kiali calculated health "on-demand", based on the user's selected duration, configuration settings, and other information, such as pod status. Starting in v.22 Kiali will pre-calculate health status using a single, configurable duration, 5 minutes by default. The cached values increase the responsiveness of the Overview and List pages. Other pages, such as the Traffic graph and Detail pages will continue to calculate health status on-demand, and based on the user's selected duration. Users may notice that the Duration Dropdown selector has been removed from the Overview and List pages.
+
+Users may notice an increase in backend resource utilization, as the Kiali server will now be calculating and refreshing health status, independent of user sessions. The Kiali CR introduces the following new configuration:
+
+`spec.health_config.compute.duration: 5m`
+`spec.health_config.compute.refresh_interval: 3m`
+`spec.health_config.compute.TIMEOUT: 10m`
+
+`spec.kiali_internal.health_cache.enabled: false`
+
+It is recommended to keep the health cache enabled, as not all features will fall back to on-demand calculation.
+
+Any questions, comments or feedback appreciated. Visit `#kiali` on Istio Slack or start a Discussion in Github at `https://github.com/kiali/kiali`.
+
 ## 2.21.0
 Sprint Release: January 26, 2026
 
