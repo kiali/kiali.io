@@ -18,7 +18,7 @@ Users may notice an increase in backend resource utilization, as the Kiali serve
 
 `spec.health_config.compute.duration: 5m`
 `spec.health_config.compute.refresh_interval: 3m`
-`spec.health_config.compute.TIMEOUT: 10m`
+`spec.health_config.compute.timeout: 10m`
 
 `spec.kiali_internal.health_cache.enabled: false`
 
