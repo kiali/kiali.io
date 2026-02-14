@@ -6,7 +6,22 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
-<<REPLACE-THIS-TAG-WITH-V2.22-RELNOTES>>
+## 2.22.0
+Sprint Release: February 16, 2026
+
+Features:
+
+* [AI: Implement AI Chatbot Widget & MCP Integration (Dev Preview)](https://github.com/kiali/kiali/issues/9079)
+* [Perf: Introduce health pre-compute](https://github.com/kiali/kiali/issues/8900)
+* [Tracing: new use_waypoint_name config option (incorrect service name in Jaeger link)](https://github.com/kiali/kiali/issues/9158)
+* [UI: SPIRE support](https://github.com/kiali/kiali/pull/9067)
+* [UI: Replace react-datepicker with PatternFly 6 components](https://github.com/kiali/kiali/issues/9098)
+
+Fixes:
+
+* [UI: Slow loading of workloads](https://github.com/kiali/kiali/issues/9070)
+* [UI: PF6 Wizard Migration Issues](https://github.com/kiali/kiali/issues/9091)
+* [UI: Offline mode does not display Istio Config page](https://github.com/kiali/kiali/issues/9171)
 
 #### Upgrade Change Notes:
 
