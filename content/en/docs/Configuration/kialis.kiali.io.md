@@ -65,6 +65,16 @@ spec:
       #token_inactivity_timeout:
       #token_max_age:
 
+  chat_ai:    
+    default_provider: ""
+    enabled: false
+    providers: []
+    store_config:
+      enabled: true
+      max_cache_memory_mb: 1024      
+      reduce_threshold: 15
+      reduce_with_ai: false
+      
   clustering:
     autodetect_secrets:
       enabled: true
@@ -454,9 +464,14 @@ spec:
         tenant: ""
         url_format: "grafana"
       use_grpc: true
+      use_waypoint_name: false
       whitelist_istio_system: ["jaeger-query", "istio-ingressgateway"]
 
   health_config:
+    compute:
+      duration: "5m"
+      refresh_interval: "3m"
+      timeout: "10m"
     # default: rate is an empty list
     rate:
     - namespace: ".*"
@@ -1421,6 +1436,466 @@ Authorization header and potentially impersonation headers.</li>
 </ul>
 
 <p>When empty, this value will default to <code>openshift</code> on OpenShift and <code>token</code> on other Kubernetes environments.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-1">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.chat_ai">.spec.chat_ai</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.chat_ai.default_provider">.spec.chat_ai.default_provider</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The default provider to use for the ChatAI feature. This is the provider that will be used if no provider is specified in the request.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.chat_ai.enabled">.spec.chat_ai.enabled</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>Enable or disable the ChatAI feature.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.chat_ai.providers">.spec.chat_ai.providers</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>A list of providers that can be used for the ChatAI feature. This is the list of providers that will be available to the user to choose from.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.chat_ai.providers[*]">.spec.chat_ai.providers[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.chat_ai.providers[*].config">.spec.chat_ai.providers[*].config</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The type of the config needed by the AI models provider. Available values are <code>default</code>, <code>gemini</code>, and <code>azure</code>. Default value is <code>default</code>.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.chat_ai.providers[*].default_model">.spec.chat_ai.providers[*].default_model</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The default model of the provider.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.chat_ai.providers[*].description">.spec.chat_ai.providers[*].description</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The description of the provider.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.chat_ai.providers[*].enabled">.spec.chat_ai.providers[*].enabled</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>Enable or disable the provider.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.chat_ai.providers[*].key">.spec.chat_ai.providers[*].key</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The key of the provider. May refer to a secret using the pattern <code>secret:&lt;secretName&gt;:&lt;secretKey&gt;</code>. When using a secret, the token is cached and automatically refreshed when the secret changes, enabling rotation without pod restart.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.chat_ai.providers[*].models">.spec.chat_ai.providers[*].models</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>A list of models that can be used for the ChatAI feature. This is the list of models that will be available to the user to choose from.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.chat_ai.providers[*].models[*]">.spec.chat_ai.providers[*].models[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.chat_ai.providers[*].models[*].description">.spec.chat_ai.providers[*].models[*].description</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The description of the model.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.chat_ai.providers[*].models[*].enabled">.spec.chat_ai.providers[*].models[*].enabled</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>Enable or disable the model.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.chat_ai.providers[*].models[*].endpoint">.spec.chat_ai.providers[*].models[*].endpoint</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The endpoint of the model.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.chat_ai.providers[*].models[*].key">.spec.chat_ai.providers[*].models[*].key</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The key of the model. May refer to a secret using the pattern <code>secret:&lt;secretName&gt;:&lt;secretKey&gt;</code>. When using a secret, the token is cached and automatically refreshed when the secret changes, enabling rotation without pod restart.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.chat_ai.providers[*].models[*].model">.spec.chat_ai.providers[*].models[*].model</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The model of the model.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.chat_ai.providers[*].models[*].name">.spec.chat_ai.providers[*].models[*].name</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The name of the model.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.chat_ai.providers[*].name">.spec.chat_ai.providers[*].name</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The name of the provider.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.chat_ai.providers[*].type">.spec.chat_ai.providers[*].type</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The type of the AI models provider. Available values are <code>openai</code>. Default value is <code>openai</code>.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.chat_ai.store_config">.spec.chat_ai.store_config</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>Configuration for the ChatAI store.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.chat_ai.store_config.enabled">.spec.chat_ai.store_config.enabled</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>Enable or disable the ChatAI store.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.chat_ai.store_config.max_cache_memory_mb">.spec.chat_ai.store_config.max_cache_memory_mb</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(integer)</span>
+
+</div>
+
+<div class="property-description">
+<p>The maximum cache memory for the ChatAI store.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.chat_ai.store_config.reduce_threshold">.spec.chat_ai.store_config.reduce_threshold</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(integer)</span>
+
+</div>
+
+<div class="property-description">
+<p>The threshold for the ChatAI store reduction with AI. This is the number of messages in a conversation before the conversation is reduced.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.chat_ai.store_config.reduce_with_ai">.spec.chat_ai.store_config.reduce_with_ai</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>Enable or disable the ChatAI store reduction with AI.</p>
 
 </div>
 
@@ -7186,6 +7661,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 <div class="property depth-3">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.external_services.tracing.use_waypoint_name">.spec.external_services.tracing.use_waypoint_name</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>Set to true in order to look for traces using the waypoint service name and not the actual service. Ex. To find traces for Istio versions earlier than 1.28.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.external_services.tracing.whitelist_istio_system">.spec.external_services.tracing.whitelist_istio_system</h3>
 </div>
 <div class="property-body">
@@ -7234,6 +7728,82 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property-description">
 <p>This section defines what it means for nodes to be healthy. For more details, see <a href="https://kiali.io/docs/configuration/health/">https://kiali.io/docs/configuration/health/</a></p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.health_config.compute">.spec.health_config.compute</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>Configuration for health pre-computation and caching.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.health_config.compute.duration">.spec.health_config.compute.duration</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The time period over which health is calculated. Used as the rate interval for Prometheus queries. Minimum is &lsquo;1m&rsquo;.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.health_config.compute.refresh_interval">.spec.health_config.compute.refresh_interval</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The interval between health cache refreshes.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.health_config.compute.timeout">.spec.health_config.compute.timeout</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The maximum time allowed for a single health refresh cycle. If exceeded, the refresh is cancelled and the next cycle starts on schedule.</p>
 
 </div>
 
