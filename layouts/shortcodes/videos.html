@@ -1,7 +1,14 @@
 {{- $maxVids := 3 }}
 {{- $feedURL      := "https://www.toptal.com/developers/feed2json/convert?url=https://www.youtube.com/feeds/videos.xml?channel_id=UCcm2NzDN_UCZKk2yYmOpc5w" }}
+{{- $videos       := slice }}
 {{- $json         := getJSON $feedURL }}
-{{- $videos       := first $maxVids $json.items }}
+{{- if $json }}
+  {{- if $json.items }}
+    {{- if gt (len $json.items) 0 }}
+      {{- $videos = first $maxVids $json.items }}
+    {{- end }}
+  {{- end }}
+{{- end }}
 
 <h3 class="videos-header">
   Latest
@@ -10,6 +17,7 @@
   </a>
 </h3>
 
+{{ if $videos }}
 {{ range $videos }}
   {{ $url    := .url }}
   {{ $vidId   := index (split .guid ":") 2 }}
@@ -28,5 +36,10 @@
       </div>
     </div>
   </div>
+{{ end }}
+{{ else }}
+<div class="col-12 text-center">
+  <p>Unable to load videos at this time. <a href="https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w" target="_blank">Visit our YouTube channel</a> to see the latest videos.</p>
+</div>
 {{ end }}
 
