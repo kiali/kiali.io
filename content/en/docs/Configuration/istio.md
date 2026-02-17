@@ -45,15 +45,17 @@ page](https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/) and
 search for "rootNamespace".
 
 Kiali uses the root namespace for some of the validations of Istio resources.
-If you customized the Istio root namespace, you will need to replicate that
-configuration in Kiali. By default, it is unset:
+**Kiali automatically detects the root namespace for each Istio control plane**,
+so no manual configuration is required. This enables Kiali to properly support
+environments with multiple Istio control planes, where each control plane may
+have a different root namespace.
 
-```yaml
-spec:
-  external_services:
-    istio:
-      root_namespace: ""
-```
+{{% alert color="info" %}}
+Prior to Kiali v2.16, the root namespace was configured manually via the
+`external_services.istio.root_namespace` setting. This configuration option
+has been removed as Kiali now autodetects the appropriate root namespace
+for each control plane.
+{{% /alert %}}
 
 ## Sidecar injection, canary upgrade management and Istio revisions
 
