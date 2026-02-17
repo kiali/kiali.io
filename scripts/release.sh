@@ -108,39 +108,47 @@ if [ "${GENERATE_DOCS}" == "true" ]; then
   echo "===== Generate the CRD schema documentation"
   make gen-crd-doc
 
-  if ! git commit -am "Auto-generated CRD schema documentation"; then
-    if [ "$(git status -s | wc -l)" != "0" ]; then
-      echo "ERROR! Failed to commit changes. Aborting."
-      exit 1
-    fi
-  else
+  if ! git diff --quiet; then
+    git commit -am "Auto-generated CRD schema documentation"
     echo "===== Push the branch [${STAGING_BRANCH}] to remote [${REMOTE_NAME}]"
     git push ${REMOTE_NAME} ${STAGING_BRANCH}
+  else
+    echo "No changes to CRD schema documentation"
   fi
 
 fi
 
-echo "===== Create a new version branch named [${CURRENT_VERSION}] based on branch [${CURRENT_BRANCH}]"
-git checkout -b ${CURRENT_VERSION} ${REMOTE_NAME}/${CURRENT_BRANCH}
+# Check if the version branch already exists on remote
+if git ls-remote --exit-code --heads ${REMOTE_NAME} ${CURRENT_VERSION} > /dev/null 2>&1; then
+  echo "===== Version branch [${CURRENT_VERSION}] already exists on remote [${REMOTE_NAME}], skipping creation"
+else
+  echo "===== Create a new version branch named [${CURRENT_VERSION}] based on branch [${CURRENT_BRANCH}]"
+  git checkout -b ${CURRENT_VERSION} ${REMOTE_NAME}/${CURRENT_BRANCH}
 
-echo "===== Set baseURL in config.toml for the branch [${CURRENT_VERSION}]"
-sed -i "s/baseURL = .*/baseURL = \"https:\/\/${CURRENT_VERSION_WITH_DASHES}.kiali.io\"/" config.toml
-git commit -am "Set base URL for branch: ${CURRENT_VERSION}"
+  echo "===== Set baseURL in config.toml for the branch [${CURRENT_VERSION}]"
+  sed -i "s/baseURL = .*/baseURL = \"https:\/\/${CURRENT_VERSION_WITH_DASHES}.kiali.io\"/" config.toml
+  git commit -am "Set base URL for branch: ${CURRENT_VERSION}"
 
-echo "===== Push the new version branch [${CURRENT_VERSION}] to remote [${REMOTE_NAME}]"
-git push ${REMOTE_NAME} ${CURRENT_VERSION}
+  echo "===== Push the new version branch [${CURRENT_VERSION}] to remote [${REMOTE_NAME}]"
+  git push ${REMOTE_NAME} ${CURRENT_VERSION}
+fi
 
 echo "===== Create a new branch named [${STAGING_BRANCH}] (or switch to it if it already exists)"
 git checkout -b ${STAGING_BRANCH} ${REMOTE_NAME}/${STAGING_BRANCH} || (git checkout ${STAGING_BRANCH} && git reset --hard ${REMOTE_NAME}/${STAGING_BRANCH})
 
-echo "===== Add new params.versions in config.toml for version [${CURRENT_VERSION}] in the branch [${STAGING_BRANCH}]"
-NEW_PARAMS_VERSIONS="${NEW_PARAMS_VERSIONS//\//\\/}"
-NEW_PARAMS_VERSIONS="${NEW_PARAMS_VERSIONS//$'\n'/\\n}"
-sed -i "s/${NEXT_PARAMS_VERSIONS_PLACEHOLDER}/${NEW_PARAMS_VERSIONS}/" config.toml
-git commit -am "Add params.versions: ${CURRENT_VERSION}"
+# Check if params.versions for this version already exists in config.toml
+if grep -q "version = \"${CURRENT_VERSION}\"" config.toml; then
+  echo "===== params.versions for [${CURRENT_VERSION}] already exists in config.toml, skipping"
+else
+  echo "===== Add new params.versions in config.toml for version [${CURRENT_VERSION}] in the branch [${STAGING_BRANCH}]"
+  NEW_PARAMS_VERSIONS="${NEW_PARAMS_VERSIONS//\//\\/}"
+  NEW_PARAMS_VERSIONS="${NEW_PARAMS_VERSIONS//$'\n'/\\n}"
+  sed -i "s/${NEXT_PARAMS_VERSIONS_PLACEHOLDER}/${NEW_PARAMS_VERSIONS}/" config.toml
+  git commit -am "Add params.versions: ${CURRENT_VERSION}"
 
-echo "===== Push the branch [${STAGING_BRANCH}] to remote [${REMOTE_NAME}]"
-git push ${REMOTE_NAME} ${STAGING_BRANCH}
+  echo "===== Push the branch [${STAGING_BRANCH}] to remote [${REMOTE_NAME}]"
+  git push ${REMOTE_NAME} ${STAGING_BRANCH}
+fi
 
 echo "===== Create a new branch named [${CURRENT_BRANCH}] (or switch to it if it already exists)"
 git checkout -b ${CURRENT_BRANCH} ${REMOTE_NAME}/${CURRENT_BRANCH} || git checkout ${CURRENT_BRANCH}
@@ -150,6 +158,10 @@ git reset --hard ${REMOTE_NAME}/${STAGING_BRANCH}
 
 echo "===== Set baseURL in config.toml for the branch [${CURRENT_BRANCH}]"
 sed -i "s/baseURL = .*/baseURL = \"https:\/\/kiali.io\"/" config.toml
+if git diff --quiet; then
+  echo "ERROR! baseURL in staging branch is already set to https://kiali.io. Aborting."
+  exit 1
+fi
 git commit -am "Set base URL for branch: ${CURRENT_BRANCH}"
 
 echo "===== Push the branch [${CURRENT_BRANCH}] to remote [${REMOTE_NAME}]"
