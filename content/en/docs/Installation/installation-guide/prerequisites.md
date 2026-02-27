@@ -14,8 +14,7 @@ those are not required by Kiali. Refer to the
 
 ### Optionally Enable the Debug Interface
 
-Like `istioctl`, Kiali can make use of Istio's port 8080 "Debug Interface" API. Despite the naming, this is required for accessing the status of the proxies
-and the Istio registry.
+Like `istioctl`, Kiali can make use of Istio's port 8080 "Debug Interface" API. Despite the naming, this is required for accessing the status of the proxies.
 
 The `ENABLE_DEBUG_ON_HTTP` setting controls the relevant API access. Istio suggests to disable this for security, but Kiali requires `ENABLE_DEBUG_ON_HTTP=true`,
 which is the default.

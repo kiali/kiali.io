@@ -33,7 +33,6 @@ When the Istio API is not available there is expected feature degradation in Kia
 * The proxy status won't be available in the workloads details view.
 * The [Istio validations](#a-nameistio_validationsa-istio-validations) may not be available.
 * The Kiali validations will not be available.
-* The [Istio Registry Services](#a-nameistio_registrya-istio-registry-services) that are not present in the Kubernetes list won't be available.
 
 Note that [Istio Configurations](#a-nameistio_configurationsa-istio-configurations) will be available. This is because the list of Istio configurations is obtained using the Kubernetes API. 
 
@@ -48,24 +47,12 @@ But, if the Istio Config was created when the validatingwebhookconfiguration web
 
 The Kiali validations won't be available, as they are degraded, so they have been disabled too. 
 
-### <a name="istio_registry"></a> Istio Registry Services
-
-The Istio Registry Services won't be available in the service list when the Istio API is disabled. 
-
-The following image shows a service list when Istio API is enabled: 
-
-<img src="/images/documentation/configuration/registry_services.png" />
-
-The following image shows the same list when it is disabled: 
-
-<img src="/images/documentation/configuration/registry_services_api_disabled.png" />
-
 ### <a name="istio_configurations"></a> Istio Configurations
 
 The Istio Configurations are available in view and edit mode. 
 It is important to know that the validations are disabled, so the configurations created or modified won't be validated.  
 
-There is one scenario where the creation/deletion/edition could fail: If the Istio validation webhook is enabled but the Istio registry is not available. In this case, the webhook should be removed in order for this to work. 
+There is one scenario where the creation/deletion/edition could fail: If the Istio validation webhook is enabled but Istiod is not reachable. In this case, the webhook should be removed in order for this to work.
 
 It can be checked with the following command: 
 
