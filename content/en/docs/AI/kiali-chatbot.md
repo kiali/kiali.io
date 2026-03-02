@@ -31,7 +31,7 @@ For configuration keys (enable/disable, providers/models, store), see the `chat_
 
 ### Tool schemas (inputs/outputs)
 
-Kiali Chatbot uses internal tools with defined input schemas and structured outputs. See [Kiali Chatbot tools (schemas)](../kiali-chatbot-tools/).
+Kiali Chatbot uses internal tools with defined input schemas and structured outputs. 
 
 ### Configuring the Kiali Chatbot
 
