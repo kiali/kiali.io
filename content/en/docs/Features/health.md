@@ -15,7 +15,7 @@ For more detail on how Kiali tracks the Istio infrastructure status, see the [Is
 
 ## Overview Health
 
-The default Kiali page is an Overview Dashboard. This view will quickly allow you to identify components with issues, including clusters, Istio configuration, control planes and data planes. It provides a graph showing all applications grouped by health, and a Service Insights ranking showing the services with the highest error rates and p95 latencies.
+The default Kiali page is an Overview Dashboard. This view will quickly allow you to identify components with issues, including clusters, Istio configuration, control planes and data planes. It provides a chart showing all applications grouped by health, and Service Insights showing the services with the top error rates and p95 latencies.
 
 ![Overview Health](/images/documentation/features/health-overview.png "Overview Health")
 
