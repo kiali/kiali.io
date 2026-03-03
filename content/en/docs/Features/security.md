@@ -17,7 +17,7 @@ Kiali shows a hollow lock when either the mesh is configured in `PERMISSIVE` mod
 
 ## Namespace locks
 
-The namespaces page shows all the available namespaces with aggregated data. Besides the health and validations, Kiali shows also the `mTLS` status at namespace-wide. Similar to the Mesh page, it shows a lock when strict `mTLS` is enabled or an open lock when permissive. A red open locker is shown when the mTLS is disabled. When the namespace doesn't include a mTLS policy and it is inherited from the mesh, a down arrow is shown, and the inherited mTLS is described in the badge. 
+The Namespaces page shows all the available namespaces with aggregated data. Besides the health and validations, Kiali also shows the namespace-wide `mTLS` status. Similar to the Mesh page, it shows a lock when strict `mTLS` is enabled or an open lock when permissive. A red open lock is shown when `mTLS` is disabled. When the namespace doesn't include an `mTLS` policy and it is inherited from the mesh, a down arrow is shown and the inherited `mTLS` is described in the badge.
 
 ![Overview: Namespace mTLS](/images/documentation/features/security-overview-mtls.png "Overview: Namespace mTLS")
 

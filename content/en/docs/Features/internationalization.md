@@ -5,7 +5,7 @@ description: "How Kiali is displayed in mutliple languages."
 
 Kiali is used worldwide and some users prefer to display Kiali in a language that they are more comfortable with than English. For this reason Kiali supports internationalization, and it can be localized into multiple languages.
 
-Current supported languages are English and Chinese.
+Current supported languages are English, Chinese and Spanish.
 
 ## Language Selector
 

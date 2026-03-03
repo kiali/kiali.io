@@ -86,7 +86,7 @@ spec:
     istio_upgrade_action: true
 ```
 
-Upgrade actions will appear in the namespaces menu (Kiali <= 2.23)
+Upgrade actions appear in the Namespaces page actions menu (Kiali >= 2.23).
 
 ![Canary upgrade action](/images/documentation/configuration/canary-upgrade-action.png "Canary upgrade action")
 
