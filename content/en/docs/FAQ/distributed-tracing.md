@@ -198,3 +198,14 @@ The trace limit can be changed from the UI, and it is available as a Display men
 ![Trace limit](/images/documentation/faq/tracing/trace_limit.png)
 
 The default value (Set to 100) can be modified in the Kiali CR setting `kiali_feature_flags.ui_defaults.tracing.limit`. 
+
+### Why do I see a Jaeger gRPC client error: i/o timeout?
+
+If you are using Tempo Operator 0.20, there is a bug where the gRPC port is closed and Kiali shows an error like:
+
+```yaml
+Could not fetch traces.
+GetAppTraces, Jaeger GRPC client error: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial tcp 172.30.14.34:16685: i/o timeout"
+```
+
+Other common causes are that the gRPC port is not exposed by the tracing Service, is blocked by a NetworkPolicy/firewall, or that `internal_url` is pointing to the wrong host/port.
