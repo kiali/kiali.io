@@ -23,7 +23,7 @@ The default Kiali page is an Overview Dashboard. This view will quickly allow yo
 
 The Kiali Graph offers a rich visualization of your service mesh traffic.  The health of Nodes and Edges is represented via a standard color system using shades of orange and red to reflect degraded and failure-level traffic health.  Red or orange nodes or edges may need attention. The color of an edge represents the request health between the relevant nodes. Note that node shape indicates the type of component, such as service, workload, or app.
 
-The health of nodes and edges is refreshed automatically based on the configuration of the cache. The graph can also be paused to examine a particular state, or replayed to re-examine a particular time period.
+The health of nodes and edges is refreshed automatically based on the user's desired refresh interval. The graph can also be paused to examine a particular state, or replayed to re-examine a particular time period.
 
 ![Graph Health](/images/documentation/features/health-graph.png "Graph Health")
 
