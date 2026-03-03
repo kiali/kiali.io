@@ -86,6 +86,8 @@ spec:
     istio_upgrade_action: true
 ```
 
+Upgrade actions will appear in the namespaces menu (Kiali <= 2.23)
+
 ![Canary upgrade action](/images/documentation/configuration/canary-upgrade-action.png "Canary upgrade action")
 
 The progress of the canary upgrade process can be tracked on the mesh page, which displays the namespaces pending migration to the canary Istio control plane.

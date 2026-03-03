@@ -70,11 +70,11 @@ K8s Reference Grants resources:
 
 Kiali also has Wizards available from the Overview page, and many details pages, such as Service Detail to create routing rules. The Kiali [Travel Tutorial]({{< ref "/docs/tutorials/travels" >}}) goes into several of these wizards.
 
-#### Overview Wizards
+#### Namespaces Wizards
 
-The Overview page has namespace-specific actions for creating traffic policies:
+The namespaces page (Kiali >= 2.23) has namespace-specific actions for creating traffic policies:
 
-![Overview Actions](/images/documentation/features/overview-actions.png "Overview Actions")
+![Namespace Actions](/images/documentation/features/overview-actions.png "Namespace Actions")
 
 #### Service Wizards
 

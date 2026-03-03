@@ -19,7 +19,8 @@ The Kiali Ambient features, as well as Ambient Mesh, are evolving. Some of these
 
 ### Control Plane Ambient Mesh
 
-When the control plane is in Ambient mode, Kiali will show an Ambient badge on the Overview page control plane namespace card.  It will also be reflected in the control plane side-panel on the Mesh page.
+When the control plane is in Ambient mode, Kiali will show an Ambient badge on the Namespace for the control plane namespace,
+in the `type` column.  It will also be reflected in the control plane side-panel on the Mesh page.
 This badge indicates that Kiali has detected a ztunnel (the L4 component for Ambient) in the control plane.
 
 ![Ambient Control Plane](/images/documentation/features/ambient/ambient-control-plane.png)
@@ -30,7 +31,8 @@ For Kiali to detect Ambient, it needs to have access to the namespace were ztunn
 
 ### Ambient Namespace
 
-When a namespace is labeled with `istio.io/dataplane-mode=ambient` it is included in Ambient Mesh, and Kiali will show the Ambient badge on that Overview page namespace card: 
+When a namespace is labeled with `istio.io/dataplane-mode=ambient` it is included in Ambient Mesh, Kiali will show the 
+number of Ambient data planes, as well as the number of the Sidecar data planes: 
 
 ![Ambient Data Plane](/images/documentation/features/ambient/ambient-data-plane.png)
 

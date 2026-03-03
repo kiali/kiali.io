@@ -15,7 +15,8 @@ For more detail on how Kiali tracks the Istio infrastructure status, see the [Is
 
 ## Overview Health
 
-The default Kiali page is an Overview Dashboard.  This view will quickly allow you to identify namespaces with issues.  It provides a summary of configuration health, component health and request traffic health.  The component health is selectable via a dropdown and the page offers various filter, sort and presentation options:
+The default Kiali page is an Overview Dashboard.  This view will quickly allow you to identify components with issues; 
+clusters, Istio configurations, control planes and data planes.  It provides a graph showing all the applications grouped by health, and a Service insights ranking showing the services with higher error rate and the services with highest P95 latency. 
 
 ![Overview Health](/images/documentation/features/health-overview.png "Overview Health")
 
@@ -23,7 +24,7 @@ The default Kiali page is an Overview Dashboard.  This view will quickly allow y
 
 The Kiali Graph offers a rich visualization of your service mesh traffic.  The health of Nodes and Edges is represented via a standard color system using shades of orange and red to reflect degraded and failure-level traffic health.  Red or orange nodes or edges may need attention. The color of an edge represents the request health between the relevant nodes. Note that node shape indicates the type of component, such as service, workload, or app.
 
-The health of nodes and edges is refreshed automatically based on the user's preference. The graph can also be paused to examine a particular state, or replayed to re-examine a particular time period.
+The health of nodes and edges is refreshed automatically based on the configuration of the cache. The graph can also be paused to examine a particular state, or replayed to re-examine a particular time period.
 
 ![Graph Health](/images/documentation/features/health-graph.png "Graph Health")
 
