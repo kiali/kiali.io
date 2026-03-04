@@ -66,15 +66,15 @@ K8s Reference Grants resources:
 
 ![K8sReferenceGrant](/images/documentation/features/istio-config-wizard-k8s-referencegrants.png "K8sReferenceGrant")
 
-###  Other Kiali Wizards
+### Other Kiali Wizards
 
-Kiali also has Wizards available from the Overview page, and many details pages, such as Service Detail to create routing rules. The Kiali [Travel Tutorial]({{< ref "/docs/tutorials/travels" >}}) goes into several of these wizards.
+Kiali also has Wizards available from the Namespaces page (Kiali >= 2.23) and many details pages, such as Service Detail to create routing rules. The Kiali [Travel Tutorial]({{< ref "/docs/tutorials/travels" >}}) goes into several of these wizards.
 
-#### Overview Wizards
+#### Namespaces Page Wizards
 
-The Overview page has namespace-specific actions for creating traffic policies:
+The Namespaces page (Kiali >= 2.23) has namespace-specific actions for creating traffic policies:
 
-![Overview Actions](/images/documentation/features/overview-actions.png "Overview Actions")
+![Namespace Actions](/images/documentation/features/overview-actions.png "Namespace Actions")
 
 #### Service Wizards
 

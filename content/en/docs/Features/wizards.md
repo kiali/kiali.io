@@ -113,7 +113,7 @@ Kiali allows users to alter the Deployment template and propagate this configura
 
 ## Namespace Actions
 
-The Kiali Overview page offers several *Namespace* actions, in any of its views: Expanded, Compacted or Table.
+The Kiali Namespaces page (Kiali >= 2.23) offers several *Namespace* actions.
 
 ![Namespace Actions](/images/documentation/features/actions-namespace.png "Namespace Actions")
 

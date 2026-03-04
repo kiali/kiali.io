@@ -7,7 +7,11 @@ Kiali offers multiple ways for users to examine their mesh Topology.  Each combi
 
 ## Overview
 
-Kiali's default page is the topology _Overview_.  It presents a high-level view of the namespaces accessible to Kiali, for this user.  It combines service and application information, along with telemetry, validations and health, to provide a holistic summary of system behvior.  The _Overview_ page provides numerous filtering, sorting and presentation options.  From here users can perform namespace-level Actions, or quickly navigate to more detailed views.
+Kiali's default landing page is the mesh _Overview_.  It presents a high-level view of the mesh clusters, control planes, data planes, and configuration, for the user.  It combines service and application information, along with telemetry, validations and health, to provide a holistic summary of the system behavior. It highlights potential issues that the user may need to investigate.
+
+![Topology overview](/images/documentation/features/multi-cluster-overview.png)
+
+The _Namespaces_ page (Kiali >= 2.23) provides numerous filtering, sorting and presentation options for the available namespaces.  From here users can perform namespace-level Actions, or quickly navigate to more detailed views.
 
 ![Topology namespace overview](/images/documentation/features/topology-overview.png)
 

@@ -6,7 +6,7 @@ description: Visualizing Ambient Mesh with Kiali
 Kiali provides visualization for Ambient Mesh components: 
 
 * [Control Plane Ambient Mesh](#control-plane-ambient-mesh)
-* [Ambient nampespace](#ambient-namespace)
+* [Ambient namespace](#ambient-namespace)
 * [Workloads in Ambient Mesh](#workloads-in-ambient-mesh)
 * [Waypoint proxy details](#waypoint-proxy-details)
 * [Ztunnel details](#ztunnel-details)
@@ -19,18 +19,20 @@ The Kiali Ambient features, as well as Ambient Mesh, are evolving. Some of these
 
 ### Control Plane Ambient Mesh
 
-When the control plane is in Ambient mode, Kiali will show an Ambient badge on the Overview page control plane namespace card.  It will also be reflected in the control plane side-panel on the Mesh page.
-This badge indicates that Kiali has detected a ztunnel (the L4 component for Ambient) in the control plane.
+When the control plane is in Ambient mode, Kiali will show an Ambient badge on the Namespaces page, for the control plane namespace,
+in the `Type` column. It will also be reflected in the control plane side-panel on the Mesh page.
+This badge indicates that Kiali has detected a `ztunnel` (the L4 component for Ambient) in the control plane namespace.
 
 ![Ambient Control Plane](/images/documentation/features/ambient/ambient-control-plane.png)
 
 {{% alert color="warning" %}}
-For Kiali to detect Ambient, it needs to have access to the namespace were ztunnel is deployed. This is usually the istio namespace, but on platforms such as OpenShift, it may differ.
+For Kiali to detect Ambient, it needs to have access to the namespace where `ztunnel` is deployed. This is usually the Istio control plane namespace (often `istio-system`), but on platforms such as OpenShift, it may differ.
 {{% /alert %}}
 
 ### Ambient Namespace
 
-When a namespace is labeled with `istio.io/dataplane-mode=ambient` it is included in Ambient Mesh, and Kiali will show the Ambient badge on that Overview page namespace card: 
+When a namespace is labeled with `istio.io/dataplane-mode=ambient`, it is enrolled in Ambient Mesh. On the Namespaces page, Kiali will show the
+number of ambient data planes, as well as the number of sidecar data planes.
 
 ![Ambient Data Plane](/images/documentation/features/ambient/ambient-data-plane.png)
 
