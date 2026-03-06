@@ -46,7 +46,7 @@ But, if the Istio Config was created when the validatingwebhookconfiguration web
 
 <img src="/images/documentation/configuration/istio_validations.png" />
 
-The Kiali validations won't be available, as they are degraded, so they have been disabled too. 
+Starting with Kiali 2.22, the Kiali validations are available even when the Istio API is disabled (in earlier versions they were disabled too). 
 
 ### <a name="istio_configurations"></a> Istio Configurations
 
