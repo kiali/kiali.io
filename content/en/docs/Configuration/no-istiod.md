@@ -31,8 +31,9 @@ When the Istio API is not available there is expected feature degradation in Kia
 
 * The control plane metrics won't be available.
 * The proxy status won't be available in the workloads details view.
+* The control plane status will be calculated based on the namespace status, instead of the istio component status.
 * The [Istio validations](#a-nameistio_validationsa-istio-validations) may not be available.
-* The Kiali validations will not be available.
+* From Kiali >= 2.23, the Kiali validations are available.
 
 Note that [Istio Configurations](#a-nameistio_configurationsa-istio-configurations) will be available. This is because the list of Istio configurations is obtained using the Kubernetes API. 
 
@@ -45,7 +46,7 @@ But, if the Istio Config was created when the validatingwebhookconfiguration web
 
 <img src="/images/documentation/configuration/istio_validations.png" />
 
-The Kiali validations won't be available, as they are degraded, so they have been disabled too. 
+Starting with Kiali 2.23, the Kiali validations are available even when the Istio API is disabled (in earlier versions they were disabled too). 
 
 ### <a name="istio_configurations"></a> Istio Configurations
 
