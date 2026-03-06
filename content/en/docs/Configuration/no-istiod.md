@@ -33,7 +33,7 @@ When the Istio API is not available there is expected feature degradation in Kia
 * The proxy status won't be available in the workloads details view.
 * The control plane status will be calculated based on the namespace status, instead of the istio component status.
 * The [Istio validations](#a-nameistio_validationsa-istio-validations) may not be available.
-* From Kiali >= 2.22, the Kiali validations are available.
+* From Kiali >= 2.23, the Kiali validations are available.
 
 Note that [Istio Configurations](#a-nameistio_configurationsa-istio-configurations) will be available. This is because the list of Istio configurations is obtained using the Kubernetes API. 
 
