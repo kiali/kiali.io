@@ -6,6 +6,27 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 2.23.0
+Sprint Release: March 09, 2026
+
+Features:
+
+* [AI: Implement get_resource_metrics tool for CPU and Memory monitoring.](https://github.com/kiali/kiali/issues/9138)
+* [AI: Implement get_logs tool for retrieving pod/container logs.](https://github.com/kiali/kiali/issues/9140)
+* [AI: Comprehensive documentation for features.](https://github.com/kiali/kiali/issues/9147)
+* [AI: Integrate Chatbot AI into new Overview and Namespace pages](https://github.com/kiali/kiali/issues/9153)
+* [API: K8s GW API to v1.5.0](https://github.com/kiali/kiali/issues/9275)
+* [OSSMC: New Overview page](https://github.com/kiali/kiali/issues/9189)
+* [Security: Update to Go v1.24.13](https://github.com/kiali/kiali/issues/9261)
+* [Server: Remove Istio Service Registry dependency on Validations](https://github.com/kiali/kiali/issues/6922)
+* [UI: New Overview and Namespaces Pages](https://github.com/kiali/kiali/issues/8845)
+
+Fixes:
+
+* [Multiple Kiali metric-calculation defects produce incorrect user-visible values](https://github.com/kiali/kiali/issues/9297)
+* [remove root_namespace section in docs](https://github.com/kiali/kiali/issues/9236)
+* [Nil pointer dereference in SubsetPresenceChecker when VirtualService has nil route destinations](https://github.com/kiali/kiali/issues/9276)
+
 ## 2.22.0
 Sprint Release: February 16, 2026
 
