@@ -1,8 +1,28 @@
 {{- $maxBlogPosts := 3 }}
-{{- $mediumURL    := "https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/kialiproject" }}
-{{- $json         := getJSON $mediumURL }}
-{{- $posts        := first $maxBlogPosts $json.items }}
-{{- $latestPost   := index $json.items 1 }}
+{{- $mediumFeedURL := "https://medium.com/feed/kialiproject" }}
+{{- $feedData     := dict }}
+{{- $opts         := dict "timeout" "10s" }}
+{{- $r            := resources.GetRemote $mediumFeedURL $opts }}
+{{- if $r }}
+  {{- if $r.Err }}
+    {{- warnf "Blog shortcode: failed to fetch Medium feed: %s" $r.Err }}
+  {{- else }}
+    {{- $parsed := $r.Content | transform.Unmarshal (dict "format" "xml") }}
+    {{- if $parsed.channel }}
+      {{- $feedData = $parsed }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+
+{{- $items := slice }}
+{{- if $feedData.channel.item }}
+  {{- $rawItems := $feedData.channel.item }}
+  {{- if reflect.IsMap $rawItems }}
+    {{- $items = slice $rawItems }}
+  {{- else }}
+    {{- $items = first $maxBlogPosts $rawItems }}
+  {{- end }}
+{{- end }}
 
 <h3 class="blog-header">
   Latest
@@ -11,13 +31,29 @@
   </a>
 </h3>
 
-{{ range $posts }}
-  {{ $link    := .link }}
-  {{ $title   := .title }}
-  {{ $author  := .author }}
-  {{ $dateRaw := .pubDate }}
-  {{ $date    := dateFormat "January 2, 2006" $dateRaw }}
-  {{ $summary := .description | plainify | truncate 200 }}
+{{ range $items }}
+  {{- $link := .link }}
+  {{- $title := .title }}
+  {{- if reflect.IsMap $title }}
+    {{- $title = index $title "#text" | default (index $title "content") | default "" }}
+  {{- end }}
+  {{- $author := or .creator .author "Kiali" }}
+  {{- if reflect.IsMap $author }}
+    {{- $author = index $author "#text" | default "Kiali" }}
+  {{- end }}
+  {{- $dateRaw := .pubDate }}
+  {{- $date := dateFormat "January 2, 2006" $dateRaw }}
+  {{- $desc := .description }}
+  {{- if reflect.IsMap $desc }}
+    {{- $desc = index $desc "#text" | default (index $desc "content") | default "" }}
+  {{- end }}
+  {{- if not $desc }}
+    {{- $desc = .encoded }}
+    {{- if reflect.IsMap $desc }}
+      {{- $desc = index $desc "#text" | default (index $desc "content") | default "" }}
+    {{- end }}
+  {{- end }}
+  {{- $summary := $desc | plainify | truncate 200 }}
   <div class="col-lg-4 mb-5 mb-lg-0 text-center ">
     <div class="blog-card">
       <figure>
