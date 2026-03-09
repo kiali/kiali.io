@@ -1,12 +1,26 @@
 {{- $maxVids := 3 }}
-{{- $feedURL      := "https://www.toptal.com/developers/feed2json/convert?url=https://www.youtube.com/feeds/videos.xml?channel_id=UCcm2NzDN_UCZKk2yYmOpc5w" }}
-{{- $videos       := slice }}
-{{- $json         := getJSON $feedURL }}
-{{- if $json }}
-  {{- if $json.items }}
-    {{- if gt (len $json.items) 0 }}
-      {{- $videos = first $maxVids $json.items }}
+{{- $feedURL   := "https://www.youtube.com/feeds/videos.xml?channel_id=UCcm2NzDN_UCZKk2yYmOpc5w" }}
+{{- $feedData  := dict }}
+{{- $opts      := dict "timeout" "10s" }}
+{{- $r         := resources.GetRemote $feedURL $opts }}
+{{- if $r }}
+  {{- if $r.Err }}
+    {{- warnf "Videos shortcode: failed to fetch YouTube feed: %s" $r.Err }}
+  {{- else }}
+    {{- $parsed := $r.Content | transform.Unmarshal (dict "format" "xml") }}
+    {{- if $parsed.entry }}
+      {{- $feedData = $parsed }}
     {{- end }}
+  {{- end }}
+{{- end }}
+
+{{- $entries := slice }}
+{{- if $feedData.entry }}
+  {{- $raw := $feedData.entry }}
+  {{- if reflect.IsMap $raw }}
+    {{- $entries = slice $raw }}
+  {{- else }}
+    {{- $entries = first $maxVids $raw }}
   {{- end }}
 {{- end }}
 
@@ -17,13 +31,33 @@
   </a>
 </h3>
 
-{{ if $videos }}
-{{ range $videos }}
-  {{ $url    := .url }}
-  {{ $vidId   := index (split .guid ":") 2 }}
-  {{ $title   := .title | truncate 80 }}
-  {{ $dateRaw := .date_published }}
-  {{ $date    := dateFormat "January 2, 2006" $dateRaw }}
+{{ if $entries }}
+{{ range $entries }}
+  {{- $vidId := .videoId | default (index . "videoId") }}
+  {{- if not $vidId }}
+    {{- $vidId = index (split .id ":") 2 }}
+  {{- end }}
+  {{- $url := "" }}
+  {{- if reflect.IsMap .link }}
+    {{- $url = .link.href | default (index .link "href") | default "" }}
+  {{- else }}
+    {{- range .link }}
+      {{- $rel := .rel | default (index . "-rel") }}
+      {{- if or (eq $rel "alternate") (not $url) }}
+        {{- $url = .href | default (index . "href") | default $url }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+  {{- if not $url }}
+    {{- $url = printf "https://www.youtube.com/watch?v=%s" $vidId }}
+  {{- end }}
+  {{- $title := .title }}
+  {{- if reflect.IsMap $title }}
+    {{- $title = index $title "#text" | default (index $title "content") | default "" }}
+  {{- end }}
+  {{- $title = $title | truncate 80 }}
+  {{- $dateRaw := .published | default (index . "published") }}
+  {{- $date := dateFormat "January 2, 2006" $dateRaw }}
   <div class="col-lg-4 mb-5 mb-lg-0 text-center ">
     <div class="video-card">
       <figure>
