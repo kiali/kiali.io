@@ -5856,7 +5856,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The annotation used by Istio to identify domains.</p>
+<p>The Kubernetes cluster DNS domain suffix used to construct fully qualified service hostnames (e.g. reviews.bookinfo.svc.cluster.local) and service account identity strings for validation.</p>
 
 </div>
 
@@ -5970,7 +5970,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>How often in seconds Kiali will poll istiod(s) for proxy status and registry services. Polling is not performed if istio_api_enabled is false.</p>
+<p>How often in seconds Kiali will poll istiod(s) for proxy status. Polling is not performed if istio_api_enabled is false.</p>
 
 </div>
 
