@@ -66,6 +66,38 @@ Both the Kiali Operator and the Kiali Server helm chart automatically create the
 
 If the `OAuthClient` names do not match across clusters, OAuth authentication will fail.
 
+#### OAuthClient Redirect URIs for Remote Cluster Resources
+
+When using `remote_cluster_resources_only: true` on a remote cluster with the `openshift` auth strategy, the Kiali Operator must create an `OAuthClient` resource but cannot automatically determine the redirect URI (since there is no Kiali server or route on the remote cluster). You must explicitly specify the redirect URI in the Kiali CR on the remote cluster via `spec.auth.openshift.redirect_uris`. Without this, the Kiali Operator will fail to reconcile with the error:
+
+```
+Redirect URIs for the Kiali Server OAuthClient are not specified via auth.openshift.redirect_uris;
+this is required when creating remote cluster resources with auth.strategy of openshift.
+```
+
+The redirect URI must point back to the Kiali server on the cluster where Kiali is deployed, in the form `https://<kiali-route-host>/api/auth/callback`. To determine the correct URI:
+
+- If Kiali is already deployed, get the route: `oc get route -l app.kubernetes.io/name=kiali -n istio-system -o jsonpath='{..spec.host}'`
+- If Kiali is not yet deployed, you can predict the route hostname from the cluster's app domain:
+
+```sh
+oc get ingresses.config.openshift.io cluster -o jsonpath='{.spec.domain}'
+```
+
+The Kiali route will be somethign like `kiali-<namespace>.<app-domain>`, so the full redirect URI will be something like `https://kiali-<namespace>.<app-domain>/api/auth/callback`.
+
+For example, if Kiali is deployed in namespace `istio-system` and the app domain is `apps.east.example.com`, the Kiali CR on the remote cluster should include:
+
+```yaml
+spec:
+  auth:
+    openshift:
+      redirect_uris:
+        - https://kiali-istio-system.apps.east.example.com/api/auth/callback
+  deployment:
+    remote_cluster_resources_only: true
+```
+
 #### User Login Flow for Multi-Cluster
 
 When using the `openshift` strategy with multiple clusters, users must be logged into each cluster in order to access resources on that cluster. The Kiali UI provides a mechanism to log into remote clusters:
