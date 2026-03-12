@@ -30,9 +30,19 @@ Although not required for some deployment models, it is recommended that the Kia
 If you would like to keep a separate Kiali per cluster and do not want to give Kiali access to remote clusters, you can still manually specify the remote cluster and remote Kiali URLs in the Kiali configuration and the UI will try to provide links to the remote Kiali where appropriate. See [below](#adding-an-inaccessible-cluster) for more details.
 {{% /alert %}}
 
-1. **Create a SA and its associated resources on the remote cluster.** In order for Kiali to access a remote cluster, you first must create a SA and its role/role binding with the proper permissions. The Kiali Operator can create these resources for you; simply deploy the Kiali Operator on the remote cluster and then create a Kiali CR on that remote cluster making sure to set the Kiali CR setting `spec.deployment.remote_cluster_resources_only` to `true`. The Kiali Operator will manage those remote cluster resources for you; deleting the Kiali CR will instruct the Kiali Operator to remove the resources. If you elect not to use the Kiali Operator, you can use the Kiali Server helm chart (with the `--set deployment.remote_cluster_resources_only=true` option) or the [kiali-prepare-remote-cluster.sh script](https://github.com/kiali/kiali/blob/master/hack/istio/multicluster/kiali-prepare-remote-cluster.sh) (with the `--process-remote-resources true` option) to create these remote cluster resources.
+1. **Create a SA and its associated resources on the remote cluster.** In order for Kiali to access a remote cluster, you first must create a SA and its role/role binding with the proper permissions. There are three ways to do this:
 
-2. **Create a remote cluster secret.** In order for Kiali to access a remote cluster, you must provide a kubeconfig to Kiali via a Kubernetes secret. This requires you to obtain a token for the remote cluster's SA created in step 1. A remote cluster secret will look something like this:
+   - **Kiali Operator (recommended):** Deploy the Kiali Operator on the remote cluster and create a Kiali CR with `spec.deployment.remote_cluster_resources_only: true`. The Operator will create and manage the SA, role, and role binding. Deleting the Kiali CR will remove these resources.
+
+   - **Kiali Server helm chart:** Use the `kiali-server` helm chart with `--set deployment.remote_cluster_resources_only=true`.
+
+   - **`kiali-prepare-remote-cluster.sh` script:** Use the script with `--process-remote-resources true`. See the script usage notes in step 2 below.
+
+   {{% alert color="info" %}}
+   If using the `openshift` auth strategy, there are additional OpenShift-specific requirements for this step. See the [OpenShift multi-cluster documentation]({{< relref "../authentication/openshift#multi-cluster" >}}) before proceeding.
+   {{% /alert %}}
+
+2. **Create a remote cluster secret.** Kiali needs a kubeconfig stored in a Kubernetes secret in order to access the remote cluster. This secret contains the SA token from step 1 and the remote cluster's connection info. A remote cluster secret will look something like this:
 
 ```yaml
 apiVersion: v1
@@ -63,7 +73,7 @@ stringData:
         certificate-authority-data: <...the long CA data goes here...>
 ```
 
-You can place multiple kubeconfigs in a single secret. A Kiali multi-cluster secret will look similar to a single cluster secret, but with multiple kubeconfigs each with a key that is the name of the remote cluster (in the example below, there are two keys: `my-cluster-name` and `my-other-cluster`). Name the secret `kiali-multi-cluster-secret` for the added benefit of having the operator automatically detect this secret without having to configure anything within the Kiali CR. If you do name the secret `kiali-multi-cluster-secret` you also can add to it the label `kiali.io/kiali-multi-cluster-secret="true"` which will tell the operator to restart the Kiali Server pod automatically when the secret changes thus allowing the server to pick up the changes immediately.
+You can place multiple kubeconfigs in a single secret, each under its own key in `stringData` where the key name must be the name of the remote cluster. Name the secret `kiali-multi-cluster-secret` for the added benefit of having the operator automatically detect this secret without having to configure anything within the Kiali CR. If you do name the secret `kiali-multi-cluster-secret` you also can add to it the label `kiali.io/kiali-multi-cluster-secret="true"` which will tell the operator to restart the Kiali Server pod automatically when the secret changes thus allowing the server to pick up the changes immediately. A multi-cluster secret with two clusters named `my-cluster-name` and `my-other-cluster` would look like this:
 
 ```yaml
 apiVersion: v1
@@ -165,20 +175,31 @@ chmod +x kiali-prepare-remote-cluster.sh
 Use the option `--help` for additional details on using the script to create and delete the remote cluster resources and secrets.
 {{% /alert %}}
 
-3. **Configure Kiali.** The Kiali CR provides configuration settings that enable the Kiali Server to use remote cluster secrets in order to access remote clusters. By default, the Kiali Operator will [auto-detect](/docs/configuration/kialis.kiali.io/#.spec.clustering.autodetect_secrets) any remote cluster secret that has a label `kiali.io/multiCluster="true"` and is found in the Kiali deployment namespace. The secrets created by the `kiali-prepare-remote-cluster.sh` script will be created that way and thus can be auto-detected. Alternatively, in the Kiali CR you can [explicitly specify each remote cluster secret](/docs/configuration/kialis.kiali.io/#.spec.clustering.clusters) rather than rely on auto-discovery. As a final alternative, you can create a single secret named `kiali-multi-cluster-secret` within the Kiali deployment namespace. Within that single secret you put the kubeconfigs for all of your remote clusters, each kubeconfig within its own top-level key under the secret's `stringData`, where the key name is the name of the cluster. As an added feature, if you label that `kiali-multi-cluster-secret` with the label `kiali.io/kiali-multi-cluster-secret="true"` then the Kiali Operator will be able to auto-detect changes to that secret and rollout a new Kiali Server pod so it can automatically update the remote cluster information.
+3. **Configure Kiali.** The Kiali Operator needs to know about the remote cluster secrets so it can mount them into the Kiali Server pod. There are three ways to do this:
+
+   - **Auto-discovery by label (default):** The Kiali Operator will automatically detect any secret in the Kiali deployment namespace that has the label `kiali.io/multiCluster="true"`. The secrets created by the `kiali-prepare-remote-cluster.sh` script are labeled this way and will be auto-detected with no additional Kiali CR configuration needed.
+
+   - **Explicit configuration:** In the Kiali CR you can [explicitly specify each remote cluster secret](/docs/configuration/kialis.kiali.io/#.spec.clustering.clusters) rather than rely on auto-discovery.
+
+   - **Single combined secret:** Create a single secret named `kiali-multi-cluster-secret` in the Kiali deployment namespace containing kubeconfigs for all remote clusters, each under its own top-level key in `stringData` where the key is the cluster name. If you also label this secret with `kiali.io/kiali-multi-cluster-secret="true"`, the Kiali Operator will auto-detect changes and roll out a new Kiali Server pod automatically.
+
    {{% alert color="info" %}}
    Do **not** use the label `kiali.io/kiali-multi-cluster-secret="true"` on any other secret not specifically named `kiali-multi-cluster-secret`. The operator will not have permission to see that secret and errors will occur if you attempt this.
    {{% /alert %}}
    {{% alert color="info" %}}
-   If you have multiple Kial Servers deployed in the same namespace, and you want to use that single secret named `kiali-multi-cluster-secret`, all Kiali Servers in that namespace are required to use that secret. If you want each Kiali Server to talk to a different set of clusters, you must not use the `kiali-multi-cluster-secret` secret.
+   If you have multiple Kiali Servers deployed in the same namespace, and you want to use that single secret named `kiali-multi-cluster-secret`, all Kiali Servers in that namespace are required to use that secret. If you want each Kiali Server to talk to a different set of clusters, you must not use the `kiali-multi-cluster-secret` secret.
    {{% /alert %}}
-   Given the remote cluster secrets it knows about (either through auto-discovery or through explicit configuration) the Kiali Operator will mount the remote cluster secrets into the Kiali Server pod effectively putting Kiali in "multi-cluster" mode. Kiali will begin using those credentials to communicate with the other clusters in the mesh.
 
-4. Optional - **Configure user access in your OIDC provider.** When using anonymous mode, the Kiali SA credentials will be used to display mesh info to the user. When not using anonymous mode, Kiali will check the user's access to each configured cluster's namespace before showing the user any resources from that namespace. Please refer to your OIDC provider's instructions for configuring user access to a kube cluster for this. If using the `openshift` auth strategy, see the [OpenShift multi-cluster documentation]({{< relref "../authentication/openshift#multi-cluster" >}}) for important information specific to OpenShift.
+   Once the Kiali Operator knows about the remote cluster secrets (either through auto-discovery or through explicit configuration) it will mount them into the Kiali Server pod, putting Kiali in "multi-cluster" mode. Kiali will begin using those credentials to communicate with the other clusters in the mesh.
+
+4. **Configure user access.** When using anonymous mode, the Kiali SA credentials will be used to display mesh info to the user. When not using anonymous mode, Kiali will check the user's access to each configured cluster's namespace before showing the user any resources from that namespace.
+
+   - For **OpenID**, refer to your OIDC provider's instructions for configuring user access to a Kubernetes cluster.
+   - For **OpenShift**, see the [OpenShift multi-cluster documentation]({{< relref "../authentication/openshift#multi-cluster" >}}) for important information about logging into remote clusters from the Kiali UI. This step is required — users must log into each cluster via the Kiali UI to access resources on that cluster.
 
 5. Optional - **Narrow metrics to mesh.** If your unified metrics store also contains data outside of your mesh, you can limit which metrics Kiali will query for by setting the [query_scope](/docs/configuration/kialis.kiali.io#.spec.external_services.prometheus.query_scope) configuration.
 
-That's it! From here you can login to Kiali and manage your mesh across both clusters from a single Kiali instance.
+That's it! From here you can login to Kiali and manage your mesh across all clusters from a single Kiali instance.
 
 ### Removing a Cluster
 
@@ -192,7 +213,9 @@ After the remote cluster secret has been removed, you must then tell the Kiali O
 
 ### Adding an Inaccessible Cluster
 
-In situations where Kiali does not have access to remote clusters, you can manually specify the remote cluster info along with any Kialis running on the remote clusters and Kiali will try to provide links to these in the UI. For example, if there is a Kiali on the `east` cluster that does not have access to the `west` cluster and a Kiali on the `west` cluster that does not have access to the `east` cluster, you can add the following to your Kiali configurations to have each Kiali generate links to the Kiali for that cluster.
+If you would like to keep a separate Kiali per cluster or you do not want to give Kiali access to remote clusters, you can still manually specify the remote clusters and remote Kiali URLs in the Kiali configuration and the Kiali UI will try to provide links to the remote Kiali UIs where appropriate.
+
+For example, if there is a Kiali on the `east` cluster that does not have access to the `west` cluster and a Kiali on the `west` cluster that does not have access to the `east` cluster, you can add the following to your Kiali configurations to have each Kiali generate links to the Kiali for that cluster.
 
 East Kiali configuration
 
