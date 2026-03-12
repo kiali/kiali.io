@@ -58,6 +58,26 @@ It is recommended that the Kiali Operator be deployed on all clusters, even if K
 - `spec.deployment.remote_cluster_resources_only: true`
   {{% /alert %}}
 
+#### OpenShift OAuthClient Naming
+
+OpenShift OAuth requires an `OAuthClient` resource on each cluster to be named `<instance-name>-<namespace>`. For example, if Kiali is installed with the default instance name `kiali` in namespace `istio-system`, the OAuthClient on every cluster must be named `kiali-istio-system`.
+
+Both the Kiali Operator and the Kiali Server helm chart automatically create the `OAuthClient` with the correct name when they create the remote cluster resources. The `kiali-prepare-remote-cluster.sh` script also delegates to the Kiali Server helm chart for resource creation and will produce a correctly-named `OAuthClient`, provided you pass `--kiali-resource-name` and `--remote-cluster-namespace` values that match the Kiali instance name and namespace on the cluster where Kiali is deployed. If you are managing resources entirely manually, ensure the `OAuthClient` on the remote cluster is named consistently with the Kiali instance name and namespace.
+
+If the `OAuthClient` names do not match across clusters, OAuth authentication will fail.
+
+#### User Login Flow for Multi-Cluster
+
+When using the `openshift` strategy with multiple clusters, users must be logged into each cluster in order to access resources on that cluster. The Kiali UI provides a mechanism to log into remote clusters:
+
+1. In your browser, navigate to the Kiali UI and log in using your credentials for the cluster where Kiali is deployed.
+2. Once logged in, use the user profile dropdown in the Kiali UI to initiate login to each remote cluster. Kiali will redirect you to the remote cluster's OpenShift login page.
+3. Log in with your credentials for that remote cluster. You will be redirected back to the Kiali UI. Repeat step 2 for each additional remote cluster until you are logged into all clusters.
+
+{{% alert color="info" %}}
+Currently, OpenShift OAuth does not provide SSO across clusters. Each cluster requires its own login. If you are having trouble logging into a remote cluster from within Kiali, try starting a fresh private/incognito browser tab to ensure there are no stale OAuth cookies from prior logins to the remote cluster's OpenShift console.
+{{% /alert %}}
+
 #### Using an internal or self-signed certificate
 
 If you have a multi-cluster Kiali deployment and the OAuth server is configured with an external IdP that uses an internal or self-signed certificate, you can configure Kiali to trust the server's certificate by creating a ConfigMap named `kiali-oauth-cabundle` containing the CA certificate bundle for the server under the `oauth-server-ca.crt` key:
