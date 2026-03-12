@@ -80,11 +80,7 @@ The redirect URI must point back to the Kiali server on the cluster where Kiali 
 To determine the correct URI:
 
 - If Kiali is already deployed, run this on the cluster where Kiali is deployed: `oc get route -l app.kubernetes.io/name=kiali -n <kiali-namespace> -o jsonpath='{..spec.host}'`
-- If Kiali is not yet deployed, you can predict the route hostname from the cluster's app domain by running this on the cluster where Kiali will be deployed:
-
-```sh
-oc get ingresses.config.openshift.io cluster -o jsonpath='{.spec.domain}'
-```
+- If Kiali is not yet deployed, you can predict the route hostname from the cluster's app domain by running this on the cluster where Kiali will be deployed: `oc get ingresses.config.openshift.io cluster -o jsonpath='{.spec.domain}'`
 
 The Kiali route hostname will be something like `kiali-<namespace>.<app-domain>`, so the full redirect URI will be something like `https://kiali-<namespace>.<app-domain>/api/auth/callback/<remote-cluster-name>`, where `<remote-cluster-name>` is the Istio cluster name of the remote cluster.
 
