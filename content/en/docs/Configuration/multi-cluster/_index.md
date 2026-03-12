@@ -142,6 +142,26 @@ chmod +x kiali-prepare-remote-cluster.sh
 ./kiali-prepare-remote-cluster.sh --kiali-cluster-context east --remote-cluster-context west --view-only false --process-kiali-secret true --process-remote-resources true
 ```
 
+**If you used the Kiali Operator (or helm chart) to create the remote cluster resources** (step 1 above) and are using this script only to create the remote cluster secret (`--process-remote-resources false --process-kiali-secret true`), you must pass `--kiali-resource-name` set to the name of the Service Account created by the Operator. The Operator names the SA `<instance_name>-service-account` (e.g. `kiali-service-account` for the default instance name `kiali`). For example:
+
+```sh
+./kiali-prepare-remote-cluster.sh \
+  --kiali-cluster-context east \
+  --remote-cluster-context west \
+  --kiali-resource-name kiali-service-account \
+  --process-remote-resources false \
+  --process-kiali-secret true \
+  --view-only false
+```
+
+**Specifying the remote cluster name:** The script derives the remote cluster name from the kubeconfig context, which may contain characters not valid in a Kubernetes secret key (e.g. colons in OpenShift-generated context names). Always pass `--remote-cluster-name` explicitly, set to the name Istio uses for the remote cluster, to avoid this issue:
+
+```sh
+./kiali-prepare-remote-cluster.sh \
+  ... \
+  --remote-cluster-name west
+```
+
 Use the option `--help` for additional details on using the script to create and delete the remote cluster resources and secrets.
 {{% /alert %}}
 
