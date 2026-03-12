@@ -75,25 +75,27 @@ Redirect URIs for the Kiali Server OAuthClient are not specified via auth.opensh
 this is required when creating remote cluster resources with auth.strategy of openshift.
 ```
 
-The redirect URI must point back to the Kiali server on the cluster where Kiali is deployed, in the form `https://<kiali-route-host>/api/auth/callback`. To determine the correct URI:
+The redirect URI must point back to the Kiali server on the cluster where Kiali is deployed. Critically, the URI must include the remote cluster's name as a path suffix in the form `https://<kiali-route-host>/api/auth/callback/<remote-cluster-name>`. This is required so that the OAuth callback can correctly identify which cluster the login is for. Using the base `/api/auth/callback` path (without the cluster name) will result in the login failing with a `http: named cookie not present` error.
 
-- If Kiali is already deployed, get the route: `oc get route -l app.kubernetes.io/name=kiali -n istio-system -o jsonpath='{..spec.host}'`
-- If Kiali is not yet deployed, you can predict the route hostname from the cluster's app domain:
+To determine the correct URI:
+
+- If Kiali is already deployed, run this on the cluster where Kiali is deployed: `oc get route -l app.kubernetes.io/name=kiali -n <kiali-namespace> -o jsonpath='{..spec.host}'`
+- If Kiali is not yet deployed, you can predict the route hostname from the cluster's app domain by running this on the cluster where Kiali will be deployed:
 
 ```sh
 oc get ingresses.config.openshift.io cluster -o jsonpath='{.spec.domain}'
 ```
 
-The Kiali route will be somethign like `kiali-<namespace>.<app-domain>`, so the full redirect URI will be something like `https://kiali-<namespace>.<app-domain>/api/auth/callback`.
+The Kiali route hostname will be something like `kiali-<namespace>.<app-domain>`, so the full redirect URI will be something like `https://kiali-<namespace>.<app-domain>/api/auth/callback/<remote-cluster-name>`, where `<remote-cluster-name>` is the Istio cluster name of the remote cluster.
 
-For example, if Kiali is deployed in namespace `istio-system` and the app domain is `apps.east.example.com`, the Kiali CR on the remote cluster should include:
+For example, if Kiali is deployed in namespace `istio-system` with instance_name `kiali`, the app domain is `apps.east.example.com`, and the remote cluster's Istio cluster name is `west`, the Kiali CR on the remote cluster should include:
 
 ```yaml
 spec:
   auth:
     openshift:
       redirect_uris:
-        - https://kiali-istio-system.apps.east.example.com/api/auth/callback
+        - https://kiali-istio-system.apps.east.example.com/api/auth/callback/west
   deployment:
     remote_cluster_resources_only: true
 ```
