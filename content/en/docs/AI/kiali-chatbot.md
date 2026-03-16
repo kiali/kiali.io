@@ -92,5 +92,5 @@ Examples of tasks that work well:
 
 ### Next step
 
-If you want to use an AI assistant outside the Kiali UI (for example, in an IDE), see [Kiali MCP](../kiali-mcp/).
+If you want to use an AI assistant outside the Kiali UI (for example, in an IDE), see [Kiali MCP]({{< relref "kiali-mcp" >}}).
 
