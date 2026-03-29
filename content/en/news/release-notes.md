@@ -6,6 +6,36 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 2.24.0
+Sprint Release: March 30, 2026
+
+Features:
+
+* [AI: Optimize get_istio_config tool for better parsing and token efficiency](https://github.com/kiali/kiali/issues/9136)
+* [AI: Handle impact of new Namespaces page.](https://github.com/kiali/kiali/issues/9250)
+* [Build: Upgrade Node.js from v20 to v24](https://github.com/kiali/kiali/issues/9328)
+* [Build: Migrate from Yarn v1 to Yarn v4](https://github.com/kiali/kiali/issues/9111)
+* [Build: Upgrade Golang from v1.24 to v1.25](https://github.com/kiali/kiali/issues/)
+* [Kiali.io: Update docs with changes related to new overview page](https://github.com/kiali/kiali/issues/9294)
+* [Server: Automatically set GOMEMLIMIT based on available memory (container cgroups / system)](https://github.com/kiali/kiali/issues/8987)
+* [UI: Ambient and sidecars badges in the overview/namespaces pages](https://github.com/kiali/kiali/issues/9306)
+* [UI: Overview Page Service Insights should incorporate L4 metrics](https://github.com/kiali/kiali/issues/9281)
+* [UI: Overview Page re-order top row cards to group infrastructure](https://github.com/kiali/kiali/issues/9360)
+* [UI: Improve UX for Graph Display menu](https://github.com/kiali/kiali/pull/9355)
+
+Fixes:
+
+* [PF6 misalignment issues](https://github.com/kiali/kiali/issues/9099)
+* [K8s Client (cluster2) is not found or is not accessible for Kiali, when attempting multi-cluster configuration feature](https://github.com/kiali/kiali/issues/8500)
+* [(AI)(Tool) get_resource_detail: Remove 'istio' and 'app' from allowed resourceTypes](https://github.com/kiali/kiali/issues/9359)
+* [(AI)(Tool)(Panic) get_mesh_graph throw panic when the namespace not exist](https://github.com/kiali/kiali/issues/9363)
+
+#### Upgrade Change Notes:
+
+**kiali_health_status metric**
+
+Starting in v2.22, when the health cache and kiali metrics are both enabled (true by default) Kiali would also write a new metric, `kiali_health_status`. The initial implementation proved to be too heavy from a cardinality perspective. This metric has been redefined in v2.24 and will now generate a much lower cardinality of time series. Also, it is now opt-in, controlled by `spec.server.observability.metrics.health_status.enabled`. So, by default in v2.24, this metric will be disabled. The metric name remains the same, although attributes have been altered. Unless manually manipulated, existing series will remain in Prometheus until they naturally expire.
+
 ## 2.23.0
 Sprint Release: March 09, 2026
 
