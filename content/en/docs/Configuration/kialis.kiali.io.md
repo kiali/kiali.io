@@ -285,6 +285,7 @@ spec:
       svcAnnotation: "svcAnnotationValue"
     # default: service_type is undefined
     service_type: "NodePort"
+    strategy: {}
     # default: tolerations is an empty list
     tolerations:
     - key: "example-key"
@@ -599,6 +600,9 @@ spec:
     observability:
       metrics:
         enabled: true
+        health_status:
+          enabled: false
+          max_consecutive_na: 3
         port: 9090
       tracing:
         collector_type: "otel"
@@ -3974,6 +3978,25 @@ If you do not set this at all, the default is,</p>
 
 <div class="property-description">
 <p>The Kiali service type. Kubernetes determines what values are valid. Common values are &lsquo;NodePort&rsquo;, &lsquo;ClusterIP&rsquo;, and &lsquo;LoadBalancer&rsquo;.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.strategy">.spec.deployment.strategy</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>Configures the update strategy for the Kiali deployment. If not specified, a RollingUpdate strategy is used with maxSurge=1 and maxUnavailable=1. See the Kubernetes documentation on Deployment Strategy for details.</p>
 
 </div>
 
@@ -10279,7 +10302,64 @@ An example,</p>
 </div>
 
 <div class="property-description">
-<p>When true, the metrics endpoint will be available for Prometheus to scrape.</p>
+<p>The metrics HTTP listener is started when either this or health_status.enabled is true.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.server.observability.metrics.health_status">.spec.server.observability.metrics.health_status</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>Settings for the kiali_health_status Prometheus gauge (per-entity health from the health cache refresh). Independent of metrics.enabled.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.server.observability.metrics.health_status.enabled">.spec.server.observability.metrics.health_status.enabled</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>When true, Kiali exports kiali_health_status metrics during health cache refresh.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.server.observability.metrics.health_status.max_consecutive_na">.spec.server.observability.metrics.health_status.max_consecutive_na</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(integer)</span>
+
+</div>
+
+<div class="property-description">
+<p>Number of consecutive health refresh cycles an entity may report NA or be missing before its kiali_health_status series is removed. Values less than or equal to 0 use the server default (3).</p>
 
 </div>
 
