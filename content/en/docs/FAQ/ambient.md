@@ -106,3 +106,13 @@ You can filter by just the Waypoint Traffic to remove the same telemetry reporte
 
 - Other tracing issues can be checked [here]({{< ref "/docs/FAQ/distributed-tracing" >}}).
 - Ambient documentation is [here]({{< ref "/docs/features/ambient" >}}).
+
+### Why don't I see connected inter-cluster edges in Ambient L7 (Istio 1.29)?
+
+![Multicluster telemetry](/images/documentation/faq/ambient/multicluster-telemetry.png)
+
+The Istio environment variable `AMBIENT_ENABLE_BAGGAGE` will enable waypoints to use baggage header to discover and propagate peer metadata for metrics, that will allow to identify the edges through east-west gateways, when it is set to true.
+
+![Multicluster telemetry L7](/images/documentation/faq/ambient/multicluster-telemetry-baggage.png)
+
+Please, note that Ambient multi cluster is [in beta status](https://istio.io/latest/blog/2026/ambient-multinetwork-multicluster-beta/#telemetry-enhancements) in Istio 1.29. 
