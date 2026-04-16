@@ -42,12 +42,19 @@ Kiali is going to reject login to users that aren't authorized to see any namesp
 
 ## Granting access to namespaces
 
-In general, Kiali will give _read_ access to namespaces where the logged in
-user is allowed to _"GET"_ its definition -- i.e. the user is allowed to do a
-`GET` call to the `api/v1/namespaces/{namespace-name}` endpoint of the cluster
-API. Users granted the _LIST_ verb would get access to all namespaces of the
-cluster (that's a `GET` call to the `api/v1/namespaces` endpoint of the cluster
-API).
+Kiali uses two Kubernetes RBAC verbs to determine which namespaces a user can
+see:
+
+- **GET** -- grants access to individual namespaces. A user who can _GET_ a
+  specific namespace (`api/v1/namespaces/{name}`) will see that namespace in
+  Kiali. Use per-namespace `RoleBindings` to control this.
+- **LIST** -- grants access to all namespaces at once. A user who can _LIST_
+  namespaces (`api/v1/namespaces`) will, by default, see every namespace
+  returned by the list. This is typically granted via a `ClusterRoleBinding`.
+
+In most setups, granting _LIST_ is the simplest way to give a user access to
+all namespaces, while _GET_ via `RoleBindings` provides fine-grained,
+per-namespace control.
 
 You, probably, will want to have this small `ClusterRole` to help you in
 authorizing individual namespaces in Kiali:
@@ -142,6 +149,43 @@ _list_ privilege.
 {{% alert color="info" %}}
 Please read your cluster RBAC documentation to learn more about the
 authorization system.
+{{% /alert %}}
+
+### Multi-tenant environments and `require_namespace_get`
+
+By default, when a user has _LIST_ permission on namespaces, Kiali trusts
+the list result and shows all returned namespaces without checking individual
+_GET_ permission. This is efficient but can be a problem in multi-tenant
+environments where _LIST_ is granted broadly (e.g. via a `ClusterRoleBinding`)
+while _GET_ is restricted to specific namespaces per user via `RoleBindings`.
+
+To enforce stricter access control, enable the `require_namespace_get`
+feature flag:
+
+```yaml
+spec:
+  kiali_feature_flags:
+    authz:
+      require_namespace_get: true
+```
+
+When this is enabled, Kiali will verify _GET_ permission for each namespace
+individually, even if the user's _LIST_ call succeeds. Only namespaces where
+the user has _GET_ permission will be visible. This ensures that _LIST_
+permission alone is never sufficient to see a namespace.
+
+{{% alert color="info" %}}
+This setting only affects users with cluster-wide _LIST_ permission. Users
+who do not have _LIST_ permission already fall back to per-namespace _GET_
+checks regardless of this setting.
+{{% /alert %}}
+
+{{% alert color="warning" %}}
+Enabling `require_namespace_get` adds a _GET_ API call per namespace on
+cache misses. In clusters with a very large number of namespaces this may
+increase the time to populate the namespace list. Results are cached per
+user session, so the overhead applies only on the first request after login
+or cache expiry.
 {{% /alert %}}
 
 ## Granting write privileges to namespaces
