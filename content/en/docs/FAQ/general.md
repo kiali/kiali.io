@@ -288,6 +288,8 @@ Note that Istio has its own set of optional discovery selectors that can be conf
 
 Kiali also [caches namespaces](/docs/configuration/kialis.kiali.io/#.spec.kubernetes_config.cache_token_namespace_duration) by default for [10 seconds](https://github.com/kiali/kiali-operator/blob/v1.88.0/crd-docs/cr/kiali.io_v1alpha1_kiali.yaml#L447). Therefore, it might take up to the number of seconds specified by `spec.kubernetes_config.cache_token_namespace_duration` in order for a newly added namespace to be seen by Kiali.
 
+Finally, per-user RBAC rules can also cause a namespace to be absent from the dropdown. If [`kiali_feature_flags.authz.require_namespace_get`]({{< ref "/docs/configuration/rbac#multi-tenant-environments-and-require_namespace_get" >}}) is enabled, a namespace that is accessible to the Kiali Server will still be hidden from a user who lacks _GET_ permission on that namespace. See [Namespace access control]({{< ref "/docs/configuration/rbac" >}}) for more details.
+
 ### Workload "is not found as" messages
 
 Kiali queries *Deployment* ,*ReplicaSet*, *ReplicationController*, *DeploymentConfig*, *StatefulSet*, *Job* and *CronJob* controllers.

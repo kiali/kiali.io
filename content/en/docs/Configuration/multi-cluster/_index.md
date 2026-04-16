@@ -197,6 +197,8 @@ Use the option `--help` for additional details on using the script to create and
    - For **OpenID**, refer to your OIDC provider's instructions for configuring user access to a Kubernetes cluster.
    - For **OpenShift**, see the [OpenShift multi-cluster documentation]({{< relref "../authentication/openshift#multi-cluster" >}}) for important information about logging into remote clusters from the Kiali UI. This step is required — users must log into each cluster via the Kiali UI to access resources on that cluster.
 
+   In multi-tenant multi-cluster environments where users have broad _LIST_ permission but restricted per-namespace _GET_ permission, consider enabling [`kiali_feature_flags.authz.require_namespace_get`]({{< relref "../rbac#multi-tenant-environments-and-require_namespace_get" >}}) to enforce strict per-namespace visibility.
+
 5. Optional - **Narrow metrics to mesh.** If your unified metrics store also contains data outside of your mesh, you can limit which metrics Kiali will query for by setting the [query_scope](/docs/configuration/kialis.kiali.io#.spec.external_services.prometheus.query_scope) configuration.
 
 That's it! From here you can login to Kiali and manage your mesh across all clusters from a single Kiali instance.

@@ -499,6 +499,14 @@ The username prefix (e.g., `oidc:`) is configured in OpenShift's
 Make sure your RBAC resources use the same prefixed username format.
 {{% /alert %}}
 
+{{% alert color="info" %}}
+In multi-tenant environments where users are granted broad _LIST_ permission on
+namespaces but should only see specific namespaces, you can enable
+[`kiali_feature_flags.authz.require_namespace_get`]({{< relref "../rbac#multi-tenant-environments-and-require_namespace_get" >}})
+to enforce per-namespace _GET_ checks. This ensures that _LIST_ alone is not
+sufficient for a namespace to be visible.
+{{% /alert %}}
+
 #### Step 3: Create the OIDC client secret
 
 If your OIDC provider requires a client secret, create a Kubernetes secret to
