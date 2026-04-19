@@ -6,6 +6,26 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 2.25.0
+Sprint Release: April 20, 2026
+
+Features:
+
+* [Ambient: Improve inter-cluster telemetry](https://github.com/kiali/kiali/issues/9507)
+* [AI: Implement Unit and Integration tests for Backend API](https://github.com/kiali/kiali/issues/9145)
+* [Graph: Include inbound and outbound edges when automatically activating rank](https://github.com/kiali/kiali/issues/5915)
+* [Validation: Multi-primary support](https://github.com/kiali/kiali/issues/7725)
+* [Validations: Multi-primary support for MeshConfig](https://github.com/kiali/kiali/issues/7727)
+* [UI: Improve Duration handling for fixed-duration pages (lists, overview)](https://github.com/kiali/kiali/issues/9474)
+
+Fixes:
+
+* [AI: manage_istio_config returns UI-only actions payload to MCP clients that cannot handle it](https://github.com/kiali/kiali/issues/9521)
+* [Auth: Kiali uses static bearer token for Prometheus/Tracing auth, breaks with short-lived projected SA tokens](https://github.com/kiali/kiali/issues/9488)
+* [Server: Kiali Fails to Startup With Health Cache Enabled](https://github.com/kiali/kiali/issues/9476)
+* [UI: Application link can navigate to workload detail](https://github.com/kiali/kiali/issues/9468)
+* [UI: workload list health status tooltip always showing 0 pods](https://github.com/kiali/kiali/issues/9471)
+
 ## 2.24.0
 Sprint Release: March 30, 2026
 
