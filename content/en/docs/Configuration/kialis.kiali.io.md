@@ -500,6 +500,8 @@ spec:
     version_label_name: ""
 
   kiali_feature_flags:
+    authz:
+      require_namespace_get: false
     clustering:
       enable_exec_provider: false
     # default: custom_workload_types is an empty list
@@ -7788,7 +7790,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The time period over which health is calculated. Used as the rate interval for Prometheus queries. Minimum is &lsquo;1m&rsquo;.</p>
+<p>The time period over which health is calculated. Used as the rate interval for Prometheus queries.</p>
 
 </div>
 
@@ -8287,6 +8289,47 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property-description">
 <p>Kiali features that can be enabled or disabled.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.authz">.spec.kiali_feature_flags.authz</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>Authorization-related feature flags.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali_feature_flags.authz.require_namespace_get">.spec.kiali_feature_flags.authz.require_namespace_get</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>When true, a user must have GET permission on a namespace for it to be visible,
+even if the user has LIST permission. When false (the default), a successful LIST
+is trusted without per-namespace GET checks. Enable this in multi-tenant environments
+where LIST permission is granted broadly but GET is restricted per namespace.</p>
 
 </div>
 
