@@ -40,7 +40,7 @@ see the [installation guide]({{< ref "/docs/installation" >}}).
 {{% /alert %}}
 
 {{% alert color="warning" %}}
-Before you install Kiali you must have already installed Istio along with its telemetry storage addon (i.e. Prometheus). You might also consider installing Istio's optional tracing addon (i.e. Jaeger) and optional Grafana addon but those are not required by Kiali. Refer to the [Istio documentation](https://istio.io/docs/setup/getting-started) for details.
+Before you install Kiali you must have already installed Istio. For full functionality, you should also install a telemetry storage addon (i.e. Prometheus), though Kiali can run without it if you disable Prometheus in the configuration. You might also consider installing Istio's optional tracing addon (i.e. Jaeger) and optional Grafana addon but those are not required by Kiali. Refer to the [Istio documentation](https://istio.io/docs/setup/getting-started) for details.
 {{% /alert %}}
 
 ### Install via Istio Addons

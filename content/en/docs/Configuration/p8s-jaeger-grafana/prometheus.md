@@ -7,12 +7,31 @@ description: >
 
 ## Prometheus configuration
 
-Kiali *requires* Prometheus to generate the
+Kiali uses Prometheus to generate the
 [topology graph]({{< relref "../../Features/topology" >}}),
 [show metrics]({{< relref "../../Features/details#metrics" >}}),
 [calculate health]({{< relref "../../Features/health" >}}) and
-for several other features. If Prometheus is missing or Kiali
-can't reach it, Kiali won't work properly.
+for several other features. Prometheus is enabled by default and is required
+for full Kiali functionality.
+
+### Disabling Prometheus
+
+If you want to run Kiali without a Prometheus instance, you can disable it:
+
+```yaml
+spec:
+  external_services:
+    prometheus:
+      enabled: false
+```
+
+When Prometheus is disabled, Kiali will still start and serve non-metrics features
+such as workload/service/app listing, Istio configuration, and mesh topology.
+However, the graph, metrics tabs, traffic tabs, and request-rate health will be
+unavailable. Health badges for workloads and apps will degrade to show only
+Kubernetes-level status (replica counts).
+
+### Configuring the Prometheus URL
 
 By default, Kiali assumes that Prometheus is available at the URL of the form
 `http://prometheus.<istio_namespace_name>:9090`, which is the usual case if you
