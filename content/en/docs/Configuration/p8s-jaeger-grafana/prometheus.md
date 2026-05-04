@@ -31,6 +31,23 @@ However, the graph, metrics tabs, traffic tabs, and request-rate health will be
 unavailable. Health badges for workloads and apps will degrade to show only
 Kubernetes-level status (replica counts).
 
+The UI will display a subtle informational message reminding you that metrics
+features are unavailable due to your configuration choice.
+
+### When Prometheus is Unreachable
+
+When Prometheus is enabled (the default) but Kiali cannot reach it at startup,
+Kiali will still start successfully with metrics features temporarily unavailable.
+
+The UI will display a warning notification explaining why metrics are
+unavailable. The Prometheus component will still appear in the masthead status
+and the mesh topology page, reported as unhealthy, so you have clear visibility
+into the misconfiguration.
+
+To restore full metrics functionality after a startup failure, fix the Prometheus
+connectivity issue (correct the URL, ensure the Prometheus server is running, etc.) and
+restart Kiali.
+
 ### Configuring the Prometheus URL
 
 By default, Kiali assumes that Prometheus is available at the URL of the form
