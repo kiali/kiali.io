@@ -26,6 +26,14 @@ To see the full list of options
 kiali run --help
 ```
 
+If you want to run Kiali locally without a Prometheus instance, use the `--disable-prometheus` flag:
+
+```
+kiali run --disable-prometheus
+```
+
+This is useful for quickly exploring Kiali's non-metrics features (workloads, services, Istio configuration, mesh topology) without needing a Prometheus deployment. See [Disabling Prometheus]({{< relref "/docs/configuration/p8s-jaeger-grafana/prometheus#disabling-prometheus" >}}) for more details.
+
 {{% alert color="info" %}}
 If the cluster name in your kubeconfig does not match the cluster name in Istio you can override this with `--cluster-name-overrides kubeconfig-name=istio-cluster-name`. The flag is a comma separated list so you can override as many names as you need.
 {{% /alert %}}
@@ -40,7 +48,7 @@ see the [installation guide]({{< ref "/docs/installation" >}}).
 {{% /alert %}}
 
 {{% alert color="warning" %}}
-Before you install Kiali you must have already installed Istio along with its telemetry storage addon (i.e. Prometheus). You might also consider installing Istio's optional tracing addon (i.e. Jaeger) and optional Grafana addon but those are not required by Kiali. Refer to the [Istio documentation](https://istio.io/docs/setup/getting-started) for details.
+Before you install Kiali you must have already installed Istio. For full functionality, you should also install a telemetry storage addon (i.e. Prometheus), though Kiali can run without it if you disable Prometheus in the configuration. You might also consider installing Istio's optional tracing addon (i.e. Jaeger) and optional Grafana addon but those are not required by Kiali. Refer to the [Istio documentation](https://istio.io/docs/setup/getting-started) for details.
 {{% /alert %}}
 
 ### Install via Istio Addons

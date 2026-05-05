@@ -6,10 +6,12 @@ weight: 15
 
 ## Istio
 
-Before you install Kiali you must have already installed Istio along with its
-telemetry storage addon (e.g. Prometheus). You might also consider installing
-Istio's optional tracing addon (e.g. Tempo) and optional Grafana addon but
-those are not required by Kiali. Refer to the
+Before you install Kiali you must have already installed Istio. For full
+functionality, you should also install a telemetry storage addon (e.g.
+Prometheus), though Kiali can run without it if you disable Prometheus in the
+configuration. You might also consider installing Istio's optional tracing
+addon (e.g. Tempo) and optional Grafana addon but those are not required by
+Kiali. Refer to the
 [Istio documentation](https://istio.io/docs/setup/getting-started) for details.
 
 ### Optionally Enable the Debug Interface
