@@ -26,7 +26,7 @@ This badge indicates that Kiali has detected a `ztunnel` (the L4 component for A
 ![Ambient Control Plane](/images/documentation/features/ambient/ambient-control-plane.png)
 
 {{% alert color="warning" %}}
-For Kiali to detect Ambient, it needs to have access to the namespace where `ztunnel` is deployed. This is usually the Istio control plane namespace (often `istio-system`), but on platforms such as OpenShift, it may differ.
+For Kiali to detect Ambient, it needs to have access to the namespace where `ztunnel` is deployed. This is usually the Istio control plane namespace (often `istio-system`), but on platforms such as OpenShift, it may differ. To learn how to give Kiali access to specific namespaces see [Namespace Management](/docs/configuration/namespace-management).
 {{% /alert %}}
 
 ### Ambient Namespace
