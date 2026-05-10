@@ -930,16 +930,22 @@
                     "issues": 136,
                     "stars": 3605,
                     "size": 79186
+                },
+                "2026-05-08": {
+                    "forks": 550,
+                    "issues": 136,
+                    "stars": 3609,
+                    "size": 79743
                 }
             },
             "language": {
-                "Go": 6083927,
-                "TypeScript": 4392763,
-                "Shell": 1383943,
-                "Gherkin": 221908,
+                "Go": 6108079,
+                "TypeScript": 4459732,
+                "Shell": 1384190,
+                "Gherkin": 222951,
                 "Makefile": 116443,
                 "SCSS": 9628,
-                "HTML": 2079,
+                "HTML": 2103,
                 "Dockerfile": 1595,
                 "JavaScript": 1358,
                 "Python": 246
@@ -1479,10 +1485,16 @@
                     "issues": 2,
                     "stars": 90,
                     "size": 3122
+                },
+                "2026-05-05": {
+                    "forks": 127,
+                    "issues": 4,
+                    "stars": 90,
+                    "size": 3142
                 }
             },
             "language": {
-                "Shell": 113262,
+                "Shell": 113354,
                 "Python": 42686,
                 "Dockerfile": 35283,
                 "Makefile": 18186
@@ -1920,14 +1932,20 @@
                     "issues": 7,
                     "stars": 8,
                     "size": 12402
+                },
+                "2026-05-07": {
+                    "forks": 19,
+                    "issues": 9,
+                    "stars": 8,
+                    "size": 12274
                 }
             },
             "language": {
-                "TypeScript": 4434693,
-                "Gherkin": 225690,
+                "TypeScript": 4460440,
+                "Gherkin": 223735,
                 "Makefile": 19278,
                 "Shell": 15456,
-                "SCSS": 11371,
+                "SCSS": 9722,
                 "JavaScript": 1245,
                 "Dockerfile": 1238
             }
