@@ -71,6 +71,7 @@ spec:
     providers: []
     store_config:
       enabled: true
+      inactivity_timeout: "30m"
       max_cache_memory_mb: 1024      
       reduce_threshold: 15
       reduce_with_ai: false
@@ -254,6 +255,11 @@ spec:
     # default: pod_annotations is empty
     pod_annotations:
       proxy.istio.io/config: '{ "holdApplicationUntilProxyStarts": true }'
+    pod_disruption_budget:
+      api_version: ""
+      # default: spec is empty
+      spec:
+        minAvailable: 1
     # default: pod_labels is empty
     pod_labels:
       sidecar.istio.io/inject: "true"
@@ -370,7 +376,7 @@ spec:
       gateway_api_classes: []
       gateway_api_classes_label_selector: ""
       istio_api_enabled: true
-      istio_identity_domain: "svc.cluster.local"
+      istio_identity_domain: ""
       istiod_polling_interval_seconds: 20
       validation_change_detection_enabled: true
       validation_reconcile_interval: "1m"
@@ -419,6 +425,7 @@ spec:
       # default: custom_headers is empty
       custom_headers:
         customHeader1: "customHeader1Value"
+      enabled: true
       health_check_url: ""
       is_core: true
       # default: query_scope is empty
@@ -1545,7 +1552,7 @@ Authorization header and potentially impersonation headers.</li>
 </div>
 
 <div class="property-description">
-<p>The type of the config needed by the AI models provider. Available values are <code>default</code>, <code>gemini</code>, and <code>azure</code>. Default value is <code>default</code>.</p>
+<p>The provider configuration variant. Valid values depend on <code>type</code>: <code>anthropic</code> requires <code>default</code>; <code>google</code> requires <code>gemini</code>; <code>openai</code> supports <code>default</code>, <code>gemini</code>, or <code>azure</code>. Default value is <code>default</code>.</p>
 
 </div>
 
@@ -1806,7 +1813,7 @@ Authorization header and potentially impersonation headers.</li>
 </div>
 
 <div class="property-description">
-<p>The type of the AI models provider. Available values are <code>openai</code>. Default value is <code>openai</code>.</p>
+<p>The type of the AI models provider. Available values are <code>openai</code>, <code>anthropic</code>, and <code>google</code>. Default value is <code>openai</code>.</p>
 
 </div>
 
@@ -1845,6 +1852,25 @@ Authorization header and potentially impersonation headers.</li>
 
 <div class="property-description">
 <p>Enable or disable the ChatAI store.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.chat_ai.store_config.inactivity_timeout">.spec.chat_ai.store_config.inactivity_timeout</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>Idle time allowed before the conversation is deleted due to inactivity.</p>
 
 </div>
 
@@ -2321,7 +2347,7 @@ empty dashboard.</p>
 </div>
 
 <div class="property-description">
-<p>Additional containers to add to the list of pod containers. Use this to add container(s) to the Kiali pod. SECURITY: By default, the operator will forcibly apply a restrictive security context to all containers (allowPrivilegeEscalation: false, privileged: false, readOnlyRootFilesystem: true, runAsNonRoot: true, capabilities dropped). However, if the operator&rsquo;s ALLOW_SECURITY_CONTEXT_OVERRIDE environment variable is set to &lsquo;true&rsquo;, containers can define their own security contexts which will be preserved. Secret-backed volumes are automatically forced to read-only regardless of the security context override setting. Use with care since containers may cause the Kiali container itself to operate incorrectly. It is up to the user who added the additional containers to ensure it works properly inside the Kiali pod; Kiali makes no guarantee additional containers will work.</p>
+<p>Additional containers to add to the list of pod containers. Use this to add container(s) to the Kiali pod. SECURITY: By default, the operator will forcibly apply a restrictive security context to all containers (allowPrivilegeEscalation: false, privileged: false, readOnlyRootFilesystem: true, runAsNonRoot: true, seccompProfile: RuntimeDefault, capabilities dropped). However, if the operator&rsquo;s ALLOW_SECURITY_CONTEXT_OVERRIDE environment variable is set to &lsquo;true&rsquo;, containers can define their own security contexts which will be preserved. Secret-backed volumes are automatically forced to read-only regardless of the security context override setting. Use with care since containers may cause the Kiali container itself to operate incorrectly. It is up to the user who added the additional containers to ensure it works properly inside the Kiali pod; Kiali makes no guarantee additional containers will work.</p>
 
 </div>
 
@@ -2354,7 +2380,7 @@ empty dashboard.</p>
 </div>
 
 <div class="property-description">
-<p>Additional initContainers to add to the list of pod initContainers. Use this to add initContainer(s) to the Kiali pod. SECURITY: By default, the operator will forcibly apply a restrictive security context to all initContainers (allowPrivilegeEscalation: false, privileged: false, readOnlyRootFilesystem: true, runAsNonRoot: true, capabilities dropped). However, if the operator&rsquo;s ALLOW_SECURITY_CONTEXT_OVERRIDE environment variable is set to &lsquo;true&rsquo;, initContainers can define their own security contexts which will be preserved. Secret-backed volumes are automatically forced to read-only regardless of the security context override setting. Use with care since initContainers may cause the Kiali container itself to operate incorrectly. It is up to the user who added the additional initContainers to ensure it works properly inside the Kiali pod; Kiali makes no guarantee additional initContainers will work.</p>
+<p>Additional initContainers to add to the list of pod initContainers. Use this to add initContainer(s) to the Kiali pod. SECURITY: By default, the operator will forcibly apply a restrictive security context to all initContainers (allowPrivilegeEscalation: false, privileged: false, readOnlyRootFilesystem: true, runAsNonRoot: true, seccompProfile: RuntimeDefault, capabilities dropped). However, if the operator&rsquo;s ALLOW_SECURITY_CONTEXT_OVERRIDE environment variable is set to &lsquo;true&rsquo;, initContainers can define their own security contexts which will be preserved. Secret-backed volumes are automatically forced to read-only regardless of the security context override setting. Use with care since initContainers may cause the Kiali container itself to operate incorrectly. It is up to the user who added the additional initContainers to ensure it works properly inside the Kiali pod; Kiali makes no guarantee additional initContainers will work.</p>
 
 </div>
 
@@ -3619,6 +3645,72 @@ By default, the following annotation is applied:</p>
 <p>If you define your own pod_annotations, they will overwrite this default.
 To retain the default behavior while adding your own annotations,
 make sure to include this value alongside your custom annotations.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.pod_disruption_budget">.spec.deployment.pod_disruption_budget</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>Determines what (if any) PodDisruptionBudget should be created for the Kiali pod.
+A typical way to configure PDB for Kiali is,</p>
+
+<pre><code>spec:
+  deployment:
+    pod_disruption_budget:
+      api_version: &quot;policy/v1&quot;
+      spec:
+        minAvailable: 1
+</code></pre>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.pod_disruption_budget.api_version">.spec.deployment.pod_disruption_budget.api_version</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>A specific PDB API version that can be specified in case there is some PDB feature you want to use that is only supported in that specific version. If value is an empty string, the default version of &lsquo;policy/v1&rsquo; will be used.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.pod_disruption_budget.spec">.spec.deployment.pod_disruption_budget.spec</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>The <code>spec</code> specified here will be placed in the created PDB resource&rsquo;s &lsquo;spec&rsquo; section. If <code>spec</code> is left empty, no PDB resource will be created. Note that you must not specify the &lsquo;selector&rsquo; section in <code>spec</code>; the Kiali Operator will populate that for you.</p>
 
 </div>
 
@@ -5881,7 +5973,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The Kubernetes cluster DNS domain suffix used to construct fully qualified service hostnames (e.g. reviews.bookinfo.svc.cluster.local) and service account identity strings for validation.</p>
+<p>The Kubernetes cluster DNS domain suffix used to construct fully qualified service hostnames (e.g. reviews.bookinfo.svc.cluster.local) and service account identity strings for validation. When empty, it is auto-detected from the Istio mesh trustDomain (as &lsquo;svc.&rsquo; + trustDomain). Set explicitly only if you need to override the auto-detected value.</p>
 
 </div>
 
@@ -6860,6 +6952,25 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 
 <div class="property-description">
 <p>A set of name/value settings that will be passed as headers when requests are sent to Prometheus.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.prometheus.enabled">.spec.external_services.prometheus.enabled</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>When true, Kiali will connect to the Prometheus instance for Istio telemetry metrics. When false, Kiali will run without metrics support - the graph, health based on request rates, and metrics displays will be unavailable.</p>
 
 </div>
 
