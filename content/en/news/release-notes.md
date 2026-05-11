@@ -6,6 +6,38 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 2.26.0
+Sprint Release: May 29, 2026
+
+Features:
+
+* [AI: Support anthropic provider](https://github.com/kiali/kiali/issues/9148)
+* [AI: Support Google Model Provider](https://github.com/kiali/kiali/issues/9144)
+* [AI: Implement background job to clean stale store data](https://github.com/kiali/kiali/issues/9143)
+* [Ambient: Trace overlay](https://github.com/kiali/kiali/issues/9504)
+* [Config: identity domain](https://github.com/kiali/kiali/issues/7514)
+* [Config: Add pod disruption budget template to kiali chart](https://github.com/kiali/kiali/issues/9590)
+* [Deployment: Add ability to enable/disable prometheus](https://github.com/kiali/kiali/issues/8654)
+* [Overview Page: Follow-up UX improvements](https://github.com/kiali/kiali/issues/9162)
+* [OSSMC: Add Namespace and Application list pages to OSSMC](https://github.com/kiali/openshift-servicemesh-plugin/issues/631)
+* [OSSMC: Replace native Istio Config list page with Kiali's IstioConfigListPage](https://github.com/kiali/openshift-servicemesh-plugin/issues/654)
+* [Perf: trace hover tooltip performance boost](https://github.com/kiali/kiali/issues/6915)
+* [UI: Replace height magic numbers with CSS flex layout](https://github.com/kiali/kiali/issues/9575)
+* [UI: Traffic menu design iteration](https://github.com/kiali/kiali/issues/9588)
+* [UI: Add Namespace Detail page](https://github.com/kiali/kiali/issues/9610)
+* [UI: Better support for annotation and label editing](https://github.com/kiali/kiali/issues/5688)
+
+Fixes:
+
+* [AI: Fix Hallucinated/Broken Text Links in Chatbot Navigation Responses](https://github.com/kiali/kiali/issues/9150)
+* [AI: Return in MCPtools error type when token is not valid](https://github.com/kiali/kiali/issues/9582)
+* [Ambient: ztunnel dump error](https://github.com/kiali/kiali/issues/9658)
+* [OSSMC: Cluster name not shown on Istio Config Details page in OSSMC](https://github.com/kiali/openshift-servicemesh-plugin/issues/638)
+* [OSSMC: MTLS icon is not working](https://github.com/kiali/kiali/issues/9647)
+* [UI: Chart legend toggle stops responding after two clicks](https://github.com/kiali/kiali/issues/9586)
+* [UI: Unreadable Text for Istio Validations](https://github.com/kiali/kiali/issues/9581)
+* [UI: tracing: Incorrect visualization of tooltip](https://github.com/kiali/kiali/issues/9631)
+
 ## 2.25.0
 Sprint Release: April 20, 2026
 
