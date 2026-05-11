@@ -46,11 +46,11 @@ You must also configure at least one provider and model (including an API key), 
 
 Kiali Chatbot providers and models are configured in `chat_ai`:
 
-- Providers: OpenAI-compatible (`type: openai`) and Google (`type: google`).
+- Providers: OpenAI (`type: openai`), Google (`type: google`), and Anthropic (`type: anthropic`).
 - Models are selected by name (per-provider) and can be enabled/disabled.
 - API keys can be set inline (not recommended) or via `secret:<secret-name>:<key-in-secret>`.
 
-Example configuration (showing an OpenAI-compatible provider using Gemini via OpenAI endpoint):
+Example configuration (showing three providers: OpenAI, Google, and Anthropic):
 
 ```yaml
 chat_ai:
@@ -59,9 +59,20 @@ chat_ai:
   providers:
     - name: "openai"
       enabled: true
-      description: "OpenAI API Provider"
+      description: "OpenAI provider"
       type: "openai"
       config: "default"
+      default_model: "gpt"
+      models:
+        - name: "gpt"
+          enabled: true
+          model: "<openai-model-name>"
+          key: "secret:my-key-secret:openai-api-key"
+    - name: "google"
+      enabled: true
+      description: "Google provider"
+      type: "google"
+      config: "gemini"
       default_model: "gemini"
       models:
         - name: "gemini"
@@ -69,7 +80,22 @@ chat_ai:
           model: "gemini-2.5-pro"
           description: "Model provided by Google with OpenAI API Support"
           endpoint: "https://generativelanguage.googleapis.com/v1beta/openai"
-          key: "secret:my-key-secret:openai-gemini"
+          key: "secret:my-key-secret:google-api-key"
+    - name: "anthropic"
+      enabled: true
+      description: "Anthropic provider"
+      type: "anthropic"
+      config: "default"
+      default_model: "claude-haiku"
+      key: "secret:my-key-secret:claude-api-key"
+      models:
+        - name: claude-sonnet
+          model: "claude-sonnet-4-5"
+          enabled: true
+          endpoint: "https://api.anthropic.com/"
+        - name: claude-haiku
+          model: "claude-haiku-4-5"
+          enabled: true
 ```
 
 You can also select the configured models and providers in the chatbot window:
