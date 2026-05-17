@@ -936,13 +936,19 @@
                     "issues": 136,
                     "stars": 3609,
                     "size": 79743
+                },
+                "2026-05-15": {
+                    "forks": 553,
+                    "issues": 137,
+                    "stars": 3611,
+                    "size": 80561
                 }
             },
             "language": {
-                "Go": 6108079,
-                "TypeScript": 4459732,
-                "Shell": 1384190,
-                "Gherkin": 222951,
+                "Go": 6168523,
+                "TypeScript": 4571254,
+                "Shell": 1384378,
+                "Gherkin": 225826,
                 "Makefile": 116443,
                 "SCSS": 9628,
                 "HTML": 2103,
@@ -1491,12 +1497,18 @@
                     "issues": 4,
                     "stars": 90,
                     "size": 3142
+                },
+                "2026-05-11": {
+                    "forks": 127,
+                    "issues": 2,
+                    "stars": 90,
+                    "size": 3119
                 }
             },
             "language": {
                 "Shell": 113354,
                 "Python": 42686,
-                "Dockerfile": 35283,
+                "Dockerfile": 35753,
                 "Makefile": 18186
             }
         },
@@ -1938,13 +1950,19 @@
                     "issues": 9,
                     "stars": 8,
                     "size": 12274
+                },
+                "2026-05-14": {
+                    "forks": 20,
+                    "issues": 8,
+                    "stars": 8,
+                    "size": 11435
                 }
             },
             "language": {
-                "TypeScript": 4460440,
-                "Gherkin": 223735,
+                "TypeScript": 4525483,
+                "Gherkin": 224567,
                 "Makefile": 19278,
-                "Shell": 15456,
+                "Shell": 15929,
                 "SCSS": 9722,
                 "JavaScript": 1245,
                 "Dockerfile": 1238
