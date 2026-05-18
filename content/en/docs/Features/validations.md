@@ -157,11 +157,35 @@ Correct the principal to refer to an existing Service Account, make sure that th
 AuthorizationPolicy has a Source field which specifies the source identities of a request.
 The Source field allows principals to be specified - a list of peer identities derived from the peer certificate. A peer identity is in the format of `<TRUST_DOMAIN>/ns/<NAMESPACE>/sa/<SERVICE_ACCOUNT>`, for example, `cluster.local/ns/default/sa/productpage`.
 
-A validation Warning message on a principal value means, that the specified Service Account was found in a cluster different from that of the AuthorizationPolicy.
+An informational message on a principal value means that the specified Service Account was found in a cluster different from that of the AuthorizationPolicy. This is expected in multi-primary setups where workloads across clusters communicate using SPIFFE identities.
 
 #### Resolution
 
-Kiali currently does not verify if the SPIRE is configured on the workload of the remote cluster.
+No action required. Kiali detected the Service Account on a remote cluster. Verify that your cross-cluster mTLS and SPIFFE federation is correctly configured.
+
+#### Severity
+
+Informational
+
+#### See Also
+
+- [AuthorizationPolicy documentation](https://istio.io/docs/reference/config/security/authorization-policy)
+- [Definition of the Source field](https://istio.io/docs/reference/config/security/authorization-policy/#Source)
+- [SPIRE Istio Integration](https://istio.io/latest/docs/ops/integrations/spire)
+
+
+### KIA0108 - Unable to verify principal, trust domain is not known to Kiali
+
+AuthorizationPolicy has a Source field which specifies the source identities of a request.
+The Source field allows principals to be specified - a list of peer identities derived from the peer certificate. A peer identity is in the format of `<TRUST_DOMAIN>/ns/<NAMESPACE>/sa/<SERVICE_ACCOUNT>`, for example, `cluster.local/ns/default/sa/productpage`.
+
+A validation Warning message on a principal value means that the trust domain in the principal is not known to any cluster that Kiali has access to. This typically happens in multi-primary federation setups where clusters use different trust domains (e.g., `central.example.com`, `north.example.com`) and Kiali does not have visibility into all federated clusters.
+
+Kiali cannot validate whether the referenced Service Account actually exists because it has no access to the cluster owning that trust domain.
+
+#### Resolution
+
+If the trust domain belongs to a federated cluster that Kiali does not manage, this warning can be safely ignored. If the trust domain is a typo, correct the principal value. To suppress this warning, configure Kiali with access to all clusters in the federation, or add the trust domain as a `trustDomainAlias` in the Istio MeshConfig.
 
 #### Severity
 
@@ -171,6 +195,7 @@ Kiali currently does not verify if the SPIRE is configured on the workload of th
 
 - [AuthorizationPolicy documentation](https://istio.io/docs/reference/config/security/authorization-policy)
 - [Definition of the Source field](https://istio.io/docs/reference/config/security/authorization-policy/#Source)
+- [Istio Trust Domain Migration](https://istio.io/latest/docs/tasks/security/authorization/authz-td-migration/)
 - [SPIRE Istio Integration](https://istio.io/latest/docs/ops/integrations/spire)
 
 
