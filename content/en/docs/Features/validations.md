@@ -975,7 +975,7 @@ Correct the backendRefs name to point to a correct Service (in this namespace or
 #### See Also
 
 - [Validator source code](https://github.com/kiali/kiali/blob/master/business/checkers/k8shttproutes/no_host_checker.go)
-- [Reference Grant](https://gateway-api.sigs.k8s.io/api-types/referencegrant)
+- [Reference Grant](https://gateway-api.sigs.k8s.io/reference/api-types/referencegrant)
 
 
 
