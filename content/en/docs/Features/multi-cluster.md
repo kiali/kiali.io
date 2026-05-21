@@ -46,3 +46,4 @@ The overview page shows namespace information across all configured clusters.
 The mesh graph displays infrastructure information for multiple clusters, Istio control planes, and data planes according to the Istio deployment (primary-remote or multi-primary).
 
 ![Multi-cluster mesh](/images/documentation/features/multi-cluster-mesh.png "Multi-cluster mesh")
+
