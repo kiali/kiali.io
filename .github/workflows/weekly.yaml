@@ -5,9 +5,13 @@ on:
   schedule:
   # Every week at 00:00 on Sunday
     - cron: "0 0 * * 0"
+permissions: read-all
+
 jobs:
   build:
-    runs-on: ubuntu-latest       
+    permissions:
+      contents: write  # needs to commit metrics.json and push to gh-pages
+    runs-on: ubuntu-latest
     steps:
       - name: checkout repo content
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
