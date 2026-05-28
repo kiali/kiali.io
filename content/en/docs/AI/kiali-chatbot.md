@@ -24,6 +24,7 @@ At a high level:
 - The provider calls the LLM with a set of **internal MCP tools** (defined in Kiali under `kiali/ai/mcp`).
 - The LLM may request tool calls (e.g. mesh graph, traces, resource details, workload logs, Istio config operations).
 - Kiali executes those tool calls against Kiali/Kubernetes/Prometheus/tracing backends and returns the final answer, including optional UI navigation actions and documentation citations.
+- The response is delivered as **streaming events** (for example: `start`, `token`, `tool_call`, `tool_result`, `end`, `error`) so the UI can progressively render tokens and tool activity in real time.
 
 For configuration keys (enable/disable, providers/models, store), see the `chat_ai` section in the [Kiali CR spec](/docs/configuration/kialis.kiali.io/#.spec.chat_ai).
 
@@ -46,7 +47,7 @@ You must also configure at least one provider and model (including an API key), 
 
 Kiali Chatbot providers and models are configured in `chat_ai`:
 
-- Providers: OpenAI (`type: openai`), Google (`type: google`), and Anthropic (`type: anthropic`).
+- Providers: OpenAI (`type: openai`), Google (`type: google`), Anthropic (`type: anthropic`), and LightSpeed (`type: lightspeed`).
 - Models are selected by name (per-provider) and can be enabled/disabled.
 - API keys can be set inline (not recommended) or via `secret:<secret-name>:<key-in-secret>`.
 
@@ -98,9 +99,42 @@ chat_ai:
           enabled: true
 ```
 
+LightSpeed provider example:
+
+```yaml
+chat_ai:
+  providers:
+    - name: "LightSpeed"
+      description: "Openshift LightSpeed"
+      type: "lightspeed"
+      endpoint: "<LightSpeed endpoint>"
+      enabled: true
+```
+
 You can also select the configured models and providers in the chatbot window:
 
 ![Kiali Chatbot models](/images/documentation/ai/kiali-chatbot-models.png)
+
+When the assistant uses a tool, Kiali shows a tool-result card directly in the chat so you can see which tool was executed:
+
+![Kiali Chatbot tool result card](/images/documentation/ai/kiali-chatbot-tool.png)
+
+You can click the square tool-result card to open the full tool output in a modal window:
+
+![Kiali Chatbot tool result modal](/images/documentation/ai/kiali-chatbot-tool-modal.png)
+
+In this modal view you can inspect the complete tool response in detail (for example returned resources, metrics, or logs) before continuing the conversation.
+
+### Streaming events in the chat
+
+Kiali Chatbot UI updates are powered by server-sent streaming events from the backend. This is why responses appear incrementally (token by token), and why tool usage is shown as it happens.
+
+In practice:
+
+- `token` events render incremental assistant text.
+- `tool_call` and `tool_result` events render the tool card and its status/output.
+- `end` finalizes the answer, including optional UI actions and documentation references.
+- `error` reports failures without waiting for a full response timeout.
 
 ### What you can ask
 
