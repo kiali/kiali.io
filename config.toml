@@ -243,24 +243,12 @@ enable = false
   url = "https://v2-23.kiali.io"
 
 [[ params.versions ]]
-  version = "v2.22"
+  version = "v2.22 [ossm 3.3]"
   url = "https://v2-22.kiali.io"
 
 [[ params.versions ]]
-  version = "v2.21"
+  version = "v2.21 [istio v1.28]"
   url = "https://v2-21.kiali.io"
-
-[[ params.versions ]]
-  version = "v2.20"
-  url = "https://v2-20.kiali.io"
-
-[[ params.versions ]]
-  version = "v2.19"
-  url = "https://v2-19.kiali.io"
-
-[[ params.versions ]]
-  version = "v2.18"
-  url = "https://v2-18.kiali.io"
 
 [[ params.versions ]]
   version = "v2.17 [istio v1.28, ossm 3.2]"
@@ -277,10 +265,6 @@ enable = false
 [[ params.versions ]]
   version = "v2.9 [istio v1.26]"
   url = "https://v2-9.kiali.io"
-
-[[ params.versions ]]
-  version = "v2.5 [istio v1.25]"
-  url = "https://v2-5.kiali.io"
 
 [[ params.versions ]]
   version = "v2.4 [ossm v3.0]"

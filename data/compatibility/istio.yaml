@@ -1,12 +1,17 @@
 # The Compatible Version Matrix between upstream Istio and Kiali
 # See: content/en/docs/Installation/installation-guide/prerequisites.md -> {{<compat-table-istio>}}
 versionRange:
+  - meshVersion: "1.30"
+    kialiVersions: "2.26 and higher"
+  - meshVersion: "1.29"
+    kialiVersions: "2.21 and higher"
   - meshVersion: "1.28"
     kialiVersions: "2.17 and higher"
   - meshVersion: "1.27"
-    kialiVersions: "2.12 and higher"
+    kialiVersions: "2.12-2.25"
   - meshVersion: "1.26"
-    kialiVersions: "2.9 and higher"
+    kialiVersions: "2.9-2.20"
+    notes: "Istio 1.26 is out of support."
   - meshVersion: "1.25"
     kialiVersions: "2.5-2.16"
     notes: "Istio 1.25 is out of support."
