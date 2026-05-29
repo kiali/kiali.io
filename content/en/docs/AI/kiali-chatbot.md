@@ -26,7 +26,7 @@ At a high level:
 - Kiali executes those tool calls against Kiali/Kubernetes/Prometheus/tracing backends and returns the final answer, including optional UI navigation actions and documentation citations.
 - The response is delivered as **streaming events** (for example: `start`, `token`, `tool_call`, `tool_result`, `end`, `error`) so the UI can progressively render tokens and tool activity in real time.
 
-For configuration keys (enable/disable, providers/models, store), see the `chat_ai` section in the [Kiali CR spec](/docs/configuration/kialis.kiali.io/#.spec.chat_ai).
+For configuration keys (enable/disable, tool filters, providers/models, store), see the `chat_ai` section in the [Kiali CR spec](/docs/configuration/kialis.kiali.io/#.spec.chat_ai).
 
 ![Kiali Chatbot architecture](/images/documentation/ai/kiali-chatbot-architecture.png)
 
@@ -50,6 +50,7 @@ Kiali Chatbot providers and models are configured in `chat_ai`:
 - Providers: OpenAI (`type: openai`), Google (`type: google`), Anthropic (`type: anthropic`), and LightSpeed (`type: lightspeed`).
 - Models are selected by name (per-provider) and can be enabled/disabled.
 - API keys can be set inline (not recommended) or via `secret:<secret-name>:<key-in-secret>`.
+- Tool exposure can be filtered globally with `chat_ai.tools` and further restricted per provider with `chat_ai.providers[].tools`.
 
 Example configuration (showing three providers: OpenAI, Google, and Anthropic):
 
@@ -57,6 +58,9 @@ Example configuration (showing three providers: OpenAI, Google, and Anthropic):
 chat_ai:
   enabled: true
   default_provider: "openai"
+  tools:
+    disabled_tools:
+      - "manage_istio_config"
   providers:
     - name: "openai"
       enabled: true
@@ -64,6 +68,11 @@ chat_ai:
       type: "openai"
       config: "default"
       default_model: "gpt"
+      tools:
+        enabled_tools:
+          - "get_logs"
+          - "get_mesh_status"
+          - "list_traces"
       models:
         - name: "gpt"
           enabled: true
@@ -98,6 +107,10 @@ chat_ai:
           model: "claude-haiku-4-5"
           enabled: true
 ```
+
+`enabled_tools` acts as an allowlist: when set, only the listed tool names are exposed. `disabled_tools` acts as a denylist and is applied afterwards. You can define these filters globally under `chat_ai.tools` and/or per provider under `chat_ai.providers[].tools`. Provider-level filters can only further restrict the already-allowed global toolset.
+
+To see the available built-in tool names you can use in these lists, see [Kiali Chatbot tools]({{< relref "kiali-chatbot-tools" >}}).
 
 LightSpeed provider example:
 
