@@ -6,6 +6,43 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 2.27.0
+Sprint Release: June 01, 2026
+
+Features:
+
+* [AI: Support anthropic provider](https://github.com/kiali/kiali/issues/9148)
+* [AI: Implement background job to clean stale store data.](https://github.com/kiali/kiali/issues/9143)
+* [AI: Extend resource_details tool to support Application-level resources](https://github.com/kiali/kiali/issues/9137)
+* [AI: Token Usage Analytics](https://github.com/kiali/kiali/issues/9142)
+* [AI: Harden System Prompt Against Injection](https://github.com/kiali/kiali/issues/9141)
+* [Kiali.io: Update Istio Configuration Section](https://github.com/kiali/kiali/issues/6895)
+* [Mesh page: Multi-mesh Control Plane Donut chart support](https://github.com/kiali/kiali/issues/9040)
+* [Perf: Improve in point traffic animation](https://github.com/kiali/kiali/issues/9701)
+* [Perf: Improve "istio" graph appender performance](https://github.com/kiali/kiali/issues/8524)
+* [Perf: Improve health cache memory utilizion](https://github.com/kiali/kiali/pull/9765)
+* [Perf: Improve workload fetching for single namespaces](https://github.com/kiali/kiali/pull/9766)
+* [Server: Re-enable Prometheus after initial health check failure](https://github.com/kiali/kiali/issues/9716)
+* [UX: Improve wizard buttons in view-only mode](https://github.com/kiali/kiali/issues/9655)
+* [UX: Update detail pages in the style of the new Namespace detail page](https://github.com/kiali/kiali/issues/9646)
+
+Fixes:
+
+* [UI: Clicking chart data points throws TypeError](https://github.com/kiali/kiali/issues/9624)
+* [UI: No heatmap in some Ambient tracing namespace](https://github.com/kiali/kiali/issues/9685)
+* [UI: Show "No related resources" message in the Related card when empty](https://github.com/kiali/kiali/issues/9691)
+* [UI: (Mesh page) ztunnel not connected with the control plane](https://github.com/kiali/kiali/issues/9714)
+* [Validation: (Ambient) False positive in KIA1313](https://github.com/kiali/kiali/issues/9674)
+
+
+**The following fields are no longer used by the Kiali CR and will be ignored if currently set. The standard constant values are now used.**
+
+* `spec.istio_labels.egress_gateway_label`
+* `spec.istio_labels.ingress_gateway_label`
+* `spec.istio_labels.injection_label_name`
+* `spec.istio_labels.injection_label_rev`
+
+
 ## 2.26.0
 Sprint Release: May 29, 2026
 
