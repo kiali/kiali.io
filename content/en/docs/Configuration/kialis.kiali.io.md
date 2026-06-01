@@ -65,17 +65,18 @@ spec:
       #token_inactivity_timeout:
       #token_max_age:
 
-  chat_ai:    
+  chat_ai:
     default_provider: ""
     enabled: false
     providers: []
     store_config:
       enabled: true
       inactivity_timeout: "30m"
-      max_cache_memory_mb: 1024      
+      max_cache_memory_mb: 1024
       reduce_threshold: 15
       reduce_with_ai: false
-      
+    tools: {}
+
   clustering:
     autodetect_secrets:
       enabled: true
@@ -500,10 +501,6 @@ spec:
 
   istio_labels:
     app_label_name: ""
-    egress_gateway_label: "istio=egressgateway"
-    ingress_gateway_label: "istio=ingressgateway"
-    injection_label_name: "istio-injection"
-    injection_label_rev: "istio.io/rev"
     version_label_name: ""
 
   kiali_feature_flags:
@@ -1619,6 +1616,25 @@ Authorization header and potentially impersonation headers.</li>
 <div class="property depth-4">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.chat_ai.providers[*].endpoint">.spec.chat_ai.providers[*].endpoint</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The endpoint of the provider. This is only used if a model has no endpoint specified.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.chat_ai.providers[*].key">.spec.chat_ai.providers[*].key</h3>
 </div>
 <div class="property-body">
@@ -1804,6 +1820,91 @@ Authorization header and potentially impersonation headers.</li>
 <div class="property depth-4">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.chat_ai.providers[*].tools">.spec.chat_ai.providers[*].tools</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>Optional provider-specific filter for the ChatAI toolset. Applied after the global <code>chat_ai.tools</code> filter. It can further restrict tools for this provider, but it cannot re-enable tools that were already filtered out globally or by feature availability.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.chat_ai.providers[*].tools.disabled_tools">.spec.chat_ai.providers[*].tools.disabled_tools</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>A denylist of tool names to hide from this ChatAI provider. Applied after <code>enabled_tools</code>.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.chat_ai.providers[*].tools.disabled_tools[*]">.spec.chat_ai.providers[*].tools.disabled_tools[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.chat_ai.providers[*].tools.enabled_tools">.spec.chat_ai.providers[*].tools.enabled_tools</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>An allowlist of tool names to expose to this ChatAI provider. If set, only the listed tool names remain available for this provider.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.chat_ai.providers[*].tools.enabled_tools[*]">.spec.chat_ai.providers[*].tools.enabled_tools[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.chat_ai.providers[*].type">.spec.chat_ai.providers[*].type</h3>
 </div>
 <div class="property-body">
@@ -1928,6 +2029,91 @@ Authorization header and potentially impersonation headers.</li>
 
 <div class="property-description">
 <p>Enable or disable the ChatAI store reduction with AI.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.chat_ai.tools">.spec.chat_ai.tools</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>Optional global filter for the ChatAI toolset. <code>enabled_tools</code> acts as an allowlist. <code>disabled_tools</code> acts as a denylist and is applied afterwards.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.chat_ai.tools.disabled_tools">.spec.chat_ai.tools.disabled_tools</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>A denylist of tool names to hide from all ChatAI providers. Applied after <code>enabled_tools</code>.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.chat_ai.tools.disabled_tools[*]">.spec.chat_ai.tools.disabled_tools[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.chat_ai.tools.enabled_tools">.spec.chat_ai.tools.enabled_tools</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>An allowlist of tool names to expose to ChatAI providers. If set, only the listed tool names remain available.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.chat_ai.tools.enabled_tools[*]">.spec.chat_ai.tools.enabled_tools[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
 
 </div>
 
@@ -8285,7 +8471,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The selector label for Egress Gateway workload. This is typically <code>istio=egressgateway</code>.</p>
+<p>DEPRECATED AFTER v2.27: This setting is deprecated and will be ignored.</p>
 
 </div>
 
@@ -8304,7 +8490,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The selector label for Ingress Gateway workload. This is typically <code>istio=ingressgateway</code>.</p>
+<p>DEPRECATED AFTER v2.27: This setting is deprecated and will be ignored.</p>
 
 </div>
 
@@ -8323,7 +8509,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The name of the label used to instruct Istio to automatically inject sidecar proxies when applications are deployed.</p>
+<p>DEPRECATED AFTER v2.27: This setting is deprecated and will be ignored. The injection label name is now hardcoded to the standard value.</p>
 
 </div>
 
@@ -8342,7 +8528,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The label used to identify the Istio revision.</p>
+<p>DEPRECATED AFTER v2.27: This setting is deprecated and will be ignored. The injection label revision is now hardcoded to the standard value.</p>
 
 </div>
 
