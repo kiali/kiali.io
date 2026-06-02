@@ -40,4 +40,8 @@ As an example, this is how Kiali displays the Overview page in Spanish:
 
 ![Overview page in Spanish](/images/documentation/features/internationalization-spanish.png "Overview page in Spanish")
 
+### OSSMC Support
+
+The [OSSMC plugin]({{< relref "/docs/OSSMC" >}}) also supports internationalization. When the OpenShift Console language is set to a supported language, all OSSMC pages and navigation elements are displayed in that language. OSSMC shares the same translation catalog as the standalone Kiali Console and adds translations for OpenShift-specific strings such as sidebar navigation titles and plugin-specific error messages.
+
 If you want to collaborate with us on adding a new language or improving the translation of an existing one, please refer to the internationalization section of the kiali project's [README for UI](https://github.com/kiali/kiali/blob/master/frontend/README.adoc#internationalization-i18n)

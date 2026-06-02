@@ -51,6 +51,7 @@ If you are running Red Hat OpenShift Service Mesh (OSSM), use only the bundled, 
 
 | <div style="width:100px">OSSM</div> | <div style="width:100px">Kiali</div> | Notes                      |
 | ----------------------------------- | ------------------------------------ | -------------------------- |
+| 3.3                                 | 2.22                                 |                            |
 | 3.2                                 | 2.17                                 |                            |
 | 3.1                                 | 2.11                                 |                            |
 | 3.0                                 | 2.4                                  |                            |
