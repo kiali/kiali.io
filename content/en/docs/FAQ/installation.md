@@ -248,6 +248,28 @@ Note that you can share a secret across multiple external services if they use t
 
 The `secret:` pattern works for both simple credential values (tokens, passwords, usernames) and file-based credentials (certificates and keys). For certificate files, the secret key name (e.g., `tls.crt`, `tls.key`) will be preserved when mounted.
 
+For OAuth2 `client_credentials` authentication, store the `client_secret` in a Kubernetes secret and reference it:
+
+```bash
+kubectl create secret generic my-oauth2-secret \
+  --from-literal=client_secret=my-actual-secret \
+  -n istio-system
+```
+
+```yaml
+spec:
+  external_services:
+    prometheus:
+      auth:
+        type: "oauth2"
+        oauth2:
+          client_id: "my-client-id"
+          client_secret: "secret:my-oauth2-secret:client_secret"
+          token_url: "https://idp.example.com/token"
+```
+
+The same `secret:` pattern applies to `oauth2.client_secret` for all external services (prometheus, grafana, tracing, perses, custom_dashboards.prometheus).
+
 {{% alert color="info" %}}
 **Note about CA certificates**: To configure custom CA certificates that Kiali should trust when connecting to external services over HTTPS, see the [TLS Configuration]({{< relref "../Configuration/p8s-jaeger-grafana/tls-configuration" >}}) page. CA certificates are configured globally via a ConfigMap, not per-service.
 {{% /alert %}}
@@ -255,25 +277,30 @@ The `secret:` pattern works for both simple credential values (tokens, passwords
 You can use secrets as explained above for the following fields in the Kiali CR:
 * `spec.external_services.grafana.auth.cert_file`
 * `spec.external_services.grafana.auth.key_file`
+* `spec.external_services.grafana.auth.oauth2.client_secret`
 * `spec.external_services.grafana.auth.password`
 * `spec.external_services.grafana.auth.token`
 * `spec.external_services.grafana.auth.username`
 * `spec.external_services.perses.auth.cert_file`
 * `spec.external_services.perses.auth.key_file`
+* `spec.external_services.perses.auth.oauth2.client_secret`
 * `spec.external_services.perses.auth.password`
 * `spec.external_services.perses.auth.username`
 * `spec.external_services.prometheus.auth.cert_file`
 * `spec.external_services.prometheus.auth.key_file`
+* `spec.external_services.prometheus.auth.oauth2.client_secret`
 * `spec.external_services.prometheus.auth.password`
 * `spec.external_services.prometheus.auth.token`
 * `spec.external_services.prometheus.auth.username`
 * `spec.external_services.tracing.auth.cert_file`
 * `spec.external_services.tracing.auth.key_file`
+* `spec.external_services.tracing.auth.oauth2.client_secret`
 * `spec.external_services.tracing.auth.password`
 * `spec.external_services.tracing.auth.token`
 * `spec.external_services.tracing.auth.username`
 * `spec.external_services.custom_dashboards.prometheus.auth.cert_file`
 * `spec.external_services.custom_dashboards.prometheus.auth.key_file`
+* `spec.external_services.custom_dashboards.prometheus.auth.oauth2.client_secret`
 * `spec.external_services.custom_dashboards.prometheus.auth.password`
 * `spec.external_services.custom_dashboards.prometheus.auth.token`
 * `spec.external_services.custom_dashboards.prometheus.auth.username`
@@ -363,6 +390,7 @@ All credentials mounted from secrets support automatic rotation:
 - Usernames (`auth.username`)
 - Client certificates (`auth.cert_file`)
 - Client private keys (`auth.key_file`)
+- OAuth2 client secrets (`auth.oauth2.client_secret`)
 - Login token signing key (`login_token.signing_key`)
 
 {{% alert color="info" %}}

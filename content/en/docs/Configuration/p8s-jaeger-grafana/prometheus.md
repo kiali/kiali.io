@@ -225,6 +225,30 @@ spec:
 
 To configure a secret to be used as a password, see this [FAQ entry]({{< relref "../../FAQ/installation#how-can-i-use-a-secret-to-pass-external-service-credentials-to-the-kiali-server" >}}).
 
+To authenticate using OAuth2 `client_credentials` flow (for example, Azure Monitor Managed Prometheus or any OAuth2-protected endpoint), set `type: "oauth2"` and provide the `oauth2` block:
+
+```yaml
+spec:
+  external_services:
+    prometheus:
+      auth:
+        type: "oauth2"
+        oauth2:
+          client_id: "my-client-id"
+          client_secret: "secret:my-oauth2-secret:client_secret"
+          token_url: "https://login.microsoftonline.com/<tenant>/oauth2/v2.0/token"
+          scopes:
+          - "https://prometheus.monitor.azure.com/.default"
+          audience: ""          # optional: some providers require this
+          auth_style: "header"  # "header" (default) or "params"
+```
+
+The `client_secret` field supports the `secret:<secretName>:<secretKey>` pattern for automatic secret mounting and rotation without pod restart. See the [FAQ entry]({{< relref "../../FAQ/installation#how-can-i-use-a-secret-to-pass-external-service-credentials-to-the-kiali-server" >}}) for details.
+
+{{% alert color="warning" %}}
+`insecure_skip_verify` applies only to the Prometheus connection, not to the OAuth2 token endpoint. The token endpoint always validates TLS certificates. To trust a private CA for the token endpoint, add the CA to the `kiali-cabundle` ConfigMap as described in the [TLS Configuration]({{< relref "./tls-configuration" >}}) page.
+{{% /alert %}}
+
 ### TLS Certificate Configuration
 
 If your Prometheus server uses HTTPS with a certificate issued by a private CA, see the [TLS Configuration]({{< relref "./tls-configuration" >}}) page to learn how to configure Kiali to trust your CA.
