@@ -351,6 +351,34 @@ spec:
 
 To configure a secret to be used as a password, see this [FAQ entry]({{< relref "../../../FAQ/installation#how-can-i-use-a-secret-to-pass-external-service-credentials-to-the-kiali-server" >}}).
 
+To authenticate using OAuth2 `client_credentials` flow, set `type: "oauth2"` and provide the `oauth2` block:
+
+```yaml
+spec:
+  external_services:
+    tracing:
+      use_grpc: false           # must be false; oauth2 token injection is not implemented for gRPC transport
+      auth:
+        type: "oauth2"
+        oauth2:
+          client_id: "my-client-id"
+          client_secret: "secret:my-oauth2-secret:client_secret"
+          token_url: "https://idp.example.com/token"
+          scopes: []            # optional: list of OAuth2 scopes to request
+          audience: ""          # optional: some providers require this
+          auth_style: "header"  # "header" (default) or "params"
+```
+
+{{% alert color="warning" %}}
+OAuth2 authentication requires `use_grpc: false`. OAuth2 token injection is not implemented for gRPC transport.
+{{% /alert %}}
+
+{{% alert color="warning" %}}
+`insecure_skip_verify` applies only to the Tempo connection, not to the OAuth2 token endpoint. The token endpoint always validates TLS certificates. To trust a private CA for the token endpoint, add the CA to the `kiali-cabundle` ConfigMap as described in the [TLS Configuration]({{< relref "../tls-configuration" >}}) page.
+{{% /alert %}}
+
+The `client_secret` field supports the `secret:<secretName>:<secretKey>` pattern for automatic secret mounting and rotation without pod restart. See the [FAQ entry]({{< relref "../../../FAQ/installation#how-can-i-use-a-secret-to-pass-external-service-credentials-to-the-kiali-server" >}}) for details.
+
 #### TLS Certificate Configuration
 
 If your Tempo server uses HTTPS with a certificate issued by a private CA, see the [TLS Configuration]({{< relref "../tls-configuration" >}}) page to learn how to configure Kiali to trust your CA.
