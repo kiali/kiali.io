@@ -21,7 +21,7 @@ The OSSMC plugin adds a **Service Mesh** category to the OpenShift Console sideb
 * **Mesh** — Istio infrastructure status
 * **Namespaces** — Namespace list with health, labels, and detail links
 * **Applications** — Application list with a dedicated detail page
-* **Services** — Service list with detail pages (including external services)
+* **Services** — Service list with detail pages
 * **Workloads** — Workload list with health, type, and Istio configuration
 * **Istio Config** — Istio configuration list with validation status
 
@@ -31,43 +31,49 @@ All of these pages are standalone routes within the OSSMC plugin, providing a co
 
 The **Overview** page provides a summary of your mesh by showing cards representing the namespaces participating in the mesh. Each namespace card has summary metric graphs and additional health details. There are links in the cards that take you to other pages within OSSMC.
 
-![Overview](/images/documentation/installation/installation-guide/20-overview.png)
+![Overview](/images/documentation/ossmc/05-overview.png)
 
 ## Traffic Graph
 
 The **Traffic Graph** page provides the full topology view of your mesh. The mesh is represented by nodes and edges — each node representing a component of the mesh and each edge representing traffic flowing through the mesh between components.
 
-![Graph](/images/documentation/installation/installation-guide/21-graph.png)
+![Graph](/images/documentation/ossmc/06-graph.png)
 
 ## Mesh
 
 The **Mesh** page provides detailed information about the Istio infrastructure status. It shows an infrastructure topology view with core and add-on components, their health, and how they are connected to each other.
 
-![Mesh](/images/documentation/installation/installation-guide/22-mesh.png)
+![Mesh](/images/documentation/ossmc/07-mesh.png)
 
 ## Namespaces
 
 The **Namespaces** page provides a list of namespaces participating in the mesh along with their health status and labels. Clicking a namespace opens a detail page with a split-panel layout: the left panel contains stacked cards showing namespace attributes, resource links, and health information, while the right panel displays a namespace-scoped traffic minigraph.
 
+![Namespaces](/images/documentation/ossmc/08-namespaces.png)
+
 ## Applications
 
 The **Applications** page provides a list of applications detected in the mesh. Clicking an application opens a dedicated detail page with sub-tabs for Overview, Traffic, Inbound Metrics, and Traces. The application detail page displays an application badge and provides the same level of detail as the standalone Kiali Console.
+
+![Applications](/images/documentation/ossmc/09-applications.png)
 
 ## Services
 
 The **Services** page provides a list of services in the mesh. Clicking a service opens a detail page with sub-tabs for Overview, Traffic, Inbound Metrics, and Traces.
 
-OSSMC also supports **external services** defined via Istio ServiceEntry resources. External services are displayed with an "ES" badge and open in a Kiali-owned detail page, avoiding the 404 errors that would otherwise occur when navigating to native Kubernetes service pages for ServiceEntry-backed hosts.
+![Services](/images/documentation/ossmc/10-services.png)
 
 ## Workloads
 
 The **Workloads** page provides a list of workloads in the mesh along with their health status, type, and associated Istio configuration. Clicking a workload navigates to the corresponding Kubernetes resource detail page (Deployment, ReplicaSet, DaemonSet, StatefulSet, etc.) with the Service Mesh tab selected.
 
+![Workloads](/images/documentation/ossmc/11-workloads.png)
+
 ## Istio Config
 
 The **Istio Config** page provides a list of all Istio configuration files in your mesh with a column that provides a quick way to know if the configuration for each resource is valid. You can also create new Istio configuration resources from this page. The list page uses Kiali's full filtering capabilities, including type, name, and validation status filters.
 
-![Istio Config](/images/documentation/installation/installation-guide/22-istioconfig.png)
+![Istio Config](/images/documentation/ossmc/12-istioconfig.png)
 
 ## Workload Details
 
@@ -77,39 +83,35 @@ The **Workloads** detail view (accessible from the OpenShift **Workloads** pages
 
 The **Workload: Overview** sub-tab provides a summary of the selected workload including a localized topology graph showing the workload with all inbound and outbound edges and nodes.
 
-![Workload: Overview](/images/documentation/installation/installation-guide/23-workload.png)
+![Workload: Overview](/images/documentation/ossmc/13-workload.png)
 
 ### Workload: Traffic
 
 The **Workload: Traffic** sub-tab provides information about all inbound and outbound traffic to the workload.
 
-![Workload: Traffic](/images/documentation/installation/installation-guide/24-workload-traffic.png)
+![Workload: Traffic](/images/documentation/ossmc/14-workload-traffic.png)
 
 ### Workload: Logs
 
 The **Workload: Logs** sub-tab provides the logs for the workload's containers. You can view container logs individually or in a unified fashion, ordered by log time. This is especially helpful to see how the Envoy sidecar proxy logs relate to your workload's application logs. You can enable the tracing span integration which then allows you to see which logs correspond to trace spans.
 
-![Workload: Logs](/images/documentation/installation/installation-guide/25-workload-logs.png)
+![Workload: Logs](/images/documentation/ossmc/15-workload-logs.png)
 
 ### Workload: Metrics
 
 You can see both inbound and outbound metric graphs in the corresponding sub-tabs. All the workload metrics can be displayed here, providing you with a detail view of the performance of your workload. You can enable the tracing span integration which allows you to see which spans occurred at the same time as the metrics. You can then click on a span marker in the graph to view the specific spans associated with that timeframe.
 
-![Workload: Metrics](/images/documentation/installation/installation-guide/26-workload-metrics.png)
+![Workload: Metrics](/images/documentation/ossmc/16-workload-metrics.png)
 
 ### Workload: Traces
 
 The **Traces** sub-tab provides a chart showing the trace spans collected over the given timeframe. Click on a bubble to drill down into those trace spans; the trace spans can provide you the most low-level detail within your workload application, down to the individual request level.
 
-![Workload: Traces](/images/documentation/installation/installation-guide/27-workload-traces.png)
+![Workload: Traces](/images/documentation/ossmc/17-workload-traces.png)
 
 The trace details view will give further details, including heatmaps that provide you with a comparison of one span in relation to other requests and spans in the same timeframe.
 
-![Workload: Traces Details](/images/documentation/installation/installation-guide/28-workload-traces-details.png)
-
-If you hover over a cell in a heatmap, a tooltip will give some details on the cell data:
-
-![Workload: Traces Heatmap](/images/documentation/installation/installation-guide/29-workload-traces-heatmap.png)
+![Workload: Traces Details](/images/documentation/ossmc/18-workload-traces-details.png)
 
 When the OpenShift tracing UI plugin is enabled, Kiali will try to auto discover the plugin settings and the `View in Tracing` Kiali link will redirect to the plugin (for Kiali 2.8.0+). 
 If the plugin config needs to be adjusted, the following settings should be included in the `plugin-conf` ConfigMap:
@@ -129,28 +131,26 @@ If the plugin config needs to be adjusted, the following settings should be incl
 
 The **Envoy** sub-tab provides information about the Envoy sidecar configuration. This is useful when you need to dig down deep into the sidecar configuration when debugging things such as connectivity issues.
 
-![Workload: Envoy](/images/documentation/installation/installation-guide/30-workload-envoy.png)
+![Workload: Envoy](/images/documentation/ossmc/19-workload-envoy.png)
 
 ## Application Details
 
 The **Applications** detail page provides mesh-related detail for the selected application, including a localized topology graph, traffic information, inbound metrics, and traces. The detail page is accessible both from the OSSMC Applications list page and from graph node navigation.
 
+![Application Details](/images/documentation/ossmc/20-applications-overview.png)
+
 ## Service Details
 
-The **Services** detail view has a tab **Service Mesh** that provides mesh-related detail for the selected service. The details are grouped into several sub-tabs: Overview, Traffic, Inbound Metrics, Traces. These sub-tabs are similar in nature as the Workload sub-tabs with the same names and serve the same functions. For external services (ServiceEntry), the detail page is served directly by OSSMC rather than the native OpenShift Console, displaying the full Kiali service detail experience.
+The **Services** detail view has a tab **Service Mesh** that provides mesh-related detail for the selected service. The details are grouped into several sub-tabs: Overview, Traffic, Inbound Metrics, Traces. These sub-tabs are similar in nature as the Workload sub-tabs with the same names and serve the same functions.
 
-![Services: Overview](/images/documentation/installation/installation-guide/31-services-overview.png)
+![Services: Overview](/images/documentation/ossmc/21-services-overview.png)
 
 ## Project Details
 
-The **Projects** detail view has a tab **Service Mesh** that provides traffic graph information about that project. It is the same information shown in the [**Traffic Graph**](#traffic-graph) page but specific to that project.
+The **Projects** detail view has a tab **Service Mesh** that provides mesh-related detail for that project, similar to the namespace detail page with a split-panel layout showing project attributes, resource links, health information, and a namespace-scoped traffic minigraph.
 
-![Projects: Overview](/images/documentation/installation/installation-guide/32-projects-graph.png)
+![Projects: Overview](/images/documentation/ossmc/22-projects-overview.png)
 
 ## Istio Config Details
 
 The detail pages for **Istio configuration resources** (such as VirtualService, DestinationRule, Gateway, AuthorizationPolicy, and others) have a **Service Mesh** tab that shows an overview and validation status for the resource.
-
-## Internationalization
-
-OSSMC inherits Kiali's internationalization support. When the OpenShift Console language is set to a supported language, OSSMC pages are displayed in that language. Currently supported languages for OSSMC are English, Chinese, and Spanish. See the [Internationalization]({{< relref "/docs/Features/internationalization" >}}) feature page for more information on Kiali's i18n capabilities.

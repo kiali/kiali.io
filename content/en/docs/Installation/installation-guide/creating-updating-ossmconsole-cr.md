@@ -31,7 +31,7 @@ You should specify the `spec.version` field of the OSSMConsole CR, and its value
 
 From the Kiali Operator details page in the OpenShift Console, create an instance of the "OpenShift Service Mesh Console" resource. Accept the defaults on the installation form and press "Create".
 
-![Install Plugin](/images/documentation/installation/installation-guide/01-ui-install-cr.png)
+![Install Plugin](/images/documentation/ossmc/01-ui-install-cr.png)
 
 ### Installing via "oc" CLI
 
@@ -59,11 +59,11 @@ To confirm your OSSMConsole CR is valid, you can utilize the [OSSMConsole CR val
 
 After the plugin is installed, you can see the "OSSMConsole" resource that was created in the OpenShift Console UI. Within the operator details page in the OpenShift Console UI, select the _OpenShift Service Mesh Console_ tab to view the resource that was created and its status. The CR status field will provide you with any error messages should the deployment of OSSMC fail.
 
-![Installed Plugin](/images/documentation/installation/installation-guide/02-ui-installed-cr.png)
+![Installed Plugin](/images/documentation/ossmc/02-ui-installed-cr.png)
 
 Once the operator has finished processing the OSSMConsole CR, you must then wait for the OpenShift Console to load and initialize the plugin. This may take a minute or two. You will know when the plugin is ready when the OpenShift Console pops up this message - when you see this message, refresh the browser window to reload the OpenShift Console:
 
-![Plugin Ready](/images/documentation/installation/installation-guide/03-ui-installed-cr-plugin-ready.png)
+![Plugin Ready](/images/documentation/ossmc/03-ui-installed-cr-plugin-ready.png)
 
 ## Uninstalling OSSMC
 
@@ -77,7 +77,7 @@ If you intend to also uninstall the Kiali Operator, it is very important to firs
 
 Remove the OSSMConsole CR by navigating to the operator details page in the OpenShift Console UI. From the operator details page, select the _OpenShift Service Mesh Console_ tab and then select the Delete option in the kebab menu.
 
-![Uninstall Plugin](/images/documentation/installation/installation-guide/04-ui-uninstall-cr.png)
+![Uninstall Plugin](/images/documentation/ossmc/04-ui-uninstall-cr.png)
 
 ### Uninstalling via "oc" CLI
 
