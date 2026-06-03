@@ -83,7 +83,7 @@ The **Workloads** detail view (accessible from the OpenShift **Workloads** pages
 
 The **Workload: Overview** sub-tab provides a summary of the selected workload including a localized topology graph showing the workload with all inbound and outbound edges and nodes.
 
-![Workload: Overview](/images/documentation/ossmc/13-workload.png)
+![Workload: Overview](/images/documentation/ossmc/13-workload-overview.png)
 
 ### Workload: Traffic
 
@@ -147,10 +147,12 @@ The **Services** detail view has a tab **Service Mesh** that provides mesh-relat
 
 ## Project Details
 
-The **Projects** detail view has a tab **Service Mesh** that provides mesh-related detail for that project, similar to the namespace detail page with a split-panel layout showing project attributes, resource links, health information, and a namespace-scoped traffic minigraph.
+The **Projects** detail view has a tab **Service Mesh** that provides mesh-related detail for that project with a split-panel layout showing project attributes, resource links, health information, and a namespace-scoped traffic minigraph.
 
 ![Projects: Overview](/images/documentation/ossmc/22-projects-overview.png)
 
 ## Istio Config Details
 
 The detail pages for **Istio configuration resources** (such as VirtualService, DestinationRule, Gateway, AuthorizationPolicy, and others) have a **Service Mesh** tab that shows an overview and validation status for the resource.
+
+![Istio Config Details](/images/documentation/ossmc/23-istioconfig-details.png)
