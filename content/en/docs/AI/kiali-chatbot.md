@@ -124,6 +124,26 @@ chat_ai:
       enabled: true
 ```
 
+### TLS verification
+
+By default, Kiali verifies the TLS certificate of AI provider endpoints. Kiali uses its CA bundle (`kiali-cabundle` ConfigMap) and the platform TLS policy when connecting to providers.
+
+If the provider uses a self-signed certificate that is not in Kiali's CA bundle, you can disable TLS verification per provider:
+
+```yaml
+chat_ai:
+  providers:
+    - name: "LightSpeed"
+      type: "lightspeed"
+      endpoint: "https://lightspeed-app-server.openshift-lightspeed.svc:8443"
+      enabled: true
+      insecure_skip_verify: true
+```
+
+{{< alert color="warning" >}}
+Setting `insecure_skip_verify: true` disables certificate validation for that provider. Use this only for development or testing. In production, add the provider's CA certificate to the `kiali-cabundle` ConfigMap instead.
+{{< /alert >}}
+
 You can also select the configured models and providers in the chatbot window:
 
 ![Kiali Chatbot models](/images/documentation/ai/kiali-chatbot-models.png)
