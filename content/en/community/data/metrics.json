@@ -954,13 +954,19 @@
                     "issues": 128,
                     "stars": 3615,
                     "size": 81833
+                },
+                "2026-06-06": {
+                    "forks": 554,
+                    "issues": 142,
+                    "stars": 3617,
+                    "size": 81881
                 }
             },
             "language": {
-                "Go": 6441686,
-                "TypeScript": 4677048,
-                "Shell": 1389649,
-                "Gherkin": 241988,
+                "Go": 6503638,
+                "TypeScript": 4676702,
+                "Shell": 1438194,
+                "Gherkin": 241360,
                 "Makefile": 116561,
                 "SCSS": 9628,
                 "HTML": 2103,
@@ -1521,12 +1527,18 @@
                     "issues": 4,
                     "stars": 90,
                     "size": 3166
+                },
+                "2026-06-04": {
+                    "forks": 128,
+                    "issues": 3,
+                    "stars": 90,
+                    "size": 3141
                 }
             },
             "language": {
-                "Shell": 113354,
-                "Python": 42686,
-                "Dockerfile": 35753,
+                "Shell": 113405,
+                "Python": 49858,
+                "Dockerfile": 36223,
                 "Makefile": 18186
             }
         },
@@ -1986,11 +1998,17 @@
                     "issues": 5,
                     "stars": 8,
                     "size": 12077
+                },
+                "2026-06-02": {
+                    "forks": 20,
+                    "issues": 6,
+                    "stars": 8,
+                    "size": 12379
                 }
             },
             "language": {
-                "TypeScript": 4728354,
-                "Gherkin": 240933,
+                "TypeScript": 4752044,
+                "Gherkin": 244004,
                 "Makefile": 19278,
                 "Shell": 15929,
                 "SCSS": 9722,
