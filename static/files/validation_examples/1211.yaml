@@ -1,0 +1,29 @@
+apiVersion: networking.istio.io/v1
+kind: ServiceEntry
+metadata:
+  name: example-https
+  namespace: bookinfo
+spec:
+  hosts:
+  - api.example.com
+  ports:
+  - name: https
+    number: 443
+    protocol: HTTPS
+  location: MESH_EXTERNAL
+  resolution: DNS
+---
+apiVersion: networking.istio.io/v1
+kind: ServiceEntry
+metadata:
+  name: example-https-duplicate  # Duplicate: same host and port as above
+  namespace: bookinfo
+spec:
+  hosts:
+  - api.example.com
+  ports:
+  - name: https-alt
+    number: 443
+    protocol: HTTPS
+  location: MESH_EXTERNAL
+  resolution: DNS

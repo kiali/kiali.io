@@ -929,6 +929,57 @@ Add missing Service Entry which address will match the Workload Entry's address.
 - [Validator source code](https://github.com/kiali/kiali/tree/v1.52.0/business/checkers/serviceentries/workload_entry_address_match.go)
 
 
+## ServiceEntries {#serviceentries}
+
+### KIA1211 - More than one ServiceEntry for the same host and port
+
+Istio merges ServiceEntries that share the same hostname within a namespace. When multiple ServiceEntries define the same host and port combination, Istio's merging behavior can lead to unpredictable traffic routing. Depending on the order Istio processes the resources, traffic may be routed to an unintended destination or connections may fail entirely.
+
+This validation warns when two or more ServiceEntries across any namespace define overlapping host and port combinations with the same protocol. While the mesh may still route traffic, the behavior is fragile and depends on resource processing order.
+
+#### Resolution
+
+Consolidate overlapping ServiceEntries into a single resource that defines all the required ports for a given host. If different namespaces need to reference the same external service, use an `exportTo` configuration to share a single ServiceEntry.
+
+#### Severity
+
+<i class="fas fa-exclamation-triangle text-warning"></i> Warning
+
+#### Example
+
+{{< readfile file="/static/files/validation_examples/1211.yaml" code="true" lang="yaml" >}}
+
+#### See Also
+
+- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/serviceentries/multi_match_checker.go)
+- [Istio ServiceEntry documentation](https://istio.io/docs/reference/config/networking/service-entry/)
+
+
+### KIA1212 - ServiceEntries have conflicting protocols for the same host and port
+
+When multiple ServiceEntries define the same host and port number but with different protocols (e.g., one uses HTTP and another uses HTTPS), Istio cannot correctly determine how to handle traffic for that endpoint. The control plane merges these entries and the resulting listener may use the wrong protocol, causing connection failures, TLS errors, or traffic blackholing.
+
+This is a more severe variant of KIA1211. Protocol mismatches on the same host and port are almost always a configuration error that will result in broken traffic.
+
+#### Resolution
+
+Ensure all ServiceEntries that share the same host and port also use the same protocol. If different protocols are needed for the same host, use different port numbers. Alternatively, consolidate the entries into a single ServiceEntry with the correct protocol.
+
+#### Severity
+
+<i class="fas fa-exclamation-triangle text-warning"></i> Warning
+
+#### Example
+
+{{< readfile file="/static/files/validation_examples/1212.yaml" code="true" lang="yaml" >}}
+
+#### See Also
+
+- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/serviceentries/multi_match_checker.go)
+- [Istio ServiceEntry documentation](https://istio.io/docs/reference/config/networking/service-entry/)
+- [Istio issue #54988 - ServiceEntry host:port overlap causes NoClusterFound](https://github.com/istio/istio/issues/54988)
+
+
 ## K8s Routes {#k8sroutes}
 
 ### KIA1401 - Route is pointing to a non-existent or inaccessible K8s gateway
