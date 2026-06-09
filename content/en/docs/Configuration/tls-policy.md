@@ -154,8 +154,8 @@ Groups control which key exchange mechanisms are allowed during the TLS handshak
 | `secp384r1` | NIST P-384 |
 | `secp521r1` | NIST P-521 |
 | `X25519MLKEM768` | Post-quantum hybrid |
-| `SecP256r1MLKEM768` | Post-quantum hybrid (future support) |
-| `SecP384r1MLKEM1024` | Post-quantum hybrid (future support) |
+| `SecP256r1MLKEM768` | Post-quantum hybrid |
+| `SecP384r1MLKEM1024` | Post-quantum hybrid |
 &nbsp;
 
 Unsupported group names are skipped with a warning. Kiali refuses to start only if all specified groups are unsupported.
