@@ -1,0 +1,29 @@
+apiVersion: networking.istio.io/v1
+kind: ServiceEntry
+metadata:
+  name: example-https
+  namespace: bookinfo
+spec:
+  hosts:
+  - api.example.com
+  ports:
+  - name: https-13835
+    number: 13835
+    protocol: HTTPS
+  location: MESH_EXTERNAL
+  resolution: DNS
+---
+apiVersion: networking.istio.io/v1
+kind: ServiceEntry
+metadata:
+  name: example-http  # Conflict: same host and port but different protocol
+  namespace: bookinfo
+spec:
+  hosts:
+  - api.example.com
+  ports:
+  - name: http-13835
+    number: 13835
+    protocol: HTTP
+  location: MESH_EXTERNAL
+  resolution: DNS
