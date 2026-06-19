@@ -6,6 +6,29 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 2.28.0
+Sprint Release: June 22, 2026
+
+Features:
+
+* [AI: Make LightSpeed TLS verification configurable](https://github.com/kiali/kiali/issues/9736)
+* [AI: Built-in MCP prompts](https://github.com/kiali/kiali/issues/9744)
+* [AI: Use MCP Checker actions instead of the binary](https://github.com/kiali/kiali/issues/9753)
+* [Ambient: Validate Kiali with Ambient 1.30](https://github.com/kiali/kiali/issues/9623)
+* [API: GW API IE v1.5.0 Support](https://github.com/kiali/kiali/issues/9574)
+* [Auth: OAuth2 client_credentials: follow-up fixes and improvements across kiali, operator, and helm-charts](https://github.com/kiali/kiali/issues/9787)
+* [I18N: Create i18n conventions file](https://github.com/kiali/kiali/issues/9728)
+* [Operator: RBAC permission cleanup](https://github.com/kiali/kiali/issues/9836)
+* [UX: Use filter columns in list pages as in the namespace list page](https://github.com/kiali/kiali/issues/9723)
+* [Validation: Add Kiali Validation for Conflicting ServiceEntries with Same Host and Port but Different Protocols](https://github.com/kiali/kiali/issues/9800)
+
+Fixes:
+
+* [Ambient: Ambient Traffic dropdown hidden when home cluster has no ztunnel](https://github.com/kiali/kiali/issues/9784)
+* [Multicluster: Workloads list fails with "namespace not accessible" when ignore_home_cluster=true](https://github.com/kiali/kiali/issues/9790)
+* [Validation: KIA1401 false positive when Gateway allowedRoutes selector uses matchExpressions](https://github.com/kiali/kiali/issues/9819)
+
+
 ## 2.27.0
 Sprint Release: June 01, 2026
 
