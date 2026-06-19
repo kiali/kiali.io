@@ -11,18 +11,16 @@ Sprint Release: June 19, 2026
 
 Features:
 
-* [Add Kiali Validation for Conflicting ServiceEntries with Same Host and Port but Different Protocols](https://github.com/kiali/kiali/issues/9800)
-* [Operator RBAC permission cleanup](https://github.com/kiali/kiali/issues/9836)
-* [Improve golangci-lint with github action](https://github.com/kiali/kiali/issues/8985)
-* [(Ambient) Validate Kiali with Ambient 1.30](https://github.com/kiali/kiali/issues/9623)
-* [(AI) Make LightSpeed TLS verification configurable](https://github.com/kiali/kiali/issues/9736)
-* [GW API IE v1.5.0 Support](https://github.com/kiali/kiali/issues/9574)
-* [(AI) built-in MCP prompts](https://github.com/kiali/kiali/issues/9744)
-* [Add Cypress integration test for kiali_health_status metric](https://github.com/kiali/kiali/issues/9449)
-* [OAuth2 client_credentials: follow-up fixes and improvements across kiali, operator, and helm-charts](https://github.com/kiali/kiali/issues/9787)
-* [(UX) Use filter columns in list pages as in the namespace list page](https://github.com/kiali/kiali/issues/9723)
-* [(i18n) Create i18n conventions file](https://github.com/kiali/kiali/issues/9728)
-* [(AI) Use MCP Checker actions instead of the binary](https://github.com/kiali/kiali/issues/9753)
+* [AI: Make LightSpeed TLS verification configurable](https://github.com/kiali/kiali/issues/9736)
+* [AI: Built-in MCP prompts](https://github.com/kiali/kiali/issues/9744)
+* [AI: Use MCP Checker actions instead of the binary](https://github.com/kiali/kiali/issues/9753)
+* [Ambient: Validate Kiali with Ambient 1.30](https://github.com/kiali/kiali/issues/9623)
+* [API: GW API IE v1.5.0 Support](https://github.com/kiali/kiali/issues/9574)
+* [Auth: OAuth2 client_credentials: follow-up fixes and improvements across kiali, operator, and helm-charts](https://github.com/kiali/kiali/issues/9787)
+* [I18N: Create i18n conventions file](https://github.com/kiali/kiali/issues/9728)
+* [Operator: RBAC permission cleanup](https://github.com/kiali/kiali/issues/9836)
+* [UX: Use filter columns in list pages as in the namespace list page](https://github.com/kiali/kiali/issues/9723)
+* [Validation: Add Kiali Validation for Conflicting ServiceEntries with Same Host and Port but Different Protocols](https://github.com/kiali/kiali/issues/9800)
 
 Fixes:
 
