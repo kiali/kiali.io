@@ -24,9 +24,9 @@ Features:
 
 Fixes:
 
-* [KIA1401 false positive when Gateway allowedRoutes selector uses matchExpressions](https://github.com/kiali/kiali/issues/9819)
-* [(Ambient) Ambient Traffic dropdown hidden when home cluster has no ztunnel](https://github.com/kiali/kiali/issues/9784)
-* [(Multicluster) Workloads list fails with "namespace not accessible" when ignore_home_cluster=true](https://github.com/kiali/kiali/issues/9790)
+* [Ambient: Ambient Traffic dropdown hidden when home cluster has no ztunnel](https://github.com/kiali/kiali/issues/9784)
+* [Multicluster: Workloads list fails with "namespace not accessible" when ignore_home_cluster=true](https://github.com/kiali/kiali/issues/9790)
+* [Validation: KIA1401 false positive when Gateway allowedRoutes selector uses matchExpressions](https://github.com/kiali/kiali/issues/9819)
 
 
 ## 2.27.0
