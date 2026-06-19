@@ -181,12 +181,7 @@ Examples of tasks that work well:
 
 Kiali Chatbot displays a set of suggested prompts tailored to the page you are currently viewing. The suggestions change as you navigate between pages (Overview, Graph, Mesh, Namespaces, Applications, Services, Workloads, Istio Config), so the most relevant questions for your current context are always one click away.
 
-{{< image width="40%" ratio="60%"
-    link="/images/documentation/ai/kiali-predefined-prompts.png"
-    alt="Kiali Chatbot predefined prompts"
-    title="Kiali Chatbot predefined prompts"
-    caption="Page-aware predefined prompts displayed in the Kiali Chatbot"
->}}
+![ChatBot - Predefined prompts](/images/documentation/ai/kiali-predefined-prompts.png)
 
 The prompts are served by a built-in server-side catalog through the `GET /api/chat/prompts` endpoint. Use the optional `?category=<page>` query parameter to fetch prompts for a specific page. If the endpoint is unavailable, the chatbot falls back to a set of static prompts.
 
