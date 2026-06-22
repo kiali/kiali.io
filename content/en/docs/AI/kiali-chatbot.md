@@ -177,6 +177,16 @@ Examples of tasks that work well:
 - Basic observability questions (metrics, traces)
 - Troubleshooting workflows (get logs for a workload, identify failing namespaces)
 
+### Predefined prompts
+
+Kiali Chatbot displays a set of suggested prompts tailored to the page you are currently viewing. The suggestions change as you navigate between pages (Overview, Graph, Mesh, Namespaces, Applications, Services, Workloads, Istio Config), so the most relevant questions for your current context are always one click away.
+
+![ChatBot - Predefined prompts](/images/documentation/ai/kiali-predefined-prompts.png)
+
+The prompts are served by a built-in server-side catalog through the `GET /api/chat/prompts` endpoint. Use the optional `?category=<page>` query parameter to fetch prompts for a specific page. If the endpoint is unavailable, the chatbot falls back to a set of static prompts.
+
+Clicking a suggested prompt populates the message input so you can review or edit the text before sending it.
+
 ### Example prompts
 
 - “Show me the mesh graph for namespace `bookinfo`.”
