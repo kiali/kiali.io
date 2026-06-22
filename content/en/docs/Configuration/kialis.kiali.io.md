@@ -317,9 +317,16 @@ spec:
       prometheus:
         auth:
           insecure_skip_verify: false
+          oauth2:
+            audience: ""
+            auth_style: "header"
+            client_id: ""
+            client_secret: ""
+            scopes: []
+            token_url: ""
           password: ""
           token: ""
-          type: "none"
+          type: "none" # Valid values: none, basic, bearer, oauth2
           use_kiali_token: false
           username: ""
         cache_duration: 7
@@ -342,9 +349,16 @@ spec:
     grafana:
       auth:
         insecure_skip_verify: false
+        oauth2:
+          audience: ""
+          auth_style: "header"
+          client_id: ""
+          client_secret: ""
+          scopes: []
+          token_url: ""
         password: ""
         token: ""
-        type: "none"
+        type: "none" # Valid values: none, basic, bearer, oauth2
         use_kiali_token: false
         username: ""
       dashboards:
@@ -384,8 +398,15 @@ spec:
     perses:
       auth:
         insecure_skip_verify: false
+        oauth2:
+          audience: ""
+          auth_style: "header"
+          client_id: ""
+          client_secret: ""
+          scopes: []
+          token_url: ""
         password: ""
-        type: "none"
+        type: "none" # Valid values: none, basic, bearer, oauth2
         use_kiali_token: false
         username: ""
       dashboards:
@@ -415,9 +436,16 @@ spec:
     prometheus:
       auth:
         insecure_skip_verify: false
+        oauth2:
+          audience: ""
+          auth_style: "header"
+          client_id: ""
+          client_secret: ""
+          scopes: []
+          token_url: ""
         password: ""
         token: ""
-        type: "none"
+        type: "none" # Valid values: none, basic, bearer, oauth2
         use_kiali_token: false
         username: ""
       cache_duration: 7
@@ -441,9 +469,16 @@ spec:
     tracing:
       auth:
         insecure_skip_verify: false
+        oauth2:
+          audience: ""
+          auth_style: "header"
+          client_id: ""
+          client_secret: ""
+          scopes: []
+          token_url: ""
         password: ""
         token: ""
-        type: "none"
+        type: "none" # Valid values: none, basic, bearer, oauth2
         use_kiali_token: false
         username: ""
       # default: custom_headers is empty
@@ -1626,6 +1661,25 @@ Authorization header and potentially impersonation headers.</li>
 
 <div class="property-description">
 <p>The endpoint of the provider. This is only used if a model has no endpoint specified.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.chat_ai.providers[*].insecure_skip_verify">.spec.chat_ai.providers[*].insecure_skip_verify</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>Set true to skip verifying certificate validity when Kiali contacts the AI provider over https. When false (the default), the provider&rsquo;s TLS certificate is validated against the Kiali CA bundle.</p>
 
 </div>
 
@@ -4338,6 +4392,39 @@ If you do not set this at all, the default is,</p>
 <div class="property depth-3">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.deployment.tls_config.groups">.spec.deployment.tls_config.groups</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>Explicit TLS groups (supported key exchange mechanisms, e.g., X25519, secp256r1).</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.tls_config.groups[*]">.spec.deployment.tls_config.groups[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.deployment.tls_config.max_version">.spec.deployment.tls_config.max_version</h3>
 </div>
 <div class="property-body">
@@ -4859,6 +4946,153 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 <div class="property depth-5">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.external_services.custom_dashboards.prometheus.auth.oauth2">.spec.external_services.custom_dashboards.prometheus.auth.oauth2</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>Settings for OAuth2 client_credentials authentication. When auth.type is <code>oauth2</code>, these settings are used to obtain an access token.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.custom_dashboards.prometheus.auth.oauth2.audience">.spec.external_services.custom_dashboards.prometheus.auth.oauth2.audience</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The audience parameter sent with the token request. Some providers require this to scope the token.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.custom_dashboards.prometheus.auth.oauth2.auth_style">.spec.external_services.custom_dashboards.prometheus.auth.oauth2.auth_style</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>How to send client credentials to the token endpoint. Use <code>params</code> to send in the request body or <code>header</code> to send as HTTP Basic Auth (default).</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.custom_dashboards.prometheus.auth.oauth2.client_id">.spec.external_services.custom_dashboards.prometheus.auth.oauth2.client_id</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The OAuth2 client ID (a public identifier per RFC 6749 §2.2).</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.custom_dashboards.prometheus.auth.oauth2.client_secret">.spec.external_services.custom_dashboards.prometheus.auth.oauth2.client_secret</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The OAuth2 client secret. May refer to a secret using the pattern <code>secret:&lt;secretName&gt;:&lt;secretKey&gt;</code>. When using a secret, the value is cached and automatically refreshed when the secret changes, enabling rotation without pod restart.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.custom_dashboards.prometheus.auth.oauth2.scopes">.spec.external_services.custom_dashboards.prometheus.auth.oauth2.scopes</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>A list of scopes to request with the token.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-7">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.custom_dashboards.prometheus.auth.oauth2.scopes[*]">.spec.external_services.custom_dashboards.prometheus.auth.oauth2.scopes[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.custom_dashboards.prometheus.auth.oauth2.token_url">.spec.external_services.custom_dashboards.prometheus.auth.oauth2.token_url</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The URL of the OAuth2 token endpoint.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.external_services.custom_dashboards.prometheus.auth.password">.spec.external_services.custom_dashboards.prometheus.auth.password</h3>
 </div>
 <div class="property-body">
@@ -4906,7 +5140,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The type of authentication to use when contacting the server. Use <code>bearer</code> to send the token to the Prometheus server. Use <code>basic</code> to connect with username and password credentials. Use <code>none</code> to not use any authentication.</p>
+<p>The type of authentication to use when contacting the server. Use <code>bearer</code> to send the token to the Prometheus server. Use <code>basic</code> to connect with username and password credentials. Use <code>oauth2</code> to use OAuth2 client_credentials flow. Use <code>none</code> to not use any authentication.</p>
 
 </div>
 
@@ -5296,6 +5530,153 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 <div class="property depth-4">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.external_services.grafana.auth.oauth2">.spec.external_services.grafana.auth.oauth2</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>Settings for OAuth2 client_credentials authentication. When auth.type is <code>oauth2</code>, these settings are used to obtain an access token.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.grafana.auth.oauth2.audience">.spec.external_services.grafana.auth.oauth2.audience</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The audience parameter sent with the token request. Some providers require this to scope the token.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.grafana.auth.oauth2.auth_style">.spec.external_services.grafana.auth.oauth2.auth_style</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>How to send client credentials to the token endpoint. Use <code>params</code> to send in the request body or <code>header</code> to send as HTTP Basic Auth (default).</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.grafana.auth.oauth2.client_id">.spec.external_services.grafana.auth.oauth2.client_id</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The OAuth2 client ID (a public identifier per RFC 6749 §2.2).</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.grafana.auth.oauth2.client_secret">.spec.external_services.grafana.auth.oauth2.client_secret</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The OAuth2 client secret. May refer to a secret using the pattern <code>secret:&lt;secretName&gt;:&lt;secretKey&gt;</code>. When using a secret, the value is cached and automatically refreshed when the secret changes, enabling rotation without pod restart.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.grafana.auth.oauth2.scopes">.spec.external_services.grafana.auth.oauth2.scopes</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>A list of scopes to request with the token.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.grafana.auth.oauth2.scopes[*]">.spec.external_services.grafana.auth.oauth2.scopes[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.grafana.auth.oauth2.token_url">.spec.external_services.grafana.auth.oauth2.token_url</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The URL of the OAuth2 token endpoint.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.external_services.grafana.auth.password">.spec.external_services.grafana.auth.password</h3>
 </div>
 <div class="property-body">
@@ -5343,7 +5724,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The type of authentication to use when contacting the server. Use <code>bearer</code> to send the token to the Grafana server. Use <code>basic</code> to connect with username and password credentials. Use <code>none</code> to not use any authentication.</p>
+<p>The type of authentication to use when contacting the server. Use <code>bearer</code> to send the token to the Grafana server. Use <code>basic</code> to connect with username and password credentials. Use <code>oauth2</code> to use OAuth2 client_credentials flow. Use <code>none</code> to not use any authentication.</p>
 
 </div>
 
@@ -6473,6 +6854,153 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 <div class="property depth-4">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.external_services.perses.auth.oauth2">.spec.external_services.perses.auth.oauth2</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>Settings for OAuth2 client_credentials authentication. When auth.type is <code>oauth2</code>, these settings are used to obtain an access token.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.perses.auth.oauth2.audience">.spec.external_services.perses.auth.oauth2.audience</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The audience parameter sent with the token request. Some providers require this to scope the token.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.perses.auth.oauth2.auth_style">.spec.external_services.perses.auth.oauth2.auth_style</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>How to send client credentials to the token endpoint. Use <code>params</code> to send in the request body or <code>header</code> to send as HTTP Basic Auth (default).</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.perses.auth.oauth2.client_id">.spec.external_services.perses.auth.oauth2.client_id</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The OAuth2 client ID (a public identifier per RFC 6749 §2.2).</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.perses.auth.oauth2.client_secret">.spec.external_services.perses.auth.oauth2.client_secret</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The OAuth2 client secret. May refer to a secret using the pattern <code>secret:&lt;secretName&gt;:&lt;secretKey&gt;</code>. When using a secret, the value is cached and automatically refreshed when the secret changes, enabling rotation without pod restart.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.perses.auth.oauth2.scopes">.spec.external_services.perses.auth.oauth2.scopes</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>A list of scopes to request with the token.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.perses.auth.oauth2.scopes[*]">.spec.external_services.perses.auth.oauth2.scopes[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.perses.auth.oauth2.token_url">.spec.external_services.perses.auth.oauth2.token_url</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The URL of the OAuth2 token endpoint.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.external_services.perses.auth.password">.spec.external_services.perses.auth.password</h3>
 </div>
 <div class="property-body">
@@ -6501,7 +7029,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The type of authentication to use when contacting the server. Use <code>bearer</code> to send the token to the Perses server. Use <code>basic</code> to connect with username and password credentials. Use <code>none</code> to not use any authentication.</p>
+<p>The type of authentication to use when contacting the server. Use <code>bearer</code> to send the token to the Perses server. Use <code>basic</code> to connect with username and password credentials. Use <code>oauth2</code> to use OAuth2 client_credentials flow. Use <code>none</code> to not use any authentication.</p>
 
 </div>
 
@@ -6976,6 +7504,153 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 <div class="property depth-4">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.external_services.prometheus.auth.oauth2">.spec.external_services.prometheus.auth.oauth2</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>Settings for OAuth2 client_credentials authentication. When auth.type is <code>oauth2</code>, these settings are used to obtain an access token.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.prometheus.auth.oauth2.audience">.spec.external_services.prometheus.auth.oauth2.audience</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The audience parameter sent with the token request. Some providers require this to scope the token.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.prometheus.auth.oauth2.auth_style">.spec.external_services.prometheus.auth.oauth2.auth_style</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>How to send client credentials to the token endpoint. Use <code>params</code> to send in the request body or <code>header</code> to send as HTTP Basic Auth (default).</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.prometheus.auth.oauth2.client_id">.spec.external_services.prometheus.auth.oauth2.client_id</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The OAuth2 client ID (a public identifier per RFC 6749 §2.2).</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.prometheus.auth.oauth2.client_secret">.spec.external_services.prometheus.auth.oauth2.client_secret</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The OAuth2 client secret. May refer to a secret using the pattern <code>secret:&lt;secretName&gt;:&lt;secretKey&gt;</code>. When using a secret, the value is cached and automatically refreshed when the secret changes, enabling rotation without pod restart.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.prometheus.auth.oauth2.scopes">.spec.external_services.prometheus.auth.oauth2.scopes</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>A list of scopes to request with the token.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.prometheus.auth.oauth2.scopes[*]">.spec.external_services.prometheus.auth.oauth2.scopes[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.prometheus.auth.oauth2.token_url">.spec.external_services.prometheus.auth.oauth2.token_url</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The URL of the OAuth2 token endpoint.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.external_services.prometheus.auth.password">.spec.external_services.prometheus.auth.password</h3>
 </div>
 <div class="property-body">
@@ -7023,7 +7698,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The type of authentication to use when contacting the server. Use <code>bearer</code> to send the token to the Prometheus server. Use <code>basic</code> to connect with username and password credentials. Use <code>none</code> to not use any authentication (this is the default).</p>
+<p>The type of authentication to use when contacting the server. Use <code>bearer</code> to send the token to the Prometheus server. Use <code>basic</code> to connect with username and password credentials. Use <code>oauth2</code> to use OAuth2 client_credentials flow. Use <code>none</code> to not use any authentication (this is the default).</p>
 
 </div>
 
@@ -7432,6 +8107,153 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 <div class="property depth-4">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.external_services.tracing.auth.oauth2">.spec.external_services.tracing.auth.oauth2</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>Settings for OAuth2 client_credentials authentication. When auth.type is <code>oauth2</code>, these settings are used to obtain an access token.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.tracing.auth.oauth2.audience">.spec.external_services.tracing.auth.oauth2.audience</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The audience parameter sent with the token request. Some providers require this to scope the token.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.tracing.auth.oauth2.auth_style">.spec.external_services.tracing.auth.oauth2.auth_style</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>How to send client credentials to the token endpoint. Use <code>params</code> to send in the request body or <code>header</code> to send as HTTP Basic Auth (default).</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.tracing.auth.oauth2.client_id">.spec.external_services.tracing.auth.oauth2.client_id</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The OAuth2 client ID (a public identifier per RFC 6749 §2.2).</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.tracing.auth.oauth2.client_secret">.spec.external_services.tracing.auth.oauth2.client_secret</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The OAuth2 client secret. May refer to a secret using the pattern <code>secret:&lt;secretName&gt;:&lt;secretKey&gt;</code>. When using a secret, the value is cached and automatically refreshed when the secret changes, enabling rotation without pod restart.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.tracing.auth.oauth2.scopes">.spec.external_services.tracing.auth.oauth2.scopes</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>A list of scopes to request with the token.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.tracing.auth.oauth2.scopes[*]">.spec.external_services.tracing.auth.oauth2.scopes[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.external_services.tracing.auth.oauth2.token_url">.spec.external_services.tracing.auth.oauth2.token_url</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The URL of the OAuth2 token endpoint.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.external_services.tracing.auth.password">.spec.external_services.tracing.auth.password</h3>
 </div>
 <div class="property-body">
@@ -7479,7 +8301,7 @@ to <code>secret:myGrafanaCredentials:myGrafanaPw</code>.</p>
 </div>
 
 <div class="property-description">
-<p>The type of authentication to use when contacting the server. Use <code>bearer</code> to send the token to the Tracing server. Use <code>basic</code> to connect with username and password credentials. Use <code>none</code> to not use any authentication (this is the default).</p>
+<p>The type of authentication to use when contacting the server. Use <code>bearer</code> to send the token to the Tracing server. Use <code>basic</code> to connect with username and password credentials. Use <code>oauth2</code> to use OAuth2 client_credentials flow (only supported when use_grpc is false). Use <code>none</code> to not use any authentication (this is the default).</p>
 
 </div>
 
