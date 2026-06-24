@@ -193,7 +193,7 @@ Clicking a suggested prompt populates the message input so you can review or edi
 - “Which workloads in `istio-system` look unhealthy and why?”
 - “Get traces for service `productpage` in `bookinfo` for the last 30m.”
 
-### Ask VS Troubleshoot mode
+### Ask vs. Troubleshoot mode
 
 The chatbot input area includes a mode selector (the dropdown next to the send button) that lets you switch between two interaction modes: **Ask** and **Troubleshoot**.
 
