@@ -193,6 +193,22 @@ Clicking a suggested prompt populates the message input so you can review or edi
 - “Which workloads in `istio-system` look unhealthy and why?”
 - “Get traces for service `productpage` in `bookinfo` for the last 30m.”
 
+### Ask VS Troubleshoot mode
+
+The chatbot input area includes a mode selector (the dropdown next to the send button) that lets you switch between two interaction modes: **Ask** and **Troubleshoot**.
+
+**Ask mode** is a conversational Q&A mode. Use it to ask general questions about your mesh, namespaces, services, or Istio configuration. The assistant answers using its knowledge and the available internal tools, but the interaction is free-form and exploratory.
+
+**Troubleshoot mode** is a structured diagnostic mode. Use it when you have a specific issue to investigate. In this mode, the chatbot:
+
+- Accepts a description of the problem as the starting point.
+- Automatically selects a relevant set of tools (logs, traces, metrics, Istio config checks) to gather evidence.
+- Follows a systematic diagnostic workflow and summarizes its findings with a recommended course of action.
+
+The difference between the two modes depends a lot on the model used. In the case of LightSpeed, the modes are handled natively by the provider. For other models, the system prompt is adapted for each mode.
+
+![ChatBot - Troubleshoot mode](/images/documentation/ai/kiali-chatbot-troubleshoot.png)
+
 ### Next step
 
 If you want to use an AI assistant outside the Kiali UI (for example, in an IDE), see [Kiali MCP]({{< relref "kiali-mcp" >}}).
