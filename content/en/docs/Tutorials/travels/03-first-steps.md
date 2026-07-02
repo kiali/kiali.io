@@ -10,7 +10,7 @@ The Travel Demo has been deployed in the previous step but without installing an
 
 In that case, the application won't connect to the control plane and won't take advantage of Istio's features.
 
-In Kiali, we will see the new namespaces in the overview page:
+In Kiali, the demo namespaces are visible on the **Namespaces** page (with type **`-`**: *Not part of the mesh*), but they are not yet part of the service mesh summarized on **Overview**:
 
 ![Overview](/images/tutorial/03-01-overview.png "Overview")
 
