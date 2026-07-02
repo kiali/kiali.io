@@ -74,7 +74,7 @@ kubectl get pods -n istio-system
 kubectl get svc istio-ingressgateway -n istio-system
 ```
 
-The `istio-ingressgateway` service should show an `EXTERNAL-IP` (MetalLB assigns this on Kind). Chapter 3 uses that address for ingress.
+The `istio-ingressgateway` service should show an `EXTERNAL-IP` (MetalLB assigns this on Kind). [Join the Mesh]({{< relref "./03-join-the-mesh" >}}) uses that address for ingress.
 
 {{% alert title="Kind" color="warning" %}}
 If `istio-ingressgateway` stays `<pending>`, confirm MetalLB is running: `kubectl get pods -n metallb-system`
@@ -100,7 +100,7 @@ Verify the control plane is running:
 oc get pods -n istio-system
 ```
 
-Chapter 3 uses an OpenShift route to expose the ingress gateway.
+[Join the Mesh]({{< relref "./03-join-the-mesh" >}}) uses an OpenShift route to expose the ingress gateway.
 
 ## Install Kiali
 

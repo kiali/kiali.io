@@ -29,7 +29,7 @@ kubectl delete namespace travel-control
 ```
 
 {{% alert title="OpenShift" color="warning" %}}
-If you used the Kiali travel demo install script, it can also remove OpenShift-specific resources (SecurityContextConstraints and NetworkAttachmentDefinitions):
+If you used the Kiali Travel Demo install script, it can also remove OpenShift-specific resources (SecurityContextConstraints and NetworkAttachmentDefinitions):
 
 ```
 ./hack/istio/install-travel-agency-demo.sh -c oc -d true

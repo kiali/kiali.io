@@ -12,13 +12,13 @@ This demo application deploys several services grouped into three namespaces:
 * *travel-portal* — shop simulators that generate traffic
 * *travel-agency* — quote and pricing services
 
-At this step, deploy the application **without** joining it to the service mesh. Sidecar injection is added in [First Steps]({{< relref "./03-first-steps" >}}).
+At this step, deploy the application **without** joining it to the service mesh. Sidecar injection is added in [Join the Mesh]({{< relref "./03-join-the-mesh" >}}).
 
 Do **not** label the namespaces with `istio-injection=enabled` yet.
 
 ### Kind
 
-From the [Kiali source repository](https://github.com/kiali/kiali), the travel demo install script creates the namespaces and deploys the manifests without enabling auto-injection:
+From the [Kiali source repository](https://github.com/kiali/kiali), the Travel Demo install script creates the namespaces and deploys the manifests without enabling auto-injection:
 
 ```
 ./hack/istio/install-travel-agency-demo.sh -c kubectl -ai false
@@ -94,9 +94,9 @@ To see the demo namespaces, open the **Namespaces** page. The three Travel Demo 
 
 In the **Type** column, each namespace shows a **`-`** badge. Hover over the badge to see the tooltip **Not part of the mesh**:
 
-![Travel demo namespaces not in mesh](/images/tutorial/02-01-namespaces-not-in-mesh.png "Travel demo namespaces not in mesh")
+![Travel Demo namespaces not in mesh](/images/tutorial/02-01-namespaces-not-in-mesh.png "Travel Demo namespaces not in mesh")
 
-Sidecar injection is covered in the next chapter, which is when these namespaces begin to appear as part of the mesh.
+Sidecar injection is covered in [Join the Mesh]({{< relref "./03-join-the-mesh" >}}), when these namespaces begin to appear as part of the mesh.
 
 ## Understanding the demo application
 
@@ -131,9 +131,9 @@ The *travel-control* namespace hosts a *business dashboard* with two roles:
 The dashboard screenshot above will be updated during tutorial refresh.
 {{% /alert %}}
 
-#### Preview the Travels dashboard (optional)
+#### Preview the Travel Dashboard (optional)
 
-The *control* service is not exposed outside the cluster yet — that happens in [First Steps]({{< relref "./03-first-steps" >}}). To preview the dashboard now:
+The *control* service is not exposed outside the cluster yet — that happens in [Join the Mesh]({{< relref "./03-join-the-mesh" >}}). To preview the dashboard now:
 
 ```
 kubectl port-forward svc/control 8080:8080 -n travel-control

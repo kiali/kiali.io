@@ -138,7 +138,7 @@ Understanding *source* and *destination* metrics
 
 Telemetry is collected from proxies and it is labeled with information about the *source* and *destination* workloads.
 
-In our example, let's say that *travels* service ("Service A" in the Istio diagram below) invokes the *hotels* service ("Service B" in the diagram). *Travels* is the "source" workload and *hotels* is the "destination" workload. The *travels* proxy will report telemetry from the source perspective and *hotels* proxy will report telemetry from the destination perspective. Let's look at the latency reporting from both perspectives.
+In our example, let's say that the *travels* service ("Service A" in the Istio diagram below) invokes the *hotels* service ("Service B" in the diagram). The *travels* workload is the "source" and *hotels* is the "destination" workload. The *travels* proxy will report telemetry from the source perspective and *hotels* proxy will report telemetry from the destination perspective. Let's look at the latency reporting from both perspectives.
 
 ![Istio Architecture](/images/tutorial/05-02-istio-architecture.png "Istio Architecture")
 

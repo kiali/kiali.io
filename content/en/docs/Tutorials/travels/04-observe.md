@@ -28,7 +28,7 @@ That *control* workload provides good visibility of its traffic, but telemetry i
 Enable proxy injection in *travel-portal* and *travel-agency* namespaces
 {{% /alert %}}
 
-In the First Steps of this tutorial we didn't inject the sidecar proxies on purpose to show a scenario where only some workloads may have sidecars.
+In [Join the Mesh]({{< relref "./03-join-the-mesh" >}}) we injected sidecar proxies into only the *control* workload on purpose, to show a scenario where just some workloads are in the mesh.
 
 Typically, Istio users annotate namespaces before the deployment to allow Istio to automatically add the sidecar when the application is rolled out into the cluster. Perform
 the following commands:
@@ -125,7 +125,7 @@ expanded for closer inspection. Expand the *Request volume* chart:
 Metrics Settings provides multiple predefined criteria out-of-the-box.  Additionally, enable the *spans* checkbox to correlate metrics and tracing spans
 in a single chart.
 
-We can see in the context of the Travels application, the *hotels* service request volume differs from that of the other *travel-agency* services.
+We can see in the context of the *travels* application, the *hotels* service request volume differs from that of the other *travel-agency* services.
 
 By examining the Request Duration chart also shows that there is no suspicious delay, so probably this asymmetric volume is part of the application business' logic.
 
