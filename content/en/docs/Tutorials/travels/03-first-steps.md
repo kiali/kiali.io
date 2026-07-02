@@ -63,11 +63,11 @@ There are multiple ways to create a DNS entry depending of the platform, servers
 This step depends on the platform you have chosen, please review [Determining the Ingress IP and Ports](https://istio.io/latest/docs/setup/getting-started/#determining-the-ingress-ip-and-ports) for more details.
 {{% /alert %}}
 
-{{% alert title="Minikube" color="warning" %}}
-Kubernetes Service EXTERNAL-IP for "LoadBalancer" TYPE is provided in minikube plaform using the [minikube tunnel](https://minikube.sigs.k8s.io/docs/handbook/accessing/#using-minikube-tunnel) tool.
+{{% alert title="Kind" color="warning" %}}
+With MetalLB (or another load balancer) enabled on Kind, `LoadBalancer` services such as `istio-ingressgateway` receive an external IP address.
 {{% /alert %}}
 
-For minikube we will check the External IP of the Ingress gateway:
+For Kind we will check the external IP of the ingress gateway:
 
 ```
 $ kubectl get services/istio-ingressgateway -n istio-system
