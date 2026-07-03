@@ -55,7 +55,7 @@ If you are running Red Hat OpenShift Service Mesh (OSSM), use only the bundled, 
 | 3.2                                 | 2.17                                 |                            |
 | 3.1                                 | 2.11                                 |                            |
 | 3.0                                 | 2.4                                  |                            |
-| 2.6                                 | 1.73                                 |                            |
+| 2.6                                 | 1.73                                 | OSSM 2.6 is out of support |
 | 2.5                                 | 1.73                                 | OSSM 2.5 is out of support |
 | 2.4                                 | 1.65                                 | OSSM 2.4 is out of support |
 | 2.3                                 | 1.57                                 | OSSM 2.3 is out of support |
@@ -73,9 +73,9 @@ Kiali server with the same version of OSSMC plugin must be installed previously 
 
 ## Maistra Version Compatibility
 
-{{<compat-table-maistra>}}
-
-<br />
+{{% alert color="warning" %}}
+Maistra (OSSM 2.x) has reached end of life and is out of support.
+{{% /alert %}}
 
 ## Browser Compatibility {#supported-browsers}
 

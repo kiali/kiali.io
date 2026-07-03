@@ -12,4 +12,4 @@ versionRange:
   - ocpVersion: "4.12-4.18"
     minOSSMCVersion: "1.73"
     maxOSSMCVersion: "1.83"
-    notes: "All OSSMC versions from v1.73 to v1.83 are only compatible with Kiali server v1.73"
+    notes: "Kiali is out of support in this version range."
