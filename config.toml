@@ -278,10 +278,6 @@ enable = false
   version = "v2.4 [ossm v3.0]"
   url = "https://v2-4.kiali.io"
 
-[[ params.versions ]]
-  version = "v1.73 [ossm v2.6]"
-  url = "https://v1-73.kiali.io"
-
 [[params.versions]]
   version = "staging"
   url = "https://staging.kiali.io"
