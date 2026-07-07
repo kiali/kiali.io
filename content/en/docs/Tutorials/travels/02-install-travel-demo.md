@@ -57,17 +57,17 @@ Alternatively, substitute `oc` for `kubectl` in the manual commands above and ad
 Check that all deployments rolled out. Pods should show `1/1` ready — there are no sidecars yet:
 
 ```
-$ kubectl get deployments -n travel-control
+kubectl get deployments -n travel-control
 NAME      READY   UP-TO-DATE   AVAILABLE   AGE
 control   1/1     1            1           85s
 
-$ kubectl get deployments -n travel-portal
+kubectl get deployments -n travel-portal
 NAME      READY   UP-TO-DATE   AVAILABLE   AGE
 travels   1/1     1            1           91s
 viaggi    1/1     1            1           91s
 voyages   1/1     1            1           91s
 
-$ kubectl get deployments -n travel-agency
+kubectl get deployments -n travel-agency
 NAME            READY   UP-TO-DATE   AVAILABLE   AGE
 cars-v1         1/1     1            1           96s
 discounts-v1    1/1     1            1           96s

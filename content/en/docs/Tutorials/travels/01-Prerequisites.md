@@ -114,12 +114,14 @@ This tutorial uses different install methods depending on the platform. On Kind,
 
 ### Kind
 
-Install the Kiali server using the [Quick Start Helm instructions]({{< ref "/docs/Installation/quick-start#install-via-helm" >}}):
+Install the Kiali server using the [Quick Start Helm instructions]({{< ref "/docs/Installation/quick-start#install-via-helm" >}}). The Istio install above deploys Jaeger, but Kiali does not enable tracing integration by default — enable it explicitly:
 
 ```
 helm install \
   --namespace istio-system \
   --set auth.strategy="anonymous" \
+  --set external_services.tracing.enabled=true \
+  --set external_services.tracing.external_url="http://tracing.istio-system:16685/jaeger" \
   --repo https://kiali.org/helm-charts \
   kiali-server \
   kiali-server
@@ -130,6 +132,12 @@ Wait for the Kiali deployment to become ready:
 ```
 kubectl rollout status deployment/kiali -n istio-system --timeout=300s
 kubectl get pods,svc -n istio-system -l app.kubernetes.io/name=kiali
+```
+
+Confirm tracing is configured (the `enabled` field should be `true`):
+
+```
+kubectl get configmap kiali -n istio-system -o jsonpath='{.data.config\.yaml}' | grep -A2 'tracing:'
 ```
 
 {{% alert color="info" %}}
@@ -148,6 +156,7 @@ helm install \
   --set cr.create=true \
   --set cr.namespace=istio-system \
   --set cr.spec.auth.strategy="anonymous" \
+  --set cr.spec.external_services.tracing.enabled=true \
   --namespace kiali-operator \
   --create-namespace \
   kiali-operator \

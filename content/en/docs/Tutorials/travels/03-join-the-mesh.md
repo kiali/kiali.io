@@ -57,7 +57,7 @@ Enable Auto Injection for the *control* workload
 Kiali updates the workload so the next pod receives an Istio sidecar. Kubernetes rolls out a new *control* pod; when it is ready you should see **2/2** containers (application + `istio-proxy`):
 
 ```
-$ kubectl get pods -n travel-control
+kubectl get pods -n travel-control
 NAME                       READY   STATUS    RESTARTS   AGE
 control-xxxxxxxxxx-xxxxx   2/2     Running   0          42s
 ```
@@ -91,7 +91,7 @@ If you created the cluster with `./hack/start-kind.sh`, MetalLB is already confi
 For Kind, check the external IP of the ingress gateway:
 
 ```
-$ kubectl get svc istio-ingressgateway -n istio-system
+kubectl get svc istio-ingressgateway -n istio-system
 NAME                   TYPE           CLUSTER-IP     EXTERNAL-IP    PORT(S)                                                                      AGE
 istio-ingressgateway   LoadBalancer   10.101.6.144   10.101.6.144   15021:30757/TCP,80:32647/TCP,443:30900/TCP,31400:30427/TCP,15443:31072/TCP   19h
 ```
@@ -117,8 +117,8 @@ OpenShift does not populate Kubernetes `EXTERNAL-IP` for `LoadBalancer` services
 For OpenShift, expose the ingress gateway as a route:
 
 ```
-$ oc expose service istio-ingressgateway -n istio-system
-$ oc get routes -n istio-system
+oc expose service istio-ingressgateway -n istio-system
+oc get routes -n istio-system
 NAME                   HOST/PORT                                  PATH   SERVICES               PORT    TERMINATION          WILDCARD
 istio-ingressgateway   <YOUR_ROUTE_HOST>                                 istio-ingressgateway   http2                        None
 ```
@@ -179,7 +179,7 @@ Understanding what happened:
 - External traffic enters the cluster through an Istio **Gateway** bound to the ingress gateway.
 - A **VirtualService** routes that traffic to the *control* service.
 - The *control* sidecar reports telemetry that Kiali displays on the graph.
-- Only the *control* workload participates in the mesh so far; the remaining demo workloads are added in [Observe]({{< relref "./04-observe" >}}).
+- Only the *control* workload participates in the mesh so far; the remaining demo workloads are added in [Observe the Mesh]({{< relref "./04-observe-the-mesh" >}}).
 
 [(i) Istio Gateway](https://istio.io/latest/docs/reference/config/networking/gateway/)
 

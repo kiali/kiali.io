@@ -114,7 +114,7 @@ finished experimenting with Routing Request scenarios then use the "Actions" men
 
 ## Fault Injection
 
-The [Observe]({{< relref "./04-observe/#graph-walkthrough" >}}) step has spotted that the *hotels* service has additional traffic compared with other services deployed in the *travel-agency* namespace.
+The [Observe the Mesh]({{< relref "./04-observe-the-mesh/#graph-walkthrough" >}}) chapter identified that the *hotels* service has additional traffic compared with other services deployed in the *travel-agency* namespace.
 
 Also, this service becomes critical in the main business logic. It is responsible for querying all available destinations, presenting them to the user, and getting a quote for the selected destination.
 
