@@ -1,5 +1,5 @@
 ---
-title: "Secure"
+title: "Secure the Mesh"
 description: "Using Kiali to configure and observe mesh security."
 weight: 6
 ---

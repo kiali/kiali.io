@@ -197,4 +197,4 @@ Each detail page starts with an **Overview** tab (mini-graph, health, and links 
 
 See [Detail Views]({{< ref "/docs/Features/details" >}}) for a full description of each tab.
 
-When you are ready to change mesh behavior — not only observe it — continue to [Connect]({{< relref "./05-connect" >}}), where Kiali wizards help configure request routing and other traffic management scenarios.
+When you are ready to change mesh behavior — not only observe it — continue to [Control the Mesh]({{< relref "./05-control-the-mesh" >}}), where Kiali wizards help configure request routing and other traffic management scenarios.

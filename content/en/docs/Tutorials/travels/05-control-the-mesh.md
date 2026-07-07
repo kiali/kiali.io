@@ -1,5 +1,5 @@
 ---
-title: "Connect"
+title: "Control the Mesh"
 description: "Using Kiali to configure Istio's traffic management."
 weight: 5
 ---
