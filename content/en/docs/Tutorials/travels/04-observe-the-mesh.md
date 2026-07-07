@@ -129,19 +129,11 @@ Navigate to the *travels* application
 
 ![Travels Application](/images/tutorial/04-03-travels-application.png "Travels Application")
 
-{{% alert color="info" %}}
-Screenshot will be updated during Kind qualification.
-{{% /alert %}}
-
 An *application* groups workloads and services that share the same application label. Telemetry and tracing signals are grouped by application even when multiple workloads are involved.
 
 At this point the *travels* application consists of a *travels-v1* workload exposed through the *travels* service. Click the *travels-v1* workload link in the application overview.
 
 ![Travels-v1 Workload](/images/tutorial/04-03-travels-v1-workload.png "Travels-v1 Workload")
-
-{{% alert color="info" %}}
-Screenshot will be updated during Kind qualification.
-{{% /alert %}}
 
 {{% alert title="Step 2" color="success" %}}
 Examine **Outbound Metrics** for *travels-v1*
@@ -151,19 +143,11 @@ Open the **Outbound Metrics** tab on the *travels-v1* workload.
 
 ![Travels-v1 Metrics](/images/tutorial/04-03-travels-v1-metrics.png "Travels-v1 Metrics")
 
-{{% alert color="info" %}}
-Screenshot will be updated during Kind qualification.
-{{% /alert %}}
-
 The metrics tab shows charts built from Istio proxy telemetry. Expand the **Request volume** chart for a closer look:
 
-![Travels-v1 Request Volume Chart](/images/tutorial/04-03-travels-v1-metrics-request-volume.png "Travels-v1 Request Volume Chart")
-
-{{% alert color="info" %}}
-Screenshot will be updated during Kind qualification.
-{{% /alert %}}
-
 Use **Metrics Settings** to change grouping and aggregation. Enable the **spans** checkbox to correlate metrics with tracing spans in the same chart.
+
+![Travels-v1 Request Volume Chart](/images/tutorial/04-03-travels-v1-metrics-request-volume.png "Travels-v1 Request Volume Chart")
 
 In the context of the *travels* application, *hotels* request volume is higher than the other *travel-agency* services. Request duration looks normal, so the asymmetry is likely part of the application business logic rather than a performance problem.
 
@@ -183,10 +167,6 @@ Two main business methods appear in the application logs: *GetDestinations* and 
 
 ![Travels-v1 Logs GetTravelQuote](/images/tutorial/04-03-travels-v1-logs-gettravelquote.png "Travels-v1 Logs GetTravelQuote")
 
-{{% alert color="info" %}}
-Screenshots will be updated during Kind qualification.
-{{% /alert %}}
-
 As described in the [Travel Demo design]({{< relref "./02-install-travel-demo/#travel-agency-namespace" >}}), an initial query returns available hotels before the user selects a destination and requests quotes from the other services — which explains the higher *hotels* utilization.
 
 {{% alert title="Step 4" color="success" %}}
@@ -199,10 +179,22 @@ Open the **Traces** tab on *travels-v1*. Compare individual traces with the metr
 
 ![Travels-v1 Traces](/images/tutorial/04-03-travels-v1-tracing-details.png "Travels-v1 Traces")
 
-Individual spans can be compared in more detail to pinpoint a slow step in a larger request flow.
+Click an interesting trace to see the trace details. Individual spans can be compared in more detail to pinpoint a slow step in a larger request flow.
 
 ![Travels-v1 Spans](/images/tutorial/04-03-travels-v1-tracing-spans.png "Travels-v1 Spans")
 
-{{% alert color="info" %}}
-Screenshots will be updated during Kind qualification.
-{{% /alert %}}
+## Explore Further
+
+This chapter focused on the graph and on the *travels-v1* workload detail. The same observability tools are available throughout Kiali — browse the list pages and open any component to explore its detail view.
+
+- **Namespaces** — open *travel-portal* or *travel-agency* for namespace health and shortcuts to filtered list views.
+- **Applications** — compare *travels* in *travel-agency* with portal apps such as *viaggi* or *voyages*.
+- **Services** — inspect *hotels*, which carried more load in the graph walkthrough.
+- **Workloads** — open *hotels-v1* or a portal workload and review the same tabs used here.
+- **Istio Config** — browse VirtualServices, DestinationRules, and other Istio objects with validation and YAML.
+
+Each detail page starts with an **Overview** tab (mini-graph, health, and links to related objects). Applications, services, and workloads also provide **Traffic**, **Metrics**, and **Traces** tabs. Workloads add **Logs** and **Envoy**, as you saw on *travels-v1*.
+
+See [Detail Views]({{< ref "/docs/Features/details" >}}) for a full description of each tab.
+
+When you are ready to change mesh behavior — not only observe it — continue to [Connect]({{< relref "./05-connect" >}}), where Kiali wizards help configure request routing and other traffic management scenarios.
