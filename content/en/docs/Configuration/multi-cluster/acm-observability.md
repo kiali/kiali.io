@@ -236,14 +236,14 @@ Because waypoints use the same metrics interface, you can use the same PodMonito
 
 ### 4. Metrics Allowlist Configuration
 
-ACM only collects metrics that are explicitly allowlisted. For Istio metrics to be collected, create a ConfigMap named `observability-metrics-custom-allowlist` in the **source namespace** (see note below) with key `uwl_metrics_list.yaml`:
+ACM only collects metrics that are explicitly allowlisted. For Istio metrics to be collected, create a ConfigMap named `observability-metrics-custom-allowlist` on the **hub cluster** in the `open-cluster-management-observability` namespace with key `uwl_metrics_list.yaml`. ACM will automatically distribute this allowlist to all managed clusters.
 
 ```yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: observability-metrics-custom-allowlist
-  namespace: <your-mesh-namespace>
+  namespace: open-cluster-management-observability
 data:
   uwl_metrics_list.yaml: |
     names:
@@ -268,13 +268,21 @@ data:
     - istio_tcp_connections_closed_total
 ```
 
-**Critical**: The ConfigMap must be in the **source namespace** where metrics originate (e.g., `istio-system`, application namespaces), **NOT** in `open-cluster-management-observability`.
+Apply this on the hub cluster:
+
+```bash
+oc apply -n open-cluster-management-observability -f observability-metrics-custom-allowlist.yaml
+```
+
+When this ConfigMap is created on the hub, ACM's observability operator merges these metrics into the allowlist distributed to each managed cluster and automatically spawns a dedicated user workload metrics collector on each spoke to forward these metrics to Thanos.
+
+**Alternative: Per-namespace on the managed cluster**: The ACM documentation also describes creating the `observability-metrics-custom-allowlist` ConfigMap in the source namespace (e.g., `istio-system`, `ztunnel`) directly on the managed cluster. This approach applies only to that specific cluster and namespace. See the [ACM documentation](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.16/html-single/observability/index#adding-user-workload-metrics) for details. The hub-based approach above is recommended as it is simpler and applies uniformly to all managed clusters.
 
 {{% alert color="info" %}}
-**Ambient Mode**: The same allowlist works for all Istio data plane components. However, ztunnel only produces TCP metrics (`istio_tcp_*`), so HTTP metrics in the allowlist will have no data from ztunnel. Waypoints produce both TCP and HTTP metrics, same as sidecars. Create the allowlist ConfigMap in each namespace where you have a PodMonitor, including the namespace where ztunnel runs and any namespaces with waypoint proxies.
+**Ambient Mode**: The same allowlist works for all Istio data plane components. However, ztunnel only produces TCP metrics (`istio_tcp_*`), so HTTP metrics in the allowlist will have no data from ztunnel. Waypoints produce both TCP and HTTP metrics, same as sidecars.
 {{% /alert %}}
 
-See: [Adding user workload metrics](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.12/html-single/observability/index#adding-user-workload-metrics)
+See: [Adding custom metrics](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.16/html-single/observability/index#adding-custom-metrics)
 
 ## Configuring Kiali for ACM Observability
 
