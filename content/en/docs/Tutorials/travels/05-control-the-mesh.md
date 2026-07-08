@@ -4,6 +4,10 @@ description: "Using Kiali to configure Istio's traffic management."
 weight: 5
 ---
 
+This chapter uses Kiali [wizards]({{< ref "/docs/Features/wizards" >}}) to configure Istio traffic management on the Travel Demo. Each section introduces a scenario, walks through the wizard, verifies the result in Kiali, and ends with guidance to update or delete the generated configuration.
+
+In [Observe the Mesh]({{< relref "./04-observe-the-mesh" >}}) you explored telemetry and tracing. Here you change how traffic flows through the mesh.
+
 ## Request Routing
 
 The Travel Demo application has several portals deployed on the *travel-portal* namespace consuming the *travels* service deployed on the *travel-agency* namespace.
@@ -17,7 +21,8 @@ This step will show how to route requests dynamically to multiple versions of th
 {{% alert title="Step 1" color="success" %}}
 Deploy *travels-v2* and *travels-v3* workloads
 {{% /alert %}}
-To deploy the new versions of the *travels* service execute the following commands:
+
+Deploy the new versions of the *travels* service:
 
 ```
 kubectl apply -f <(curl -L https://raw.githubusercontent.com/kiali/demos/master/travels/travels-v2.yaml) -n travel-agency
@@ -26,14 +31,15 @@ kubectl apply -f <(curl -L https://raw.githubusercontent.com/kiali/demos/master/
 
 ![Travels-v2 and travels-v3](/images/tutorial/05-01-travels-v2-v3.png "Travels-v2 and travels-v3")
 
-As there is no specific routing defined, when there are multiple workloads for *travels* service the requests are uniformly distributed.
+As there is no specific routing defined, when there are multiple workloads for *travels* service the request distribution is fairly uniform.
 
 ![Travels graph before routing](/images/tutorial/05-01-travels-before-routing.png "Travels graph before routing")
 
 {{% alert title="Step 2" color="success" %}}
-Investigate the http headers used by the Travel Demo application
+Investigate the HTTP headers used by the Travel Demo application
 {{% /alert %}}
-The [Traffic Management](https://istio.io/latest/docs/concepts/traffic-management/#routing-rules) features of Istio allow you to define [Matching Conditions](https://istio.io/latest/docs/concepts/traffic-management/#match-condition) for dynamic request routing.
+
+The [Traffic Management](https://istio.io/latest/docs/concepts/traffic-management/#routing-rules) features of Istio allow you to define [matching conditions](https://istio.io/latest/docs/concepts/traffic-management/#match-condition) for dynamic request routing.
 
 In our scenario we would like to perform the following routing logic:
 
@@ -41,74 +47,87 @@ In our scenario we would like to perform the following routing logic:
 - All traffic from *viaggi.it* routed to *travels-v2*
 - All traffic from *voyages.fr* routed to *travels-v3*
 
-Portal workloads use HTTP/1.1 protocols to call the *travels* service, so one strategy could be to use the HTTP headers to define the matching condition.
+Portal workloads use HTTP/1.1 to call the *travels* service, so one strategy is to match on HTTP headers.
 
-But, where to find the HTTP headers ? That information typically belongs to the application domain and we should examine the code, documentation or dynamically trace a request to understand which headers are being used in this context.
+Where do those headers come from? That information belongs to the application domain — examine the code, documentation, or a live trace to see which headers are in use.
 
-There are multiple possibilities. The Travel Demo application uses an [Istio Annotation](https://istio.io/latest/docs/reference/config/annotations/) feature to add an annotation into the Deployment descriptor, which adds additional Istio configuration into the proxy.
+The Travel Demo uses an [Istio annotation](https://istio.io/latest/docs/reference/config/annotations/) on the Deployment pod template to configure the proxy:
 
 ![Istio Config annotations](/images/tutorial/05-01-deployment-istio-config.png "Istio Config annotations")
 
-In our example the [HTTP Headers](https://github.com/kiali/demos/blob/master/travels/travels-v2.yaml#L15) are added as part of the trace context.
-
-Then tracing will populate custom tags with the *portal*, *device*, *user* and *travel* used.
+In our example the [HTTP headers](https://github.com/kiali/demos/blob/master/travels/travels-v2.yaml#L15) are added as part of the trace context. Tracing populates custom tags with the *portal*, *device*, *user*, and *travel* values.
 
 {{% alert title="Step 3" color="success" %}}
-Use the Request Routing Wizard on *travels* service to generate a traffic rule
+Use the Request Routing wizard on the *travels* service
 {{% /alert %}}
+
+1. Open **Services**.
+2. Select the **travel-agency** namespace.
+3. Click the **travels** service.
+4. Select **Actions** → **Request Routing**.
 
 ![Travels Service Request Routing](/images/tutorial/05-01-travels-request-routing.png "Travels Service Request Routing")
 
-We will define three "Request Matching" rules as part of this request routing. Define all three rules before clicking the Create button.
+Define three request-matching rules before clicking **Create**.
 
-In the first rule, we will add a request match for when the *portal* header has the value of *travels.uk*.
+For the first rule, match when the *portal* header equals *travels.uk*:
 
-Define the exact match, like below, and click the "Add Match" button to update the "Matching selected" for this rule.
+1. Open the **Request Matching** tab.
+2. Add an exact match for the *portal* header with value *travels.uk*.
+3. Click **Add Match** to update **Matching selected** for this rule.
 
 ![Add Request Matching](/images/tutorial/05-01-add-match.png "Add Request Matching")
 
-Move to "Route To" tab and update the destination for this "Request Matching" rule.  Then use the "Add Route Rule" to create the first rule.
+4. Open the **Route To** tab and set the destination workload for this rule.
+5. Click **Add Route Rule** to save the first rule.
 
 ![Route To](/images/tutorial/05-01-route-to.png "Route To")
 
-Add similar rules to route traffic from *viaggi.it* to *travels-v2* workload and from *voyages.fr* to *travels-v3* workload.
+Return to the **Request Matching** tab and repeat the process, adding rules to route traffic from *viaggi.it* to *travels-v2* and from *voyages.fr* to *travels-v3*. 
 
-When the three rules are defined you can use "Create" button to generate all Istio configurations needed for this scenario. Note
-that the rule ordering does not matter in this scenario.
+{{% alert title="Kind" color="warning" %}}
+When adding the additional rules make sure to clear the previous header match condition. If you make a mistake you can click **Remove Rule** from that rule's kebab menu. The rule order does not matter.
+{{% /alert %}}
+
+When all three rules are defined, it should look like this:
 
 ![Rules Defined](/images/tutorial/05-01-rules-defined.png "Rules Defined")
 
-The Istio config for a given service is found on the "Istio Config" card, on the Service Details page.
+Click **Create** to generate the Istio configuration. Inspect the generated config and click **Create**, and then again to confirm.
+
+The generated Istio config appears on the **Istio Config** card on the service detail page.
 
 ![Service Istio Config](/images/tutorial/05-01-service-istio-config.png "Service Istio Config")
 
 {{% alert title="Step 4" color="success" %}}
-Verify that the Request Routing is working from the *travels-portal* Graph
+Verify request routing from the *travel-portal* graph
 {{% /alert %}}
 
-Once the Request Routing is working we can verify that outbound traffic from every portal goes to the single *travels* workload.  To
-see this clearly use a "Workload Graph" for the "travel-portal" namespace, enable "Traffic Distribution" edge labels and disable the
-"Service Nodes" Display option:
+Once routing is in place, verify that each portal sends traffic to its assigned *travels* workload:
+
+1. Open **Traffic Graph**.
+2. Select only the **travel-portal** namespace.
+3. Set **Graph Type** to **Workload graph**.
+4. Open **Display** → under **Show Edge Labels**, enable **Traffic Distribution**.
+5. Open **Display** → disable **Service Nodes**.
 
 ![Travel Portal Namespace Graph](/images/tutorial/05-01-request-routing-graph.png "Travel Portal Namespace Graph")
 
-Note that no distribution label on an edge implies 100% of traffic.
+An edge without a distribution label implies 100% of traffic on that path.
 
-Examining the "Inbound Traffic" for any of the *travels* workloads will show a similar pattern in the telemetry.
+Navigate to any *travels* workload, open the **Inbound Metrics** tab and expand the **Request Volume** chart, for a similar view in the telemetry.
+
+Increase the Duration to **Last 30m** (or use a custom time range) to show the time when our new routing was defined. We can see how the workload initially received traffic from all portals, then only from a single portal after request routing was applied.
 
 ![Travels v1 Inbound Traffic](/images/tutorial/05-01-travels-v1-inbound-traffic.png "Travels v1 Inbound Traffic")
-
-Using a custom time range to select a large interval, we can see how the workload initially received traffic from all portals but then only a single portal after the Request Routing scenarios were defined.
 
 {{% alert title="Step 5" color="success" %}}
 Update or delete Istio Configuration
 {{% /alert %}}
 
-Kiali Wizards allow you to define high level Service Mesh scenarios and will generate the Istio Configuration needed for its implementation (VirtualServices, DestinationRules, Gateways and PeerRequests).
-These scenarios can be updated or deleted from the "Actions" menu of a given service.
+Kiali wizards define high-level mesh scenarios and generate the Istio configuration needed to implement them (VirtualServices, DestinationRules, and related objects). Update or delete a scenario from the **Actions** menu on the service.
 
-To experiment further you can navigate to the *travels* service and update your configuration by selecting "Request Routing", as shown below.  When you have
-finished experimenting with Routing Request scenarios then use the "Actions" menu to delete the generated Istio config.
+To experiment further, open the *travels* service and select **Actions** → **Request Routing**. When finished, use **Actions** to delete the generated Istio config.
 
 ![Update or Delete](/images/tutorial/05-01-update-or-delete.png "Update or Delete")
 
@@ -123,12 +142,17 @@ This also means that the *hotels* service may be one of the weakest points of th
 This step will show how to test the resilience of the Travel Demo application by injecting faults into the *hotels* service and then observing how the application reacts to this scenario.
 
 {{% alert title="Step 1" color="success" %}}
-Use the Fault Injection Wizard on *hotels* service to inject a delay
+Use the Fault Injection wizard on the *hotels* service to inject a delay
 {{% /alert %}}
+
+1. Open **Services**.
+2. Select the **travel-agency** namespace.
+3. Click the **hotels** service.
+4. Select **Actions** → **Fault Injection**.
 
 ![Fault Injection Action](/images/tutorial/05-02-fault-injection-action.png "Fault Injection Action")
 
-Select an HTTP Delay and specify the "Delay percentage" and "Fixed Delay" values. The default values will introduce a 5 seconds delay into 100% of received requests.
+Select **HTTP Delay** and set **Delay percentage** and **Fixed Delay**. The defaults introduce a 5 second delay on 100% of requests.
 
 ![HTTP Delay](/images/tutorial/05-02-http-delay.png "HTTP Delay")
 
@@ -179,17 +203,20 @@ These new improvements implemented in *travels-v2* and *travels-v3* represent tw
 At the beginning we will send 80% of the traffic into the original *travels-v1* workload, and will split 10% of the traffic each on *travels-v2* and *travels-v3*.
 
 {{% alert title="Step 1" color="success" %}}
-Use the Traffic Shifting Wizard on *travels* service
+Use the Traffic Shifting wizard on the *travels* service
 {{% /alert %}}
+
+1. Open **Services** → **travel-agency** → **travels**.
+2. Select **Actions** → **Traffic Shifting**.
 
 ![Traffic Shifting Action](/images/tutorial/05-03-traffic-shifting-action.png "Traffic Shifting Action")
 
-Create a scenario with 80% of the traffic distributed to *travels-v1* workload and 10% of the traffic distributed each to *travels-v2* and *travels-v3*.
+Create a scenario with 80% of traffic to *travels-v1* and 10% each to *travels-v2* and *travels-v3*.
 
 ![Split Traffic](/images/tutorial/05-03-split-traffic.png "Split Traffic")
 
 {{% alert title="Step 2" color="success" %}}
-Examine Traffic Shifting distribution from the *travels-agency* Graph
+Examine Traffic Shifting distribution from the *travel-agency* Graph
 {{% /alert %}}
 
 ![Travels Graph](/images/tutorial/05-03-travels-graph.png "Travels Graph")
@@ -247,7 +274,7 @@ Create a scenario with 80% of the traffic distributed to *mysqldb-v1* workload a
 ![TCP Split Traffic](/images/tutorial/05-04-tcp-split-traffic.png "TCP Split Traffic")
 
 {{% alert title="Step 3" color="success" %}}
-Examine Traffic Shifting distribution from the *travels-agency* Graph
+Examine Traffic Shifting distribution from the *travel-agency* Graph
 {{% /alert %}}
 
 ![MysqlDB Graph](/images/tutorial/05-04-tcp-graph.png "MysqlDB Graph")
@@ -278,7 +305,7 @@ The delay was propagated across services and Kiali showed how services accepted 
 
 But in real scenarios delays may have important consequences. Services may prefer to fail sooner, and recover, rather than propagating a delay across services.
 
-This step will show how to add a request timeout for one of the portals deployed in *travel-portal* namespace. The *travel.uk* and *viaggi.it* portals will accept delays but *voyages.fr* will timeout and fail.
+This step will show how to add a request timeout for one of the portals deployed in *travel-portal* namespace. The *travels.uk* and *viaggi.it* portals will accept delays but *voyages.fr* will timeout and fail.
 
 {{% alert title="Step 1" color="success" %}}
 Use the Fault Injection Wizard on *hotels* service to inject a delay
@@ -351,7 +378,7 @@ OpenShift users may need to also add the associated loadtester serviceaccount to
 kubectl apply -f <(curl -L https://raw.githubusercontent.com/kiali/demos/master/travels/travel_loadtester.yaml) -n travel-portal
 ```
 
-The *loadtester* workload will try to create 50 concurrent connections to the *travels* service, adding considerable pressure to the *travels-agency* namespace.
+The *loadtester* workload will try to create 50 concurrent connections to the *travels* service, adding considerable pressure to the *travel-agency* namespace.
 
 ![Loadtester Graph](/images/tutorial/05-06-loadtester-graph.png "Loadtester Graph")
 
@@ -433,7 +460,7 @@ We will simulate the following:
 ![Mirrored Traffic](/images/tutorial/05-07-mirrored-traffic.png "Mirrored Traffic")
 
 {{% alert title="Step 2" color="success" %}}
-Examine Traffic Shifting distribution from the *travels-agency* Graph
+Examine Traffic Shifting distribution from the *travel-agency* Graph
 {{% /alert %}}
 
 Note that Istio does not report mirrored traffic telemetry from the source proxy. It is reported from the destination proxy, 
