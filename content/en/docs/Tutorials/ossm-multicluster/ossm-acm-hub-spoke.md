@@ -826,7 +826,7 @@ oc --context=ossm-kiali-spoke wait istio default \
 
 ### 3.7 Install ZTunnel
 
-ZTunnel is the Ambient mode per-node L4 proxy. The dedicated `ZTunnel` CR is the recommended way to manage ztunnel in OSSM 3 — it gives you independent lifecycle control and correctly sets the cluster identity (`clusterName`) directly on the ztunnel DaemonSet.
+ZTunnel is the Ambient mode per-node L4 proxy. The dedicated `ZTunnel` CR is the recommended way to manage ztunnel in OSSM 3 — it gives you independent lifecycle control over the ztunnel DaemonSet.
 
 ```bash
 oc --context=ossm-kiali-spoke apply -f - <<EOF
@@ -1667,21 +1667,17 @@ done
 
 ## Notes and Considerations
 
-### 1. Use the ZTunnel CR to Manage Ztunnel
-
-In OSSM 3, the recommended way to deploy ztunnel is via the dedicated `ZTunnel` CR rather than having the `Istio` CR manage it. The `ZTunnel` CR gives independent lifecycle control over the ztunnel DaemonSet and is where cluster identity (`spec.values.ztunnel.multiCluster.clusterName`) and network identity (`spec.values.ztunnel.network`) are set directly on ztunnel. Do **not** set `global.multiCluster.clusterName` in the `Istio` CR when using the `ZTunnel` CR — set it in the `ZTunnel` CR instead.
-
-### 2. discoverySelectors Require Explicit Namespace Labeling
+### 1. discoverySelectors Require Explicit Namespace Labeling
 
 If the `Istio` CR uses `meshConfig.discoverySelectors`, every namespace that should be part of the mesh — including app namespaces and the ztunnel namespace — must carry the matching label (e.g., `istio-discovery: enabled`). Without it, istiod ignores the namespace: sidecar injection won't work and ztunnel won't route ambient traffic.
 
 The `ztunnel` namespace **must** be labeled with `istio-discovery: enabled`. Even though it is referenced via `pilot.trustedZtunnelNamespace`, istiod still needs to discover the namespace via `discoverySelectors` in order to distribute the `istio-ca-root-cert` ConfigMap there — without which ztunnel pods fail to start with a `MountVolume.SetUp failed` error.
 
-### 3. Sidecar PodMonitors Must Be Per-Namespace
+### 2. Sidecar PodMonitors Must Be Per-Namespace
 
 OpenShift's User Workload Monitoring does not honor `namespaceSelector` in `PodMonitor` resources. A separate `PodMonitor` named `istio-proxies-monitor` must be created in **every** namespace that has sidecar-injected pods. Forgetting this is the most common reason Kiali shows an empty traffic graph for sidecar-mode namespaces.
 
-### 4. Restricting Kiali's Visible Namespaces with Discovery Selectors
+### 3. Restricting Kiali's Visible Namespaces with Discovery Selectors
 
 By default, the Kiali CR in this guide uses `cluster_wide_access: true`, which gives Kiali access to — and makes visible — every namespace on the cluster. In an environment with many namespaces this can be noisy and affect performance.
 
