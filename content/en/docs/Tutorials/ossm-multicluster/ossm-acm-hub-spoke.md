@@ -1,15 +1,15 @@
 ---
 title: "MultiCluster on OpenShift"
-description: "Step-by-step guide to set up a mesh on two OpenShift clusters."
+description: "Install ACM, import a spoke cluster, deploy OSSM 3 with ambient and sidecar demo apps, and configure Kiali to query aggregated metrics from ACM's central Thanos."
 weight: 25
 ---
 
 This guide sets up a two-cluster OpenShift environment from scratch where:
 
-- The **hub cluster** runs Red Hat Advanced Cluster Management (ACM) for fleet management and centralized metrics collection (ACM Observability / Thanos)
+- The **hub cluster** runs Red Hat **Advanced Cluster Management (ACM)** for fleet management and centralized metrics collection (ACM Observability / Thanos)
 - The **spoke cluster** is imported into ACM and runs OpenShift Service Mesh 3 (OSSM 3) with Kiali
-- The spoke mesh has **two demo application namespaces**: one using Istio ambient mode (via the `ZTunnel` CR), one using Istio sidecar injection
-- Kiali queries metrics via the **ACM Observatorium API on the hub cluster** (mTLS), giving it access to Istio metrics collected and forwarded by ACM from the spoke's User Workload Monitoring Prometheus
+- The spoke mesh has two demo application namespaces: one using Istio ambient mode (via the `ZTunnel` CR), one using Istio sidecar injection
+- Kiali queries metrics via the ACM Observatorium API on the hub cluster (mTLS), giving it access to Istio metrics collected and forwarded by ACM from the spoke's User Workload Monitoring Prometheus
 
 The result is a working Kiali installation that shows traffic graphs, metrics, and mesh topology across both the ambient-mode and sidecar-mode workloads running on the spoke.
 
@@ -180,7 +180,7 @@ oc --context=ossm-kiali-hub get multiclusterhub multiclusterhub -n open-cluster-
 
 ACM Observability collects metrics from all managed clusters and stores them in Thanos on the hub. Kiali will query these aggregated metrics via the Observatorium API.
 
-ACM needs an S3-compatible object store as its Thanos backend. This guide deploys **MinIO in-cluster** so that no external storage account is required.
+ACM needs an S3-compatible object store as its Thanos backend. This guide deploys MinIO in-cluster so that no external storage account is required.
 
 Create the observability namespace:
 
@@ -1179,7 +1179,7 @@ oc --context=ossm-kiali-spoke get pods -n ambient-demo
 
 Without a waypoint, ztunnel only processes L4 traffic. Kiali will show traffic edges and TCP-level metrics (`istio_tcp_*`) but **no HTTP details** — no response codes, no latency, no request rates. A waypoint proxy is an Envoy-based L7 proxy that intercepts traffic inside the ambient mesh and produces the full set of HTTP metrics Kiali needs for its traffic graph and workload dashboards.
 
-Deploy a waypoint for the `ambient-demo` namespace. The `istio.io/waypoint-for: service` label tells ztunnel that this waypoint handles traffic addressed to **Kubernetes Services** (not pod IPs). Valid values are `service`, `workload`, `all`, and `none` — `service` is the default and the right choice here since `traffic-gen` calls `helloworld` via its Service VIP:
+Deploy a waypoint for the `ambient-demo` namespace. The `istio.io/waypoint-for: service` label tells ztunnel that this waypoint handles traffic addressed to Kubernetes Services (not pod IPs). Valid values are `service`, `workload`, `all`, and `none` — `service` is the default and the right choice here since `traffic-gen` calls `helloworld` via its Service VIP:
 
 ```bash
 oc --context=ossm-kiali-spoke apply -f - <<'EOF'
@@ -1239,7 +1239,7 @@ oc --context=ossm-kiali-hub get --raw \
 ```
 
 {{% alert color="info" %}}
-**Double edges in Kiali**: Once the waypoint is active, Kiali will show **two edges** between workloads in `ambient-demo` — one from ztunnel (TCP/L4 metrics) and one from the waypoint (HTTP/L7 metrics). This is expected. Use the **Traffic** menu in the Kiali graph toolbar and select **Waypoint** to filter to L7-only edges, or select **ZTunnel** to see L4-only edges.
+**Double edges in Kiali**: Once the waypoint is active, Kiali will show **two** edges between workloads in `ambient-demo` — one from ztunnel (TCP/L4 metrics) and one from the waypoint (HTTP/L7 metrics). This is expected. Use the **Traffic** menu in the Kiali graph toolbar and select **Waypoint** to filter to L7-only edges, or select **ZTunnel** to see L4-only edges.
 {{% /alert %}}
 
 Create a PodMonitor so UWM Prometheus scrapes the waypoint's Envoy metrics:

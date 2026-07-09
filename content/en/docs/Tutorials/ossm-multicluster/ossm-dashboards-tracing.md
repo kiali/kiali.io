@@ -4,12 +4,10 @@ description: "Add Perses metrics dashboards and Tempo distributed tracing to the
 weight: 35
 ---
 
-This guide extends the result of the [Multi-Primary Mesh]({{< relref "./ossm-acm-multi-primary" >}}) guide by adding two observability tools that operate across both spoke clusters:
+This guide extends the result of the [Multi-Primary Mesh]({{< relref "./ossm-acm-multi-primary" >}}) guide by adding two observability tools that operate across both spoke clusters. Both tools are delivered through the Red Hat **Cluster Observability Operator (COO)**, which manages their deployment and integrates them into the OpenShift console:
 
-- **Part 1 — Perses**: A metrics dashboard platform managed by the Cluster Observability Operator (COO). Its Prometheus datasource is pointed at hub Thanos so it queries aggregated metrics from both spokes, giving a true multi-cluster view.
-- **Part 2 — Tempo**: A distributed tracing backend. A central Tempo instance on `spoke` collects traces from both clusters via OpenTelemetry collectors. Kiali queries the single Tempo endpoint and can filter traces by cluster.
-
-Neither ACM Observability nor any other component already in place aggregates traces — that requires an explicit OTEL pipeline, which this guide sets up.
+- **Part 1 — Perses**: Deploys a Perses metrics dashboard server and OpenShift console plugin via COO. The datasource is pointed at hub Thanos so it queries aggregated metrics from both spokes, giving a true multi-cluster view.
+- **Part 2 — Tempo**: Deploys a distributed tracing server and OpenShift console plugin via COO. A central Tempo instance on `spoke` collects traces from both clusters via OpenTelemetry collectors. Kiali links to the console tracing UI and can filter traces by cluster. Neither ACM Observability nor any other component already in place aggregates traces — that requires an explicit OTEL pipeline, which this guide sets up.
 
 ---
 
@@ -51,9 +49,9 @@ export TEMPO_TENANT="mesh1"
 
 ## Part 1: Perses — Multi-Cluster Metrics Dashboards
 
-Perses is a metrics dashboard platform. On OpenShift it is managed by the **Cluster Observability Operator (COO)**, which provides native CRDs (`Perses`, `PersesDatasource`, `PersesDashboard`) and integrates with the OpenShift console as a UI plugin. Kiali links to Perses dashboards from its workload and service metrics pages.
+Perses is a metrics dashboard platform. On OpenShift it is managed by the Cluster Observability Operator (COO), which provides native CRDs (`Perses`, `PersesDatasource`, `PersesDashboard`) and integrates with the OpenShift console as a UI plugin. Kiali links to Perses dashboards from its workload and service metrics pages.
 
-The key multi-cluster aspect: Perses is configured with a datasource pointing at **hub Thanos** (the ACM Observatorium endpoint) rather than a local Prometheus. This gives Perses visibility into metrics from both spoke clusters without any additional aggregation work.
+The key multi-cluster aspect: Perses is configured with a datasource pointing at hub Thanos (the ACM Observatorium endpoint) rather than a local Prometheus. This gives Perses visibility into metrics from both spoke clusters without any additional aggregation work.
 
 ### 1.1 Install the Cluster Observability Operator
 

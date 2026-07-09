@@ -65,7 +65,7 @@ export SPOKE_TWO_CLUSTER_NAME="spoke-two"
 
 ## Phase 1: Generate Spoke-Two CA Certificate
 
-The second spoke needs its own intermediate CA certificate, signed by the **same root CA** used for the first spoke in the hub/spoke guide. This shared root establishes mutual mTLS trust between the two control planes.
+The second spoke needs its own intermediate CA certificate, signed by the same root CA used for the first spoke in the hub/spoke guide. This shared root establishes mutual mTLS trust between the two control planes.
 
 ```bash
 mkdir -p /tmp/istio-certs/spoke-two && cd /tmp/istio-certs
