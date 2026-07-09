@@ -152,9 +152,11 @@ Use the Fault Injection wizard on the *hotels* service to inject a delay
 
 ![Fault Injection Action](/images/tutorial/05-02-fault-injection-action.png "Fault Injection Action")
 
-Select **HTTP Delay** and set **Delay percentage** and **Fixed Delay**. The defaults introduce a 5 second delay on 100% of requests.
+Select **HTTP Delay** and set **Delay percentage** and **Fixed Delay** to the defaults, which introduce a 5 second delay on 100% of requests.
 
 ![HTTP Delay](/images/tutorial/05-02-http-delay.png "HTTP Delay")
+
+Create the HTTP Delay.
 
 {{% alert title="Step 2" color="success" %}}
 Understanding *source* and *destination* metrics
@@ -171,6 +173,10 @@ The *travels* workload proxy has the Fault Injection configuration so it will pe
 We can see in the *hotels* telemetry reported by the *source* (the *travels* proxy) that there is a visible gap showing 5 second delay in the request duration.
 
 ![Source Metrics](/images/tutorial/05-02-source-metrics.png "Source Metrics")
+
+{{% alert title="Note" color="info" %}}
+The **avg** line reflects the injected delay most accurately. **p50** and **p95** are estimated from Istio's Prometheus histogram buckets, not from individual request timings. When latency clusters near a bucket boundary (as it does with a fixed delay), quantiles can read lower than the configured delay — for example, with a 5s delay you may see **avg** just above 5s while **p50** reads closer to 3.7s. The same pattern appears at other delay values (try updating the scenario to 4s to compare).
+{{% /alert %}}
 
 But as the Fault Injection delay is applied on the source proxy (*travels*), the destination proxy (*hotels*) is unaffected and its destination telemetry show no delay.
 
@@ -216,7 +222,7 @@ Create a scenario with 80% of traffic to *travels-v1* and 10% each to *travels-v
 ![Split Traffic](/images/tutorial/05-03-split-traffic.png "Split Traffic")
 
 {{% alert title="Step 2" color="success" %}}
-Examine Traffic Shifting distribution from the *travel-agency* Graph
+Examine Traffic Shifting distribution from the *travel-agency* *travels* service Node Graph
 {{% /alert %}}
 
 ![Travels Graph](/images/tutorial/05-03-travels-graph.png "Travels Graph")
@@ -317,21 +323,23 @@ Repeat the [Fault Injection](#fault-injection) step to add delay on *hotels* ser
 Use the Request Routing Wizard on *travels* service to add a route rule with delay for *voyages.fr*
 {{% /alert %}}
 
-Add a rule to add a request timeout only on requests coming from *voyages.fr* portal:
+Add a request timeout only on requests coming from *voyages.fr* portal. It requires to route rules:
 
-- Use the Request Matching tab to add a matching condition for the *portal* header with *voyages.fr* value.
-- Use the Request Timeouts tab to add an HTTP Timeout for this rule.
-- Add the rule to the scenario.
+Use the Request Matching tab to add a matching condition for the *portal* header with *voyages.fr* value.
 
 ![Request Timeout Rule](/images/tutorial/05-05-request-timeout-rule.png "Request Timeout Rule")
 
-A first rule should be added to the list like:
+Use the Request Timeouts tab to add an HTTP Timeout with default values.
 
 ![Voyages Portal Rule](/images/tutorial/05-05-voyages-rule.png "Voyages Portal Rule")
 
-Add a second rule to match any request and create the scenario. With this configuration, requests coming from *voyages.fr* will match the first rule and all others will match the second rule.
+Add the first route rule to the scenario.
+
+Add a second rule to match any request.
 
 ![Any Request Rule](/images/tutorial/05-05-generic-rule.png "Any Request Rule")
+
+Create the request routing scenario. With this configuration, requests coming from *voyages.fr* will match the first rule and all others will match the second rule.
 
 {{% alert title="Step 3" color="success" %}}
 Review the impact of the request timeout in the *travels* service
