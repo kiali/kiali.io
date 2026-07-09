@@ -154,7 +154,7 @@ spec:
 EOF
 ```
 
-Extract the spoke-two kubeconfig and create the auto-import secret:
+Extract the `spoke-two` kubeconfig and create the auto-import secret:
 
 ```bash
 oc config view --context=ossm-kiali-spoke-two --minify --flatten \
@@ -169,7 +169,7 @@ oc --context=ossm-kiali-hub create secret generic auto-import-secret \
 rm -f /tmp/spoke-two-kubeconfig.yaml
 ```
 
-Wait for spoke-two to join:
+Wait for `spoke-two` to join:
 
 ```bash
 echo "Waiting for ${SPOKE_TWO_CLUSTER_NAME} to join..."
@@ -302,7 +302,7 @@ oc --context=ossm-kiali-spoke-two wait istiocni default \
 
 ### 3.6 Install Istio Control Plane (with Multi-Cluster Config)
 
-The Istio CR for spoke-two sets the cluster identity, network identity, and enables `AMBIENT_ENABLE_MULTI_NETWORK` for ambient cross-network routing. The `clusterName` must match the value in the ZTunnel CR exactly — istiod uses it to identify the local cluster, and ztunnel uses it when authenticating to istiod. A mismatch causes ztunnel pods to fail with `authentication failure`:
+The Istio CR for `spoke-two` sets the cluster identity, network identity, and enables `AMBIENT_ENABLE_MULTI_NETWORK` for ambient cross-network routing. The `clusterName` must match the value in the ZTunnel CR exactly — istiod uses it to identify the local cluster, and ztunnel uses it when authenticating to istiod. A mismatch causes ztunnel pods to fail with `authentication failure`:
 
 ```bash
 oc --context=ossm-kiali-spoke-two apply -f - <<EOF
@@ -482,7 +482,7 @@ oc --context=ossm-kiali-spoke wait ztunnel default \
 
 ### 4.4 Update Kiali with the Cluster Name
 
-Kiali was installed in the hub/spoke guide without a cluster name because only one cluster existed. Now that spoke-one has `multiCluster.clusterName: spoke` configured, Kiali must be updated to match so it correctly identifies the home cluster — without this, the Kiali login page will redirect in an infinite loop:
+Kiali was installed in the hub/spoke guide without a cluster name because only one cluster existed. Now that `spoke` has `multiCluster.clusterName: spoke` configured, Kiali must be updated to match so it correctly identifies the home cluster — without this, the Kiali login page will redirect in an infinite loop:
 
 ```bash
 oc --context=ossm-kiali-spoke patch kiali kiali -n istio-system --type=merge -p "{
@@ -665,7 +665,7 @@ Kiali runs on `ossm-kiali-spoke` and already queries ACM Thanos for metrics (set
 
 ### 7.1 Install Kiali Operator on Spoke-Two
 
-The Kiali Operator on spoke-two creates the service account and RBAC that Kiali on spoke-one uses to access the cluster. No Kiali server is deployed on spoke-two.
+The Kiali Operator on `spoke-two` creates the service account and RBAC that Kiali on `spoke` uses to access the cluster. No Kiali server is deployed on `spoke-two`.
 
 ```bash
 oc --context=ossm-kiali-spoke-two apply -f - <<'EOF'
@@ -697,7 +697,7 @@ oc --context=ossm-kiali-spoke-two wait pod \
 
 ### 7.2 Install Kiali CR on Spoke-Two (Remote Resources Only)
 
-The Kiali CR needs the OAuth redirect URI pointing back to the Kiali server on spoke-one. Get that URL first:
+The Kiali CR needs the OAuth redirect URI pointing back to the Kiali server on `spoke`. Get that URL first:
 
 ```bash
 KIALI_HOST=$(oc --context=ossm-kiali-spoke get route kiali -n istio-system \
@@ -705,7 +705,7 @@ KIALI_HOST=$(oc --context=ossm-kiali-spoke get route kiali -n istio-system \
 echo "Kiali host: ${KIALI_HOST}"
 ```
 
-Create the Kiali CR with `remote_cluster_resources_only: true`. This creates the `kiali-service-account` SA and RBAC but no Kiali server. The redirect URI is required for the OpenShift OAuth flow when a user logs into spoke-two through the Kiali UI:
+Create the Kiali CR with `remote_cluster_resources_only: true`. This creates the `kiali-service-account` SA and RBAC but no Kiali server. The redirect URI is required for the OpenShift OAuth flow when a user logs into `spoke-two` through the Kiali UI:
 
 ```bash
 oc --context=ossm-kiali-spoke-two apply -f - <<EOF
@@ -744,7 +744,7 @@ Kiali reads remote cluster credentials from a secret named `kiali-multi-cluster-
 
 Labeling the secret with `kiali.io/kiali-multi-cluster-secret: "true"` tells the Kiali Operator to watch it and automatically roll out a new Kiali pod whenever the secret changes (no manual trigger needed).
 
-In Kubernetes 1.24+, service account token secrets are not created automatically. Create one for `kiali-service-account` on spoke-two so that a long-lived token is available:
+In Kubernetes 1.24+, service account token secrets are not created automatically. Create one for `kiali-service-account` on `spoke-two` so that a long-lived token is available:
 
 ```bash
 oc --context=ossm-kiali-spoke-two apply -f - <<'EOF'
@@ -766,7 +766,7 @@ done
 echo "SA token secret is ready"
 ```
 
-Collect spoke-two's connection details and write a kubeconfig to a temporary file:
+Collect `spoke-two`'s connection details and write a kubeconfig to a temporary file:
 
 ```bash
 SPOKE_TWO_SERVER=$(oc --context=ossm-kiali-spoke-two whoami --show-server | tr -d '[:space:]') && \
@@ -796,7 +796,7 @@ EOF
 echo "Kubeconfig written — server: ${SPOKE_TWO_SERVER}"
 ```
 
-Create `kiali-multi-cluster-secret` on spoke-one. The file key name must match the cluster name (`${SPOKE_TWO_CLUSTER_NAME}`):
+Create `kiali-multi-cluster-secret` on `spoke`. The file key name must match the cluster name (`${SPOKE_TWO_CLUSTER_NAME}`):
 
 ```bash
 oc --context=ossm-kiali-spoke create secret generic kiali-multi-cluster-secret \
@@ -810,7 +810,7 @@ oc --context=ossm-kiali-spoke label secret kiali-multi-cluster-secret \
 rm -f /tmp/cluster2-kubeconfig.yaml
 ```
 
-Verify the secret and confirm the kubeconfig can reach spoke-two:
+Verify the secret and confirm the kubeconfig can reach `spoke-two`:
 
 ```bash
 oc --context=ossm-kiali-spoke get secret kiali-multi-cluster-secret \
@@ -827,7 +827,7 @@ oc --kubeconfig=/tmp/verify-kubeconfig.yaml whoami --show-server
 rm -f /tmp/verify-kubeconfig.yaml
 ```
 
-The `kiali.io/kiali-multi-cluster-secret: "true"` label causes the Kiali Operator to automatically detect the secret and roll out a new Kiali pod with the spoke-two credentials mounted.
+The `kiali.io/kiali-multi-cluster-secret: "true"` label causes the Kiali Operator to automatically detect the secret and roll out a new Kiali pod with the `spoke-two` credentials mounted.
 
 Wait for the rollout to complete (triggered by the multi-cluster secret being detected):
 
@@ -842,9 +842,9 @@ oc --context=ossm-kiali-spoke rollout status deployment/kiali \
 
 ### 8.1 Ambient Demo App — Helloworld
 
-Deploy `helloworld` v1 and v2 on spoke-two's `ambient-demo` namespace. Both clusters now have the same service name — Istio's multi-cluster federation merges them into a single virtual service with endpoints from both clusters. Label the service `istio.io/global=true` so spoke-one's istiod discovers spoke-two's endpoints.
+Deploy `helloworld` v1 and v2 on `spoke-two`'s `ambient-demo` namespace. Both clusters now have the same service name — Istio's multi-cluster federation merges them into a single virtual service with endpoints from both clusters. Label the service `istio.io/global=true` so spoke's istiod discovers `spoke-two`'s endpoints.
 
-Once deployed, the existing `traffic-gen` on spoke-one (from the hub/spoke guide) will automatically start load-balancing requests across pods on both clusters through the East-West gateway.
+Once deployed, the existing `traffic-gen` on `spoke` (from the hub/spoke guide) will automatically start load-balancing requests across pods on both clusters through the East-West gateway.
 
 ```bash
 oc --context=ossm-kiali-spoke-two create namespace ambient-demo 2>/dev/null || true
@@ -866,7 +866,7 @@ oc --context=ossm-kiali-spoke-two wait deployment/helloworld-v1 \
 oc --context=ossm-kiali-spoke-two wait deployment/helloworld-v2 \
   -n ambient-demo --for=condition=Available --timeout=120s
 
-# Label service global so spoke-one's istiod discovers spoke-two's endpoints
+# Label service global so spoke's istiod discovers spoke-two's endpoints
 oc --context=ossm-kiali-spoke-two label svc helloworld \
   -n ambient-demo \
   istio.io/global=true
@@ -877,7 +877,7 @@ oc --context=ossm-kiali-spoke-two get pods -n ambient-demo
 
 ### 8.1.1 Deploy a Waypoint for L7 Metrics
 
-Without a waypoint, ztunnel only produces TCP metrics. Deploy one to get full L7 HTTP visibility on spoke-two's side of the cross-cluster traffic. See the hub/spoke guide's section 5.1.1 for the explanation of why `istio.io/waypoint-for: service` is required.
+Without a waypoint, ztunnel only produces TCP metrics. Deploy one to get full L7 HTTP visibility on `spoke-two`'s side of the cross-cluster traffic. See the hub/spoke guide's section 5.1.1 for the explanation of why `istio.io/waypoint-for: service` is required.
 
 ```bash
 oc --context=ossm-kiali-spoke-two apply -f - <<'EOF'
@@ -947,7 +947,7 @@ spec:
 EOF
 ```
 
-Add a ztunnel PodMonitor on spoke-two so ACM collects L4 TCP metrics:
+Add a ztunnel PodMonitor on `spoke-two` so ACM collects L4 TCP metrics:
 
 ```bash
 oc --context=ossm-kiali-spoke-two apply -f - <<EOF
@@ -991,11 +991,11 @@ EOF
 
 ### 8.2 Sidecar Demo — Split Bookinfo
 
-Spoke-one already has the full Bookinfo application running (from the hub/spoke guide). Here we extend it by deploying a `ratings-v2` workload on spoke-two. Because the `ratings` Service is federated across the mesh, `reviews-v2` and `reviews-v3` on spoke-one will occasionally route their ratings calls to spoke-two via the East-West gateway — creating cross-cluster L7 traffic visible in Kiali.
+Spoke-one already has the full Bookinfo application running (from the hub/spoke guide). Here we extend it by deploying a `ratings-v2` workload on `spoke-two`. Because the `ratings` Service is federated across the mesh, `reviews-v2` and `reviews-v3` on `spoke` will occasionally route their ratings calls to `spoke-two` via the East-West gateway — creating cross-cluster L7 traffic visible in Kiali.
 
-No changes to spoke-one's existing bookinfo are needed. Sidecars produce full L7 HTTP metrics natively so no waypoint is required.
+No changes to `spoke`'s existing bookinfo are needed. Sidecars produce full L7 HTTP metrics natively so no waypoint is required.
 
-Create the `bookinfo` namespace on spoke-two with sidecar injection enabled:
+Create the `bookinfo` namespace on `spoke-two` with sidecar injection enabled:
 
 ```bash
 oc --context=ossm-kiali-spoke-two create namespace bookinfo 2>/dev/null || true
@@ -1004,7 +1004,7 @@ oc --context=ossm-kiali-spoke-two label namespace bookinfo \
   istio-discovery=enabled
 ```
 
-Deploy `ratings-v2` on spoke-two. This uses the same container image as `ratings-v1` but with a `version: v2` label so it appears as a distinct versioned workload in Kiali:
+Deploy `ratings-v2` on `spoke-two`. This uses the same container image as `ratings-v1` but with a `version: v2` label so it appears as a distinct versioned workload in Kiali:
 
 ```bash
 oc --context=ossm-kiali-spoke-two apply -f - <<'EOF'
@@ -1069,7 +1069,7 @@ oc --context=ossm-kiali-spoke-two get pods -n bookinfo
 # Should show 2/2 READY
 ```
 
-Label the `ratings` Service on spoke-two as global so spoke-one's istiod discovers its endpoints:
+Label the `ratings` Service on `spoke-two` as global so spoke's istiod discovers its endpoints:
 
 ```bash
 oc --context=ossm-kiali-spoke-two label svc ratings \
@@ -1077,7 +1077,7 @@ oc --context=ossm-kiali-spoke-two label svc ratings \
   istio.io/global=true
 ```
 
-Add a PodMonitor for the `bookinfo` namespace on spoke-two so its sidecar metrics reach hub Thanos:
+Add a PodMonitor for the `bookinfo` namespace on `spoke-two` so its sidecar metrics reach hub Thanos:
 
 ```bash
 oc --context=ossm-kiali-spoke-two apply -f - <<EOF
@@ -1189,7 +1189,7 @@ networks:
     endpoints:
     - fromRegistry: spoke
     gateways:
-    - address: <spoke-one-e-w-gateway-ip>
+    - address: <spoke-e-w-gateway-ip>
       port: 15008
   network2:
     endpoints:
@@ -1202,7 +1202,7 @@ networks:
 ### 9.6 Verify Cross-Cluster Traffic
 
 {{% alert color="warning" %}}
-Cross-cluster ambient traffic routing requires OSSM 3.4+. On OSSM 3.3, all traffic-gen responses will show spoke-one pod names only. See [Notes and Considerations #2](#2-ambient-multi-primary-is-technology-preview--cross-cluster-routing-limitations) for the known gap and fix timeline.
+Cross-cluster ambient traffic routing requires OSSM 3.4+. On OSSM 3.3, all traffic-gen responses will show `spoke` pod names only. See [Notes and Considerations #2](#2-ambient-multi-primary-is-technology-preview--cross-cluster-routing-limitations) for the known gap and fix timeline.
 {{% /alert %}}
 
 The helloworld response includes the pod instance name. First, record the pod names on each cluster so you know what to look for in the logs:
@@ -1223,7 +1223,7 @@ Now check the traffic-gen logs — you should see instance names from both clust
 oc --context=ossm-kiali-spoke logs -n ambient-demo \
   deployment/traffic-gen --tail=20
 # Expect lines like:
-# Hello version: v1, instance: helloworld-v1-<spoke-one-suffix>
+# Hello version: v1, instance: helloworld-v1-<spoke-suffix>
 # Hello version: v1, instance: helloworld-v1-<spoke-two-suffix>   ← different pod name = cross-cluster
 ```
 
@@ -1244,14 +1244,14 @@ Open the URL and log in. In the top-right cluster dropdown you should see both `
 
 ## Cleanup
 
-Remove cross-cluster additions from spoke-one:
+Remove cross-cluster additions from `spoke`:
 
 ```bash
 oc --context=ossm-kiali-spoke delete gateway istio-eastwestgateway -n istio-system
 oc --context=ossm-kiali-spoke delete secrets -n istio-system -l istio/multiCluster=true
 ```
 
-Remove OSSM, Kiali, and demo apps from spoke-two:
+Remove OSSM, Kiali, and demo apps from `spoke-two`:
 
 ```bash
 oc --context=ossm-kiali-spoke-two delete namespace ambient-demo bookinfo
@@ -1262,13 +1262,13 @@ oc --context=ossm-kiali-spoke-two delete istiocni default
 oc --context=ossm-kiali-spoke-two delete namespace ztunnel istio-system istio-cni
 ```
 
-Detach spoke-two from ACM:
+Detach `spoke-two` from ACM:
 
 ```bash
 oc --context=ossm-kiali-hub delete managedcluster "${SPOKE_TWO_CLUSTER_NAME}"
 ```
 
-Remove Kiali remote access and endpoint discovery resources from spoke-one:
+Remove Kiali remote access and endpoint discovery resources from `spoke`:
 
 ```bash
 # Remove Kiali remote cluster secret
@@ -1280,7 +1280,7 @@ oc --context=ossm-kiali-spoke adm policy remove-cluster-role-from-user cluster-r
   -z istio-reader-service-account -n istio-system
 ```
 
-Revert spoke-one Istio, ZTunnel, and Kiali CRs to single-cluster configuration:
+Revert `spoke` Istio, ZTunnel, and Kiali CRs to single-cluster configuration:
 
 ```bash
 oc --context=ossm-kiali-spoke patch istio default --type=json \
@@ -1329,7 +1329,7 @@ In multi-primary multi-network mode, a Service must be labeled `istio.io/global=
 
 In a multi-primary setup, the same cluster name must be used in every place that references cluster identity. A mismatch between any of these will cause failures ranging from Kiali redirect loops to Istio endpoint discovery silently not working.
 
-The table below shows where each cluster's name appears. Each cluster (spoke-one and spoke-two) has its own name applied in all the same locations:
+The table below shows where each cluster's name appears. Each cluster (`spoke` and `spoke-two`) has its own name applied in all the same locations:
 
 <style>.cluster-names-table td, .cluster-names-table th { border: 1px solid }</style>
 <table class="cluster-names-table">
@@ -1369,7 +1369,7 @@ The table below shows where each cluster's name appears. Each cluster (spoke-one
     <tr>
       <td>Kiali CR (home cluster)</td>
       <td><code>spec.kubernetes_config.cluster_name</code></td>
-      <td><code>spoke</code> (spoke-one's own name)</td>
+      <td><code>spoke</code> (spoke's own name)</td>
     </tr>
     <tr>
       <td>Kiali CR (remote cluster)</td>
@@ -1378,8 +1378,13 @@ The table below shows where each cluster's name appears. Each cluster (spoke-one
     </tr>
     <tr>
       <td><code>kiali-multi-cluster-secret</code> key</td>
-      <td>secret key name in the secret on spoke-one</td>
+      <td>secret key name in the secret on spoke</td>
       <td><code>spoke-two</code> (the remote cluster being added)</td>
+    </tr>
+    <tr>
+      <td>OTEL collector <code>resource</code> processor (tracing only)</td>
+      <td><code>k8s.cluster.name</code> attribute stamped on spans — only required if setting up distributed tracing (see the <a href="{{< relref "./ossm-dashboards-tracing" >}}">Dashboards and Tracing</a> guide)</td>
+      <td><code>spoke</code> or <code>spoke-two</code></td>
     </tr>
   </tbody>
 </table>
@@ -1393,4 +1398,4 @@ client claims to be in cluster "spoke-two", but we only know about local cluster
 
 ### 6. Kiali OAuth Redirect for Spoke-Two
 
-When logging into spoke-two through Kiali's multi-cluster UI, Kiali redirects to spoke-two's OpenShift OAuth endpoint. The redirect URI must be reachable from the user's browser. If spoke-two's OAuth route is on a different domain, ensure the redirect back to the Kiali URL is reachable.
+When logging into `spoke-two` through Kiali's multi-cluster UI, Kiali redirects to `spoke-two`'s OpenShift OAuth endpoint. The redirect URI must be reachable from the user's browser. If `spoke-two`'s OAuth route is on a different domain, ensure the redirect back to the Kiali URL is reachable.
