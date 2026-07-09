@@ -1034,7 +1034,7 @@ oc --context=ossm-kiali-spoke wait pod \
   --timeout=300s
 ```
 
-### 4.4 Create the Kiali CR
+### 4.4 Install Kiali
 
 Kiali is deployed in `istio-system` and queries metrics from the hub's Observatorium API using the mTLS certificates created above. The `openshift` auth strategy integrates Kiali with OpenShift OAuth so users log in with their OpenShift credentials.
 
@@ -1086,6 +1086,29 @@ Wait for the Kiali deployment to roll out:
 
 ```bash
 oc --context=ossm-kiali-spoke rollout status deployment/kiali -n istio-system
+```
+
+### 4.5 Install the OpenShift Service Mesh Console Plugin
+
+The `OSSMConsole` CR instructs the Kiali Operator to register a console plugin that adds the **Service Mesh** menu to the OpenShift console, providing an integrated Kiali view within the OCP UI:
+
+```bash
+oc --context=ossm-kiali-spoke apply -f - <<'EOF'
+apiVersion: kiali.io/v1alpha1
+kind: OSSMConsole
+metadata:
+  name: ossmconsole
+  namespace: istio-system
+spec: {}
+EOF
+
+until oc --context=ossm-kiali-spoke get ossmconsole ossmconsole \
+  -n istio-system \
+  -o jsonpath='{.status.conditions[?(@.type=="Successful")].status}' 2>/dev/null | grep -q "True"; do
+  echo "Waiting for OSSMConsole reconciliation..."
+  sleep 10
+done
+echo "OSSMConsole ready"
 ```
 
 ---
@@ -1519,13 +1542,22 @@ oc --context=ossm-kiali-hub get managedclusteraddons -n "${SPOKE_CLUSTER_NAME}"
 
 ### 6.5 Access the Kiali UI
 
-Get the Kiali route URL:
+Kiali is accessible in two ways:
+
+**Standalone UI** — the Kiali route URL:
 
 ```bash
 oc --context=ossm-kiali-spoke get route kiali -n istio-system -o jsonpath='https://{.spec.host}{"\n"}'
 ```
 
-Open the URL in a browser and log in with your OpenShift credentials. You should see:
+**OpenShift console** — the **Service Mesh** item in the left-hand menu found at the `spoke` OpenShift console URL:
+
+```bash
+oc --context=ossm-kiali-spoke get route console -n openshift-console \
+  -o jsonpath='https://{.spec.host}{"\n"}'
+```
+
+Open either URL and log in with your OpenShift credentials. You should see:
 
 1. **Overview** page: both `ambient-demo` and `bookinfo` namespaces listed. The `ambient-demo` namespace shows an Ambient badge indicating ztunnel is active.
 2. **Traffic Graph**: navigate to the Traffic Graph page and select `ambient-demo` and `bookinfo` from the namespace dropdown at the top. Traffic edges should appear for each namespace:
@@ -1548,6 +1580,7 @@ To remove OSSM, Kiali, and demo apps from the spoke:
 ```bash
 oc --context=ossm-kiali-spoke delete gateway waypoint -n ambient-demo
 oc --context=ossm-kiali-spoke delete namespace ambient-demo bookinfo
+oc --context=ossm-kiali-spoke delete ossmconsole ossmconsole -n istio-system
 oc --context=ossm-kiali-spoke delete kiali kiali -n istio-system
 oc --context=ossm-kiali-spoke delete secret acm-observability-certs -n istio-system
 oc --context=ossm-kiali-spoke delete configmap kiali-cabundle -n istio-system
