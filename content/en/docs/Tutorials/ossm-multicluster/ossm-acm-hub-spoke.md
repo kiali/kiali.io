@@ -1637,7 +1637,7 @@ oc --context=ossm-kiali-spoke delete namespace \
   2>/dev/null || true
 ```
 
-**Optional — fully remove the OSSM and Kiali operators from the spoke** (skip if other workloads use these operators). You must remove the Subscription, CSV, and CRDs to get a clean uninstall:
+Remove the OSSM and Kiali operators from the spoke. Skip this block if other workloads on the cluster use these operators:
 
 ```bash
 # Remove Subscriptions
