@@ -652,6 +652,7 @@ echo "Console URL: ${CONSOLE_URL}"
 
 Patch the Kiali CR on `spoke`. Key settings:
 - `url_format: "openshift"` — Kiali builds dashboard links pointing to the OpenShift console Perses plugin. In this mode `internal_url` must not be set — COO Perses uses OpenShift OAuth, so Kiali cannot authenticate to its API. Without `internal_url`, Kiali skips dashboard validation and generates the links unconditionally
+- `health_check_url` — points at the in-cluster Perses `/api/v1/health` endpoint so Kiali can verify reachability. This endpoint does not require authentication. Without it, Kiali's cluster status shows Perses as "Unreachable" because the health check falls back to `external_url` (the OCP console), which is not a Perses API
 - `project` — the Perses project name, which COO sets to the Kubernetes namespace where the dashboards live (`perses`)
 - `variables` — maps Kiali's semantic names to the exact Perses variable names defined in the dashboards created in the previous step.
 
@@ -663,6 +664,7 @@ oc --context=ossm-kiali-spoke patch kiali kiali -n istio-system --type=merge -p 
         \"enabled\": true,
         \"url_format\": \"openshift\",
         \"external_url\": \"${CONSOLE_URL}\",
+        \"health_check_url\": \"https://perses.openshift-operators.svc.cluster.local:8080/api/v1/health\",
         \"project\": \"perses\",
         \"dashboards\": [
           {\"name\": \"Istio Mesh Overview\"},
