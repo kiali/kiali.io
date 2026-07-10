@@ -1578,42 +1578,43 @@ Because Kiali queries ACM's hub Thanos (not the spoke's local Prometheus), there
 To remove OSSM, Kiali, and demo apps from the spoke:
 
 ```bash
-oc --context=ossm-kiali-spoke delete gateway waypoint -n ambient-demo
-oc --context=ossm-kiali-spoke delete namespace ambient-demo bookinfo
-oc --context=ossm-kiali-spoke delete ossmconsole ossmconsole -n istio-system
-oc --context=ossm-kiali-spoke delete kiali kiali -n istio-system
-oc --context=ossm-kiali-spoke delete secret acm-observability-certs -n istio-system
-oc --context=ossm-kiali-spoke delete configmap kiali-cabundle -n istio-system
-oc --context=ossm-kiali-spoke delete ztunnel default
-oc --context=ossm-kiali-spoke delete istio default
-oc --context=ossm-kiali-spoke delete istiocni default
-oc --context=ossm-kiali-spoke delete namespace ztunnel istio-system istio-cni
+oc --context=ossm-kiali-spoke delete gateway waypoint -n ambient-demo --ignore-not-found
+oc --context=ossm-kiali-spoke delete namespace ambient-demo bookinfo --ignore-not-found
+oc --context=ossm-kiali-spoke delete ossmconsole ossmconsole -n istio-system --ignore-not-found
+oc --context=ossm-kiali-spoke delete kiali kiali -n istio-system --ignore-not-found
+oc --context=ossm-kiali-spoke delete secret acm-observability-certs cacerts -n istio-system --ignore-not-found
+oc --context=ossm-kiali-spoke delete configmap kiali-cabundle -n istio-system --ignore-not-found
+oc --context=ossm-kiali-spoke delete configmap cluster-monitoring-config -n openshift-monitoring --ignore-not-found
+oc --context=ossm-kiali-spoke delete ztunnel default --ignore-not-found
+oc --context=ossm-kiali-spoke delete istio default --ignore-not-found
+oc --context=ossm-kiali-spoke delete istiocni default --ignore-not-found
+oc --context=ossm-kiali-spoke delete namespace ztunnel istio-system istio-cni --ignore-not-found
 ```
 
 To remove ACM Observability from the hub. Delete the MCO first and wait for it to be gone before removing MinIO, so the MCO doesn't try to reconnect to its backing store during deletion:
 
 ```bash
-oc --context=ossm-kiali-hub delete mco observability
+oc --context=ossm-kiali-hub delete mco observability --ignore-not-found
 oc --context=ossm-kiali-hub wait mco observability --for=delete --timeout=120s 2>/dev/null || true
 oc --context=ossm-kiali-hub delete configmap observability-metrics-custom-allowlist \
-  -n open-cluster-management-observability
-oc --context=ossm-kiali-hub delete deployment minio -n open-cluster-management-observability
-oc --context=ossm-kiali-hub delete service minio -n open-cluster-management-observability
-oc --context=ossm-kiali-hub delete secret thanos-object-storage -n open-cluster-management-observability
-oc --context=ossm-kiali-hub delete namespace open-cluster-management-observability
+  -n open-cluster-management-observability --ignore-not-found
+oc --context=ossm-kiali-hub delete deployment minio -n open-cluster-management-observability --ignore-not-found
+oc --context=ossm-kiali-hub delete service minio -n open-cluster-management-observability --ignore-not-found
+oc --context=ossm-kiali-hub delete secret thanos-object-storage -n open-cluster-management-observability --ignore-not-found
+oc --context=ossm-kiali-hub delete namespace open-cluster-management-observability --ignore-not-found
 ```
 
 To detach the spoke from ACM (on the hub). ACM will cascade-delete the `${SPOKE_CLUSTER_NAME}` namespace on the hub automatically:
 
 ```bash
-oc --context=ossm-kiali-hub delete managedcluster "${SPOKE_CLUSTER_NAME}"
+oc --context=ossm-kiali-hub delete managedcluster "${SPOKE_CLUSTER_NAME}" --ignore-not-found
 ```
 
 Remove ACM from the hub cluster. Deleting the MultiClusterHub cascades and removes all ACM components — this takes 5–15 minutes:
 
 ```bash
 oc --context=ossm-kiali-hub delete multiclusterhub multiclusterhub \
-  -n open-cluster-management
+  -n open-cluster-management --ignore-not-found
 
 echo "Waiting for MultiClusterHub deletion (5–15 minutes)..."
 while oc --context=ossm-kiali-hub get multiclusterhub multiclusterhub \
@@ -1623,9 +1624,11 @@ while oc --context=ossm-kiali-hub get multiclusterhub multiclusterhub \
 done
 echo "MultiClusterHub deleted"
 
-oc --context=ossm-kiali-hub delete subscription acm-operator-subscription \
-  -n open-cluster-management 2>/dev/null || true
-oc --context=ossm-kiali-hub delete namespace open-cluster-management --timeout=300s
+oc --context=ossm-kiali-hub delete subscriptions.operators.coreos.com acm-operator-subscription \
+  -n open-cluster-management --ignore-not-found
+oc --context=ossm-kiali-hub delete csv \
+  -n open-cluster-management --all --ignore-not-found
+oc --context=ossm-kiali-hub delete namespace open-cluster-management --ignore-not-found --timeout=300s
 ```
 
 After the spoke's ManagedCluster is deleted, ACM removes the klusterlet agent namespaces from the spoke automatically. Remove any that remain — these are the ACM klusterlet agent (connects to the hub) and its addon controllers:
@@ -1634,31 +1637,37 @@ After the spoke's ManagedCluster is deleted, ACM removes the klusterlet agent na
 oc --context=ossm-kiali-spoke delete namespace \
   open-cluster-management-agent \
   open-cluster-management-agent-addon \
-  2>/dev/null || true
+  --ignore-not-found
 ```
 
 Remove the OSSM and Kiali operators from the spoke. Skip this block if other workloads on the cluster use these operators:
 
 ```bash
 # Remove Subscriptions
-oc --context=ossm-kiali-spoke delete subscription kiali-ossm openshift-service-mesh-operator \
-  -n openshift-operators
+oc --context=ossm-kiali-spoke delete subscriptions.operators.coreos.com \
+  kiali-ossm openshift-service-mesh-operator \
+  -n openshift-operators --ignore-not-found
 
-# Remove CSVs (this deletes the operator deployments)
-oc --context=ossm-kiali-spoke delete csv \
+# Delete pending install plans before removing CSVs — otherwise OLM may recreate CSVs from in-flight plans
+oc --context=ossm-kiali-spoke delete installplan -n openshift-operators --all --ignore-not-found
+
+# Remove ALL CSVs — delete the CSV in the operator namespace only; OLM cascades deletion to all copied namespaces automatically
+CSV=$(oc --context=ossm-kiali-spoke get csv -n openshift-operators \
   -l operators.coreos.com/kiali-ossm.openshift-operators \
-  -n openshift-operators
-oc --context=ossm-kiali-spoke delete csv \
+  --no-headers -o custom-columns=NAME:.metadata.name 2>/dev/null | head -1)
+if [ -n "${CSV}" ]; then oc --context=ossm-kiali-spoke delete csv "${CSV}" -n openshift-operators --ignore-not-found; fi
+CSV=$(oc --context=ossm-kiali-spoke get csv -n openshift-operators \
   -l operators.coreos.com/servicemeshoperator3.openshift-operators \
-  -n openshift-operators
+  --no-headers -o custom-columns=NAME:.metadata.name 2>/dev/null | head -1)
+if [ -n "${CSV}" ]; then oc --context=ossm-kiali-spoke delete csv "${CSV}" -n openshift-operators --ignore-not-found; fi
 
-# Remove all CRDs installed by the OSSM and Kiali operators
+# Remove ALL CRDs — you must remove every CRD installed by the OSSM and Kiali operators or reinstallation will conflict
 for suffix in sailoperator.io istio.io kiali.io; do
   CRDS=$(oc --context=ossm-kiali-spoke get crd \
     --no-headers -o custom-columns=NAME:.metadata.name 2>/dev/null \
     | grep "\.${suffix}$")
   if [ -n "${CRDS}" ]; then
-    echo "${CRDS}" | xargs oc --context=ossm-kiali-spoke delete crd 2>/dev/null || true
+    echo "${CRDS}" | xargs oc --context=ossm-kiali-spoke delete crd --ignore-not-found
   fi
 done
 ```

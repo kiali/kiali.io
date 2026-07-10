@@ -192,12 +192,19 @@ done
 
 ### 3.1 Enable User Workload Monitoring
 
+Check if already enabled:
+
 ```bash
 oc --context=ossm-kiali-spoke-two get configmap cluster-monitoring-config \
   -n openshift-monitoring \
   -o jsonpath='{.data.config\.yaml}' 2>/dev/null | \
   grep -q "enableUserWorkload: true" && \
-  echo "Already enabled" || \
+  echo "Already enabled" || echo "Not enabled"
+```
+
+If not enabled:
+
+```bash
 oc --context=ossm-kiali-spoke-two apply -f - <<'EOF'
 apiVersion: v1
 kind: ConfigMap
@@ -208,6 +215,7 @@ data:
   config.yaml: |
     enableUserWorkload: true
 EOF
+```
 
 until oc --context=ossm-kiali-spoke-two get pods \
   -l app.kubernetes.io/name=prometheus \
@@ -1247,37 +1255,67 @@ Open the URL and log in. In the top-right cluster dropdown you should see both `
 Remove cross-cluster additions from `spoke`:
 
 ```bash
-oc --context=ossm-kiali-spoke delete gateway istio-eastwestgateway -n istio-system
-oc --context=ossm-kiali-spoke delete secrets -n istio-system -l istio/multiCluster=true
+oc --context=ossm-kiali-spoke delete gateway istio-eastwestgateway -n istio-system --ignore-not-found
+oc --context=ossm-kiali-spoke delete secrets -n istio-system -l istio/multiCluster=true --ignore-not-found
 ```
 
 Remove OSSM, Kiali, and demo apps from `spoke-two`:
 
 ```bash
-oc --context=ossm-kiali-spoke-two delete namespace ambient-demo bookinfo
-oc --context=ossm-kiali-spoke-two delete kiali kiali -n istio-system
-oc --context=ossm-kiali-spoke-two delete ztunnel default
-oc --context=ossm-kiali-spoke-two delete istio default
-oc --context=ossm-kiali-spoke-two delete istiocni default
-oc --context=ossm-kiali-spoke-two delete namespace ztunnel istio-system istio-cni
+oc --context=ossm-kiali-spoke-two adm policy remove-cluster-role-from-user cluster-reader \
+  -z istio-reader-service-account -n istio-system 2>/dev/null || true
+oc --context=ossm-kiali-spoke-two delete namespace ambient-demo bookinfo --ignore-not-found
+oc --context=ossm-kiali-spoke-two delete kiali kiali -n istio-system --ignore-not-found
+oc --context=ossm-kiali-spoke-two delete ztunnel default --ignore-not-found
+oc --context=ossm-kiali-spoke-two delete istio default --ignore-not-found
+oc --context=ossm-kiali-spoke-two delete istiocni default --ignore-not-found
+oc --context=ossm-kiali-spoke-two delete namespace ztunnel istio-system istio-cni --ignore-not-found
+
+# Remove Subscriptions
+oc --context=ossm-kiali-spoke-two delete subscriptions.operators.coreos.com \
+  kiali-ossm openshift-service-mesh-operator \
+  -n openshift-operators --ignore-not-found
+
+# Delete pending install plans before removing CSVs — otherwise OLM may recreate CSVs from in-flight plans
+oc --context=ossm-kiali-spoke-two delete installplan -n openshift-operators --all --ignore-not-found
+
+# Remove ALL CSVs — delete the CSV in the operator namespace only; OLM cascades deletion to all copied namespaces automatically
+CSV=$(oc --context=ossm-kiali-spoke-two get csv -n openshift-operators \
+  -l operators.coreos.com/kiali-ossm.openshift-operators \
+  --no-headers -o custom-columns=NAME:.metadata.name 2>/dev/null | head -1)
+if [ -n "${CSV}" ]; then oc --context=ossm-kiali-spoke-two delete csv "${CSV}" -n openshift-operators --ignore-not-found; fi
+CSV=$(oc --context=ossm-kiali-spoke-two get csv -n openshift-operators \
+  -l operators.coreos.com/servicemeshoperator3.openshift-operators \
+  --no-headers -o custom-columns=NAME:.metadata.name 2>/dev/null | head -1)
+if [ -n "${CSV}" ]; then oc --context=ossm-kiali-spoke-two delete csv "${CSV}" -n openshift-operators --ignore-not-found; fi
+
+# Remove ALL CRDs — you must remove every CRD installed by the OSSM and Kiali operators or reinstallation will conflict
+for suffix in sailoperator.io istio.io kiali.io; do
+  CRDS=$(oc --context=ossm-kiali-spoke-two get crd \
+    --no-headers -o custom-columns=NAME:.metadata.name 2>/dev/null \
+    | grep "\.${suffix}$")
+  [ -n "${CRDS}" ] && echo "${CRDS}" | xargs oc --context=ossm-kiali-spoke-two delete crd --ignore-not-found
+done
 ```
 
-Detach `spoke-two` from ACM:
+Detach `spoke-two` from ACM and remove its `KlusterletAddonConfig`:
 
 ```bash
-oc --context=ossm-kiali-hub delete managedcluster "${SPOKE_TWO_CLUSTER_NAME}"
+oc --context=ossm-kiali-hub delete klusterletaddonconfig "${SPOKE_TWO_CLUSTER_NAME}" \
+  -n "${SPOKE_TWO_CLUSTER_NAME}" --ignore-not-found
+oc --context=ossm-kiali-hub delete managedcluster "${SPOKE_TWO_CLUSTER_NAME}" --ignore-not-found
 ```
 
 Remove Kiali remote access and endpoint discovery resources from `spoke`:
 
 ```bash
 # Remove Kiali remote cluster secret
-oc --context=ossm-kiali-spoke delete secret kiali-multi-cluster-secret -n istio-system
+oc --context=ossm-kiali-spoke delete secret kiali-multi-cluster-secret -n istio-system --ignore-not-found
 
-# Remove istio-reader SA
-oc --context=ossm-kiali-spoke delete serviceaccount istio-reader-service-account -n istio-system
+# Remove istio-reader SA — unbind the role first while the SA still exists
 oc --context=ossm-kiali-spoke adm policy remove-cluster-role-from-user cluster-reader \
-  -z istio-reader-service-account -n istio-system
+  -z istio-reader-service-account -n istio-system 2>/dev/null || true
+oc --context=ossm-kiali-spoke delete serviceaccount istio-reader-service-account -n istio-system --ignore-not-found
 ```
 
 Revert `spoke` Istio, ZTunnel, and Kiali CRs to single-cluster configuration:

@@ -200,6 +200,13 @@ oc --context=ossm-kiali-spoke wait pod \
   --timeout=120s
 ```
 
+Create the `perses` namespace if it does not yet exist.
+This is where `PersesDatasource` and `PersesDashboard` CRs live — the Perses Operator maps this namespace to a Perses project, making dashboards available in the console under the `perses` project:
+
+```bash
+oc --context=ossm-kiali-spoke create namespace perses
+```
+
 Create the `PersesDatasource` CR. The `client.tls.userCert` field references the `perses-acm-client-certs` secret created above. The Perses operator reads that K8s Secret and creates a Perses-internal secret automatically named `<datasource-name>-secret` — in this case `acm-thanos-secret`. The `proxy.spec.secret: acm-thanos-secret` field tells the Perses server to use that internal secret (with the client cert and key) when building the mTLS transport for this datasource:
 
 ```bash
@@ -241,7 +248,7 @@ Verify the datasource was accepted:
 
 ```bash
 oc --context=ossm-kiali-spoke get persesdatasource acm-thanos \
-  -n openshift-operators \
+  -n perses \
   -o jsonpath='{.status.conditions[?(@.type=="Available")].message}{"\n"}'
 # Expected: Datasource (acm-thanos) created successfully
 ```
@@ -1037,6 +1044,9 @@ spec:
           - otlp_http/tempo
 EOF
 
+until oc --context=ossm-kiali-spoke get deployment otel-collector \
+  -n istio-system &>/dev/null; do sleep 5; done
+
 oc --context=ossm-kiali-spoke rollout status deployment/otel-collector \
   -n istio-system --timeout=300s
 echo "Local OTEL collector ready"
@@ -1224,6 +1234,16 @@ oc --context=ossm-kiali-spoke create secret tls "${REMOTE_MTLS_CLIENT_SECRET}" \
 
 echo "Certificates ready"
 
+# Kubernetes may take a moment to restart the crashlooping pod after secrets appear.
+# Wait until the deployment has at least one ready replica before checking rollout status.
+until oc --context=ossm-kiali-spoke get deployment \
+  "${REMOTE_COLLECTOR_NAME}-collector" \
+  -n istio-system &>/dev/null; do sleep 3; done
+
+oc --context=ossm-kiali-spoke rollout restart \
+  "deployment/${REMOTE_COLLECTOR_NAME}-collector" \
+  -n istio-system
+
 oc --context=ossm-kiali-spoke rollout status \
   "deployment/${REMOTE_COLLECTOR_NAME}-collector" \
   -n istio-system --timeout=300s
@@ -1302,6 +1322,9 @@ spec:
           exporters:
           - otlp_http/central
 EOF
+
+until oc --context=ossm-kiali-spoke-two get deployment otel-collector \
+  -n istio-system &>/dev/null; do sleep 5; done
 
 oc --context=ossm-kiali-spoke-two rollout status deployment/otel-collector \
   -n istio-system --timeout=300s
@@ -1519,35 +1542,41 @@ oc --context=ossm-kiali-spoke patch kiali kiali -n istio-system --type=json \
   -p '[{"op":"remove","path":"/spec/external_services/perses"}]' 2>/dev/null || true
 
 # Remove UIPlugin (disables the Dashboards (Perses) console menu)
-oc --context=ossm-kiali-spoke delete uiplugin monitoring 2>/dev/null || true
+oc --context=ossm-kiali-spoke delete uiplugin monitoring --ignore-not-found
 
 # Delete dashboard and datasource resources from the perses namespace
-oc --context=ossm-kiali-spoke delete persesdashboard --all -n perses 2>/dev/null || true
-oc --context=ossm-kiali-spoke delete persesdatasource --all -n perses 2>/dev/null || true
+oc --context=ossm-kiali-spoke delete persesdashboard --all -n perses --ignore-not-found
+oc --context=ossm-kiali-spoke delete persesdatasource --all -n perses --ignore-not-found
 
 # Delete the Perses server instance (lives in openshift-operators, not perses)
-oc --context=ossm-kiali-spoke delete perses perses -n openshift-operators 2>/dev/null || true
+oc --context=ossm-kiali-spoke delete perses perses -n openshift-operators --ignore-not-found
 
 # Remove cert resources created for Perses mTLS
-oc --context=ossm-kiali-spoke delete configmap perses-acm-server-ca -n openshift-operators 2>/dev/null || true
-oc --context=ossm-kiali-spoke delete secret perses-acm-client-certs -n openshift-operators 2>/dev/null || true
+oc --context=ossm-kiali-spoke delete configmap perses-acm-server-ca -n openshift-operators --ignore-not-found
+oc --context=ossm-kiali-spoke delete secret perses-acm-client-certs -n openshift-operators --ignore-not-found
 
-# Remove COO subscription and CSV
+# Remove Subscriptions
 oc --context=ossm-kiali-spoke delete subscriptions.operators.coreos.com cluster-observability-operator \
-  -n openshift-operators 2>/dev/null || true
-oc --context=ossm-kiali-spoke delete csv \
+  -n openshift-operators --ignore-not-found
+
+# Delete pending install plans before removing CSVs — otherwise OLM may recreate CSVs from in-flight plans
+oc --context=ossm-kiali-spoke delete installplan -n openshift-operators --all --ignore-not-found
+
+# Remove ALL CSVs — delete the CSV in the operator namespace only; OLM cascades deletion to all copied namespaces automatically
+CSV=$(oc --context=ossm-kiali-spoke get csv -n openshift-operators \
   -l operators.coreos.com/cluster-observability-operator.openshift-operators \
-  -n openshift-operators 2>/dev/null || true
+  --no-headers -o custom-columns=NAME:.metadata.name 2>/dev/null | head -1)
+if [ -n "${CSV}" ]; then oc --context=ossm-kiali-spoke delete csv "${CSV}" -n openshift-operators --ignore-not-found; fi
 
 # Delete the perses namespace
-oc --context=ossm-kiali-spoke delete namespace perses 2>/dev/null || true
+oc --context=ossm-kiali-spoke delete namespace perses --ignore-not-found
 
-# Remove COO CRDs
-for suffix in perses.dev; do
+# Remove ALL CRDs — you must remove every CRD installed by the COO or reinstallation will conflict
+for suffix in perses.dev observability.openshift.io monitoring.rhobs; do
   CRDS=$(oc --context=ossm-kiali-spoke get crd \
     --no-headers -o custom-columns=NAME:.metadata.name 2>/dev/null \
     | grep "\.${suffix}$")
-  [ -n "${CRDS}" ] && echo "${CRDS}" | xargs oc --context=ossm-kiali-spoke delete crd 2>/dev/null || true
+  [ -n "${CRDS}" ] && echo "${CRDS}" | xargs oc --context=ossm-kiali-spoke delete crd --ignore-not-found
 done
 ```
 
@@ -1567,13 +1596,13 @@ oc --context=ossm-kiali-spoke patch kiali kiali -n istio-system --type=json \
   -p '[{"op":"remove","path":"/spec/external_services/tracing"}]' 2>/dev/null || true
 
 # Remove the distributed tracing console plugin
-oc --context=ossm-kiali-spoke delete uiplugin distributed-tracing 2>/dev/null || true
+oc --context=ossm-kiali-spoke delete uiplugin distributed-tracing --ignore-not-found
 
 # Remove Telemetry CRs and meshConfig tracing from both clusters
 for CTX in ossm-kiali-spoke ossm-kiali-spoke-two; do
-  oc --context="${CTX}" delete telemetry otel-tracing -n istio-system 2>/dev/null || true
+  oc --context="${CTX}" delete telemetry otel-tracing -n istio-system --ignore-not-found
   for NS in ambient-demo bookinfo; do
-    oc --context="${CTX}" delete telemetry "${NS}-tracing" -n "${NS}" 2>/dev/null || true
+    oc --context="${CTX}" delete telemetry "${NS}-tracing" -n "${NS}" --ignore-not-found
   done
   oc --context="${CTX}" patch istio default --type=json \
     -p '[{"op":"remove","path":"/spec/values/meshConfig/extensionProviders"},{"op":"remove","path":"/spec/values/meshConfig/enableTracing"}]' \
@@ -1582,49 +1611,70 @@ done
 
 # Remove spoke-two forwarder and client bundle secret
 oc --context=ossm-kiali-spoke-two delete opentelemetrycollector otel \
-  -n istio-system 2>/dev/null || true
+  -n istio-system --ignore-not-found
 oc --context=ossm-kiali-spoke-two delete secret "${REMOTE_MTLS_CLIENT_BUNDLE}" \
-  -n istio-system 2>/dev/null || true
+  -n istio-system --ignore-not-found
 
 # Remove spoke collectors, Route, certs, and RBAC
 oc --context=ossm-kiali-spoke delete opentelemetrycollector otel \
-  "${REMOTE_COLLECTOR_NAME}" -n istio-system 2>/dev/null || true
+  "${REMOTE_COLLECTOR_NAME}" -n istio-system --ignore-not-found
 oc --context=ossm-kiali-spoke delete route "${REMOTE_COLLECTOR_NAME}" \
-  -n istio-system 2>/dev/null || true
+  -n istio-system --ignore-not-found
 oc --context=ossm-kiali-spoke delete secret \
   "${REMOTE_COLLECTOR_NAME}-ca" \
   "${REMOTE_COLLECTOR_NAME}-server-tls" \
   "${REMOTE_COLLECTOR_NAME}-client-tls" \
-  -n istio-system 2>/dev/null || true
+  -n istio-system --ignore-not-found
 oc --context=ossm-kiali-spoke delete clusterrolebinding \
   tempostack-traces-write-collectors \
-  "tempostack-traces-reader-${TEMPO_TENANT}" 2>/dev/null || true
+  "tempostack-traces-reader-${TEMPO_TENANT}" --ignore-not-found
 oc --context=ossm-kiali-spoke delete clusterrole \
   tempostack-traces-write \
-  "tempostack-traces-reader-${TEMPO_TENANT}" 2>/dev/null || true
+  "tempostack-traces-reader-${TEMPO_TENANT}" --ignore-not-found
 
 # Remove TempoStack, MinIO, and namespace
 oc --context=ossm-kiali-spoke delete tempostack "${TEMPO_STACK_NAME}" \
-  -n "${TEMPO_NAMESPACE}" 2>/dev/null || true
-oc --context=ossm-kiali-spoke delete deployment minio -n "${TEMPO_NAMESPACE}" 2>/dev/null || true
-oc --context=ossm-kiali-spoke delete pvc minio-pv-claim -n "${TEMPO_NAMESPACE}" 2>/dev/null || true
+  -n "${TEMPO_NAMESPACE}" --ignore-not-found
+oc --context=ossm-kiali-spoke delete deployment minio -n "${TEMPO_NAMESPACE}" --ignore-not-found
+oc --context=ossm-kiali-spoke delete pvc minio-pv-claim -n "${TEMPO_NAMESPACE}" --ignore-not-found
 oc --context=ossm-kiali-spoke delete secret tempostack-dev-minio \
-  -n "${TEMPO_NAMESPACE}" 2>/dev/null || true
-oc --context=ossm-kiali-spoke delete namespace "${TEMPO_NAMESPACE}" 2>/dev/null || true
+  -n "${TEMPO_NAMESPACE}" --ignore-not-found
+oc --context=ossm-kiali-spoke delete namespace "${TEMPO_NAMESPACE}" --ignore-not-found
 
-# Remove Tempo and OpenTelemetry operator subscriptions
+# Remove Subscriptions (OpenTelemetry on both clusters, Tempo on spoke only)
 for CTX in ossm-kiali-spoke ossm-kiali-spoke-two; do
   oc --context="${CTX}" delete subscriptions.operators.coreos.com opentelemetry-product \
-    -n openshift-operators 2>/dev/null || true
+    -n openshift-operators --ignore-not-found
 done
 oc --context=ossm-kiali-spoke delete subscriptions.operators.coreos.com tempo-product \
-  -n openshift-operators 2>/dev/null || true
+  -n openshift-operators --ignore-not-found
 
-# Remove operator CRDs from spoke
-for suffix in tempo.grafana.com opentelemetry.io; do
-  CRDS=$(oc --context=ossm-kiali-spoke get crd \
-    --no-headers -o custom-columns=NAME:.metadata.name 2>/dev/null \
-    | grep "\.${suffix}$")
-  [ -n "${CRDS}" ] && echo "${CRDS}" | xargs oc --context=ossm-kiali-spoke delete crd 2>/dev/null || true
+# Delete pending install plans before removing CSVs — otherwise OLM may recreate CSVs from in-flight plans
+for CTX in ossm-kiali-spoke ossm-kiali-spoke-two; do
+  oc --context="${CTX}" delete installplan -n openshift-operators --all --ignore-not-found
 done
+
+# Remove ALL CSVs — delete the CSV in the operator namespace only; OLM cascades deletion to all copied namespaces automatically
+for CTX in ossm-kiali-spoke ossm-kiali-spoke-two; do
+  CSV=$(oc --context="${CTX}" get csv -n openshift-operators \
+    -l operators.coreos.com/opentelemetry-product.openshift-operators \
+    --no-headers -o custom-columns=NAME:.metadata.name 2>/dev/null | head -1)
+  if [ -n "${CSV}" ]; then oc --context="${CTX}" delete csv "${CSV}" -n openshift-operators --ignore-not-found; fi
+done
+CSV=$(oc --context=ossm-kiali-spoke get csv -n openshift-operators \
+  -l operators.coreos.com/tempo-product.openshift-operators \
+  --no-headers -o custom-columns=NAME:.metadata.name 2>/dev/null | head -1)
+if [ -n "${CSV}" ]; then oc --context=ossm-kiali-spoke delete csv "${CSV}" -n openshift-operators --ignore-not-found; fi
+
+# Remove ALL CRDs — you must remove every CRD installed by the Tempo and OpenTelemetry operators or reinstallation will conflict
+for CTX in ossm-kiali-spoke ossm-kiali-spoke-two; do
+  CRDS=$(oc --context="${CTX}" get crd \
+    --no-headers -o custom-columns=NAME:.metadata.name 2>/dev/null \
+    | grep "\.opentelemetry\.io$")
+  [ -n "${CRDS}" ] && echo "${CRDS}" | xargs oc --context="${CTX}" delete crd --ignore-not-found
+done
+CRDS=$(oc --context=ossm-kiali-spoke get crd \
+  --no-headers -o custom-columns=NAME:.metadata.name 2>/dev/null \
+  | grep "\.tempo\.grafana\.com$")
+[ -n "${CRDS}" ] && echo "${CRDS}" | xargs oc --context=ossm-kiali-spoke delete crd --ignore-not-found
 ```
