@@ -108,6 +108,62 @@ When using the `openshift` strategy with multiple clusters, users must be logged
 Currently, OpenShift OAuth does not provide SSO across clusters. Each cluster requires its own login. If you are having trouble logging into a remote cluster from within Kiali, try starting a fresh private/incognito browser tab to ensure there are no stale OAuth cookies from prior logins to the remote cluster's OpenShift console.
 {{% /alert %}}
 
+#### Impersonation Mode (Alternative)
+
+As an alternative to per-cluster OAuth login, you can enable **impersonation mode**. With impersonation, users log in once to the home cluster (where Kiali is deployed), and Kiali uses Kubernetes API impersonation to perform requests on all clusters (including the home cluster) on behalf of the authenticated user. This eliminates the need for users to individually log into each remote cluster.
+
+Enable impersonation mode in the Kiali CR:
+
+```yaml
+spec:
+  auth:
+    openshift:
+      impersonation:
+        enabled: true
+```
+
+##### User Experience
+
+With impersonation enabled, the multi-cluster login flow is simplified:
+
+1. Navigate to the Kiali UI and log in using your credentials for the home cluster.
+2. All remote clusters are immediately accessible — no additional login steps are needed.
+
+##### Prerequisites
+
+- **Kiali SA impersonation privileges:** On each cluster (including the home cluster), the Kiali Service Account must have a ClusterRole granting `impersonate` permissions on `users` and `groups` resources. When using the Kiali Operator or Helm chart with `impersonation.enabled: true`, this ClusterRole is created automatically.
+
+- **Shared identity provider:** Usernames must be consistent across all clusters. Typically this means all clusters are backed by the same identity provider (e.g. a shared LDAP/OIDC configuration) so that a user authenticated on the home cluster has the same identity on remote clusters.
+
+##### Security Considerations
+
+{{% alert color="warning" %}}
+In impersonation mode, the Kiali Service Account token on each cluster effectively has the ability to act as any user. Treat the SA token with the same sensitivity as a cluster-admin credential. Ensure the remote cluster secrets are stored securely and access to the Kiali namespace is restricted.
+{{% /alert %}}
+
+##### Remote Cluster Configuration with Impersonation
+
+For remote clusters configured with `remote_cluster_resources_only: true`, impersonation mode simplifies the setup:
+
+- `spec.auth.openshift.redirect_uris` is **not required** (no OAuthClient redirect is needed since users do not perform OAuth login on the remote cluster).
+- `spec.auth.openshift.impersonation.enabled: true` **must** be set so that the Operator creates the impersonate ClusterRole (instead of the OAuthClient) on the remote cluster.
+
+{{% alert color="info" %}}
+The `impersonation.enabled: true` setting must also be set on the **home cluster's** Kiali CR (where Kiali is deployed). The home cluster CR is where the Kiali server reads its runtime configuration. The remote cluster CR setting only controls which RBAC resources the Operator provisions on that cluster.
+{{% /alert %}}
+
+Example Kiali CR for a remote cluster using impersonation:
+
+```yaml
+spec:
+  auth:
+    openshift:
+      impersonation:
+        enabled: true
+  deployment:
+    remote_cluster_resources_only: true
+```
+
 #### Using an internal or self-signed certificate
 
 If you have a multi-cluster Kiali deployment and the OAuth server is configured with an external IdP that uses an internal or self-signed certificate, you can configure Kiali to trust the server's certificate by creating a ConfigMap named `kiali-oauth-cabundle` containing the CA certificate bundle for the server under the `oauth-server-ca.crt` key:
