@@ -26,6 +26,10 @@ This guide extends the result of the [MultiCluster on OpenShift]({{< relref "./o
 
 ---
 
+{{% alert color="info" %}}
+This guide requires **OSSM 3.4+** (Istio 1.30+). The East-West gateway configuration for cross-cluster sidecar traffic relies on Gateway API behavior introduced in Istio 1.30.
+{{% /alert %}}
+
 ## Prerequisites
 
 1. The [MultiCluster on OpenShift]({{< relref "./ossm-acm-hub-spoke" >}}) guide completed successfully — ACM, OSSM 3, and Kiali must already be running on `ossm-kiali-hub` and `ossm-kiali-spoke`.
@@ -48,7 +52,7 @@ Set these variables in the same shell session used for the hub/spoke guide, or r
 ```bash
 # Must match the hub/spoke guide values exactly
 export SPOKE_CLUSTER_NAME="spoke"
-export ISTIO_VERSION="1.28.6"
+export ISTIO_VERSION="1.30.1"
 export MESH_ID="mesh1"
 
 # Network names — each cluster must be on a different network
@@ -517,19 +521,27 @@ oc --context=ossm-kiali-spoke wait pods \
 
 ## Phase 5: East-West Gateways
 
-East-West gateways bridge the two cluster networks. Cross-cluster ambient traffic uses HBONE (port 15008).
+East-West gateways bridge the two cluster networks. Two types of cross-network traffic need separate gateways because they use different protocols:
 
-### 5.1 Gateway on Spoke (Cluster 1)
+- **Ambient traffic** (ztunnel → ztunnel): uses HBONE on port 15008, handled by the `istio-east-west` gatewayClassName
+- **Sidecar traffic** (sidecar → sidecar): uses mTLS auto-passthrough on port 15443, handled by a standard `istio` gatewayClassName gateway with TLS Passthrough
+
+### 5.1 HBONE Gateway (Ambient Traffic)
+
+Deploy the HBONE east-west gateway on each cluster. This handles cross-cluster traffic for ambient-mode workloads:
 
 ```bash
-oc --context=ossm-kiali-spoke apply -f - <<EOF
+for CTX_AND_NET in "ossm-kiali-spoke:${SPOKE_NETWORK}" "ossm-kiali-spoke-two:${SPOKE_TWO_NETWORK}"; do
+  CTX="${CTX_AND_NET%%:*}"
+  NET="${CTX_AND_NET##*:}"
+  oc --context="${CTX}" apply -f - <<EOF
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: istio-eastwestgateway
   namespace: istio-system
   labels:
-    topology.istio.io/network: ${SPOKE_NETWORK}
+    topology.istio.io/network: ${NET}
 spec:
   gatewayClassName: istio-east-west
   listeners:
@@ -541,52 +553,67 @@ spec:
       options:
         gateway.istio.io/tls-terminate-mode: ISTIO_MUTUAL
 EOF
-
-oc --context=ossm-kiali-spoke wait gateway/istio-eastwestgateway \
-  -n istio-system \
-  --for=condition=Programmed=True \
-  --timeout=180s
+  oc --context="${CTX}" wait gateway/istio-eastwestgateway \
+    -n istio-system \
+    --for=condition=Programmed=True \
+    --timeout=180s
+done
 ```
 
-### 5.2 Gateway on Spoke-Two (Cluster 2)
+### 5.2 Sidecar Gateway (mTLS Auto-Passthrough)
+
+Sidecar proxies route cross-network traffic via mTLS on port 15443 — a different protocol than HBONE. The `istio-east-west` gatewayClassName only handles HBONE, so a second gateway using the standard `istio` gatewayClassName is needed.
+
+A Gateway API resource with `protocol: TLS` and `tls.mode: Passthrough` on port 15443 is sufficient — Istio's Gateway API implementation automatically generates SNI-based passthrough filter chains for all discovered mesh services.
+
+Deploy the sidecar east-west gateway on each cluster:
 
 ```bash
-oc --context=ossm-kiali-spoke-two apply -f - <<EOF
+for CTX_AND_NET in "ossm-kiali-spoke:${SPOKE_NETWORK}" "ossm-kiali-spoke-two:${SPOKE_TWO_NETWORK}"; do
+  CTX="${CTX_AND_NET%%:*}"
+  NET="${CTX_AND_NET##*:}"
+  oc --context="${CTX}" apply -f - <<EOF
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
-  name: istio-eastwestgateway
+  name: istio-eastwestgateway-sidecar
   namespace: istio-system
   labels:
-    topology.istio.io/network: ${SPOKE_TWO_NETWORK}
+    topology.istio.io/network: ${NET}
 spec:
-  gatewayClassName: istio-east-west
+  gatewayClassName: istio
   listeners:
-  - name: mesh
-    port: 15008
-    protocol: HBONE
+  - name: tls
+    port: 15443
+    protocol: TLS
     tls:
-      mode: Terminate
-      options:
-        gateway.istio.io/tls-terminate-mode: ISTIO_MUTUAL
+      mode: Passthrough
+    allowedRoutes:
+      namespaces:
+        from: Same
 EOF
-
-oc --context=ossm-kiali-spoke-two wait gateway/istio-eastwestgateway \
-  -n istio-system \
-  --for=condition=Programmed=True \
-  --timeout=180s
+  oc --context="${CTX}" wait gateway/istio-eastwestgateway-sidecar \
+    -n istio-system \
+    --for=condition=Programmed=True \
+    --timeout=180s
+done
 ```
 
 ### 5.3 Configure meshNetworks
 
-The `meshNetworks` configuration tells each istiod where the East-West gateway is for each network. Without it, istiod discovers remote endpoints but doesn't know how to route traffic to them across the network boundary.
+The `meshNetworks` configuration tells each istiod where the East-West gateways are for each network. Each network entry has two gateways: the HBONE gateway (port 15008) for ambient workloads, and the sidecar gateway (port 15443) for sidecar-injected workloads. Istiod selects the correct gateway based on the proxy type of the requesting workload.
 
 ```bash
-GW_IP1=$(oc --context=ossm-kiali-spoke get svc istio-eastwestgateway \
+HBONE_IP1=$(oc --context=ossm-kiali-spoke get svc istio-eastwestgateway \
   -n istio-system -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-GW_IP2=$(oc --context=ossm-kiali-spoke-two get svc istio-eastwestgateway \
+SIDECAR_IP1=$(oc --context=ossm-kiali-spoke get svc istio-eastwestgateway-sidecar-istio \
   -n istio-system -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-echo "Cluster1 E-W GW: ${GW_IP1}  Cluster2 E-W GW: ${GW_IP2}"
+HBONE_IP2=$(oc --context=ossm-kiali-spoke-two get svc istio-eastwestgateway \
+  -n istio-system -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+SIDECAR_IP2=$(oc --context=ossm-kiali-spoke-two get svc istio-eastwestgateway-sidecar-istio \
+  -n istio-system -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+echo "Spoke:     HBONE=${HBONE_IP1}  Sidecar=${SIDECAR_IP1}"
+echo "Spoke-two: HBONE=${HBONE_IP2}  Sidecar=${SIDECAR_IP2}"
 
 for CTX in ossm-kiali-spoke ossm-kiali-spoke-two; do
   oc --context="${CTX}" patch istio default --type=merge -p "{
@@ -596,11 +623,17 @@ for CTX in ossm-kiali-spoke ossm-kiali-spoke-two; do
           \"meshNetworks\": {
             \"${SPOKE_NETWORK}\": {
               \"endpoints\": [{\"fromRegistry\": \"${SPOKE_CLUSTER_NAME}\"}],
-              \"gateways\": [{\"address\": \"${GW_IP1}\", \"port\": 15008}]
+              \"gateways\": [
+                {\"address\": \"${HBONE_IP1}\", \"port\": 15008},
+                {\"address\": \"${SIDECAR_IP1}\", \"port\": 15443}
+              ]
             },
             \"${SPOKE_TWO_NETWORK}\": {
               \"endpoints\": [{\"fromRegistry\": \"${SPOKE_TWO_CLUSTER_NAME}\"}],
-              \"gateways\": [{\"address\": \"${GW_IP2}\", \"port\": 15008}]
+              \"gateways\": [
+                {\"address\": \"${HBONE_IP2}\", \"port\": 15008},
+                {\"address\": \"${SIDECAR_IP2}\", \"port\": 15443}
+              ]
             }
           }
         }
@@ -860,6 +893,8 @@ oc --context=ossm-kiali-spoke-two label namespace ambient-demo \
   istio.io/dataplane-mode=ambient \
   istio-discovery=enabled
 
+ISTIO_MINOR=$(echo "${ISTIO_VERSION}" | cut -d. -f1-2)
+
 # Download the helloworld manifest once to avoid GitHub rate limits on repeated requests
 curl -sL "https://raw.githubusercontent.com/openshift-service-mesh/istio/release-${ISTIO_MINOR}/samples/helloworld/helloworld.yaml" \
   -o /tmp/helloworld.yaml
@@ -874,7 +909,10 @@ oc --context=ossm-kiali-spoke-two wait deployment/helloworld-v1 \
 oc --context=ossm-kiali-spoke-two wait deployment/helloworld-v2 \
   -n ambient-demo --for=condition=Available --timeout=120s
 
-# Label service global so spoke's istiod discovers spoke-two's endpoints
+# Label service global on BOTH clusters so each istiod discovers the other's endpoints
+oc --context=ossm-kiali-spoke label svc helloworld \
+  -n ambient-demo \
+  istio.io/global=true
 oc --context=ossm-kiali-spoke-two label svc helloworld \
   -n ambient-demo \
   istio.io/global=true
@@ -1077,9 +1115,12 @@ oc --context=ossm-kiali-spoke-two get pods -n bookinfo
 # Should show 2/2 READY
 ```
 
-Label the `ratings` Service on `spoke-two` as global so spoke's istiod discovers its endpoints:
+Label the `ratings` Service as global on both clusters so each istiod discovers the other's endpoints:
 
 ```bash
+oc --context=ossm-kiali-spoke label svc ratings \
+  -n bookinfo \
+  istio.io/global=true
 oc --context=ossm-kiali-spoke-two label svc ratings \
   -n bookinfo \
   istio.io/global=true
@@ -1156,9 +1197,12 @@ oc --context=ossm-kiali-spoke-two get ztunnel default
 
 ### 9.2 Verify East-West Gateways
 
+Both the HBONE (ambient) and sidecar gateways should be `Programmed=True` with external IPs:
+
 ```bash
-oc --context=ossm-kiali-spoke     get gateway istio-eastwestgateway -n istio-system
-oc --context=ossm-kiali-spoke-two get gateway istio-eastwestgateway -n istio-system
+oc --context=ossm-kiali-spoke     get gateway -n istio-system
+oc --context=ossm-kiali-spoke-two get gateway -n istio-system
+# Each cluster should show istio-eastwestgateway (HBONE) and istio-eastwestgateway-sidecar (mTLS)
 ```
 
 ### 9.3 Verify Remote Secrets
@@ -1190,28 +1234,28 @@ oc --context=ossm-kiali-spoke-two get configmap istio \
   -o jsonpath='{.data.meshNetworks}'
 ```
 
-Expected output on each cluster:
+Expected output on each cluster — each network should have two gateway entries (HBONE on 15008, sidecar on 15443):
 ```
 networks:
   network1:
     endpoints:
     - fromRegistry: spoke
     gateways:
-    - address: <spoke-e-w-gateway-ip>
+    - address: <spoke-hbone-gw-ip>
       port: 15008
+    - address: <spoke-sidecar-gw-ip>
+      port: 15443
   network2:
     endpoints:
     - fromRegistry: spoke-two
     gateways:
-    - address: <spoke-two-e-w-gateway-ip>
+    - address: <spoke-two-hbone-gw-ip>
       port: 15008
+    - address: <spoke-two-sidecar-gw-ip>
+      port: 15443
 ```
 
 ### 9.6 Verify Cross-Cluster Traffic
-
-{{% alert color="warning" %}}
-Cross-cluster ambient traffic routing requires OSSM 3.4+. On OSSM 3.3, all traffic-gen responses will show `spoke` pod names only. See [Notes and Considerations #2](#2-ambient-multi-primary-is-technology-preview--cross-cluster-routing-limitations) for the known gap and fix timeline.
-{{% /alert %}}
 
 The helloworld response includes the pod instance name. First, record the pod names on each cluster so you know what to look for in the logs:
 
@@ -1256,12 +1300,14 @@ Remove cross-cluster additions from `spoke`:
 
 ```bash
 oc --context=ossm-kiali-spoke delete gateway istio-eastwestgateway -n istio-system --ignore-not-found
+oc --context=ossm-kiali-spoke delete gateway istio-eastwestgateway-sidecar -n istio-system --ignore-not-found
 oc --context=ossm-kiali-spoke delete secrets -n istio-system -l istio/multiCluster=true --ignore-not-found
 ```
 
 Remove OSSM, Kiali, and demo apps from `spoke-two`:
 
 ```bash
+oc --context=ossm-kiali-spoke-two delete gateway istio-eastwestgateway-sidecar -n istio-system --ignore-not-found
 oc --context=ossm-kiali-spoke-two adm policy remove-cluster-role-from-user cluster-reader \
   -z istio-reader-service-account -n istio-system 2>/dev/null || true
 oc --context=ossm-kiali-spoke-two delete namespace ambient-demo bookinfo --ignore-not-found
@@ -1345,23 +1391,22 @@ oc --context=ossm-kiali-spoke patch kiali kiali -n istio-system --type=json \
 
 The hub cluster (`ossm-kiali-hub`) is not changed by this guide. It remains dedicated to fleet management and centralized Thanos metrics collection. Istio is not installed on the hub. All mesh control planes run on the spoke clusters.
 
-### 2. Ambient Multi-Primary is Technology Preview — Cross-Cluster Routing Limitations
+### 2. Two East-West Gateways: Ambient and Sidecar Use Different Cross-Network Protocols
 
-Multi-primary mesh in ambient mode is a Technology Preview feature in OpenShift Service Mesh 3.3. It is not supported under Red Hat production SLAs.
+Cross-cluster traffic uses different protocols depending on the proxy type:
 
-In OSSM 3.3 / Istio 1.28, cross-cluster ambient traffic routing has a known gap: istiod correctly discovers all endpoints from remote clusters (verifiable via the `endpointz` debug endpoint), but it does not yet propagate cross-network remote endpoints to ztunnel via the Workload Discovery Service (WDS). As a result, ztunnel on cluster1 only has local endpoints in its routing table and does not route through the East-West gateway to cluster2 pods.
+- **Ambient workloads** (ztunnel): use HBONE on port 15008. The `istio-east-west` gatewayClassName handles this.
+- **Sidecar workloads** (envoy sidecar proxy): use mTLS auto-passthrough on port 15443. A standard `istio` gatewayClassName gateway with `protocol: TLS, tls.mode: Passthrough` on port 15443 provides this — Istio's Gateway API implementation automatically generates the required SNI-based passthrough filter chains.
 
-This is tracked in [istio/istio#60716](https://github.com/istio/istio/issues/60716). Ambient multi-network multicluster support reached **Beta status in Istio 1.29** (released Feb 2026) — see the [Istio 1.29 announcement](https://istio.io/latest/blog/2026/ambient-multinetwork-multicluster-beta/). OSSM 3.3 supports Istio 1.28.x only. **OSSM 3.4** should include the fix.
+The `istio-east-west` gatewayClassName only processes HBONE — it does not create a 15443 listener. That is why this guide deploys two east-west gateways per cluster: one for ambient (HBONE, port 15008) and one for sidecar (TLS passthrough, port 15443). Both gateways are registered in `meshNetworks` so istiod can route each proxy type to the correct gateway.
 
-The full mesh configuration in this guide (remote secrets, East-West gateways, meshNetworks) is correct and will work without changes once the OSSM version is updated. Cross-cluster visibility in Kiali — seeing workloads from both clusters, mesh topology, and Istio configuration validation — works correctly regardless of whether live cross-cluster traffic routing is active.
+### 3. East-West Gateways Require External Load Balancers
 
-### 3. East-West Gateway Requires External Load Balancer
-
-The `istio-eastwestgateway` creates a `LoadBalancer`-type Service. On bare-metal or on-premise OpenShift without cloud load balancers, install and configure the MetalLB Operator to assign an external IP. Alternatively, you can patch the Service to use `NodePort` and provide the node IP manually — Istio will use `spec.externalIPs` or the Service status address for routing, so as long as port 15008 is reachable from the remote cluster, either approach works.
+Both east-west gateways (`istio-eastwestgateway` and `istio-eastwestgateway-sidecar`) create `LoadBalancer`-type Services. On bare-metal or on-premise OpenShift without cloud load balancers, install and configure the MetalLB Operator to assign external IPs. Alternatively, you can patch the Services to use `NodePort` and provide the node IP manually — Istio will use `spec.externalIPs` or the Service status address for routing, so as long as ports 15008 and 15443 are reachable from the remote cluster, either approach works.
 
 ### 4. `istio.io/global=true` Required for Cross-Cluster Service Discovery
 
-In multi-primary multi-network mode, a Service must be labeled `istio.io/global=true` for its endpoints to be discoverable by istiod on the remote cluster. This applies to both ambient mode services (such as `helloworld` in `ambient-demo`) and sidecar mode services (such as `ratings` in `bookinfo`). Without this label, the remote cluster's istiod will not import the service's endpoints and cross-cluster traffic will not be routed.
+In multi-primary multi-network mode, a Service must be labeled `istio.io/global=true` on **both** clusters for its endpoints to be discoverable across the mesh. This applies to both ambient mode services (such as `helloworld` in `ambient-demo`) and sidecar mode services (such as `ratings` in `bookinfo`). Without this label on a given cluster, the remote cluster's istiod will not import that cluster's endpoints and cross-cluster traffic will not be routed to it.
 
 ### 5. Cluster Naming Must Be Consistent Across All Components
 
@@ -1437,3 +1482,4 @@ client claims to be in cluster "spoke-two", but we only know about local cluster
 ### 6. Kiali OAuth Redirect for Spoke-Two
 
 When logging into `spoke-two` through Kiali's multi-cluster UI, Kiali redirects to `spoke-two`'s OpenShift OAuth endpoint. The redirect URI must be reachable from the user's browser. If `spoke-two`'s OAuth route is on a different domain, ensure the redirect back to the Kiali URL is reachable.
+

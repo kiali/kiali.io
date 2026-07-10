@@ -45,8 +45,8 @@ export SPOKE_CLUSTER_NAME="spoke"
 # After installing the operator (Phase 3.2), you can list supported versions with:
 #   oc --context=ossm-kiali-spoke get crd istios.sailoperator.io \
 #     -o jsonpath='{.spec.versions[0].schema.openAPIV3Schema.properties.spec.properties.version.enum}'
-# Must also be >= 1.27.3 for ambient mode with the ZTunnel CR.
-export ISTIO_VERSION="1.28.6"
+# Must be >= 1.30 for ambient cross-cluster traffic routing.
+export ISTIO_VERSION="1.30.1"
 
 # meshID - arbitrary identifier for this mesh
 export MESH_ID="mesh1"
