@@ -6,6 +6,37 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 2.29.0
+Release: July 13, 2026
+
+Features:
+
+* [Ambient: v1.30 support](https://github.com/kiali/kiali/issues/9622)
+* [AI: Enhance support for multi cluster](https://github.com/kiali/kiali/issues/9895)
+* [AI: Implement Ask/Troubleshooting Mode Selection with Provider-Specific Prompts](https://github.com/kiali/kiali/issues/9910)
+* [AI: Token reduction](https://github.com/kiali/kiali/issues/9945)
+* [AI: Add Gateway API support to MCP tools](https://github.com/kiali/kiali/issues/9946)
+* [AI: Improve error handling in multiple tool calls](https://github.com/kiali/kiali/issues/9941)
+* [AI: Make the AI MCP max tool iterations configurable](https://github.com/kiali/kiali/issues/9974)
+* [AI: Enhance MCP Server with Istio Ambient Mesh Discovery and Debugging Capabilities](https://github.com/kiali/kiali/issues/9977)
+* [API: Remove includeAmbient from metrics options and use reporter](https://github.com/kiali/kiali/issues/9722)
+* [UX: Improve workload annotation editing by handling controller and tempate annotaions](https://github.com/kiali/kiali/issues/10009)
+* [UX: Improve Istio Config side panel](https://github.com/kiali/kiali/issues/9912)
+* [UX: Replace react-ace with PatternFly CodeEditor (Monaco)](https://github.com/kiali/kiali/issues/9709)
+
+Fixes:
+
+* [AI: "Confirm chat deletion" modal does not appear when switching from a disconnected AI provider](https://github.com/kiali/kiali/issues/9921)
+* [AI: MCP regression](https://github.com/kiali/kiali/issues/9942)
+* [AI: Log debugs with chatgpt](https://github.com/kiali/kiali/issues/9961)
+* [CI: Error in Test Perses link](https://github.com/kiali/kiali/issues/9929)
+* [Graph: Find unhealthy workloads — graph find hide](https://github.com/kiali/kiali/issues/9948)
+* [Graph: Fix issue with faint trace overlay](https://github.com/kiali/kiali/pull/10015)
+* [Operator: OSSMC plugin installation fails with 401 when server.require_auth: true is set in the Kiali CR](https://github.com/kiali/kiali/issues/9964)
+* [OSSMC: Crashes in Namespace detail tab](https://github.com/kiali/kiali/issues/9953)
+* [Validations: KIA1401 false positive for HTTPRoutes whose namespace is enrolled in Ambient mesh](https://github.com/kiali/kiali/issues/9937)
+* [Validations: KIA1317 should be excluded from waypoint proxies](https://github.com/kiali/kiali/issues/9986)
+
 ## 2.28.0
 Sprint Release: June 22, 2026
 
