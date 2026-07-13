@@ -68,6 +68,7 @@ spec:
   chat_ai:
     default_provider: ""
     enabled: false
+    max_tool_iterations: 5
     providers: []
     store_config:
       enabled: true
@@ -1533,6 +1534,25 @@ Authorization header and potentially impersonation headers.</li>
 
 <div class="property-description">
 <p>Enable or disable the ChatAI feature.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.chat_ai.max_tool_iterations">.spec.chat_ai.max_tool_iterations</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(integer)</span>
+
+</div>
+
+<div class="property-description">
+<p>Maximum number of tool-call iterations (LLM call + tool execution round) allowed per request before the loop is force-aborted. Must be between 1 and 20.</p>
 
 </div>
 
