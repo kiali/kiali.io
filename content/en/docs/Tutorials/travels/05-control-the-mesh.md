@@ -400,7 +400,12 @@ But in a real scenario an unexpected increase in the load of a service like this
 Use the Traffic Shifting Wizard on *travels* service to generate a traffic rule
 {{% /alert %}}
 
-Use the "Traffic Shifting" Wizard to distribute traffic (evenly) to the *travels* workloads and use the "Advanced Options" to add a "Circuit Breaker" to the scenario.
+1. Open **travels** service detail in the **travel-agency** namespace.
+2. Select **Actions** → **Request Routing**.
+3. Click **Add Rule** to distribute traffic (evenly) to the *travels* workloads.
+4. Click **Advanced Options** → **Circuit Breaker** tab.
+5. Enable **Add Connection Pool** and **Add Outlier Detection** with the default settings.
+6. Create the Circuit Breaker.
 
 ![Traffic Shifting with Circuit Breaker](/images/tutorial/05-06-traffic-shifting-circuit-breaker.png "Traffic Shifting with Circuit Breaker")
 
@@ -416,7 +421,7 @@ In the *loadtester* versioned-app Graph we can see that the *travels* service's 
 
 Remember, that these connections are stopped by the proxy on the *loadtester* side. That "fail sooner" pattern prevents overloading the network.
 
-Using the Graph we can select the failed edge, check the Flags tab, and see that those requests are closed by the Circuit breaker.
+Using the Graph we can select the failed edge, check the **Flags** tab, and see that those requests are closed by the Circuit breaker.
 
 ![Loadtester Flags Graph](/images/tutorial/05-06-loadtester-flags-graph.png "Loadtester Flags Graph")
 
