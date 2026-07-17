@@ -6,24 +6,13 @@ weight: 40
 
 ## Overview
 
+{{% alert color="info" %}}
+**This guide works as a standalone tutorial.** Unlike the other guides in this series, which focus specifically on multi-cluster OpenShift environments, this guide applies to any OpenShift cluster running Kiali — single-cluster or multi-cluster. Follow Phases 1–5 on any cluster to set up health-status alerting. Phase 6 adds optional multi-cluster integration with ACM.
+{{% /alert %}}
+
 This guide shows how to export Kiali's mesh health (Healthy / Not Ready / Degraded / Failure) as the Prometheus gauge `kiali_health_status`, scrape it with OpenShift User Workload Monitoring (UWM), and define useful recording rules and alerts that appear in the OpenShift console under **Observe > Alerting**.
 
-It applies to:
-
-- **Single-cluster OpenShift** — follow Phases 1–5
-- **Multi-cluster with ACM Observability** — complete Phases 1–3 on each cluster that runs Kiali, then Phase 6 on the hub to allowlist `kiali_health_status` into hub Thanos and optionally add fleet-wide hub alerts via ACM Thanos Ruler. Add Phases 4–5 on managed clusters if you also want local alerts.
-
-Kiali does **not** deploy Prometheus or act as Alertmanager. It only exports a gauge that your existing OpenShift monitoring stack scrapes and evaluates.
-
-{{% alert color="info" %}}
-**Single-cluster readers:** You do not need ACM or the earlier multi-cluster tutorials. Commands below use `--context=ossm-kiali-spoke` (same name as the hub/spoke tutorial); substitute your cluster's context if needed, and skip [Phase 6](#phase-6-multi-cluster-with-acm-observability).
-{{% /alert %}}
-
-{{% alert color="info" %}}
-**Multi-cluster readers:** This guide builds on the same UWM and metrics-allowlist concepts as the [MultiCluster on OpenShift]({{< relref "./ossm-acm-hub-spoke" >}}) tutorial. You do not need to re-install ACM. Completing the hub/spoke guide (at minimum) is recommended so Istio metrics, Kiali, and the Bookinfo demo are already in place.
-{{% /alert %}}
-
-Kiali computes traffic health (and workload readiness) for apps, services, workloads, and namespaces (see [Traffic Health]({{< relref "../../Configuration/health" >}})). When health-status metrics are enabled, each entity's status is exported as the gauge `kiali_health_status` with these values:
+Kiali computes traffic health and workload readiness for apps, services, workloads, and namespaces (see [Traffic Health]({{< relref "../../Configuration/health" >}})). When health-status metrics are enabled, each entity's status is exported as the Prometheus gauge `kiali_health_status` — Kiali does not deploy Prometheus or act as Alertmanager; it only exports the gauge for your existing OpenShift monitoring stack to scrape and evaluate. The gauge values are:
 
 - **`0`**: Healthy
 - **`1`**: Not Ready
@@ -34,16 +23,31 @@ Those series can drive OpenShift Observability alerts on each cluster, and after
 
 With ACM, you can alert on the **managed cluster**, on the **hub**, or both:
 
-- **Managed cluster (Phases 1–5)** — alerts fire under that cluster's **Observe > Alerting**.
+- **Managed cluster** — alerts fire under that cluster's **Observe > Alerting**.
   - *Pros:* low latency (UWM scrape + local `for`); per-cluster ownership and routing
   - *Cons:* you must install and maintain a `PrometheusRule` on every cluster that runs Kiali
-- **Hub (Phase 6 Thanos Ruler)** — alerts fire in ACM Observability (Grafana / Alertmanager on the hub).
+- **Hub** — alerts fire in ACM Observability (Grafana / Alertmanager on the hub).
   - *Pros:* one place for fleet-wide rules; see health across managed clusters
   - *Cons:* extra delay from ACM metric collection (often about five minutes) before the hub can evaluate
+
+Which phases of this guide you need depends on your environment:
+
+- **Single-cluster OpenShift** — Phases 1–5 cover everything: enable the metric, scrape it, create alerts, and optionally run the hands-on demo.
+- **Multi-cluster with ACM Observability** — start with Phases 1–3 on each cluster that runs Kiali (enable the metric and scrape it). Then complete Phase 6 on the hub to allowlist `kiali_health_status` into hub Thanos and add fleet-wide hub alerts. If you also want per-cluster alerts under each cluster's **Observe > Alerting**, complete Phases 4–5 on the managed clusters.
+
+In either case, you can optionally route fired alerts to third-party systems such as Slack, email, or PagerDuty — see [Routing alerts to Slack, email, or PagerDuty](#routing-alerts-to-slack-email-or-pagerduty) at the end of this guide.
 
 ---
 
 ## Prerequisites
+
+{{% alert color="info" %}}
+**Single-cluster readers:** You do not need ACM or the earlier multi-cluster tutorials. Commands below use `--context=ossm-kiali-spoke` (same name as the hub/spoke tutorial); substitute your cluster's context if needed, and skip [Phase 6](#phase-6-multi-cluster-with-acm-observability).
+{{% /alert %}}
+
+{{% alert color="info" %}}
+**Multi-cluster readers:** This guide builds on the same UWM and metrics-allowlist concepts as the [MultiCluster on OpenShift]({{< relref "./" >}}) tutorial series. You do not need to re-install ACM. Completing the [hub/spoke guide]({{< relref "./ossm-acm-hub-spoke" >}}) (at minimum) is recommended so Istio metrics, Kiali, and the Bookinfo demo are already in place.
+{{% /alert %}}
 
 - A supported OpenShift version with cluster monitoring (`openshift-monitoring`)
 - Kiali installed with access to mesh namespaces
