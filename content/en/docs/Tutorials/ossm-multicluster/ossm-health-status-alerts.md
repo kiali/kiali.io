@@ -301,35 +301,21 @@ Either way, you should see series with `health_type`, `name`, and `exported_name
 
 ---
 
-## Phase 4: Recording rules and starter alerts
+## Phase 4: Recording rules and baseline alerts
 
-Create a `PrometheusRule` in the Kiali server namespace so UWM evaluates recording rules and starter alerts on `kiali_health_status`. Those alerts surface under **Observe > Alerting**; the Kiali installer (operator or Helm chart) does not install this rule for you.
+Create a `PrometheusRule` in the Kiali server namespace. This defines recording rules — pre-computed aggregations that Prometheus evaluates on a schedule and stores as new time series — and a set of baseline alerts you can use as a starting point and customize for your environment. Those alerts surface under **Observe > Alerting**; the Kiali installer (operator or Helm chart) does not install this rule for you.
 
-### 4.1 Aggregate across replicas
-
-If you run Kiali with more than one replica (high availability), each pod exports its own `kiali_health_status` series for the same mesh entity (they differ by `instance` / `pod`). Alerting on the raw gauge would either duplicate alerts or depend on which replica you happened to scrape.
-
-Aggregate with `max by (...)` so each logical entity appears once and the **worst** health wins (Failure `3` beats Degraded `2`, and so on). That pattern stays correct for a single replica too.
+### 4.1 Apply the baseline PrometheusRule
 
 {{% alert color="warning" %}}
 **UWM namespace label rewrite:** User Workload Monitoring overwrites the Prometheus `namespace` label with the namespace of the `ServiceMonitor` / `PrometheusRule` (usually `istio-system`). Kiali's original mesh namespace is preserved as **`exported_namespace`**. Use `exported_namespace` in PromQL, recording rules, and alert annotations — not `namespace`.
 {{% /alert %}}
 
-Keep the mesh namespace as **`exported_namespace`** in the aggregation:
-
-```promql
-max by (cluster, exported_namespace, health_type, name) (kiali_health_status)
-```
-
-Always keep `cluster` in the aggregation set in multi-cluster environments.
-
-### 4.2 Apply the starter PrometheusRule
-
-Apply this `PrometheusRule` in **`${KIALI_NS}`** — the same namespace as the ServiceMonitor.
-
-UWM only lets a rule query metrics whose Prometheus `namespace` label matches the rule's own namespace. After Phase 3, that label on `kiali_health_status` is the ServiceMonitor namespace (`${KIALI_NS}`), not the mesh namespace (`exported_namespace`). Put the rule anywhere else and the expressions see no series.
+Apply this `PrometheusRule` in **`${KIALI_NS}`** — the same namespace as the ServiceMonitor. UWM only lets a rule query metrics whose Prometheus `namespace` label matches the rule's own namespace. Put the rule anywhere else and the expressions see no series.
 
 Also set the label `openshift.io/prometheus-rule-evaluation-scope: leaf-prometheus` so UWM's Prometheus evaluates the rules locally (faster than Thanos Ruler for user-workload alerts).
+
+The recording rules use `max by (cluster, exported_namespace, health_type, name)` to aggregate across Kiali replicas — if you run more than one replica, each pod exports its own series for the same entity, and `max` ensures the **worst** health wins (Failure `3` beats Degraded `2`). This pattern stays correct for a single replica too. Always keep `cluster` in the aggregation set in multi-cluster environments.
 
 ```bash
 oc --context=ossm-kiali-spoke apply -f - <<EOF
@@ -398,21 +384,17 @@ EOF
 **Shell note:** The summaries use `\$labels...` so your shell does not expand `$labels` before `oc apply`. Prometheus still receives normal `{{ $labels... }}` templates. If you put the same YAML in a file and apply with `oc apply -f`, use `$labels` without the backslash.
 {{% /alert %}}
 
-That manifest creates two rule groups:
+That PrometheusRule creates two rule groups:
 
 - **`kiali.health.recording`** — recording rules `kiali:health_status:max` and `kiali:health_status:namespace_max` (per-entity aggregates used by the alerts below)
-- **`kiali.health.alerts`** — three starter alerts:
+- **`kiali.health.alerts`** — three baseline alerts:
   - **`KialiHealthFailure`** — fires when an app, service, or workload has Failure health status (`== 3`), severity `critical`, `for: 5m`
   - **`KialiHealthDegraded`** — fires when an app, service, or workload has Degraded health status (`== 2`), severity `warning`, `for: 10m`
   - **`KialiNamespaceHealthFailure`** — fires when a namespace aggregate has Failure health status (`== 3`), severity `critical`, `for: 5m`
 
-**Not Ready (`== 1`) is omitted** from these starters. It is often transient during rollouts; add a custom alert if you need it (see [Phase 5](#phase-5-custom-alerts-and-a-hands-on-trigger-demo)).
+**Not Ready (`== 1`) is omitted** from these baseline alerts. It is often transient during rollouts; [add a custom alert](#phase-5-custom-alerts-and-a-hands-on-trigger-demo) if you need it.
 
-{{% alert color="info" %}}
-**What UWM does to your rule:** The user-workload Prometheus operator rewrites `PrometheusRule` objects for multi-tenancy. It adds a `namespace="<rule-namespace>"` matcher on the input series and a forced `namespace` label on the output. That is why this rule must live in `${KIALI_NS}` with the ServiceMonitor. Labels you keep in `max by (...)` that are **not** `namespace` (such as `exported_namespace`) are preserved — that is why this guide aggregates by `exported_namespace`.
-{{% /alert %}}
-
-### 4.3 Verify the rules
+### 4.2 Verify the rules
 
 Confirm the `PrometheusRule` is present, then check that the recording rule produces series (console **Observe > Metrics**, or `oc`):
 
@@ -711,7 +693,7 @@ Confirm series appear and include cluster identity labels so you can filter by m
 
 ### 6.3 Apply hub alert rules
 
-Create ACM Thanos Ruler custom rules on the **hub**. ACM loads the ConfigMap named `thanos-ruler-custom-rules` in `open-cluster-management-observability` (data key must be `custom_rules.yaml`). These alerts parallel the Phase 4 starters but use distinct names so you can tell hub alerts from managed-cluster alerts:
+Create ACM Thanos Ruler custom rules on the **hub**. ACM loads the ConfigMap named `thanos-ruler-custom-rules` in `open-cluster-management-observability` (data key must be `custom_rules.yaml`). These alerts parallel the Phase 4 baseline alerts but use distinct names so you can tell hub alerts from managed-cluster alerts:
 
 ```bash
 oc --context=ossm-kiali-hub apply -f - <<EOF
@@ -781,7 +763,7 @@ EOF
 **Do not drop existing hub rules.** If `thanos-ruler-custom-rules` already exists, **merge** the `kiali.health.hub.alerts` group into the existing `custom_rules.yaml` instead of replacing the ConfigMap with a shorter file that only contains the Kiali group.
 {{% /alert %}}
 
-That ConfigMap creates one rule group, **`kiali.health.hub.alerts`**, with three starter alerts:
+That ConfigMap creates one rule group, **`kiali.health.hub.alerts`**, with three baseline alerts:
 
 - **`KialiHubHealthFailure`** — app, service, or workload Failure (`== 3`), severity `critical`, `for: 5m`
 - **`KialiHubHealthDegraded`** — app, service, or workload Degraded (`== 2`), severity `warning`, `for: 10m`
@@ -917,7 +899,7 @@ Remove the resources this guide created. Re-export `${KIALI_NS}` and `${KIALI_CR
 On each cluster where you completed Phases 1–5:
 
 ```bash
-# PrometheusRules (starter + optional custom rule from Phase 5)
+# PrometheusRules (baseline + optional custom rule from Phase 5)
 oc --context=ossm-kiali-spoke delete prometheusrule \
   kiali-health-status \
   kiali-health-status-custom \
