@@ -35,7 +35,7 @@ Which phases of this guide you need depends on your environment:
 - **Single-cluster OpenShift** — Phases 1–5 cover everything: enable the metric, scrape it, create alerts, and optionally run the hands-on demo.
 - **Multi-cluster with ACM Observability** — start with Phases 1–3 on each cluster that runs Kiali (enable the metric and scrape it). Then complete Phase 6 on the hub to allowlist `kiali_health_status` into hub Thanos and add fleet-wide hub alerts. If you also want per-cluster alerts under each cluster's **Observe > Alerting**, complete Phases 4–5 on the managed clusters.
 
-In either case, you can optionally route fired alerts to third-party systems such as Slack, email, or PagerDuty — see [Routing alerts to Slack, email, or PagerDuty](#routing-alerts-to-slack-email-or-pagerduty) at the end of this guide.
+In either case, you can optionally route fired alerts to third-party systems such as Slack, email, or generic webhooks — see [Routing alerts to Slack, email, or webhooks](#routing-alerts-to-slack-email-or-webhooks) at the end of this guide.
 
 ---
 
@@ -434,7 +434,7 @@ Useful knobs:
 - **`for`** — how long the alert expression must stay true before the alert actually fires. While it is true but that duration has not elapsed, the alert is only pending. If the expression becomes false before `for` completes, the pending alert is cleared and the clock resets. Longer `for` values ignore brief blips; shorter values (as in the demo below) surface problems faster.
 - **`severity`** — a label on the alert (`critical`, `warning`, or `info`). The OpenShift console uses it to filter and prioritize alerts under **Observe > Alerting** (for example, show only critical). It does not change when the alert fires; that is controlled by `expr` and `for`.
 
-Alert expressions for `kiali_health_status` operate on the gauge value (`0`–`3`), not on raw HTTP error percentages. To change when Kiali marks Degraded/Failure, adjust [`health_config.rate`]({{< relref "../../Configuration/health" >}}) tolerances; to change when OpenShift pages you, adjust the alert `expr` / `for`.
+Alert expressions for `kiali_health_status` operate on the gauge value (`0`–`3`), not on raw HTTP error percentages. To change when Kiali marks Degraded/Failure, adjust [`health_config.rate`]({{< relref "../../Configuration/health" >}}) tolerances; to change when OpenShift fires an alert, adjust the alert `expr` / `for`.
 
 The two examples below each create a separate `PrometheusRule` so you do not have to hand-edit the one created in Phase 4. Use `\$labels` in the heredoc (see the "shell note" from Phase 4).
 
@@ -767,12 +767,11 @@ oc --context=ossm-kiali-hub -n open-cluster-management-observability \
 
 ---
 
-## Routing alerts to Slack, email, or PagerDuty
+## Routing alerts to Slack, email, or webhooks
 
-This section is optional. It shows how to send notifications to a third-party system; you do not need to complete it for the rest of the guide.
+This section is optional. It shows how to route fired alerts to a third-party notification system such as Slack, email, or generic webhooks.
 
-- **Hub alerts (Phase 6)** — configure ACM's Alertmanager by overriding the `alertmanager-config` secret in `open-cluster-management-observability` (steps below)
-- **Managed-cluster / single-cluster alerts (Phases 1–5)** — configure OpenShift Alertmanager instead (typically the `alertmanager-main` secret in `openshift-monitoring`, or the console under **Observe > Alerting**)
+Which Alertmanager you configure depends on where your alerts emit from. If you set up hub alerts in Phase 6, follow the steps below to override ACM's Alertmanager via the `alertmanager-config` secret in `open-cluster-management-observability`. If you set up managed-cluster or single-cluster alerts in Phases 1–5, configure OpenShift's own Alertmanager instead — via the `alertmanager-main` secret in `openshift-monitoring`.
 
 ### Extract the ACM Alertmanager config
 
@@ -826,6 +825,8 @@ receivers:
     send_resolved: true
 ```
 
+Alertmanager posts a default Slack message with the alert status, name, and labels. To customize the message, add `title`, `text`, or `blocks` fields to `slack_configs` using Go templates — see the upstream [Alertmanager Slack configuration](https://prometheus.io/docs/alerting/latest/configuration/#slack_config) docs.
+
 ### Example: email
 
 ```yaml
@@ -850,20 +851,27 @@ receivers:
     send_resolved: true
 ```
 
-### Example: PagerDuty
+Alertmanager uses default templates for the email subject and body. The subject includes the alert state, count, and alert name (e.g. `[FIRING:2] KialiHubHealthFailure critical`), and the body lists the full label set and annotations. To customize, add `headers` and `text` or `html` fields to `email_configs` — see the upstream [Alertmanager email configuration](https://prometheus.io/docs/alerting/latest/configuration/#email_config) docs.
+
+### Example: generic webhook
+
+Sends a JSON POST to any HTTP endpoint — useful for integrating with custom tooling, chat bots, or incident management systems that accept webhooks:
 
 ```yaml
 route:
   group_by: ['alertname', 'cluster']
-  receiver: 'kiali-pagerduty'
+  receiver: 'kiali-webhook'
 
 receivers:
-- name: 'kiali-pagerduty'
-  pagerduty_configs:
-  - routing_key: 'REPLACE_WITH_PAGERDUTY_ROUTING_KEY'
+- name: 'kiali-webhook'
+  webhook_configs:
+  - url: 'https://example.com/alerts/webhook'
+    send_resolved: true
 ```
 
-You can combine receivers (Slack + email, multiple routes, `matchers` on `severity`, and so on). Alertmanager also supports Go templates in fields such as Slack `title` / `text` if you want richer messages — see [Configuring Alertmanager for external notification systems](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.17/html/observability/observing-environments-intro#configure-obs-alerts) in the Red Hat ACM docs and the upstream [Alertmanager configuration](https://prometheus.io/docs/alerting/latest/configuration/) docs.
+Alertmanager POSTs a JSON payload containing the alert status, labels, annotations, and timing information. The payload format is documented in the upstream [Alertmanager webhook configuration](https://prometheus.io/docs/alerting/latest/configuration/#webhook_config) docs.
+
+You can combine multiple receivers (e.g. Slack + email), add routes that match on `severity` or `alertname`, and more — see [Configuring Alertmanager for external notification systems](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.17/html/observability/observing-environments-intro#configure-obs-alerts) in the Red Hat ACM docs and the upstream [Alertmanager configuration](https://prometheus.io/docs/alerting/latest/configuration/) docs.
 
 ---
 
@@ -956,4 +964,4 @@ oc --context=ossm-kiali-hub -n open-cluster-management-observability \
   edit configmap thanos-ruler-custom-rules
 ```
 
-If you changed ACM Alertmanager routing in [Routing alerts to Slack, email, or PagerDuty](#routing-alerts-to-slack-email-or-pagerduty), restore from your backup (`/tmp/alertmanager.yaml.bak`) with the same `create secret … | replace` command, or leave the receivers in place if you still want third-party notifications.
+If you changed ACM Alertmanager routing in [Routing alerts to Slack, email, or webhooks](#routing-alerts-to-slack-email-or-webhooks), restore from your backup (`/tmp/alertmanager.yaml.bak`) with the same `create secret … | replace` command, or leave the receivers in place if you still want third-party notifications.
