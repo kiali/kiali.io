@@ -51,29 +51,30 @@ In either case, you can optionally route fired alerts to third-party systems suc
 
 - A supported OpenShift version with cluster monitoring (`openshift-monitoring`)
 - Kiali installed with access to mesh namespaces
-- A mesh with workloads Kiali can score (Bookinfo or another demo app helps for the trigger steps in Phase 5)
-- `oc` CLI and kubeconfig contexts matching the other MultiCluster tutorials:
-  - `ossm-kiali-spoke` — cluster where Kiali runs (Phases 1–5)
-  - `ossm-kiali-hub` — ACM hub (Phase 6 and the optional routing section)
-
-Optional (Phase 6 only):
-
-- ACM Observability (`MultiClusterObservability`) ready on the hub
+- A mesh with workloads Kiali can score. The Phase 5 demo commands use the Bookinfo application — if you want to follow them exactly, have Bookinfo deployed (the [hub/spoke guide]({{< relref "./ossm-acm-hub-spoke" >}}) installs it, or see the [Istio Bookinfo sample](https://istio.io/latest/docs/examples/bookinfo/))
+- `oc` CLI with a kubeconfig context for the cluster where Kiali runs (commands use `--context=ossm-kiali-spoke`; substitute your context name if different)
+- **Phase 6 only:** a kubeconfig context for the ACM hub (`--context=ossm-kiali-hub`) and ACM Observability (`MultiClusterObservability`) ready on the hub (set up in the [hub/spoke guide]({{< relref "./ossm-acm-hub-spoke" >}}))
 
 Set namespace variables for the cluster that runs Kiali:
 
-- `KIALI_NS` — namespace of the Kiali server (Service / Deployment). Put the ServiceMonitor here too.
+- `KIALI_NS` — namespace of the Kiali server (typically `istio-system`).
 - `KIALI_CR_NS` — namespace of the Kiali CR. Often the same as `KIALI_NS`.
 
-If unsure, run `oc --context=ossm-kiali-spoke get kiali -A` to discover where the Kiali CR is and what its `spec.deployment.namespace` setting is.
-
 ```bash
-export KIALI_NS=istio-system
-export KIALI_CR_NS=istio-system
+export KIALI_CR_NS=$(oc --context=ossm-kiali-spoke get kiali -A -o jsonpath='{.items[0].metadata.namespace}')
+export KIALI_NS=$(oc --context=ossm-kiali-spoke get kiali -A -o jsonpath='{.items[0].spec.deployment.namespace}')
+echo "KIALI_CR_NS=${KIALI_CR_NS}"
+echo "KIALI_NS=${KIALI_NS}"
 ```
 
 {{% alert color="info" %}}
-Examples in this guide assume the default instance name `kiali`. If your Kiali CR sets `spec.deployment.instance_name` to something else, the operator names Kiali-related resources based on that value (not `kiali`). Substitute your instance name wherever this guide refers to the Service, ServiceMonitor `serverName`, and related TLS secret names. Your Kiali CR name may also differ from `kiali` — list CRs with `oc get kiali -A` and use that name in `oc patch` / `oc wait`.
+**Non-default instance names:** This guide assumes the default Kiali instance name `kiali`. If your Kiali CR uses a different `spec.deployment.instance_name`, the Kiali installer names resources after that value. The resources in this guide affected by the instance name are:
+
+- **Service** — `<instance-name>` (default: `kiali`)
+- **CA ConfigMap** — `<instance-name>-cabundle-openshift` (default: `kiali-cabundle-openshift`)
+- **ServiceMonitor `serverName`** — `<instance-name>.<namespace>.svc` (default: `kiali.istio-system.svc`)
+
+Substitute accordingly. The Kiali CR name itself may or may not be `kiali` and is independent of the instance name — use `oc get kiali -A` to confirm the name of your Kiali CR.
 {{% /alert %}}
 
 ---
