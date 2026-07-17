@@ -294,7 +294,7 @@ oc --context=ossm-kiali-spoke -n openshift-user-workload-monitoring \
 
 Either way, you should see series with `health_type`, `name`, and `exported_namespace` labels. If the result is empty:
 
-1. Confirm Kiali shows health for the demo namespace in the Kiali web console
+1. Confirm Kiali shows health for the demo namespace in the Kiali UI
 2. Confirm `server.observability.metrics.enabled` and `server.observability.metrics.health_status.enabled` are both true in the Kiali CR
 3. Confirm UWM is scraping the Kiali target. In the OpenShift console, go to **Observe > Targets** and look for a target with endpoint `https://...:9090/metrics` in the `istio-system` namespace — it should show **UP**. If it shows **DOWN** with a TLS error, check the `serverName` and CA ConfigMap. If the ServiceMonitor was rejected entirely (no target appears), check for events on the ServiceMonitor with `oc describe servicemonitor kiali -n ${KIALI_NS}` — a common cause is using `tlsConfig.caFile` instead of the ConfigMap `ca` form.
 4. TLS mismatches usually mean a wrong `serverName` (must be `<kiali-instance-name>.<namespace>.svc`), a wrong CA ConfigMap name (must match your instance: `<kiali-instance-name>-cabundle-openshift`), or a ConfigMap that does not yet have the injected `service-ca.crt` key
@@ -420,9 +420,9 @@ You should see aggregated series with `cluster`, `exported_namespace`, `health_t
 
 ## Phase 5: Custom alerts and a hands-on trigger demo
 
-Customize the Phase 4 rules (or add more) for your namespaces and severities, then optionally run a short demo that forces Failure health so you can see `KialiHealthFailure` under **Observe > Alerting**.
+This phase has two parts: first, adding your own alerts tailored to your namespaces and severities. Then, an optional hands-on demo that forces Failure health so you can see `KialiHealthFailure` fire under **Observe > Alerting**.
 
-### 5.1 Add custom alerts (optional)
+### 5.1 Add custom alerts
 
 1. Edit the `kiali-health-status` `PrometheusRule` (or create a new one in `${KIALI_NS}` with the same `leaf-prometheus` label).
 2. Add another `- alert:` entry under `kiali.health.alerts` (or a new group).
@@ -431,27 +431,29 @@ Customize the Phase 4 rules (or add more) for your namespaces and severities, th
 Useful knobs:
 
 - **Filter by label** — e.g. `exported_namespace="bookinfo"`, `name="reviews"`, `cluster="spoke"` (under UWM, mesh namespace is `exported_namespace`)
-- **`for`** — how long the alert expression must stay true before the alert **fires**. While it is true but that duration has not elapsed, the alert is only **pending**. If the expression becomes false before `for` completes, the pending alert is cleared and the clock resets. Longer `for` values ignore brief blips; shorter values (as in the demo below) surface problems faster.
+- **`for`** — how long the alert expression must stay true before the alert actually fires. While it is true but that duration has not elapsed, the alert is only pending. If the expression becomes false before `for` completes, the pending alert is cleared and the clock resets. Longer `for` values ignore brief blips; shorter values (as in the demo below) surface problems faster.
 - **`severity`** — a label on the alert (`critical`, `warning`, or `info`). The OpenShift console uses it to filter and prioritize alerts under **Observe > Alerting** (for example, show only critical). It does not change when the alert fires; that is controlled by `expr` and `for`.
 
-Alert expressions operate on the **gauge value** (`0`–`3`), not on raw HTTP error percentages. To change when Kiali marks Degraded/Failure, adjust [`health_config.rate`]({{< relref "../../Configuration/health" >}}) tolerances; to change when OpenShift pages you, adjust the alert `expr` / `for`.
+Alert expressions for `kiali_health_status` operate on the gauge value (`0`–`3`), not on raw HTTP error percentages. To change when Kiali marks Degraded/Failure, adjust [`health_config.rate`]({{< relref "../../Configuration/health" >}}) tolerances; to change when OpenShift pages you, adjust the alert `expr` / `for`.
 
-Copy-paste examples below apply a **separate** `PrometheusRule` so you do not have to hand-edit the Phase 4 manifest. Both examples use the same resource name (`kiali-health-status-custom`), so the second replaces the first — use different names if you want to keep both. Use `\$labels` in the heredoc (same shell note as Phase 4).
+The two examples below each create a separate `PrometheusRule` so you do not have to hand-edit the one created in Phase 4. Use `\$labels` in the heredoc (see the "shell note" from Phase 4).
 
 **Example — Failure only in `bookinfo`:**
+
+Fires when any app, service, or workload in the `bookinfo` namespace reaches Failure health status for at least 5 minutes.
 
 ```bash
 oc --context=ossm-kiali-spoke apply -f - <<EOF
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
-  name: kiali-health-status-custom
+  name: kiali-health-status-bookinfo
   namespace: ${KIALI_NS}
   labels:
     openshift.io/prometheus-rule-evaluation-scope: leaf-prometheus
 spec:
   groups:
-  - name: kiali.health.custom
+  - name: kiali.health.bookinfo
     rules:
     - alert: KialiBookinfoHealthFailure
       expr: |
@@ -469,18 +471,20 @@ EOF
 
 **Example — sustained Not Ready for workloads:**
 
+Fires when any workload stays in Not Ready health status for at least 15 minutes, catching prolonged rollout or scaling issues that outlast normal transient periods.
+
 ```bash
 oc --context=ossm-kiali-spoke apply -f - <<EOF
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
-  name: kiali-health-status-custom
+  name: kiali-health-status-not-ready
   namespace: ${KIALI_NS}
   labels:
     openshift.io/prometheus-rule-evaluation-scope: leaf-prometheus
 spec:
   groups:
-  - name: kiali.health.custom
+  - name: kiali.health.not-ready
     rules:
     - alert: KialiWorkloadNotReady
       expr: |
@@ -493,17 +497,11 @@ spec:
 EOF
 ```
 
-The following steps force a Failure, shorten `for` on `KialiHealthFailure` so you are not waiting five minutes, show the alert in the OpenShift console, then clean up.
+Steps 5.2–5.5 below walk through a hands-on demo: force a Failure, shorten `for` on `KialiHealthFailure` so you are not waiting five minutes, view the alert in the OpenShift console, then clean up.
 
-### 5.2 Confirm baseline
+### 5.2 Shorten the Failure alert for the demo
 
-- Starter `PrometheusRule` from Phase 4 is applied
-- A demo namespace with traffic exists (examples use `bookinfo`)
-- `kiali_health_status` returns series (Phase 3)
-
-### 5.3 Shorten the Failure alert for the demo
-
-Phase 4 sets `for: 5m` on `KialiHealthFailure`, so the Failure expression must hold for five minutes before the alert leaves **pending** state and fires. For the demo, temporarily set `for: 1m` (looks up the rule by name so group order does not matter):
+Phase 4 sets `for: 5m` on `KialiHealthFailure`, so the Failure expression must hold for five minutes before the alert leaves pending state and fires. For the demo, temporarily set `for` to `1m` so you are not waiting too long to see the alert fire:
 
 ```bash
 oc --context=ossm-kiali-spoke get prometheusrule kiali-health-status -n "${KIALI_NS}" -o json \
@@ -513,13 +511,13 @@ oc --context=ossm-kiali-spoke get prometheusrule kiali-health-status -n "${KIALI
   | oc --context=ossm-kiali-spoke apply -f -
 ```
 
-Production recommendations remain `for: 5m` (Failure) and `for: 10m` (Degraded).
+Note that for production alerts, the recommendations remain `for: 5m` (Failure) and `for: 10m` (Degraded).
 
-### 5.4 Force Failure health
+### 5.3 Force Failure health
 
-Tighten traffic-health tolerances for the demo namespace so even a small 5xx rate becomes Failure, then generate errors.
+Tighten traffic-health tolerances for the demo namespace so even a small 5xx rate becomes a Failure which then generate errors.
 
-**Warning:** The patch below replaces `spec.health_config` on the Kiali CR (including any existing `rate` list). Back up first, then wait for reconciliation:
+**Warning:** The patch below replaces `spec.health_config` on the Kiali CR (including any existing `rate` list). Back up the current `health_config` first so it can be restored during the Cleanup phase, then apply the patch and wait for reconciliation:
 
 ```bash
 oc --context=ossm-kiali-spoke get kiali kiali -n "${KIALI_CR_NS}" -o json \
@@ -549,14 +547,14 @@ oc --context=ossm-kiali-spoke wait kiali kiali \
 ```
 
 {{% alert color="info" %}}
-**Threshold semantics:** In `health_config.rate` tolerances, a `failure` value of `0` with a `degraded` value of `0` does not trigger Failure — instead, matching traffic is marked Degraded. Use `failure: 1` as the lowest effective Failure threshold (triggers Failure for any 5xx error rate at or above 1%). See [Traffic Health]({{< relref "../../Configuration/health" >}}) for the full priority table.
+**Threshold semantics:** In `health_config.rate` tolerances, a `failure` value of `0` with a `degraded` value of `0` does not trigger Failure — instead, matching traffic is marked Degraded (see [issue #10072](https://github.com/kiali/kiali/issues/10072)). Use `failure: 1` as the lowest effective Failure threshold (triggers Failure for any 5xx error rate at or above 1%). See [Traffic Health]({{< relref "../../Configuration/health" >}}) for the full priority table.
 {{% /alert %}}
 
 {{% alert color="info" %}}
-**`compute.duration` and hub Thanos:** If Kiali queries metrics from ACM's hub Thanos (as configured in the hub/spoke tutorial), the default `compute.duration: 5m` may not produce meaningful `rate()` results because ACM collects metrics every 5 minutes — leaving only one data point in the window. Setting `duration: 10m` ensures at least two data points, the same reason the Perses dashboards in the dashboards/tracing tutorial use `[10m]` rate windows. Single-cluster setups with local Prometheus can use the default `5m`.
+**`compute.duration` and hub Thanos:** If Kiali queries metrics from ACM's hub Thanos (as configured in the [hub/spoke guide]({{< relref "./ossm-acm-hub-spoke" >}})), the default `compute.duration: 5m` may not produce meaningful `rate()` results because ACM's metrics collector typically forwards metrics to hub Thanos every 5 minutes — leaving only one data point in the window. Setting `duration: 10m` ensures at least two data points. This is the same reason why the Perses dashboards in the [dashboards/tracing guide]({{< relref "./ossm-dashboards-tracing" >}}) use `[10m]` rate windows. Single-cluster setups with local Prometheus can use the default `5m`.
 {{% /alert %}}
 
-Inject abort faults on Bookinfo `ratings` (or another service you care about):
+Now inject abort faults on Bookinfo `ratings` (or another service you care about):
 
 ```bash
 oc --context=ossm-kiali-spoke apply -f - <<'EOF'
@@ -580,28 +578,28 @@ spec:
 EOF
 ```
 
-Send traffic through the productpage > reviews > ratings path. Only some Bookinfo reviews versions call ratings, so not every request produces a ratings 5xx — that is enough for the demo.
+Send traffic through the productpage > reviews > ratings path. Only some Bookinfo reviews versions call ratings, so not every request produces a ratings 5xx but this is enough for the demo.
 
-If you already have a traffic generator running (such as the `traffic-gen` deployment from the hub/spoke tutorial), it is already driving requests through this path — skip the command below. Otherwise, generate traffic from inside the cluster:
+If you already have a traffic generator running (such as the `traffic-gen` deployment from the hub/spoke guide), it is already driving requests through this path — skip the command below. Otherwise, generate traffic from inside the cluster:
 
 ```bash
 oc --context=ossm-kiali-spoke -n bookinfo exec deploy/ratings-v1 -c ratings -- \
   sh -c 'for i in $(seq 1 60); do curl -s -o /dev/null -w "%{http_code}\n" http://productpage:9080/productpage; sleep 2; done'
 ```
 
-Kiali's health cache defaults to a **3m** refresh and a **5m** traffic window. After generating errors, wait for a refresh (or watch the Kiali UI) until the ratings (or related) entity shows **Failure**, then confirm:
+Kiali's health cache refreshes every `3m` (controlled by `health_config.compute.refresh_interval`). After generating errors, wait for a refresh cycle (or watch the Kiali UI) until the ratings (or related) entity shows Failure. Then go to **Observe > Metrics** in the OpenShift console and run this query to confirm Failure series exist:
 
 ```promql
 kiali:health_status:max{exported_namespace="bookinfo", health_type=~"app|service|workload"} == 3
 ```
 
-returns series in **Observe > Metrics**. Because step 5.3 set `for: 1m` on the alert rule, the Failure condition must stay true for one full minute before `KialiHealthFailure` fires (until then it stays pending).
+Because we shortened `for` to `1m` on the alert rule above, the Failure condition must stay true for one full minute before `KialiHealthFailure` fires (until then it stays pending).
 
-### 5.5 View the alert in the OpenShift console
+### 5.4 View the alert in the OpenShift console
 
 1. Log in to the OpenShift web console with a user that can view alerting (kubeadmin or a monitoring-capable role).
 2. Go to **Observe > Alerting > Alerts**.
-3. Filter or search for `KialiHealthFailure`. With the zero-tolerance `health_config` from step 5.4, any 5xx traffic goes straight to Failure — `KialiHealthDegraded` should not appear for the affected entities.
+3. Filter or search for `KialiHealthFailure`. With the zero-tolerance `health_config` applied above, any 5xx traffic goes straight to Failure — `KialiHealthDegraded` should not appear for the affected entities.
 4. Open the alert and confirm `exported_namespace` (mesh namespace), `name`, `health_type`, `cluster`, and the annotation summary. The Prometheus `namespace` label will be the rule namespace (for example `istio-system`).
 
 You can also confirm under **Observe > Metrics** with:
@@ -610,16 +608,22 @@ You can also confirm under **Observe > Metrics** with:
 ALERTS{alertname=~"KialiHealthFailure|KialiHealthDegraded"}
 ```
 
-### 5.6 Cleanup the demo
+### 5.5 Cleanup the demo
 
 ```bash
 oc --context=ossm-kiali-spoke delete virtualservice kiali-health-alert-demo \
   -n bookinfo --ignore-not-found
 
-# Restore health_config from the backup taken in 5.4 (empty {} removes the demo override
-# when you had no prior health_config; otherwise your previous settings return).
-oc --context=ossm-kiali-spoke patch kiali kiali -n "${KIALI_CR_NS}" --type=merge -p \
-  "{\"spec\":{\"health_config\":$(cat /tmp/kiali-health-config-backup.json)}}"
+# Restore health_config: if backup was empty (no prior config), remove the field entirely;
+# otherwise restore previous settings.
+BACKUP=$(cat /tmp/kiali-health-config-backup.json)
+if [ "${BACKUP}" = "{}" ] || [ -z "${BACKUP}" ]; then
+  oc --context=ossm-kiali-spoke patch kiali kiali -n "${KIALI_CR_NS}" --type=json \
+    -p='[{"op": "remove", "path": "/spec/health_config"}]'
+else
+  oc --context=ossm-kiali-spoke patch kiali kiali -n "${KIALI_CR_NS}" --type=merge \
+    -p "{\"spec\":{\"health_config\":${BACKUP}}}"
+fi
 
 oc --context=ossm-kiali-spoke wait kiali kiali \
   -n "${KIALI_CR_NS}" \
@@ -634,15 +638,7 @@ oc --context=ossm-kiali-spoke get prometheusrule kiali-health-status -n "${KIALI
   | oc --context=ossm-kiali-spoke apply -f -
 ```
 
-If you had no `health_config` before the demo, the restore above leaves an empty `health_config: {}` on the CR. To remove that field entirely instead:
-
-```bash
-oc --context=ossm-kiali-spoke patch kiali kiali -n "${KIALI_CR_NS}" --type=json -p='[
-  {"op": "remove", "path": "/spec/health_config"}
-]'
-```
-
-Wait until Kiali health returns to Healthy/Degraded as appropriate and `KialiHealthFailure` clears in **Observe > Alerting**.
+Wait until Kiali health returns to Healthy and `KialiHealthFailure` clears in **Observe > Alerting**.
 
 Single-cluster readers can stop here. Multi-cluster readers who want hub Thanos queries and/or hub alerts can continue to [Phase 6](#phase-6-multi-cluster-with-acm-observability).
 
@@ -894,15 +890,16 @@ You can combine receivers (Slack + email, multiple routes, `matchers` on `severi
 
 ## Cleanup
 
-Remove the resources this guide created. Re-export `${KIALI_NS}` and `${KIALI_CR_NS}` if you are in a new shell. If you still have leftovers from the Phase 5 trigger demo (fault VirtualService, temporary `health_config`, shortened `for`), run [5.6 Cleanup the demo](#56-cleanup-the-demo) first.
+Remove the resources this guide created. Re-export `${KIALI_NS}` and `${KIALI_CR_NS}` if you are in a new shell. If you still have leftovers from the Phase 5 trigger demo (fault VirtualService, temporary `health_config`, shortened `for`), run the [Phase 5 demo cleanup](#55-cleanup-the-demo) first.
 
 On each cluster where you completed Phases 1–5:
 
 ```bash
-# PrometheusRules (baseline + optional custom rule from Phase 5)
+# PrometheusRules (baseline from Phase 4 + optional custom rules from Phase 5)
 oc --context=ossm-kiali-spoke delete prometheusrule \
   kiali-health-status \
-  kiali-health-status-custom \
+  kiali-health-status-bookinfo \
+  kiali-health-status-not-ready \
   -n "${KIALI_NS}" --ignore-not-found
 
 # ServiceMonitor from Phase 3
