@@ -7,7 +7,7 @@ weight: 40
 ## Overview
 
 {{% alert color="info" %}}
-**This guide works as a standalone tutorial.** Unlike the other guides in this series, which focus specifically on multi-cluster OpenShift environments, this guide applies to any OpenShift cluster running Kiali — single-cluster or multi-cluster. Follow Phases 1–5 on any cluster to set up health-status alerting. Phase 6 adds optional multi-cluster integration with ACM.
+**This guide works standalone.** Unlike the other guides in this series, which focus specifically on multi-cluster OpenShift environments, this guide applies to any OpenShift cluster running Kiali — single-cluster or multi-cluster. Follow Phases 1–5 on any cluster to set up health-status alerting. Phase 6 adds optional multi-cluster integration with ACM.
 {{% /alert %}}
 
 This guide shows how to export Kiali's mesh health (Healthy / Not Ready / Degraded / Failure) as the Prometheus gauge `kiali_health_status`, scrape it with OpenShift User Workload Monitoring (UWM), and define useful recording rules and alerts that appear in the OpenShift console under **Observe > Alerting**.
@@ -42,7 +42,7 @@ In either case, you can optionally route fired alerts to third-party systems suc
 ## Prerequisites
 
 {{% alert color="info" %}}
-**Single-cluster readers:** You do not need ACM or the earlier multi-cluster tutorials. Commands below use `--context=ossm-kiali-spoke` (same name as the hub/spoke tutorial); substitute your cluster's context if needed, and skip [Phase 6](#phase-6-multi-cluster-with-acm-observability).
+**Single-cluster readers:** You do not need ACM or the earlier multi-cluster guides. Commands below use `--context=ossm-kiali-spoke` (same name as the hub/spoke guide); substitute your cluster's context if needed, and skip [Phase 6](#phase-6-multi-cluster-with-acm-observability).
 {{% /alert %}}
 
 {{% alert color="info" %}}
@@ -497,7 +497,7 @@ spec:
 EOF
 ```
 
-Steps 5.2–5.5 below walk through a hands-on demo: force a Failure, shorten `for` on `KialiHealthFailure` so you are not waiting five minutes, view the alert in the OpenShift console, then clean up.
+Steps 5.2–5.4 below walk through a hands-on demo: force a Failure, shorten `for` on `KialiHealthFailure` so you are not waiting five minutes, view the alert in the OpenShift console, then clean up.
 
 ### 5.2 Shorten the Failure alert for the demo
 
@@ -608,38 +608,6 @@ You can also confirm under **Observe > Metrics** with:
 ALERTS{alertname=~"KialiHealthFailure|KialiHealthDegraded"}
 ```
 
-### 5.5 Cleanup the demo
-
-```bash
-oc --context=ossm-kiali-spoke delete virtualservice kiali-health-alert-demo \
-  -n bookinfo --ignore-not-found
-
-# Restore health_config: if backup was empty (no prior config), remove the field entirely;
-# otherwise restore previous settings.
-BACKUP=$(cat /tmp/kiali-health-config-backup.json)
-if [ "${BACKUP}" = "{}" ] || [ -z "${BACKUP}" ]; then
-  oc --context=ossm-kiali-spoke patch kiali kiali -n "${KIALI_CR_NS}" --type=json \
-    -p='[{"op": "remove", "path": "/spec/health_config"}]'
-else
-  oc --context=ossm-kiali-spoke patch kiali kiali -n "${KIALI_CR_NS}" --type=merge \
-    -p "{\"spec\":{\"health_config\":${BACKUP}}}"
-fi
-
-oc --context=ossm-kiali-spoke wait kiali kiali \
-  -n "${KIALI_CR_NS}" \
-  --for=condition=Successful \
-  --timeout=300s
-
-# Restore production "for" on KialiHealthFailure
-oc --context=ossm-kiali-spoke get prometheusrule kiali-health-status -n "${KIALI_NS}" -o json \
-  | jq 'del(.status)
-        | (.spec.groups[] | select(.name == "kiali.health.alerts").rules[]
-           | select(.alert == "KialiHealthFailure").for) = "5m"' \
-  | oc --context=ossm-kiali-spoke apply -f -
-```
-
-Wait until Kiali health returns to Healthy and `KialiHealthFailure` clears in **Observe > Alerting**.
-
 Single-cluster readers can stop here. Multi-cluster readers who want hub Thanos queries and/or hub alerts can continue to [Phase 6](#phase-6-multi-cluster-with-acm-observability).
 
 ---
@@ -648,16 +616,27 @@ Single-cluster readers can stop here. Multi-cluster readers who want hub Thanos 
 
 Complete Phases 1–3 on **each managed cluster** that should export `kiali_health_status` (UWM, metric export, ServiceMonitor). Phases 4–5 are optional if you only want hub alerts and do not need per-cluster **Observe > Alerting**.
 
-ACM Observability does **not** forward every series from UWM. Phase 6 on the **hub**:
+ACM Observability does not forward every metric from UWM to the hub — only those explicitly allowlisted will be stored in hub Thanos. This phase performs two steps on the **hub**:
 
-1. Adds `kiali_health_status` to ACM's custom metrics allowlist (same mechanism as Istio metrics in the hub/spoke tutorial) so collectors push the gauge to hub Thanos
-2. Adds ACM Thanos Ruler alert rules so the hub can fire fleet-wide alerts on that gauge
+1. Add `kiali_health_status` to ACM's custom metrics allowlist (same mechanism as Istio metrics in the hub/spoke guide) so collectors push the gauge to hub Thanos
+2. Add ACM Thanos Ruler alert rules so the hub can fire fleet-wide alerts on `kiali_health_status`
 
 If you already applied Phase 4 on the managed clusters, you can keep those local alerts, replace them with hub-only rules, or run both — see the trade-offs in [Overview](#overview). Hub evaluation waits for ACM's collection interval (often about five minutes) before new samples are visible to Thanos Ruler.
 
 ### 6.1 Add `kiali_health_status` to the allowlist
 
-On the **hub**, add `kiali_health_status` to the existing `observability-metrics-custom-allowlist` ConfigMap (or create it if it does not exist). If you followed the hub/spoke tutorial, the ConfigMap already has Istio metric names — the command below appends `kiali_health_status` only if it is not already listed:
+On the **hub**, add `kiali_health_status` to the existing `observability-metrics-custom-allowlist` ConfigMap (or create it if it does not exist). The metric name goes under the `names:` list in the `uwl_metrics_list.yaml` data key:
+
+```yaml
+data:
+  uwl_metrics_list.yaml: |
+    names:
+    - istio_requests_total
+    # ... other metrics ...
+    - kiali_health_status
+```
+
+If you followed the hub/spoke guide, the ConfigMap already has Istio metric names — the command below appends `kiali_health_status` only if it is not already listed:
 
 ```bash
 oc --context=ossm-kiali-hub -n open-cluster-management-observability \
@@ -665,18 +644,18 @@ oc --context=ossm-kiali-hub -n open-cluster-management-observability \
   | jq '.data["uwl_metrics_list.yaml"] as $cfg
         | if ($cfg | test("kiali_health_status"))
           then .
-          else .data["uwl_metrics_list.yaml"] = ($cfg + "    - kiali_health_status\n")
+          else .data["uwl_metrics_list.yaml"] = ($cfg + "- kiali_health_status\n")
           end' \
   | oc --context=ossm-kiali-hub apply -f -
 ```
 
-If the ConfigMap does not exist yet, create it first with whatever metrics your environment needs (see the [hub/spoke tutorial]({{< relref "./ossm-acm-hub-spoke" >}}) for the full Istio metrics list), then re-run the command above to append `kiali_health_status`.
+If the ConfigMap does not exist yet, create it first with whatever metrics your environment needs (see the [hub/spoke guide]({{< relref "./ossm-acm-hub-spoke" >}}) for the full Istio metrics list), then re-run the command above to append `kiali_health_status`.
 
 ACM distributes the allowlist to managed clusters. Collectors then push matching series to hub Thanos (default interval is about five minutes — expect that latency before hub queries show data).
 
 ### 6.2 Verify on the hub
 
-After applying the allowlist, wait at least **10 minutes** for ACM to distribute it to managed clusters and for two collection cycles to complete (each cycle is about 5 minutes). Then query hub Thanos the same way as the [hub/spoke guide]({{< relref "./ossm-acm-hub-spoke" >}}) — by proxying to the ACM `observability-thanos-query-frontend` service on the hub:
+After applying the allowlist, wait at least 10 minutes for ACM to distribute it to managed clusters and for two collection cycles to complete. Then query hub Thanos the same way as the [hub/spoke guide]({{< relref "./ossm-acm-hub-spoke" >}}) — by proxying to the ACM `observability-thanos-query-frontend` service on the hub:
 
 ```bash
 oc --context=ossm-kiali-hub -n open-cluster-management-observability \
@@ -685,14 +664,18 @@ oc --context=ossm-kiali-hub -n open-cluster-management-observability \
   | jq .
 ```
 
-Confirm series appear and include cluster identity labels so you can filter by managed cluster. Recording rules from Phase 4 (`kiali:health_status:max` and friends) stay on each cluster's UWM Prometheus — they are not pushed to the hub unless you also allowlist those metric names. The hub alerts below therefore use inline `max by (...)` on the raw gauge.
+Confirm the `kiali_health_status` metric appears and includes cluster identity labels so you can filter by managed cluster.
 
 ### 6.3 Apply hub alert rules
+
+{{% alert color="info" %}}
+In Phase 4 we created recording rules on each managed cluster to pre-aggregate `kiali_health_status` into `kiali:health_status:max`. Those recording rules stay on each cluster's UWM Prometheus — they are not pushed to the hub. For the hub alerts below, we take a simpler approach and inline the `max by (...)` aggregation directly in each alert expression rather than creating separate recording rules on the hub. You can opt to use recording rules on the hub as well if you prefer that approach.
+{{% /alert %}}
 
 Create ACM Thanos Ruler custom rules on the **hub**. ACM loads the ConfigMap named `thanos-ruler-custom-rules` in `open-cluster-management-observability` (data key must be `custom_rules.yaml`). These alerts parallel the Phase 4 baseline alerts but use distinct names so you can tell hub alerts from managed-cluster alerts:
 
 ```bash
-oc --context=ossm-kiali-hub apply -f - <<EOF
+oc --context=ossm-kiali-hub apply -f - <<'EOF'
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -713,8 +696,8 @@ data:
           severity: critical
         annotations:
           summary: >-
-            {{ \$labels.health_type }} {{ \$labels.name }} in {{ \$labels.exported_namespace }}
-            (cluster {{ \$labels.cluster }}) has Failure health status
+            {{ $labels.health_type }} {{ $labels.name }} in {{ $labels.exported_namespace }}
+            (cluster {{ $labels.cluster }}) has Failure health status
           description: >-
             Hub Thanos Ruler: Kiali reported Failure (kiali_health_status == 3)
             for at least 5 minutes.
@@ -728,8 +711,8 @@ data:
           severity: warning
         annotations:
           summary: >-
-            {{ \$labels.health_type }} {{ \$labels.name }} in {{ \$labels.exported_namespace }}
-            (cluster {{ \$labels.cluster }}) has Degraded health status
+            {{ $labels.health_type }} {{ $labels.name }} in {{ $labels.exported_namespace }}
+            (cluster {{ $labels.cluster }}) has Degraded health status
           description: >-
             Hub Thanos Ruler: Kiali reported Degraded (kiali_health_status == 2)
             for at least 10 minutes.
@@ -743,17 +726,13 @@ data:
           severity: critical
         annotations:
           summary: >-
-            Namespace {{ \$labels.exported_namespace }} (cluster {{ \$labels.cluster }})
+            Namespace {{ $labels.exported_namespace }} (cluster {{ $labels.cluster }})
             has Failure health status
           description: >-
             Hub Thanos Ruler: Kiali namespace aggregate health status is Failure
             (kiali_health_status == 3) for at least 5 minutes.
 EOF
 ```
-
-{{% alert color="info" %}}
-**Shell note:** Same as Phase 4 — use `\$labels` in the heredoc so the shell does not expand `$labels` before `oc apply`.
-{{% /alert %}}
 
 {{% alert color="warning" %}}
 **Do not drop existing hub rules.** If `thanos-ruler-custom-rules` already exists, **merge** the `kiali.health.hub.alerts` group into the existing `custom_rules.yaml` instead of replacing the ConfigMap with a shorter file that only contains the Kiali group.
@@ -777,7 +756,7 @@ oc --context=ossm-kiali-hub -n open-cluster-management-observability \
 After ACM has collected Failure/Degraded samples and the alert `for` duration has elapsed, check for firing alerts on the **hub** (not the managed cluster's **Observe > Alerting**):
 
 - ACM Observability Grafana Explore — query `ALERTS{alertname=~"KialiHub.*"}`
-- Or proxy Thanos the same way as in 6.2:
+- Or proxy Thanos:
 
 ```bash
 oc --context=ossm-kiali-hub -n open-cluster-management-observability \
@@ -890,11 +869,31 @@ You can combine receivers (Slack + email, multiple routes, `matchers` on `severi
 
 ## Cleanup
 
-Remove the resources this guide created. Re-export `${KIALI_NS}` and `${KIALI_CR_NS}` if you are in a new shell. If you still have leftovers from the Phase 5 trigger demo (fault VirtualService, temporary `health_config`, shortened `for`), run the [Phase 5 demo cleanup](#55-cleanup-the-demo) first.
+Remove the resources this guide created. Re-export `${KIALI_NS}` and `${KIALI_CR_NS}` if you are in a new shell.
 
 On each cluster where you completed Phases 1–5:
 
 ```bash
+# Phase 5 demo: remove fault injection and restore health_config
+oc --context=ossm-kiali-spoke delete virtualservice kiali-health-alert-demo \
+  -n bookinfo --ignore-not-found
+
+BACKUP=$(cat /tmp/kiali-health-config-backup.json 2>/dev/null)
+if [ -n "${BACKUP}" ] && [ "${BACKUP}" != "{}" ]; then
+  oc --context=ossm-kiali-spoke patch kiali kiali -n "${KIALI_CR_NS}" --type=merge \
+    -p "{\"spec\":{\"health_config\":${BACKUP}}}"
+else
+  oc --context=ossm-kiali-spoke patch kiali kiali -n "${KIALI_CR_NS}" --type=json \
+    -p='[{"op": "remove", "path": "/spec/health_config"}]' 2>/dev/null || true
+fi
+
+# Phase 5 demo: restore production "for" on KialiHealthFailure
+oc --context=ossm-kiali-spoke get prometheusrule kiali-health-status -n "${KIALI_NS}" -o json 2>/dev/null \
+  | jq 'del(.status)
+        | (.spec.groups[] | select(.name == "kiali.health.alerts").rules[]
+           | select(.alert == "KialiHealthFailure").for) = "5m"' \
+  | oc --context=ossm-kiali-spoke apply -f - 2>/dev/null || true
+
 # PrometheusRules (baseline from Phase 4 + optional custom rules from Phase 5)
 oc --context=ossm-kiali-spoke delete prometheusrule \
   kiali-health-status \
@@ -924,7 +923,7 @@ oc --context=ossm-kiali-spoke wait kiali kiali \
 
 Do **not** delete `kiali-cabundle-openshift` — the Kiali operator or Helm chart owns that ConfigMap.
 
-This guide may have enabled User Workload Monitoring via `cluster-monitoring-config`. Leave that ConfigMap in place if you still need UWM (for example after the hub/spoke tutorial). Remove it only if you enabled UWM solely for this guide and want monitoring for user projects turned off:
+This guide may have enabled User Workload Monitoring via `cluster-monitoring-config`. Leave that ConfigMap in place if you still need UWM (for example after the hub/spoke guide). Remove it only if you enabled UWM solely for this guide and want monitoring for user projects turned off:
 
 ```bash
 # Optional — disables UWM cluster-wide
@@ -939,7 +938,7 @@ If you added `kiali_health_status` to the hub allowlist, remove only that name w
 ```bash
 oc --context=ossm-kiali-hub -n open-cluster-management-observability \
   get configmap observability-metrics-custom-allowlist -o json \
-  | jq '.data["uwl_metrics_list.yaml"] |= gsub("    - kiali_health_status\n"; "")' \
+  | jq '.data["uwl_metrics_list.yaml"] |= gsub("- kiali_health_status\n"; "")' \
   | oc --context=ossm-kiali-hub apply -f -
 ```
 
