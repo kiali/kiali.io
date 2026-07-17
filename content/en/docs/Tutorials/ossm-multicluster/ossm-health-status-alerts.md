@@ -109,14 +109,14 @@ oc --context=ossm-kiali-spoke create configmap cluster-monitoring-config \
   --from-literal=config.yaml="enableUserWorkload: true"
 ```
 
-If it already exists, patch it to add the flag without removing other keys:
+If it already exists, patch it to set the flag without removing other keys:
 
 ```bash
 oc --context=ossm-kiali-spoke get configmap cluster-monitoring-config \
   -n openshift-monitoring -o json \
   | jq '.data["config.yaml"] as $cfg
-        | if ($cfg | test("enableUserWorkload:\\s*true"))
-          then .
+        | if ($cfg | test("enableUserWorkload"))
+          then .data["config.yaml"] = ($cfg | sub("enableUserWorkload:\\s*\\w+"; "enableUserWorkload: true"))
           else .data["config.yaml"] = ($cfg + "\nenableUserWorkload: true\n")
           end' \
   | oc --context=ossm-kiali-spoke apply -f -
