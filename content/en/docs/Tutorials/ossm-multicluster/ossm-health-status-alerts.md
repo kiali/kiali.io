@@ -7,7 +7,7 @@ weight: 40
 ## Overview
 
 {{% alert color="info" %}}
-**This guide works standalone.** Unlike the other guides in this series, which focus specifically on multi-cluster OpenShift environments, this guide applies to any OpenShift cluster running Kiali — single-cluster or multi-cluster. Follow Phases 1–5 on any cluster to set up health-status alerting. Phase 6 adds optional multi-cluster integration with ACM.
+**This guide is the fourth in the series but also works standalone.** The earlier guides focus on setting up a multi-cluster OpenShift environment; this guide applies to any OpenShift cluster running Kiali — single-cluster or multi-cluster. Follow Phases 1–5 on any cluster to set up health-status alerting. Phase 6 adds optional multi-cluster integration with ACM for readers who completed the earlier guides.
 {{% /alert %}}
 
 This guide shows how to export Kiali's mesh health (Healthy / Not Ready / Degraded / Failure) as the Prometheus gauge `kiali_health_status`, scrape it with OpenShift User Workload Monitoring (UWM), and define useful recording rules and alerts that appear in the OpenShift console under **Observe > Alerting**.
