@@ -70,9 +70,9 @@ echo "KIALI_NS=${KIALI_NS}"
 {{% alert color="info" %}}
 **Non-default instance names:** This guide assumes the default Kiali instance name `kiali`. If your Kiali CR uses a different `spec.deployment.instance_name`, the Kiali installer names resources after that value. The resources in this guide affected by the instance name are:
 
-- **Service** — `<instance-name>` (default: `kiali`)
-- **CA ConfigMap** — `<instance-name>-cabundle-openshift` (default: `kiali-cabundle-openshift`)
-- **ServiceMonitor `serverName`** — `<instance-name>.<namespace>.svc` (default: `kiali.istio-system.svc`)
+- **Service** — `<kiali-instance-name>` (default: `kiali`)
+- **CA ConfigMap** — `<kiali-instance-name>-cabundle-openshift` (default: `kiali-cabundle-openshift`)
+- **ServiceMonitor `serverName`** — `<kiali-instance-name>.<namespace>.svc` (default: `kiali.istio-system.svc`)
 
 Substitute accordingly. The Kiali CR name itself may or may not be `kiali` and is independent of the instance name — use `oc get kiali -A` to confirm the name of your Kiali CR.
 {{% /alert %}}
@@ -163,9 +163,18 @@ You should see `enableUserWorkload: true` and at least one Ready Prometheus pod 
 
 ## Phase 2: Enable Kiali health-status metrics
 
-Export of `kiali_health_status` is controlled by `server.observability.metrics.health_status.enabled` (default: `false`). The health cache that feeds the gauge is on by default; you only need to change it if you previously disabled it via `kiali_internal.health_cache.enabled: false`.
+The `kiali_health_status` Prometheus gauge is the per-entity health score Kiali computes. Each time series represents one mesh entity with these labels:
 
-On OpenShift, both flags are required: `server.observability.metrics.enabled: true` makes the Kiali installer (operator or server Helm chart) expose the metrics Service port (`tcp-metrics`) and pod scrape annotations, and `server.observability.metrics.health_status.enabled: true` activates the health gauge on that endpoint.
+- **`cluster`** — cluster name as known to Kiali
+- **`health_type`** — `app`, `service`, `workload`, or `namespace`
+- **`namespace`** — entity namespace
+- **`name`** — entity name (for `health_type="namespace"`, this is the namespace name)
+
+Gauge values are `0`–`3` as listed in [Overview](#overview). `NA` is not written as a gauge value — after `max_consecutive_na` consecutive refresh cycles (default: `3`) when an entity is unavailable or missing, Kiali stops exporting its series.
+
+This gauge needs to be exported in order for Prometheus to scrape its value. This export is controlled by `server.observability.metrics.health_status.enabled` (default: `false`). The health cache that computes the gauge is enabled by default; you only need to re-enable it if you previously disabled it via `kiali_internal.health_cache.enabled: false`.
+
+Both flags are required: `server.observability.metrics.enabled: true` tells the Kiali installer (operator or server Helm chart) to expose the metrics Service port and to add pod scrape annotations, and `server.observability.metrics.health_status.enabled: true` activates the health gauge on that endpoint.
 
 ### 2.1 Patch the Kiali CR
 
@@ -206,24 +215,17 @@ oc --context=ossm-kiali-spoke get svc kiali -n "${KIALI_NS}" \
 
 You should see `metrics.enabled` and `health_status.enabled` both true, and a `tcp-metrics` (or `http-metrics`) port on `9090`.
 
-{{% alert color="info" %}}
-**`kiali_health_status` semantics:** Each time series represents one mesh entity with these labels:
-
-- **`cluster`** — cluster name as known to Kiali
-- **`health_type`** — `app`, `service`, `workload`, or `namespace`
-- **`namespace`** — entity namespace
-- **`name`** — entity name (for `health_type="namespace"`, this is the namespace name)
-
-Gauge values are `0`–`3` as listed in [Overview](#overview). `NA` is not written as a gauge value — after `max_consecutive_na` consecutive refresh cycles (default: `3`) when an entity is unavailable or missing, its series is removed from scrapes.
-{{% /alert %}}
-
 ---
 
 ## Phase 3: Scrape Kiali with a ServiceMonitor
 
-Create a `ServiceMonitor` in the Kiali server namespace so User Workload Monitoring scrapes Kiali's HTTPS metrics endpoint (`tcp-metrics` / port `9090`) and ingests `kiali_health_status` into UWM Prometheus. Without this scrape, the gauge stays local to Kiali and never appears under **Observe** or in alert evaluation.
+Create a `ServiceMonitor` in the Kiali server namespace so User Workload Monitoring scrapes Kiali's HTTPS metrics endpoint (`tcp-metrics` / port `9090`) and ingests `kiali_health_status` into UWM Prometheus. Without this scrape, Prometheus never ingests the gauge and it never appears under **Observe** or in alert evaluation.
 
-UWM sets `arbitraryFSAccessThroughSMs.deny: true`, so the `ServiceMonitor` **must not** use `tlsConfig.caFile` (that path works for platform Prometheus in some docs, but UWM rejects it). Instead, reference the OpenShift service CA ConfigMap that the Kiali installation already creates in the Kiali namespace. The ConfigMap is named `<instance-name>-cabundle-openshift` (default instance name is `kiali`, so the default ConfigMap name is `kiali-cabundle-openshift`). OpenShift automatically injects `service-ca.crt` into that ConfigMap via `service.beta.openshift.io/inject-cabundle`.
+Kiali's metrics endpoint uses HTTPS (service-serving certificates on OpenShift), so the ServiceMonitor must include TLS configuration with the correct CA. The Kiali installation creates a ConfigMap named `<kial-instance-name>-cabundle-openshift` (default: `kiali-cabundle-openshift`) that OpenShift automatically populates with the service CA via `service.beta.openshift.io/inject-cabundle`. The ServiceMonitor below references this ConfigMap.
+
+{{% alert color="warning" %}}
+**Do not use `tlsConfig.caFile`** in the ServiceMonitor. UWM blocks filesystem access (`arbitraryFSAccessThroughSMs.deny: true`), so `caFile` paths that work for platform Prometheus will be rejected. Use the ConfigMap-based `tlsConfig.ca` form shown below instead.
+{{% /alert %}}
 
 ### 3.1 Confirm the CA ConfigMap
 
@@ -268,14 +270,6 @@ spec:
 EOF
 ```
 
-{{% alert color="info" %}}
-**Port name:** On OpenShift with service-serving certificates, the metrics port is named `tcp-metrics`. If your Service uses a different name, adjust `spec.endpoints[].port`.
-{{% /alert %}}
-
-{{% alert color="warning" %}}
-**UWM namespace label rewrite:** User Workload Monitoring overwrites the Prometheus `namespace` label with the namespace of the `ServiceMonitor` / `PrometheusRule` (usually `istio-system`). Kiali's original mesh namespace is preserved as **`exported_namespace`**. Use `exported_namespace` in PromQL, recording rules, and alert annotations — do not try to put the mesh namespace back into `namespace` (UWM will overwrite it again on rule results).
-{{% /alert %}}
-
 ### 3.3 Verify the scrape
 
 Kiali's health cache refreshes every 3 minutes by default. After the first refresh cycle completes and a UWM scrape picks it up (another 30 seconds), `kiali_health_status` series will appear. Allow up to 5 minutes after applying the ServiceMonitor before checking.
@@ -300,10 +294,10 @@ oc --context=ossm-kiali-spoke -n openshift-user-workload-monitoring \
 
 Either way, you should see series with `health_type`, `name`, and `exported_namespace` labels. If the result is empty:
 
-1. Confirm Kiali shows health for the demo namespace in the UI
-2. Confirm `metrics.enabled` and `health_status.enabled` are both true
-3. Confirm UWM picked up the ServiceMonitor and its scrape target is up (in the Prometheus UI or targets API, look for job `kiali` / scrapePool `serviceMonitor/<namespace>/kiali/0`). If the operator event says the ServiceMonitor was rejected for accessing the filesystem via TLS config, you still have a `caFile` — switch to the ConfigMap `ca` form above.
-4. TLS mismatches usually mean a wrong `serverName` (must be `<instance-name>.<namespace>.svc`), a wrong CA ConfigMap name (must match your instance: `<instance-name>-cabundle-openshift`), or a ConfigMap that does not yet have the injected `service-ca.crt` key
+1. Confirm Kiali shows health for the demo namespace in the Kiali web console
+2. Confirm `server.observability.metrics.enabled` and `server.observability.metrics.health_status.enabled` are both true in the Kiali CR
+3. Confirm UWM is scraping the Kiali target. In the OpenShift console, go to **Observe > Targets** and look for a target with endpoint `https://...:9090/metrics` in the `istio-system` namespace — it should show **UP**. If it shows **DOWN** with a TLS error, check the `serverName` and CA ConfigMap. If the ServiceMonitor was rejected entirely (no target appears), check for events on the ServiceMonitor with `oc describe servicemonitor kiali -n ${KIALI_NS}` — a common cause is using `tlsConfig.caFile` instead of the ConfigMap `ca` form.
+4. TLS mismatches usually mean a wrong `serverName` (must be `<kiali-instance-name>.<namespace>.svc`), a wrong CA ConfigMap name (must match your instance: `<kiali-instance-name>-cabundle-openshift`), or a ConfigMap that does not yet have the injected `service-ca.crt` key
 
 ---
 
@@ -317,7 +311,11 @@ If you run Kiali with more than one replica (high availability), each pod export
 
 Aggregate with `max by (...)` so each logical entity appears once and the **worst** health wins (Failure `3` beats Degraded `2`, and so on). That pattern stays correct for a single replica too.
 
-On OpenShift UWM, keep the mesh namespace as **`exported_namespace`**:
+{{% alert color="warning" %}}
+**UWM namespace label rewrite:** User Workload Monitoring overwrites the Prometheus `namespace` label with the namespace of the `ServiceMonitor` / `PrometheusRule` (usually `istio-system`). Kiali's original mesh namespace is preserved as **`exported_namespace`**. Use `exported_namespace` in PromQL, recording rules, and alert annotations — not `namespace`.
+{{% /alert %}}
+
+Keep the mesh namespace as **`exported_namespace`** in the aggregation:
 
 ```promql
 max by (cluster, exported_namespace, health_type, name) (kiali_health_status)
