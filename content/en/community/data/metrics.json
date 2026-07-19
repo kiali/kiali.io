@@ -990,14 +990,20 @@
                     "issues": 122,
                     "stars": 3622,
                     "size": 90892
+                },
+                "2026-07-18": {
+                    "forks": 565,
+                    "issues": 110,
+                    "stars": 3625,
+                    "size": 90249
                 }
             },
             "language": {
-                "Go": 6756599,
-                "TypeScript": 4815338,
-                "Shell": 1497981,
+                "Go": 6773776,
+                "TypeScript": 4842272,
+                "Shell": 1500161,
                 "Gherkin": 252032,
-                "Makefile": 115962,
+                "Makefile": 116888,
                 "SCSS": 9628,
                 "JavaScript": 7231,
                 "Dockerfile": 1595,
@@ -1592,12 +1598,18 @@
                     "issues": 6,
                     "stars": 90,
                     "size": 3207
+                },
+                "2026-07-18": {
+                    "forks": 131,
+                    "issues": 4,
+                    "stars": 91,
+                    "size": 3232
                 }
             },
             "language": {
                 "Shell": 113497,
                 "Python": 49858,
-                "Dockerfile": 36693,
+                "Dockerfile": 37163,
                 "Makefile": 18186
             }
         },
@@ -2093,13 +2105,19 @@
                     "issues": 9,
                     "stars": 8,
                     "size": 13743
+                },
+                "2026-07-17": {
+                    "forks": 21,
+                    "issues": 5,
+                    "stars": 8,
+                    "size": 13806
                 }
             },
             "language": {
-                "TypeScript": 4855231,
+                "TypeScript": 4882151,
                 "Gherkin": 254048,
                 "Makefile": 19278,
-                "Shell": 16226,
+                "Shell": 16193,
                 "SCSS": 9722,
                 "JavaScript": 6488,
                 "Dockerfile": 1238
