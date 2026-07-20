@@ -20,6 +20,55 @@ spec:
       validation_reconcile_interval: "0s"
 ```
 
+## Ignoring validations
+
+Kiali can ignore validation errors and warnings that are not relevant to your environment. This is useful when a validation is correct in general but does not apply to a specific resource, such as an AuthorizationPolicy that references a CronJob service account only while the job is running.
+
+There are two ways to ignore validations:
+
+### Globally via the Kiali CR
+
+You can ignore one or more validation codes across all resources by configuring `kiali_feature_flags.validations.ignore` in the Kiali CR. See the [Kiali CR reference](/docs/configuration/kialis.kiali.io/#.spec.kiali_feature_flags.validations.ignore) for details.
+
+```yaml
+spec:
+  kiali_feature_flags:
+    validations:
+      ignore: ["KIA0106"]
+```
+
+Ignored validations are still logged by Kiali but are not shown in the UI.
+
+### Per object via annotation
+
+You can ignore validations for a single resource by adding the `kiali.io/ignore-validations` annotation to that object. This works on Istio configuration objects, Gateway API resources, services, and workloads.
+
+To ignore all validations for the object, set the annotation with an empty value:
+
+```yaml
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: backup-policy
+  namespace: my-ns
+  annotations:
+    kiali.io/ignore-validations: ""
+```
+
+To ignore specific validation codes, provide a comma-separated list of codes:
+
+```yaml
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: backup-policy
+  namespace: my-ns
+  annotations:
+    kiali.io/ignore-validations: "KIA0101,KIA0102"
+```
+
+Per-object ignores apply in addition to any globally ignored validation codes configured in the Kiali CR.
+
 The complete list of validations:
 
 ## AuthorizationPolicy {#authorizationpolicies}
