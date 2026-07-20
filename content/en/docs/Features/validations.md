@@ -22,7 +22,7 @@ spec:
 
 ## Ignoring validations
 
-Kiali can hide validation errors and warnings that are not relevant to your environment. This is useful when a validation is correct in general but does not apply to a specific resource, such as an AuthorizationPolicy that references a CronJob service account only while the job is running.
+Kiali can ignore validation errors and warnings that are not relevant to your environment. This is useful when a validation is correct in general but does not apply to a specific resource, such as an AuthorizationPolicy that references a CronJob service account only while the job is running.
 
 There are two ways to ignore validations:
 
