@@ -18,11 +18,15 @@ This guide extends the result of the [MultiCluster on OpenShift]({{< relref "./o
 
 **Cluster roles after this guide:**
 
-| Context | Role |
-|---------|------|
-| `ossm-kiali-hub` | ACM hub — fleet management + centralized Thanos metrics (unchanged) |
-| `ossm-kiali-spoke` | Istio primary cluster 1 — existing mesh + Kiali |
-| `ossm-kiali-spoke-two` | Istio primary cluster 2 — new, added to the mesh |
+- `ossm-kiali-hub` — ACM hub: fleet management + centralized Thanos metrics (unchanged)
+- `ossm-kiali-spoke` — Istio primary cluster 1: existing mesh + Kiali
+- `ossm-kiali-spoke-two` — Istio primary cluster 2: new, added to the mesh
+
+The diagram below shows the environment after this guide completes. Components from Guide 1 are marked `prior`; badges such as `G2:P5.1-5.3` mark which guide section(s) add each piece (Guide 2, §§5.1–5.3). Click the diagram to open a full-size SVG in a new tab.
+
+<a href="/images/ossm-multicluster/02-multi-primary.svg" target="_blank" rel="noopener noreferrer">
+<img src="/images/ossm-multicluster/02-multi-primary.png" alt="Environment after Multi-Primary Mesh" title="Multi-primary environment after Guide 2 — click for full-size SVG">
+</a>
 
 ---
 

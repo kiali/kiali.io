@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900"
+     viewBox="0 0 1600 900">
+  <rect width="100%" height="100%" fill="#fafbfc"/>
+  <text x="24" y="30" font-size="20" font-weight="bold"
+        font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif"
+        fill="#1a1a1a">Guide 3 — Dashboards and Tracing (Perses + Tempo)</text>
+<rect x="20" y="50" width="280" height="620" rx="8" fill="#e8eef5" stroke="#5a6a7a" stroke-width="2" opacity="1.0"/>
+<text x="32" y="74" font-size="17" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">ossm-kiali-hub</text>
+<text x="32" y="92" font-size="13" font-weight="normal" fill="#6b7280" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">ACM hub + Thanos</text>
+<rect x="360" y="50" width="560" height="620" rx="8" fill="#e8eef5" stroke="#5a6a7a" stroke-width="2" opacity="1.0"/>
+<text x="372" y="74" font-size="17" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">ossm-kiali-spoke</text>
+<text x="372" y="92" font-size="13" font-weight="normal" fill="#6b7280" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Kiali + Perses + Tempo</text>
+<rect x="980" y="50" width="380" height="620" rx="8" fill="#e8eef5" stroke="#5a6a7a" stroke-width="2" opacity="1.0"/>
+<text x="992" y="74" font-size="17" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">ossm-kiali-spoke-two</text>
+<text x="992" y="92" font-size="13" font-weight="normal" fill="#6b7280" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">OTEL forwarder</text>
+<rect x="35" y="100" width="250" height="90" rx="4" fill="#fafbfc" stroke="#a0a8b0" stroke-width="1.2" opacity="1.0"/>
+<rect x="41" y="104" width="52" height="20" rx="3" fill="#9aa0a6" stroke="#9aa0a6" stroke-width="0" opacity="1.0"/>
+<text x="67.0" y="119" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">prior</text>
+<text x="103" y="118" font-size="13" font-weight="bold" fill="#6b7280" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Hub Thanos /</text>
+<text x="103" y="133" font-size="13" font-weight="bold" fill="#6b7280" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Observatorium</text>
+<text x="43" y="151" font-size="12" font-weight="normal" fill="#6b7280" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">(from Guide 1)</text>
+<text x="43" y="166" font-size="12" font-weight="normal" fill="#6b7280" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Perses + Kiali query here</text>
+<rect x="35" y="210" width="250" height="70" rx="4" fill="#fafbfc" stroke="#a0a8b0" stroke-width="1.2" opacity="1.0"/>
+<rect x="41" y="214" width="52" height="20" rx="3" fill="#9aa0a6" stroke="#9aa0a6" stroke-width="0" opacity="1.0"/>
+<text x="67.0" y="229" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">prior</text>
+<text x="103" y="228" font-size="13" font-weight="bold" fill="#6b7280" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">ManagedClusters</text>
+<text x="43" y="246" font-size="12" font-weight="normal" fill="#6b7280" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">spoke + spoke-two</text>
+<text x="43" y="261" font-size="12" font-weight="normal" fill="#6b7280" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">(from Guides 1–2)</text>
+<rect x="380" y="100" width="260" height="70" rx="4" fill="#fafbfc" stroke="#a0a8b0" stroke-width="1.2" opacity="1.0"/>
+<rect x="386" y="104" width="52" height="20" rx="3" fill="#9aa0a6" stroke="#9aa0a6" stroke-width="0" opacity="1.0"/>
+<text x="412.0" y="119" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">prior</text>
+<text x="448" y="118" font-size="13" font-weight="bold" fill="#6b7280" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Mesh + Kiali</text>
+<text x="388" y="136" font-size="12" font-weight="normal" fill="#6b7280" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">multi-primary mesh</text>
+<text x="388" y="151" font-size="12" font-weight="normal" fill="#6b7280" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">(from Guides 1–2)</text>
+<rect x="660" y="100" width="240" height="70" rx="4" fill="#fafbfc" stroke="#a0a8b0" stroke-width="1.2" opacity="1.0"/>
+<rect x="666" y="104" width="52" height="20" rx="3" fill="#9aa0a6" stroke="#9aa0a6" stroke-width="0" opacity="1.0"/>
+<text x="692.0" y="119" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">prior</text>
+<text x="728" y="118" font-size="13" font-weight="bold" fill="#6b7280" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">East-West / demos</text>
+<text x="668" y="136" font-size="12" font-weight="normal" fill="#6b7280" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">(from Guide 2)</text>
+<rect x="380" y="190" width="520" height="55" rx="4" fill="#fafbfc" stroke="#334455" stroke-width="1.2" opacity="1.0"/>
+<rect x="386" y="194" width="58.0" height="20" rx="3" fill="#2ca02c" stroke="#2ca02c" stroke-width="0" opacity="1.0"/>
+<text x="415.0" y="209" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G3:P1.1</text>
+<text x="454.0" y="208" font-size="13" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Cluster Observability Operator</text>
+<text x="388" y="226" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">COO</text>
+<rect x="380" y="260" width="260" height="100" rx="4" fill="#fafbfc" stroke="#334455" stroke-width="1.2" opacity="1.0"/>
+<rect x="386" y="264" width="82.0" height="20" rx="3" fill="#2ca02c" stroke="#2ca02c" stroke-width="0" opacity="1.0"/>
+<text x="427.0" y="279" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G3:P1.2-1.4</text>
+<text x="478.0" y="278" font-size="13" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Perses</text>
+<text x="388" y="296" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Monitoring UIPlugin (1.2)</text>
+<text x="388" y="311" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">PersesDatasource (1.3)</text>
+<text x="388" y="326" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">3 Istio dashboards (1.4)</text>
+<rect x="660" y="260" width="240" height="100" rx="4" fill="#fafbfc" stroke="#334455" stroke-width="1.2" opacity="1.0"/>
+<rect x="666" y="264" width="82.0" height="20" rx="3" fill="#2ca02c" stroke="#2ca02c" stroke-width="0" opacity="1.0"/>
+<text x="707.0" y="279" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G3:P1.3/1.5</text>
+<text x="758.0" y="278" font-size="13" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Perses mTLS +</text>
+<text x="758.0" y="293" font-size="13" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Kiali config</text>
+<text x="668" y="311" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">perses-acm-server-ca (1.3)</text>
+<text x="668" y="326" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">perses-acm-client-certs (1.3)</text>
+<text x="668" y="341" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Kiali config (1.5)</text>
+<rect x="380" y="380" width="260" height="110" rx="4" fill="#fafbfc" stroke="#334455" stroke-width="1.2" opacity="1.0"/>
+<rect x="386" y="384" width="82.0" height="20" rx="3" fill="#2ca02c" stroke="#2ca02c" stroke-width="0" opacity="1.0"/>
+<text x="427.0" y="399" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G3:P2.1-2.3</text>
+<text x="478.0" y="398" font-size="13" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">TempoStack</text>
+<text x="388" y="416" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Tempo + OpenTelemetry Operators (2.1)</text>
+<text x="388" y="431" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">MinIO in tempo ns (2.2)</text>
+<text x="388" y="446" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">gateway ClusterRoles (2.3)</text>
+<rect x="660" y="380" width="240" height="110" rx="4" fill="#fafbfc" stroke="#334455" stroke-width="1.2" opacity="1.0"/>
+<rect x="666" y="384" width="82.0" height="20" rx="3" fill="#2ca02c" stroke="#2ca02c" stroke-width="0" opacity="1.0"/>
+<text x="707.0" y="399" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G3:P2.4-2.5</text>
+<text x="758.0" y="398" font-size="13" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">OTEL on spoke</text>
+<text x="668" y="416" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">local collector (2.4)</text>
+<text x="668" y="431" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">remote receiver + Route (2.5)</text>
+<text x="668" y="446" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">mTLS server/client certs (2.5)</text>
+<rect x="380" y="510" width="520" height="70" rx="4" fill="#fafbfc" stroke="#334455" stroke-width="1.2" opacity="1.0"/>
+<rect x="386" y="514" width="82.0" height="20" rx="3" fill="#2ca02c" stroke="#2ca02c" stroke-width="0" opacity="1.0"/>
+<text x="427.0" y="529" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G3:P2.7-2.8</text>
+<text x="478.0" y="528" font-size="13" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Istio tracing config</text>
+<text x="388" y="546" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Istio extensionProviders + Telemetry CR (2.7)</text>
+<text x="388" y="561" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">DistributedTracing UIPlugin (2.8)</text>
+<rect x="380" y="600" width="520" height="55" rx="4" fill="#fafbfc" stroke="#334455" stroke-width="1.2" opacity="1.0"/>
+<rect x="386" y="604" width="58.0" height="20" rx="3" fill="#2ca02c" stroke="#2ca02c" stroke-width="0" opacity="1.0"/>
+<text x="415.0" y="619" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G3:P2.9</text>
+<text x="454.0" y="618" font-size="13" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Kiali Tempo config</text>
+<text x="388" y="636" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">external_services.tracing</text>
+<rect x="1000" y="100" width="340" height="70" rx="4" fill="#fafbfc" stroke="#a0a8b0" stroke-width="1.2" opacity="1.0"/>
+<rect x="1006" y="104" width="52" height="20" rx="3" fill="#9aa0a6" stroke="#9aa0a6" stroke-width="0" opacity="1.0"/>
+<text x="1032.0" y="119" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">prior</text>
+<text x="1068" y="118" font-size="13" font-weight="bold" fill="#6b7280" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Mesh + demos</text>
+<text x="1008" y="136" font-size="12" font-weight="normal" fill="#6b7280" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">(from Guide 2)</text>
+<rect x="1000" y="190" width="340" height="95" rx="4" fill="#fafbfc" stroke="#334455" stroke-width="1.2" opacity="1.0"/>
+<rect x="1006" y="194" width="58.0" height="20" rx="3" fill="#2ca02c" stroke="#2ca02c" stroke-width="0" opacity="1.0"/>
+<text x="1035.0" y="209" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G3:P2.6</text>
+<text x="1074.0" y="208" font-size="13" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">OTEL forwarder</text>
+<text x="1008" y="226" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">OpenTelemetry Operator</text>
+<text x="1008" y="241" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">otel-collector to spoke Route</text>
+<text x="1008" y="256" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">k8s.cluster.name=spoke-two</text>
+<rect x="1000" y="305" width="340" height="70" rx="4" fill="#fafbfc" stroke="#334455" stroke-width="1.2" opacity="1.0"/>
+<rect x="1006" y="309" width="58.0" height="20" rx="3" fill="#2ca02c" stroke="#2ca02c" stroke-width="0" opacity="1.0"/>
+<text x="1035.0" y="324" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G3:P2.7</text>
+<text x="1074.0" y="323" font-size="13" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Istio Telemetry CR</text>
+<text x="1008" y="341" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">extensionProviders</text>
+<text x="1008" y="356" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">sampling 100%</text>
+<defs><marker id="arrow-end-1" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#e67e22"/></marker></defs>
+<line x1="380" y1="310" x2="285" y2="145" stroke="#e67e22" stroke-width="2" marker-end="url(#arrow-end-1)"/>
+<rect x="302.0" y="206" width="56" height="20" rx="3" fill="#fafbfc" stroke="#fafbfc" stroke-width="0" opacity="1.0"/>
+<text x="330" y="220" font-size="13" font-weight="bold" fill="#e67e22" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">metrics</text>
+<defs><marker id="arrow-end-2" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#8c564b"/></marker></defs>
+<line x1="1000" y1="250" x2="900" y2="400" stroke="#8c564b" stroke-width="2" marker-end="url(#arrow-end-2)"/>
+<rect x="924.0" y="296" width="52" height="20" rx="3" fill="#fafbfc" stroke="#fafbfc" stroke-width="0" opacity="1.0"/>
+<text x="950" y="310" font-size="13" font-weight="bold" fill="#8c564b" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">traces</text>
+<defs><marker id="arrow-end-3" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#e67e22"/></marker></defs>
+<line x1="750" y1="600" x2="590" y2="490" stroke="#e67e22" stroke-width="2" marker-end="url(#arrow-end-3)"/>
+<rect x="690.0" y="531" width="90" height="20" rx="3" fill="#fafbfc" stroke="#fafbfc" stroke-width="0" opacity="1.0"/>
+<text x="735" y="545" font-size="13" font-weight="bold" fill="#e67e22" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">query Tempo</text>
+<text x="40" y="695" font-size="14" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Legend</text>
+<rect x="40" y="703" width="135.0" height="20" rx="3" fill="#9aa0a6" stroke="#9aa0a6" stroke-width="0" opacity="1.0"/>
+<text x="107.5" y="718" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">prior</text>
+<text x="185.0" y="717" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">From Guides 1–2</text>
+<rect x="40" y="727" width="135.0" height="20" rx="3" fill="#2ca02c" stroke="#2ca02c" stroke-width="0" opacity="1.0"/>
+<text x="107.5" y="742" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G3:P1.1</text>
+<text x="185.0" y="741" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Cluster Observability Operator</text>
+<rect x="40" y="751" width="135.0" height="20" rx="3" fill="#2ca02c" stroke="#2ca02c" stroke-width="0" opacity="1.0"/>
+<text x="107.5" y="766" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G3:P1.2-1.4</text>
+<text x="185.0" y="765" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Perses + dashboards</text>
+<rect x="40" y="775" width="135.0" height="20" rx="3" fill="#2ca02c" stroke="#2ca02c" stroke-width="0" opacity="1.0"/>
+<text x="107.5" y="790" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G3:P1.3/1.5</text>
+<text x="185.0" y="789" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Perses mTLS + Kiali config</text>
+<rect x="40" y="799" width="135.0" height="20" rx="3" fill="#2ca02c" stroke="#2ca02c" stroke-width="0" opacity="1.0"/>
+<text x="107.5" y="814" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G3:P2.1-2.3</text>
+<text x="185.0" y="813" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">TempoStack + operators + RBAC</text>
+<rect x="420" y="703" width="135.0" height="20" rx="3" fill="#2ca02c" stroke="#2ca02c" stroke-width="0" opacity="1.0"/>
+<text x="487.5" y="718" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G3:P2.4-2.5</text>
+<text x="565.0" y="717" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">OTEL on spoke</text>
+<rect x="420" y="727" width="135.0" height="20" rx="3" fill="#2ca02c" stroke="#2ca02c" stroke-width="0" opacity="1.0"/>
+<text x="487.5" y="742" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G3:P2.6</text>
+<text x="565.0" y="741" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">OTEL forwarder (spoke-two)</text>
+<rect x="420" y="751" width="135.0" height="20" rx="3" fill="#2ca02c" stroke="#2ca02c" stroke-width="0" opacity="1.0"/>
+<text x="487.5" y="766" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G3:P2.7-2.8</text>
+<text x="565.0" y="765" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Istio tracing / Telemetry</text>
+<rect x="420" y="775" width="135.0" height="20" rx="3" fill="#2ca02c" stroke="#2ca02c" stroke-width="0" opacity="1.0"/>
+<text x="487.5" y="790" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G3:P2.9</text>
+<text x="565.0" y="789" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Kiali Tempo config</text>
+<text x="820" y="695" font-size="14" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Flows</text>
+<line x1="820" y1="711" x2="848" y2="711" stroke="#e67e22" stroke-width="2"/>
+<text x="854" y="715" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Metrics / Tempo query to backends</text>
+<line x1="820" y1="731" x2="848" y2="731" stroke="#8c564b" stroke-width="2"/>
+<text x="854" y="735" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Traces to Tempo</text>
+<text x="20" y="870" font-size="11" font-weight="normal" fill="#6b7280" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Badges are guide section numbers (G3:P2.4-2.5 = Guide 3, §§2.4–2.5). Phase 1 adds Perses; Phase 2 adds multi-cluster Tempo via OTEL.</text>
+</svg>
