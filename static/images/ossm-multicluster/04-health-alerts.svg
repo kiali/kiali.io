@@ -4,7 +4,7 @@
   <rect width="100%" height="100%" fill="#fafbfc"/>
   <text x="24" y="30" font-size="20" font-weight="bold"
         font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif"
-        fill="#1a1a1a">Guide 4 — Health Status Alerts (Kiali to UWM to Alerting)</text>
+        fill="#1a1a1a">Guide 4 — Health Status Alerts + Network Health</text>
 <rect x="40" y="50" width="340" height="465" rx="8" fill="#e8eef5" stroke="#5a6a7a" stroke-width="2" opacity="1.0"/>
 <text x="52" y="74" font-size="17" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">ossm-kiali-hub (optional)</text>
 <text x="52" y="92" font-size="13" font-weight="normal" fill="#6b7280" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Phase 6 — ACM Observability</text>
@@ -60,11 +60,17 @@
 <text x="558.0" y="368" font-size="13" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Phase 5 demo (temporary)</text>
 <text x="468" y="386" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Tighten health_config (5.2)</text>
 <text x="468" y="401" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">VirtualService abort (5.3) — forces Failure</text>
-<rect x="460" y="440" width="760" height="55" rx="4" fill="#fafbfc" stroke="#a0a8b0" stroke-width="1.2" opacity="1.0"/>
+<rect x="460" y="440" width="360" height="55" rx="4" fill="#fafbfc" stroke="#a0a8b0" stroke-width="1.2" opacity="1.0"/>
 <rect x="466" y="444" width="64.0" height="20" rx="3" fill="#9aa0a6" stroke="#9aa0a6" stroke-width="0" opacity="1.0"/>
 <text x="498.0" y="459" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">optional</text>
 <text x="540.0" y="458" font-size="13" font-weight="bold" fill="#6b7280" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Route alerts</text>
-<text x="468" y="476" font-size="12" font-weight="normal" fill="#6b7280" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">OpenShift Alertmanager to Slack / email / webhook</text>
+<text x="468" y="476" font-size="12" font-weight="normal" fill="#6b7280" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Alertmanager to Slack / email / webhook</text>
+<rect x="860" y="440" width="360" height="55" rx="4" fill="#fafbfc" stroke="#334455" stroke-width="1.2" opacity="1.0"/>
+<rect x="866" y="444" width="82.0" height="20" rx="3" fill="#9467bd" stroke="#9467bd" stroke-width="0" opacity="1.0"/>
+<text x="907.0" y="459" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G4:P7.1-7.3</text>
+<text x="958.0" y="458" font-size="13" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">NetObserv Network Health</text>
+<text x="868" y="476" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Operator + FlowCollector (7.1-7.2)</text>
+<text x="868" y="491" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">annotated rules to Observe &gt; Network Health</text>
 <defs><marker id="arrow-end-1" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#b35900"/></marker></defs>
 <line x1="820" y1="285" x2="860" y2="190" stroke="#b35900" stroke-width="2" marker-end="url(#arrow-end-1)"/>
 <rect x="812.0" y="214" width="52" height="20" rx="3" fill="#e8eef5" stroke="#e8eef5" stroke-width="0" opacity="1.0"/>
@@ -96,11 +102,14 @@
 <rect x="400" y="601" width="82.0" height="20" rx="3" fill="#9467bd" stroke="#9467bd" stroke-width="0" opacity="1.0"/>
 <text x="441.0" y="616" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G4:P6.3</text>
 <text x="492.0" y="615" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Hub Thanos Ruler alerts</text>
-<rect x="400" y="625" width="82.0" height="20" rx="3" fill="#9aa0a6" stroke="#9aa0a6" stroke-width="0" opacity="1.0"/>
-<text x="441.0" y="640" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">optional</text>
-<text x="492.0" y="639" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Alertmanager routing</text>
+<rect x="400" y="625" width="82.0" height="20" rx="3" fill="#9467bd" stroke="#9467bd" stroke-width="0" opacity="1.0"/>
+<text x="441.0" y="640" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G4:P7.1-7.3</text>
+<text x="492.0" y="639" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">NetObserv Network Health</text>
+<rect x="400" y="649" width="82.0" height="20" rx="3" fill="#9aa0a6" stroke="#9aa0a6" stroke-width="0" opacity="1.0"/>
+<text x="441.0" y="664" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">optional</text>
+<text x="492.0" y="663" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Alertmanager routing</text>
 <text x="780" y="545" font-size="14" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Flows</text>
 <line x1="780" y1="561" x2="808" y2="561" stroke="#b35900" stroke-width="2"/>
 <text x="814" y="565" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Metrics scrape / ACM collect to hub</text>
-<text x="40" y="700" font-size="11" font-weight="normal" fill="#6b7280" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Badges are guide section numbers (G4:P5.2-5.3 = Guide 4, §§5.2–5.3). Phases 1–5 run on the Kiali cluster; Phase 6 is optional ACM hub integration.</text>
+<text x="40" y="700" font-size="11" font-weight="normal" fill="#6b7280" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Badges are guide section numbers (G4:P5.2-5.3 = Guide 4, §§5.2–5.3). Phases 1–5 run on the Kiali cluster; Phase 6 is optional ACM hub; Phase 7 is optional NetObserv.</text>
 </svg>

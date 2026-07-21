@@ -766,7 +766,7 @@ def diagram_03() -> str:
 # ---------------------------------------------------------------------------
 
 def diagram_04() -> str:
-    c = SvgCanvas(1400, 740, "Guide 4 — Health Status Alerts (Kiali to UWM to Alerting)")
+    c = SvgCanvas(1400, 740, "Guide 4 — Health Status Alerts + Network Health")
     # ~60px hub↔spoke gutter for the ACM collect label
     # Matching cluster heights; spoke content sets the height (~495 + pad)
     hub = Cluster(40, 50, 340, 465, "ossm-kiali-hub (optional)", "Phase 6 — ACM Observability")
@@ -789,7 +789,8 @@ def diagram_04() -> str:
         Box(460, 240, 360, 90, "ServiceMonitor: kiali", ["HTTPS :9090 tcp-metrics", "CA: kiali-cabundle-openshift"], "G4:P3.2", guide="G4"),
         Box(860, 240, 360, 90, "PrometheusRule: alerts", ["kiali:health_status:max", "KialiHealthFailure / Degraded", "to Observe > Alerting"], "G4:P4.1", guide="G4"),
         Box(460, 350, 760, 70, "Phase 5 demo (temporary)", ["Tighten health_config (5.2)", "VirtualService abort (5.3) — forces Failure"], "G4:P5.2-5.3", guide="G4"),
-        Box(460, 440, 760, 55, "Route alerts", ["OpenShift Alertmanager to Slack / email / webhook"], "optional", prior=True, guide="G4"),
+        Box(460, 440, 360, 55, "Route alerts", ["Alertmanager to Slack / email / webhook"], "optional", prior=True, guide="G4"),
+        Box(860, 440, 360, 55, "NetObserv Network Health", ["Operator + FlowCollector (7.1-7.2)", "annotated rules to Observe > Network Health"], "G4:P7.1-7.3", guide="G4"),
     ]:
         c.draw_box(b)
 
@@ -846,6 +847,7 @@ def diagram_04() -> str:
             ("G4:P5.2-5.3", "G4", "Hands-on Failure demo"),
             ("G4:P6.1", "G4", "Hub metrics allowlist"),
             ("G4:P6.3", "G4", "Hub Thanos Ruler alerts"),
+            ("G4:P7.1-7.3", "G4", "NetObserv Network Health"),
             ("optional", "G4", "Alertmanager routing"),
         ],
         [],
@@ -862,7 +864,7 @@ def diagram_04() -> str:
     c.text(
         40,
         700,
-        "Badges are guide section numbers (G4:P5.2-5.3 = Guide 4, §§5.2–5.3). Phases 1–5 run on the Kiali cluster; Phase 6 is optional ACM hub integration.",
+        "Badges are guide section numbers (G4:P5.2-5.3 = Guide 4, §§5.2–5.3). Phases 1–5 run on the Kiali cluster; Phase 6 is optional ACM hub; Phase 7 is optional NetObserv.",
         size=11,
         fill=COLORS["text_muted"],
     )
