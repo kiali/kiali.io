@@ -33,7 +33,7 @@ Before starting, you need:
    oc --context=ossm-kiali-spoke whoami --show-server
    ```
 4. `openssl` installed locally (for generating Istio CA certificates)
-5. Both clusters must be OpenShift 4.14 or later (required for OSSM 3)
+5. Both clusters must be OpenShift 4.19 or later (required for OSSM 3 and Istio 1.30 as used in this guide)
 6. Both clusters must have access to Red Hat OperatorHub (i.e., connected to the Red Hat operator catalog)
 7. `jq` available locally (used in verification commands)
 

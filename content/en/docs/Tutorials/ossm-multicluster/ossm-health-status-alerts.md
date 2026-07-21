@@ -55,12 +55,12 @@ The diagram below shows the alerting pipeline this guide configures. Badges such
 **Multi-cluster readers:** This guide builds on the same UWM and metrics-allowlist concepts as the [MultiCluster on OpenShift]({{< relref "./" >}}) tutorial series. You do not need to re-install ACM. Completing the [hub/spoke guide]({{< relref "./ossm-acm-hub-spoke" >}}) (at minimum) is recommended so Istio metrics, Kiali, and the Bookinfo demo are already in place.
 {{% /alert %}}
 
-- A supported OpenShift version with cluster monitoring (`openshift-monitoring`)
+- OpenShift 4.19 or later with cluster monitoring (`openshift-monitoring`).
 - Kiali installed with access to mesh namespaces
 - A mesh with workloads Kiali can score. The Phase 5 demo commands use the Bookinfo application — if you want to follow them exactly, have Bookinfo deployed (the [hub/spoke guide]({{< relref "./ossm-acm-hub-spoke" >}}) installs it, or see the [Istio Bookinfo sample](https://istio.io/latest/docs/examples/bookinfo/))
 - `oc` CLI with a kubeconfig context for the cluster where Kiali runs (commands use `--context=ossm-kiali-spoke`; substitute your context name if different)
 - **Phase 6 only:** a kubeconfig context for the ACM hub (`--context=ossm-kiali-hub`) and ACM Observability (`MultiClusterObservability`) ready on the hub (set up in the [hub/spoke guide]({{< relref "./ossm-acm-hub-spoke" >}}))
-- **Phase 7 only:** OpenShift 4.16 or later on the Kiali cluster, access to `redhat-operators` for the Network Observability Operator, and Phases 1–4 already completed on that cluster (Guides 1–3 are not required)
+- **Phase 7 only:** OpenShift 4.19 or later on the Kiali cluster, access to `redhat-operators` for the Network Observability Operator, and Phases 1–4 already completed on that cluster (Guides 1–3 are not required)
 
 Set namespace variables for the cluster that runs Kiali:
 
@@ -776,7 +776,7 @@ oc --context=ossm-kiali-hub -n open-cluster-management-observability \
 
 ## Phase 7: Network Health (NetObserv)
 
-Network Health is NetObserv's console dashboard under **Observe > Network Health**. It is distinct from OpenShift **Observe > Alerting**: Alerting shows firing/pending Prometheus alerts, while Network Health summarizes network and custom health signals (alerts and recording-rule scores) in Global / Namespaces / Nodes / Workloads tabs. This phase installs the Network Observability Operator on the **same cluster that runs Kiali** (`ossm-kiali-spoke`, or your substituted context — not the ACM hub), then re-applies the Phase 4 `PrometheusRule` with NetObserv metadata so Kiali health appears on that dashboard. Phases 1–4 must already be complete; Guides 1–3 and Phase 6 are not required. OpenShift 4.16+ and Network Observability Operator 1.11+ are required for Network Health.
+Network Health is NetObserv's console dashboard under **Observe > Network Health**. It is distinct from OpenShift **Observe > Alerting**: Alerting shows firing/pending Prometheus alerts, while Network Health summarizes network and custom health signals (alerts and recording-rule scores) in Global / Namespaces / Nodes / Workloads tabs. This phase installs the Network Observability Operator on the **same cluster that runs Kiali** (`ossm-kiali-spoke`, or your substituted context — not the ACM hub), then re-applies the Phase 4 `PrometheusRule` with NetObserv metadata so Kiali health appears on that dashboard. Phases 1–4 must already be complete; Guides 1–3 and Phase 6 are not required. OpenShift 4.19+ and Network Observability Operator 1.11+ are required for Network Health.
 
 ### 7.1 Install the Network Observability Operator
 

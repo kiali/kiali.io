@@ -31,13 +31,13 @@ The diagram below shows the environment after this guide completes. Components f
 ---
 
 {{% alert color="info" %}}
-This guide requires **OSSM 3.4+** (Istio 1.30+). The East-West gateway configuration for cross-cluster sidecar traffic relies on Gateway API behavior introduced in Istio 1.30.
+This guide requires **OSSM 3.4+** (Istio 1.30+) on **OpenShift 4.19+**. The East-West gateway configuration for cross-cluster sidecar traffic relies on Gateway API behavior introduced in Istio 1.30. Istio 1.30's oldest supported Kubernetes version is 1.32, which corresponds to OpenShift 4.19.
 {{% /alert %}}
 
 ## Prerequisites
 
 1. The [MultiCluster on OpenShift]({{< relref "./ossm-acm-hub-spoke" >}}) guide completed successfully — ACM, OSSM 3, and Kiali must already be running on `ossm-kiali-hub` and `ossm-kiali-spoke`.
-2. A second fresh OpenShift cluster accessible via kubeconfig context `ossm-kiali-spoke-two`.
+2. A second fresh OpenShift 4.19+ cluster accessible via kubeconfig context `ossm-kiali-spoke-two` (same minimum as the hub/spoke guide).
 3. `istioctl` installed locally (required to create Istio cross-cluster endpoint discovery secrets). Version must match `${ISTIO_VERSION}`.
 4. All three kubeconfig contexts reachable:
    ```bash
