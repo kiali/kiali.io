@@ -6,8 +6,14 @@ weight: 35
 
 This guide extends the result of the [Multi-Primary Mesh]({{< relref "./ossm-acm-multi-primary" >}}) guide by adding two observability tools that operate across both spoke clusters. Both tools are delivered through the Red Hat **Cluster Observability Operator (COO)**, which manages their deployment and integrates them into the OpenShift console:
 
-- **Part 1 — Perses**: Deploys a Perses metrics dashboard server and OpenShift console plugin via COO. The datasource is pointed at hub Thanos so it queries aggregated metrics from both spokes, giving a true multi-cluster view.
-- **Part 2 — Tempo**: Deploys a distributed tracing server and OpenShift console plugin via COO. A central Tempo instance on `spoke` collects traces from both clusters via OpenTelemetry collectors. Kiali links to the console tracing UI and can filter traces by cluster. Neither ACM Observability nor any other component already in place aggregates traces — that requires an explicit OTEL pipeline, which this guide sets up.
+- **Phase 1 — Perses**: Deploys a Perses metrics dashboard server and OpenShift console plugin via COO. The datasource is pointed at hub Thanos so it queries aggregated metrics from both spokes, giving a true multi-cluster view.
+- **Phase 2 — Tempo**: Deploys a distributed tracing server and OpenShift console plugin via COO. A central Tempo instance on `spoke` collects traces from both clusters via OpenTelemetry collectors. Kiali links to the console tracing UI and can filter traces by cluster. Neither ACM Observability nor any other component already in place aggregates traces — that requires an explicit OTEL pipeline, which this guide sets up.
+
+The diagram below shows the environment after this guide completes. Components from Guides 1–2 are marked `prior`; badges such as `G3:P2.4-2.5` mark which guide section(s) add each piece (Guide 3, §§2.4–2.5). Click the diagram to open a full-size SVG in a new tab.
+
+<a href="/images/ossm-multicluster/03-dashboards-tracing.svg" target="_blank" rel="noopener noreferrer">
+<img src="/images/ossm-multicluster/03-dashboards-tracing.png" alt="Environment after Dashboards and Tracing" title="Dashboards and tracing environment after Guide 3 — click for full-size SVG">
+</a>
 
 ---
 
@@ -47,7 +53,7 @@ export TEMPO_TENANT="mesh1"
 
 ---
 
-## Part 1: Perses — Multi-Cluster Metrics Dashboards
+## Phase 1: Perses — Multi-Cluster Metrics Dashboards
 
 Perses is a metrics dashboard platform. On OpenShift it is managed by the Cluster Observability Operator (COO), which provides native CRDs (`Perses`, `PersesDatasource`, `PersesDashboard`) and integrates with the OpenShift console as a UI plugin. Kiali links to Perses dashboards from its workload and service metrics pages.
 
@@ -714,7 +720,7 @@ Due to a known Kiali bug ([kiali/kiali#10021](https://github.com/kiali/kiali/iss
 
 ---
 
-## Part 2: Tempo — Multi-Cluster Distributed Tracing
+## Phase 2: Tempo — Multi-Cluster Distributed Tracing
 
 Tempo is a distributed tracing backend. The architecture deployed here:
 

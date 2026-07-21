@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1340" height="960"
+     viewBox="0 0 1340 960">
+  <rect width="100%" height="100%" fill="#fafbfc"/>
+  <text x="24" y="30" font-size="20" font-weight="bold"
+        font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif"
+        fill="#1a1a1a">Guide 2 — Multi-Primary Mesh (two Istio primaries)</text>
+<rect x="20" y="50" width="280" height="670" rx="8" fill="#e8eef5" stroke="#5a6a7a" stroke-width="2" opacity="1.0"/>
+<text x="32" y="74" font-size="17" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">ossm-kiali-hub</text>
+<text x="32" y="92" font-size="13" font-weight="normal" fill="#6b7280" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">ACM hub (unchanged)</text>
+<rect x="365" y="50" width="530" height="670" rx="8" fill="#e8eef5" stroke="#5a6a7a" stroke-width="2" opacity="1.0"/>
+<text x="377" y="74" font-size="17" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">ossm-kiali-spoke</text>
+<text x="377" y="92" font-size="13" font-weight="normal" fill="#6b7280" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Istio primary 1 + Kiali</text>
+<rect x="985" y="50" width="280" height="670" rx="8" fill="#e8eef5" stroke="#5a6a7a" stroke-width="2" opacity="1.0"/>
+<text x="997" y="74" font-size="17" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">ossm-kiali-spoke-two</text>
+<text x="997" y="92" font-size="13" font-weight="normal" fill="#6b7280" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Istio primary 2 (new)</text>
+<rect x="35" y="100" width="250" height="70" rx="4" fill="#fafbfc" stroke="#a0a8b0" stroke-width="1.2" opacity="1.0"/>
+<rect x="41" y="104" width="52" height="20" rx="3" fill="#9aa0a6" stroke="#9aa0a6" stroke-width="0" opacity="1.0"/>
+<text x="67.0" y="119" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">prior</text>
+<text x="103" y="118" font-size="13" font-weight="bold" fill="#6b7280" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">ACM + Thanos</text>
+<text x="43" y="136" font-size="12" font-weight="normal" fill="#6b7280" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">MCO / Observatorium</text>
+<text x="43" y="151" font-size="12" font-weight="normal" fill="#6b7280" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">(from Guide 1)</text>
+<rect x="35" y="185" width="250" height="70" rx="4" fill="#fafbfc" stroke="#a0a8b0" stroke-width="1.2" opacity="1.0"/>
+<rect x="41" y="189" width="52" height="20" rx="3" fill="#9aa0a6" stroke="#9aa0a6" stroke-width="0" opacity="1.0"/>
+<text x="67.0" y="204" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">prior</text>
+<text x="103" y="203" font-size="13" font-weight="bold" fill="#6b7280" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">ManagedCluster: spoke</text>
+<text x="43" y="221" font-size="12" font-weight="normal" fill="#6b7280" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">(from Guide 1)</text>
+<rect x="35" y="270" width="250" height="85" rx="4" fill="#fafbfc" stroke="#334455" stroke-width="1.2" opacity="1.0"/>
+<rect x="41" y="274" width="52" height="20" rx="3" fill="#d62728" stroke="#d62728" stroke-width="0" opacity="1.0"/>
+<text x="67.0" y="289" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G2:P2</text>
+<text x="103" y="288" font-size="13" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">ManagedCluster:</text>
+<text x="103" y="303" font-size="13" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">spoke-two</text>
+<text x="43" y="321" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">KlusterletAddonConfig</text>
+<text x="43" y="336" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">auto-import secret</text>
+<rect x="385" y="100" width="250" height="75" rx="4" fill="#fafbfc" stroke="#a0a8b0" stroke-width="1.2" opacity="1.0"/>
+<rect x="391" y="104" width="52" height="20" rx="3" fill="#9aa0a6" stroke="#9aa0a6" stroke-width="0" opacity="1.0"/>
+<text x="417.0" y="119" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">prior</text>
+<text x="453" y="118" font-size="13" font-weight="bold" fill="#6b7280" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">OSSM / ZTunnel / apps</text>
+<text x="393" y="136" font-size="12" font-weight="normal" fill="#6b7280" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">ambient-demo, bookinfo</text>
+<text x="393" y="151" font-size="12" font-weight="normal" fill="#6b7280" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">(from Guide 1)</text>
+<rect x="650" y="100" width="230" height="75" rx="4" fill="#fafbfc" stroke="#a0a8b0" stroke-width="1.2" opacity="1.0"/>
+<rect x="656" y="104" width="52" height="20" rx="3" fill="#9aa0a6" stroke="#9aa0a6" stroke-width="0" opacity="1.0"/>
+<text x="682.0" y="119" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">prior</text>
+<text x="718" y="118" font-size="13" font-weight="bold" fill="#6b7280" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Kiali server</text>
+<text x="658" y="136" font-size="12" font-weight="normal" fill="#6b7280" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Observatorium metrics</text>
+<text x="658" y="151" font-size="12" font-weight="normal" fill="#6b7280" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">(from Guide 1)</text>
+<rect x="385" y="190" width="250" height="100" rx="4" fill="#fafbfc" stroke="#334455" stroke-width="1.2" opacity="1.0"/>
+<rect x="391" y="194" width="82.0" height="20" rx="3" fill="#d62728" stroke="#d62728" stroke-width="0" opacity="1.0"/>
+<text x="432.0" y="209" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G2:P4.2-4.4</text>
+<text x="483.0" y="208" font-size="13" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Multi-primary</text>
+<text x="483.0" y="223" font-size="13" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">config</text>
+<text x="393" y="241" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Istio identity (4.2)</text>
+<text x="393" y="256" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">ZTunnel identity (4.3)</text>
+<text x="393" y="271" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Kiali cluster_name (4.4)</text>
+<rect x="650" y="190" width="230" height="100" rx="4" fill="#fafbfc" stroke="#334455" stroke-width="1.2" opacity="1.0"/>
+<rect x="656" y="194" width="82.0" height="20" rx="3" fill="#d62728" stroke="#d62728" stroke-width="0" opacity="1.0"/>
+<text x="697.0" y="209" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G2:P5.1-5.3</text>
+<text x="748.0" y="208" font-size="13" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">East-West</text>
+<text x="748.0" y="223" font-size="13" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">gateways</text>
+<text x="658" y="241" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">HBONE (5.1)</text>
+<text x="658" y="256" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">sidecar (5.2)</text>
+<text x="658" y="271" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">meshNetworks (5.3)</text>
+<rect x="385" y="305" width="250" height="85" rx="4" fill="#fafbfc" stroke="#334455" stroke-width="1.2" opacity="1.0"/>
+<rect x="391" y="309" width="82.0" height="20" rx="3" fill="#d62728" stroke="#d62728" stroke-width="0" opacity="1.0"/>
+<text x="432.0" y="324" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G2:P6.1-6.2</text>
+<text x="483.0" y="323" font-size="13" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Istio remote secret</text>
+<text x="393" y="341" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">istio-reader SA (6.1)</text>
+<text x="393" y="356" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">secret from spoke-two (6.2)</text>
+<rect x="650" y="305" width="230" height="85" rx="4" fill="#fafbfc" stroke="#334455" stroke-width="1.2" opacity="1.0"/>
+<rect x="656" y="309" width="58.0" height="20" rx="3" fill="#d62728" stroke="#d62728" stroke-width="0" opacity="1.0"/>
+<text x="685.0" y="324" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G2:P7.3</text>
+<text x="724.0" y="323" font-size="13" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Multi-cluster</text>
+<text x="724.0" y="338" font-size="13" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">secret</text>
+<text x="658" y="356" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">kubeconfig for spoke-two</text>
+<text x="658" y="371" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">watched by operator</text>
+<rect x="385" y="405" width="495" height="55" rx="4" fill="#fafbfc" stroke="#334455" stroke-width="1.2" opacity="1.0"/>
+<rect x="391" y="409" width="58.0" height="20" rx="3" fill="#d62728" stroke="#d62728" stroke-width="0" opacity="1.0"/>
+<text x="420.0" y="424" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G2:P8.1</text>
+<text x="459.0" y="423" font-size="13" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Federated services</text>
+<text x="393" y="441" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">helloworld + ratings with istio.io/global=true</text>
+<rect x="1005" y="100" width="240" height="55" rx="4" fill="#fafbfc" stroke="#334455" stroke-width="1.2" opacity="1.0"/>
+<rect x="1011" y="104" width="52" height="20" rx="3" fill="#d62728" stroke="#d62728" stroke-width="0" opacity="1.0"/>
+<text x="1037.0" y="119" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G2:P1</text>
+<text x="1073" y="118" font-size="13" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Intermediate CA /</text>
+<text x="1073" y="133" font-size="13" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">cacerts</text>
+<rect x="1005" y="170" width="240" height="50" rx="4" fill="#fafbfc" stroke="#334455" stroke-width="1.2" opacity="1.0"/>
+<rect x="1011" y="174" width="52" height="20" rx="3" fill="#d62728" stroke="#d62728" stroke-width="0" opacity="1.0"/>
+<text x="1037.0" y="189" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G2:P2</text>
+<text x="1073" y="188" font-size="13" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Klusterlet (ACM join)</text>
+<rect x="1005" y="235" width="240" height="100" rx="4" fill="#fafbfc" stroke="#334455" stroke-width="1.2" opacity="1.0"/>
+<rect x="1011" y="239" width="82.0" height="20" rx="3" fill="#d62728" stroke="#d62728" stroke-width="0" opacity="1.0"/>
+<text x="1052.0" y="254" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G2:P3.4-3.8</text>
+<text x="1103.0" y="253" font-size="13" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">OSSM 3 stack</text>
+<text x="1013" y="271" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">cacerts (3.4)</text>
+<text x="1013" y="286" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">IstioCNI (3.5), Istio (3.6)</text>
+<text x="1013" y="301" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">ZTunnel (3.7)</text>
+<text x="1013" y="316" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">monitors (3.8)</text>
+<rect x="1005" y="350" width="240" height="85" rx="4" fill="#fafbfc" stroke="#334455" stroke-width="1.2" opacity="1.0"/>
+<rect x="1011" y="354" width="82.0" height="20" rx="3" fill="#d62728" stroke="#d62728" stroke-width="0" opacity="1.0"/>
+<text x="1052.0" y="369" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G2:P5.1-5.3</text>
+<text x="1103.0" y="368" font-size="13" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">East-West</text>
+<text x="1103.0" y="383" font-size="13" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">gateways</text>
+<text x="1013" y="401" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">HBONE (5.1), sidecar (5.2)</text>
+<text x="1013" y="416" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">meshNetworks (5.3)</text>
+<rect x="1005" y="450" width="240" height="55" rx="4" fill="#fafbfc" stroke="#334455" stroke-width="1.2" opacity="1.0"/>
+<rect x="1011" y="454" width="58.0" height="20" rx="3" fill="#d62728" stroke="#d62728" stroke-width="0" opacity="1.0"/>
+<text x="1040.0" y="469" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G2:P6.3</text>
+<text x="1079.0" y="468" font-size="13" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Istio remote secret</text>
+<text x="1013" y="486" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">from spoke</text>
+<rect x="1005" y="520" width="240" height="100" rx="4" fill="#fafbfc" stroke="#334455" stroke-width="1.2" opacity="1.0"/>
+<rect x="1011" y="524" width="82.0" height="20" rx="3" fill="#d62728" stroke="#d62728" stroke-width="0" opacity="1.0"/>
+<text x="1052.0" y="539" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G2:P7.1-7.2</text>
+<text x="1103.0" y="538" font-size="13" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Kiali remote</text>
+<text x="1103.0" y="553" font-size="13" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">resources</text>
+<text x="1013" y="571" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Operator (7.1)</text>
+<text x="1013" y="586" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">remote Kiali resources + SA token (7.2)</text>
+<rect x="1005" y="635" width="240" height="70" rx="4" fill="#fafbfc" stroke="#334455" stroke-width="1.2" opacity="1.0"/>
+<rect x="1011" y="639" width="82.0" height="20" rx="3" fill="#d62728" stroke="#d62728" stroke-width="0" opacity="1.0"/>
+<text x="1052.0" y="654" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G2:P8.1-8.2</text>
+<text x="1103.0" y="653" font-size="13" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Demo apps</text>
+<text x="1013" y="671" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">helloworld + waypoint (8.1)</text>
+<text x="1013" y="686" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">ratings-v2 (8.2)</text>
+<defs><marker id="arrow-end-1" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#0e7c8a"/></marker></defs>
+<defs><marker id="arrow-start-1" markerWidth="8" markerHeight="8" refX="1" refY="3" orient="auto"><path d="M8,0 L0,3 L8,6 Z" fill="#0e7c8a"/></marker></defs>
+<line x1="880" y1="240" x2="1005" y2="390" stroke="#0e7c8a" stroke-width="2" marker-start="url(#arrow-start-1)" marker-end="url(#arrow-end-1)"/>
+<rect x="913.0" y="286" width="58" height="34" rx="3" fill="#fafbfc" stroke="#fafbfc" stroke-width="0" opacity="1.0"/>
+<text x="942" y="300" font-size="13" font-weight="bold" fill="#0e7c8a" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">EW mesh</text>
+<text x="942" y="314" font-size="13" font-weight="bold" fill="#0e7c8a" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">traffic</text>
+<defs><marker id="arrow-end-2" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#a63d7a"/></marker></defs>
+<line x1="880" y1="347" x2="1005" y2="557" stroke="#a63d7a" stroke-width="2" marker-end="url(#arrow-end-2)"/>
+<rect x="916.0" y="444" width="52" height="34" rx="3" fill="#fafbfc" stroke="#fafbfc" stroke-width="0" opacity="1.0"/>
+<text x="942" y="458" font-size="13" font-weight="bold" fill="#a63d7a" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Kiali</text>
+<text x="942" y="472" font-size="13" font-weight="bold" fill="#a63d7a" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">auth</text>
+<defs><marker id="arrow-end-3" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#b35900"/></marker></defs>
+<line x1="385" y1="137" x2="285" y2="137" stroke="#b35900" stroke-width="2" marker-end="url(#arrow-end-3)"/>
+<rect x="304.0" y="114" width="56" height="20" rx="3" fill="#fafbfc" stroke="#fafbfc" stroke-width="0" opacity="1.0"/>
+<text x="332" y="128" font-size="13" font-weight="bold" fill="#b35900" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">metrics</text>
+<defs><marker id="arrow-end-4" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#7a7b18"/></marker></defs>
+<line x1="285" y1="312" x2="1005" y2="190" stroke="#7a7b18" stroke-width="2" marker-end="url(#arrow-end-4)"/>
+<rect x="904.0" y="161" width="72" height="34" rx="3" fill="#fafbfc" stroke="#fafbfc" stroke-width="0" opacity="1.0"/>
+<text x="940" y="175" font-size="13" font-weight="bold" fill="#7a7b18" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">import</text>
+<text x="940" y="189" font-size="13" font-weight="bold" fill="#7a7b18" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">spoke-two</text>
+<text x="40" y="740" font-size="14" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Legend</text>
+<rect x="40" y="748" width="135.0" height="20" rx="3" fill="#9aa0a6" stroke="#9aa0a6" stroke-width="0" opacity="1.0"/>
+<text x="107.5" y="763" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">prior</text>
+<text x="185.0" y="762" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">From Guide 1</text>
+<rect x="40" y="772" width="135.0" height="20" rx="3" fill="#d62728" stroke="#d62728" stroke-width="0" opacity="1.0"/>
+<text x="107.5" y="787" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G2:P1</text>
+<text x="185.0" y="786" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Spoke-two CA</text>
+<rect x="40" y="796" width="135.0" height="20" rx="3" fill="#d62728" stroke="#d62728" stroke-width="0" opacity="1.0"/>
+<text x="107.5" y="811" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G2:P2</text>
+<text x="185.0" y="810" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">ACM import spoke-two</text>
+<rect x="40" y="820" width="135.0" height="20" rx="3" fill="#d62728" stroke="#d62728" stroke-width="0" opacity="1.0"/>
+<text x="107.5" y="835" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G2:P3.4-3.8</text>
+<text x="185.0" y="834" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Istio CP on spoke-two</text>
+<rect x="40" y="844" width="135.0" height="20" rx="3" fill="#d62728" stroke="#d62728" stroke-width="0" opacity="1.0"/>
+<text x="107.5" y="859" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G2:P4.2-4.4</text>
+<text x="185.0" y="858" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Update spoke Istio identity</text>
+<rect x="40" y="868" width="135.0" height="20" rx="3" fill="#d62728" stroke="#d62728" stroke-width="0" opacity="1.0"/>
+<text x="107.5" y="883" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G2:P5.1-5.3</text>
+<text x="185.0" y="882" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">East-West gateways</text>
+<rect x="420" y="748" width="135.0" height="20" rx="3" fill="#d62728" stroke="#d62728" stroke-width="0" opacity="1.0"/>
+<text x="487.5" y="763" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G2:P6.1-6.2</text>
+<text x="565.0" y="762" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Remote secret on spoke</text>
+<rect x="420" y="772" width="135.0" height="20" rx="3" fill="#d62728" stroke="#d62728" stroke-width="0" opacity="1.0"/>
+<text x="487.5" y="787" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G2:P6.3</text>
+<text x="565.0" y="786" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Remote secret on spoke-two</text>
+<rect x="420" y="796" width="135.0" height="20" rx="3" fill="#d62728" stroke="#d62728" stroke-width="0" opacity="1.0"/>
+<text x="487.5" y="811" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G2:P7.1-7.2</text>
+<text x="565.0" y="810" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Kiali remote CR on spoke-two</text>
+<rect x="420" y="820" width="135.0" height="20" rx="3" fill="#d62728" stroke="#d62728" stroke-width="0" opacity="1.0"/>
+<text x="487.5" y="835" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G2:P7.3</text>
+<text x="565.0" y="834" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">kiali-multi-cluster-secret</text>
+<rect x="420" y="844" width="135.0" height="20" rx="3" fill="#d62728" stroke="#d62728" stroke-width="0" opacity="1.0"/>
+<text x="487.5" y="859" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G2:P8.1-8.2</text>
+<text x="565.0" y="858" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Cross-cluster demo apps</text>
+<text x="820" y="740" font-size="14" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Flows</text>
+<line x1="820" y1="756" x2="848" y2="756" stroke="#0e7c8a" stroke-width="2"/>
+<text x="854" y="760" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">East-West mesh traffic</text>
+<line x1="820" y1="776" x2="848" y2="776" stroke="#a63d7a" stroke-width="2"/>
+<text x="854" y="780" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Kiali auth (remote kubeconfig)</text>
+<line x1="820" y1="796" x2="848" y2="796" stroke="#b35900" stroke-width="2"/>
+<text x="854" y="800" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Metrics forward to hub Thanos</text>
+<line x1="820" y1="816" x2="848" y2="816" stroke="#7a7b18" stroke-width="2"/>
+<text x="854" y="820" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">ACM import / manage</text>
+<text x="20" y="920" font-size="11" font-weight="normal" fill="#6b7280" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Badges are guide section numbers (G2:P5.1-5.3 = Guide 2, §§5.1–5.3). Hub stays ACM-only; both spokes are Istio primaries.</text>
+</svg>

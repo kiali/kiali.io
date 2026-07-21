@@ -3,3 +3,8 @@ public
 resources
 tmp-crd-docs
 .hugo_build.lock
+
+# Python bytecode (diagram generator and other scripts)
+__pycache__/
+*.py[cod]
+*$py.class

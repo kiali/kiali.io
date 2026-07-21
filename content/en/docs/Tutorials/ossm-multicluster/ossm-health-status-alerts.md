@@ -37,6 +37,12 @@ Which phases of this guide you need depends on your environment:
 
 In either case, you can optionally route fired alerts to third-party systems such as Slack, email, or generic webhooks — see [Routing alerts to Slack, email, or webhooks](#routing-alerts-to-slack-email-or-webhooks) at the end of this guide.
 
+The diagram below shows the alerting pipeline this guide configures. Badges such as `G4:P5.2-5.3` mark which guide section(s) install each piece (Guide 4, §§5.2–5.3). Phases 1–5 run on the cluster that hosts Kiali; Phase 6 is optional hub integration with ACM. Click the diagram to open a full-size SVG in a new tab.
+
+<a href="/images/ossm-multicluster/04-health-alerts.svg" target="_blank" rel="noopener noreferrer">
+<img src="/images/ossm-multicluster/04-health-alerts.png" alt="Health status alerts pipeline" title="Health status alerts environment after Guide 4 — click for full-size SVG">
+</a>
+
 ---
 
 ## Prerequisites

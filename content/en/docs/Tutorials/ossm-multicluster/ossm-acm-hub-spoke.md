@@ -13,6 +13,12 @@ This guide sets up a two-cluster OpenShift environment from scratch where:
 
 The result is a working Kiali installation that shows traffic graphs, metrics, and mesh topology across both the ambient-mode and sidecar-mode workloads running on the spoke.
 
+The diagram below shows the environment after this guide completes. Badges such as `G1:P3.2-3.8` mark which guide section(s) install each component (Guide 1, §§3.2–3.8). Click the diagram to open a full-size SVG in a new tab.
+
+<a href="/images/ossm-multicluster/01-hub-spoke.svg" target="_blank" rel="noopener noreferrer">
+<img src="/images/ossm-multicluster/01-hub-spoke.png" alt="Environment after MultiCluster on OpenShift" title="Hub/spoke environment after Guide 1 — click for full-size SVG">
+</a>
+
 ---
 
 ## Prerequisites
