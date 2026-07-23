@@ -155,13 +155,6 @@ Kiali validates L7 Istio configurations in Ambient namespaces and warns when the
 
 ![Ambient L7 validations](/images/documentation/features/ambient/ambient-l7-validations.png)
 
-Kiali warns when:
-
-* An L7 AuthorizationPolicy or RequestAuthentication is in an Ambient namespace that is not enrolled for a waypoint, or lacks `targetRefs` (waypoints ignore selector-based attachment).
-* An L7 VirtualService or DestinationRule targets an Ambient service that is not enrolled, or the CR is not in the destination service namespace.
-* A WasmPlugin or L7 Telemetry resource is in an Ambient namespace that is not enrolled.
-* A workload has L7-only AuthorizationPolicies but no waypoint (see [KIA1317]({{< relref "validations#kia1317" >}})).
-
 L4-only policies (for example AuthorizationPolicies that only use principals and ports, or DestinationRules that only set TLS) do not require a waypoint and do not trigger these warnings. VirtualServices bound only to ingress/egress Gateways also do not need a waypoint.
 
 The full list of Ambient L7 validation codes is documented under [Validation]({{< relref "validations" >}}).
