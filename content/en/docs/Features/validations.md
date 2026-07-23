@@ -248,6 +248,45 @@ If the trust domain belongs to a federated cluster that Kiali does not manage, t
 - [SPIRE Istio Integration](https://istio.io/latest/docs/ops/integrations/spire)
 
 
+### KIA0109 - L7 AuthorizationPolicy in Ambient namespace requires waypoint enrollment (istio.io/use-waypoint)
+
+In Ambient Mesh, L7 AuthorizationPolicies (for example policies that use HTTP methods, paths, hosts, request principals, or L7 `when` conditions) are enforced by a waypoint proxy. The Ambient namespace or selected workloads must be enrolled with the `istio.io/use-waypoint` label. Deploying a waypoint without enrollment is not enough for the policy to take effect.
+
+L4-only AuthorizationPolicies (principals, namespaces, ports) are enforced by ztunnel and do not trigger this warning.
+
+#### Resolution
+
+Enroll the namespace or selected workloads with `istio.io/use-waypoint` pointing to a waypoint proxy. See [Ambient L7 Istio config validations]({{< relref "ambient#ambient-l7-istio-config-validations" >}}).
+
+#### Severity
+
+<i class="fas fa-exclamation-triangle text-warning"></i> Warning
+
+#### See Also
+
+- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/ambient_policy_checker.go)
+- [Use a waypoint proxy](https://istio.io/latest/docs/ambient/usage/waypoint/)
+- [Policy attachment](https://istio.io/latest/docs/ambient/usage/waypoint/#policy-attachment)
+
+
+### KIA0110 - L7 AuthorizationPolicy in Ambient requires targetRefs to a Service or Gateway; selector policies are ignored by waypoints
+
+In Ambient Mesh, waypoint proxies ignore selector-based AuthorizationPolicies. L7 policies must attach via `targetRef` or `targetRefs` to a Service or Gateway.
+
+#### Resolution
+
+Add `targetRefs` (or `targetRef`) to a Service or Gateway instead of relying only on a workload selector.
+
+#### Severity
+
+<i class="fas fa-exclamation-triangle text-warning"></i> Warning
+
+#### See Also
+
+- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/ambient_policy_checker.go)
+- [Policy attachment](https://istio.io/latest/docs/ambient/usage/waypoint/#policy-attachment)
+
+
 ## Destination rules {#destinationrules}
 
 ### KIA0201 - More than one DestinationRules for the same host subset combination
@@ -465,6 +504,62 @@ Validate that a subset is properly configured.
 #### See Also
 
 - [DestinationRule Subset](https://istio.io/latest/docs/reference/config/networking/destination-rule)
+
+### KIA0210 - L7 DestinationRule features in Ambient namespace require waypoint enrollment (istio.io/use-waypoint)
+
+DestinationRules that use L7 features (HTTP connection pool settings, HTTP-based consistent hashing, or outlier detection) require a waypoint in Ambient Mesh. When Kiali cannot resolve the destination service, it falls back to checking whether the CR's Ambient namespace is enrolled with `istio.io/use-waypoint`.
+
+L4-only DestinationRules (for example TLS settings only) do not trigger this warning.
+
+#### Resolution
+
+Enroll the Ambient namespace or destination service with `istio.io/use-waypoint`. See [Ambient L7 Istio config validations]({{< relref "ambient#ambient-l7-istio-config-validations" >}}).
+
+#### Severity
+
+<i class="fas fa-exclamation-triangle text-warning"></i> Warning
+
+#### See Also
+
+- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/ambient_policy_checker.go)
+- [Use a waypoint proxy](https://istio.io/latest/docs/ambient/usage/waypoint/)
+
+
+### KIA0211 - L7 DestinationRule targets a service not enrolled to use a waypoint (istio.io/use-waypoint)
+
+An L7 DestinationRule targets an Ambient service that is not enrolled for a waypoint (missing `istio.io/use-waypoint`, or set to `none`). Without enrollment, L7 traffic policy settings will not take effect for that service.
+
+#### Resolution
+
+Label the destination service or its namespace with `istio.io/use-waypoint`, or remove the L7 DestinationRule features if they are not needed.
+
+#### Severity
+
+<i class="fas fa-exclamation-triangle text-warning"></i> Warning
+
+#### See Also
+
+- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/ambient_policy_checker.go)
+- [Use a waypoint proxy](https://istio.io/latest/docs/ambient/usage/waypoint/)
+
+
+### KIA0212 - L7 DestinationRule should be in the same namespace as the Ambient destination service to take effect
+
+In Ambient Mesh, L7 DestinationRules that target a service in another namespace typically do not take effect for that Ambient destination. The DestinationRule should live in the same namespace as the destination service.
+
+#### Resolution
+
+Move the DestinationRule into the destination service namespace, or redefine the host so the CR and Ambient service are co-located.
+
+#### Severity
+
+<i class="fas fa-exclamation-triangle text-warning"></i> Warning
+
+#### See Also
+
+- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/ambient_policy_checker.go)
+- [Use a waypoint proxy](https://istio.io/latest/docs/ambient/usage/waypoint/)
+
 
 ### K8s Gateway API
 
@@ -954,6 +1049,143 @@ Move the nomenclature of the gateways into the supported Istio form: <gateway na
 - [Validator source code](https://github.com/kiali/kiali/tree/v1.42.0/business/checkers/virtualservices/no_gateway_checker.go)
 
 
+### KIA1109 - L7 VirtualService for mesh traffic in Ambient namespace requires waypoint enrollment (istio.io/use-waypoint)
+
+VirtualServices that provide HTTP/TLS routing for in-mesh (east-west) traffic require a waypoint in Ambient Mesh. When Kiali cannot resolve the destination service, it falls back to checking whether the CR's Ambient namespace is enrolled with `istio.io/use-waypoint`.
+
+VirtualServices that only bind to named ingress/egress Gateways do not need a waypoint and do not trigger this warning. TCP-only VirtualServices are L4 and are also skipped.
+
+#### Resolution
+
+Enroll the Ambient namespace or destination service with `istio.io/use-waypoint`. See [Ambient L7 Istio config validations]({{< relref "ambient#ambient-l7-istio-config-validations" >}}).
+
+#### Severity
+
+<i class="fas fa-exclamation-triangle text-warning"></i> Warning
+
+#### See Also
+
+- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/ambient_policy_checker.go)
+- [Use a waypoint proxy](https://istio.io/latest/docs/ambient/usage/waypoint/)
+
+
+### KIA1113 - L7 VirtualService targets a service not enrolled to use a waypoint (istio.io/use-waypoint)
+
+An L7 VirtualService for mesh traffic targets an Ambient service that is not enrolled for a waypoint (missing `istio.io/use-waypoint`, or set to `none`). Without enrollment, the HTTP/TLS routes will not take effect for that service.
+
+#### Resolution
+
+Label the destination service or its namespace with `istio.io/use-waypoint`, or remove the L7 mesh routes if they are not needed.
+
+#### Severity
+
+<i class="fas fa-exclamation-triangle text-warning"></i> Warning
+
+#### See Also
+
+- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/ambient_policy_checker.go)
+- [Use a waypoint proxy](https://istio.io/latest/docs/ambient/usage/waypoint/)
+
+
+### KIA1114 - L7 VirtualService should be in the same namespace as the Ambient destination service to take effect
+
+In Ambient Mesh, L7 VirtualServices that target a service in another namespace typically do not take effect for that Ambient destination. The VirtualService should live in the same namespace as the destination service.
+
+#### Resolution
+
+Move the VirtualService into the destination service namespace, or redefine the hosts so the CR and Ambient service are co-located.
+
+#### Severity
+
+<i class="fas fa-exclamation-triangle text-warning"></i> Warning
+
+#### See Also
+
+- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/ambient_policy_checker.go)
+- [Use a waypoint proxy](https://istio.io/latest/docs/ambient/usage/waypoint/)
+
+
+## RequestAuthentication {#requestauthentication}
+
+### KIA1110 - RequestAuthentication in Ambient namespace requires waypoint enrollment (istio.io/use-waypoint)
+
+RequestAuthentication (JWT validation) is an L7 feature enforced by a waypoint in Ambient Mesh. The Ambient namespace or selected workloads must be enrolled with `istio.io/use-waypoint`.
+
+#### Resolution
+
+Enroll the namespace or selected workloads with `istio.io/use-waypoint` pointing to a waypoint proxy. See [Ambient L7 Istio config validations]({{< relref "ambient#ambient-l7-istio-config-validations" >}}).
+
+#### Severity
+
+<i class="fas fa-exclamation-triangle text-warning"></i> Warning
+
+#### See Also
+
+- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/ambient_policy_checker.go)
+- [Use a waypoint proxy](https://istio.io/latest/docs/ambient/usage/waypoint/)
+- [RequestAuthentication](https://istio.io/docs/reference/config/security/request_authentication/)
+
+
+### KIA1115 - RequestAuthentication in Ambient requires targetRefs to a Service or Gateway; selector policies are ignored by waypoints
+
+In Ambient Mesh, waypoint proxies ignore selector-based RequestAuthentications. Policies must attach via `targetRef` or `targetRefs` to a Service or Gateway.
+
+#### Resolution
+
+Add `targetRefs` (or `targetRef`) to a Service or Gateway instead of relying only on a workload selector.
+
+#### Severity
+
+<i class="fas fa-exclamation-triangle text-warning"></i> Warning
+
+#### See Also
+
+- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/ambient_policy_checker.go)
+- [Policy attachment](https://istio.io/latest/docs/ambient/usage/waypoint/#policy-attachment)
+- [RequestAuthentication](https://istio.io/docs/reference/config/security/request_authentication/)
+
+
+## WasmPlugin {#wasmplugin}
+
+### KIA1111 - WasmPlugin in Ambient namespace requires waypoint enrollment (istio.io/use-waypoint)
+
+WasmPlugins in Ambient namespaces require a waypoint to take effect. The Ambient namespace or selected workloads must be enrolled with `istio.io/use-waypoint`. This check only runs when the WasmPlugin namespace is Ambient.
+
+#### Resolution
+
+Enroll the namespace or selected workloads with `istio.io/use-waypoint` pointing to a waypoint proxy. See [Ambient L7 Istio config validations]({{< relref "ambient#ambient-l7-istio-config-validations" >}}).
+
+#### Severity
+
+<i class="fas fa-exclamation-triangle text-warning"></i> Warning
+
+#### See Also
+
+- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/ambient_policy_checker.go)
+- [Use a waypoint proxy](https://istio.io/latest/docs/ambient/usage/waypoint/)
+- [WasmPlugin](https://istio.io/docs/reference/config/proxy_extensions/wasm-plugin/)
+
+
+## Telemetry {#telemetry}
+
+### KIA1112 - L7 Telemetry in Ambient namespace requires waypoint enrollment (istio.io/use-waypoint)
+
+Telemetry resources that configure L7 features (tracing, access logging, or customized HTTP metrics) require a waypoint in Ambient Mesh. L4-only Telemetry (basic TCP metrics) does not trigger this warning. This check only runs when the Telemetry namespace is Ambient.
+
+#### Resolution
+
+Enroll the namespace or selected workloads with `istio.io/use-waypoint` pointing to a waypoint proxy. See [Ambient L7 Istio config validations]({{< relref "ambient#ambient-l7-istio-config-validations" >}}).
+
+#### Severity
+
+<i class="fas fa-exclamation-triangle text-warning"></i> Warning
+
+#### See Also
+
+- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/ambient_policy_checker.go)
+- [Use a waypoint proxy](https://istio.io/latest/docs/ambient/usage/waypoint/)
+- [Telemetry](https://istio.io/docs/reference/config/telemetry/)
+
 
 ## WorkloadEntries {#workloadentries}
 
@@ -1216,14 +1448,14 @@ Prefer using either sidecar or Ambient mode — not both.
 - [Istio documentation](https://istio.io/latest/docs/ambient/usage/add-workloads/)
 - [Troubleshooting Istio Ambient](https://github.com/istio/istio/wiki/Troubleshooting-Istio-Ambient)
 
-### KIA1317 - This workload has Authorization Policies but no Waypoint
+### KIA1317 - This workload has L7 Authorization Policies but no Waypoint {#kia1317}
 
-Workload has L7 policies (e.g. AuthorizationPolicy) but no waypoint.
-In Ambient, L7 policies require a waypoint to take effect.
+Workload has L7 AuthorizationPolicies (for example policies that use HTTP methods, paths, hosts, request principals, or L7 `when` conditions) but no waypoint.
+In Ambient, L7 policies require a waypoint to take effect. L4-only AuthorizationPolicies do not trigger this warning. Waypoint proxy workloads themselves are also excluded.
 
 #### Resolution
 
-Add a waypoint so policies are properly enforced.
+Add a waypoint and enroll the workload or namespace with `istio.io/use-waypoint` so L7 policies are properly enforced. See [Ambient L7 Istio config validations]({{< relref "ambient#ambient-l7-istio-config-validations" >}}).
 
 #### Severity
 
@@ -1233,6 +1465,7 @@ Add a waypoint so policies are properly enforced.
 
 - [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/ambient/ambient_workload_checker.go)
 - [Istio documentation](https://istio.io/latest/docs/ambient/usage/add-workloads/)
+- [Use a waypoint proxy](https://istio.io/latest/docs/ambient/usage/waypoint/)
 - [Troubleshooting Istio Ambient](https://github.com/istio/istio/wiki/Troubleshooting-Istio-Ambient)
 
 
