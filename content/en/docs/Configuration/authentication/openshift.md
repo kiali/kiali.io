@@ -135,6 +135,33 @@ With impersonation enabled, the multi-cluster login flow is simplified:
 
 - **Shared identity provider:** Usernames must be consistent across all clusters. Typically this means all clusters are backed by the same identity provider (e.g. a shared LDAP/OIDC configuration) so that a user authenticated on the home cluster has the same identity on remote clusters.
 
+##### Restricting Impersonation (Allowlists)
+
+For production deployments, you can restrict which identities the Kiali SA is allowed to impersonate by configuring allowlists. When set, these lists enforce restrictions at two levels: the Kiali server code refuses to impersonate unlisted identities, and the Kubernetes ClusterRole uses `resourceNames` to prevent the SA from impersonating them even at the RBAC level.
+
+- **`allowed_users`**: When set, only listed users can use Kiali. Users not in this list receive an HTTP 403 Forbidden response. This also adds `resourceNames` to the `users` impersonate ClusterRole rule.
+- **`allowed_groups`**: When set, only listed groups are included in the impersonation headers (plus `system:authenticated` and `system:authenticated:oauth` which are always included). This also adds `resourceNames` to the `groups` impersonate ClusterRole rule.
+
+Both lists are empty by default (no restriction). When empty, the SA can impersonate any non-system identity.
+
+```yaml
+spec:
+  auth:
+    openshift:
+      impersonation:
+        allowed_groups:
+        - developers
+        - sre-team
+        allowed_users:
+        - alice@example.com
+        - bob@example.com
+        enabled: true
+```
+
+{{% alert color="info" %}}
+Kiali never impersonates a `system:*` user identity — there is no legitimate reason for a human user to have a `system:` prefixed username. For groups, only `system:authenticated` and `system:authenticated:oauth` are impersonated (they are required for proper API server authorization and are auto-injected by Kiali). All other `system:*` groups are blocked by a hardcoded guard. Startup validation prevents `system:*` entries from being configured in `allowed_users` or `allowed_groups` since they are either auto-included or blocked.
+{{% /alert %}}
+
 ##### Security Considerations
 
 Impersonation mode shifts the trust boundary from "each cluster trusts its own OAuth tokens" to "all clusters trust the Kiali SA and the home cluster's identity verification." The per-user RBAC enforcement is preserved on every cluster, but the attack surface changes shape. Administrators should understand the following risks and mitigations before enabling this feature.
@@ -147,6 +174,7 @@ Impersonation mode shifts the trust boundary from "each cluster trusts its own O
 - Restrict access to the Kiali namespace (typically `istio-system`) so that only cluster administrators can read secrets.
 - The `kiali-multi-cluster-secret` contains SA tokens for all remote clusters — treat it with the same sensitivity as a cluster-admin credential.
 - Monitor API server audit logs for impersonation events originating from the Kiali SA. OpenShift audit logs include both the authenticating identity (Kiali SA) and the impersonated user.
+- Configure `allowed_users` and `allowed_groups` to restrict which identities the SA can impersonate at the Kubernetes RBAC level. When set, even a stolen SA token can only impersonate listed identities.
 
 **2. The home cluster SA token is more powerful**
 
@@ -210,6 +238,8 @@ spec:
   auth:
     openshift:
       impersonation:
+        # allowed_users: ["alice@example.com", "bob@example.com"]
+        # allowed_groups: ["developers", "sre-team"]
         enabled: true
   deployment:
     remote_cluster_resources_only: true
