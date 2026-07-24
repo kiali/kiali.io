@@ -264,7 +264,6 @@ Enroll the namespace or selected workloads with `istio.io/use-waypoint` pointing
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/ambient_policy_checker.go)
 - [Use a waypoint proxy](https://istio.io/latest/docs/ambient/usage/waypoint/)
 - [Policy attachment](https://istio.io/latest/docs/ambient/usage/waypoint/#policy-attachment)
 
@@ -283,7 +282,6 @@ Add `targetRefs` (or `targetRef`) to a Service or Gateway instead of relying onl
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/ambient_policy_checker.go)
 - [Policy attachment](https://istio.io/latest/docs/ambient/usage/waypoint/#policy-attachment)
 
 
@@ -521,7 +519,6 @@ Enroll the Ambient namespace or destination service with `istio.io/use-waypoint`
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/ambient_policy_checker.go)
 - [Use a waypoint proxy](https://istio.io/latest/docs/ambient/usage/waypoint/)
 
 
@@ -539,7 +536,6 @@ Label the destination service or its namespace with `istio.io/use-waypoint`, or 
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/ambient_policy_checker.go)
 - [Use a waypoint proxy](https://istio.io/latest/docs/ambient/usage/waypoint/)
 
 
@@ -557,7 +553,6 @@ Move the DestinationRule into the destination service namespace, or redefine the
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/ambient_policy_checker.go)
 - [Use a waypoint proxy](https://istio.io/latest/docs/ambient/usage/waypoint/)
 
 
@@ -1065,7 +1060,6 @@ Enroll the Ambient namespace or destination service with `istio.io/use-waypoint`
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/ambient_policy_checker.go)
 - [Use a waypoint proxy](https://istio.io/latest/docs/ambient/usage/waypoint/)
 
 
@@ -1083,7 +1077,6 @@ Label the destination service or its namespace with `istio.io/use-waypoint`, or 
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/ambient_policy_checker.go)
 - [Use a waypoint proxy](https://istio.io/latest/docs/ambient/usage/waypoint/)
 
 
@@ -1101,7 +1094,6 @@ Move the VirtualService into the destination service namespace, or redefine the 
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/ambient_policy_checker.go)
 - [Use a waypoint proxy](https://istio.io/latest/docs/ambient/usage/waypoint/)
 
 
@@ -1121,7 +1113,6 @@ Enroll the namespace or selected workloads with `istio.io/use-waypoint` pointing
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/ambient_policy_checker.go)
 - [Use a waypoint proxy](https://istio.io/latest/docs/ambient/usage/waypoint/)
 - [RequestAuthentication](https://istio.io/docs/reference/config/security/request_authentication/)
 
@@ -1140,7 +1131,6 @@ Add `targetRefs` (or `targetRef`) to a Service or Gateway instead of relying onl
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/ambient_policy_checker.go)
 - [Policy attachment](https://istio.io/latest/docs/ambient/usage/waypoint/#policy-attachment)
 - [RequestAuthentication](https://istio.io/docs/reference/config/security/request_authentication/)
 
@@ -1161,7 +1151,6 @@ Enroll the namespace or selected workloads with `istio.io/use-waypoint` pointing
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/ambient_policy_checker.go)
 - [Use a waypoint proxy](https://istio.io/latest/docs/ambient/usage/waypoint/)
 - [WasmPlugin](https://istio.io/docs/reference/config/proxy_extensions/wasm-plugin/)
 
@@ -1180,7 +1169,6 @@ Add `targetRefs` (or `targetRef`) to a Service or Gateway instead of relying onl
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/ambient_policy_checker.go)
 - [Policy attachment](https://istio.io/latest/docs/ambient/usage/waypoint/#policy-attachment)
 - [WasmPlugin](https://istio.io/docs/reference/config/proxy_extensions/wasm-plugin/)
 
@@ -1201,7 +1189,6 @@ Enroll the namespace or selected workloads with `istio.io/use-waypoint` pointing
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/ambient_policy_checker.go)
 - [Use a waypoint proxy](https://istio.io/latest/docs/ambient/usage/waypoint/)
 - [Telemetry](https://istio.io/docs/reference/config/telemetry/)
 
@@ -1220,7 +1207,6 @@ Add `targetRefs` (or `targetRef`) to a Service or Gateway instead of relying onl
 
 #### See Also
 
-- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/ambient_policy_checker.go)
 - [Policy attachment](https://istio.io/latest/docs/ambient/usage/waypoint/#policy-attachment)
 - [Telemetry](https://istio.io/docs/reference/config/telemetry/)
 
