@@ -1,16 +1,16 @@
 ---
 title: "Health Status Alerts"
-description: "Export Kiali health status as Prometheus metrics, scrape them with User Workload Monitoring, and define recording rules and alerts for OpenShift Observability."
+description: "Export Kiali health status as Prometheus metrics, scrape them with User Workload Monitoring, and define recording rules and alerts for OpenShift Observability and NetObserv Network Health."
 weight: 40
 ---
 
 ## Overview
 
 {{% alert color="info" %}}
-**This guide is the fourth in the series but also works standalone.** The earlier guides focus on setting up a multi-cluster OpenShift environment; this guide applies to any OpenShift cluster running Kiali — single-cluster or multi-cluster. Follow Phases 1–5 on any cluster to set up health-status alerting. Phase 6 adds optional multi-cluster integration with ACM for readers who completed the earlier guides.
+**This guide is the fourth in the series but also works standalone.** The earlier guides focus on setting up a multi-cluster OpenShift environment; this guide applies to any OpenShift cluster running Kiali — single-cluster or multi-cluster. Follow Phases 1–5 on any cluster to set up health-status alerting. Phase 6 adds optional multi-cluster integration with ACM for readers who completed the earlier guides. Phase 7 is also optional: it installs the Network Observability Operator on the Kiali cluster and surfaces the same health rules on **Observe > Network Health**.
 {{% /alert %}}
 
-This guide shows how to export Kiali's mesh health (Healthy / Not Ready / Degraded / Failure) as the Prometheus gauge `kiali_health_status`, scrape it with OpenShift User Workload Monitoring (UWM), and define useful recording rules and alerts that appear in the OpenShift console under **Observe > Alerting**.
+This guide shows how to export Kiali's mesh health (Healthy / Not Ready / Degraded / Failure) as the Prometheus gauge `kiali_health_status`, scrape it with OpenShift User Workload Monitoring (UWM), and define useful recording rules and alerts that appear in the OpenShift console under **Observe > Alerting**. Optionally, Phase 7 installs NetObserv so those same rules also appear under **Observe > Network Health**.
 
 Kiali computes traffic health and workload readiness for apps, services, workloads, and namespaces (see [Traffic Health]({{< relref "../../Configuration/health" >}})). When health-status metrics are enabled, each entity's status is exported as the Prometheus gauge `kiali_health_status` — Kiali does not deploy Prometheus or act as Alertmanager; it only exports the gauge for your existing OpenShift monitoring stack to scrape and evaluate. The gauge values are:
 
@@ -32,12 +32,12 @@ With ACM, you can alert on the **managed cluster**, on the **hub**, or both:
 
 Which phases of this guide you need depends on your environment:
 
-- **Single-cluster OpenShift** — Phases 1–5 cover everything: enable the metric, scrape it, create alerts, and optionally run the hands-on demo.
-- **Multi-cluster with ACM Observability** — start with Phases 1–3 on each cluster that runs Kiali (enable the metric and scrape it). Then complete Phase 6 on the hub to allowlist `kiali_health_status` into hub Thanos and add fleet-wide hub alerts. If you also want per-cluster alerts under each cluster's **Observe > Alerting**, complete Phases 4–5 on the managed clusters.
+- **Single-cluster OpenShift** — Phases 1–5 cover everything: enable the metric, scrape it, create alerts, and optionally run the hands-on demo. Add Phase 7 if you want NetObserv Network Health on the same cluster.
+- **Multi-cluster with ACM Observability** — start with Phases 1–3 on each cluster that runs Kiali (enable the metric and scrape it). Then complete Phase 6 on the hub to allowlist `kiali_health_status` into hub Thanos and add fleet-wide hub alerts. If you also want per-cluster alerts under each cluster's **Observe > Alerting**, complete Phases 4–5 on the managed clusters. Phase 7 installs NetObserv on each Kiali cluster where you want Network Health.
 
 In either case, you can optionally route fired alerts to third-party systems such as Slack, email, or generic webhooks — see [Routing alerts to Slack, email, or webhooks](#routing-alerts-to-slack-email-or-webhooks) at the end of this guide.
 
-The diagram below shows the alerting pipeline this guide configures. Badges such as `G4:P5.2-5.3` mark which guide section(s) install each piece (Guide 4, §§5.2–5.3). Phases 1–5 run on the cluster that hosts Kiali; Phase 6 is optional hub integration with ACM. Click the diagram to open a full-size SVG in a new tab.
+The diagram below shows the alerting pipeline this guide configures. Badges such as `G4:P5.2-5.3` mark which guide section(s) install each piece (Guide 4, §§5.2–5.3). Phases 1–5 run on the cluster that hosts Kiali; Phase 6 is optional hub integration with ACM; Phase 7 is optional NetObserv Network Health on the Kiali cluster. Click the diagram to open a full-size SVG in a new tab.
 
 <a href="/images/ossm-multicluster/04-health-alerts.svg" target="_blank" rel="noopener noreferrer">
 <img src="/images/ossm-multicluster/04-health-alerts.png" alt="Health status alerts pipeline" title="Health status alerts environment after Guide 4 — click for full-size SVG">
@@ -48,18 +48,19 @@ The diagram below shows the alerting pipeline this guide configures. Badges such
 ## Prerequisites
 
 {{% alert color="info" %}}
-**Single-cluster readers:** You do not need ACM or the earlier multi-cluster guides. Commands below use `--context=ossm-kiali-spoke` (same name as the hub/spoke guide); substitute your cluster's context if needed, and skip [Phase 6](#phase-6-multi-cluster-with-acm-observability).
+**Single-cluster readers:** You do not need ACM or the earlier multi-cluster guides. Commands below use `--context=ossm-kiali-spoke` (same name as the hub/spoke guide); substitute your cluster's context if needed, and skip Phase 6. Phase 7 (NetObserv Network Health) is optional on the same cluster after Phases 1–4.
 {{% /alert %}}
 
 {{% alert color="info" %}}
 **Multi-cluster readers:** This guide builds on the same UWM and metrics-allowlist concepts as the [MultiCluster on OpenShift]({{< relref "./" >}}) tutorial series. You do not need to re-install ACM. Completing the [hub/spoke guide]({{< relref "./ossm-acm-hub-spoke" >}}) (at minimum) is recommended so Istio metrics, Kiali, and the Bookinfo demo are already in place.
 {{% /alert %}}
 
-- A supported OpenShift version with cluster monitoring (`openshift-monitoring`)
+- OpenShift 4.19 or later with cluster monitoring (`openshift-monitoring`).
 - Kiali installed with access to mesh namespaces
 - A mesh with workloads Kiali can score. The Phase 5 demo commands use the Bookinfo application — if you want to follow them exactly, have Bookinfo deployed (the [hub/spoke guide]({{< relref "./ossm-acm-hub-spoke" >}}) installs it, or see the [Istio Bookinfo sample](https://istio.io/latest/docs/examples/bookinfo/))
 - `oc` CLI with a kubeconfig context for the cluster where Kiali runs (commands use `--context=ossm-kiali-spoke`; substitute your context name if different)
 - **Phase 6 only:** a kubeconfig context for the ACM hub (`--context=ossm-kiali-hub`) and ACM Observability (`MultiClusterObservability`) ready on the hub (set up in the [hub/spoke guide]({{< relref "./ossm-acm-hub-spoke" >}}))
+- **Phase 7 only:** OpenShift 4.19 or later on the Kiali cluster, access to `redhat-operators` for the Network Observability Operator, and Phases 1–4 already completed on that cluster (Guides 1–3 are not required)
 
 Set namespace variables for the cluster that runs Kiali:
 
@@ -614,7 +615,7 @@ You can also confirm under **Observe > Metrics** with:
 ALERTS{alertname=~"KialiHealthFailure|KialiHealthDegraded"}
 ```
 
-Single-cluster readers can stop here. Multi-cluster readers who want hub Thanos queries and/or hub alerts can continue to [Phase 6](#phase-6-multi-cluster-with-acm-observability).
+Single-cluster readers can stop here, or continue to [Phase 7](#phase-7-network-health-netobserv) for NetObserv Network Health. Multi-cluster readers who want hub Thanos queries and/or hub alerts can continue to [Phase 6](#phase-6-multi-cluster-with-acm-observability) (Phase 7 remains available afterward on each Kiali cluster).
 
 ---
 
@@ -770,6 +771,241 @@ oc --context=ossm-kiali-hub -n open-cluster-management-observability \
   "/api/v1/namespaces/open-cluster-management-observability/services/http:observability-thanos-query-frontend:9090/proxy/api/v1/query?query=ALERTS%7Balertname%3D~%22KialiHub.%2A%22%7D" \
   | jq .
 ```
+
+---
+
+## Phase 7: Network Health (NetObserv)
+
+Network Health is NetObserv's console dashboard under **Observe > Network Health**. It is distinct from OpenShift **Observe > Alerting**: Alerting shows firing/pending Prometheus alerts, while Network Health summarizes network and custom health signals (alerts and recording-rule scores) in Global / Namespaces / Nodes / Workloads tabs. This phase installs the Network Observability Operator on the **same cluster that runs Kiali** (`ossm-kiali-spoke`, or your substituted context — not the ACM hub), then re-applies the Phase 4 `PrometheusRule` with NetObserv metadata so Kiali health appears on that dashboard. Phases 1–4 must already be complete; Guides 1–3 and Phase 6 are not required. OpenShift 4.19+ and Network Observability Operator 1.11+ are required for Network Health.
+
+### 7.1 Install the Network Observability Operator
+
+Install the operator into `openshift-netobserv-operator` (required namespace for NetObserv OLM install) from `redhat-operators` on the `stable` channel (1.11+):
+
+```bash
+oc --context=ossm-kiali-spoke apply -f - <<'EOF'
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: openshift-netobserv-operator
+  labels:
+    openshift.io/cluster-monitoring: "true"
+---
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: openshift-netobserv-operator
+  namespace: openshift-netobserv-operator
+spec: {}
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: netobserv-operator
+  namespace: openshift-netobserv-operator
+spec:
+  channel: stable
+  installPlanApproval: Automatic
+  name: netobserv-operator
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace
+EOF
+```
+
+Wait for the FlowCollector CRD to be Established, then for the operator pod to become Ready:
+
+```bash
+until oc --context=ossm-kiali-spoke get crd \
+  flowcollectors.flows.netobserv.io &>/dev/null; do
+  echo "Waiting for FlowCollector CRD..."
+  sleep 10
+done
+
+oc --context=ossm-kiali-spoke wait crd/flowcollectors.flows.netobserv.io \
+  --for=condition=Established \
+  --timeout=300s
+echo "FlowCollector CRD ready"
+
+until oc --context=ossm-kiali-spoke get pods \
+  -l app=netobserv-operator \
+  -n openshift-netobserv-operator \
+  --no-headers 2>/dev/null | grep -q .; do
+  echo "Waiting for NetObserv operator pod..."
+  sleep 5
+done
+
+oc --context=ossm-kiali-spoke wait pod \
+  --for=condition=Ready \
+  -l app=netobserv-operator \
+  -n openshift-netobserv-operator \
+  --timeout=300s
+echo "Network Observability Operator ready"
+```
+
+### 7.2 Create the FlowCollector
+
+Create the cluster-scoped `FlowCollector` named `cluster`. This guide uses a Loki-less install: Network Health is driven by Prometheus alerts and recording rules, so Loki (and object storage) are not required. The console plugin still deploys and provides **Observe > Network Health**. Full **Network Traffic** flow-table features need Loki — see [Installing the Network Observability Operator](https://docs.redhat.com/en/documentation/openshift_container_platform/latest/html/network_observability/installing-network-observability-operators) if you want that later.
+
+```bash
+oc --context=ossm-kiali-spoke apply -f - <<'EOF'
+apiVersion: flows.netobserv.io/v1beta2
+kind: FlowCollector
+metadata:
+  name: cluster
+spec:
+  namespace: netobserv
+  agent:
+    type: eBPF
+  loki:
+    enable: false
+  consolePlugin:
+    enable: true
+EOF
+```
+
+Wait for the FlowCollector to report Ready and for the console plugin deployment to appear:
+
+```bash
+oc --context=ossm-kiali-spoke wait flowcollector/cluster \
+  --for=condition=Ready \
+  --timeout=600s
+echo "FlowCollector Ready"
+
+until oc --context=ossm-kiali-spoke get deploy -n netobserv \
+  --no-headers 2>/dev/null | grep -qi netobserv-plugin; do
+  echo "Waiting for NetObserv console plugin deployment..."
+  sleep 10
+done
+
+PLUGIN_DEPLOY=$(oc --context=ossm-kiali-spoke get deploy -n netobserv \
+  --no-headers -o custom-columns=NAME:.metadata.name 2>/dev/null \
+  | grep -i netobserv-plugin | head -1)
+oc --context=ossm-kiali-spoke rollout status deployment/"${PLUGIN_DEPLOY}" \
+  -n netobserv \
+  --timeout=300s
+echo "NetObserv console plugin ready"
+```
+
+In the OpenShift console (refresh if needed), confirm **Observe > Network Health** is listed. Non-kubeadmin users need `cluster-monitoring-view` to query alerts for that page.
+
+### 7.3 Annotate Kiali PrometheusRules for Network Health
+
+Re-apply the Phase 4 `PrometheusRule` in `${KIALI_NS}` with NetObserv labels and annotations. Keep the rule in the Kiali namespace so UWM can still evaluate it (`leaf-prometheus`); do **not** move it into the `netobserv` namespace. NetObserv discovers recording rules cluster-wide via the `netobserv: "true"` label.
+
+Use `exported_namespace` in `namespaceLabels` so scores and alerts land on the **Namespaces** tab (UWM rewrites the mesh namespace to `exported_namespace`). Recording-rule thresholds map to the Kiali gauge: Not Ready `1` (info), Degraded `2` (warning), Failure `3` (critical), with `upperBound: "3"`.
+
+The `netobserv: "true"` labels are inert if NetObserv is not installed; with Network Health present they select the rules for that dashboard.
+
+```bash
+oc --context=ossm-kiali-spoke apply --server-side --force-conflicts -f - <<EOF
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: kiali-health-status
+  namespace: ${KIALI_NS}
+  labels:
+    netobserv: "true"
+    openshift.io/prometheus-rule-evaluation-scope: leaf-prometheus
+  annotations:
+    netobserv.io/network-health: |
+      {
+        "kiali:health_status:max": {
+          "summary": "Kiali health status for {{ \$labels.health_type }} {{ \$labels.name }} in {{ \$labels.exported_namespace }} is {{ \$value }}",
+          "description": "Worst Kiali health score (0=Healthy, 1=Not Ready, 2=Degraded, 3=Failure) for the entity.",
+          "netobserv_io_network_health": "{\"unit\":\"status\",\"upperBound\":\"3\",\"namespaceLabels\":[\"exported_namespace\"],\"recordingThresholds\":{\"info\":\"1\",\"warning\":\"2\",\"critical\":\"3\"}}"
+        },
+        "kiali:health_status:namespace_max": {
+          "summary": "Kiali namespace health for {{ \$labels.exported_namespace }} is {{ \$value }}",
+          "description": "Worst Kiali namespace aggregate health score (0=Healthy, 1=Not Ready, 2=Degraded, 3=Failure).",
+          "netobserv_io_network_health": "{\"unit\":\"status\",\"upperBound\":\"3\",\"namespaceLabels\":[\"exported_namespace\"],\"recordingThresholds\":{\"info\":\"1\",\"warning\":\"2\",\"critical\":\"3\"}}"
+        }
+      }
+spec:
+  groups:
+  - name: kiali.health.recording
+    rules:
+    - record: kiali:health_status:max
+      expr: |
+        max by (cluster, exported_namespace, health_type, name) (kiali_health_status)
+      labels:
+        netobserv: "true"
+    - record: kiali:health_status:namespace_max
+      expr: |
+        max by (cluster, exported_namespace, name) (
+          kiali_health_status{health_type="namespace"}
+        )
+      labels:
+        netobserv: "true"
+  - name: kiali.health.alerts
+    rules:
+    - alert: KialiHealthFailure
+      expr: |
+        kiali:health_status:max{health_type=~"app|service|workload"} == 3
+      for: 5m
+      labels:
+        netobserv: "true"
+        severity: critical
+      annotations:
+        summary: >-
+          {{ \$labels.health_type }} {{ \$labels.name }} in {{ \$labels.exported_namespace }}
+          (cluster {{ \$labels.cluster }}) is in Failure
+        description: >-
+          Kiali reported Failure (kiali_health_status == 3) for at least 5 minutes.
+        netobserv_io_network_health: '{"namespaceLabels":["exported_namespace"],"threshold":"3","unit":"status","upperBound":"3"}'
+    - alert: KialiHealthDegraded
+      expr: |
+        kiali:health_status:max{health_type=~"app|service|workload"} == 2
+      for: 10m
+      labels:
+        netobserv: "true"
+        severity: warning
+      annotations:
+        summary: >-
+          {{ \$labels.health_type }} {{ \$labels.name }} in {{ \$labels.exported_namespace }}
+          (cluster {{ \$labels.cluster }}) is Degraded
+        description: >-
+          Kiali reported Degraded (kiali_health_status == 2) for at least 10 minutes.
+        netobserv_io_network_health: '{"namespaceLabels":["exported_namespace"],"threshold":"2","unit":"status","upperBound":"3"}'
+    - alert: KialiNamespaceHealthFailure
+      expr: |
+        kiali:health_status:namespace_max == 3
+      for: 5m
+      labels:
+        netobserv: "true"
+        severity: critical
+      annotations:
+        summary: >-
+          Namespace {{ \$labels.exported_namespace }} (cluster {{ \$labels.cluster }})
+          is in Failure
+        description: >-
+          Kiali namespace aggregate health status is Failure (kiali_health_status == 3)
+          for at least 5 minutes.
+        netobserv_io_network_health: '{"namespaceLabels":["exported_namespace"],"threshold":"3","unit":"status","upperBound":"3"}'
+EOF
+```
+
+{{% alert color="info" %}}
+**Shell note:** As in Phase 4, summaries use `\$labels...` so the shell does not expand `$labels` before `oc apply`.
+{{% /alert %}}
+
+### 7.4 Verify Network Health
+
+Confirm the annotated rule is present:
+
+```bash
+oc --context=ossm-kiali-spoke get prometheusrule kiali-health-status \
+  -n "${KIALI_NS}" -o yaml | grep -E 'netobserv|network-health|exported_namespace'
+```
+
+You should see `netobserv: "true"`, the `netobserv.io/network-health` annotation, and `namespaceLabels` referencing `exported_namespace`.
+
+In the OpenShift console:
+
+1. Go to **Observe > Network Health**.
+2. Open the **Namespaces** tab.
+3. Confirm Kiali recording-rule scores (and any pending/firing `KialiHealth*` alerts) appear for mesh namespaces such as `bookinfo`.
+
+To force a Failure and watch it on Network Health as well as **Observe > Alerting**, run the [Phase 5 hands-on demo](#phase-5-custom-alerts-and-a-hands-on-trigger-demo) (shorten `for`, tighten `health_config`, inject the ratings abort VirtualService, generate traffic). After the Failure condition holds for the alert `for` duration, `KialiHealthFailure` should show under Network Health > Namespaces for `bookinfo`.
 
 ---
 
@@ -971,3 +1207,51 @@ oc --context=ossm-kiali-hub -n open-cluster-management-observability \
 ```
 
 If you changed ACM Alertmanager routing in [Routing alerts to Slack, email, or webhooks](#routing-alerts-to-slack-email-or-webhooks), restore from your backup (`/tmp/alertmanager.yaml.bak`) with the same `create secret … | replace` command, or leave the receivers in place if you still want third-party notifications.
+
+### Network Health (Phase 7)
+
+If you completed Phase 7, remove NetObserv first, then leave (or restore) the Phase 4 PrometheusRule without NetObserv annotations. Loki was not installed in this guide's Loki-less path.
+
+```bash
+# Delete FlowCollector first — the operator must still be running to finalize its managed resources
+oc --context=ossm-kiali-spoke delete flowcollector cluster --ignore-not-found
+
+# Wait for the FlowCollector to be fully removed
+oc --context=ossm-kiali-spoke wait flowcollector/cluster --for=delete --timeout=120s 2>/dev/null || true
+
+# Delete the netobserv workload namespace (created by the FlowCollector, not removed automatically)
+oc --context=ossm-kiali-spoke delete namespace netobserv --ignore-not-found
+
+# Now remove the operator — all CRs are gone so the operator can be safely uninstalled
+oc --context=ossm-kiali-spoke delete subscription netobserv-operator \
+  -n openshift-netobserv-operator --ignore-not-found
+
+# Delete pending install plans before removing CSVs — otherwise OLM may recreate CSVs from in-flight plans
+oc --context=ossm-kiali-spoke delete installplan --all \
+  -n openshift-netobserv-operator --ignore-not-found
+
+# Remove ALL CSVs — delete the CSV in the operator namespace only; OLM cascades deletion to all copied namespaces automatically
+oc --context=ossm-kiali-spoke delete csv -n openshift-netobserv-operator --all --ignore-not-found
+
+# Remove OperatorGroup and operator namespace
+oc --context=ossm-kiali-spoke delete operatorgroup openshift-netobserv-operator \
+  -n openshift-netobserv-operator --ignore-not-found
+oc --context=ossm-kiali-spoke delete namespace openshift-netobserv-operator --ignore-not-found
+
+# Remove orphaned ConsolePlugin
+oc --context=ossm-kiali-spoke delete consoleplugin netobserv-plugin-static --ignore-not-found
+
+# Remove orphaned ClusterRoles
+oc --context=ossm-kiali-spoke get clusterrole -o name | grep netobserv | \
+  xargs -r oc --context=ossm-kiali-spoke delete --ignore-not-found
+
+# Remove ALL CRDs — you must remove every CRD installed by the Network Observability Operator or reinstallation will conflict
+for suffix in flows.netobserv.io; do
+  CRDS=$(oc --context=ossm-kiali-spoke get crd \
+    --no-headers -o custom-columns=NAME:.metadata.name 2>/dev/null \
+    | grep "\.${suffix}$")
+  [ -n "${CRDS}" ] && echo "${CRDS}" | xargs oc --context=ossm-kiali-spoke delete crd --ignore-not-found
+done
+```
+
+If you still want Phase 4 alerts under **Observe > Alerting** without Network Health metadata, re-apply the Phase 4 `PrometheusRule` from [§4.1](#41-apply-the-baseline-prometheusrule). If you are removing all health alerts, the Phases 1–5 cleanup above already deletes `kiali-health-status`.

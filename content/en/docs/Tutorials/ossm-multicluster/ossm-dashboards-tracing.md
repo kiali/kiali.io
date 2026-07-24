@@ -21,6 +21,7 @@ The diagram below shows the environment after this guide completes. Components f
 
 The [Multi-Primary Mesh]({{< relref "./ossm-acm-multi-primary" >}}) guide must be complete:
 
+- OpenShift 4.19+ on all clusters used in the series
 - ACM hub with both `spoke` and `spoke-two` managed clusters
 - OSSM 3 running on both spokes with East-West gateways
 - Kiali running on `spoke`

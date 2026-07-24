@@ -31,13 +31,13 @@ The diagram below shows the environment after this guide completes. Components f
 ---
 
 {{% alert color="info" %}}
-This guide requires **OSSM 3.4+** (Istio 1.30+). The East-West gateway configuration for cross-cluster sidecar traffic relies on Gateway API behavior introduced in Istio 1.30.
+This guide requires **OSSM 3.4+** (Istio 1.30+) on **OpenShift 4.19+**. The East-West gateway configuration for cross-cluster sidecar traffic relies on Gateway API behavior introduced in Istio 1.30. Istio 1.30's oldest supported Kubernetes version is 1.32, which corresponds to OpenShift 4.19.
 {{% /alert %}}
 
 ## Prerequisites
 
 1. The [MultiCluster on OpenShift]({{< relref "./ossm-acm-hub-spoke" >}}) guide completed successfully — ACM, OSSM 3, and Kiali must already be running on `ossm-kiali-hub` and `ossm-kiali-spoke`.
-2. A second fresh OpenShift cluster accessible via kubeconfig context `ossm-kiali-spoke-two`.
+2. A second fresh OpenShift 4.19+ cluster accessible via kubeconfig context `ossm-kiali-spoke-two` (same minimum as the hub/spoke guide).
 3. `istioctl` installed locally (required to create Istio cross-cluster endpoint discovery secrets). Version must match `${ISTIO_VERSION}`.
 4. All three kubeconfig contexts reachable:
    ```bash
@@ -513,12 +513,47 @@ oc --context=ossm-kiali-spoke rollout status deployment/kiali \
   -n istio-system --timeout=120s
 ```
 
-Restart the sidecar-injected pods in `bookinfo` so they pick up the new cluster identity from the updated Istio injection template (see Notes #5):
+Wait until the injector ConfigMap reflects `${SPOKE_CLUSTER_NAME}`, then restart the
+sidecar-injected pods in `bookinfo` so they pick up the new cluster identity. The OSSM/Sail operator publishes injection settings in the `istio-sidecar-injector` ConfigMap in `istio-system`. The first loop below polls that ConfigMap until `global.multiCluster.clusterName` equals `${SPOKE_CLUSTER_NAME}` (see Notes #5 for why you must wait). Only then restart `bookinfo` so new sidecars pick up the identity. After the rollout, the final check reads `ISTIO_META_CLUSTER_ID` from a sample pod's `istio-proxy` container to confirm injection used the new name — not `Kubernetes`:
 
 ```bash
+echo "Waiting for sidecar injector to publish clusterName=${SPOKE_CLUSTER_NAME}..."
+while true; do
+  INJECTOR_CLUSTER=$(oc --context=ossm-kiali-spoke get configmap istio-sidecar-injector \
+    -n istio-system \
+    -o jsonpath='{.data.values}' | \
+    jq -r '.global.multiCluster.clusterName // empty')
+  echo "  injector clusterName=${INJECTOR_CLUSTER:-<empty>}"
+  if [ "${INJECTOR_CLUSTER}" = "${SPOKE_CLUSTER_NAME}" ]; then
+    echo "Sidecar injector is ready"
+    break
+  fi
+  sleep 5
+done
+
 oc --context=ossm-kiali-spoke rollout restart deployment -n bookinfo
-oc --context=ossm-kiali-spoke wait pods \
-  --for=condition=Ready --all -n bookinfo --timeout=120s
+
+# Wait on Deployments — not `oc wait pods --all`, which races with Terminating pods during the restart
+oc --context=ossm-kiali-spoke wait deployment --all \
+  -n bookinfo \
+  --for=condition=Available \
+  --timeout=180s
+
+# Confirm sidecars were injected with the new cluster identity (must not be "Kubernetes")
+SAMPLE_POD=$(oc --context=ossm-kiali-spoke get pod -n bookinfo \
+  -l app=productpage \
+  -o jsonpath='{.items[0].metadata.name}')
+PROXY_CLUSTER=$(oc --context=ossm-kiali-spoke get pod "${SAMPLE_POD}" -n bookinfo -o json | \
+  jq -r '[.spec.containers[]?, .spec.initContainers[]?
+    | select(.name == "istio-proxy")
+    | .env[]? | select(.name == "ISTIO_META_CLUSTER_ID")
+    | .value] | first // empty')
+echo "productpage ISTIO_META_CLUSTER_ID=${PROXY_CLUSTER}"
+if [ "${PROXY_CLUSTER}" != "${SPOKE_CLUSTER_NAME}" ]; then
+  echo "ERROR: expected ISTIO_META_CLUSTER_ID=${SPOKE_CLUSTER_NAME}, got '${PROXY_CLUSTER}'."
+  echo "Re-check the injector ConfigMap above, then re-run the rollout restart."
+  exit 1
+fi
 ```
 
 ---
@@ -1481,7 +1516,7 @@ The table below shows where each cluster's name appears. Each cluster (`spoke` a
 client claims to be in cluster "spoke-two", but we only know about local cluster "Kubernetes"
 ```
 
-**After updating `clusterName` in the Istio CR** on a cluster that already has sidecar-injected pods, restart those pods so they pick up the new cluster identity from the updated injection template.
+The same error appears for **sidecar** proxies when `ISTIO_META_CLUSTER_ID` does not match istiod's local cluster name. The sidecar injector template sets that env var from `global.multiCluster.clusterName` and defaults to `Kubernetes` when the value is missing. After you patch `clusterName` on an existing mesh (Phase 4.2), wait until `istio-sidecar-injector`'s `.data.values` shows the new name **before** restarting sidecar-injected workloads (Phase 4.4). `Istio` Ready alone is not enough — Sail updates the injector ConfigMap asynchronously. Restarting too early permanently bakes `Kubernetes` into the pod spec until another restart runs against the updated injector. Confirm a sample pod's `istio-proxy` env shows `ISTIO_META_CLUSTER_ID=<your-cluster-name>` (for example `spoke`), not `Kubernetes`.
 
 ### 6. Kiali OAuth Redirect for Spoke-Two
 
