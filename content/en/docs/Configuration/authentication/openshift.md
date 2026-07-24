@@ -216,6 +216,15 @@ Impersonation mode shifts the trust boundary from "each cluster trusts its own O
 - **[Kiali]** The operator runs in its own namespace (typically `openshift-operators` or `operators`) with a restrictive security context: non-root, read-only root filesystem, all capabilities dropped.
 - **[Admin]** Restrict access to the operator namespace so that only cluster administrators can read its secrets or exec into the operator pod.
 
+**7. Remote cluster SA tokens may be long-lived**
+
+*Risk:* The `kiali-multi-cluster-secret` contains SA tokens for remote clusters. These tokens are created manually by the adminstrator. A token may have a long lifetime (e.g. `oc create token --duration 8760h`) or it may have no expiration at all (e.g. using a `kubernetes.io/service-account-token` annotated Secret). If a token is compromised, an attacker can impersonate users on the remote cluster with those long or infinite time limits.
+
+*Mitigations:*
+- **[Admin]** Periodically rotate the SA tokens in the `kiali-multi-cluster-secret`. Kiali detects secret changes and reloads credentials without requiring a pod restart.
+- **[Admin]** Use the shortest practical token duration when creating remote cluster tokens. Balance operational convenience against exposure window.
+- **[Admin]** If a compromise is suspected, delete and recreate the ServiceAccount on the remote cluster to immediately invalidate all issued tokens.
+
 ##### Remote Cluster Configuration with Impersonation
 
 For remote clusters configured with `remote_cluster_resources_only: true`, impersonation mode simplifies the setup:

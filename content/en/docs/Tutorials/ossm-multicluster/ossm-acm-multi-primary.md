@@ -826,6 +826,10 @@ Labeling the secret with `kiali.io/kiali-multi-cluster-secret: "true"` tells the
 
 In Kubernetes 1.24+, service account token secrets are not created automatically. Create one for `kiali-service-account` on `spoke-two` so that a long-lived token is available:
 
+{{% alert color="info" %}}
+The `kubernetes.io/service-account-token` Secret created below produces a token with **no expiration**. For production environments, consider using `oc create token kiali-service-account -n istio-system --duration=720h` instead to create a time-bounded token. You will need to rotate the token (and update the `kiali-multi-cluster-secret` on the home cluster) before it expires. Kiali detects secret changes and reloads credentials automatically without a pod restart.
+{{% /alert %}}
+
 ```bash
 oc --context=ossm-kiali-spoke-two apply -f - <<'EOF'
 apiVersion: v1
