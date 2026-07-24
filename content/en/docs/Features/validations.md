@@ -1166,6 +1166,25 @@ Enroll the namespace or selected workloads with `istio.io/use-waypoint` pointing
 - [WasmPlugin](https://istio.io/docs/reference/config/proxy_extensions/wasm-plugin/)
 
 
+### KIA1116 - WasmPlugin in Ambient requires targetRefs to a Service or Gateway; selector policies are ignored by waypoints
+
+In Ambient Mesh, waypoint proxies ignore selector-based WasmPlugins. The plugin must attach via `targetRef` or `targetRefs` to a Service or Gateway. This check only runs when the WasmPlugin namespace is Ambient.
+
+#### Resolution
+
+Add `targetRefs` (or `targetRef`) to a Service or Gateway instead of relying only on a workload selector.
+
+#### Severity
+
+<i class="fas fa-exclamation-triangle text-warning"></i> Warning
+
+#### See Also
+
+- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/ambient_policy_checker.go)
+- [Policy attachment](https://istio.io/latest/docs/ambient/usage/waypoint/#policy-attachment)
+- [WasmPlugin](https://istio.io/docs/reference/config/proxy_extensions/wasm-plugin/)
+
+
 ## Telemetry {#telemetry}
 
 ### KIA1112 - L7 Telemetry in Ambient namespace requires waypoint enrollment (istio.io/use-waypoint)
@@ -1184,6 +1203,25 @@ Enroll the namespace or selected workloads with `istio.io/use-waypoint` pointing
 
 - [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/ambient_policy_checker.go)
 - [Use a waypoint proxy](https://istio.io/latest/docs/ambient/usage/waypoint/)
+- [Telemetry](https://istio.io/docs/reference/config/telemetry/)
+
+
+### KIA1117 - L7 Telemetry in Ambient requires targetRefs to a Service or Gateway; selector policies are ignored by waypoints
+
+In Ambient Mesh, waypoint proxies ignore selector-based L7 Telemetry. The resource must attach via `targetRef` or `targetRefs` to a Service or Gateway. L4-only Telemetry does not trigger this warning. This check only runs when the Telemetry namespace is Ambient.
+
+#### Resolution
+
+Add `targetRefs` (or `targetRef`) to a Service or Gateway instead of relying only on a workload selector.
+
+#### Severity
+
+<i class="fas fa-exclamation-triangle text-warning"></i> Warning
+
+#### See Also
+
+- [Validator source code](https://github.com/kiali/kiali/tree/master/business/checkers/ambient_policy_checker.go)
+- [Policy attachment](https://istio.io/latest/docs/ambient/usage/waypoint/#policy-attachment)
 - [Telemetry](https://istio.io/docs/reference/config/telemetry/)
 
 
@@ -1450,8 +1488,18 @@ Prefer using either sidecar or Ambient mode — not both.
 
 ### KIA1317 - This workload has L7 Authorization Policies but no Waypoint {#kia1317}
 
-Workload has L7 AuthorizationPolicies (for example policies that use HTTP methods, paths, hosts, request principals, or L7 `when` conditions) but no waypoint.
-In Ambient, L7 policies require a waypoint to take effect. L4-only AuthorizationPolicies do not trigger this warning. Waypoint proxy workloads themselves are also excluded.
+This check applies only to Ambient workloads. Sidecar and out-of-mesh workloads are excluded: sidecars already enforce L7 AuthorizationPolicies, and out-of-mesh workloads ignore them. It must not appear in sidecar-only namespaces.
+
+An Ambient workload is targeted by an L7 AuthorizationPolicy (for example a policy that uses HTTP methods, paths, hosts, request principals, or L7 `when` conditions) but has no waypoint.
+In Ambient, L7 policies require a waypoint to take effect.
+
+Kiali only warns for the workloads that the policy actually targets:
+
+* selector match on the workload, or
+* `targetRefs` to a Service that selects the workload, or
+* a namespace-wide policy (no selector and no targetRefs)
+
+Workloads that are not selected by the L7 policy do not get this warning. L4-only AuthorizationPolicies do not trigger it. Waypoint proxies and Gateway workloads are also excluded.
 
 #### Resolution
 
