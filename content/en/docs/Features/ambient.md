@@ -12,6 +12,7 @@ Kiali provides visualization for Ambient Mesh components:
 * [Ztunnel details](#ztunnel-details)
 * [Ambient Telemetry](#ambient-telemetry)
 * [Ambient tracing](#ambient-tracing)
+* [Ambient L7 Istio config validations](#ambient-l7-istio-config-validations)
 
 {{% alert color="warning" %}}
 The Kiali Ambient features, as well as Ambient Mesh, are evolving. Some of these features are in alpha status. For enhancements or detected issues, don’t hesitate to open a [GitHub issue](https://github.com/kiali/kiali/issues/new/choose). 
@@ -145,3 +146,15 @@ As the workload name is not part of the trace information, there are some gaps i
 
 Starting with Istio 1.28, traces are reported using the service name instead of the waypoint name.
 Starting with Kiali 2.22, there is a configuration option, `external_services.tracing.use_waypoint_name` (disabled by default), that allows using the waypoint name as the service used for trace lookup.
+
+### Ambient L7 Istio config validations
+
+In Ambient Mesh, Layer 7 (L7) features such as HTTP routing, JWT authentication, HTTP AuthorizationPolicies, WasmPlugins, and L7 Telemetry require a [waypoint proxy](https://istio.io/latest/docs/ambient/usage/waypoint/). Enrolling traffic to a waypoint is done with the `istio.io/use-waypoint` label on the namespace, service, or workload. Deploying a waypoint alone is not enough.
+
+Kiali validates L7 Istio configurations in Ambient namespaces and warns when they need a waypoint but will not take effect. These checks are warnings only; they do not block creating or editing configs in the UI.
+
+![Ambient L7 validations](/images/documentation/features/ambient/ambient-l7-validations.png)
+
+L4-only policies (for example AuthorizationPolicies that only use principals and ports, or DestinationRules that only set TLS) do not require a waypoint and do not trigger these warnings. VirtualServices bound only to ingress/egress Gateways also do not need a waypoint.
+
+The full list of Ambient L7 validation codes is documented under [Validation]({{< relref "validations" >}}).
