@@ -16,3 +16,13 @@ The finished environment has three OpenShift clusters: an ACM hub (`ossm-kiali-h
 Badges such as `G2:P5` mean Guide 2, Phase 5. Read Guides 1 → 2 → 3 in order; each guide page includes a progressive diagram of the environment as it exists when that guide finishes. Guide 4 (health status alerts and optional NetObserv Network Health) can also be followed standalone on any OpenShift cluster with Kiali.
 
 Start with the hub/spoke guide; the multi-primary and dashboards/tracing guides build on it in sequence. Finish up with the health status alerts guide.
+
+{{% alert title="Automation Script" color="info" %}}
+A script that automates all four guides is available for download:
+
+<a href="ossm-multicluster-tutorial.sh" download>ossm-multicluster-tutorial.sh</a>
+
+Usage: `./ossm-multicluster-tutorial.sh [--hub-context <ctx>] [--spoke-context <ctx>] [--spoke-two-context <ctx>] [--guides 1,2,3,4] <install|uninstall>`
+
+If you only have two clusters (a hub and a single spoke), you can use `--guides 1` to run Guide 1 as a standalone tutorial. The script requires a third cluster to install Guides 2–4.
+{{% /alert %}}
