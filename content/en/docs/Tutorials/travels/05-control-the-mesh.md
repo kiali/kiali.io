@@ -470,6 +470,13 @@ We will simulate the following:
 - *travels-v2* is the new version to deploy, it's being evaluated and it will get 20% of the traffic to compare against *travels-v1*
 - But *travels-v3* will be considered as a new, experimental version for testing outside of the regular request path. It will be defined as a mirrored workload on 50% of the original requests.
 
+1. Open **travels** service detail in the **travel-agency** namespace.
+2. Select **Actions** → **Traffic Shifting**.
+3. Set the 80%/20% loads for *travels-v1* and *travels-v2*.
+4. Click the **Mirroring** icon for *travels-v3*.
+5. Set the 50% mirroring load.
+6. Create the Traffic Shifting with Mirroring.
+
 ![Mirrored Traffic](/images/tutorial/05-07-mirrored-traffic.png "Mirrored Traffic")
 
 {{% alert title="Step 2" color="success" %}}
