@@ -48,7 +48,7 @@ This information is propagated into the Istio Telemetry and Kiali can use it to 
 
 The Sidecars restrict the list of hosts with which each workload can communicate, based on the current traffic.
 
-The "Create Traffic Policies" action, located in the Overview page, will create these definitions.
+Open the *travel-agency* **Namespace** details page and use **Actions** → **Create Traffic Policies**.
 
 ![Create Traffic Policies](/images/tutorial/06-01-create-traffic-policies.png "Create Traffic Policies")
 
