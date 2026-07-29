@@ -826,6 +826,10 @@ Labeling the secret with `kiali.io/kiali-multi-cluster-secret: "true"` tells the
 
 In Kubernetes 1.24+, service account token secrets are not created automatically. Create one for `kiali-service-account` on `spoke-two` so that a long-lived token is available:
 
+{{% alert color="info" %}}
+The `kubernetes.io/service-account-token` Secret created below produces a token with **no expiration**. For production environments, consider using `oc create token kiali-service-account -n istio-system --duration=720h` instead to create a time-bounded token. You will need to rotate the token (and update the `kiali-multi-cluster-secret` on the home cluster) before it expires. Kiali detects secret changes and reloads credentials automatically without a pod restart.
+{{% /alert %}}
+
 ```bash
 oc --context=ossm-kiali-spoke-two apply -f - <<'EOF'
 apiVersion: v1
@@ -1521,4 +1525,8 @@ The same error appears for **sidecar** proxies when `ISTIO_META_CLUSTER_ID` does
 ### 6. Kiali OAuth Redirect for Spoke-Two
 
 When logging into `spoke-two` through Kiali's multi-cluster UI, Kiali redirects to `spoke-two`'s OpenShift OAuth endpoint. The redirect URI must be reachable from the user's browser. If `spoke-two`'s OAuth route is on a different domain, ensure the redirect back to the Kiali URL is reachable.
+
+### 7. Impersonation Mode Eliminates Per-Cluster Login
+
+The per-cluster OAuth login flow described in this tutorial requires users to individually log into each remote cluster via the Kiali UI. This works for a small number of clusters but does not scale well to large fleets. OSSM 3.5/Kiali will support an **impersonation mode** (`spec.auth.openshift.impersonation.enabled: true`) where users authenticate once to the home cluster and Kiali uses Kubernetes API impersonation to access all remote clusters on their behalf. When using this feature, the `redirect_uris` configuration on remote clusters will no longer be needed and users will not be prompted to log into each cluster individually. See the upstream [Kiali impersonation documentation](https://kiali.io/docs/configuration/authentication/openshift/#impersonation-mode-alternative) for details on this impersonation feature.
 

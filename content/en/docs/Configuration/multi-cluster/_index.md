@@ -195,7 +195,7 @@ Use the option `--help` for additional details on using the script to create and
 4. **Configure user access.** When using anonymous mode, the Kiali SA credentials will be used to display mesh info to the user. When not using anonymous mode, Kiali will check the user's access to each configured cluster's namespace before showing the user any resources from that namespace.
 
    - For **OpenID**, refer to your OIDC provider's instructions for configuring user access to a Kubernetes cluster.
-   - For **OpenShift**, see the [OpenShift multi-cluster documentation]({{< relref "../authentication/openshift#multi-cluster" >}}) for important information about logging into remote clusters from the Kiali UI. This step is required — users must log into each cluster via the Kiali UI to access resources on that cluster.
+   - For **OpenShift** with impersonation mode (`spec.auth.openshift.impersonation.enabled: true`), users log in once to the home cluster and Kiali uses API impersonation for all other clusters. See the [OpenShift impersonation documentation]({{< relref "../authentication/openshift#impersonation-mode-alternative" >}}) for setup. Without impersonation mode, see the [OpenShift multi-cluster documentation]({{< relref "../authentication/openshift#multi-cluster" >}}) for per-cluster login setup.
 
    In multi-tenant multi-cluster environments where users have broad _LIST_ permission but restricted per-namespace _GET_ permission, consider enabling [`kiali_feature_flags.authz.require_namespace_get`]({{< relref "../rbac#multi-tenant-environments-and-require_namespace_get" >}}) to enforce strict per-namespace visibility.
 

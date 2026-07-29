@@ -108,6 +108,148 @@ When using the `openshift` strategy with multiple clusters, users must be logged
 Currently, OpenShift OAuth does not provide SSO across clusters. Each cluster requires its own login. If you are having trouble logging into a remote cluster from within Kiali, try starting a fresh private/incognito browser tab to ensure there are no stale OAuth cookies from prior logins to the remote cluster's OpenShift console.
 {{% /alert %}}
 
+#### Impersonation Mode (Alternative)
+
+As an alternative to per-cluster OAuth login, you can enable **impersonation mode**. With impersonation, users log in once to the home cluster (where Kiali is deployed), and Kiali uses Kubernetes API impersonation to perform requests on all clusters (including the home cluster) on behalf of the authenticated user. This eliminates the need for users to individually log into each remote cluster.
+
+Enable impersonation mode in the Kiali CR:
+
+```yaml
+spec:
+  auth:
+    openshift:
+      impersonation:
+        enabled: true
+```
+
+##### User Experience
+
+With impersonation enabled, the multi-cluster login flow is simplified:
+
+1. Navigate to the Kiali UI and log in using your credentials for the home cluster.
+2. All remote clusters are immediately accessible — no additional login steps are needed.
+
+##### Prerequisites
+
+- **Kiali SA impersonation privileges:** On each cluster (including the home cluster), the Kiali Service Account must have a ClusterRole granting `impersonate` permissions on `users` and `groups` resources. When using the Kiali Operator or Helm chart with `impersonation.enabled: true`, this ClusterRole is created automatically.
+
+- **Shared identity provider:** Usernames must be consistent across all clusters. Typically this means all clusters are backed by the same identity provider (e.g. a shared LDAP/OIDC configuration) so that a user authenticated on the home cluster has the same identity on remote clusters.
+
+##### Restricting Impersonation (Allowlists)
+
+For production deployments, you can restrict which identities the Kiali SA is allowed to impersonate by configuring allowlists. When set, these lists enforce restrictions at two levels: the Kiali server code refuses to impersonate unlisted identities, and the Kubernetes ClusterRole uses `resourceNames` to prevent the SA from impersonating them even at the RBAC level.
+
+- **`allowed_users`**: When set, only listed users can use Kiali. Users not in this list receive an HTTP 403 Forbidden response. This also adds `resourceNames` to the `users` impersonate ClusterRole rule.
+- **`allowed_groups`**: When set, only listed groups are included in the impersonation headers (plus `system:authenticated` and `system:authenticated:oauth` which are always included). This also adds `resourceNames` to the `groups` impersonate ClusterRole rule.
+
+Both lists are empty by default (no restriction). When empty, the SA can impersonate any non-system identity.
+
+```yaml
+spec:
+  auth:
+    openshift:
+      impersonation:
+        allowed_groups:
+        - developers
+        - sre-team
+        allowed_users:
+        - alice@example.com
+        - bob@example.com
+        enabled: true
+```
+
+{{% alert color="info" %}}
+Kiali never impersonates a `system:*` user identity — there is no legitimate reason for a human user to have a `system:` prefixed username. For groups, only `system:authenticated` and `system:authenticated:oauth` are impersonated (they are required for proper API server authorization and are auto-injected by Kiali). All other `system:*` groups are blocked by a hardcoded guard. Startup validation prevents `system:*` entries from being configured in `allowed_users` or `allowed_groups` since they are either auto-included or blocked.
+{{% /alert %}}
+
+##### Security Considerations
+
+Impersonation mode shifts the trust boundary from "each cluster trusts its own OAuth tokens" to "all clusters trust the Kiali SA and the home cluster's identity verification." The per-user RBAC enforcement is preserved on every cluster, but the attack surface changes shape. Administrators should understand the following risks and mitigations before enabling this feature.
+
+**1. The Kiali SA token can impersonate any user**
+
+*Risk:* The Kiali Service Account on each cluster has a ClusterRole granting `impersonate` on `users` and `groups`. Anyone who obtains that SA token (from the remote cluster secret mounted in the Kiali pod, or from the SA's token secret on the remote cluster) can make API calls as any user on that cluster. The impersonated user's RBAC is still enforced — the attacker cannot exceed that user's permissions — but they can act as any existing user, including highly privileged ones.
+
+*Mitigations:*
+- **[Admin]** Restrict access to the Kiali namespace (typically `istio-system`) so that only cluster administrators can read secrets in that namespace.
+- **[Admin]** The `kiali-multi-cluster-secret` contains SA tokens for all remote clusters — treat it with the same sensitivity as a cluster-admin credential.
+- **[Admin]** Monitor API server audit logs for impersonation events originating from the Kiali SA. OpenShift audit logs include both the authenticating identity (Kiali SA) and the impersonated user.
+- **[Admin]** Configure `allowed_users` and `allowed_groups` to restrict which identities the SA can impersonate at the Kubernetes RBAC level. When set, even a stolen SA token can only impersonate listed identities.
+
+**2. The home cluster SA token is more powerful**
+
+*Risk:* The home cluster's SA also has `impersonate` permission. The in-cluster SA token (projected volume at `/var/run/secrets/kubernetes.io/serviceaccount/token`) is accessible to anyone who can exec into the Kiali pod or compromise the container. This gives an attacker impersonation capability on the home cluster itself — not just read access.
+
+*Mitigations:*
+- **[Kiali]** Kiali runs with a restrictive security context: non-root, read-only root filesystem, all capabilities dropped.
+- **[Kiali]** Network policies created by the operator limit who can reach the Kiali pod.
+- **[Kubernetes]** The projected SA token has a bounded lifetime and is automatically rotated by the kubelet.
+
+**3. Home cluster session compromise affects all clusters**
+
+*Risk:* With per-cluster OAuth, compromising one cluster's session only gave access to that cluster. With impersonation, compromising the home cluster's OAuth session (e.g., stolen session cookie) gives access to all clusters in the fleet. This is the same risk profile as the OpenID authentication strategy, where a single OIDC token provides access to all clusters. It is an accepted trade-off for usability at scale.
+
+*Mitigations:*
+- **[Kiali]** Session cookies are `HttpOnly` and `Secure` with configurable expiration.
+- **[Kiali]** `ValidateSession` re-validates the OAuth token against the home cluster's API server on every request via `GetUserInfo`.
+
+**4. Identity consistency across clusters is required**
+
+*Risk:* The impersonated username and groups are derived from the home cluster's `users/~` API response. If a remote cluster uses a different identity provider, the same username could map to a different person, granting unintended access.
+
+*Mitigations:*
+- **[Admin]** Impersonation mode requires a shared identity provider across all clusters (e.g., all clusters configured with the same LDAP) so that usernames and groups are consistent everywhere.
+- **[Admin]** Administrators must verify identity consistency before enabling impersonation.
+
+**5. System group injection**
+
+*Risk:* Kiali injects `system:authenticated` and `system:authenticated:oauth` into the impersonation groups because Kubernetes does not auto-inject them during impersonation. These are groups that every authenticated user inherently has. In rare cases, a cluster might have custom RBAC bound to `system:authenticated:oauth` that grants elevated privileges — impersonated users would receive those privileges even though they did not authenticate directly via OAuth on that cluster. These groups match what the user would have if they authenticated directly to each cluster. No privilege escalation occurs beyond the user's natural state.
+
+*Mitigations:*
+- **[Admin]** Review whether any cluster has non-standard RBAC bindings specifically targeting `system:authenticated:oauth` for elevated access. This is uncommon but would grant impersonated users those elevated privileges.
+
+**6. The Kiali Operator SA also has impersonate permission**
+
+*Risk:* The Kiali Operator's ClusterRole unconditionally includes the `impersonate` verb on `users` and `groups`. This is required so the operator can create the Kiali Server's impersonation ClusterRole without being blocked by Kubernetes RBAC escalation protection (a ServiceAccount cannot grant permissions it does not itself hold). An attacker who compromises the operator SA token could use it to impersonate any user on that cluster. The operator SA has broad cluster permissions by design (it creates ClusterRoles, Deployments, OAuthClients, etc.) so the addition of `impersonate` is incremental — the operator SA was already a high-value target. The `impersonate` permission on the operator SA is present regardless of whether `impersonation.enabled` is set in any Kiali CR — the operator must be prepared to process any valid CR configuration.
+
+*Mitigations:*
+- **[Kiali]** The operator runs in its own namespace (typically `openshift-operators` or `operators`) with a restrictive security context: non-root, read-only root filesystem, all capabilities dropped.
+- **[Admin]** Restrict access to the operator namespace so that only cluster administrators can read its secrets or exec into the operator pod.
+
+**7. Remote cluster SA tokens may be long-lived**
+
+*Risk:* The `kiali-multi-cluster-secret` contains SA tokens for remote clusters. These tokens are created manually by the adminstrator. A token may have a long lifetime (e.g. `oc create token --duration 8760h`) or it may have no expiration at all (e.g. using a `kubernetes.io/service-account-token` annotated Secret). If a token is compromised, an attacker can impersonate users on the remote cluster with those long or infinite time limits.
+
+*Mitigations:*
+- **[Admin]** Periodically rotate the SA tokens in the `kiali-multi-cluster-secret`. Kiali detects secret changes and reloads credentials without requiring a pod restart.
+- **[Admin]** Use the shortest practical token duration when creating remote cluster tokens. Balance operational convenience against exposure window.
+- **[Admin]** If a compromise is suspected, delete and recreate the ServiceAccount on the remote cluster to immediately invalidate all issued tokens.
+
+##### Remote Cluster Configuration with Impersonation
+
+For remote clusters configured with `remote_cluster_resources_only: true`, impersonation mode simplifies the setup:
+
+- `spec.auth.openshift.redirect_uris` is **not required** (no OAuthClient redirect is needed since users do not perform OAuth login on the remote cluster).
+- `spec.auth.openshift.impersonation.enabled: true` **must** be set so that the Operator creates the impersonate ClusterRole (instead of the OAuthClient) on the remote cluster.
+
+{{% alert color="info" %}}
+The `impersonation.enabled: true` setting must also be set on the **home cluster's** Kiali CR (where Kiali is deployed). The home cluster CR is where the Kiali server reads its runtime configuration. The remote cluster CR setting only controls which RBAC resources the Operator provisions on that cluster.
+{{% /alert %}}
+
+Example Kiali CR for a remote cluster using impersonation:
+
+```yaml
+spec:
+  auth:
+    openshift:
+      impersonation:
+        # allowed_users: ["alice@example.com", "bob@example.com"]
+        # allowed_groups: ["developers", "sre-team"]
+        enabled: true
+  deployment:
+    remote_cluster_resources_only: true
+```
+
 #### Using an internal or self-signed certificate
 
 If you have a multi-cluster Kiali deployment and the OAuth server is configured with an external IdP that uses an internal or self-signed certificate, you can configure Kiali to trust the server's certificate by creating a ConfigMap named `kiali-oauth-cabundle` containing the CA certificate bundle for the server under the `oauth-server-ca.crt` key:
