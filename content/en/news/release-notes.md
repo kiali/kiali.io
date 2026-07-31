@@ -6,6 +6,35 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 2.30.0
+Sprint Release: August 03, 2026
+
+Features:
+
+* [AI: Enhance AI Chatbot: Context Awareness & UX Improvements](https://github.com/kiali/kiali/issues/9135)
+* [AI: Implement Streaming Responses for Chatbot to Display Real-Time MCP Tool Execution Status](https://github.com/kiali/kiali/issues/9149)
+* [AI: Reduce Output Payload Size](https://github.com/kiali/kiali/issues/9371)
+* [AI: Multi-cluster eval test suite for Kiali MCP](https://github.com/kiali/kiali/issues/9976)
+* [Ambient: Disable L7 istio configs for services that are in Ambient but doesn't have a waypoint proxy](https://github.com/kiali/kiali/issues/7900)
+* [K8s GW API v1.6.0 support](https://github.com/kiali/kiali/issues/9859)
+* [OpenShift: OpenShift Impersonation for Multi-Cluster Auth](https://github.com/kiali/kiali/issues/10038)
+* [UX: Remove refresh interval from Istio Config editor page](https://github.com/kiali/kiali/issues/10016)
+* [Validation: Annotations for ignoring Kiali Errors/Warnings in the console?](https://github.com/kiali/kiali/issues/5309)
+
+Fixes:
+
+* [Health: Custom config: failure: 0 does not trigger Failure status despite docs saying it should](https://github.com/kiali/kiali/issues/10072)
+* [UI: Annotation editor: follow-up fixes from #10010 review](https://github.com/kiali/kiali/issues/10041)
+* [UI: Pods not shown for Argo Rollouts configured via custom_workload_types](https://github.com/kiali/kiali/issues/10008)
+* [Validation: Istio configs per namespace returns validations for all the cluster](https://github.com/kiali/kiali/issues/10098)
+
+#### Upgrade Change Notes:
+
+The fix for custom health status configuration could affect existing users. Degraded health status could now be reported
+as Failure. The behavior is correct, but could be unexepected. If affected, ensure proper setting of the failure threshold
+in your custom health configuration.
+
+
 ## 2.29.0
 Release: July 13, 2026
 
@@ -87,7 +116,6 @@ Fixes:
 * [UI: Show "No related resources" message in the Related card when empty](https://github.com/kiali/kiali/issues/9691)
 * [UI: (Mesh page) ztunnel not connected with the control plane](https://github.com/kiali/kiali/issues/9714)
 * [Validation: (Ambient) False positive in KIA1313](https://github.com/kiali/kiali/issues/9674)
-
 
 **The following fields are no longer used by the Kiali CR and will be ignored if currently set. The standard constant values are now used.**
 
