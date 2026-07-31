@@ -127,10 +127,6 @@ The *travel-control* namespace hosts a *business dashboard* with two roles:
 
 ![Travel Dashboard](/images/tutorial/02-02-travels-dashboard.png "Travel Dashboard")
 
-{{% alert color="info" %}}
-The dashboard screenshot above will be updated during tutorial refresh.
-{{% /alert %}}
-
 #### Preview the Travel Dashboard (optional)
 
 The *control* service is not exposed outside the cluster yet — that happens in [Join the Mesh]({{< relref "./03-join-the-mesh" >}}). To preview the dashboard now:

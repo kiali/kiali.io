@@ -200,8 +200,4 @@ See [Accessing Kiali]({{< ref "/docs/Installation/installation-guide/accessing-k
 
 After the *Prerequisites* you should be able to access Kiali. Verify its version by clicking the "?" icon and selecting "About":
 
-![Verify Kiali Access](/images/tutorial/01-04-access-kiali-v1.39.0.png "Verify Kiali Access")
-
-{{% alert color="info" %}}
-The screenshot above will be updated to match the current Kiali UI during tutorial refresh.
-{{% /alert %}}
+![Verify Kiali Access](/images/tutorial/01-04-kiali-about.png "Verify Kiali Access")
