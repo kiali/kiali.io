@@ -6,7 +6,7 @@ weight: 1
 
 ## Platform Setup
 
-This tutorial assumes you will have access to a Kubernetes cluster with Istio installed.
+This tutorial assumes you have access to a Kubernetes cluster with Istio installed.
 
 This tutorial is being updated and qualified using:
 
@@ -14,14 +14,14 @@ This tutorial is being updated and qualified using:
 * an [OpenShift](https://istio.io/latest/docs/setup/platform-setup/openshift/) cluster with Kiali Operator install (qualification pending).
 
 {{% alert title="Tip" color="warning" %}}
-Platform dependent tasks will be indicated with a special note like this.
+Platform-dependent tasks will be indicated with a special note like this.
 {{% /alert %}}
 
 {{% alert color="warning" %}}
 Version pins will be recorded here as the tutorial is re-qualified. Use current stable releases of Kind, Istio, and Kiali unless noted otherwise.
 {{% /alert %}}
 
-## Setup a Kind Cluster
+## Set up a Kind Cluster
 
 Kind runs a local Kubernetes cluster using Docker. Istio and this tutorial also require a way to assign external IPs to `LoadBalancer` services (for the Istio ingress gateway).
 
@@ -121,7 +121,7 @@ helm install \
   --namespace istio-system \
   --set auth.strategy="anonymous" \
   --set external_services.tracing.enabled=true \
-  --set external_services.tracing.external_url="http://tracing.istio-system:16685/jaeger" \
+  --set external_services.tracing.internal_url="http://tracing.istio-system:16685/jaeger" \
   --repo https://kiali.org/helm-charts \
   kiali-server \
   kiali-server
@@ -157,6 +157,7 @@ helm install \
   --set cr.namespace=istio-system \
   --set cr.spec.auth.strategy="anonymous" \
   --set cr.spec.external_services.tracing.enabled=true \
+  --set cr.spec.external_services.tracing.internal_url="http://tracing.istio-system:16685/jaeger" \
   --namespace kiali-operator \
   --create-namespace \
   kiali-operator \

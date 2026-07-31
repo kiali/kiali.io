@@ -14,7 +14,7 @@ The Travel Demo application has several portals deployed on the *travel-portal* 
 
 The *travels* service is backed by a single workload called *travels-v1* that receives requests from all portal workloads.
 
-At a moment of the lifecycle the business needs of the portals may differ and new versions of the *travels* service may be necessary.
+At some point in the lifecycle the business needs of the portals may differ and new versions of the *travels* service may be necessary.
 
 This step will show how to route requests dynamically to multiple versions of the *travels* service.
 
@@ -31,7 +31,7 @@ kubectl apply -f <(curl -L https://raw.githubusercontent.com/kiali/demos/master/
 
 ![Travels-v2 and travels-v3](/images/tutorial/05-01-travels-v2-v3.png "Travels-v2 and travels-v3")
 
-As there is no specific routing defined, when there are multiple workloads for *travels* service the request distribution is fairly uniform.
+As there is no specific routing defined, when there are multiple workloads for the *travels* service the request distribution is fairly uniform.
 
 ![Travels graph before routing](/images/tutorial/05-01-travels-before-routing.png "Travels graph before routing")
 
@@ -85,7 +85,7 @@ For the first rule, match when the *portal* header equals *travels.uk*:
 
 Return to the **Request Matching** tab and repeat the process, adding rules to route traffic from *viaggi.it* to *travels-v2* and from *voyages.fr* to *travels-v3*. 
 
-{{% alert title="Kind" color="warning" %}}
+{{% alert color="info" %}}
 When adding the additional rules make sure to clear the previous header match condition. If you make a mistake you can click **Remove Rule** from that rule's kebab menu. The rule order does not matter.
 {{% /alert %}}
 
@@ -93,7 +93,7 @@ When all three rules are defined, it should look like this:
 
 ![Rules Defined](/images/tutorial/05-01-rules-defined.png "Rules Defined")
 
-Click **Create** to generate the Istio configuration. Inspect the generated config and click **Create**, and then again to confirm.
+Click **Create** to generate the Istio configuration. Review the generated config, then confirm to apply it.
 
 The generated Istio config appears on the **Istio Config** card on the service detail page.
 
@@ -115,7 +115,7 @@ Once routing is in place, verify that each portal sends traffic to its assigned 
 
 An edge without a distribution label implies 100% of traffic on that path.
 
-Navigate to any *travels* workload, open the **Inbound Metrics** tab and expand the **Request Volume** chart, for a similar view in the telemetry.
+Navigate to any *travels* workload, open the **Inbound Metrics** tab, and expand the **Request Volume** chart for a similar view in the telemetry.
 
 Increase the Duration to **Last 30m** (or use a custom time range) to show the time when our new routing was defined. We can see how the workload initially received traffic from all portals, then only from a single portal after request routing was applied.
 
@@ -135,7 +135,7 @@ To experiment further, open the *travels* service and select **Actions** → **R
 
 The [Observe the Mesh]({{< relref "./04-observe-the-mesh/#graph-walkthrough" >}}) chapter identified that the *hotels* service has additional traffic compared with other services deployed in the *travel-agency* namespace.
 
-Also, this service becomes critical in the main business logic. It is responsible for querying all available destinations, presenting them to the user, and getting a quote for the selected destination.
+Also, this service is critical in the main business logic. It is responsible for querying all available destinations, presenting them to the user, and getting a quote for the selected destination.
 
 This also means that the *hotels* service may be one of the weakest points of the Travel Demo application.
 
@@ -178,7 +178,7 @@ We can see in the *hotels* telemetry reported by the *source* (the *travels* pro
 The **avg** line reflects the injected delay most accurately. **p50** and **p95** are estimated from Istio's Prometheus histogram buckets, not from individual request timings. When latency clusters near a bucket boundary (as it does with a fixed delay), quantiles can read lower than the configured delay — for example, with a 5s delay you may see **avg** just above 5s while **p50** reads closer to 3.7s. The same pattern appears at other delay values (try updating the scenario to 4s to compare).
 {{% /alert %}}
 
-But as the Fault Injection delay is applied on the source proxy (*travels*), the destination proxy (*hotels*) is unaffected and its destination telemetry show no delay.
+But as the Fault Injection delay is applied on the source proxy (*travels*), the destination proxy (*hotels*) is unaffected and its destination telemetry shows no delay.
 
 ![Destination Metrics](/images/tutorial/05-02-destination-metrics.png "Destination Metrics")
 
@@ -198,15 +198,15 @@ As part of this step you can update the Fault Injection scenario to test differe
 
 ## Traffic Shifting
 
-In the previous [Request Routing](#request-routing) step we have deployed two new versions of the *travels* service using the *travels-v2* and *travels-v3* workloads.
+In the previous [Request Routing](#request-routing) step we deployed two new versions of the *travels* service using the *travels-v2* and *travels-v3* workloads.
 
-That scenario showed how Istio can route specific requests to specific workloads. It was configured such that each portal deployed in the *travel-portal* namespace (*travels.uk*, *viaggi.it* and *voyages.fr*) were routed to a specific *travels* workload (*travels-v1*, *travels-v2* and *travels-v3*).
+That scenario showed how Istio can route specific requests to specific workloads. It was configured such that each portal deployed in the *travel-portal* namespace (*travels.uk*, *viaggi.it* and *voyages.fr*) was routed to a specific *travels* workload (*travels-v1*, *travels-v2* and *travels-v3*).
 
 This Traffic Shifting step will simulate a new scenario: the new *travels-v2* and *travels-v3* workloads will represent new improvements for the *travels* service that will be used by all requests.
 
 These new improvements implemented in *travels-v2* and *travels-v3* represent two alternative ways to address a specific problem. Our goal is to test them before deciding which one to use as a next version.
 
-At the beginning we will send 80% of the traffic into the original *travels-v1* workload, and will split 10% of the traffic each on *travels-v2* and *travels-v3*.
+At the beginning we will send 80% of the traffic into the original *travels-v1* workload, and split 10% of the traffic each to *travels-v2* and *travels-v3*.
 
 {{% alert title="Step 1" color="success" %}}
 Use the Traffic Shifting wizard on the *travels* service
@@ -238,7 +238,7 @@ In our example, we can use the "Inbound Metrics" and "Outbound Metrics" tabs in 
 ![Compare Travels Workloads](/images/tutorial/05-03-compare-local-travels-version.png "Compare Travels Workloads")
 ![Compare Travels Workloads](/images/tutorial/05-03-compare-local-travels-version-2.png "Compare Travels Workloads")
 
-The charts show that the Traffic distribution is working accordingly and 80% is being distributed to *travels-v1* workload and they also show no big differences between *travels-v2* and *travels-v3* in terms of request duration.
+The charts show that the traffic distribution is working as expected and 80% is being distributed to the *travels-v1* workload. They also show no big differences between *travels-v2* and *travels-v3* in terms of request duration.
 
 {{% alert title="Step 4" color="success" %}}
 Update or delete Istio Configuration
@@ -252,7 +252,7 @@ The Travel Demo application has a database service used by several services depl
 
 At some point in the lifecycle of the application the telemetry shows that the database service degrades and starts to increase the average response time.
 
-This is a common situation. In this case, a database specialist suggests an update of the original indexes due to the data growth.
+This is a common situation. In this case, a database specialist suggests an update of the original indexes due to data growth.
 
 Our database specialist is suggesting two approaches and proposes to prepare two versions of the database service to test which may work better.
 
@@ -285,10 +285,10 @@ Examine Traffic Shifting distribution from the *travel-agency* Graph
 
 ![MysqlDB Graph](/images/tutorial/05-04-tcp-graph.png "MysqlDB Graph")
 
-Note that TCP telemetry has different types of metrics, as "Traffic Distribution" is only available for HTTP/gRPC services, for this service we need to use "Traffic Rate" to evaluate the distribution of data (bytes-per-second) between *mysqldb* workloads.
+Note that TCP telemetry has different types of metrics. As "Traffic Distribution" is only available for HTTP/gRPC services, for this service we need to use "Traffic Rate" to evaluate the distribution of data (bytes-per-second) between *mysqldb* workloads.
 
 {{% alert title="Step 4" color="success" %}}
-Compare *mysqldb* workload and study new indexes proposed in *mysqldb-v2* and *mysqldb-v3*
+Compare *mysqldb* workloads and study new indexes proposed in *mysqldb-v2* and *mysqldb-v3*
 {{% /alert %}}
 
 TCP services have different telemetry but it's still grouped by versions, allowing the user to compare and study pattern differences for *mysqldb-v2* and *mysqldb-v3*.
@@ -323,7 +323,7 @@ Repeat the [Fault Injection](#fault-injection) step to add delay on *hotels* ser
 Use the Request Routing Wizard on *travels* service to add a route rule with delay for *voyages.fr*
 {{% /alert %}}
 
-Add a request timeout only on requests coming from *voyages.fr* portal. It requires to route rules:
+Add a request timeout only on requests coming from the *voyages.fr* portal. This requires two route rules:
 
 Use the Request Matching tab to add a matching condition for the *portal* header with *voyages.fr* value.
 
@@ -356,7 +356,7 @@ This scenario can be visualized in detail if we examine the "Inbound Metrics" an
 ![Travels Inbound Metrics](/images/tutorial/05-05-voyages-rule-metrics.png "Travels Inbound Metrics")
 ![Travels Inbound Metrics](/images/tutorial/05-05-voyages-rule-metrics-2.png "Travels Inbound Metrics")
 
-As expected, the requests coming from *voyages.fr* don't propagate the delay and they fail in the 2 seconds range, meanwhile requests from other portals don't fail but they propagate the delay introduced in the *hotels* service.
+As expected, the requests coming from *voyages.fr* don't propagate the delay and they fail in the 2 seconds range, while requests from other portals don't fail but they propagate the delay introduced in the *hotels* service.
 
 {{% alert title="Step 4" color="success" %}}
 Update or delete Istio Configuration
@@ -379,7 +379,7 @@ Deploy a new *loadtester* portal in the *travel-portal* namespace
 In this example we are going to deploy a new workload that will simulate an important increase in the load of the system.
 
 {{% alert title="OpenShift" color="warning" %}}
-OpenShift users may need to also add the associated loadtester serviceaccount to the necessary securitycontextcontraints.
+OpenShift users may also need to add the associated loadtester ServiceAccount to the necessary SecurityContextConstraints.
 {{% /alert %}}
 
 ```
@@ -390,11 +390,11 @@ The *loadtester* workload will try to create 50 concurrent connections to the *t
 
 ![Loadtester Graph](/images/tutorial/05-06-loadtester-graph.png "Loadtester Graph")
 
-The Travel Demo application is capable of handling this load and in a first look it doesn't show unhealthy status.
+The Travel Demo application is capable of handling this load and at first glance it doesn't show unhealthy status.
 
 ![Loadtester Details](/images/tutorial/05-06-loadtester-details.png "Loadtester Details")
 
-But in a real scenario an unexpected increase in the load of a service like this may have a significant impact in the overall system status.
+But in a real scenario an unexpected increase in the load of a service like this may have a significant impact on the overall system status.
 
 {{% alert title="Step 2" color="success" %}}
 Use the Traffic Shifting Wizard on *travels* service to generate a traffic rule
@@ -419,7 +419,7 @@ Study the behavior of the Circuit Breaker in the *travels* service
 
 In the *loadtester* versioned-app Graph we can see that the *travels* service's Circuit Breaker accepts some, but fails most, connections.
 
-Remember, that these connections are stopped by the proxy on the *loadtester* side. That "fail sooner" pattern prevents overloading the network.
+Remember that these connections are stopped by the proxy on the *loadtester* side. That "fail sooner" pattern prevents overloading the network.
 
 Using the Graph we can select the failed edge, check the **Flags** tab, and see that those requests are closed by the Circuit breaker.
 
@@ -443,14 +443,14 @@ Understanding what happened:
 
 [(iii) Connection Pool Settings](https://istio.io/latest/docs/reference/config/networking/destination-rule)
 
-[(iv) Envoy's Circuit breaking Architecture](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/circuit_breaking)
+[(iv) Envoy's Circuit Breaking Architecture](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/circuit_breaking)
 
 ## Mirroring
 
 This tutorial has shown several scenarios where Istio can route traffic to different versions in order to compare versions and evaluate which one works best.
 
-The [Traffic Shifting](#traffic-shifting) step was focused on *travels* service adding a new *travels-v2* and *travels-v3* workloads
-and the [TCP Traffic Shifting](#tcp-traffic-shifting) showed how this scenario can be used on TCP services like *mysqldb* service.
+The [Traffic Shifting](#traffic-shifting) step was focused on the *travels* service adding new *travels-v2* and *travels-v3* workloads
+and the [TCP Traffic Shifting](#tcp-traffic-shifting) showed how this scenario can be used on TCP services like the *mysqldb* service.
 
 Mirroring (or shadowing) is a particular case of the Traffic Shifting scenario where the proxy sends a copy of live traffic to a mirrored service.
 

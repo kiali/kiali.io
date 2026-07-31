@@ -6,7 +6,7 @@ weight: 3
 
 ## Sidecar Proxies
 
-The Travel Demo was deployed in the previous chapter **without** Istio sidecar proxies. These are Envoy proxies that can be injected into the application pod.
+The Travel Demo was deployed in the previous chapter **without** Istio sidecar proxies. These are Envoy proxies that can be injected into the application pods.
 
 Without a sidecar, workloads do not connect to the Istio control plane and do not report mesh telemetry (metrics, access logs, or distributed traces).
 

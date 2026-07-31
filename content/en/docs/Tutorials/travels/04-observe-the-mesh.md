@@ -107,7 +107,7 @@ Drill into the main *travels* application graph
 1. Right-click the *travels* application node. Right-click provides shortcuts to other Kiali pages.
 2. Select **Node Graph**.
 
-The graph focuses on the selected element so you can study one part of the topology in detail. 
+The graph focuses on the selected element so you can study one part of the topology in detail.
 
 ![Travels Zoom](/images/tutorial/04-02-travels-zoom.png "Travels Zoom")
 

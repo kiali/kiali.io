@@ -6,13 +6,13 @@ weight: 6
 
 ## Authorization Policies and Sidecars
 
-[Security](https://istio.io/latest/docs/concepts/security/) is one of the main pillars of Istio features.
+[Security](https://istio.io/latest/docs/concepts/security/) is one of Istio's main pillars.
 
 The Istio [Security High Level Architecture](https://istio.io/latest/docs/concepts/security/#high-level-architecture) provides a comprehensive solution to design and implement multiple security scenarios.
 
 In this tutorial we will show how Kiali can use telemetry information to create security policies for the workloads deployed in a given namespace.
 
-Istio telemetry aggregates the ServiceAccount information used in the workloads communication. This information can be used to define authorization policies that deny and allow actions on future live traffic communication status.
+Istio telemetry aggregates the ServiceAccount information used in workload communication. This information can be used to define authorization policies that deny and allow actions based on observed live traffic.
 
 Additionally, Istio sidecars can be created to limit the hosts with which a given workload can communicate. This improves traffic control, and also reduces the memory footprint of the proxies.
 
@@ -56,11 +56,11 @@ This will generate a main DENY ALL rule to protect the whole namespace, and an i
 
 ![Travel Agency Authorization Policies](/images/tutorial/06-01-travel-agency-authorization-policies.png "Travel Agency Authorization Policies")
 
-It will create also an individual Sidecar per workload, each of them containing the set of hosts.
+It will also create an individual Sidecar per workload, each of them containing the set of hosts.
 
 ![Travel Agency Sidecars](/images/tutorial/06-01-travel-agency-sidecars.png "Travel Agency Sidecars")
 
-As an example, we can see that for the *travels-v1* workload, the following list of hosts are added to the sidecar.
+As an example, we can see that for the *travels-v1* workload, the following hosts are added to the sidecar.
 
 ![Travels V1 Sidecar](/images/tutorial/06-01-travels-v1-sidecars.png "Travels V1 Sidecar")
 
@@ -68,17 +68,17 @@ As an example, we can see that for the *travels-v1* workload, the following list
 Deploy the *loadtester* portal in the *travel-portal* namespace
 {{% /alert %}}
 
-If the *loadtester* workload uses a different ServiceAccount then, when it's deployed, it won't comply with the AuthorizationPolicy rules defined in the previous step.
+If the *loadtester* workload uses a different ServiceAccount, then when it's deployed it won't comply with the AuthorizationPolicy rules defined in the previous step.
 
 {{% alert title="OpenShift" color="warning" %}}
-OpenShift users may need to also add the associated loadtester serviceaccount to the necessary securitycontextcontraints.
+OpenShift users may also need to add the associated loadtester ServiceAccount to the necessary SecurityContextConstraints.
 {{% /alert %}}
 
 ```
 kubectl apply -f <(curl -L https://raw.githubusercontent.com/kiali/demos/master/travels/travel_loadtester.yaml) -n travel-portal
 ```
 
-Now, *travels* workload will reject requests made by *loadtester* workload and that situation will be reflected in Graph:
+Now, the *travels* workload will reject requests made by the *loadtester* workload and that situation will be reflected in Graph:
 
 ![Loadtester Denied](/images/tutorial/06-01-loadtester-denied.png "Loadtester Denied")
 
@@ -100,7 +100,7 @@ As part of the example, we can show how a ServiceAccount can be added into an ex
 
 ![AuthorizationPolicy Edit](/images/tutorial/06-01-authorizationpolicy-edit.png "AuthorizationPolicy Edit")
 
-As expected, now we can see that *travels-v1* workload accepts requests from all *travel-portal* namespace workloads, but *travels-v2* and *travels-v3* continue rejecting requests from *loadtester* source.
+As expected, now we can see that the *travels-v1* workload accepts requests from all *travel-portal* namespace workloads, but *travels-v2* and *travels-v3* continue to reject requests from the *loadtester* source.
 
 ![Travels v1 AuthorizationPolicy](/images/tutorial/06-01-travels-v1-authorizationpolicy.png "Travels v1 AuthorizationPolicy")
 
