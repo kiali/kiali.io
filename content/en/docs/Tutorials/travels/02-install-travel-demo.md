@@ -6,19 +6,25 @@ weight: 2
 
 ## Deploy the Travel Demo
 
-This demo application will deploy several services grouped into three namespaces.
+This demo application deploys several services grouped into three namespaces:
 
-Note that at this step we are going to deploy the application without any reference to Istio.
+* *travel-control* — business dashboard to configure traffic and view statistics
+* *travel-portal* — shop simulators that generate traffic
+* *travel-agency* — quote and pricing services
 
-We will join services to the ServiceMesh in a following step.
+At this step, deploy the application **without** joining it to the service mesh. Sidecar injection is added in [Join the Mesh]({{< relref "./03-join-the-mesh" >}}).
 
-To create and deploy the namespaces perform the following commands:
+Do **not** label the namespaces with `istio-injection=enabled` yet.
 
-{{% alert title="OpenShift" color="warning" %}}
-OpenShift users can substitute `oc` for `kubectl`. OpenShift users will need
-to add the necessary NetworkAttachmentDefinition to each namespace.  Also, the necessary SecurityContextConstraints
-for the service accounts defined in the namespace (minimally, default).
-{{% /alert %}}
+### Kind
+
+From the [Kiali source repository](https://github.com/kiali/kiali), the Travel Demo install script creates the namespaces and deploys the manifests without enabling auto-injection:
+
+```
+./hack/istio/install-travel-agency-demo.sh -c kubectl -ai false
+```
+
+Alternatively, run the commands manually:
 
 ```
 kubectl create namespace travel-agency
@@ -30,20 +36,38 @@ kubectl apply -f <(curl -L https://raw.githubusercontent.com/kiali/demos/master/
 kubectl apply -f <(curl -L https://raw.githubusercontent.com/kiali/demos/master/travels/travel_control.yaml) -n travel-control
 ```
 
-Check that all deployments rolled out as expected:
+{{% alert color="info" %}}
+If you have a local clone of the [demos repository](https://github.com/kiali/demos), you can apply the YAML files from `travels/` instead of downloading them.
+{{% /alert %}}
+
+### OpenShift
+
+The install script also handles OpenShift-specific setup (NetworkAttachmentDefinitions and SecurityContextConstraints):
 
 ```
-$ kubectl get deployments -n travel-control
+./hack/istio/install-travel-agency-demo.sh -c oc -ai false
+```
+
+Alternatively, substitute `oc` for `kubectl` in the manual commands above and add the necessary NetworkAttachmentDefinition to each namespace, along with SecurityContextConstraints for the service accounts in those namespaces (minimally, `default`).
+
+### Verify the deployment
+
+#### Confirm workloads are running
+
+Check that all deployments rolled out. Pods should show `1/1` ready — there are no sidecars yet:
+
+```
+kubectl get deployments -n travel-control
 NAME      READY   UP-TO-DATE   AVAILABLE   AGE
 control   1/1     1            1           85s
 
-$ kubectl get deployments -n travel-portal
+kubectl get deployments -n travel-portal
 NAME      READY   UP-TO-DATE   AVAILABLE   AGE
 travels   1/1     1            1           91s
 viaggi    1/1     1            1           91s
 voyages   1/1     1            1           91s
 
-$ kubectl get deployments -n travel-agency
+kubectl get deployments -n travel-agency
 NAME            READY   UP-TO-DATE   AVAILABLE   AGE
 cars-v1         1/1     1            1           96s
 discounts-v1    1/1     1            1           96s
@@ -54,49 +78,82 @@ mysqldb-v1      1/1     1            1           96s
 travels-v1      1/1     1            1           96s
 ```
 
+The portal workloads generate traffic to the travel agency services automatically.
+
+#### Confirm in Kiali
+
+Open Kiali and select **Overview**. This page summarizes what is in the service mesh — control planes, data planes, applications, and services that participate in the mesh.
+
+Because the Travel Demo was deployed **without** sidecars, it is not part of the mesh yet. The **Overview** page should look much the same as before the demo was installed. You should still see the Istio control plane, and mesh counts such as data plane namespaces should remain at **0**.
+
+To see the demo namespaces, open the **Namespaces** page. The three Travel Demo namespaces should be listed:
+
+* `travel-control`
+* `travel-portal`
+* `travel-agency`
+
+In the **Type** column, each namespace shows a **`-`** badge. Hover over the badge to see the tooltip **Not part of the mesh**:
+
+![Travel Demo namespaces not in mesh](/images/tutorial/02-01-namespaces-not-in-mesh.png "Travel Demo namespaces not in mesh")
+
+Sidecar injection is covered in [Join the Mesh]({{< relref "./03-join-the-mesh" >}}), when these namespaces begin to appear as part of the mesh.
+
 ## Understanding the demo application
 
-### Travel Portal namespace
+The Travel Demo simulates a travel booking scenario across three namespaces. Traffic flows in one direction:
 
-The Travel Demo application simulates two business domains organized in different namespaces.
+**travel-control** &rarr; **travel-portal** &rarr; **travel-agency**
 
-In a first namespace called *travel-portal* there will be deployed several travel shops, where users can search for and book flights, hotels, cars or insurance.
-
-The shop applications can behave differently based on request characteristics like channel (web or mobile) or user (new or existing).
-
-These workloads may generate different types of traffic to imitate different real scenarios.
-
-All the portals consume a service called _travels_ deployed in the *travel-agency* namespace.
-
-### Travel Agency namespace
-
-A second namespace called *travel-agency* will host a set of services created to provide quotes for travel.
-
-A main _travels_ service will be the business entry point for the travel agency. It receives a destination city and a user as parameters and it calculates all elements that compose a travel budget: airfare, lodging, car reservation and travel insurance.
-
-Each service can provide an independent quote and the _travels_ service must then aggregate them into a single response.
-
-Additionally, some users, like _registered_ users, can have access to special discounts, managed as well by an external service.
-
-Service relations between namespaces can be described in the following diagram:
+The *control* dashboard configures how each portal shop behaves. The portal shops generate requests. The agency services respond with travel quotes.
 
 ![Travel Demo Design](/images/tutorial/02-02-travels-demo-design.png "Travel Demo Design")
 
-#### Travel Portal and Travel Agency flow
+### How traffic flows
 
-A typical flow consists of the following steps:
+A typical request path looks like this:
 
-. A portal queries the _travels_ service for available destinations.
-. _Travels_ service queries the available hotels and returns to the portal shop.
-. A user selects a destination and a type of travel, which may include a _flight_ and/or a _car_, _hotel_ and _insurance_.
-. _Cars_, _Hotels_ and _Flights_ may have available discounts depending on user type.
+1. Settings on the *control* dashboard determine how each portal shop sends traffic (device, user type, travel type, and volume).
+2. A portal shop in *travel-portal* queries the _travels_ service in *travel-agency* for available destinations.
+3. The _travels_ service queries _hotels_ and returns destination options to the portal.
+4. When a destination and travel type are selected, _travels_ aggregates quotes from _flights_, _cars_, _hotels_, _insurances_, and _discounts_.
+5. _Cars_, _hotels_, and _flights_ may apply discounts depending on user type.
 
 ### Travel Control namespace
 
-The *travel-control* namespace runs a *business dashboard* with two key features:
+The *travel-control* namespace hosts a *business dashboard* with two roles:
 
-* Allow setting changes for every travel shop simulator (traffic ratio, device, user and type of travel).
-* Provide a *business* view of the total requests generated from the *travel-portal* namespace to the *travel-agency* services, organized by business criteria as grouped per shop, per type of traffic and per city.
+* Configure every travel shop simulator — traffic ratio, device, user, and type of travel.
+* View a business summary of requests from *travel-portal* to *travel-agency*, grouped by shop, traffic type, and city.
 
 ![Travel Dashboard](/images/tutorial/02-02-travels-dashboard.png "Travel Dashboard")
 
+#### Preview the Travel Dashboard (optional)
+
+The *control* service is not exposed outside the cluster yet — that happens in [Join the Mesh]({{< relref "./03-join-the-mesh" >}}). To preview the dashboard now:
+
+```
+kubectl port-forward svc/control 8080:8080 -n travel-control
+```
+
+Open http://localhost:8080/ in your browser.
+
+### Travel Portal namespace
+
+The *travel-portal* namespace runs several travel shop simulators (for example *travels*, *viaggi*, and *voyages*). Each shop represents a different portal with its own traffic characteristics.
+
+Shops differ by channel (web or mobile), user type (new or registered), and travel type. Together they produce varied traffic patterns so you can explore realistic mesh scenarios in Kiali.
+
+All portal shops call the _travels_ service in the *travel-agency* namespace.
+
+### Travel Agency namespace
+
+The *travel-agency* namespace provides backend quote services. The _travels_ service is the main entry point: it receives a destination city and user, then aggregates a full travel budget from the supporting services:
+
+* _hotels_ — lodging quotes
+* _flights_ — airfare quotes
+* _cars_ — car rental quotes
+* _insurances_ — travel insurance quotes
+* _discounts_ — special pricing for registered users
+* _mysqldb_ — persistent storage for the demo
+
+Each service calculates its portion independently; _travels_ combines them into a single response.
