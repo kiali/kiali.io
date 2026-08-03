@@ -20,7 +20,7 @@ Start with the hub/spoke guide; the multi-primary and dashboards/tracing guides 
 {{% alert title="Automation Script" color="info" %}}
 A script that automates all four guides is available for download:
 
-<a href="ossm-multicluster-tutorial.sh" download>ossm-multicluster-tutorial.sh</a>
+<a href="/docs/tutorials/ossm-multicluster/ossm-multicluster-tutorial.sh" download>ossm-multicluster-tutorial.sh</a>
 
 Usage: `./ossm-multicluster-tutorial.sh [--hub-context <ctx>] [--spoke-context <ctx>] [--spoke-two-context <ctx>] [--guides 1,2,3,4] <install|uninstall>`
 
