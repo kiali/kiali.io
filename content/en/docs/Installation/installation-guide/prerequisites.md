@@ -66,7 +66,9 @@ If you are running Red Hat OpenShift Service Mesh (OSSM), use only the bundled, 
 
 ## OpenShift Console Plugin (OSSMC) Version Compatibility
 
-Kiali server with the same version of OSSMC plugin must be installed previously in your OpenShift cluster.
+The OSSMC plugin can be installed with only the Kiali Operator — a Kiali server is not required for **lite mode** (Kialis and Istios pages).
+
+When **full mode** is used (a Kiali instance is promoted and integrated with OSSMC), the Kiali server version must match the OSSMC plugin version. See the compatibility table below.
 
 {{<compat-table-ossmc>}}
 

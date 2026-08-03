@@ -4,9 +4,9 @@ description: "Creating and updating the OSSMConsole CR."
 weight: 45
 ---
 
-OpenShift ServiceMesh Console (aka OSSMC) provides a Kiali integration with the OpenShift Console; in other words it provides Kiali functionality within the context of the OpenShift Console. OSSMC is applicable only within OpenShift environments.
+OpenShift ServiceMesh Console (aka OSSMC) provides a Kiali integration with the OpenShift Console; in other words it provides Kiali functionality within the context of the OpenShift Console when a Kiali server is integrated. OSSMC is applicable only within OpenShift environments.
 
-The main component of OSSMC is a plugin that gets installed inside the OpenShift Console. Prior to installing this plugin, you are required to have already installed the Kiali Operator and Kiali Server in your OpenShift environment. Please the [Installation Guide](/docs/installation/installation-guide/) for details.
+The main component of OSSMC is a plugin that gets installed inside the OpenShift Console. Prior to installing this plugin, you must install the Kiali Operator. A Kiali Server is optional for the initial plugin install — without it, OSSMC runs in lite mode and provides **Kialis** and **Istios** pages backed by Kubernetes custom resources. See the [OSSMC User Guide](/docs/ossmc/users-guide/) for details on lite mode and full mode. Please see the [Installation Guide](/docs/installation/installation-guide/) for Kiali Operator installation details.
 
 {{% alert color="warning" %}}
 There are no helm charts available to install OSSMC. You must utilize the Kiali Operator to install it. Installing the Kiali Operator on OpenShift is very easy due to the Operator Lifecycle Manager (OLM) functionality that comes with OpenShift out-of-box. Simply elect to install the Kiali Operator from the Red Hat or Community Catalog from the OperatorHub page in OpenShift Console.
@@ -20,11 +20,15 @@ The Kiali Operator watches the _OSSMConsole Custom Resource_ ([OSSMConsole CR](/
 
 ## Creating the OSSMConsole CR to Install the OSSMC Plugin
 
-With the Kiali Operator and Kial Server installed and running, you can install the OSSMC plugin in one of two ways - either via the OpenShift Console or via the "oc" CLI. Both methods are described below. You choose the method you want to use.
+With the Kiali Operator installed, you can install the OSSMC plugin in one of two ways — either via the OpenShift Console or via the `oc` CLI. Both methods are described below. You choose the method you want to use.
+
+A Kiali Server is not required for installation. If no Kiali instance is integrated, OSSMC installs in **lite mode**. To enable **full mode** (Kiali-powered observability pages), promote a Kiali instance after installation — see [Promoting a Kiali instance to the console](#promoting-a-kiali-instance-to-the-console) below.
 
 {{% alert color="warning" %}}
-You should specify the `spec.version` field of the OSSMConsole CR, and its value must be the same version as that of the Kiali Server (i.e. it must match the `spec.version` of the Kiali Server's Kiali CR). Normally, you can just set `spec.version` to `default` which tells the Kiali Operator to install OSSMC whose version is the same as that of the operator itself. Alternatively, you may specify one of the
+When Kiali integration is active (a Kiali instance is promoted or auto-discovered), you should specify the `spec.version` field of the OSSMConsole CR, and its value must be the same version as that of the Kiali Server (i.e. it must match the `spec.version` of the Kiali Server's Kiali CR). Normally, you can just set `spec.version` to `default` which tells the Kiali Operator to install OSSMC whose version is the same as that of the operator itself. Alternatively, you may specify one of the
 [supported versions](https://github.com/kiali/kiali-operator/blob/master/playbooks/ossmconsole-default-supported-images.yml) in the format `vX.Y`.
+
+This version matching requirement does not apply when OSSMC runs in lite mode without Kiali integration.
 {{% /alert %}}
 
 ### Installing via OpenShift Console
@@ -64,6 +68,51 @@ After the plugin is installed, you can see the "OSSMConsole" resource that was c
 Once the operator has finished processing the OSSMConsole CR, you must then wait for the OpenShift Console to load and initialize the plugin. This may take a minute or two. You will know when the plugin is ready when the OpenShift Console pops up this message - when you see this message, refresh the browser window to reload the OpenShift Console:
 
 ![Plugin Ready](/images/documentation/ossmc/03-ui-installed-cr-plugin-ready.png)
+
+## Lite mode installation
+
+OSSMC runs in **lite mode** when no Kiali server is integrated with the plugin. In lite mode, the Service Mesh menu provides **Kialis** and **Istios** pages only.
+
+A minimal OSSMConsole CR is sufficient when no Kiali server exists on the cluster and auto-discovery finds nothing to connect to:
+
+```yaml
+apiVersion: kiali.io/v1alpha1
+kind: OSSMConsole
+metadata:
+  name: ossmconsole
+  namespace: openshift-operators
+spec:
+  version: default
+```
+
+To force lite mode explicitly (for example, when Kiali exists on the cluster but should not be used by OSSMC), set `spec.kiali` as follows:
+
+```yaml
+spec:
+  kiali:
+    autoDiscover: false
+    serviceName: ""
+    serviceNamespace: ""
+    servicePort: 0
+```
+
+The Istios lite page shows Istio CRs on the cluster; install the Sail Operator and create your Istio CR instances normally.
+
+## Promoting a Kiali instance to the console
+
+To enable full mode OSSMC pages, integrate a Kiali server with the plugin. You can do this in two ways:
+
+1. **OpenShift Console UI** — Open **Service Mesh** → **Kialis**, select a Kiali instance, and click **Promote to Console**. This patches the OSSMConsole CR with the Kiali service name and namespace. See the [OSSMC User Guide](/docs/ossmc/users-guide/#kialis) for details.
+2. **OSSMConsole CR** — Set `spec.kiali.serviceName`, `spec.kiali.serviceNamespace`, and `spec.kiali.servicePort` to match the Kiali service. Alternatively, leave those fields empty and set `spec.kiali.autoDiscover` to `true` to let the operator discover Kiali from its OpenShift Route.
+
+After promotion, refresh the OpenShift Console if full mode pages do not appear immediately. The Kiali Operator must reconcile the OSSMConsole CR before OSSMC can connect. You may have to wait for a small amount of time and refresh the browser window to see the full mode pages.
+
+## Demoting / returning to lite mode
+
+To disconnect OSSMC from a Kiali server and return to lite mode:
+
+1. **OpenShift Console UI** — On the **Kialis** detail page for the promoted instance, click **Demote**.
+2. **OSSMConsole CR** — Set `spec.kiali.autoDiscover` to `false` and clear `serviceName`, `serviceNamespace`, and set `servicePort` to `0`.
 
 ## Uninstalling OSSMC
 
