@@ -61,6 +61,10 @@ spec:
         token_endpoint: ""
         userinfo_endpoint: ""
     openshift:
+      impersonation:
+        allowed_groups: []
+        allowed_users: []
+        enabled: false
       #redirect_uris:
       #token_inactivity_timeout:
       #token_max_age:
@@ -1357,6 +1361,110 @@ The Kiali CR has a CRD Schema so it will be validated when you create or update 
 
 <div class="property-description">
 <p>DEPRECATED AFTER v1.73: A prefix that will be applied to the OpenShift OAuth client identifier.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.auth.openshift.impersonation">.spec.auth.openshift.impersonation</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>Settings for Kubernetes API impersonation. When enabled, users authenticate once to the home cluster and Kiali uses its service account to impersonate the user on all clusters (including home).</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.auth.openshift.impersonation.allowed_groups">.spec.auth.openshift.impersonation.allowed_groups</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>When set, only these groups will be included in impersonation headers (in addition to system:authenticated and system:authenticated:oauth which are always included). If empty, all of the user&rsquo;s groups are impersonated. This also restricts the Kiali SA&rsquo;s ClusterRole via resourceNames. Must not contain system: prefixed groups. For full RBAC defense-in-depth, configure both allowed_users and allowed_groups.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.auth.openshift.impersonation.allowed_groups[*]">.spec.auth.openshift.impersonation.allowed_groups[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.auth.openshift.impersonation.allowed_users">.spec.auth.openshift.impersonation.allowed_users</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>When set, only users in this list are permitted to use Kiali with impersonation. Users not in this list will be denied access (HTTP 403). This also restricts the Kiali SA&rsquo;s ClusterRole via resourceNames, limiting which identities the SA can impersonate even at the Kubernetes RBAC level. Must not contain system: prefixed identities. For full RBAC defense-in-depth, configure both allowed_users and allowed_groups.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.auth.openshift.impersonation.allowed_users[*]">.spec.auth.openshift.impersonation.allowed_users[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.auth.openshift.impersonation.enabled">.spec.auth.openshift.impersonation.enabled</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>When true, Kiali will use Kubernetes API impersonation for accessing all clusters instead of requiring per-cluster OAuth login. The user logs in once to the home cluster, and Kiali uses its service account credentials with impersonation headers carrying the user&rsquo;s identity. Requires the Kiali service account on each cluster to have ClusterRole permissions to impersonate users and groups. SECURITY NOTE: Enabling this grants the Kiali service account the ability to impersonate any user. Protect the service account token accordingly.</p>
 
 </div>
 
