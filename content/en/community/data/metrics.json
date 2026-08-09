@@ -1008,16 +1008,22 @@
                     "issues": 120,
                     "stars": 3629,
                     "size": 90823
+                },
+                "2026-08-07": {
+                    "forks": 567,
+                    "issues": 100,
+                    "stars": 3629,
+                    "size": 91144
                 }
             },
             "language": {
-                "Go": 6910914,
-                "TypeScript": 4860391,
-                "Shell": 1518215,
+                "Go": 7006586,
+                "TypeScript": 4868172,
+                "Shell": 1524731,
                 "Gherkin": 253754,
                 "Makefile": 116888,
                 "SCSS": 9628,
-                "JavaScript": 7620,
+                "JavaScript": 7896,
                 "Dockerfile": 1595,
                 "HTML": 1254
             }
@@ -1628,13 +1634,19 @@
                     "issues": 5,
                     "stars": 91,
                     "size": 3241
+                },
+                "2026-08-05": {
+                    "forks": 131,
+                    "issues": 4,
+                    "stars": 91,
+                    "size": 3262
                 }
             },
             "language": {
-                "Shell": 113497,
+                "Shell": 121097,
                 "Python": 49858,
-                "Dockerfile": 37163,
-                "Makefile": 18186
+                "Dockerfile": 37633,
+                "Makefile": 18690
             }
         },
         "openshift-servicemesh-plugin": {
@@ -2147,15 +2159,21 @@
                     "issues": 12,
                     "stars": 8,
                     "size": 14643
+                },
+                "2026-08-04": {
+                    "forks": 21,
+                    "issues": 9,
+                    "stars": 8,
+                    "size": 13608
                 }
             },
             "language": {
-                "TypeScript": 4921885,
-                "Gherkin": 255271,
+                "TypeScript": 4928564,
+                "Gherkin": 255770,
                 "Makefile": 19278,
                 "Shell": 16193,
                 "SCSS": 9722,
-                "JavaScript": 6488,
+                "JavaScript": 6699,
                 "Dockerfile": 1238
             }
         }
