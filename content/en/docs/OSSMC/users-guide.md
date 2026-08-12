@@ -8,10 +8,10 @@ The OpenShift Service Mesh Console (OSSMC) is an extension to the OpenShift Cons
 
 Which pages appear depends on whether a Kiali server is connected to the plugin:
 
-* **With a connected Kiali server** — When a Kiali instance is promoted and reachable, OSSMC provides the full Kiali-powered experience: dedicated list and detail pages for mesh components, plus **Service Mesh** tabs on OpenShift **Workloads**, **Services**, **Projects**, and **Istio configuration** detail pages. The features match those of the standalone Kiali Console, organized to integrate with the OpenShift Console.
-* **Without a connected Kiali server** — When no Kiali instance is integrated (or Kiali is not reachable), OSSMC still provides **Istios** and **Kialis** pages that list every Istio and Kiali custom resource on the cluster. These pages do not require a Kiali server and are especially useful for navigating many mesh instances from one console. See [Navigating Multiple Meshes](/docs/ossmc/navigating-multiple-meshes/).
+* **With a connected Kiali server** — When a Kiali instance is connected and reachable, OSSMC provides the full Kiali-powered experience: dedicated list and detail pages for mesh components, plus **Service Mesh** tabs on OpenShift **Workloads**, **Services**, **Projects**, and **Istio configuration** detail pages. The features match those of the standalone Kiali Console, organized to integrate with the OpenShift Console.
+* **Without a connected Kiali server** — When no Kiali instance is connected (or Kiali is not reachable), OSSMC still provides **Istio control planes** and **Kiali instances** pages that list every Istio and Kiali CR on the cluster. These pages do not require a Kiali server and are especially useful for navigating many mesh instances from one console. See [Navigating Multiple Meshes](/docs/ossmc/navigating-multiple-meshes/).
 
-The OSSMC plugin does not replace the standalone Kiali Console. After installing OSSMC, you can still access Kiali through its own route when a Kiali server is deployed. This User Guide discusses the extensions you see from within the OpenShift Console itself — primarily the Kiali-powered pages. For **Istios** and **Kialis**, see [Navigating Multiple Meshes](/docs/ossmc/navigating-multiple-meshes/).
+The OSSMC plugin does not replace the standalone Kiali Console. After installing OSSMC, you can still access Kiali through its own route when a Kiali server is deployed. This User Guide discusses the extensions you see from within the OpenShift Console itself — primarily the Kiali-powered pages. For **Istio control planes** and **Kiali instances**, see [Navigating Multiple Meshes](/docs/ossmc/navigating-multiple-meshes/).
 
 {{% alert color="warning" %}}
 The OSSMC [only supports a single tenant today](https://github.com/kiali/openshift-servicemesh-plugin/issues/187). Whether that tenant is configured to access only a subset of OpenShift projects or has access cluster-wide to all projects does not matter, however, only a single tenant can be accessed.
@@ -23,7 +23,7 @@ The OSSMC plugin adds a **Service Mesh** category to the OpenShift Console sideb
 
 ### Pages that require a connected Kiali server
 
-When a Kiali instance is promoted and reachable, the following pages appear in the Service Mesh menu. Each is documented in its own section later in this guide.
+When a Kiali instance is connected and reachable, the following pages appear in the Service Mesh menu. Each is documented in its own section later in this guide.
 
 * **Overview** — Namespace summary with health and metric cards
 * **Traffic Graph** — Full mesh topology view
@@ -36,15 +36,15 @@ When a Kiali instance is promoted and reachable, the following pages appear in t
 
 All of these pages are standalone routes within the OSSMC plugin, providing a consistent Kiali-powered experience without leaving the OpenShift Console context.
 
-OSSMC connects to the promoted Kiali instance through the plugin proxy configured on the OSSMConsole CR. **Service Mesh** tabs on workload, service, project, and Istio resource detail pages are also available when a Kiali server is connected.
+OSSMC connects to the connected Kiali instance through the plugin proxy configured on the OSSMConsole CR. **Service Mesh** tabs on workload, service, project, and Istio resource detail pages are also available when a Kiali server is connected.
 
-If OSSMC is configured to use a Kiali server but cannot connect to it, pages that require Kiali show a **Service Mesh is not configured** message with guidance to install and configure Kiali through the Kiali Operator. **Istios** and **Kialis** remain available — see [Navigating Multiple Meshes](/docs/ossmc/navigating-multiple-meshes/).
+If OSSMC is configured to use a Kiali server but cannot connect to it, pages that require Kiali show a **Service Mesh is not configured** message with guidance to install and configure Kiali through the Kiali Operator. **Istio control planes** and **Kiali instances** remain available — see [Navigating Multiple Meshes](/docs/ossmc/navigating-multiple-meshes/).
 
-If a page that requires Kiali fails unexpectedly, OSSMC displays a **Service Mesh Console Unavailable** message instead of affecting the rest of the OpenShift Console. If you use the Fleet Service Mesh perspective and are not using those Kiali-backed pages on that cluster, you can ignore this message.
+If a page that requires Kiali fails unexpectedly, OSSMC displays a **Service Mesh Console Unavailable** message instead of affecting the rest of the OpenShift Console. If you use the **Fleet Service Mesh** perspective and are not using those Kiali-backed pages on that cluster, you can ignore this message.
 
 ### Navigating Multiple Meshes with OSSMC
 
-**Istios** and **Kialis** are always available in the Service Mesh menu. When a Kiali server is also connected, they appear at the bottom of the menu below a separator. Use them to browse every Istio and Kiali instance on the cluster and to promote or demote which Kiali server the plugin uses for observability.
+**Istio control planes** and **Kiali instances** are always available in the Service Mesh menu. When a Kiali server is also connected, they appear at the bottom of the menu below a separator. Use them to browse every Istio and Kiali instance on the cluster and to connect or disconnect which Kiali server the plugin uses for observability.
 
 See [Navigating Multiple Meshes](/docs/ossmc/navigating-multiple-meshes/) for details.
 
