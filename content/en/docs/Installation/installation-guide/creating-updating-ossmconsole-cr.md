@@ -110,7 +110,7 @@ After connecting, refresh the OpenShift Console if pages that require Kiali do n
 To disconnect OSSMC from a Kiali server (**Istio control planes** and **Kiali instances** remain available for multi-mesh navigation):
 
 1. **OpenShift Console UI** — On the **Kiali instances** detail page for the connected instance, click **Disconnect**.
-2. **OSSMConsole CR** — Set `spec.kiali.autoDiscover` to `false` and clear `serviceName`, `serviceNamespace`, and set `servicePort` to `0`.
+2. **OSSMConsole CR** — Set `spec.kiali.autoDiscover` to `false` and clear `spec.kiali.serviceName`, `spec.kiali.serviceNamespace`, and set `spec.kiali.servicePort` to `0`.
 
 ## Uninstalling OSSMC
 

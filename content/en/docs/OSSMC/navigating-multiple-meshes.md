@@ -25,6 +25,10 @@ Use this page when you need a console view of mesh control-plane instances on th
 
 The **Kiali instances** page lists every Kiali CR on the cluster. Open a row to see configuration from that Kiali CR.
 
+{{% alert color="warning" %}}
+Both pages only list CRs your OpenShift user has permission to read. If your account has namespace-scoped access instead of cluster-wide access to `istios.sailoperator.io` or `kialis.kiali.io`, the list may show fewer instances than actually exist on the cluster — or appear empty. If you expect to see an instance that is missing, ask your cluster administrator to grant `list`/`get` permission on the relevant CR in that namespace (or cluster-wide).
+{{% /alert %}}
+
 The list includes:
 
 * **Connected** — Shows **Active** when that Kiali instance is the OSSMC backend, or **Inactive** when it is not. If OSSMConsole resources cannot be read, the status shows **Unknown**.
