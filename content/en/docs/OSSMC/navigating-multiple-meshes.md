@@ -48,12 +48,12 @@ OSSMC [supports a single tenant at a time](https://github.com/kiali/openshift-se
 
 ## When a Kiali server is connected — and when it is not
 
-| Situation | What you see in the Service Mesh menu |
-| --- | --- |
-| No Kiali server connected (or the connected server is unreachable) | **Istio control planes** and **Kiali instances** only |
-| A Kiali instance is connected and reachable | Observability pages (Overview, Traffic Graph, Mesh, and others) plus **Istio control planes** and **Kiali instances** at the bottom of the menu (below a separator) |
+What you see in the Service Mesh menu depends on whether OSSMC has a connected, reachable Kiali server:
 
-If the plugin is configured to use a Kiali server but cannot reach it, pages that need Kiali show a **Service Mesh is not configured** message. **Istio control planes** and **Kiali instances** continue to work.
+* **When no Kiali server is connected** — Expect **Istio control planes** and **Kiali instances** only.
+* **When a Kiali instance is connected and reachable** — Expect observability pages (Overview, Traffic Graph, Mesh, and others) in the menu, with **Istio control planes** and **Kiali instances** at the bottom, below a separator.
+
+If OSSMC is configured to use a Kiali server but cannot reach it, observability pages show a **Service Mesh is not configured** message. **Istio control planes** and **Kiali instances** continue to work — the same as when no server is connected.
 
 ## Getting started
 
