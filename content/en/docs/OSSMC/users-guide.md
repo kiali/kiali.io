@@ -6,10 +6,10 @@ weight: 10
 
 The OpenShift Service Mesh Console (OSSMC) is an extension to the OpenShift Console which provides visibility into your Service Mesh. With the OSSMC plugin installed, a new **Service Mesh** menu category is available in the navigation menu on the left side of the web console.
 
-OSSMC operates in two modes:
+Which pages appear depends on whether a Kiali server is connected to the plugin:
 
-* **Full mode** — When a Kiali instance is promoted and reachable, OSSMC provides the full Kiali-powered experience: dedicated list and detail pages for mesh components, plus **Service Mesh** tabs on OpenShift **Workloads**, **Services**, **Projects**, and **Istio configuration** detail pages. The features match those of the standalone Kiali Console, organized to integrate with the OpenShift Console.
-* **Lite mode** — When no Kiali instance is integrated (or Kiali is not reachable), OSSMC still provides basic mesh visibility through **Kialis** and **Istios** pages backed directly by Kubernetes custom resources. No Kiali server is required for lite mode.
+* **With a connected Kiali server** — When a Kiali instance is promoted and reachable, OSSMC provides the full Kiali-powered experience: dedicated list and detail pages for mesh components, plus **Service Mesh** tabs on OpenShift **Workloads**, **Services**, **Projects**, and **Istio configuration** detail pages. The features match those of the standalone Kiali Console, organized to integrate with the OpenShift Console.
+* **Without a connected Kiali server** — When no Kiali instance is integrated (or Kiali is not reachable), OSSMC still provides standalone pages — **Kialis** and **Istios** — that read Kubernetes custom resources directly from the cluster API. These pages do not require a Kiali server.
 
 The OSSMC plugin does not replace the standalone Kiali Console. After installing OSSMC, you can still access Kiali through its own route when a Kiali server is deployed. This User Guide discusses the extensions you see from within the OpenShift Console itself.
 
@@ -17,25 +17,25 @@ The OSSMC plugin does not replace the standalone Kiali Console. After installing
 The OSSMC [only supports a single tenant today](https://github.com/kiali/openshift-servicemesh-plugin/issues/187). Whether that tenant is configured to access only a subset of OpenShift projects or has access cluster-wide to all projects does not matter, however, only a single tenant can be accessed.
 {{% /alert %}}
 
-## Lite Mode and Full Mode
+## Standalone Features Without a Connected Kiali Server
 
-In **full mode**, the Service Mesh sidebar lists observability pages (Overview, Traffic Graph, Mesh, and others) that require a running Kiali backend. OSSMC connects to the promoted Kiali instance through the plugin proxy configured on the OSSMConsole CR. **Service Mesh** tabs on workload, service, project, and Istio resource detail pages are also available in full mode.
+Some OSSMC features work without a Kiali server connected to the plugin. The **Kialis** and **Istios** pages in the Service Mesh menu read Kiali CRs and Istio CRs directly from the cluster API.
 
-In **lite mode**, only the **Kialis** and **Istios** pages are shown in the Service Mesh menu. These pages read Kiali CRs and Istio CRs directly from the cluster API and do not depend on a Kiali server.
+When a Kiali server is connected, the Service Mesh sidebar also lists observability pages (Overview, Traffic Graph, Mesh, and others) that require a running Kiali backend. OSSMC connects to the promoted Kiali instance through the plugin proxy configured on the OSSMConsole CR. **Service Mesh** tabs on workload, service, project, and Istio resource detail pages are also available when a Kiali server is connected.
 
-When full mode is active, **Kialis** and **Istios** remain at the bottom of the Service Mesh menu (below a separator), so you can manage Kiali and Istio CRs without leaving the console.
+When a Kiali server is connected, **Kialis** and **Istios** remain at the bottom of the Service Mesh menu (below a separator), so you can manage Kiali and Istio CRs without leaving the console.
 
 ### When Kiali is unreachable
 
-If OSSMC is configured for full mode but cannot connect to the promoted Kiali server, full-mode pages show a **Service Mesh is not configured** message with guidance to install and configure Kiali through the Kiali Operator. Lite pages (**Kialis** and **Istios**) remain available.
+If OSSMC is configured to use a Kiali server but cannot connect to it, pages that require Kiali show a **Service Mesh is not configured** message with guidance to install and configure Kiali through the Kiali Operator. The standalone **Kialis** and **Istios** pages remain available.
 
-If a full-mode page fails unexpectedly, OSSMC displays a **Service Mesh Console Unavailable** message instead of affecting the rest of the OpenShift Console. If you use the Fleet Service Mesh perspective and are not using OSSMC full-mode pages on that cluster, you can ignore this message.
+If a page that requires Kiali fails unexpectedly, OSSMC displays a **Service Mesh Console Unavailable** message instead of affecting the rest of the OpenShift Console. If you use the Fleet Service Mesh perspective and are not using those Kiali-backed pages on that cluster, you can ignore this message.
 
 ## Service Mesh Navigation
 
-The OSSMC plugin adds a **Service Mesh** category to the OpenShift Console sidebar. The pages available depend on whether full mode or lite mode is active.
+The OSSMC plugin adds a **Service Mesh** category to the OpenShift Console sidebar. The pages available depend on whether a Kiali server is connected to the plugin.
 
-### Full mode pages
+### Pages that require a connected Kiali server
 
 When a Kiali instance is promoted and reachable, the following pages appear in the Service Mesh menu. Each is documented in its own section later in this guide.
 
@@ -50,9 +50,9 @@ When a Kiali instance is promoted and reachable, the following pages appear in t
 
 All of these pages are standalone routes within the OSSMC plugin, providing a consistent Kiali-powered experience without leaving the OpenShift Console context.
 
-### Lite pages
+### Standalone pages (no Kiali server required)
 
-**Kialis** and **Istios** are always available in the Service Mesh menu. When full mode is also active, they appear at the bottom of the menu below a separator.
+**Kialis** and **Istios** are always available in the Service Mesh menu. When a Kiali server is also connected, they appear at the bottom of the menu below a separator.
 
 #### Kialis
 
@@ -60,8 +60,8 @@ The **Kialis** page lists every Kiali CR on the cluster. Click a row to open a d
 
 From the list or detail page you can **Promote to Console** or **Demote** a Kiali instance:
 
-* **Promote to Console** — Configures OSSMC to enter into full mode using that Kiali server as its backend.
-* **Demote** — Removes that Kiali instance from OSSMC integration and returns OSSMC to lite mode, even if other Kiali instances exist on the cluster.
+* **Promote to Console** — Connects that Kiali server to the OSSMC plugin so pages that require Kiali become available.
+* **Demote** — Disconnects that Kiali instance from the plugin. Standalone **Kialis** and **Istios** pages remain available even if other Kiali instances exist on the cluster.
 
 Promote and demote require permission to patch the OSSMConsole CR (`ossmconsoles.kiali.io`).
 
@@ -155,7 +155,7 @@ The trace details view will give further details, including heatmaps that provid
 
 ![Workload: Traces Details](/images/documentation/ossmc/18-workload-traces-details.png)
 
-When the OpenShift tracing UI plugin is enabled, Kiali will try to auto discover the plugin settings and the `View in Tracing` Kiali link will redirect to the plugin (for Kiali 2.8.0+). 
+When the OpenShift tracing UI plugin is enabled, Kiali will try to auto discover the plugin settings and the `View in Tracing` Kiali link will redirect to the plugin (for Kiali 2.8.0+).
 If the plugin config needs to be adjusted, the following settings should be included in the `plugin-conf` ConfigMap:
 
 ```yaml
