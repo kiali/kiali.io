@@ -1211,29 +1211,6 @@ Add `targetRefs` (or `targetRef`) to a Service or Gateway instead of relying onl
 - [Telemetry](https://istio.io/docs/reference/config/telemetry/)
 
 
-## WorkloadEntries {#workloadentries}
-
-### KIA1201 - Missing one or more addresses from matching WorkloadEntries
-
-This validation shows, that the address field's value of Workload Entry is not matching to any address of Service Entry.
-
-#### Resolution
-
-Add missing Service Entry which address will match the Workload Entry's address.
-
-#### Severity
-
-<i class="fas fa-exclamation-triangle text-warning"></i> Warning
-
-#### Example
-
-{{< readfile file="/static/files/validation_examples/1201.yaml" code="true" lang="yaml" >}}
-
-#### See Also
-
-- [Validator source code](https://github.com/kiali/kiali/tree/v1.52.0/business/checkers/serviceentries/workload_entry_address_match.go)
-
-
 ## ServiceEntries {#serviceentries}
 
 ### KIA1211 - More than one ServiceEntry for the same host and port
