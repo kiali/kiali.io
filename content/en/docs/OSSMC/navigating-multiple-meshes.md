@@ -59,7 +59,7 @@ If OSSMC is configured to use a Kiali server but cannot reach it, observability 
 
 1. Install the Kiali Operator (a Kiali server is optional for these pages).
 2. Create an OSSMConsole CR to install the plugin — see [The OSSMConsole CR](/docs/installation/installation-guide/creating-updating-ossmconsole-cr/).
-3. Open **Service Mesh** → **Istio control planes** or **Kiali instances** in the OpenShift Console.
+3. Open **Service Mesh** → **Istios** or **Kialis** in the OpenShift Console.
 
 To connect a Kiali server for deep observability on one instance, use **Connect** on the **Kiali instances** page or set `spec.kiali` on the OSSMConsole CR. See [Connecting a Kiali instance to the console](/docs/installation/installation-guide/creating-updating-ossmconsole-cr/#connecting-a-kiali-instance-to-the-console).
 
