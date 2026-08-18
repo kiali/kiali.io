@@ -100,7 +100,7 @@ spec:
 
 To enable OSSMC pages that require a Kiali server, connect a Kiali server to the plugin. You can do this in two ways:
 
-1. **OpenShift Console UI** — Open **Service Mesh** → **Kiali instances**, select a Kiali instance, and click **Connect**. This patches the OSSMConsole CR with the Kiali service name and namespace. See [Navigating Multiple Meshes](/docs/ossmc/navigating-multiple-meshes/#kiali-instances) for details.
+1. **OpenShift Console UI** — Open **Service Mesh** → **Kialis**, select a Kiali instance, and click **Connect**. This patches the OSSMConsole CR with the Kiali service name and namespace. See [Navigating Multiple Meshes](/docs/ossmc/navigating-multiple-meshes/#kiali-instances) for details.
 2. **OSSMConsole CR** — Set `spec.kiali.serviceName`, `spec.kiali.serviceNamespace`, and `spec.kiali.servicePort` to match the Kiali service. Alternatively, leave those fields empty and set `spec.kiali.autoDiscover` to `true` to let the operator discover Kiali from its OpenShift Route.
 
 After connecting, refresh the OpenShift Console if pages that require Kiali do not appear immediately. The Kiali Operator must reconcile the OSSMConsole CR before OSSMC can connect. You may have to wait for a small amount of time and refresh the browser window to see those pages.
