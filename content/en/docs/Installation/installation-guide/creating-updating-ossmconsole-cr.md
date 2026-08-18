@@ -22,7 +22,7 @@ The Kiali Operator watches the _OSSMConsole Custom Resource_ ([OSSMConsole CR](/
 
 With the Kiali Operator installed, you can install the OSSMC plugin in one of two ways — either via the OpenShift Console or via the `oc` CLI. Both methods are described below. You choose the method you want to use.
 
-A Kiali Server is not required for installation. If no Kiali instance is connected to the plugin, OSSMC provides **Istio control planes** and **Kiali instances** for multi-mesh navigation in the console (see [Navigating Multiple Meshes](/docs/ossmc/navigating-multiple-meshes/)). To enable Kiali-powered observability pages, connect a Kiali instance after installation — see [Connecting a Kiali instance to the console](#connecting-a-kiali-instance-to-the-console) below.
+A Kiali Server is not required for installation. If no Kiali instance is connected to the plugin, OSSMC provides **Istios** and **Kialis** for multi-mesh navigation in the console (see [Navigating Multiple Meshes](/docs/ossmc/navigating-multiple-meshes/)). To enable Kiali-powered observability pages, connect a Kiali instance after installation — see [Connecting a Kiali instance to the console](#connecting-a-kiali-instance-to-the-console) below.
 
 {{% alert color="warning" %}}
 When a Kiali server is connected to the plugin (a Kiali instance is connected or auto-discovered), you should specify the `spec.version` field of the OSSMConsole CR, and its value must be the same version as that of the Kiali Server (i.e. it must match the `spec.version` of the Kiali Server's Kiali CR). Normally, you can just set `spec.version` to `default` which tells the Kiali Operator to install OSSMC whose version is the same as that of the operator itself. Alternatively, you may specify one of the
