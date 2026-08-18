@@ -71,7 +71,7 @@ Once the operator has finished processing the OSSMConsole CR, you must then wait
 
 ## Installing without a connected Kiali server
 
-You can install OSSMC without connecting a Kiali server to the plugin. In that case, the Service Mesh menu provides **Istio control planes** and **Kiali instances** so you can navigate multiple mesh instances from the OpenShift Console. See [Navigating Multiple Meshes](/docs/ossmc/navigating-multiple-meshes/) for what those pages provide.
+You can install OSSMC without connecting a Kiali server to the plugin. In that case, the Service Mesh menu provides **Istios** and **Kialis** so you can navigate multiple mesh instances from the OpenShift Console. See [Navigating Multiple Meshes](/docs/ossmc/navigating-multiple-meshes/) for what those pages provide.
 
 A minimal OSSMConsole CR is sufficient when no Kiali server exists on the cluster and auto-discovery finds nothing to connect to:
 
