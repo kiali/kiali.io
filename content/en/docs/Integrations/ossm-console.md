@@ -15,7 +15,7 @@ OSSMC lets you [navigate multiple meshes](/docs/ossmc/navigating-multiple-meshes
 OSSMC was [first released](https://cloud.redhat.com/blog/introducing-the-openshift-service-mesh-console-a-developer-preview) in September 2022 as a developer preview. It has since been released GA in October 2023.
 
 ### Documentation
-* [Navigating Multiple Meshes with OSSMC](/docs/ossmc/navigating-multiple-meshes/) — **Istio control planes** and **Kiali instances** pages for multi-mesh inventory in the console
+* [Navigating Multiple Meshes with OSSMC](/docs/ossmc/navigating-multiple-meshes/) — **Istios** and **Kialis** pages for multi-mesh inventory in the console
 * [User guide](/docs/ossmc/users-guide) — Kiali-powered observability pages in the OpenShift Console
 * [Install via OSSMConsole CR](/docs/installation/installation-guide/creating-updating-ossmconsole-cr/)
 
