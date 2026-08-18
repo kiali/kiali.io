@@ -38,7 +38,7 @@ The list includes:
 From the list or detail page you can **Connect** or **Disconnect** a Kiali instance:
 
 * **Connect** — Connects that Kiali server to the OSSMC plugin so Overview, Traffic Graph, Mesh, and the other Kiali-powered pages become available for that instance.
-* **Disconnect** — Disconnects that Kiali instance from the plugin. **Istio control planes** and **Kiali instances** remain available so you can keep navigating the fleet and connect a different instance when needed.
+* **Disconnect** — Disconnects that Kiali instance from the plugin. **Istios** and **Kialis** remain available so you can keep navigating the fleet and connect a different instance when needed.
 
 Connect and disconnect require permission to patch the OSSMConsole CR (`ossmconsoles.kiali.io`).
 
