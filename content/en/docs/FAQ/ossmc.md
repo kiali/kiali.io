@@ -6,7 +6,7 @@ description: "Questions about the OpenShift Service Mesh Console plugin."
 
 ### What OSSMC features work without Kiali installed?
 
-When the OpenShift Service Mesh Console (OSSMC) plugin is installed but no Kiali server is connected to the plugin, the Service Mesh menu still provides **Istio control planes** and **Kiali instances** pages. Those pages list every Istio and Kiali custom resource on the cluster so you can navigate multiple mesh instances from the OpenShift Console. They do not require a Kiali server.
+When the OpenShift Service Mesh Console (OSSMC) plugin is installed but no Kiali server is connected to the plugin, the Service Mesh menu still provides **Istios** and **Kialis** pages. Those pages list every Istio and Kiali custom resource on the cluster so you can navigate multiple mesh instances from the OpenShift Console. They do not require a Kiali server.
 
 Pages that require a connected Kiali server (Overview, Traffic Graph, Mesh, Namespaces, Applications, Services, Workloads, Istio Config) and **Service Mesh** tabs on OpenShift resource detail pages need a connected and reachable Kiali instance.
 
