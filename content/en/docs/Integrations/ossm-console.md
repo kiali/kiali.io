@@ -8,7 +8,7 @@ weight: 10
 
 OpenShift Service Mesh Console (OSSMC) is a dynamic plugin for OpenShift Console based on OpenShift [dynamic plugins](https://docs.openshift.com/container-platform/4.21/web_console/dynamic-plugin/dynamic-plugin-overview.html) technology.
 
-OSSMC lets you [navigate multiple meshes](/docs/ossmc/navigating-multiple-meshes/) from the OpenShift Console through **Istio control planes** and **Kiali instances** pages — browse every Istio and Kiali instance on the cluster without requiring a Kiali server connected to the plugin. When a Kiali instance is connected and reachable, OSSMC also provides Kiali-powered observability — a dedicated **Service Mesh** navigation category with pages for overview, traffic graph, mesh infrastructure, namespaces, applications, services, workloads, and Istio configuration, plus **Service Mesh** tabs on OpenShift resource detail pages.
+OSSMC lets you [navigate multiple meshes](/docs/ossmc/navigating-multiple-meshes/) from the OpenShift Console through **Istios** and **Kialis** pages — browse every Istio and Kiali instance on the cluster without requiring a Kiali server connected to the plugin. When a Kiali instance is connected and reachable, OSSMC also provides Kiali-powered observability — a dedicated **Service Mesh** navigation category with pages for overview, traffic graph, mesh infrastructure, namespaces, applications, services, workloads, and Istio configuration, plus **Service Mesh** tabs on OpenShift resource detail pages.
 
 ![OSSMC](/images/documentation/ossmc/05-overview.png)
 
