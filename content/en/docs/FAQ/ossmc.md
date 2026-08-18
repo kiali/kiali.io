@@ -14,7 +14,7 @@ See [Navigating Multiple Meshes](/docs/ossmc/navigating-multiple-meshes/) and [C
 
 ### Why do I only see Kiali instances and Istio control planes in the Service Mesh menu?
 
-No Kiali server is currently connected to the OSSMC plugin, or OSSMC cannot reach the connected Kiali server. In that case, only **Istio control planes** and **Kiali instances** appear in the Service Mesh menu — which is enough to browse the mesh and Kiali inventory on the cluster. See [Navigating Multiple Meshes](/docs/ossmc/navigating-multiple-meshes/).
+No Kiali server is currently connected to the OSSMC plugin, or OSSMC cannot reach the connected Kiali server. In that case, only **Istios** and **Kialis** appear in the Service Mesh menu — which is enough to browse the mesh and Kiali inventory on the cluster. See [Navigating Multiple Meshes](/docs/ossmc/navigating-multiple-meshes/).
 
 To enable pages that require Kiali, install a Kiali server (if needed), then open **Service Mesh** → **Kiali instances**, select your Kiali instance, and click **Connect**. Alternatively, configure `spec.kiali` on the OSSMConsole CR. See [Connecting a Kiali instance to the console](/docs/installation/installation-guide/creating-updating-ossmconsole-cr/#connecting-a-kiali-instance-to-the-console).
 
