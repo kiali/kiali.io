@@ -17,7 +17,7 @@ This is especially useful when a cluster hosts many mesh instances. Platform tea
 
 ## Istio control planes
 
-The **Istio control planes** page lists every cluster-scoped Istio CR managed by the OSSM/Sail Operator. Open a row to see details for that Istio installation.
+The **Istios** page lists every cluster-scoped Istio CR managed by the OSSM/Sail Operator. Open a row to see details for that Istio installation.
 
 Use this page when you need a console view of mesh control-plane instances on the cluster — for example, confirming which Istio CRs exist, opening one for more information, or orienting yourself before connecting a related Kiali instance.
 
