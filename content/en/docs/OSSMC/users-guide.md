@@ -44,7 +44,7 @@ If a page that requires Kiali fails unexpectedly, OSSMC displays a **Service Mes
 
 ### Navigating Multiple Meshes with OSSMC
 
-**Istio control planes** and **Kiali instances** are always available in the Service Mesh menu. When a Kiali server is also connected, they appear at the bottom of the menu below a separator. Use them to browse every Istio and Kiali instance on the cluster and to connect or disconnect which Kiali server the plugin uses for observability.
+**Istios** and **Kialis** are always available in the Service Mesh menu. When a Kiali server is also connected, they appear at the bottom of the menu below a separator. Use them to browse every Istio and Kiali instance on the cluster and to connect or disconnect which Kiali server the plugin uses for observability.
 
 See [Navigating Multiple Meshes](/docs/ossmc/navigating-multiple-meshes/) for details.
 
