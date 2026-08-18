@@ -66,7 +66,7 @@ If you are running Red Hat OpenShift Service Mesh (OSSM), use only the bundled, 
 
 ## OpenShift Console Plugin (OSSMC) Version Compatibility
 
-The OSSMC plugin can be installed independently of any Kiali Server — a Kiali Server is not required for the **Istio control planes** and **Kiali instances** pages used to [navigate multiple meshes](/docs/ossmc/navigating-multiple-meshes/) in the OpenShift Console.
+The OSSMC plugin can be installed independently of any Kiali Server — a Kiali Server is not required for the **Istios** and **Kialis** pages used to [navigate multiple meshes](/docs/ossmc/navigating-multiple-meshes/) in the OpenShift Console.
 
 When a Kiali instance is connected to OSSMC, the Kiali server version must match the OSSMC plugin version. See the compatibility table below.
 
