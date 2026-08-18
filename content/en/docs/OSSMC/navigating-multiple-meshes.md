@@ -5,7 +5,7 @@ description: "Browse and manage Istio and Kiali instances in the OpenShift Conso
 weight: 5
 ---
 
-OpenShift Service Mesh Console (OSSMC) includes **Istio control planes** and **Kiali instances** pages in the OpenShift Console **Service Mesh** menu. These pages let you browse and inspect every Istio and Kiali CR on the cluster directly from the console — without requiring a Kiali server to be connected to the plugin.
+OpenShift Service Mesh Console (OSSMC) includes **Istios** and **Kialis** pages in the OpenShift Console **Service Mesh** menu. These pages let you browse and inspect every Istio and Kiali CR on the cluster directly from the console — without requiring a Kiali server to be connected to the plugin.
 
 This is especially useful when a cluster hosts many mesh instances. Platform teams that operate dozens or hundreds of Istio control planes (and the Kiali instances that observe them) on a cluster can navigate that inventory in one place instead of jumping between CLI commands, individual operator UIs, or separate Kiali routes.
 
