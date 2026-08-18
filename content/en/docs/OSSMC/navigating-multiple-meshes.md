@@ -43,7 +43,7 @@ From the list or detail page you can **Connect** or **Disconnect** a Kiali insta
 Connect and disconnect require permission to patch the OSSMConsole CR (`ossmconsoles.kiali.io`).
 
 {{% alert color="info" %}}
-OSSMC [supports a single tenant at a time](https://github.com/kiali/openshift-servicemesh-plugin/issues/187) for Kiali-powered observability pages. Connect the Kiali instance you want to use for deep observability; use **Istio control planes** and **Kiali instances** to navigate the rest of the fleet and switch when needed.
+OSSMC [supports a single tenant at a time](https://github.com/kiali/openshift-servicemesh-plugin/issues/187) for Kiali-powered observability pages. Connect the Kiali instance you want to use for deep observability; use **Istios** and **Kialis** to navigate the rest of the fleet and switch when needed.
 {{% /alert %}}
 
 ## When a Kiali server is connected — and when it is not
