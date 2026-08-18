@@ -13,7 +13,7 @@ This is especially useful when a cluster hosts many mesh instances. Platform tea
 
 * **One inventory for the whole cluster** — List every Istio CR and every Kiali CR from the OpenShift Console sidebar.
 * **No Kiali server required** — The pages talk to the Kubernetes API. You can install the OSSMC plugin independently of any Kiali Server and still get this multi-mesh navigation.
-* **Works alongside Kiali-powered observability** — When you do connect a Kiali server to the plugin, Overview, Traffic Graph, and the other observability pages appear for that connected instance. **Istio control planes** and **Kiali instances** stay in the menu so you can still manage the full fleet.
+* **Works alongside Kiali-powered observability** — When you do connect a Kiali server to the plugin, Overview, Traffic Graph, and the other observability pages appear for that connected instance. **Istios** and **Kialis** stay in the menu so you can still manage the full fleet.
 
 ## Istio control planes
 
