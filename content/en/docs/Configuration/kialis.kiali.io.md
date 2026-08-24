@@ -53,10 +53,12 @@ spec:
       https_proxy: ""
       insecure_skip_verify_tls: false
       issuer_uri: ""
+      post_logout_redirect_uri: ""
       scopes: ["openid", "profile", "email"]
       username_claim: "sub"
       discovery_override:
         authorization_endpoint: ""
+        end_session_endpoint: ""
         jwks_uri: ""
         token_endpoint: ""
         userinfo_endpoint: ""
@@ -1158,6 +1160,25 @@ The Kiali CR has a CRD Schema so it will be validated when you create or update 
 <div class="property depth-4">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.auth.openid.discovery_override.end_session_endpoint">.spec.auth.openid.discovery_override.end_session_endpoint</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The URL of the provider&rsquo;s RP-Initiated Logout endpoint. If set, logout will terminate both the local Kiali session and the IdP session. If not set, logout will only clear the local Kiali session.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.auth.openid.discovery_override.jwks_uri">.spec.auth.openid.discovery_override.jwks_uri</h3>
 </div>
 <div class="property-body">
@@ -1262,6 +1283,25 @@ The Kiali CR has a CRD Schema so it will be validated when you create or update 
 <div class="property-body">
 <div class="property-meta">
 <span class="property-type">(string)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.auth.openid.post_logout_redirect_uri">.spec.auth.openid.post_logout_redirect_uri</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The URL to redirect the browser to after the IdP terminates the session during RP-Initiated Logout. Must be registered in the IdP&rsquo;s client configuration. If not set, defaults to the Kiali root URL.</p>
 
 </div>
 

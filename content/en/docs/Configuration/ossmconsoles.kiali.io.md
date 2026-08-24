@@ -36,7 +36,12 @@ spec:
     imageVersion: ""
     namespace: ""
 
+  # default: internal is an empty object (techPreview is disabled)
+  # internal:
+  #   techPreview: true
+
   kiali:
+    autoDiscover: true
     serviceName: ""
     serviceNamespace: ""
     servicePort: 0
@@ -227,11 +232,49 @@ operator itself was configured.</p>
 <div class="property depth-1">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.internal">.spec.internal</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>Unstructured section for internal testing and debugging features. Not officially supported - fields here may change or be removed without notice.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-1">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.kiali">.spec.kiali</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
 <span class="property-type">(object)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.kiali.autoDiscover">.spec.kiali.autoDiscover</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>Controls whether the operator will opportunistically auto-discover a Kiali installation via its OpenShift Route when none of <code>kiali.serviceName</code>, <code>kiali.serviceNamespace</code>, and <code>kiali.servicePort</code> are set. If those three settings are all empty and this is set to <code>false</code>, OSSM Console is installed without Kiali integration rather than attempting discovery. This setting has no effect if all three of <code>kiali.serviceName</code>, <code>kiali.serviceNamespace</code>, and <code>kiali.servicePort</code> are explicitly set (auto-discovery is already skipped in that case, and the explicitly configured Kiali installation is used). Setting this to <code>false</code> while only some (not all, and not none) of those three settings are specified is invalid and will fail reconciliation. Defaults to <code>true</code>.</p>
 
 </div>
 
@@ -250,7 +293,7 @@ operator itself was configured.</p>
 </div>
 
 <div class="property-description">
-<p>The internal Kiali service that the OpenShift Console will use to proxy API calls. If empty, an attempt will be made to auto-discover it from the Kiali OpenShift Route.</p>
+<p>The internal Kiali service that the OpenShift Console will use to proxy API calls. If empty and <code>kiali.autoDiscover</code> is <code>true</code> (the default), an attempt will be made to auto-discover it from the Kiali OpenShift Route. If none of <code>kiali.serviceName</code>, <code>kiali.serviceNamespace</code>, and <code>kiali.servicePort</code> are set and no Kiali installation can be auto-discovered (or <code>kiali.autoDiscover</code> is <code>false</code>), OSSM Console will still be installed, but without Kiali integration. If any of these three settings are explicitly set, a Kiali installation matching that configuration is required and the install will fail if it cannot be found or its version does not match. See <code>kiali.autoDiscover</code> for what happens when only some (not all) of these three settings are specified.</p>
 
 </div>
 
@@ -269,7 +312,7 @@ operator itself was configured.</p>
 </div>
 
 <div class="property-description">
-<p>The namespace where the Kiali service is deployed. If empty, an attempt will be made to auto-discover it from the Kiali OpenShift Route. It will assume that the OpenShift Route and the Kiali service are deployed in the same namespace.</p>
+<p>The namespace where the Kiali service is deployed. If empty and <code>kiali.autoDiscover</code> is <code>true</code> (the default), an attempt will be made to auto-discover it from the Kiali OpenShift Route. It will assume that the OpenShift Route and the Kiali service are deployed in the same namespace. If none of <code>kiali.serviceName</code>, <code>kiali.serviceNamespace</code>, and <code>kiali.servicePort</code> are set and no Kiali installation can be auto-discovered (or <code>kiali.autoDiscover</code> is <code>false</code>), OSSM Console will still be installed, but without Kiali integration. If any of these three settings are explicitly set, a Kiali installation matching that configuration is required and the install will fail if it cannot be found or its version does not match. See <code>kiali.autoDiscover</code> for what happens when only some (not all) of these three settings are specified.</p>
 
 </div>
 
@@ -288,7 +331,7 @@ operator itself was configured.</p>
 </div>
 
 <div class="property-description">
-<p>The internal port used by the Kiali service for the API. If empty, an attempt will be made to auto-discover it from the Kiali OpenShift Route.</p>
+<p>The internal port used by the Kiali service for the API. If empty and <code>kiali.autoDiscover</code> is <code>true</code> (the default), an attempt will be made to auto-discover it from the Kiali OpenShift Route. If none of <code>kiali.serviceName</code>, <code>kiali.serviceNamespace</code>, and <code>kiali.servicePort</code> are set and no Kiali installation can be auto-discovered (or <code>kiali.autoDiscover</code> is <code>false</code>), OSSM Console will still be installed, but without Kiali integration. If any of these three settings are explicitly set, a Kiali installation matching that configuration is required and the install will fail if it cannot be found or its version does not match. See <code>kiali.autoDiscover</code> for what happens when only some (not all) of these three settings are specified.</p>
 
 </div>
 
