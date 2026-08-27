@@ -8,3 +8,7 @@ tmp-crd-docs
 __pycache__/
 *.py[cod]
 *$py.class
+
+# OpenAI / Codex / ChatGPT Desktop
+.codex/
+.agents/
