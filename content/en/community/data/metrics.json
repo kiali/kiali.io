@@ -1026,13 +1026,19 @@
                     "issues": 82,
                     "stars": 3631,
                     "size": 91531
+                },
+                "2026-08-27": {
+                    "forks": 568,
+                    "issues": 75,
+                    "stars": 3633,
+                    "size": 91849
                 }
             },
             "language": {
-                "Go": 7027226,
-                "TypeScript": 4901043,
-                "Shell": 1531571,
-                "Gherkin": 256120,
+                "Go": 7081376,
+                "TypeScript": 4908831,
+                "Shell": 1534074,
+                "Gherkin": 256717,
                 "Makefile": 116946,
                 "SCSS": 9628,
                 "JavaScript": 7896,
@@ -1664,12 +1670,18 @@
                     "issues": 2,
                     "stars": 91,
                     "size": 3277
+                },
+                "2026-08-27": {
+                    "forks": 131,
+                    "issues": 2,
+                    "stars": 91,
+                    "size": 3290
                 }
             },
             "language": {
-                "Shell": 121097,
+                "Shell": 121668,
                 "Python": 49858,
-                "Dockerfile": 37633,
+                "Dockerfile": 38103,
                 "Makefile": 18690
             }
         },
@@ -2201,12 +2213,18 @@
                     "issues": 12,
                     "stars": 8,
                     "size": 13850
+                },
+                "2026-08-27": {
+                    "forks": 20,
+                    "issues": 11,
+                    "stars": 8,
+                    "size": 13303
                 }
             },
             "language": {
-                "TypeScript": 5486503,
-                "Gherkin": 255770,
-                "Shell": 98303,
+                "TypeScript": 5527155,
+                "Gherkin": 258136,
+                "Shell": 147860,
                 "Makefile": 23610,
                 "SCSS": 9722,
                 "JavaScript": 6699,
