@@ -316,8 +316,6 @@ Several independent intervals affect freshness, CPU use, and the minimum time wi
 | **Metric retention** | Edge Prometheus | `storage.tsdb.retention.time` | How long raw and `workload:*` series are kept before expiry (short, e.g. 6h) |
 | **Metric retention** | Production Prometheus | `storage.tsdb.retention.time` | Long-term history Kiali and dashboards query (as desired) |
 
-&nbsp;
-
 **Rules of thumb**
 
 1. Recording rule interval ≥ edge scrape interval. Rules read raw series; evaluating more often than scrapes complete adds CPU without new data. A practical range is equal to the scrape interval, up to 2× the scrape interval ([Istio guidance](https://istio.io/latest/docs/ops/best-practices/observability/#federation-using-workload-level-aggregated-metrics)).
@@ -325,7 +323,7 @@ Several independent intervals affect freshness, CPU use, and the minimum time wi
 3. **Set `scrape_timeout` below `scrape_interval`** on the federation job (for example `25s` timeout with `30s` interval) so slow federation scrapes do not overlap.
 4. **Kiali minimum duration** depends on the **effective sampling** of the data it queries (production Prometheus), not the edge scrape interval. With federation, that is roughly **recording rule interval + federation scrape interval**. Kiali needs at least **two samples** in a rate window, so minimum graph duration should be **≥ 2× that effective interval** (see [Scrape Interval](#scrape-interval) below).
 
-##### Recommended settings when edge scrape is 30s
+**Recommended settings when edge scrape is 30s**
 
 This is a common production default (for example kube-prometheus-stack). The Kiali reference bundle uses these values:
 
@@ -338,8 +336,6 @@ This is a common production default (for example kube-prometheus-stack). The Kia
 | Edge retention | `6h` | Enough for troubleshooting; raw series expire after federation |
 | Effective sampling (Kiali) | `~60s` | Rule interval + federation interval |
 | Practical minimum Kiali duration | `≥ 2m` (`120s`) | `2 × 60s`; Kiali may round up in the duration dropdown |
-
-&nbsp;
 
 Example edge rule group header and production federation job:
 
@@ -362,9 +358,9 @@ groups:
   # ... match[] and relabel configs
 ```
 
-**Expected freshness:** mesh traffic visible in Kiali on production Prometheus is typically on the order of **one to two minutes** behind live traffic (one scrape + one rule evaluation + one federation cycle, plus alignment jitter).
+Expected freshness: mesh traffic visible in Kiali on production Prometheus is typically on the order of **one to two minutes** behind live traffic (one scrape + one rule evaluation + one federation cycle, plus alignment jitter).
 
-##### Other edge scrape intervals
+**Other edge scrape intervals**
 
 | Edge scrape | Recording rules | Federation | Effective sampling | Min duration (2×) |
 | ----------- | --------------- | ---------- | ------------------ | ----------------- |
@@ -372,13 +368,11 @@ groups:
 | `30s` (recommended row above) | `30s` | `30s` | `60s` | `120s` |
 | `1m` | `1m` | `1m` | `2m` | `4m` |
 
-&nbsp;
-
-For **fresher** aggregates at the cost of more edge CPU, use a recording rule interval **equal to** the scrape interval (for example both `15s`). For **lower** edge CPU, use rule interval **2×** scrape (for example `30s` rules with `15s` scrape, or `60s` rules with `30s` scrape)—accepting additional lag before `workload:*` updates.
+For fresher aggregates at the cost of more edge CPU, use a recording rule interval **equal to** the scrape interval (for example both `15s`). For lower edge CPU, use rule interval **2×** scrape (for example `30s` rules with `15s` scrape, or `60s` rules with `30s` scrape)—accepting additional lag before `workload:*` updates.
 
 Istio’s own examples sometimes use **5s** rule evaluation with **30s** federation for faster edge aggregation; that is reasonable when edge scrape is `15s` and you want sub-minute freshness. It increases rule-evaluation load and is optional—not required for Kiali correctness.
 
-##### Kiali duration dropdown
+**Kiali duration dropdown**
 
 Today Kiali reads `globalScrapeInterval` from the Prometheus URL in `external_services.prometheus.url` (production) and filters durations with **`≥ 2 × globalScrapeInterval`**. When using federation:
 
