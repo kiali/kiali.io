@@ -161,7 +161,7 @@ If you use Istio [Perses (or Grafana) dashboards]({{< relref "./perses" >}}) wit
 
 #### Metric tiers
 
-Federation configuration is split so operators only pull what they need:
+Federation configuration is split into tiers (metric groupings) so that the production Prometheus pulls only needed metrics:
 
 | Tier | Purpose | Required for |
 | ---- | ------- | ------------ |
