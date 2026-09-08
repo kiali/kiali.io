@@ -151,7 +151,7 @@ spec:
       url: "http://prometheus-prod.monitoring:9090/"
 ```
 
-If you use [Kiali Perses dashboards]({{< relref "./perses" >}}), point Perses at the same production Prometheus URL.
+If you use Istio [Perses (or Grafana) dashboards]({{< relref "./perses" >}}) with Kiali , configure them to point at the same production Prometheus URL.
 
 {{% alert color="warning" %}}
 **Production assumption:** In this pattern, `external_services.prometheus.url` **always** targets production Prometheus—the long-retention TSDB that holds federated mesh metrics. Kiali must **not** query the edge Istio scraper in production. The edge exists only to collect raw telemetry, evaluate recording rules, and federate upstream; it is not Kiali's database.
