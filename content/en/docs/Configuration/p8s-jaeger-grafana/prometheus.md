@@ -171,7 +171,6 @@ Federation configuration is split into tiers (metric groupings) so that the prod
 | **Istio Dashboards** | Optional control-plane, perf, ztunnel, and WASM metrics | [Perses Istio dashboards](https://github.com/perses/community-mixins/tree/main/examples/dashboards/perses/istio) |
 | **Kiali self-monitoring** | Kiali operational metrics (`kiali_*`) | Kiali Internal Metrics dashboard, optional health-status alerting |
 
-&nbsp;
 
 Some Perses dashboards work with the **Core** tier alone (Mesh, service, and workload dashboards). To ensure all of the Istio dashboards are supported, Enable the **Istio Dashboards** tier. Enable **Kiali self-monitoring** when the built-in Kiali metrics dashboard or `kiali_health_status` alerting is needed. Note that if you define your own Kiali Custom Dashboards, you will need to ensure any required metrics are also configured for the production Prometheus.
 
@@ -188,7 +187,6 @@ Reference files live in the Kiali repository under [`hack/istio/metric-rules/`](
 | `federation-match-kiali.yml` | Federation `match[]` selectors for `kiali:*` series |
 | `prometheus-kiali-edge.yaml` | Example dedicated Kiali edge Prometheus (Option 2) |
 
-&nbsp;
 
 #### Recording rules (edge Prometheus)
 
@@ -316,14 +314,14 @@ Several independent intervals affect freshness, CPU use, and the minimum time wi
 | **Metric retention** | Edge Prometheus | `storage.tsdb.retention.time` | How long raw and `workload:*` series are kept before expiry (short, e.g. 6h) |
 | **Metric retention** | Production Prometheus | `storage.tsdb.retention.time` | Long-term history Kiali and dashboards query (as desired) |
 
-**Rules of thumb**
+**Rules of thumb:**
 
 1. Recording rule interval ≥ edge scrape interval. Rules read raw series; evaluating more often than scrapes complete adds CPU without new data. A practical range is equal to the scrape interval, up to 2× the scrape interval ([Istio guidance](https://istio.io/latest/docs/ops/best-practices/observability/#federation-using-workload-level-aggregated-metrics)).
 2. **Federation interval ≥ recording rule interval.** The Production Prometheus should federate aggregates after the edge has evaluated them. **30s** is a common federation interval and matches the Kiali reference configuration.
 3. **Set `scrape_timeout` below `scrape_interval`** on the federation job (for example `25s` timeout with `30s` interval) so slow federation scrapes do not overlap.
 4. **Kiali minimum duration** depends on the **effective sampling** of the data it queries (production Prometheus), not the edge scrape interval. With federation, that is roughly **recording rule interval + federation scrape interval**. Kiali needs at least **two samples** in a rate window, so minimum graph duration should be **≥ 2× that effective interval** (see [Scrape Interval](#scrape-interval) below).
 
-**Recommended settings when edge scrape is 30s**
+**Recommended settings when edge scrape is 30s:**
 
 This is a common production default (for example kube-prometheus-stack). The Kiali reference bundle uses these values:
 
@@ -360,7 +358,7 @@ groups:
 
 Expected freshness: mesh traffic visible in Kiali on production Prometheus is typically on the order of **one to two minutes** behind live traffic (one scrape + one rule evaluation + one federation cycle, plus alignment jitter).
 
-**Other edge scrape intervals**
+**Other edge scrape intervals:**
 
 | Edge scrape | Recording rules | Federation | Effective sampling | Min duration (2×) |
 | ----------- | --------------- | ---------- | ------------------ | ----------------- |
@@ -372,7 +370,7 @@ For fresher aggregates at the cost of more edge CPU, use a recording rule interv
 
 Istio’s own examples sometimes use **5s** rule evaluation with **30s** federation for faster edge aggregation; that is reasonable when edge scrape is `15s` and you want sub-minute freshness. It increases rule-evaluation load and is optional—not required for Kiali correctness.
 
-**Kiali duration dropdown**
+**Kiali duration dropdown:**
 
 Today Kiali reads `globalScrapeInterval` from the Prometheus URL in `external_services.prometheus.url` (production) and filters durations with **`≥ 2 × globalScrapeInterval`**. When using federation:
 
@@ -385,7 +383,7 @@ Until `metric_aggregation_interval` is available, if production `global.scrape_i
 
 Kiali can export its own Prometheus metrics (`kiali_*`) for performance and optional health-status monitoring. These are **not** Istio mesh metrics—they are not produced on the edge by Envoy, not listed in `kiali-required-metrics.yml`, and not part of the Istio federation tiers.
 
-Because Kiali queries **production** Prometheus, `kiali_*` series must ultimately be available in that same TSDB. The [metric rules KEP](https://github.com/kiali/kiali/blob/master/design/KEPS/metric-rules/proposal.md#kiali-self-monitoring-metrics) describes **three deployment options**:
+Because Kiali queries production Prometheus, `kiali_*` series must ultimately be available in that same TSDB. The [metric rules KEP](https://github.com/kiali/kiali/blob/master/design/KEPS/metric-rules/proposal.md#kiali-self-monitoring-metrics) describes three deployment options:
 
 | Option | Kiali metrics scraped by | Before production |
 | ------ | ------------------------ | ----------------- |
@@ -393,14 +391,12 @@ Because Kiali queries **production** Prometheus, `kiali_*` series must ultimatel
 | **2. Dedicated Kiali edge** | Separate edge Prom for Kiali only | Recording rules + federation to prod |
 | **3. Direct to production** | Production Prom directly | Raw scrape; dedup required in queries for HA |
 
-&nbsp;
 
 | Config | Default | Purpose |
 | ------ | ------- | ------- |
 | `server.observability.metrics.enabled` | `true` | Operational metrics (API, graph, cache, validation, etc.) |
 | `server.observability.metrics.health_status.enabled` | `false` | `kiali_health_status` gauge per entity (opt-in; higher cardinality) |
 
-&nbsp;
 
 The metrics HTTP listener (port `server.observability.metrics.port`, default `9090`) starts when **either** flag is true.
 
@@ -455,7 +451,6 @@ The `metric_relabel_configs:` attribute should be added under each job name defi
 ```
 
 Applying this configuration should reduce the number of stored metrics by about 20%, as well as reducing the number of attributes stored on many remaining metrics.
-
 
 
 ### Metric Thinning with Disabled Features
