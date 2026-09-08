@@ -170,7 +170,7 @@ Federation configuration is split into tiers (metric groupings) so that the prod
 | **Kiali self-monitoring** | Kiali operational metrics (`kiali_*`) | Kiali Internal Metrics dashboard, optional health-status alerting |
 &nbsp;
 
-Mesh, service, and workload Perses dashboards work on the **core** tier alone. Enable the **Dashboards** tier only when using those detailed dashboards. Enable **Kiali self-monitoring** when the built-in Kiali metrics dashboard or `kiali_health_status` alerting is needed.
+Some Perses dashboards work with the **core** tier alone (Mesh, service, and workload dashboards). To ensure all of the Istio dashboards are supported, Enable the **Istio Dashboards** tier. Enable **Kiali self-monitoring** when the built-in Kiali metrics dashboard or `kiali_health_status` alerting is needed. Note that if you define your own **Kiali  Custom Dashboards**, you will need to ensure any required metrics are also configured for the production Prometheus.
 
 Reference files live in the Kiali repository under [`hack/istio/metric-rules/`](https://github.com/kiali/kiali/tree/master/hack/istio/metric-rules):
 
