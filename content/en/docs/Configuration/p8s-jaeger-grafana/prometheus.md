@@ -166,7 +166,7 @@ Federation configuration is split so operators only pull what they need:
 | Tier | Purpose | Required for |
 | ---- | ------- | ------------ |
 | **Core** | [Kiali required metrics]({{< ref "/docs/faq/general#requiredmetrics" >}}) | Traffic graph, health, lists, mesh overview |
-| **Dashboards** | Optional control-plane, perf, ztunnel, and WASM metrics | [Perses Istio dashboards](https://github.com/perses/community-mixins/tree/main/examples/dashboards/perses/istio) |
+| **Istio Dashboards** | Optional control-plane, perf, ztunnel, and WASM metrics | [Perses Istio dashboards](https://github.com/perses/community-mixins/tree/main/examples/dashboards/perses/istio) |
 | **Kiali self-monitoring** | Kiali operational metrics (`kiali_*`) | Kiali Internal Metrics dashboard, optional health-status alerting |
 &nbsp;
 
