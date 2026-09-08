@@ -188,7 +188,7 @@ Reference files live in the Kiali repository under [`hack/istio/metric-rules/`](
 
 #### Recording rules (edge Prometheus)
 
-Add rules like the following to the Prometheus instance that scrapes Istio traffic. Rules sum away scrape-level labels while preserving the workload/service labels Kiali uses in queries:
+Add recording rules like the following to the Prometheus instance that scrapes Istio traffic. The rules aggregate on scrape-level labels while preserving the workload/service labels Kiali uses in queries:
 
 ```yaml
 groups:
