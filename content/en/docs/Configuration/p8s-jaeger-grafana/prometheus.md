@@ -174,23 +174,40 @@ Federation configuration is split into tiers (metric groupings) so that the prod
 
 Some Perses dashboards work with the **Core** tier alone (Mesh, service, and workload dashboards). To ensure all of the Istio dashboards are supported, Enable the **Istio Dashboards** tier. Enable **Kiali self-monitoring** when the built-in Kiali metrics dashboard or `kiali_health_status` alerting is needed. Note that if you define your own Kiali Custom Dashboards, you will need to ensure any required metrics are also configured for the production Prometheus.
 
-Reference files live in the Kiali repository under [`hack/istio/metric-rules/`](https://github.com/kiali/kiali/tree/master/hack/istio/metric-rules):
+#### Production reference files
 
-| File | Description |
-| ---- | ----------- |
-| `recording-rules.yml` | Edge recording rules producing `workload:*` series |
-| `kiali-required-metrics.yml` | Canonical core Istio metric list |
-| `federation-match-dashboards.yml` | Optional federation `match[]` selectors for Perses dashboards |
-| `prometheus-prod.yaml` | Example production federation scrape job (core tier) |
-| `kiali-recording-rules.yml` | Edge recording rules for Kiali metrics (`kiali:*` series) |
-| `kiali-export-metrics.yml` | Canonical Kiali self-monitoring metric list |
-| `federation-match-kiali.yml` | Federation `match[]` selectors for `kiali:*` series |
-| `prometheus-kiali-edge.yaml` | Example dedicated Kiali edge Prometheus (Option 2) |
+For **production** deployments, merge the YAML below from [`hack/istio/metric-rules/`](https://github.com/kiali/kiali/tree/master/hack/istio/metric-rules) into **your existing** Prometheus configuration. These files are reference snippets—not a Kiali installer and not full deployments. Integrate them the same way you manage other Prometheus rules and scrape jobs (`rule_files`, ConfigMap volume mounts, `PrometheusRule` CRs, Helm values, etc.).
+
+| File | Integrate into | Purpose |
+| ---- | -------------- | ------- |
+| `core-recording-rules.yml` | Edge Prometheus (scrapes Istio/Envoy) | Recording rules producing `workload:*` series |
+| `core-federation-match.yml` | Production Prometheus federation job | Core-tier `match[]` selectors |
+| `core-metrics.yml` | (reference) | Canonical core Istio metric list |
+| `istio-dashboard-federation-match.yml` | Production federation job (optional) | Perses dashboard `match[]` selectors |
+| `istio-dashboard-metrics.yml` | (reference) | Optional Istio dashboard metric list |
+| `kiali-metrics-recording-rules.yml` | Kiali edge Prometheus (optional) | Recording rules for `kiali:*` series |
+| `kiali-metrics-federation-match.yml` | Production federation job (optional) | Federation selectors for `kiali:*` series |
+| `kiali-metrics.yml` | (reference) | Canonical Kiali self-monitoring metric list |
+
+The [recording rules](#recording-rules-edge-prometheus), [federation](#federation-production-prometheus), and [production checklist](#production-checklist) sections below describe how to apply these files. Optional tiers (Istio dashboards, Kiali self-monitoring) are added only when those features are enabled.
+
+#### Demo lab files (not for production)
+
+The `demo/` subdirectory under the same path contains scripts and sample Kubernetes deployments for learning and CI. They patch the Istio add-on Prometheus in `istio-system` and deploy sample `prometheus-prod` / `prometheus-kiali-edge` instances. **Do not use `demo/` in production clusters**—use the reference files above with your own Prometheus instead.
+
+| File | Purpose |
+| ---- | ------- |
+| `demo/install.sh` / `demo/uninstall.sh` | Demo lab deploy and teardown |
+| `demo/prometheus-prod.yaml` | Sample production federator deployment |
+| `demo/prometheus-kiali-edge.yaml` | Sample dedicated Kiali edge Prometheus |
+| `demo/render-*.py`, `demo/merge-recording-rules.py` | Render demo manifests from the production reference YAML |
+
+See [Demo walkthrough](#demo-walkthrough-lab-only) below to try the pattern locally.
 
 
 #### Recording rules (edge Prometheus)
 
-Add recording rules like the following to the Prometheus instance that scrapes Istio traffic. The rules aggregate on scrape-level labels while preserving the workload/service labels Kiali uses in queries:
+Apply `core-recording-rules.yml` on the Prometheus instance that scrapes Istio traffic (or merge the groups into your existing rule set). The rules aggregate on scrape-level labels while preserving the workload/service labels Kiali uses in queries:
 
 ```yaml
 groups:
@@ -201,7 +218,7 @@ groups:
     expr: sum without (pod, instance, namespace, job, node) (istio_requests_total)
   - record: workload:istio_request_duration_milliseconds_bucket
     expr: sum without (pod, instance, namespace, job, node) (istio_request_duration_milliseconds_bucket)
-  # ... remaining traffic counters and histogram components — see recording-rules.yml
+  # ... remaining traffic counters and histogram components — see core-recording-rules.yml
 ```
 
 {{% alert color="warning" %}}
@@ -212,7 +229,7 @@ How you install the rules depends on your platform—for example a `rule_files` 
 
 #### Federation (production Prometheus)
 
-Add a federation scrape job to your existing long-retention Prometheus. Federate `workload:*` traffic metrics from the edge and relabel names before storage:
+Add a federation scrape job to your **existing** long-retention production Prometheus. Use `core-federation-match.yml` for the complete core-tier `match[]` list. Federate `workload:*` traffic metrics from the edge and relabel names before storage:
 
 ```yaml
 - job_name: istio-mesh-federate
@@ -224,7 +241,7 @@ Add a federation scrape job to your existing long-retention Prometheus. Federate
       - '{__name__=~"workload:istio_requests_total"}'
       - '{__name__=~"workload:istio_request_bytes_(bucket|count|sum)"}'
       - '{__name__=~"workload:istio_request_duration_milliseconds_(bucket|count|sum)"}'
-      # ... see prometheus-prod.yaml for the full core-tier list
+      # ... see core-federation-match.yml for the full core-tier list
   metric_relabel_configs:
   - source_labels: [__name__]
     regex: 'workload:(.*)'
@@ -235,34 +252,34 @@ Add a federation scrape job to your existing long-retention Prometheus. Federate
     - '<edge-prometheus-host>:9090'
 ```
 
-Also federate non-traffic metrics that Kiali needs but does not aggregate (for example `istio_build`, `pilot_xds`, `container_cpu_usage_seconds_total`) directly by name—see `kiali-required-metrics.yml` and `prometheus-prod.yaml`.
+Also federate non-traffic metrics that Kiali needs but does not aggregate (for example `istio_build`, `pilot_xds`, `container_cpu_usage_seconds_total`) directly by name—see `core-metrics.yml` and `core-federation-match.yml`.
 
-To include Istio dashboard metrics, append the selectors from `federation-match-dashboards.yml` to `match[]`.
+To include Istio dashboard metrics, append the selectors from `istio-dashboard-federation-match.yml` to `match[]`.
 
 Configure network access, TLS, and authentication between production and edge Prometheus according to your environment. Kiali authentication for the production URL is configured separately (see [Prometheus authentication configuration](#prometheus-authentication-configuration) below).
 
 #### Demo walkthrough (lab only)
 
-The Kiali repository provides a demo script that patches the Istio add-on Prometheus in `istio-system`, deploys a sample `prometheus-prod` federator, and optionally switches Kiali to use it. Use this to learn the pattern or validate in CI—not as a production deployment:
+The `demo/install.sh` script is a **learning and CI harness only**. It does not replace the production integration above—it automates the same reference YAML against the Istio add-on Prometheus in `istio-system` so you can validate the pattern locally:
 
 ```bash
 # From a clone of github.com/kiali/kiali, with Istio add-on Prometheus running:
-./hack/istio/metric-rules/install.sh
+./hack/istio/metric-rules/demo/install.sh
 
 # Optional: also federate Perses dashboard metrics
-./hack/istio/metric-rules/install.sh --with-dashboards
+./hack/istio/metric-rules/demo/install.sh --with-dashboards
 
 # Optional: federate Kiali self-monitoring (shared Istio edge Prometheus)
-./hack/istio/metric-rules/install.sh --with-kiali-metrics
+./hack/istio/metric-rules/demo/install.sh --with-kiali-metrics
 
 # Optional: federate Kiali self-monitoring (dedicated Kiali edge Prometheus)
-./hack/istio/metric-rules/install.sh --with-kiali-metrics --kiali-edge dedicated
+./hack/istio/metric-rules/demo/install.sh --with-kiali-metrics --kiali-edge dedicated
 
 # Optional: point Kiali at the demo production Prometheus
-./hack/istio/metric-rules/install.sh --switch-kiali
+./hack/istio/metric-rules/demo/install.sh --switch-kiali
 
 # Combine flags as needed, for example:
-./hack/istio/metric-rules/install.sh --with-dashboards --with-kiali-metrics --switch-kiali
+./hack/istio/metric-rules/demo/install.sh --with-dashboards --with-kiali-metrics --switch-kiali
 ```
 
 After install, port-forward and verify:
@@ -287,15 +304,17 @@ curl -s 'http://localhost:9092/api/v1/query?query=count({__name__=~"kiali_.*"})'
 
 The **Kiali Internal Metrics** dashboard only works when Kiali queries production Prometheus (`--switch-kiali` or `external_services.prometheus.url` → `prometheus-prod`).
 
-See [`hack/istio/metric-rules/README.md`](https://github.com/kiali/kiali/blob/master/hack/istio/metric-rules/README.md) for teardown (`uninstall.sh`).
+See [`hack/istio/metric-rules/README.md`](https://github.com/kiali/kiali/blob/master/hack/istio/metric-rules/README.md) for teardown (`demo/uninstall.sh`).
 
 #### Production checklist
 
+Use this checklist when integrating the [production reference files](#production-reference-files) into your own Prometheus stack (not the `demo/` installer):
+
 1. Identify edge Prometheus—the TSDB that scrapes Istio/Envoy (may be in a `monitoring` namespace, a remote cluster, or a managed service—not necessarily `istio-system`).
-2. Install recording rules on the edge; set short retention on raw mesh telemetry.
-3. Add a federation scrape job to your production Prometheus using the core-tier `match[]` list.
+2. Merge `core-recording-rules.yml` onto the edge; set short retention on raw mesh telemetry.
+3. Add a federation scrape job to production Prometheus using `core-federation-match.yml`.
 4. Optionally extend `match[]` with Istio dashboard-tier selectors if Istio dashboards are enabled.
-5. If Kiali self-monitoring is enabled, choose an option from [Kiali self-monitoring metrics](#kiali-self-monitoring-metrics): apply `kiali-recording-rules.yml` on the Kiali edge and federate `federation-match-kiali.yml` to production (Options 1–2), or scrape Kiali directly into production (Option 3).
+5. If Kiali self-monitoring is enabled, choose an option from [Kiali self-monitoring metrics](#kiali-self-monitoring-metrics): apply `kiali-metrics-recording-rules.yml` on the Kiali edge and federate `kiali-metrics-federation-match.yml` to production (Options 1–2), or scrape Kiali directly into production (Option 3).
 6. Point `external_services.prometheus.url` at production Prometheus (and the same URL for Perses/Grafana, if using).
 7. Validate equivalence between edge aggregates and federated data (see below).
 8. Tune intervals using [Interval tuning](#interval-tuning) below.
@@ -309,7 +328,7 @@ Several independent intervals affect freshness, CPU use, and the minimum time wi
 | What is configured | Where configured | Setting | Role |
 | ------- | ---------------- | ---- | ---- |
 | **Metric Scrape interval** | Edge Prometheus | `global.scrape_interval` (or per-job override on Istio/Envoy targets) | How often raw `istio_*` metrics are scraped |
-| **Recording rule interval** | Edge Prometheus | `interval` on the rule group in `recording-rules.yml` | How often `workload:*` aggregates are recomputed |
+| **Recording rule interval** | Edge Prometheus | `interval` on the rule group in `core-recording-rules.yml` | How often `workload:*` aggregates are recomputed |
 | **Federation interval** | Production Prometheus | `scrape_interval` on the production federation job | How often Prometheus pulls `workload:*` (and other federated series) from the edge |
 | **Metric retention** | Edge Prometheus | `storage.tsdb.retention.time` | How long raw and `workload:*` series are kept before expiry (short, e.g. 6h) |
 | **Metric retention** | Production Prometheus | `storage.tsdb.retention.time` | Long-term history Kiali and dashboards query (as desired) |
@@ -333,7 +352,7 @@ This is a common production default (for example kube-prometheus-stack). The Kia
 | ------- | ----------------- | ----- |
 | Edge `scrape_interval` | `30s` | Your stated baseline |
 | Recording rule `interval` | `30s` | Matches scrape; good balance of freshness and CPU |
-| Federation `scrape_interval` | `30s` | Istio-recommended; used in `prometheus-prod.yaml` |
+| Federation `scrape_interval` | `30s` | Istio-recommended; used in `demo/prometheus-prod.yaml` |
 | Federation `scrape_timeout` | `25s` | Slightly less than scrape interval |
 | Edge retention | `6h` | Enough for troubleshooting; raw series expire after federation |
 | Effective sampling (Kiali) | `~60s` | Rule interval + federation interval |
@@ -385,7 +404,7 @@ Until `metric_aggregation_interval` is available, if production `global.scrape_i
 
 #### Kiali self-monitoring metrics
 
-Kiali can export its own Prometheus metrics (`kiali_*`) for performance and optional health-status monitoring. These are **not** Istio mesh metrics—they are not produced on the edge by Envoy, not listed in `kiali-required-metrics.yml`, and not part of the Istio federation tiers.
+Kiali can export its own Prometheus metrics (`kiali_*`) for performance and optional health-status monitoring. These are **not** Istio mesh metrics—they are not produced on the edge by Envoy, not listed in `core-metrics.yml`, and not part of the Istio federation tiers.
 
 Because Kiali queries production Prometheus, `kiali_*` series must ultimately be available in that same TSDB. The [metric rules KEP](https://github.com/kiali/kiali/blob/master/design/KEPS/metric-rules/proposal.md#kiali-self-monitoring-metrics) describes three deployment options:
 
@@ -408,7 +427,7 @@ The metrics HTTP listener (port `server.observability.metrics.port`, default `90
 
 The built-in **Kiali Internal Metrics** custom dashboard queries `external_services.prometheus.url`; it only works when production Prometheus holds the `kiali_*` series (via federation or direct scrape).
 
-Reference files for Options 1–2: `kiali-recording-rules.yml`, `federation-match-kiali.yml`, and (for Option 2) `prometheus-kiali-edge.yaml`. Try them in the [demo walkthrough](#demo-walkthrough-lab-only) with `--with-kiali-metrics` and optionally `--kiali-edge dedicated`.
+Reference files for Options 1–2: `kiali-metrics-recording-rules.yml`, `kiali-metrics-federation-match.yml`, and (for Option 2) `demo/prometheus-kiali-edge.yaml`. Try them in the [demo walkthrough](#demo-walkthrough-lab-only) with `--with-kiali-metrics` and optionally `--kiali-edge dedicated`.
 
 For `kiali_health_status` alerting on OpenShift, see the [OSSM health status alerts tutorial]({{< relref "../../Tutorials/ossm-multicluster/ossm-health-status-alerts" >}}).
 
