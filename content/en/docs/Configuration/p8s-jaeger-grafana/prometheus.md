@@ -315,7 +315,7 @@ Several independent intervals affect freshness, CPU use, and the minimum time wi
 **Rules of thumb**
 
 1. Recording rule interval ≥ edge scrape interval. Rules read raw series; evaluating more often than scrapes complete adds CPU without new data. A practical range is equal to the scrape interval, up to 2× the scrape interval ([Istio guidance](https://istio.io/latest/docs/ops/best-practices/observability/#federation-using-workload-level-aggregated-metrics)).
-2. **Federation interval ≥ recording rule interval.** Production should pull aggregates after the edge has evaluated them. **30s** is a common federation interval and matches the Kiali reference configuration.
+2. **Federation interval ≥ recording rule interval.** The Production Prometheus should federate aggregates after the edge has evaluated them. **30s** is a common federation interval and matches the Kiali reference configuration.
 3. **Set `scrape_timeout` below `scrape_interval`** on the federation job (for example `25s` timeout with `30s` interval) so slow federation scrapes do not overlap.
 4. **Kiali minimum duration** depends on the **effective sampling** of the data it queries (production Prometheus), not the edge scrape interval. With federation, that is roughly **recording rule interval + federation scrape interval**. Kiali needs at least **two samples** in a rate window, so minimum graph duration should be **≥ 2× that effective interval** (see [Scrape Interval](#scrape-interval) below).
 
