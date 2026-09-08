@@ -203,7 +203,7 @@ groups:
 ```
 
 {{% alert color="warning" %}}
-Record **counter snapshots**, not `rate()`. Kiali applies `rate()` at query time with user-selected durations. Use `sum without (...)` rather than `sum by (...)` so required labels are not dropped accidentally.
+The recording rules do not apply `rate()`. Kiali applies `rate()` at query time with user-selected durations. Use `sum without (...)` rather than `sum by (...)` so required labels are not dropped accidentally.
 {{% /alert %}}
 
 How you install the rules depends on your platform—for example a `rule_files` entry in `prometheus.yml`, a ConfigMap volume mount, or a Prometheus Operator `PrometheusRule` CR in the namespace where edge Prometheus runs.
