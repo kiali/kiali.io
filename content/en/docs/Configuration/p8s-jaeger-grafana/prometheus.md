@@ -210,7 +210,7 @@ How you install the rules depends on your platform—for example a `rule_files` 
 
 #### Federation (production Prometheus)
 
-Add a federation scrape job to your **existing** long-retention Prometheus. Federate `workload:*` traffic metrics from the edge and relabel names before storage:
+Add a federation scrape job to your existing long-retention Prometheus. Federate `workload:*` traffic metrics from the edge and relabel names before storage:
 
 ```yaml
 - job_name: istio-mesh-federate
