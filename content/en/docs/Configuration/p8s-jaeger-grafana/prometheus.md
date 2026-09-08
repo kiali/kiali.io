@@ -289,9 +289,9 @@ See [`hack/istio/metric-rules/README.md`](https://github.com/kiali/kiali/blob/ma
 
 #### Production checklist
 
-1. Identify **edge Prometheus**—the TSDB that scrapes Istio/Envoy (may be in a `monitoring` namespace, a remote cluster, or a managed service—not necessarily `istio-system`).
-2. Install **recording rules** on the edge; set **short retention** on raw mesh telemetry.
-3. Add a **federation scrape job** to your existing **production** Prometheus using the core-tier `match[]` list.
+1. Identify edge Prometheus—the TSDB that scrapes Istio/Envoy (may be in a `monitoring` namespace, a remote cluster, or a managed service—not necessarily `istio-system`).
+2. Install recording rules on the edge; set short retention on raw mesh telemetry.
+3. Add a federation scrape job to your production Prometheus using the core-tier `match[]` list.
 4. Optionally extend `match[]` with **dashboard-tier** selectors if Perses Istio dashboards are enabled.
 5. If Kiali self-monitoring is enabled, choose an option from [Kiali self-monitoring metrics](#kiali-self-monitoring-metrics): apply `kiali-recording-rules.yml` on the Kiali edge and federate `federation-match-kiali.yml` to production (Options 1–2), or scrape Kiali directly into production (Option 3).
 6. Point **`external_services.prometheus.url`** at production Prometheus (and Perses at the same URL).
