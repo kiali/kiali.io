@@ -117,7 +117,7 @@ Istio and Envoy generate a large amount of telemetry for analysis and troublesho
 
 For production meshes at scale, [metric thinning](#option-2-metric-thinning) on a single Prometheus TSDB reduces storage somewhat but still retains per-proxy Istio series. A more efficient approach—aligned with [Istio Observability Best Practices](https://istio.io/latest/docs/ops/best-practices/observability/#federation-using-workload-level-aggregated-metrics)—is to:
 
-1. **Aggregate at the edge** using Prometheus recording rules that "sum away" per-proxy labels (`pod`, `instance`, etc.) into `workload:*` series. "Sum away" is a recording rule term that means that several time-series will be aggregated into one, by combining those with like values for specified fields. The resulting value is the sum of the individual time-series values. Because Kiali presents information at the workload level, not the pod level, aggregation offers a significant reduction in time-series cardinality.
+1. **Aggregate at the edge** using Prometheus recording rules that "sum away" per-proxy labels (`pod`, `instance`, etc.) into `workload:*` series. "Sum away" is a recording rule term that means that several time-series will be aggregated into one, by combining those with like values for specified fields. The resulting value is the sum of the individual time-series values.
 2. **Federate** only those aggregates (plus a small set of control-plane metrics) into your long-retention production Prometheus.
 3. **Relabel** `workload:istio_requests_total` back to `istio_requests_total` on the production instance so Kiali queries standard metric names.
 
