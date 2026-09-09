@@ -18,7 +18,7 @@ For more information see the [Istio Envoy Documentation](https://istio.io/docs/o
 
 ### Envoy Health
 
-A health check performed by Envoy proxies, for inbound and outbound traffic: see membership_healthy and membership_total from [Envoy documentation](https://www.envoyproxy.io/docs/envoy/v1.7.1/configuration/cluster_manager/cluster_stats#general).
+A health check performed by Envoy proxies, for inbound and outbound traffic: see membership_healthy and membership_total from [Envoy documentation](https://www.envoyproxy.io/docs/envoy/v1.7.1/configuration/cluster_manager/cluster_stats.html#general).
 
 ### Istio object/configuration Type
 
