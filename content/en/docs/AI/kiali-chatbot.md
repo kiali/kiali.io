@@ -20,13 +20,13 @@ The Kiali chatbot was first released in Kiali version 2.22 and it is in **Dev pr
 At a high level:
 
 - The Kiali UI sends your chat request (prompt + context + selected model) to the Kiali backend.
-- Kiali selects the configured provider/model from `chat_ai`.
+- Kiali selects the configured provider/model from `ai.chat`.
 - The provider calls the LLM with a set of **internal MCP tools** (defined in Kiali under `kiali/ai/mcp`).
 - The LLM may request tool calls (e.g. mesh graph, traces, resource details, workload logs, Istio config operations).
 - Kiali executes those tool calls against Kiali/Kubernetes/Prometheus/tracing backends and returns the final answer, including optional UI navigation actions and documentation citations.
 - The response is delivered as **streaming events** (for example: `start`, `token`, `tool_call`, `tool_result`, `end`, `error`) so the UI can progressively render tokens and tool activity in real time.
 
-For configuration keys (enable/disable, tool filters, providers/models, store), see the `chat_ai` section in the [Kiali CR spec](/docs/configuration/kialis.kiali.io/#.spec.chat_ai).
+For configuration keys (enable/disable, tool filters, providers/models, store), see the `ai.chat` section in the [Kiali CR spec](/docs/configuration/kialis.kiali.io/#.spec.ai.chat).
 
 ![Kiali Chatbot architecture](/images/documentation/ai/kiali-chatbot-architecture.png)
 
@@ -36,92 +36,115 @@ Kiali Chatbot uses internal tools with defined input schemas and structured outp
 
 ### Configuring the Kiali Chatbot
 
-The Kiali Chatbot is disabled by default. To enable it, set `chat_ai.enabled: true`.
+{{< alert color="info" >}}
+The `chat_ai` configuration is deprecated since v2.31 and has been moved under `ai.chat`.
+{{< /alert >}}
+
+The Kiali Chatbot is disabled by default. To enable it, set `ai.enabled: true` and `ai.chat.enabled: true`.
 When enabled, you will see the chatbot icon in the Kiali UI:
 
 ![Kiali Chatbot icon](/images/documentation/ai/chatbot-icon.png)
 
 You must also configure at least one provider and model (including an API key), and pick a default provider/model.
 
+### Restricting access
+
+By default, when the Chatbot is enabled, it is available to all users. You can restrict access to specific users by configuring the `allowed_users` list:
+
+```yaml
+ai:
+  enabled: true
+  chat:
+    enabled: true
+    allowed_users:
+      - "user1"
+      - "user2"
+```
+
+If `allowed_users` is empty (the default), all users have access. If it is not empty, only the users listed will see and be able to use the Chatbot.
+
 ### Switching model providers
 
-Kiali Chatbot providers and models are configured in `chat_ai`:
+Kiali Chatbot providers and models are configured in `ai.chat`:
 
 - Providers: OpenAI (`type: openai`), Google (`type: google`), Anthropic (`type: anthropic`), and LightSpeed (`type: lightspeed`).
 - Models are selected by name (per-provider) and can be enabled/disabled.
 - API keys can be set inline (not recommended) or via `secret:<secret-name>:<key-in-secret>`.
-- Tool exposure can be filtered globally with `chat_ai.tools` and further restricted per provider with `chat_ai.providers[].tools`.
+- Tool exposure can be filtered globally with `ai.chat.tools` and further restricted per provider with `ai.chat.providers[].tools`.
 
 Example configuration (showing three providers: OpenAI, Google, and Anthropic):
 
 ```yaml
-chat_ai:
+ai:
   enabled: true
-  default_provider: "openai"
-  tools:
-    disabled_tools:
-      - "manage_istio_config"
-  providers:
-    - name: "openai"
-      enabled: true
-      description: "OpenAI provider"
-      type: "openai"
-      config: "default"
-      default_model: "gpt"
-      tools:
-        enabled_tools:
-          - "get_logs"
-          - "get_mesh_status"
-          - "list_traces"
-      models:
-        - name: "gpt"
-          enabled: true
-          model: "<openai-model-name>"
-          key: "secret:my-key-secret:openai-api-key"
-    - name: "google"
-      enabled: true
-      description: "Google provider"
-      type: "google"
-      config: "gemini"
-      default_model: "gemini"
-      models:
-        - name: "gemini"
-          enabled: true
-          model: "gemini-2.5-pro"
-          description: "Model provided by Google with OpenAI API Support"
-          endpoint: "https://generativelanguage.googleapis.com/v1beta/openai"
-          key: "secret:my-key-secret:google-api-key"
-    - name: "anthropic"
-      enabled: true
-      description: "Anthropic provider"
-      type: "anthropic"
-      config: "default"
-      default_model: "claude-haiku"
-      key: "secret:my-key-secret:claude-api-key"
-      models:
-        - name: claude-sonnet
-          model: "claude-sonnet-4-5"
-          enabled: true
-          endpoint: "https://api.anthropic.com/"
-        - name: claude-haiku
-          model: "claude-haiku-4-5"
-          enabled: true
+  chat:
+    default_provider: "openai"
+    tools:
+      disabled_tools:
+        - "manage_istio_config"
+    providers:
+      - name: "openai"
+        enabled: true
+        description: "OpenAI provider"
+        type: "openai"
+        config: "default"
+        default_model: "gpt"
+        tools:
+          enabled_tools:
+            - "get_logs"
+            - "get_mesh_status"
+            - "list_traces"
+        models:
+          - name: "gpt"
+            enabled: true
+            model: "<openai-model-name>"
+            key: "secret:my-key-secret:openai-api-key"
+      - name: "google"
+        enabled: true
+        description: "Google provider"
+        type: "google"
+        config: "gemini"
+        default_model: "gemini"
+        models:
+          - name: "gemini"
+            enabled: true
+            model: "gemini-2.5-pro"
+            description: "Model provided by Google with OpenAI API Support"
+            endpoint: "https://generativelanguage.googleapis.com/v1beta/openai"
+            key: "secret:my-key-secret:google-api-key"
+      - name: "anthropic"
+        enabled: true
+        description: "Anthropic provider"
+        type: "anthropic"
+        config: "default"
+        default_model: "claude-haiku"
+        key: "secret:my-key-secret:claude-api-key"
+        models:
+          - name: claude-sonnet
+            model: "claude-sonnet-4-5"
+            enabled: true
+            endpoint: "https://api.anthropic.com/"
+          - name: claude-haiku
+            model: "claude-haiku-4-5"
+            enabled: true
 ```
 
-`enabled_tools` acts as an allowlist: when set, only the listed tool names are exposed. `disabled_tools` acts as a denylist and is applied afterwards. You can define these filters globally under `chat_ai.tools` and/or per provider under `chat_ai.providers[].tools`. Provider-level filters can only further restrict the already-allowed global toolset.
+`enabled_tools` acts as an allowlist: when set, only the listed tool names are exposed. `disabled_tools` acts as a denylist and is applied afterwards. You can define these filters globally under `ai.chat.tools` and/or per provider under `ai.chat.providers[].tools`. Provider-level filters can only further restrict the already-allowed global toolset.
 
 To see the available built-in tool names you can use in these lists, see [Kiali Chatbot tools]({{< relref "kiali-chatbot-tools" >}}).
 
 LightSpeed provider example:
 
 ```yaml
-chat_ai:
-  providers:
-    - name: "LightSpeed"
-      description: "Openshift LightSpeed"
-      type: "lightspeed"
-      endpoint: "<LightSpeed endpoint>"
-      enabled: true
+ai:
+  enabled: true
+  chat:
+    providers:
+      - name: "LightSpeed"
+        description: "Openshift LightSpeed"
+        type: "lightspeed"
+        endpoint: "<LightSpeed endpoint>"
+        enabled: true
 ```
 
 ### TLS verification
@@ -131,13 +154,15 @@ By default, Kiali verifies the TLS certificate of AI provider endpoints. Kiali u
 If the provider uses a self-signed certificate that is not in Kiali's CA bundle, you can disable TLS verification per provider:
 
 ```yaml
-chat_ai:
-  providers:
-    - name: "LightSpeed"
-      type: "lightspeed"
-      endpoint: "https://lightspeed-app-server.openshift-lightspeed.svc:8443"
-      enabled: true
-      insecure_skip_verify: true
+ai:
+  enabled: true
+  chat:
+    providers:
+      - name: "LightSpeed"
+        type: "lightspeed"
+        endpoint: "https://lightspeed-app-server.openshift-lightspeed.svc:8443"
+        enabled: true
+        insecure_skip_verify: true
 ```
 
 {{< alert color="warning" >}}

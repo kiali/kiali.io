@@ -24,7 +24,7 @@ Kiali Chatbot supports these providers:
 - Anthropic (`type: anthropic`)
 - Lightspeed (`type: lightspeed`)
 
-Providers and models are configured in `chat_ai` and selected in the chatbot UI. API keys can be configured inline or, preferably, by secret reference (`secret:<secret-name>:<key-in-secret>`). See [Kiali Chatbot]({{< relref "/docs/ai/kiali-chatbot" >}}) for configuration examples.
+Providers and models are configured in `ai.chat` and selected in the chatbot UI. API keys can be configured inline or, preferably, by secret reference (`secret:<secret-name>:<key-in-secret>`). See [Kiali Chatbot]({{< relref "/docs/ai/kiali-chatbot" >}}) for configuration examples.
 
 ### What tools can the Kiali Chatbot use?
 
@@ -65,7 +65,7 @@ The defined tools are the same as the ones in the Kubernetes MCP server ([contai
 
 Kiali has an AI store used to preserve conversation context across requests. It is enabled by default and supports cache limits and optional conversation reduction behavior.
 
-You can configure this under `chat_ai.store_config` in the Kiali configuration.
+You can configure this under `ai.chat.store_config` in the Kiali configuration.
 
 ### Why does the chatbot response appear progressively?
 
@@ -90,11 +90,11 @@ Not always. Some tools return data payloads that are shown in tool result cards 
 
 ### Can I disable conversation storage?
 
-Yes. You can disable AI conversation storage by setting `chat_ai.store_config.enabled: false`.
+Yes. You can disable AI conversation storage by setting `ai.chat.store_config.enabled: false`.
 
 ### How is long chat history handled?
 
-Long conversations can be reduced according to `chat_ai.store_config` settings. Depending on configuration, Kiali can either truncate older messages or summarize prior history to keep the conversation context manageable.
+Long conversations can be reduced according to `ai.chat.store_config` settings. Depending on configuration, Kiali can either truncate older messages or summarize prior history to keep the conversation context manageable.
 
 ### Can I use Kiali AI capabilities outside the Kiali UI?
 
