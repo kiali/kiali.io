@@ -339,28 +339,25 @@ Several independent intervals affect freshness, CPU use, and the minimum time wi
 
 Rules of thumb:
 
-1. Recording rule interval ≥ edge scrape interval.
-  -- Rules read raw series; evaluating more often than scrapes complete adds CPU without new data. A practical range is equal to the scrape interval, up to 2× the scrape interval ([Istio guidance](https://istio.io/latest/docs/ops/best-practices/observability/#federation-using-workload-level-aggregated-metrics)).
-2. Federation interval ≥ recording rule interval.
-  -- The Federated Prometheus should federate aggregates after the edge has evaluated them. 30s is a common federation interval and matches the Kiali reference configuration.
-3. Set `scrape_timeout` below `scrape_interval` on the federation job.
+1. Set all three intervals equal: edge scrape = recording rule = federation scrape.
+  -- The recommended default is 30s/30s/30s. This is straightforward, efficient, and correct for Kiali. Evaluating rules faster than the scrape interval wastes CPU (re-sums unchanged data). Evaluating slower means `workload:*` updates lag behind available raw data. Federation at the same rate ensures each federation scrape captures a freshly evaluated aggregate.
+2. Set `scrape_timeout` below `scrape_interval` on the federation job.
   -- (for example `25s` timeout with `30s` interval) so slow federation scrapes do not overlap.
-4. Kiali minimum duration depends on the effective sampling of the data it queries (federated Prometheus), not the edge scrape interval.
-  -- With federation, that is roughly recording rule interval + federation scrape interval. Kiali needs at least two samples in a rate window, so minimum graph duration should be ≥ 2× that effective interval (see [Scrape Interval](#scrape-interval) below).
+3. Kiali minimum duration depends on the federation scrape interval alone.
+  -- Each federation scrape produces one data point in the federated TSDB. Prometheus `rate()` requires at least two data points in the range window, so the minimum useful Kiali duration is `2 × federation_scrape_interval`. With 30s federation, that is 60s (1m) — matching Kiali's smallest offered duration.
 
-Recommended settings when edge scrape is 30s:
+Recommended settings — 30s/30s/30s:
 
 This is a common production default (for example kube-prometheus-stack). The Kiali reference bundle uses these values:
 
 | Setting | Recommended value | Notes |
 | ------- | ----------------- | ----- |
-| Edge `scrape_interval` | `30s` | Your stated baseline |
-| Recording rule `interval` | `30s` | Matches scrape; good balance of freshness and CPU |
-| Federation `scrape_interval` | `30s` | Istio-recommended; used in `demo/prometheus-federated.yaml` |
+| Edge `scrape_interval` | `30s` | Common production baseline |
+| Recording rule `interval` | `30s` | Matches scrape; one eval per scrape cycle |
+| Federation `scrape_interval` | `30s` | Determines Kiali's sampling rate |
 | Federation `scrape_timeout` | `25s` | Slightly less than scrape interval |
 | Edge retention | `6h` | Enough for troubleshooting; raw series expire after federation |
-| Effective sampling (Kiali) | `~60s` | Rule interval + federation interval |
-| Practical minimum Kiali duration | `≥ 2m` (`120s`) | `2 × 60s`; Kiali may round up in the duration dropdown |
+| Minimum Kiali duration | `1m` (`60s`) | `2 × 30s` federation; Kiali's smallest dropdown value |
 
 Example edge rule group header and federated Prometheus federation job:
 
@@ -383,28 +380,23 @@ groups:
   # ... match[] and relabel configs
 ```
 
-Expected freshness: mesh traffic visible in Kiali on federated Prometheus is typically on the order of one to two minutes behind live traffic (one scrape + one rule evaluation + one federation cycle, plus alignment jitter).
+Expected freshness: with 30s/30s/30s, the three intervals run on independent, unsynchronized clocks. Worst-case staleness of the most recent data point is ~90s (three consecutive 30s waits); average staleness is ~45s. This staleness applies to each counter snapshot. Rate accuracy between consecutive federation data points is unaffected — `rate()` computes the slope between correctly ordered samples regardless of their absolute delay from live traffic.
 
-Other edge scrape intervals:
+When to use different intervals:
 
-| Edge scrape | Recording rules | Federation | Effective sampling | Min duration (2×) |
-| ----------- | --------------- | ---------- | ------------------ | ----------------- |
-| `15s` (Istio add-on demo) | `15s`–`30s` | `30s` | `45s`–`60s` | `90s`–`120s` |
-| `30s` (recommended row above) | `30s` | `30s` | `60s` | `120s` |
-| `1m` | `1m` | `1m` | `2m` | `4m` |
+| Edge scrape | Recording rules | Federation | Min Kiali duration | When to use |
+| ----------- | --------------- | ---------- | ------------------ | ----------- |
+| `15s` | `15s` | `30s` | `60s` (1m) | Edge also serves alerting or direct queries needing fine granularity. Doubles scrape load vs 30s; no Kiali benefit via federation. |
+| `30s` (recommended) | `30s` | `30s` | `60s` (1m) | Default. Efficient, straightforward. |
+| `1m` | `1m` | `1m` | `2m` | Very large clusters where reducing scrape load outweighs freshness. |
 
-For fresher aggregates at the cost of more edge CPU, use a recording rule interval equal to the scrape interval (for example both `15s`). For lower edge CPU, use rule interval 2× scrape (for example `30s` rules with `15s` scrape, or `60s` rules with `30s` scrape)—accepting additional lag before `workload:*` updates.
-
-Istio’s own examples sometimes use 5s rule evaluation with 30s federation for faster edge aggregation; that is reasonable when edge scrape is `15s` and you want sub-minute freshness. It increases rule-evaluation load and is optional—not required for Kiali correctness.
+Istio's own examples use `interval: 5s` for recording rules with a 15s scrape. That configuration was designed for their quick-start addon where the same Prometheus serves direct queries; faster rule eval keeps `workload:*` fresh for local consumers. In a federation architecture where no one queries the edge directly, this benefit disappears and the extra CPU is wasted.
 
 Kiali duration dropdown:
 
-Today Kiali reads `globalScrapeInterval` from the Prometheus URL in `external_services.prometheus.url` (production) and filters durations with `≥ 2 × globalScrapeInterval`. When using federation:
+Kiali reads `globalScrapeInterval` from the Prometheus at `external_services.prometheus.url` and filters durations to `>= 2 x globalScrapeInterval`. With federation, Kiali queries the federated Prometheus. If the federated Prometheus `global.scrape_interval` is set to `30s` (matching the federation job interval), Kiali auto-detects the correct minimum duration of 60s (1m) and no additional configuration is needed.
 
-- Ensure federated Prometheus `global.scrape_interval` (or the value exposed in `/api/v1/status/config`) reflects the federation job interval if that is the coarsest sampling Kiali sees, OR
-- Plan for a future `metric_aggregation_interval` setting (see the [metric rules KEP](https://github.com/kiali/kiali/blob/master/design/KEPS/metric-rules/proposal.md)) to set the minimum duration floor explicitly to (rule interval + federation interval).
-
-Until `metric_aggregation_interval` is available, if production `global.scrape_interval` is `1m` but federation runs every `30s`, Kiali may offer durations that are shorter than ideal for federated traffic metrics. Operators can rely on slightly longer graph durations (for example `2m` or `5m`) for rate-based views when in doubt.
+If the federated Prometheus `global.scrape_interval` differs from the federation job interval (for example `global.scrape_interval: 15s` but the federation job runs every `30s`), Kiali may offer durations shorter than the federation sampling supports. Ensure the federated Prometheus `global.scrape_interval` matches or exceeds the federation job's `scrape_interval`.
 
 #### Kiali self-monitoring metrics
 
