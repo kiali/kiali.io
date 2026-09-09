@@ -34,6 +34,21 @@ spec:
 
   version: "default"
 
+  ai:
+    chat:
+      default_provider: ""
+      enabled: false
+      max_tool_iterations: 5
+      providers: []
+      store_config:
+        enabled: true
+        inactivity_timeout: "30m"
+        max_cache_memory_mb: 1024
+        reduce_threshold: 15
+        reduce_with_ai: false
+      tools: {}
+    enabled: false
+
   auth:
     strategy: ""
     openid:
@@ -69,20 +84,7 @@ spec:
         enabled: false
       #redirect_uris:
       #token_inactivity_timeout:
-      #token_max_age:
-
-  chat_ai:
-    default_provider: ""
-    enabled: false
-    max_tool_iterations: 5
-    providers: []
-    store_config:
-      enabled: true
-      inactivity_timeout: "30m"
-      max_cache_memory_mb: 1024
-      reduce_threshold: 15
-      reduce_with_ai: false
-    tools: {}
+      #token_max_age:  
 
   clustering:
     autodetect_secrets:
@@ -793,6 +795,788 @@ The Kiali CR has a CRD Schema so it will be validated when you create or update 
 
 <div class="property-description">
 <p>The title of the link that Kiali will display. The link will go to the URL specified in the value of the configured <code>annotation</code>.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-1">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai">.spec.ai</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>Configuration for the AI feature.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.chat">.spec.ai.chat</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>Configuration for the ChatAI feature.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.chat.allowed_users">.spec.ai.chat.allowed_users</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>A list of users that are allowed to use the ChatAI feature. This is the list of users that will be allowed to use the ChatAI feature.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.chat.allowed_users[*]">.spec.ai.chat.allowed_users[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.chat.default_provider">.spec.ai.chat.default_provider</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The default provider to use for the ChatAI feature. This is the provider that will be used if no provider is specified in the request.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.chat.enabled">.spec.ai.chat.enabled</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>Enable or disable the ChatAI feature.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.chat.max_tool_iterations">.spec.ai.chat.max_tool_iterations</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(integer)</span>
+
+</div>
+
+<div class="property-description">
+<p>Maximum number of tool-call iterations (LLM call + tool execution round) allowed per request before the loop is force-aborted. Must be between 1 and 20.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.chat.providers">.spec.ai.chat.providers</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>A list of providers that can be used for the ChatAI feature. This is the list of providers that will be available to the user to choose from.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.chat.providers[*]">.spec.ai.chat.providers[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.chat.providers[*].config">.spec.ai.chat.providers[*].config</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The provider configuration variant. Valid values depend on <code>type</code>: <code>anthropic</code> requires <code>default</code>; <code>google</code> requires <code>gemini</code>; <code>openai</code> supports <code>default</code>, <code>gemini</code>, or <code>azure</code>. Default value is <code>default</code>.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.chat.providers[*].default_model">.spec.ai.chat.providers[*].default_model</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The default model of the provider.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.chat.providers[*].description">.spec.ai.chat.providers[*].description</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The description of the provider.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.chat.providers[*].enabled">.spec.ai.chat.providers[*].enabled</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>Enable or disable the provider.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.chat.providers[*].endpoint">.spec.ai.chat.providers[*].endpoint</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The endpoint of the provider. This is only used if a model has no endpoint specified.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.chat.providers[*].insecure_skip_verify">.spec.ai.chat.providers[*].insecure_skip_verify</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>Set true to skip verifying certificate validity when Kiali contacts the AI provider over https. When false (the default), the provider&rsquo;s TLS certificate is validated against the Kiali CA bundle.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.chat.providers[*].key">.spec.ai.chat.providers[*].key</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The key of the provider. May refer to a secret using the pattern <code>secret:&lt;secretName&gt;:&lt;secretKey&gt;</code>. When using a secret, the token is cached and automatically refreshed when the secret changes, enabling rotation without pod restart.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.chat.providers[*].models">.spec.ai.chat.providers[*].models</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>A list of models that can be used for the ChatAI feature. This is the list of models that will be available to the user to choose from.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.chat.providers[*].models[*]">.spec.ai.chat.providers[*].models[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-7">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.chat.providers[*].models[*].description">.spec.ai.chat.providers[*].models[*].description</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The description of the model.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-7">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.chat.providers[*].models[*].enabled">.spec.ai.chat.providers[*].models[*].enabled</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>Enable or disable the model.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-7">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.chat.providers[*].models[*].endpoint">.spec.ai.chat.providers[*].models[*].endpoint</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The endpoint of the model.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-7">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.chat.providers[*].models[*].key">.spec.ai.chat.providers[*].models[*].key</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The key of the model. May refer to a secret using the pattern <code>secret:&lt;secretName&gt;:&lt;secretKey&gt;</code>. When using a secret, the token is cached and automatically refreshed when the secret changes, enabling rotation without pod restart.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-7">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.chat.providers[*].models[*].model">.spec.ai.chat.providers[*].models[*].model</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The model of the model.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-7">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.chat.providers[*].models[*].name">.spec.ai.chat.providers[*].models[*].name</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The name of the model.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.chat.providers[*].name">.spec.ai.chat.providers[*].name</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The name of the provider.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.chat.providers[*].tools">.spec.ai.chat.providers[*].tools</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>Optional provider-specific filter for the ChatAI toolset. Applied after the global <code>chat_ai.tools</code> filter. It can further restrict tools for this provider, but it cannot re-enable tools that were already filtered out globally or by feature availability.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.chat.providers[*].tools.disabled_tools">.spec.ai.chat.providers[*].tools.disabled_tools</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>A denylist of tool names to hide from this ChatAI provider. Applied after <code>enabled_tools</code>.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-7">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.chat.providers[*].tools.disabled_tools[*]">.spec.ai.chat.providers[*].tools.disabled_tools[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.chat.providers[*].tools.enabled_tools">.spec.ai.chat.providers[*].tools.enabled_tools</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>An allowlist of tool names to expose to this ChatAI provider. If set, only the listed tool names remain available for this provider.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-7">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.chat.providers[*].tools.enabled_tools[*]">.spec.ai.chat.providers[*].tools.enabled_tools[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.chat.providers[*].type">.spec.ai.chat.providers[*].type</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>The type of the AI models provider. Available values are <code>openai</code>, <code>anthropic</code>, and <code>google</code>. Default value is <code>openai</code>.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.chat.store_config">.spec.ai.chat.store_config</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>Configuration for the ChatAI store.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.chat.store_config.enabled">.spec.ai.chat.store_config.enabled</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>Enable or disable the ChatAI store.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.chat.store_config.inactivity_timeout">.spec.ai.chat.store_config.inactivity_timeout</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>Idle time allowed before the conversation is deleted due to inactivity.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.chat.store_config.max_cache_memory_mb">.spec.ai.chat.store_config.max_cache_memory_mb</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(integer)</span>
+
+</div>
+
+<div class="property-description">
+<p>The maximum cache memory for the ChatAI store.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.chat.store_config.reduce_threshold">.spec.ai.chat.store_config.reduce_threshold</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(integer)</span>
+
+</div>
+
+<div class="property-description">
+<p>The threshold for the ChatAI store reduction with AI. This is the number of messages in a conversation before the conversation is reduced.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.chat.store_config.reduce_with_ai">.spec.ai.chat.store_config.reduce_with_ai</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>Enable or disable the ChatAI store reduction with AI.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.chat.tools">.spec.ai.chat.tools</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>Optional global filter for the ChatAI toolset. <code>enabled_tools</code> acts as an allowlist. <code>disabled_tools</code> acts as a denylist and is applied afterwards.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.chat.tools.disabled_tools">.spec.ai.chat.tools.disabled_tools</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>A denylist of tool names to hide from all ChatAI providers. Applied after <code>enabled_tools</code>.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.chat.tools.disabled_tools[*]">.spec.ai.chat.tools.disabled_tools[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.chat.tools.enabled_tools">.spec.ai.chat.tools.enabled_tools</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>An allowlist of tool names to expose to ChatAI providers. If set, only the listed tool names remain available.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.chat.tools.enabled_tools[*]">.spec.ai.chat.tools.enabled_tools[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.enabled">.spec.ai.enabled</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>Enable or disable the AI feature.</p>
 
 </div>
 
@@ -1644,6 +2428,11 @@ Authorization header and potentially impersonation headers.</li>
 <div class="property-body">
 <div class="property-meta">
 <span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>DEPRECATED AFTER v2.31: Configuration for the ChatAI feature.</p>
 
 </div>
 
