@@ -36,6 +36,10 @@ Kiali Chatbot uses internal tools with defined input schemas and structured outp
 
 ### Configuring the Kiali Chatbot
 
+{{< alert color="info" >}}
+The `chat_ai` configuration is deprecated since v2.31 and has been moved under `ai.chat`.
+{{< /alert >}}
+
 The Kiali Chatbot is disabled by default. To enable it, set `ai.enabled: true` and `ai.chat.enabled: true`.
 When enabled, you will see the chatbot icon in the Kiali UI:
 
@@ -80,49 +84,49 @@ ai:
         - "manage_istio_config"
     providers:
       - name: "openai"
-      enabled: true
-      description: "OpenAI provider"
-      type: "openai"
-      config: "default"
-      default_model: "gpt"
-      tools:
-        enabled_tools:
-          - "get_logs"
-          - "get_mesh_status"
-          - "list_traces"
-      models:
-        - name: "gpt"
-          enabled: true
-          model: "<openai-model-name>"
-          key: "secret:my-key-secret:openai-api-key"
-    - name: "google"
-      enabled: true
-      description: "Google provider"
-      type: "google"
-      config: "gemini"
-      default_model: "gemini"
-      models:
-        - name: "gemini"
-          enabled: true
-          model: "gemini-2.5-pro"
-          description: "Model provided by Google with OpenAI API Support"
-          endpoint: "https://generativelanguage.googleapis.com/v1beta/openai"
-          key: "secret:my-key-secret:google-api-key"
-    - name: "anthropic"
-      enabled: true
-      description: "Anthropic provider"
-      type: "anthropic"
-      config: "default"
-      default_model: "claude-haiku"
-      key: "secret:my-key-secret:claude-api-key"
-      models:
-        - name: claude-sonnet
-          model: "claude-sonnet-4-5"
-          enabled: true
-          endpoint: "https://api.anthropic.com/"
-        - name: claude-haiku
-          model: "claude-haiku-4-5"
-          enabled: true
+        enabled: true
+        description: "OpenAI provider"
+        type: "openai"
+        config: "default"
+        default_model: "gpt"
+        tools:
+          enabled_tools:
+            - "get_logs"
+            - "get_mesh_status"
+            - "list_traces"
+        models:
+          - name: "gpt"
+            enabled: true
+            model: "<openai-model-name>"
+            key: "secret:my-key-secret:openai-api-key"
+      - name: "google"
+        enabled: true
+        description: "Google provider"
+        type: "google"
+        config: "gemini"
+        default_model: "gemini"
+        models:
+          - name: "gemini"
+            enabled: true
+            model: "gemini-2.5-pro"
+            description: "Model provided by Google with OpenAI API Support"
+            endpoint: "https://generativelanguage.googleapis.com/v1beta/openai"
+            key: "secret:my-key-secret:google-api-key"
+      - name: "anthropic"
+        enabled: true
+        description: "Anthropic provider"
+        type: "anthropic"
+        config: "default"
+        default_model: "claude-haiku"
+        key: "secret:my-key-secret:claude-api-key"
+        models:
+          - name: claude-sonnet
+            model: "claude-sonnet-4-5"
+            enabled: true
+            endpoint: "https://api.anthropic.com/"
+          - name: claude-haiku
+            model: "claude-haiku-4-5"
+            enabled: true
 ```
 
 `enabled_tools` acts as an allowlist: when set, only the listed tool names are exposed. `disabled_tools` acts as a denylist and is applied afterwards. You can define these filters globally under `ai.chat.tools` and/or per provider under `ai.chat.providers[].tools`. Provider-level filters can only further restrict the already-allowed global toolset.
@@ -138,9 +142,9 @@ ai:
     providers:
       - name: "LightSpeed"
         description: "Openshift LightSpeed"
-      type: "lightspeed"
-      endpoint: "<LightSpeed endpoint>"
-      enabled: true
+        type: "lightspeed"
+        endpoint: "<LightSpeed endpoint>"
+        enabled: true
 ```
 
 ### TLS verification
@@ -156,9 +160,9 @@ ai:
     providers:
       - name: "LightSpeed"
         type: "lightspeed"
-      endpoint: "https://lightspeed-app-server.openshift-lightspeed.svc:8443"
-      enabled: true
-      insecure_skip_verify: true
+        endpoint: "https://lightspeed-app-server.openshift-lightspeed.svc:8443"
+        enabled: true
+        insecure_skip_verify: true
 ```
 
 {{< alert color="warning" >}}
