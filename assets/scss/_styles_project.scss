@@ -6,3 +6,14 @@ Hide the "create documentation issue" links and defer "create project issue".  K
 .td-page-meta > a:nth-child(3) { display: none !important; }
 .td-page-meta--issue { display: none !important; }
 
+// Docsy's `.td-content table { @extend .td-table }` does not reliably compile
+// into the Bootstrap table rules. Style markdown tables directly instead.
+.td-content table:not(.td-initial) {
+  @extend .table;
+  @extend .table-striped;
+  @extend .table-bordered;
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
