@@ -60,17 +60,45 @@ Perses is a metrics dashboard platform. On OpenShift it is managed by the Cluste
 
 The key multi-cluster aspect: Perses is configured with a datasource pointing at hub Thanos (the ACM Observatorium endpoint) rather than a local Prometheus. This gives Perses visibility into metrics from both spoke clusters without any additional aggregation work.
 
-### 1.1 Install the Cluster Observability Operator
+### 1.1 Install or Verify the Cluster Observability Operator
 
-The Cluster Observability Operator is available from `redhat-operators` and manages Perses instances via CRDs. Install it on `spoke`:
+{{% alert color="info" %}}
+MCOA installs its own managed-cluster Prometheus component for metric federation; that component is not the full Cluster Observability Operator. Perses requires the full COO product, so install it here unless a COO Subscription is already present.
+{{% /alert %}}
+
+Check whether a full COO Subscription is already installed. Do not use the `ScrapeConfig` CRD for this check because MCOA also installs that API:
+
+```bash
+COO_SUB=$(oc --context=ossm-kiali-spoke get subscriptions.operators.coreos.com -A -o json 2>/dev/null | \
+  jq -r '[.items[] | select(.spec.name == "cluster-observability-operator")][0] |
+    select(. != null) | "\(.metadata.namespace)/\(.metadata.name)"')
+[ -n "${COO_SUB}" ] && echo "COO Subscription found: ${COO_SUB}" || \
+  echo "COO Subscription is not found"
+```
+
+If COO is not yet installed, install it:
 
 ```bash
 oc --context=ossm-kiali-spoke apply -f - <<'EOF'
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    openshift.io/cluster-monitoring: "true"
+  name: openshift-cluster-observability-operator
+---
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: cluster-observability-operator
+  namespace: openshift-cluster-observability-operator
+spec: {}
+---
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
   name: cluster-observability-operator
-  namespace: openshift-operators
+  namespace: openshift-cluster-observability-operator
 spec:
   channel: stable
   installPlanApproval: Automatic
@@ -80,7 +108,7 @@ spec:
 EOF
 ```
 
-Wait for the operator to be ready:
+Wait for COO and its CRDs to be ready (skip if COO was already installed):
 
 ```bash
 until oc --context=ossm-kiali-spoke get crd perses.perses.dev &>/dev/null; do
@@ -91,12 +119,12 @@ echo "COO CRDs ready"
 
 until oc --context=ossm-kiali-spoke get pods \
   -l app.kubernetes.io/name=perses-operator \
-  -n openshift-operators \
+  -n openshift-cluster-observability-operator \
   --no-headers 2>/dev/null | grep -q .; do sleep 5; done
 oc --context=ossm-kiali-spoke wait pod \
   --for=condition=Ready \
   -l app.kubernetes.io/name=perses-operator \
-  -n openshift-operators \
+  -n openshift-cluster-observability-operator \
   --timeout=300s
 echo "COO Perses operator ready"
 ```
@@ -119,12 +147,12 @@ spec:
 EOF
 ```
 
-Wait for the Perses server pod. The COO creates it as a StatefulSet in the `openshift-operators` namespace:
+Wait for the Perses server pod. The COO creates it as a StatefulSet in the `openshift-cluster-observability-operator` namespace:
 
 ```bash
 until oc --context=ossm-kiali-spoke get pods \
   -l app.kubernetes.io/name=perses \
-  -n openshift-operators \
+  -n openshift-cluster-observability-operator \
   --no-headers 2>/dev/null | grep -q .; do
   echo "Waiting for Perses pod..."
   sleep 5
@@ -132,7 +160,7 @@ done
 oc --context=ossm-kiali-spoke wait pod \
   --for=condition=Ready \
   -l app.kubernetes.io/name=perses \
-  -n openshift-operators \
+  -n openshift-cluster-observability-operator \
   --timeout=300s
 echo "Perses ready"
 ```
@@ -155,8 +183,8 @@ echo "Observatorium URL: ${OBSERVATORIUM_URL}"
 
 Two credentials need to be prepared before creating the datasource:
 
-- **Server CA** — the hub Observatorium API route's TLS certificate is signed by a custom ACM CA (`observability-server-ca-certificate`), not the standard OCP service CA. Extract it from the hub and store it in a ConfigMap in `openshift-operators` on `spoke` so it can be mounted into the Perses pod.
-- **Client cert** — Perses will use the same mTLS client certificate that Kiali uses to authenticate to hub Thanos. That certificate is the `acm-observability-certs` secret in `istio-system` on `spoke`. Copy it to `openshift-operators` under a new name so it can be mounted into the Perses pod as a volume (the Perses pod runs in `openshift-operators` and can only mount secrets from its own namespace).
+- **Server CA** — the hub Observatorium API route's TLS certificate is signed by a custom ACM CA (`observability-server-ca-certificate`), not the standard OCP service CA. Extract it from the hub and store it in a ConfigMap in `openshift-cluster-observability-operator` on `spoke` so it can be mounted into the Perses pod.
+- **Client cert** — Perses will use the same mTLS client certificate that Kiali uses to authenticate to hub Thanos. That certificate is the `acm-observability-certs` secret in `istio-system` on `spoke`. Copy it to `openshift-cluster-observability-operator` under a new name so it can be mounted into the Perses pod as a volume (the Perses pod runs in `openshift-cluster-observability-operator` and can only mount secrets from its own namespace).
 
 ```bash
 # Server CA — extracted from the hub, stored as a ConfigMap on spoke
@@ -165,15 +193,15 @@ oc --context=ossm-kiali-hub get secret observability-server-ca-certs \
   -o jsonpath='{.data.ca\.crt}' | base64 -d > /tmp/obs-server-ca.crt
 
 oc --context=ossm-kiali-spoke create configmap perses-acm-server-ca \
-  -n openshift-operators \
+  -n openshift-cluster-observability-operator \
   --from-file=ca.crt=/tmp/obs-server-ca.crt \
   --dry-run=client -o yaml | oc --context=ossm-kiali-spoke apply -f -
 rm -f /tmp/obs-server-ca.crt
 
-# Client cert — copied from istio-system to openshift-operators
+# Client cert — copied from istio-system to openshift-cluster-observability-operator
 oc --context=ossm-kiali-spoke get secret acm-observability-certs \
   -n istio-system -o json | \
-  jq 'del(.metadata.namespace, .metadata.resourceVersion, .metadata.uid, .metadata.creationTimestamp, .metadata.ownerReferences) | .metadata.namespace = "openshift-operators" | .metadata.name = "perses-acm-client-certs"' | \
+  jq 'del(.metadata.namespace, .metadata.resourceVersion, .metadata.uid, .metadata.creationTimestamp, .metadata.ownerReferences) | .metadata.namespace = "openshift-cluster-observability-operator" | .metadata.name = "perses-acm-client-certs"' | \
   oc --context=ossm-kiali-spoke apply -f -
 ```
 
@@ -181,7 +209,7 @@ Mount the CA ConfigMap into `/etc/ssl/certs/` in the Perses pod using the `Perse
 
 ```bash
 oc --context=ossm-kiali-spoke patch perses perses \
-  -n openshift-operators --type=merge -p '{
+  -n openshift-cluster-observability-operator --type=merge -p '{
   "spec": {
     "volumes": [
       {
@@ -203,7 +231,7 @@ oc --context=ossm-kiali-spoke patch perses perses \
 oc --context=ossm-kiali-spoke wait pod \
   --for=condition=Ready \
   -l app.kubernetes.io/name=perses \
-  -n openshift-operators \
+  -n openshift-cluster-observability-operator \
   --timeout=120s
 ```
 
@@ -245,7 +273,7 @@ spec:
       userCert:
         type: secret
         name: perses-acm-client-certs
-        namespace: openshift-operators
+        namespace: openshift-cluster-observability-operator
         certPath: tls.crt
         privateKeyPath: tls.key
 EOF
@@ -671,7 +699,7 @@ oc --context=ossm-kiali-spoke patch kiali kiali -n istio-system --type=merge -p 
         \"enabled\": true,
         \"url_format\": \"openshift\",
         \"external_url\": \"${CONSOLE_URL}\",
-        \"health_check_url\": \"https://perses.openshift-operators.svc.cluster.local:8080/api/v1/health\",
+        \"health_check_url\": \"https://perses.openshift-cluster-observability-operator.svc.cluster.local:8080/api/v1/health\",
         \"project\": \"perses\",
         \"dashboards\": [
           {\"name\": \"Istio Mesh Overview\"},
@@ -686,6 +714,11 @@ oc --context=ossm-kiali-spoke patch kiali kiali -n istio-system --type=merge -p 
   }
 }"
 
+oc --context=ossm-kiali-spoke wait kiali kiali \
+  -n istio-system \
+  --for=condition=Successful \
+  --timeout=300s
+
 oc --context=ossm-kiali-spoke rollout status deployment/kiali \
   -n istio-system --timeout=120s
 ```
@@ -696,7 +729,7 @@ oc --context=ossm-kiali-spoke rollout status deployment/kiali \
 # Confirm Perses pod is running
 oc --context=ossm-kiali-spoke get pods \
   -l app.kubernetes.io/name=perses \
-  -n openshift-operators
+  -n openshift-cluster-observability-operator
 
 # Check the Istio dashboards are registered
 oc --context=ossm-kiali-spoke get persesdashboard -n perses | grep istio
@@ -841,7 +874,7 @@ spec:
           mountPath: "/storage"
       containers:
       - name: minio
-        image: mirror.gcr.io/minio/minio:latest
+        image: quay.io/minio/minio:latest
         args:
         - server
         - /storage
@@ -914,9 +947,6 @@ spec:
   template:
     gateway:
       enabled: true
-    queryFrontend:
-      jaegerQuery:
-        enabled: true
 EOF
 
 echo "Waiting for TempoStack gateway service..."
@@ -1491,6 +1521,11 @@ oc --context=ossm-kiali-spoke patch kiali kiali -n istio-system --type=merge -p 
   }
 }"
 
+oc --context=ossm-kiali-spoke wait kiali kiali \
+  -n istio-system \
+  --for=condition=Successful \
+  --timeout=300s
+
 oc --context=ossm-kiali-spoke rollout status deployment/kiali \
   -n istio-system --timeout=120s
 echo "Kiali updated with Tempo config"
@@ -1545,6 +1580,10 @@ echo "Kiali:             $(oc --context=ossm-kiali-spoke get route kiali -n isti
 
 ### Remove Perses
 
+{{% alert color="warning" %}}
+MCOA does not require the full COO subscription. After removing the Perses and Tempo resources below, you can remove the COO subscription installed by this guide. Do not delete the shared `monitoring.rhobs` CRDs: MCOA owns and uses those APIs independently.
+{{% /alert %}}
+
 ```bash
 # Revert Kiali Perses config
 oc --context=ossm-kiali-spoke patch kiali kiali -n istio-system --type=json \
@@ -1557,31 +1596,22 @@ oc --context=ossm-kiali-spoke delete uiplugin monitoring --ignore-not-found
 oc --context=ossm-kiali-spoke delete persesdashboard --all -n perses --ignore-not-found
 oc --context=ossm-kiali-spoke delete persesdatasource --all -n perses --ignore-not-found
 
-# Delete the Perses server instance (lives in openshift-operators, not perses)
-oc --context=ossm-kiali-spoke delete perses perses -n openshift-operators --ignore-not-found
+# Delete the Perses server instance (lives in openshift-cluster-observability-operator namespace)
+oc --context=ossm-kiali-spoke delete perses perses \
+  -n openshift-cluster-observability-operator --ignore-not-found
 
 # Remove cert resources created for Perses mTLS
-oc --context=ossm-kiali-spoke delete configmap perses-acm-server-ca -n openshift-operators --ignore-not-found
-oc --context=ossm-kiali-spoke delete secret perses-acm-client-certs -n openshift-operators --ignore-not-found
-
-# Remove Subscriptions
-oc --context=ossm-kiali-spoke delete subscriptions.operators.coreos.com cluster-observability-operator \
-  -n openshift-operators --ignore-not-found
-
-# Delete pending install plans before removing CSVs — otherwise OLM may recreate CSVs from in-flight plans
-oc --context=ossm-kiali-spoke delete installplan -n openshift-operators --all --ignore-not-found
-
-# Remove ALL CSVs — delete the CSV in the operator namespace only; OLM cascades deletion to all copied namespaces automatically
-CSV=$(oc --context=ossm-kiali-spoke get csv -n openshift-operators \
-  -l operators.coreos.com/cluster-observability-operator.openshift-operators \
-  --no-headers -o custom-columns=NAME:.metadata.name 2>/dev/null | head -1)
-if [ -n "${CSV}" ]; then oc --context=ossm-kiali-spoke delete csv "${CSV}" -n openshift-operators --ignore-not-found; fi
+oc --context=ossm-kiali-spoke delete configmap perses-acm-server-ca \
+  -n openshift-cluster-observability-operator --ignore-not-found
+oc --context=ossm-kiali-spoke delete secret perses-acm-client-certs \
+  -n openshift-cluster-observability-operator --ignore-not-found
 
 # Delete the perses namespace
 oc --context=ossm-kiali-spoke delete namespace perses --ignore-not-found
 
-# Remove ALL CRDs — you must remove every CRD installed by the COO or reinstallation will conflict
-for suffix in perses.dev observability.openshift.io monitoring.rhobs; do
+# Remove Perses CRDs only (do NOT remove monitoring.rhobs or observability.openshift.io CRDs —
+# those are needed by COO for MCOA and are removed in Guide 1 cleanup)
+for suffix in perses.dev; do
   CRDS=$(oc --context=ossm-kiali-spoke get crd \
     --no-headers -o custom-columns=NAME:.metadata.name 2>/dev/null \
     | grep "\.${suffix}$")
@@ -1686,4 +1716,25 @@ CRDS=$(oc --context=ossm-kiali-spoke get crd \
   --no-headers -o custom-columns=NAME:.metadata.name 2>/dev/null \
   | grep "\.tempo\.grafana\.com$")
 [ -n "${CRDS}" ] && echo "${CRDS}" | xargs oc --context=ossm-kiali-spoke delete crd --ignore-not-found
+
+# Remove the ClusterRole installed by the OpenTelemetry Operator
+for CTX in ossm-kiali-spoke ossm-kiali-spoke-two; do
+  oc --context="${CTX}" delete clusterrole opentelemetry-operator-metrics-reader --ignore-not-found
+done
+```
+
+### Remove COO
+
+After the Perses resources have been removed, remove the full COO installation created in Phase 1.1. Leave the `monitoring.rhobs` CRDs in place because they are managed by MCOA for metric federation:
+
+```bash
+COO_CSV=$(oc --context=ossm-kiali-spoke get subscription cluster-observability-operator \
+  -n openshift-cluster-observability-operator \
+  -o jsonpath='{.status.installedCSV}' 2>/dev/null || true)
+oc --context=ossm-kiali-spoke delete subscription cluster-observability-operator \
+  -n openshift-cluster-observability-operator --ignore-not-found
+[ -z "${COO_CSV}" ] || oc --context=ossm-kiali-spoke delete csv "${COO_CSV}" \
+  -n openshift-cluster-observability-operator --ignore-not-found
+oc --context=ossm-kiali-spoke delete namespace openshift-cluster-observability-operator \
+  --ignore-not-found --wait=false
 ```

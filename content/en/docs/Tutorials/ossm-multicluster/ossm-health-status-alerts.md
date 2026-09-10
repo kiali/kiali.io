@@ -19,7 +19,7 @@ Kiali computes traffic health and workload readiness for apps, services, workloa
 - **`2`**: Degraded
 - **`3`**: Failure
 
-Those series can drive OpenShift Observability alerts on each cluster, and after allowlisting they are available on ACM's central Thanos for fleet-wide queries and hub alerts.
+Those series can drive OpenShift Observability alerts on each cluster, and after federation via MCOA (Phase 6) they are available on ACM's central Thanos for fleet-wide queries and hub alerts.
 
 With ACM, you can alert on the **managed cluster**, on the **hub**, or both:
 
@@ -33,7 +33,7 @@ With ACM, you can alert on the **managed cluster**, on the **hub**, or both:
 Which phases of this guide you need depends on your environment:
 
 - **Single-cluster OpenShift** — Phases 1–5 cover everything: enable the metric, scrape it, create alerts, and optionally run the hands-on demo. Add Phase 7 if you want NetObserv Network Health on the same cluster.
-- **Multi-cluster with ACM Observability** — start with Phases 1–3 on each cluster that runs Kiali (enable the metric and scrape it). Then complete Phase 6 on the hub to allowlist `kiali_health_status` into hub Thanos and add fleet-wide hub alerts. If you also want per-cluster alerts under each cluster's **Observe > Alerting**, complete Phases 4–5 on the managed clusters. Phase 7 installs NetObserv on each Kiali cluster where you want Network Health.
+- **Multi-cluster with ACM Observability** — start with Phases 1–3 on each cluster that runs Kiali (enable the metric and scrape it). Then complete Phase 6 on the hub to federate `kiali_health_status` to hub Thanos via MCOA and add fleet-wide hub alerts. If you also want per-cluster alerts under each cluster's **Observe > Alerting**, complete Phases 4–5 on the managed clusters. Phase 7 installs NetObserv on each Kiali cluster where you want Network Health.
 
 In either case, you can optionally route fired alerts to third-party systems such as Slack, email, or generic webhooks — see [Routing alerts to Slack, email, or webhooks](#routing-alerts-to-slack-email-or-webhooks) at the end of this guide.
 
@@ -52,7 +52,7 @@ The diagram below shows the alerting pipeline this guide configures. Badges such
 {{% /alert %}}
 
 {{% alert color="info" %}}
-**Multi-cluster readers:** This guide builds on the same UWM and metrics-allowlist concepts as the [MultiCluster on OpenShift]({{< relref "./" >}}) tutorial series. You do not need to re-install ACM. Completing the [hub/spoke guide]({{< relref "./ossm-acm-hub-spoke" >}}) (at minimum) is recommended so Istio metrics, Kiali, and the Bookinfo demo are already in place.
+**Multi-cluster readers:** This guide builds on the same UWM and MCOA federation concepts as the [MultiCluster on OpenShift]({{< relref "./" >}}) tutorial series. You do not need to re-install ACM. Completing the [hub/spoke guide]({{< relref "./ossm-acm-hub-spoke" >}}) (at minimum) is recommended so Istio metrics, Kiali, and the Bookinfo demo are already in place.
 {{% /alert %}}
 
 - OpenShift 4.19 or later with cluster monitoring (`openshift-monitoring`).
@@ -623,50 +623,139 @@ Single-cluster readers can stop here, or continue to [Phase 7](#phase-7-network-
 
 Complete Phases 1–3 on **each managed cluster** that should export `kiali_health_status` (UWM, metric export, ServiceMonitor). Phases 4–5 are optional if you only want hub alerts and do not need per-cluster **Observe > Alerting**.
 
-ACM Observability does not forward every metric from UWM to the hub — only those explicitly allowlisted will be stored in hub Thanos. This phase performs two steps on the **hub**:
+MCOA federates metrics from each managed cluster's UWM to hub Thanos. This phase adds dedicated MCOA federation resources on the hub that select and relabel `kiali_health_status`, and then configures hub Thanos Ruler alert rules. MCOA uses a separate `ScrapeConfig` for Kiali self-monitoring so the optional health federation is independent from the mandatory Istio core tier from the hub/spoke guide.
 
-1. Add `kiali_health_status` to ACM's custom metrics allowlist (same mechanism as Istio metrics in the hub/spoke guide) so collectors push the gauge to hub Thanos
-2. Add ACM Thanos Ruler alert rules so the hub can fire fleet-wide alerts on `kiali_health_status`
+If you already applied Phase 4 on the managed clusters, you can keep those local alerts, replace them with hub-only rules, or run both — see the trade-offs in [Overview](#overview). Hub evaluation waits for the MCOA PrometheusAgent federation interval (default 5 minutes) before new samples are visible to Thanos Ruler.
 
-If you already applied Phase 4 on the managed clusters, you can keep those local alerts, replace them with hub-only rules, or run both — see the trade-offs in [Overview](#overview). Hub evaluation waits for ACM's collection interval (often about five minutes) before new samples are visible to Thanos Ruler.
+### 6.1 Add `kiali_health_status` MCOA Federation Resources
 
-### 6.1 Add `kiali_health_status` to the allowlist
-
-On the **hub**, add `kiali_health_status` to the existing `observability-metrics-custom-allowlist` ConfigMap (or create it if it does not exist). The metric name goes under the `names:` list in the `uwl_metrics_list.yaml` data key:
-
-```yaml
-data:
-  uwl_metrics_list.yaml: |
-    names:
-    - istio_requests_total
-    # ... other metrics ...
-    - kiali_health_status
-```
-
-If you followed the hub/spoke guide, the ConfigMap already has Istio metric names — the command below appends `kiali_health_status` only if it is not already listed:
+On the **hub**, identify the MCOA placement (if you already did this in the hub/spoke guide, re-export the variables):
 
 ```bash
-oc --context=ossm-kiali-hub -n open-cluster-management-observability \
-  get configmap observability-metrics-custom-allowlist -o json \
-  | jq '.data["uwl_metrics_list.yaml"] as $cfg
-        | if ($cfg | test("kiali_health_status"))
-          then .
-          else .data["uwl_metrics_list.yaml"] = ($cfg + "- kiali_health_status\n")
-          end' \
-  | oc --context=ossm-kiali-hub apply -f -
+ADDON_JSON=$(oc --context=ossm-kiali-hub get clustermanagementaddon \
+  multicluster-observability-addon -o json)
+MCOA_PLACEMENT_NAME=$(echo "${ADDON_JSON}" | \
+  jq -r '.spec.installStrategy.placements[0].name')
+MCOA_PLACEMENT_NS=$(echo "${ADDON_JSON}" | \
+  jq -r '.spec.installStrategy.placements[0].namespace')
 ```
 
-If the ConfigMap does not exist yet, create it first with whatever metrics your environment needs (see the [hub/spoke guide]({{< relref "./ossm-acm-hub-spoke" >}}) for the full Istio metrics list), then re-run the command above to append `kiali_health_status`.
+Create a hub-side aggregation `PrometheusRule` for `kiali_health_status`. MCOA propagates it into the Kiali namespace on each managed cluster. The `max without` expression deduplicates samples across Kiali HA replicas:
 
-ACM distributes the allowlist to managed clusters. Collectors then push matching series to hub Thanos (default interval is about five minutes — expect that latency before hub queries show data).
+```bash
+oc --context=ossm-kiali-hub apply -f - <<'EOF'
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  annotations:
+    observability.open-cluster-management.io/target-namespace: istio-system
+  labels:
+    app.kubernetes.io/component: user-workload-metrics-collector
+    app.kubernetes.io/managed-by: kiali-mcoa-federation
+    openshift.io/prometheus-rule-evaluation-scope: leaf-prometheus
+  name: kiali-health-aggregation
+  namespace: open-cluster-management-observability
+spec:
+  groups:
+  - interval: 30s
+    name: kiali.aggregation
+    rules:
+    - expr: max without (pod, pod_template_hash, instance, namespace, job, node) (kiali_health_status)
+      record: kiali:kiali_health_status
+EOF
+```
+
+Create a user-workload `ScrapeConfig` that federates the aggregated `kiali:kiali_health_status` series and relabels it back to `kiali_health_status` for Thanos Ruler queries:
+
+```bash
+oc --context=ossm-kiali-hub apply -f - <<'EOF'
+apiVersion: monitoring.rhobs/v1alpha1
+kind: ScrapeConfig
+metadata:
+  labels:
+    app.kubernetes.io/component: user-workload-metrics-collector
+    app.kubernetes.io/managed-by: kiali-mcoa-federation
+  name: kiali-health-federation
+  namespace: open-cluster-management-observability
+spec:
+  honorLabels: true
+  jobName: kiali-health-federation
+  metricRelabelings:
+  - action: replace
+    regex: 'kiali:(.*)'
+    replacement: '${1}'
+    sourceLabels: [__name__]
+    targetLabel: __name__
+  metricsPath: /federate
+  params:
+    match[]:
+    - '{__name__="kiali:kiali_health_status"}'
+EOF
+```
+
+Register both resources with the MCOA placement (the bash code below is idempotent):
+
+```bash
+add_mcoa_ref() {
+  local group=$1 resource=$2 name=$3
+  local exists idx configs op path
+  ADDON_JSON=$(oc --context=ossm-kiali-hub get clustermanagementaddon \
+    multicluster-observability-addon -o json)
+  exists=$(echo "${ADDON_JSON}" | jq -r \
+    --arg g "${group}" --arg r "${resource}" --arg n "${name}" \
+    --arg ns "open-cluster-management-observability" \
+    --arg pn "${MCOA_PLACEMENT_NAME}" --arg pns "${MCOA_PLACEMENT_NS}" \
+    '[.spec.installStrategy.placements[] |
+      select(.name == $pn and .namespace == $pns) |
+      .configs[]? |
+      select(.group == $g and .resource == $r and .name == $n and .namespace == $ns)] | length')
+  if [ "${exists}" -eq 0 ]; then
+    idx=$(echo "${ADDON_JSON}" | jq -r \
+      --arg pn "${MCOA_PLACEMENT_NAME}" --arg pns "${MCOA_PLACEMENT_NS}" \
+      '.spec.installStrategy.placements | to_entries[] |
+        select(.value.name == $pn and .value.namespace == $pns) | .key')
+    configs=$(echo "${ADDON_JSON}" | jq -r \
+      --argjson i "${idx}" \
+      '.spec.installStrategy.placements[$i].configs | type == "array"')
+    if [ "${configs}" = true ]; then
+      op="add"; path="/spec/installStrategy/placements/${idx}/configs/-"
+    else
+      op="add"; path="/spec/installStrategy/placements/${idx}/configs"
+    fi
+    oc --context=ossm-kiali-hub patch clustermanagementaddon \
+      multicluster-observability-addon --type=json -p="[{
+        \"op\": \"${op}\", \"path\": \"${path}\",
+        \"value\": {\"group\": \"${group}\", \"resource\": \"${resource}\",
+                    \"name\": \"${name}\",
+                    \"namespace\": \"open-cluster-management-observability\"}
+      }]"
+    echo "Added ${resource}/${name} to placement"
+  else
+    echo "Reference ${resource}/${name} already present — skipping"
+  fi
+}
+
+add_mcoa_ref monitoring.coreos.com prometheusrules kiali-health-aggregation
+add_mcoa_ref monitoring.rhobs scrapeconfigs kiali-health-federation
+```
 
 ### 6.2 Verify on the hub
 
-After applying the allowlist, wait at least 10 minutes for ACM to distribute it to managed clusters and for two collection cycles to complete. Then query hub Thanos the same way as the [hub/spoke guide]({{< relref "./ossm-acm-hub-spoke" >}}) — by proxying to the ACM `observability-thanos-query-frontend` service on the hub:
+After applying the MCOA resources, wait at least 5 to 6 minutes for a federation cycle to complete, then verify the pipeline:
 
 ```bash
-oc --context=ossm-kiali-hub -n open-cluster-management-observability \
-  get --raw \
+# Confirm source PrometheusRule and ScrapeConfig exist on the hub
+oc --context=ossm-kiali-hub get prometheusrule kiali-health-aggregation \
+  -n open-cluster-management-observability
+oc --context=ossm-kiali-hub get scrapeconfig kiali-health-federation \
+  -n open-cluster-management-observability
+
+# Confirm the PrometheusRule propagated to the Kiali namespace on the spoke
+oc --context=ossm-kiali-spoke get prometheusrule kiali-health-aggregation \
+  -n istio-system
+
+# Query hub Thanos for kiali_health_status (relabeled from kiali:kiali_health_status by the ScrapeConfig)
+oc --context=ossm-kiali-hub get --raw \
   "/api/v1/namespaces/open-cluster-management-observability/services/http:observability-thanos-query-frontend:9090/proxy/api/v1/query?query=kiali_health_status" \
   | jq .
 ```
@@ -1183,13 +1272,41 @@ This guide may have enabled User Workload Monitoring via `cluster-monitoring-con
 
 ### Multi-cluster (Phase 6)
 
-If you added `kiali_health_status` to the hub allowlist, remove only that name without affecting other metrics:
+If you added the MCOA federation resources for `kiali_health_status`, remove the placement references first (while MCOA and ACM are still running), then delete the source resources:
 
 ```bash
-oc --context=ossm-kiali-hub -n open-cluster-management-observability \
-  get configmap observability-metrics-custom-allowlist -o json \
-  | jq '.data["uwl_metrics_list.yaml"] |= gsub("- kiali_health_status\n"; "")' \
-  | oc --context=ossm-kiali-hub apply -f -
+# Remove placement references
+ADDON_JSON=$(oc --context=ossm-kiali-hub get clustermanagementaddon \
+  multicluster-observability-addon -o json 2>/dev/null || true)
+if [ -n "${ADDON_JSON}" ]; then
+  remove_mcoa_ref() {
+    local group=$1 resource=$2 name=$3
+    local patch
+    patch=$(echo "${ADDON_JSON}" | jq -c \
+      --arg g "${group}" --arg r "${resource}" --arg n "${name}" \
+      --arg ns "open-cluster-management-observability" \
+      '[(.spec.installStrategy.placements // []) | to_entries[] as $p |
+        ($p.value.configs // []) | to_entries[] |
+        select(.value.group == $g and .value.resource == $r and
+               .value.name == $n and .value.namespace == $ns) |
+        {op:"remove",
+         path:("/spec/installStrategy/placements/"+($p.key|tostring)+"/configs/"+(.key|tostring))}]
+      | sort_by(.path) | reverse')
+    [ "${patch}" = "[]" ] || \
+      oc --context=ossm-kiali-hub patch clustermanagementaddon \
+        multicluster-observability-addon --type=json -p="${patch}"
+    ADDON_JSON=$(oc --context=ossm-kiali-hub get clustermanagementaddon \
+      multicluster-observability-addon -o json 2>/dev/null || echo "${ADDON_JSON}")
+  }
+  remove_mcoa_ref monitoring.rhobs scrapeconfigs kiali-health-federation
+  remove_mcoa_ref monitoring.coreos.com prometheusrules kiali-health-aggregation
+fi
+
+# Delete the hub-side source resources
+oc --context=ossm-kiali-hub delete scrapeconfig kiali-health-federation \
+  -n open-cluster-management-observability --ignore-not-found
+oc --context=ossm-kiali-hub delete prometheusrule kiali-health-aggregation \
+  -n open-cluster-management-observability --ignore-not-found
 ```
 
 If you added hub Thanos Ruler rules, delete the ConfigMap if this guide created it and you have no other custom hub rules:

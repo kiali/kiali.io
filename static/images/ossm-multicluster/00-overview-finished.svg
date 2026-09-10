@@ -22,7 +22,7 @@
 <rect x="35" y="185" width="330" height="55" rx="4" fill="#fafbfc" stroke="#334455" stroke-width="1.2" opacity="1.0"/>
 <rect x="41" y="189" width="52" height="20" rx="3" fill="#1f77b4" stroke="#1f77b4" stroke-width="0" opacity="1.0"/>
 <text x="67.0" y="204" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G1:P1</text>
-<text x="103" y="203" font-size="13" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Metrics allowlist</text>
+<text x="103" y="203" font-size="13" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">MCOA ScrapeConfig</text>
 <rect x="35" y="255" width="330" height="40" rx="4" fill="#fafbfc" stroke="#334455" stroke-width="1.2" opacity="1.0"/>
 <rect x="41" y="259" width="52" height="20" rx="3" fill="#1f77b4" stroke="#1f77b4" stroke-width="0" opacity="1.0"/>
 <text x="67.0" y="274" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G1:P2</text>
@@ -34,9 +34,10 @@
 <rect x="35" y="360" width="330" height="70" rx="4" fill="#fafbfc" stroke="#334455" stroke-width="1.2" opacity="1.0"/>
 <rect x="41" y="364" width="52" height="20" rx="3" fill="#9467bd" stroke="#9467bd" stroke-width="0" opacity="1.0"/>
 <text x="67.0" y="379" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G4:P6</text>
-<text x="103" y="378" font-size="13" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Thanos Ruler + allowlist</text>
-<text x="43" y="396" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">kiali_health_status</text>
-<text x="43" y="411" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">KialiHub* health alerts</text>
+<text x="103" y="378" font-size="13" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Thanos Ruler + MCOA health</text>
+<text x="103" y="393" font-size="13" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">federation</text>
+<text x="43" y="411" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">kiali_health_status</text>
+<text x="43" y="426" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">KialiHub* health alerts</text>
 <rect x="420" y="100" width="250" height="95" rx="4" fill="#fafbfc" stroke="#334455" stroke-width="1.2" opacity="1.0"/>
 <rect x="426" y="104" width="52" height="20" rx="3" fill="#1f77b4" stroke="#1f77b4" stroke-width="0" opacity="1.0"/>
 <text x="452.0" y="119" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G1:P3</text>

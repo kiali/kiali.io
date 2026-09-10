@@ -14,9 +14,9 @@
 <rect x="55" y="100" width="310" height="90" rx="4" fill="#fafbfc" stroke="#334455" stroke-width="1.2" opacity="1.0"/>
 <rect x="61" y="104" width="58.0" height="20" rx="3" fill="#9467bd" stroke="#9467bd" stroke-width="0" opacity="1.0"/>
 <text x="90.0" y="119" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G4:P6.1</text>
-<text x="129.0" y="118" font-size="13" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Allowlist kiali_health_status</text>
-<text x="63" y="136" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">observability-metrics-custom-allowlist</text>
-<text x="63" y="151" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">to hub Thanos</text>
+<text x="129.0" y="118" font-size="13" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">MCOA health federation</text>
+<text x="63" y="136" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">ScrapeConfig/kiali-health-federation</text>
+<text x="63" y="151" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">PrometheusRule/kiali-health-aggregation</text>
 <rect x="55" y="210" width="310" height="95" rx="4" fill="#fafbfc" stroke="#334455" stroke-width="1.2" opacity="1.0"/>
 <rect x="61" y="214" width="58.0" height="20" rx="3" fill="#9467bd" stroke="#9467bd" stroke-width="0" opacity="1.0"/>
 <text x="90.0" y="229" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G4:P6.3</text>
@@ -98,7 +98,7 @@
 <text x="492.0" y="567" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Hands-on Failure demo</text>
 <rect x="400" y="577" width="82.0" height="20" rx="3" fill="#9467bd" stroke="#9467bd" stroke-width="0" opacity="1.0"/>
 <text x="441.0" y="592" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G4:P6.1</text>
-<text x="492.0" y="591" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Hub metrics allowlist</text>
+<text x="492.0" y="591" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Hub MCOA health federation</text>
 <rect x="400" y="601" width="82.0" height="20" rx="3" fill="#9467bd" stroke="#9467bd" stroke-width="0" opacity="1.0"/>
 <text x="441.0" y="616" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G4:P6.3</text>
 <text x="492.0" y="615" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Hub Thanos Ruler alerts</text>

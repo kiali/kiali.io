@@ -1,6 +1,6 @@
 ---
 title: "ACM Observability"
-description: "Configure Kiali to use Red Hat Advanced Cluster Management Observability for centralized metrics in multi-cluster OpenShift environments."
+description: "Configure Kiali to use Red Hat Advanced Cluster Management (ACM) and the multicluster observability add-on for centralized, federated mesh metrics in multi-cluster OpenShift environments."
 weight: 20
 ---
 
@@ -10,7 +10,9 @@ weight: 20
 
 ## Overview
 
-Red Hat Advanced Cluster Management (ACM) provides centralized observability for multi-cluster OpenShift environments through its Observability Service. When ACM Observability is enabled, metrics from all managed clusters (including the hub cluster itself) are collected and aggregated into a central Thanos-based storage system.
+Red Hat Advanced Cluster Management (ACM) provides centralized observability for multi-cluster OpenShift environments through its Observability Service. Metrics from all managed clusters (including the hub cluster itself) are collected and aggregated into a central Thanos-based storage system
+
+This guide uses the multicluster observability add-on (MCOA) to aggregate mesh metrics on managed clusters (introduced in ACM 4.17), federate selected series, and remote-write them to the central Thanos-based storage system.
 
 Kiali can query these aggregated metrics either through ACM's external Observatorium API (using mTLS authentication) or directly through internal Thanos services. This guide explains both options, with detailed steps for the Observatorium API approach.
 
@@ -30,8 +32,8 @@ Kiali can query these aggregated metrics either through ACM's external Observato
   - Control plane (istiod in istio-system)
   - Ztunnel (in ztunnel namespace, for L4 metrics in Ambient mode)
   - Waypoint proxies (in application namespaces, for L7 metrics in Ambient mode)
-- **Metrics Allowlist ConfigMaps**: Define which metrics ACM should collect
-- **Metrics Collector**: Runs on each managed cluster and pushes its Prometheus metrics to the hub cluster's Thanos every 5 minutes (default)
+- **One MCOA PrometheusRule per target namespace**: Aggregates that namespace's raw per-proxy traffic series into `workload:istio_*` series on UWM
+- **MCOA user-workload Prometheus Agent**: Federates selected UWM series, restores standard `istio_*` metric names, and remote-writes them to hub Thanos
 
 **Kiali Deployment Location:**
 
@@ -53,8 +55,9 @@ There are two independent flows:
 **Ingestion (managed cluster → hub):**
 1. **Istio data plane components** (sidecars, ztunnel, or waypoint proxies) expose metrics at `:15020/stats/prometheus`.
 2. **User Workload Monitoring Prometheus** scrapes those metrics (typically every 30s).
-3. The **ACM observability collector/agent** on the managed cluster reads from Prometheus and ships metrics to the hub (typically every 5 minutes).
-4. The hub stores them in **Thanos Receive/Store** and serves them through **Thanos Query Frontend**.
+3. UWM evaluates recording rules that remove per-proxy cardinality and produce `workload:istio_*` series.
+4. The **MCOA user-workload Prometheus Agent** federates selected series through `/federate`, relabels `workload:istio_*` back to `istio_*`, and remote-writes them to the hub (every 5 minutes by default).
+5. The hub stores them in **Thanos Receive/Store** and serves them through **Thanos Query Frontend**.
 
 **Query (Kiali → hub):**
 
@@ -132,7 +135,7 @@ spec:
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:
-  name: istio-proxies-monitor
+  name: istio-proxies-monitor-<your-mesh-namespace>
   namespace: <your-mesh-namespace>
 spec:
   selector:
@@ -234,55 +237,187 @@ Create a PodMonitor in **each namespace with a waypoint**. Waypoint pods also ex
 
 Because waypoints use the same metrics interface, you can use the same PodMonitor configuration shown in the [Istio Metrics Collection](#3-istio-metrics-collection) section above.
 
-### 4. Metrics Allowlist Configuration
+### 4. Enable the ACM multicluster observability add-on
 
-ACM only collects metrics that are explicitly allowlisted. For Istio metrics to be collected, create a ConfigMap named `observability-metrics-custom-allowlist` on the **hub cluster** in the `open-cluster-management-observability` namespace with key `uwl_metrics_list.yaml`. ACM will automatically distribute this allowlist to all managed clusters.
+MCOA is disabled by default. It uses the OpenShift Cluster Observability Operator's Prometheus Operator and Prometheus Agent to federate and remote-write metrics from managed clusters. Install the Cluster Observability Operator as required by ACM, then enable both platform and user-workload metrics on the hub:
 
 ```yaml
-apiVersion: v1
-kind: ConfigMap
+apiVersion: observability.open-cluster-management.io/v1beta2
+kind: MultiClusterObservability
 metadata:
-  name: observability-metrics-custom-allowlist
-  namespace: open-cluster-management-observability
-data:
-  uwl_metrics_list.yaml: |
-    names:
-    # Core Istio metrics below. For additional metrics that Kiali uses,
-    # see: https://kiali.io/docs/faq/general/#requiredmetrics
-    #
-    # L7 (HTTP) metrics - from sidecars and waypoint proxies
-    - istio_requests_total
-    - istio_request_duration_milliseconds_bucket
-    - istio_request_duration_milliseconds_sum
-    - istio_request_duration_milliseconds_count
-    - istio_request_bytes_bucket
-    - istio_request_bytes_sum
-    - istio_request_bytes_count
-    - istio_response_bytes_bucket
-    - istio_response_bytes_sum
-    - istio_response_bytes_count
-    # L4 (TCP) metrics - from sidecars, waypoint proxies, AND ztunnel
-    - istio_tcp_sent_bytes_total
-    - istio_tcp_received_bytes_total
-    - istio_tcp_connections_opened_total
-    - istio_tcp_connections_closed_total
+  name: observability
+spec:
+  capabilities:
+    platform:
+      metrics:
+        default:
+          enabled: true
+    userWorkloads:
+      metrics:
+        default:
+          enabled: true
 ```
 
-Apply this on the hub cluster:
-
-```bash
-oc apply -n open-cluster-management-observability -f observability-metrics-custom-allowlist.yaml
-```
-
-When this ConfigMap is created on the hub, ACM's observability operator merges these metrics into the allowlist distributed to each managed cluster and automatically spawns a dedicated user workload metrics collector on each spoke to forward these metrics to Thanos.
-
-**Alternative: Per-namespace on the managed cluster**: The ACM documentation also describes creating the `observability-metrics-custom-allowlist` ConfigMap in the source namespace (e.g., `istio-system`, `ztunnel`) directly on the managed cluster. This approach applies only to that specific cluster and namespace. See the [ACM documentation](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.16/html-single/observability/index#adding-user-workload-metrics) for details. The hub-based approach above is recommended as it is simpler and applies uniformly to all managed clusters.
+Enabling these capabilities replaces the legacy metrics collectors with MCOA collectors. See the [ACM 2.17 MCOA documentation](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.17/html/observability/observing-environments-intro#multicluster-observability-addon).
 
 {{% alert color="info" %}}
-**Ambient Mode**: The same allowlist works for all Istio data plane components. However, ztunnel only produces TCP metrics (`istio_tcp_*`), so HTTP metrics in the allowlist will have no data from ztunnel. Waypoints produce both TCP and HTTP metrics, same as sidecars.
+The hub-level custom allowlist used by the legacy ACM collector is still a valid legacy configuration: the observability operator merges it into the configuration distributed to managed clusters. It is not sufficient after switching to MCOA because MCOA replaces those collectors. ACM 2.17 documents migrating custom allowlists to `ScrapeConfig` and `PrometheusRule` resources; this guide uses that MCOA resource model directly.
 {{% /alert %}}
 
-See: [Adding custom metrics](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.16/html-single/observability/index#adding-custom-metrics)
+### 5. Aggregate and federate Istio metrics
+
+Use UWM as the **Edge Prometheus** described in [Recording Rules and Federation]({{< relref "../p8s-jaeger-grafana/prometheus" >}}#option-1-recording-rules-and-federation-recommended). MCOA's Prometheus Agent is the federation and remote-write layer, and ACM Observatorium/Thanos is the long-retention federated backend that Kiali queries.
+
+Create the following resources on the hub in namespace `open-cluster-management-observability`. Repeat the `PrometheusRule` and platform `ScrapeConfig` for **each** target namespace whose Istio traffic or platform CPU and memory Kiali should display (normally the control plane namespace and every application namespace). The target namespace must exist on every managed cluster selected by the placement.
+
+First, create a `PrometheusRule` for each target namespace. This example is for `istio-system`; change both the name suffix and target-namespace annotation for each additional namespace. The annotation tells MCOA where to propagate the rule. The label selects UWM Prometheus, rather than Thanos Ruler, to evaluate the rule on the managed cluster.
+
+```yaml
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: kiali-istio-aggregation-istio-system
+  namespace: open-cluster-management-observability
+  annotations:
+    observability.open-cluster-management.io/target-namespace: istio-system
+  labels:
+    app.kubernetes.io/component: user-workload-metrics-collector
+    openshift.io/prometheus-rule-evaluation-scope: leaf-prometheus
+spec:
+  groups:
+  - name: istio.workload-aggregation
+    interval: 30s
+    rules:
+    - record: workload:istio_requests_total
+      expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (istio_requests_total)
+    - record: workload:istio_request_messages_total
+      expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (istio_request_messages_total)
+    - record: workload:istio_response_messages_total
+      expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (istio_response_messages_total)
+    - record: workload:istio_tcp_sent_bytes_total
+      expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (istio_tcp_sent_bytes_total)
+    - record: workload:istio_tcp_received_bytes_total
+      expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (istio_tcp_received_bytes_total)
+    - record: workload:istio_tcp_connections_opened_total
+      expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (istio_tcp_connections_opened_total)
+    - record: workload:istio_tcp_connections_closed_total
+      expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (istio_tcp_connections_closed_total)
+    - record: workload:istio_request_duration_milliseconds_bucket
+      expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (istio_request_duration_milliseconds_bucket)
+    - record: workload:istio_request_duration_milliseconds_sum
+      expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (istio_request_duration_milliseconds_sum)
+    - record: workload:istio_request_duration_milliseconds_count
+      expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (istio_request_duration_milliseconds_count)
+    - record: workload:istio_request_bytes_bucket
+      expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (istio_request_bytes_bucket)
+    - record: workload:istio_request_bytes_sum
+      expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (istio_request_bytes_sum)
+    - record: workload:istio_request_bytes_count
+      expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (istio_request_bytes_count)
+    - record: workload:istio_response_bytes_bucket
+      expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (istio_response_bytes_bucket)
+    - record: workload:istio_response_bytes_sum
+      expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (istio_response_bytes_sum)
+    - record: workload:istio_response_bytes_count
+      expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (istio_response_bytes_count)
+```
+
+Next, create this UWM `ScrapeConfig`. It federates the aggregated traffic metrics and the non-aggregated Istio, control-plane, process, and Envoy metrics that Kiali needs. The relabeling restores the original `istio_*` names before remote write.
+
+```yaml
+apiVersion: monitoring.rhobs/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: kiali-istio-federation
+  namespace: open-cluster-management-observability
+  labels:
+    app.kubernetes.io/component: user-workload-metrics-collector
+spec:
+  honorLabels: true
+  jobName: kiali-istio-federation
+  metricRelabelings:
+  - action: replace
+    regex: 'workload:(.*)'
+    replacement: '${1}'
+    sourceLabels: [__name__]
+    targetLabel: __name__
+  metricsPath: /federate
+  params:
+    match[]:
+    - '{__name__=~"workload:istio_requests_total"}'
+    - '{__name__=~"workload:istio_request_bytes_(bucket|count|sum)"}'
+    - '{__name__=~"workload:istio_request_duration_milliseconds_(bucket|count|sum)"}'
+    - '{__name__=~"workload:istio_request_messages_total"}'
+    - '{__name__=~"workload:istio_response_bytes_(bucket|count|sum)"}'
+    - '{__name__=~"workload:istio_response_messages_total"}'
+    - '{__name__=~"workload:istio_tcp_connections_(opened|closed)_total"}'
+    - '{__name__=~"workload:istio_tcp_(received|sent)_bytes_total"}'
+    - '{__name__=~"istio_build|process_cpu_seconds_total|process_resident_memory_bytes"}'
+    - '{__name__=~"pilot_info|pilot_proxy_convergence_time_(sum|count)|pilot_services|pilot_xds$|pilot_xds_pushes"}'
+    - '{__name__=~"workload_manager_active_proxy_count"}'
+    - '{__name__=~"envoy_cluster_upstream_cx_active|envoy_cluster_upstream_rq_total|envoy_listener_downstream_cx_active|envoy_listener_http_downstream_rq|envoy_server_memory_allocated|envoy_server_memory_heap_size|envoy_server_uptime"}'
+```
+
+Now create this platform `ScrapeConfig` once per target namespace. This example collects CPU and memory metrics for pods in `istio-system`; for each additional target namespace, change `metadata.name`, `spec.jobName`, and the `namespace` value in `spec.params.match[]`.
+
+```yaml
+apiVersion: monitoring.rhobs/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: kiali-istio-platform-federation-istio-system
+  namespace: open-cluster-management-observability
+  labels:
+    app.kubernetes.io/component: platform-metrics-collector
+spec:
+  jobName: kiali-istio-platform-federation-istio-system
+  metricsPath: /federate
+  params:
+    match[]:
+    - '{__name__=~"container_cpu_usage_seconds_total|container_memory_working_set_bytes",namespace="istio-system"}'
+```
+
+Finally, add references for the `PrometheusRule` objects and all `ScrapeConfig` objects to the selected placement in the existing `ClusterManagementAddOn` object named `multicluster-observability-addon`. The following is a fragment of that placement's `configs` list; merge these entries with its existing entries rather than applying this as a replacement for the whole add-on object. Add one `PrometheusRule` reference and one platform `ScrapeConfig` reference per target namespace, plus the shared `kiali-istio-federation` `ScrapeConfig` reference.
+
+{{% alert color="info" %}}
+A placement is ACM's hub-side selection of managed clusters that receive an add-on configuration. Use the `name` and `namespace` from the placement entry that MCOA already uses:
+
+```bash
+oc get clustermanagementaddon multicluster-observability-addon -o yaml
+```
+
+Look under `spec.installStrategy.placements`. If multiple entries exist, choose the one that selects the managed clusters hosting this mesh. For example, if you see `name: global` and `namespace: open-cluster-management-global-set`, use those values for `<placement-name>` and `<placement-namespace>`.
+{{% /alert %}}
+
+```yaml
+spec:
+  installStrategy:
+    placements:
+    - name: <placement-name>
+      namespace: <placement-namespace>
+      configs:
+      - group: monitoring.coreos.com
+        resource: prometheusrules
+        name: kiali-istio-aggregation-istio-system
+        namespace: open-cluster-management-observability
+      - group: monitoring.rhobs
+        resource: scrapeconfigs
+        name: kiali-istio-federation
+        namespace: open-cluster-management-observability
+      - group: monitoring.rhobs
+        resource: scrapeconfigs
+        name: kiali-istio-platform-federation-istio-system
+        namespace: open-cluster-management-observability
+```
+
+{{% alert color="info" %}}
+For a repeatable development installation, the Kiali repository's `hack/configure-acm-mcoa.sh install` helper creates these same objects and placement references without changing the current kubeconfig context. It is a convenience, not a prerequisite for this configuration.
+{{% /alert %}}
+
+{{% alert color="warning" %}}
+Every target namespace must exist on every managed cluster selected by the placement before MCOA propagates its recording rule. If clusters use different namespace layouts, use separate placements and resource sets.
+{{% /alert %}}
+
+The `kiali-istio-federation` user-workload `ScrapeConfig` collects the aggregated traffic metrics rather than raw per-proxy series. The per-namespace platform `ScrapeConfig` resources collect CPU and memory separately because those metrics belong to OpenShift platform monitoring rather than UWM.
 
 ## Configuring Kiali for ACM Observability
 
@@ -452,7 +587,7 @@ spec:
       # Enable Thanos proxy mode
       thanos_proxy:
         enabled: true
-        retention_period: "14d"
+        retention_period: "365d"
         scrape_interval: "5m"
 ```
 
@@ -468,7 +603,7 @@ helm install kiali kiali-server \
   --set external_services.prometheus.auth.cert_file="secret:acm-observability-certs:tls.crt" \
   --set external_services.prometheus.auth.key_file="secret:acm-observability-certs:tls.key" \
   --set external_services.prometheus.thanos_proxy.enabled="true" \
-  --set external_services.prometheus.thanos_proxy.retention_period="14d" \
+  --set external_services.prometheus.thanos_proxy.retention_period="365d" \
   --set external_services.prometheus.thanos_proxy.scrape_interval="5m"
 ```
 
@@ -476,9 +611,18 @@ helm install kiali kiali-server \
 
 ### Metrics Latency
 
-ACM collects metrics from each cluster's Prometheus and pushes to Thanos **every 5 minutes** (default). This means, by default, there is a 5-6 minute delay before new metrics appear in Kiali. This latency is inherent to ACM's architecture and applies to all managed clusters.
+The MCOA `PrometheusAgent` scrapes its federation endpoint every **300 seconds** by default and remote-writes the result to Thanos. This means there is normally a 5-6 minute delay before new metrics appear in Kiali.
 
-**Note**: This interval is configurable via the `spec.observabilityAddonSpec.interval` field (in seconds) in the `MultiClusterObservability` CR on the hub cluster.
+To use a different interval for the Kiali federation jobs, set `spec.scrapeInterval` on the `kiali-istio-federation` `ScrapeConfig` and on each `kiali-istio-platform-federation-<namespace>` `ScrapeConfig`. For example, the following makes the shared user-workload job run every minute:
+
+```yaml
+spec:
+  jobName: kiali-istio-federation
+  scrapeInterval: 1m
+  # Other fields from the ScrapeConfig in step 5 remain unchanged.
+```
+
+Set Kiali's `external_services.prometheus.thanos_proxy.scrape_interval` to the same interval. Do not change the generated MCOA `PrometheusAgent` merely to alter these Kiali jobs: that changes the default interval for the agent's other jobs as well.
 
 **Initial warm-up period**: After deploying a new application, it takes approximately **twice the collection interval** before data appears in Kiali's graph and metrics tab. This is because Kiali uses PromQL `rate()` functions which require at least two data points to compute a result, and with ACM's collection interval, two data points take at least two collection cycles to accumulate. For example, with the default 5-minute interval, expect a ~10-minute warm-up period. After this initial warm-up, all time ranges in Kiali should display data normally. However, keep in mind that the most recent data visible in Kiali will always be at least one collection interval old, since metrics must complete a full collection cycle before they appear in Thanos.
 
@@ -491,8 +635,8 @@ external_services:
   prometheus:
     thanos_proxy:
       enabled: true
-      retention_period: "14d"  # Should match your ACM Thanos retention
-      scrape_interval: "5m"   # Must match ACM's metrics collection interval
+      retention_period: "365d" # Match your actual ACM Thanos retention
+      scrape_interval: "5m"   # Must match the MCOA federation interval
 ```
 
 When `enabled: true`, Kiali uses the configured `scrape_interval` and `retention_period` values directly, rather than querying Prometheus's `/api/v1/status/config` and `/api/v1/status/runtimeinfo` endpoints to discover them. This is necessary because Thanos does not expose these Prometheus configuration endpoints.
@@ -501,10 +645,10 @@ When `enabled: true`, Kiali uses the configured `scrape_interval` and `retention
 - **`scrape_interval`**: Kiali's UI uses this value to compute PromQL `rate()` intervals and query step sizes. The rate interval must be large enough to contain at least two data points for `rate()` to produce results. With ACM, data points arrive in Thanos at the ACM collection interval (default 5 minutes), **not** at the local Prometheus scrape interval (typically 15-30 seconds). If `scrape_interval` is set too low (e.g., "30s"), the computed rate windows will be too narrow to capture two ACM data points, causing Kiali's metrics tab to show empty charts even though data exists in Thanos.
 
 {{% alert color="warning" %}}
-**Critical**: Set `scrape_interval` to match the **ACM metrics collection interval** (default `"5m"`), not the local Prometheus scrape interval. The ACM collection interval is configured via `spec.observabilityAddonSpec.interval` in the `MultiClusterObservability` CR on the hub cluster. If you have customized this value, set `scrape_interval` to match.
+**Critical**: Set `scrape_interval` to match the effective **MCOA federation interval** (default `"5m"`), not the local UWM scrape interval. MCOA's default `PrometheusAgent.spec.scrapeInterval` is `300s`; a per-job `ScrapeConfig` interval can override it. If you customize either value, configure Kiali with the effective interval.
 {{% /alert %}}
 
-- **`retention_period`**: Used to limit time range queries to available data. ACM defaults to 365d retention when `spec.advanced.retentionConfig` is not explicitly configured in the `MultiClusterObservability` CR. If using the default, set `retention_period` to "365d". If configuring custom retention, use at least 10d minimum (a Thanos requirement for downsampling to function). Always match `retention_period` to your actual ACM retention configuration. The "14d" value shown in examples here is used for demonstration.
+- **`retention_period`**: Used to limit time range queries to available data. ACM defaults to 365d retention when `spec.advanced.retentionConfig` is not explicitly configured in the `MultiClusterObservability` CR. If using the default, set `retention_period` to "365d". If configuring custom retention, use at least 10d minimum (a Thanos requirement for downsampling to function). Always match `retention_period` to your actual ACM retention configuration. Use `14d` only when your `MultiClusterObservability` retention policy is configured for 14 days.
 
 ## Multi-Cluster Setup
 
@@ -539,6 +683,13 @@ While metrics come from ACM's central Thanos, Kiali still needs direct API acces
 - Kubernetes resource details
 
 Create remote cluster secrets as described in the [multi-cluster setup guide]({{< relref "../multi-cluster" >}}).
+When the external Kiali deployment uses `auth.strategy: openshift`, also follow
+the [OpenShift multi-cluster authentication guidance]({{< relref "../authentication/openshift#multi-cluster" >}}).
+In particular, a remote cluster that provides only
+`remote_cluster_resources_only: true` needs its Kiali OAuthClient callback URI
+to point to the external Kiali route and end in
+`/api/auth/callback/<remote-cluster-name>`. This remote API authentication is
+independent of ACM/MCOA metrics federation.
 
 ### 3. External Deployment Model
 
@@ -551,6 +702,12 @@ clustering:
 kubernetes_config:
   cluster_name: "<management-cluster-name>"  # Unique name for the cluster where Kiali runs
 ```
+
+This is Kiali's own home-cluster identity. It is not required to match the ACM
+`ManagedCluster` name or an Istio `clusterName`; choose a value unique among
+the clusters configured in Kiali. In this external deployment model, set
+`clustering.ignore_home_cluster: true` so Kiali does not attempt to treat the
+management cluster as a mesh cluster.
 
 See the [External Kiali]({{< relref "./external" >}}) guide for complete external deployment instructions.
 
@@ -655,11 +812,11 @@ oc get --raw "/api/v1/namespaces/open-cluster-management-observability/services/
 2. **Still in warm-up period**: After deploying a new application, it takes approximately twice the ACM collection interval (~10 minutes by default) before enough data points exist for rate calculations
    - **Solution**: Wait for the warm-up period to elapse
 
-3. **Metrics not allowlisted**: ACM doesn't collect metrics by default
-   - **Solution**: Create `observability-metrics-custom-allowlist` ConfigMap with `uwl_metrics_list.yaml` key in **source namespace**
+3. **MCOA federation resources missing**: The recording rules or federation job were not propagated to the managed cluster
+   - **Solution**: On the hub, verify the correctness of the `kiali-istio-federation` and `kiali-istio-platform-federation-*` `ScrapeConfig` resources and the `kiali-istio-aggregation-*` `PrometheusRule` resources. Then verify their references under the selected `ClusterManagementAddOn` placement. On a managed cluster, run `oc get prometheusagent,scrapeconfig -A` to find MCOA's configured agent namespace (the default is `open-cluster-management-agent-addon`) and run `oc get prometheusrule -n <target-namespace>` to verify the propagated rule.
 
 4. **PodMonitor missing**: Prometheus not scraping Istio data plane components
-   - **Solution**: Create `istio-proxies-monitor` PodMonitor in **each mesh namespace** (including the ztunnel namespace and namespaces with waypoint proxies if using Ambient mode)
+   - **Solution**: Create an `istio-proxies-monitor-<namespace>` PodMonitor in **each mesh namespace** (including the ztunnel namespace and namespaces with waypoint proxies if using Ambient mode)
 
 5. **UWM not enabled**: User Workload Monitoring not configured
    - **Solution**: Enable `enableUserWorkload: true` in `cluster-monitoring-config` ConfigMap in `openshift-monitoring` namespace
@@ -728,7 +885,7 @@ See also the [Why is my graph empty?]({{< relref "../../FAQ/graph#emptygraph" >}
    - Verify waypoint pod exists: `oc get pods -n <namespace> -l gateway.networking.k8s.io/gateway-class-name=istio-waypoint`
    - Create PodMonitor in the waypoint's namespace (same config as sidecar PodMonitor)
 
-3. **Missing allowlist in waypoint namespace**: Create a ConfigMap with the name `observability-metrics-custom-allowlist` in the namespace where the waypoint runs (see [Metrics Allowlist Configuration](#4-metrics-allowlist-configuration))
+3. **Missing recording rule in waypoint namespace**: Create the per-namespace `PrometheusRule` and platform `ScrapeConfig` for the waypoint namespace, add their placement references, and verify that MCOA propagated the rule.
 
 ### Ambient Mode: No Ztunnel Metrics
 
@@ -736,9 +893,9 @@ See also the [Why is my graph empty?]({{< relref "../../FAQ/graph#emptygraph" >}
 
 **Possible causes**:
 
-1. **Missing ztunnel PodMonitor**: Create `istio-proxies-monitor` PodMonitor in the ztunnel namespace
+1. **Missing ztunnel PodMonitor**: Create an `istio-proxies-monitor-<ztunnel-namespace>` PodMonitor in the ztunnel namespace
 2. **Wrong ztunnel namespace**: Verify ztunnel location: `oc get pods -l app=ztunnel -A`
-3. **Missing allowlist**: Create a ConfigMap with the name `observability-metrics-custom-allowlist` in the ztunnel namespace (see [Metrics Allowlist Configuration](#4-metrics-allowlist-configuration))
+3. **Missing recording rule**: Create the per-namespace `PrometheusRule` and platform `ScrapeConfig` for the ztunnel namespace, add their placement references, and verify that MCOA propagated the rule.
 
 ## Reference
 
@@ -768,7 +925,7 @@ spec:
 
       thanos_proxy:
         enabled: true
-        retention_period: "14d"
+        retention_period: "365d"
         scrape_interval: "5m"
 ```
 
@@ -805,7 +962,7 @@ data:
 
 ## Additional Resources
 
-- [Red Hat ACM Observability Documentation](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.12/html-single/observability/index)
+- [Red Hat ACM 2.17 Observability Documentation](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.17/html/observability/observing-environments-intro)
 - [Configuring User Workload Monitoring](https://docs.redhat.com/en/documentation/monitoring_stack_for_red_hat_openshift/4.20/html-single/configuring_user_workload_monitoring/)
 - [OpenShift Service Mesh Observability](https://docs.redhat.com/en/documentation/red_hat_openshift_service_mesh/3.0/html-single/observability/)
 - [Istio Standard Metrics](https://istio.io/latest/docs/reference/config/metrics/)
