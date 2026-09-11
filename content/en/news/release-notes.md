@@ -6,6 +6,21 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 2.32.0
+Sprint Release: September 14, 2026
+
+Features:
+
+* [AI: Mesh traffic graph health should use cached health Status](https://github.com/kiali/kiali/issues/10097)
+* [Config: Support loading istio configuration from file](https://github.com/kiali/kiali/issues/8440)
+* [Scale: Guidance for Pre-Aggregated, federated metrics](https://github.com/kiali/kiali/issues/6342)
+* [UI: Mesh page Show Kiali display option](https://github.com/kiali/kiali/issues/9662)
+* [UI: Show multiple control planes in Namespaces view during canary upgrade](https://github.com/kiali/kiali/pull/10270)
+
+Fixes:
+
+* [Fix Mesh page duplicate istiod→ztunnel edges when multiple control planes are deployed](https://github.com/kiali/kiali/issues/10286)
+
 ## 2.31.0
 Release: August 21, 2026
 
