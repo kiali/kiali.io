@@ -2097,7 +2097,7 @@ fi
 
 # Hub CRDs last — the cleanup above still needs their APIs
 HUB_CRDS=$(oc --context=ossm-kiali-hub get crd -o name 2>/dev/null | \
-  grep -E '\.(open-cluster-management\.io|multicluster\.openshift\.io|multicluster\.x-k8s\.io|monitoring\.rhobs|observatorium\.io)$' || true)
+  grep -E '\.(open-cluster-management\.io|multicluster\.openshift\.io|multicluster\.x-k8s\.io|observatorium\.io)$' || true)
 [ -n "${HUB_CRDS}" ] && echo "${HUB_CRDS}" | xargs oc --context=ossm-kiali-hub delete --ignore-not-found
 HIVE_WORKLOADS=$(oc --context=ossm-kiali-hub get deploy,statefulset,daemonset,pod \
   -n hive -o name 2>/dev/null || true)
@@ -2148,6 +2148,20 @@ for suffix in sailoperator.io istio.io kiali.io; do
     echo "${CRDS}" | xargs oc --context=ossm-kiali-spoke delete crd --ignore-not-found
   fi
 done
+
+# Remove cluster-scoped and cross-namespace resources left by Istio
+oc --context=ossm-kiali-spoke delete gatewayclass \
+  istio istio-remote istio-waypoint istio-east-west --ignore-not-found
+for NS in $(oc --context=ossm-kiali-spoke get configmap -A \
+  -o custom-columns='NS:.metadata.namespace,NAME:.metadata.name' --no-headers 2>/dev/null \
+  | grep -E 'istio-ca-root-cert|istio-ca-crl' | awk '{print $1}' | sort -u); do
+  oc --context=ossm-kiali-spoke delete configmap istio-ca-root-cert istio-ca-crl \
+    -n "${NS}" --ignore-not-found
+done
+CRDS=$(oc --context=ossm-kiali-spoke get crd -o name 2>/dev/null \
+  | grep -E '\.(gateway\.networking\.k8s\.io|inference\.networking\.(k8s|x-k8s)\.io)$' || true)
+[ -z "${CRDS}" ] || echo "${CRDS}" \
+  | xargs oc --context=ossm-kiali-spoke delete --ignore-not-found
 
 # Remove the ClusterRole installed by the OSSM operator
 oc --context=ossm-kiali-spoke delete clusterrole servicemeshoperator3-metrics-reader --ignore-not-found

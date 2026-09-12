@@ -273,10 +273,33 @@ uninstall_coo() {
     info "No full COO Subscription on ${ctx} — leaving MCOA-managed monitoring.rhobs APIs intact"
     return 0
   fi
-  oc --context="${ctx}" delete crd \
+  local coo_crds
+  coo_crds=$(oc --context="${ctx}" get crd \
     -l 'operators.coreos.com/cluster-observability-operator.openshift-cluster-observability' \
-    --ignore-not-found 2>/dev/null || true
+    -o name 2>/dev/null | grep -v '\.monitoring\.rhobs$' || true)
+  [ -z "${coo_crds}" ] || echo "${coo_crds}" | \
+    xargs oc --context="${ctx}" delete --ignore-not-found
   info "COO uninstalled from ${ctx}"
+}
+
+cleanup_istio_cluster_resources() {
+  local ctx="$1" namespaces crds
+
+  oc --context="${ctx}" delete gatewayclass istio istio-remote istio-waypoint \
+    istio-east-west --ignore-not-found 2>/dev/null || true
+
+  namespaces=$(oc --context="${ctx}" get configmap -A \
+    -o custom-columns='NS:.metadata.namespace,NAME:.metadata.name' --no-headers 2>/dev/null | \
+    grep -E 'istio-ca-root-cert|istio-ca-crl' | awk '{print $1}' | sort -u || true)
+  for namespace in ${namespaces}; do
+    oc --context="${ctx}" delete configmap istio-ca-root-cert istio-ca-crl \
+      -n "${namespace}" --ignore-not-found 2>/dev/null || true
+  done
+
+  crds=$(oc --context="${ctx}" get crd -o name 2>/dev/null | \
+    grep -E '\.(gateway\.networking\.k8s\.io|inference\.networking\.(k8s|x-k8s)\.io)$' || true)
+  [ -z "${crds}" ] || echo "${crds}" | \
+    xargs oc --context="${ctx}" delete --ignore-not-found
 }
 
 # Create all hub-side MCOA configuration resources for Istio federation (9 objects):
@@ -3581,6 +3604,7 @@ cleanup_guide2() {
     CRDS=$(oc --context="${SPOKE_TWO_CTX}" get crd --no-headers -o custom-columns=NAME:.metadata.name 2>/dev/null | grep "\.${suffix}$" || true)
     [ -n "${CRDS}" ] && echo "${CRDS}" | xargs oc --context="${SPOKE_TWO_CTX}" delete crd --ignore-not-found
   done
+  cleanup_istio_cluster_resources "${SPOKE_TWO_CTX}"
   oc --context="${SPOKE_TWO_CTX}" delete clusterrole servicemeshoperator3-metrics-reader --ignore-not-found
 
   # Revert spoke to single-cluster
@@ -3856,7 +3880,7 @@ cleanup_guide1() {
   # CRDs last — the cleanup above still needs their APIs
   local HUB_CRDS
   HUB_CRDS=$(oc --context="${HUB_CTX}" get crd -o name 2>/dev/null | \
-    grep -E '\.(open-cluster-management\.io|multicluster\.openshift\.io|multicluster\.x-k8s\.io|monitoring\.rhobs|observatorium\.io)$' || true)
+    grep -E '\.(open-cluster-management\.io|multicluster\.openshift\.io|multicluster\.x-k8s\.io|observatorium\.io)$' || true)
   [ -n "${HUB_CRDS}" ] && echo "${HUB_CRDS}" | xargs oc --context="${HUB_CTX}" delete --ignore-not-found
   if ! (oc --context="${HUB_CTX}" get namespace hive &>/dev/null && \
         [ -n "$(oc --context="${HUB_CTX}" get deploy,statefulset,daemonset,pod \
@@ -3887,6 +3911,7 @@ cleanup_guide1() {
     CRDS=$(oc --context="${SPOKE_CTX}" get crd --no-headers -o custom-columns=NAME:.metadata.name 2>/dev/null | grep "\.${suffix}$" || true)
     [ -n "${CRDS}" ] && echo "${CRDS}" | xargs oc --context="${SPOKE_CTX}" delete crd --ignore-not-found
   done
+  cleanup_istio_cluster_resources "${SPOKE_CTX}"
   oc --context="${SPOKE_CTX}" delete clusterrole servicemeshoperator3-metrics-reader --ignore-not-found
 
   # Step 8 — Remove UWM config only if the tutorial created it (label-guarded)
@@ -3927,6 +3952,19 @@ cleanup_guide1() {
         -o jsonpath='{.metadata.labels.kiali\.io/tutorial-owned}' 2>/dev/null || true)
       [ "${owned}" = "true" ] && \
         residue="${residue}${residue:+$'\n'}configmap/openshift-monitoring/cluster-monitoring-config"
+      local istio_residue
+      istio_residue=$(
+        oc --context="${check_ctx}" get gatewayclass \
+          istio istio-remote istio-waypoint istio-east-west -o name \
+          --ignore-not-found 2>/dev/null || true
+        oc --context="${check_ctx}" get crd -o name 2>/dev/null | \
+          grep -E '\.(sailoperator\.io|istio\.io|kiali\.io|gateway\.networking\.k8s\.io|inference\.networking\.(k8s|x-k8s)\.io)$' || true
+        oc --context="${check_ctx}" get configmap -A \
+          -o custom-columns='NS:.metadata.namespace,NAME:.metadata.name' --no-headers 2>/dev/null | \
+          grep -E '(^|[[:space:]])(istio-ca-root-cert|istio-ca-crl)$' || true
+      )
+      [ -z "${istio_residue}" ] || \
+        residue="${residue}${residue:+$'\n'}${istio_residue}"
     fi
     if [ -n "${residue}" ]; then
       audit_failed=true
@@ -3936,7 +3974,7 @@ cleanup_guide1() {
   done
   [ "${audit_failed}" = true ] && \
     error "Guide 1 cleanup left managed resources behind — inspect the output above"
-  info "Residue audit passed: ACM, MCOA, Hive, Observatorium, and tutorial-owned UWM artifacts are absent"
+  info "Residue audit passed: ACM, MCOA, Hive, Observatorium, Istio, and tutorial-owned UWM artifacts are absent"
 }
 
 # =============================================================================
