@@ -200,7 +200,7 @@ done
 
 ### 3.1 Enable User Workload Monitoring
 
-Check if already enabled:
+Check if UWM is already enabled on the spoke cluster:
 
 ```bash
 oc --context=ossm-kiali-spoke-two get configmap cluster-monitoring-config \
@@ -210,21 +210,38 @@ oc --context=ossm-kiali-spoke-two get configmap cluster-monitoring-config \
   echo "Already enabled" || echo "Not enabled"
 ```
 
-If not enabled:
+If UWM is not yet enabled, enable it following the instructions below. The following enables UWM safely — merge `enableUserWorkload: true` without clobbering other monitoring settings. If you created the ConfigMap from scratch, label it so cleanup knows it is safe to remove:
 
 ```bash
-oc --context=ossm-kiali-spoke-two apply -f - <<'EOF'
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: cluster-monitoring-config
-  namespace: openshift-monitoring
-data:
-  config.yaml: |
-    enableUserWorkload: true
-EOF
+if oc --context=ossm-kiali-spoke-two get configmap cluster-monitoring-config \
+    -n openshift-monitoring &>/dev/null 2>&1; then
+  # ConfigMap already exists — patch only the enableUserWorkload key
+  EXISTING=$(oc --context=ossm-kiali-spoke-two get configmap cluster-monitoring-config \
+    -n openshift-monitoring -o jsonpath='{.data.config\.yaml}' 2>/dev/null || true)
+  if echo "${EXISTING}" | grep -q "enableUserWorkload:"; then
+    oc --context=ossm-kiali-spoke-two get configmap cluster-monitoring-config \
+      -n openshift-monitoring -o json \
+      | jq '.data["config.yaml"] |= sub("enableUserWorkload:\\s*\\w+"; "enableUserWorkload: true")' \
+      | oc --context=ossm-kiali-spoke-two apply -f -
+  else
+    oc --context=ossm-kiali-spoke-two get configmap cluster-monitoring-config \
+      -n openshift-monitoring -o json \
+      | jq '.data["config.yaml"] = ((.data["config.yaml"] // "") + "\nenableUserWorkload: true\n")' \
+      | oc --context=ossm-kiali-spoke-two apply -f -
+  fi
+else
+  # ConfigMap does not exist — create it and label it as tutorial-owned
+  oc --context=ossm-kiali-spoke-two create configmap cluster-monitoring-config \
+    -n openshift-monitoring \
+    --from-literal=config.yaml="enableUserWorkload: true"
+  oc --context=ossm-kiali-spoke-two label configmap cluster-monitoring-config \
+    -n openshift-monitoring kiali.io/tutorial-owned=true
+fi
 ```
 
+Wait for the User Workload Monitoring Prometheus pods to be created and become ready. This can take a few minutes after UWM is enabled.
+
+```bash
 until oc --context=ossm-kiali-spoke-two get pods \
   -l app.kubernetes.io/name=prometheus \
   -n openshift-user-workload-monitoring \
@@ -379,6 +396,19 @@ oc --context=ossm-kiali-spoke-two get pods -n ztunnel -l app=ztunnel
 ```
 
 ### 3.8 Configure Istio Metrics Collection on Spoke-Two
+
+The hub-side MCOA configuration resources from Guide 1 are already registered with the placement. When spoke-two joins the cluster set, MCOA propagates the recording rules into the target namespaces on spoke-two so UWM can aggregate `workload:istio_*` series there.
+
+Ensure the target namespaces exist on spoke-two before MCOA can propagate the recording rules:
+
+```bash
+for NS in istio-system ztunnel ambient-demo bookinfo; do
+  oc --context=ossm-kiali-spoke-two create namespace "${NS}" --dry-run=client -o yaml | \
+    oc --context=ossm-kiali-spoke-two apply -f -
+done
+```
+
+Create the UWM monitors so UWM Prometheus scrapes the raw Istio metrics that MCOA will then federate to hub Thanos:
 
 ```bash
 oc --context=ossm-kiali-spoke-two apply -f - <<'EOF'
@@ -552,7 +582,6 @@ echo "productpage ISTIO_META_CLUSTER_ID=${PROXY_CLUSTER}"
 if [ "${PROXY_CLUSTER}" != "${SPOKE_CLUSTER_NAME}" ]; then
   echo "ERROR: expected ISTIO_META_CLUSTER_ID=${SPOKE_CLUSTER_NAME}, got '${PROXY_CLUSTER}'."
   echo "Re-check the injector ConfigMap above, then re-run the rollout restart."
-  exit 1
 fi
 ```
 
@@ -777,15 +806,15 @@ oc --context=ossm-kiali-spoke-two wait pod \
 
 ### 7.2 Install Kiali CR on Spoke-Two (Remote Resources Only)
 
-The Kiali CR needs the OAuth redirect URI pointing back to the Kiali server on `spoke`. Get that URL first:
+Create the Kiali CR with `remote_cluster_resources_only: true`. This creates the `kiali-service-account` ServiceAccount and RBAC but no Kiali server. The tutorial explicitly disables impersonation for compatibility with Kiali releases that do not support it.
+
+The redirect URI points back to the home Kiali route and is required for the non-impersonation per-cluster OpenShift OAuth flow. Get the home Kiali route first:
 
 ```bash
 KIALI_HOST=$(oc --context=ossm-kiali-spoke get route kiali -n istio-system \
   -o jsonpath='{.spec.host}')
 echo "Kiali host: ${KIALI_HOST}"
 ```
-
-Create the Kiali CR with `remote_cluster_resources_only: true`. This creates the `kiali-service-account` SA and RBAC but no Kiali server. The redirect URI is required for the OpenShift OAuth flow when a user logs into `spoke-two` through the Kiali UI:
 
 ```bash
 oc --context=ossm-kiali-spoke-two apply -f - <<EOF
@@ -797,6 +826,8 @@ metadata:
 spec:
   auth:
     openshift:
+      impersonation:
+        enabled: false
       redirect_uris:
       - "https://${KIALI_HOST}/api/auth/callback/${SPOKE_TWO_CLUSTER_NAME}"
   deployment:
@@ -1036,48 +1067,6 @@ spec:
 EOF
 ```
 
-Add a ztunnel PodMonitor on `spoke-two` so ACM collects L4 TCP metrics:
-
-```bash
-oc --context=ossm-kiali-spoke-two apply -f - <<EOF
-apiVersion: monitoring.coreos.com/v1
-kind: PodMonitor
-metadata:
-  name: ztunnel-monitor
-  namespace: ztunnel
-spec:
-  selector:
-    matchExpressions:
-    - key: istio-prometheus-ignore
-      operator: DoesNotExist
-  podMetricsEndpoints:
-  - path: /stats/prometheus
-    interval: 30s
-    relabelings:
-    - action: keep
-      sourceLabels: ["__meta_kubernetes_pod_container_name"]
-      regex: "istio-proxy"
-    - action: keep
-      sourceLabels: ["__meta_kubernetes_pod_annotationpresent_prometheus_io_scrape"]
-    - action: replace
-      regex: (\d+);(([A-Fa-f0-9]{1,4}::?){1,7}[A-Fa-f0-9]{1,4})
-      replacement: '[\$2]:\$1'
-      sourceLabels: ["__meta_kubernetes_pod_annotation_prometheus_io_port","__meta_kubernetes_pod_ip"]
-      targetLabel: "__address__"
-    - action: replace
-      regex: (\d+);((([0-9]+?)(\.|$)){4})
-      replacement: '\$2:\$1'
-      sourceLabels: ["__meta_kubernetes_pod_annotation_prometheus_io_port","__meta_kubernetes_pod_ip"]
-      targetLabel: "__address__"
-    - sourceLabels: ["__meta_kubernetes_namespace"]
-      action: replace
-      targetLabel: namespace
-    - action: replace
-      replacement: "${MESH_ID}"
-      targetLabel: mesh_id
-EOF
-```
-
 ### 8.2 Sidecar Demo — Split Bookinfo
 
 Spoke-one already has the full Bookinfo application running (from the hub/spoke guide). Here we extend it by deploying a `ratings-v2` workload on `spoke-two`. Because the `ratings` Service is federated across the mesh, `reviews-v2` and `reviews-v3` on `spoke` will occasionally route their ratings calls to `spoke-two` via the East-West gateway — creating cross-cluster L7 traffic visible in Kiali.
@@ -1263,6 +1252,27 @@ oc --context=ossm-kiali-hub get managedclusters
 # Both spoke and spoke-two should show JOINED=True, AVAILABLE=True
 ```
 
+### 9.4.1 Verify MCOA Propagation on Spoke-Two
+
+Confirm the MCOA add-on is available and the federation recording rules have propagated:
+
+```bash
+# MCOA add-on must be Available on spoke-two
+oc --context=ossm-kiali-hub get managedclusteraddon \
+  multicluster-observability-addon -n "${SPOKE_TWO_CLUSTER_NAME}"
+
+# PrometheusAgent should exist on spoke-two
+oc --context=ossm-kiali-spoke-two get prometheusagent \
+  -n open-cluster-management-agent-addon
+
+# Each target namespace should have a propagated PrometheusRule
+for NS in istio-system ztunnel ambient-demo bookinfo; do
+  echo "=== ${NS} ==="
+  oc --context=ossm-kiali-spoke-two get prometheusrule \
+    "kiali-istio-aggregation-${NS}" -n "${NS}" 2>/dev/null || echo "  MISSING"
+done
+```
+
 ### 9.5 Verify meshNetworks Configuration
 
 Confirm that the `meshNetworks` settings from the Istio CR were applied to the `istio` ConfigMap on both clusters. Each cluster should show both network gateways with their correct external IPs:
@@ -1335,6 +1345,15 @@ Open the URL and log in. In the top-right cluster dropdown you should see both `
 2. **Traffic Graph**: navigate to the Traffic Graph page and select `ambient-demo` and `bookinfo` from the namespace dropdown — namespaces from both clusters appear in the same list. Traffic edges should appear showing `traffic-gen` → `helloworld` in `ambient-demo` and the bookinfo topology in `bookinfo` (allow 10–15 minutes for ACM metrics pipeline)
 3. **Mesh page**: both control planes represented
 
+Hub metrics for both clusters should include distinct `cluster` labels. Verify hub Thanos contains metrics from both spokes:
+
+```bash
+oc --context=ossm-kiali-hub get --raw \
+  "/api/v1/namespaces/open-cluster-management-observability/services/http:observability-thanos-query-frontend:9090/proxy/api/v1/query?query=istio_requests_total" \
+  | jq '[.data.result[].metric.cluster] | unique'
+# Should list both spoke cluster names
+```
+
 ---
 
 ## Cleanup
@@ -1385,14 +1404,125 @@ for suffix in sailoperator.io istio.io kiali.io; do
     | grep "\.${suffix}$")
   [ -n "${CRDS}" ] && echo "${CRDS}" | xargs oc --context=ossm-kiali-spoke-two delete crd --ignore-not-found
 done
+
+# Remove cluster-scoped and cross-namespace resources left by Istio
+oc --context=ossm-kiali-spoke-two delete gatewayclass \
+  istio istio-remote istio-waypoint istio-east-west --ignore-not-found
+for NS in $(oc --context=ossm-kiali-spoke-two get configmap -A \
+  -o custom-columns='NS:.metadata.namespace,NAME:.metadata.name' --no-headers 2>/dev/null \
+  | grep -E 'istio-ca-root-cert|istio-ca-crl' | awk '{print $1}' | sort -u); do
+  oc --context=ossm-kiali-spoke-two delete configmap istio-ca-root-cert istio-ca-crl \
+    -n "${NS}" --ignore-not-found
+done
+CRDS=$(oc --context=ossm-kiali-spoke-two get crd -o name 2>/dev/null \
+  | grep -E '\.(gateway\.networking\.k8s\.io|inference\.networking\.(k8s|x-k8s)\.io)$' || true)
+[ -z "${CRDS}" ] || echo "${CRDS}" \
+  | xargs oc --context=ossm-kiali-spoke-two delete --ignore-not-found
+
+# Remove the ClusterRole installed by the OSSM operator
+oc --context=ossm-kiali-spoke-two delete clusterrole servicemeshoperator3-metrics-reader --ignore-not-found
 ```
 
-Detach `spoke-two` from ACM and remove its `KlusterletAddonConfig`:
+Detach `spoke-two` from ACM — tear down the Klusterlet on `spoke-two` before waiting for the hub namespace, then clean up all ACM/MCOA/COO/UWM residue:
 
 ```bash
 oc --context=ossm-kiali-hub delete klusterletaddonconfig "${SPOKE_TWO_CLUSTER_NAME}" \
   -n "${SPOKE_TWO_CLUSTER_NAME}" --ignore-not-found
-oc --context=ossm-kiali-hub delete managedcluster "${SPOKE_TWO_CLUSTER_NAME}" --ignore-not-found
+
+# Tear down the Klusterlet agent on spoke-two
+oc --context=ossm-kiali-spoke-two delete klusterlet klusterlet \
+  --ignore-not-found --wait=false 2>/dev/null || true
+until ! oc --context=ossm-kiali-spoke-two get klusterlet klusterlet &>/dev/null 2>&1; do
+  echo "Waiting for Klusterlet removal on spoke-two..."
+  sleep 10
+done
+oc --context=ossm-kiali-spoke-two delete namespace \
+  open-cluster-management-agent open-cluster-management-agent-addon \
+  open-cluster-management-policies \
+  --ignore-not-found --wait=false 2>/dev/null || true
+
+oc --context=ossm-kiali-hub delete managedcluster "${SPOKE_TWO_CLUSTER_NAME}" \
+  --ignore-not-found --wait=false
+until ! oc --context=ossm-kiali-hub get managedcluster "${SPOKE_TWO_CLUSTER_NAME}" &>/dev/null 2>&1; do
+  echo "Waiting for ManagedCluster removal..."
+  sleep 10
+done
+oc --context=ossm-kiali-hub delete namespace "${SPOKE_TWO_CLUSTER_NAME}" --ignore-not-found
+
+# Clean up spoke-two ACM residue (objects that linger after Klusterlet teardown)
+if oc --context=ossm-kiali-spoke-two get crd appliedmanifestworks.work.open-cluster-management.io &>/dev/null; then
+  AMWS=$(oc --context=ossm-kiali-spoke-two get appliedmanifestwork -o name 2>/dev/null || true)
+  [ -n "${AMWS}" ] && echo "${AMWS}" | xargs oc --context=ossm-kiali-spoke-two delete --ignore-not-found
+fi
+
+# Release orphaned ConfigurationPolicy finalizers — scoped to the spoke-two
+# namespace, cluster-name label, terminating state, and the specific finalizer
+SPOKE_TWO_NS="${SPOKE_TWO_CLUSTER_NAME}"
+if oc --context=ossm-kiali-spoke-two get crd \
+    configurationpolicies.policy.open-cluster-management.io &>/dev/null 2>&1; then
+  oc --context=ossm-kiali-spoke-two get configurationpolicy \
+    -n "${SPOKE_TWO_NS}" -o json 2>/dev/null | \
+    jq -r --arg cluster "${SPOKE_TWO_NS}" '.items[] |
+      select(.metadata.deletionTimestamp != null) |
+      select(.metadata.labels["policy.open-cluster-management.io/cluster-name"] == $cluster) |
+      select(any(.metadata.finalizers[]?;
+        . == "policy.open-cluster-management.io/delete-related-objects")) |
+      .metadata.name' | \
+  while read -r policy; do
+    echo "Releasing finalizer: ${SPOKE_TWO_NS}/${policy}"
+    oc --context=ossm-kiali-spoke-two patch configurationpolicy "${policy}" \
+      -n "${SPOKE_TWO_NS}" \
+      --type=merge -p '{"metadata":{"finalizers":[]}}' 2>/dev/null || true
+  done
+fi
+
+PROM_RULES=$(oc --context=ossm-kiali-spoke-two get prometheusrule \
+  -n openshift-monitoring -o name 2>/dev/null | grep '/acm-rs-' || true)
+[ -n "${PROM_RULES}" ] && echo "${PROM_RULES}" | xargs oc --context=ossm-kiali-spoke-two \
+  -n openshift-monitoring delete --ignore-not-found
+
+RBAC=$(oc --context=ossm-kiali-spoke-two get clusterrole,clusterrolebinding -o name 2>/dev/null | \
+  grep -E '/(ocm:|.*open-cluster-management|.*multicluster-observability|.*observability.*mco)' || true)
+[ -n "${RBAC}" ] && echo "${RBAC}" | xargs oc --context=ossm-kiali-spoke-two delete --ignore-not-found
+
+WEBHOOKS=$(oc --context=ossm-kiali-spoke-two get \
+  validatingwebhookconfiguration,mutatingwebhookconfiguration -o name 2>/dev/null | \
+  grep -E '/.*(open-cluster-management|multicluster|observability)' || true)
+[ -n "${WEBHOOKS}" ] && echo "${WEBHOOKS}" | xargs oc --context=ossm-kiali-spoke-two delete --ignore-not-found
+
+# APIServices: ACM/MCE + Observatorium; Hive only when no live workloads
+APIS=$(oc --context=ossm-kiali-spoke-two get apiservice -o name 2>/dev/null | \
+  grep -E '\.(open-cluster-management\.io|multicluster\.openshift\.io|multicluster\.x-k8s\.io|observatorium\.io)$' || true)
+[ -n "${APIS}" ] && echo "${APIS}" | xargs oc --context=ossm-kiali-spoke-two delete --ignore-not-found
+HIVE_WORKLOADS=$(oc --context=ossm-kiali-spoke-two get deploy,statefulset,daemonset,pod \
+  -n hive -o name 2>/dev/null || true)
+if ! oc --context=ossm-kiali-spoke-two get namespace hive &>/dev/null || \
+   [ -z "${HIVE_WORKLOADS}" ]; then
+  HIVE_APIS=$(oc --context=ossm-kiali-spoke-two get apiservice -o name 2>/dev/null | \
+    grep -E '\.(hive\.openshift\.io|hiveinternal\.openshift\.io)$' || true)
+  [ -n "${HIVE_APIS}" ] && echo "${HIVE_APIS}" | xargs oc --context=ossm-kiali-spoke-two delete --ignore-not-found
+fi
+
+# CRDs last — the cleanup above still needs their APIs
+ACM_CRDS=$(oc --context=ossm-kiali-spoke-two get crd -o name 2>/dev/null | \
+  grep -E '\.(open-cluster-management\.io|multicluster\.openshift\.io|multicluster\.x-k8s\.io|observatorium\.io)$' || true)
+[ -n "${ACM_CRDS}" ] && echo "${ACM_CRDS}" | xargs oc --context=ossm-kiali-spoke-two delete --ignore-not-found
+HIVE_WORKLOADS=$(oc --context=ossm-kiali-spoke-two get deploy,statefulset,daemonset,pod \
+  -n hive -o name 2>/dev/null || true)
+if ! oc --context=ossm-kiali-spoke-two get namespace hive &>/dev/null || \
+   [ -z "${HIVE_WORKLOADS}" ]; then
+  HIVE_CRDS=$(oc --context=ossm-kiali-spoke-two get crd -o name 2>/dev/null | \
+    grep -E '\.(hive\.openshift\.io|hiveinternal\.openshift\.io)$' || true)
+  [ -n "${HIVE_CRDS}" ] && echo "${HIVE_CRDS}" | xargs oc --context=ossm-kiali-spoke-two delete --ignore-not-found
+fi
+
+# Remove UWM config from spoke-two — only if the tutorial created it
+# (skip if cluster-monitoring-config was pre-existing or not labeled as tutorial-owned)
+OWNED=$(oc --context=ossm-kiali-spoke-two get configmap cluster-monitoring-config \
+  -n openshift-monitoring \
+  -o jsonpath='{.metadata.labels.kiali\.io/tutorial-owned}' 2>/dev/null || true)
+[ "${OWNED}" = "true" ] && oc --context=ossm-kiali-spoke-two delete configmap \
+  cluster-monitoring-config -n openshift-monitoring --ignore-not-found
 ```
 
 Remove Kiali remote access and endpoint discovery resources from `spoke`:
@@ -1499,7 +1629,7 @@ The table below shows where each cluster's name appears. Each cluster (`spoke` a
     </tr>
     <tr>
       <td>Kiali CR (remote cluster)</td>
-      <td><code>spec.auth.openshift.redirect_uris</code> — the <code>/api/auth/callback/&lt;name&gt;</code> path segment</td>
+      <td><code>spec.auth.openshift.redirect_uris</code> — the <code>/api/auth/callback/&lt;name&gt;</code> path segment used by the non-impersonation per-cluster OAuth flow</td>
       <td><code>spoke-two</code></td>
     </tr>
     <tr>
@@ -1522,11 +1652,10 @@ client claims to be in cluster "spoke-two", but we only know about local cluster
 
 The same error appears for **sidecar** proxies when `ISTIO_META_CLUSTER_ID` does not match istiod's local cluster name. The sidecar injector template sets that env var from `global.multiCluster.clusterName` and defaults to `Kubernetes` when the value is missing. After you patch `clusterName` on an existing mesh (Phase 4.2), wait until `istio-sidecar-injector`'s `.data.values` shows the new name **before** restarting sidecar-injected workloads (Phase 4.4). `Istio` Ready alone is not enough — Sail updates the injector ConfigMap asynchronously. Restarting too early permanently bakes `Kubernetes` into the pod spec until another restart runs against the updated injector. Confirm a sample pod's `istio-proxy` env shows `ISTIO_META_CLUSTER_ID=<your-cluster-name>` (for example `spoke`), not `Kubernetes`.
 
-### 6. Kiali OAuth Redirect for Spoke-Two
+### 6. Kiali OAuth Redirect / Optional Kiali Impersonation Mode
 
-When logging into `spoke-two` through Kiali's multi-cluster UI, Kiali redirects to `spoke-two`'s OpenShift OAuth endpoint. The redirect URI must be reachable from the user's browser. If `spoke-two`'s OAuth route is on a different domain, ensure the redirect back to the Kiali URL is reachable.
+Impersonation is disabled by default in this tutorial.
 
-### 7. Impersonation Mode Eliminates Per-Cluster Login
+When not using impersonation, logging into `spoke-two` through Kiali's multi-cluster UI will cause Kiali to redirect to `spoke-two`'s OpenShift OAuth endpoint. The redirect URI must therefore be reachable from the user's browser. If `spoke-two`'s OAuth route is on a different domain, ensure the redirect back to the Kiali URL is reachable.
 
-The per-cluster OAuth login flow described in this tutorial requires users to individually log into each remote cluster via the Kiali UI. This works for a small number of clusters but does not scale well to large fleets. OSSM 3.5/Kiali will support an **impersonation mode** (`spec.auth.openshift.impersonation.enabled: true`) where users authenticate once to the home cluster and Kiali uses Kubernetes API impersonation to access all remote clusters on their behalf. When using this feature, the `redirect_uris` configuration on remote clusters will no longer be needed and users will not be prompted to log into each cluster individually. See the upstream [Kiali impersonation documentation](https://kiali.io/docs/configuration/authentication/openshift/#impersonation-mode-alternative) for details on this impersonation feature.
-
+If your installed Kiali version supports OpenShift impersonation and you want users to only need to authenticate once to the home cluster, set `spec.auth.openshift.impersonation.enabled` to `true` on both Kiali CRs. Kiali then accesses remote clusters on the user's behalf, subject to the user's RBAC permissions. Keep the remote `redirect_uris` entry as a fallback if you later disable impersonation, but it is not needed when impersonation is enabled. See the [Kiali impersonation documentation]({{< relref "/docs/configuration/authentication/openshift#impersonation-mode-alternative" >}}) for configuration and security considerations.

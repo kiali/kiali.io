@@ -23,7 +23,7 @@
 <text x="153.0" y="203" font-size="13" font-weight="bold" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">ACM Observability (MCO)</text>
 <text x="63" y="221" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">MinIO object store (1.4)</text>
 <text x="63" y="236" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">Thanos + Observatorium API + certs (1.4)</text>
-<text x="63" y="251" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">metrics allowlist (1.5)</text>
+<text x="63" y="251" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">MCOA ScrapeConfig + PrometheusRule (1.5)</text>
 <rect x="55" y="290" width="370" height="95" rx="4" fill="#fafbfc" stroke="#334455" stroke-width="1.2" opacity="1.0"/>
 <rect x="61" y="294" width="82.0" height="20" rx="3" fill="#1f77b4" stroke="#1f77b4" stroke-width="0" opacity="1.0"/>
 <text x="102.0" y="309" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G1:P2.1-2.3</text>
@@ -101,7 +101,7 @@
 <text x="185.0" y="652" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">ACM Operator + MultiClusterHub</text>
 <rect x="40" y="662" width="135.0" height="20" rx="3" fill="#1f77b4" stroke="#1f77b4" stroke-width="0" opacity="1.0"/>
 <text x="107.5" y="677" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G1:P1.4-1.5</text>
-<text x="185.0" y="676" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">ACM Observability + allowlist</text>
+<text x="185.0" y="676" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">ACM Observability + MCOA federation</text>
 <rect x="40" y="686" width="135.0" height="20" rx="3" fill="#1f77b4" stroke="#1f77b4" stroke-width="0" opacity="1.0"/>
 <text x="107.5" y="701" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">G1:P2.1-2.3</text>
 <text x="185.0" y="700" font-size="12" font-weight="normal" fill="#1a1a1a" text-anchor="start" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">ManagedCluster import</text>

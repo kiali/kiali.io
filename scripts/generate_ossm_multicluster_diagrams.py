@@ -353,7 +353,7 @@ def diagram_01() -> str:
     for b in [
         Box(55, 100, 370, 70, "ACM Operator + MultiClusterHub", ["OLM Subscription (1.1)", "MCH Running (1.2)"], "G1:P1.1-1.2", guide="G1"),
         # Certs are an MCO side effect in 1.4; extract/apply for Kiali is G1:P4.1-4.2 on the spoke
-        Box(55, 185, 370, 90, "ACM Observability (MCO)", ["MinIO object store (1.4)", "Thanos + Observatorium API + certs (1.4)", "metrics allowlist (1.5)"], "G1:P1.4-1.5", guide="G1"),
+        Box(55, 185, 370, 90, "ACM Observability (MCO)", ["MinIO object store (1.4)", "Thanos + Observatorium API + certs (1.4)", "MCOA ScrapeConfig + PrometheusRule (1.5)"], "G1:P1.4-1.5", guide="G1"),
         Box(55, 290, 370, 95, "ManagedCluster: spoke", ["ManagedCluster + namespace (2.1)", "auto-import-secret (2.2)", "KlusterletAddonConfig (2.3)"], "G1:P2.1-2.3", guide="G1"),
     ]:
         c.draw_box(b)
@@ -422,7 +422,7 @@ def diagram_01() -> str:
         630,
         [
             ("G1:P1.1-1.2", "G1", "ACM Operator + MultiClusterHub"),
-            ("G1:P1.4-1.5", "G1", "ACM Observability + allowlist"),
+            ("G1:P1.4-1.5", "G1", "ACM Observability + MCOA federation"),
             ("G1:P2.1-2.3", "G1", "ManagedCluster import"),
             ("G1:P2.4", "G1", "Spoke joined / Klusterlet"),
         ],
@@ -503,6 +503,7 @@ def diagram_02() -> str:
     for b in [
         Box(1005, 100, 240, 55, "Intermediate CA / cacerts", [], "G2:P1", guide="G2"),
         Box(1005, 170, 240, 50, "Klusterlet (ACM join)", [], "G2:P2", guide="G2"),
+        # The stack begins with certificate setup (3.4); UWM, the operator, and namespace setup are not depicted.
         Box(1005, 235, 240, 100, "OSSM 3 stack", ["cacerts (3.4)", "IstioCNI (3.5), Istio (3.6)", "ZTunnel (3.7)", "monitors (3.8)"], "G2:P3.4-3.8", guide="G2"),
         Box(1005, 350, 240, 85, "East-West gateways", ["HBONE (5.1), sidecar (5.2)", "meshNetworks (5.3)"], "G2:P5.1-5.3", guide="G2"),
         Box(1005, 450, 240, 55, "Istio remote secret", ["from spoke"], "G2:P6.3", guide="G2"),
@@ -776,7 +777,7 @@ def diagram_04() -> str:
 
     # Hub — Phase 6 (+ optional routing after phases)
     for b in [
-        Box(55, 100, 310, 90, "Allowlist kiali_health_status", ["observability-metrics-custom-allowlist", "to hub Thanos"], "G4:P6.1", guide="G4"),
+        Box(55, 100, 310, 90, "MCOA health federation", ["ScrapeConfig/kiali-health-federation", "PrometheusRule/kiali-health-aggregation"], "G4:P6.1", guide="G4"),
         Box(55, 210, 310, 95, "Thanos Ruler custom rules", ["KialiHubHealthFailure", "KialiHubHealthDegraded", "Namespace Failure"], "G4:P6.3", guide="G4"),
         Box(55, 325, 310, 70, "ACM Alertmanager routing", ["Slack / email / webhook"], "optional", prior=True, guide="G4"),
     ]:
@@ -812,7 +813,7 @@ def diagram_04() -> str:
             label_pill_fill=COLORS["cluster"],
         )
     )
-    # ACM collect: spoke UWM left → hub allowlist right (gutter; hub ends 380, spoke 440)
+    # MCOA federation: spoke UWM left → hub MCOA health resources right (gutter; hub ends 380, spoke 440)
     c.draw_arrow(
         Arrow(
             460,
@@ -845,7 +846,7 @@ def diagram_04() -> str:
         567,
         [
             ("G4:P5.2-5.3", "G4", "Hands-on Failure demo"),
-            ("G4:P6.1", "G4", "Hub metrics allowlist"),
+            ("G4:P6.1", "G4", "Hub MCOA health federation"),
             ("G4:P6.3", "G4", "Hub Thanos Ruler alerts"),
             ("G4:P7.1-7.3", "G4", "NetObserv Network Health"),
             ("optional", "G4", "Alertmanager routing"),
@@ -887,11 +888,11 @@ def diagram_00() -> str:
     # Hub
     for b in [
         Box(35, 100, 330, 70, "ACM MCH + Observability", ["Thanos / Observatorium / MinIO"], "G1:P1", guide="G1"),
-        Box(35, 185, 330, 55, "Metrics allowlist", [], "G1:P1", guide="G1"),
+        Box(35, 185, 330, 55, "MCOA ScrapeConfig", [], "G1:P1", guide="G1"),
         # Full-width stacked so badge does not cover the ManagedCluster title
         Box(35, 255, 330, 40, "ManagedCluster: spoke", [], "G1:P2", guide="G1"),
         Box(35, 305, 330, 40, "ManagedCluster: spoke-two", [], "G2:P2", guide="G2"),
-        Box(35, 360, 330, 70, "Thanos Ruler + allowlist", ["kiali_health_status", "KialiHub* health alerts"], "G4:P6", guide="G4"),
+        Box(35, 360, 330, 70, "Thanos Ruler + MCOA health federation", ["kiali_health_status", "KialiHub* health alerts"], "G4:P6", guide="G4"),
     ]:
         c.draw_box(b)
 

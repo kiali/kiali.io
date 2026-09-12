@@ -5,7 +5,7 @@ weight: 7
 type: tutorial
 ---
 
-These tutorials walk through setting up Istio multi-cluster meshes on OpenShift using Red Hat Advanced Cluster Management (ACM), the Cluster Observability Operator (COO), and Kiali. ACM provides fleet management and centralized metrics aggregation via Thanos. COO provides Perses metrics dashboards and the distributed tracing console plugin for Tempo, both integrated into the OpenShift console.
+These tutorials walk through setting up Istio multi-cluster meshes on OpenShift using Red Hat Advanced Cluster Management (ACM) 2.17+, the Cluster Observability Operator (COO), and Kiali. ACM provides fleet management, and its multicluster observability add-on (MCOA) federates Istio and container metrics from each spoke cluster to hub Thanos via `ScrapeConfig` and `PrometheusRule` objects (requires COO on hub and spokes). COO also provides Perses metrics dashboards and the distributed tracing console plugin for Tempo, both integrated into the OpenShift console.
 
 The finished environment has three OpenShift clusters: an ACM hub (`ossm-kiali-hub`) for fleet management and central Thanos metrics, and two Istio primary spokes (`ossm-kiali-spoke` and `ossm-kiali-spoke-two`) that share one multi-primary mesh. Kiali runs on the first spoke and reaches the second via a multi-cluster secret; Perses and Tempo add multi-cluster dashboards and tracing; health-status alerts can fire on each cluster or on the hub, and optionally appear on NetObserv Network Health. Click the diagram to open a full-size SVG in a new tab.
 
