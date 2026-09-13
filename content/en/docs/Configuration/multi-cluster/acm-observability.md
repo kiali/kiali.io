@@ -781,7 +781,80 @@ oc logs -n ${KIALI_NAMESPACE} deployment/kiali | grep -i "credential\|certificat
 
 ### Verify Metrics in Thanos Directly
 
-Test that metrics exist in Thanos (from within the hub cluster). The following are different queries you can run to obtain metrics data from the backend metric datastore used by ACM.
+Validate each stage of the federation pipeline: raw Istio metrics in the
+managed cluster's edge UWM Prometheus, `workload:*` recording-rule output in
+that same Prometheus, and the relabeled metrics in hub Thanos. Set the three
+values first:
+
+```bash
+HUB_CONTEXT="<hub-kubecontext>"
+MANAGED_CONTEXT="<managed-cluster-kubecontext>"
+MANAGED_CLUSTER_NAME="<acm-managed-cluster-name>" # List names with: oc --context="${HUB_CONTEXT}" get managedcluster -o jsonpath='{range .items[*]}{.metadata.name}{"\n"}{end}'
+
+PROM_POD=$(oc --context="${MANAGED_CONTEXT}" \
+  -n openshift-user-workload-monitoring \
+  get pods -l app.kubernetes.io/name=prometheus \
+  -o jsonpath='{.items[0].metadata.name}')
+
+# Edge UWM: raw counters scraped from Istio proxies
+oc --context="${MANAGED_CONTEXT}" \
+  -n openshift-user-workload-monitoring \
+  exec -c prometheus "${PROM_POD}" -- \
+  wget -qO- \
+  'http://localhost:9090/api/v1/query?query=sum%28istio_requests_total%29' \
+  | jq '.data.result'
+
+# Edge UWM: aggregates produced by the recording rules
+oc --context="${MANAGED_CONTEXT}" \
+  -n openshift-user-workload-monitoring \
+  exec -c prometheus "${PROM_POD}" -- \
+  wget -qO- \
+  'http://localhost:9090/api/v1/query?query=sum%28workload%3Aistio_requests_total%29' \
+  | jq '.data.result'
+
+# Hub Thanos: federated aggregates, relabeled back to istio_requests_total
+oc --context="${HUB_CONTEXT}" get --raw \
+  "/api/v1/namespaces/open-cluster-management-observability/services/http:observability-thanos-query-frontend:9090/proxy/api/v1/query?query=sum%28istio_requests_total%7Bcluster%3D%22${MANAGED_CLUSTER_NAME}%22%7D%29" \
+  | jq '.data.result'
+```
+
+Generate traffic before querying and allow at least one MCOA collection
+interval. Each query should return a non-empty result. The `workload:` prefix
+exists only on the edge recording-rule series; MCOA removes it before writing
+the metric to hub Thanos. Because the hub sample can lag the edge by the
+federation interval, compare presence, labels, and approximately corresponding
+counter values rather than expecting exact point-in-time equality.
+
+List the Istio and Envoy metric names in edge UWM. This output includes the
+`workload:*` series produced by the recording rules:
+
+```bash
+oc --context="${MANAGED_CONTEXT}" \
+  -n openshift-user-workload-monitoring \
+  exec -c prometheus "${PROM_POD}" -- \
+  wget -qO- \
+  'http://localhost:9090/api/v1/label/__name__/values' \
+  | jq -r '
+  [.data[] | select(test("istio|envoy"; "i"))] | unique
+  | .[] ,
+  "===\nTOTAL COUNT OF istio_ AND envoy_ METRICS: \(length)"'
+```
+
+List the metrics stored in hub Thanos. The result does not contain
+`workload:*` names because federation relabels those series, and it should have
+far fewer metric names than the edge:
+
+```bash
+oc --context="${HUB_CONTEXT}" get --raw \
+  "/api/v1/namespaces/open-cluster-management-observability/services/http:observability-thanos-query-frontend:9090/proxy/api/v1/label/__name__/values" \
+  | jq -r '
+  [.data[] | select(test("istio|envoy|pilot"; "i"))] | unique
+  | .[] ,
+  "===\nTOTAL COUNT OF istio_, envoy_, AND pilot_ METRICS: \(length)"'
+```
+
+The following additional hub queries inspect the backend metric datastore used
+by ACM.
 
 {{% alert color="info" %}}
 **Note**: These commands use `jq` to format JSON output. If you don't have jq installed, simply omit `| jq .` to see the full, unfiltered and raw JSON.
@@ -789,13 +862,13 @@ Test that metrics exist in Thanos (from within the hub cluster). The following a
 
 ```bash
 # List available metric names (Kiali uses istio_*, pilot_*, and envoy_* metrics)
-oc get --raw "/api/v1/namespaces/open-cluster-management-observability/services/http:observability-thanos-query-frontend:9090/proxy/api/v1/label/__name__/values" | jq -r '.data[] | select(startswith("istio_") or startswith("pilot_") or startswith("envoy_"))'
+oc --context="${HUB_CONTEXT}" get --raw "/api/v1/namespaces/open-cluster-management-observability/services/http:observability-thanos-query-frontend:9090/proxy/api/v1/label/__name__/values" | jq -r '.data[] | select(startswith("istio_") or startswith("pilot_") or startswith("envoy_"))'
 
 # Count timeseries for key Istio metrics (shows which metrics have data and how many unique timeseries)
-oc get --raw "/api/v1/namespaces/open-cluster-management-observability/services/http:observability-thanos-query-frontend:9090/proxy/api/v1/query?query=count%20by%20(__name__)%20({__name__=~%22istio_requests_total|istio_tcp.*total%22})" | jq -r '.data.result[] | "\(.metric.__name__): \(.value[1])"'
+oc --context="${HUB_CONTEXT}" get --raw "/api/v1/namespaces/open-cluster-management-observability/services/http:observability-thanos-query-frontend:9090/proxy/api/v1/query?query=count%20by%20(__name__)%20({__name__=~%22istio_requests_total|istio_tcp.*total%22})" | jq -r '.data.result[] | "\(.metric.__name__): \(.value[1])"'
 
 # Query Istio request metrics with full details (limited to first result to show structure)
-oc get --raw "/api/v1/namespaces/open-cluster-management-observability/services/http:observability-thanos-query-frontend:9090/proxy/api/v1/query?query=istio_requests_total" | jq '.data.result |= .[0:1]'
+oc --context="${HUB_CONTEXT}" get --raw "/api/v1/namespaces/open-cluster-management-observability/services/http:observability-thanos-query-frontend:9090/proxy/api/v1/query?query=istio_requests_total" | jq '.data.result |= .[0:1]'
 ```
 
 ## Troubleshooting

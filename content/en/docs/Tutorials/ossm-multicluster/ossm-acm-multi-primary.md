@@ -1348,11 +1348,65 @@ Open the URL and log in. In the top-right cluster dropdown you should see both `
 Hub metrics for both clusters should include distinct `cluster` labels. Verify hub Thanos contains metrics from both spokes:
 
 ```bash
+# Query raw and recorded traffic metrics independently on each spoke
+for CONTEXT in ossm-kiali-spoke ossm-kiali-spoke-two; do
+  echo "=== ${CONTEXT}: edge UWM ==="
+  PROM_POD=$(oc --context="${CONTEXT}" \
+    -n openshift-user-workload-monitoring \
+    get pods -l app.kubernetes.io/name=prometheus \
+    -o jsonpath='{.items[0].metadata.name}')
+
+  # Raw counters scraped from Istio proxies
+  oc --context="${CONTEXT}" \
+    -n openshift-user-workload-monitoring \
+    exec -c prometheus "${PROM_POD}" -- \
+    wget -qO- \
+    'http://localhost:9090/api/v1/query?query=sum%28istio_requests_total%29' \
+    | jq '.data.result'
+
+  # Aggregates produced by the recording rules
+  oc --context="${CONTEXT}" \
+    -n openshift-user-workload-monitoring \
+    exec -c prometheus "${PROM_POD}" -- \
+    wget -qO- \
+    'http://localhost:9090/api/v1/query?query=sum%28workload%3Aistio_requests_total%29' \
+    | jq '.data.result'
+
+  # Edge UWM metric names, including workload:* recording-rule series
+  oc --context="${CONTEXT}" \
+    -n openshift-user-workload-monitoring \
+    exec -c prometheus "${PROM_POD}" -- \
+    wget -qO- \
+    'http://localhost:9090/api/v1/label/__name__/values' \
+    | jq -r '
+    [.data[] | select(test("istio|envoy"; "i"))] | unique
+    | .[] ,
+    "===\nTOTAL COUNT OF istio_ AND envoy_ METRICS: \(length)"'
+done
+
+# Hub Thanos: federated and relabeled totals, separated by managed cluster
 oc --context=ossm-kiali-hub get --raw \
-  "/api/v1/namespaces/open-cluster-management-observability/services/http:observability-thanos-query-frontend:9090/proxy/api/v1/query?query=istio_requests_total" \
-  | jq '[.data.result[].metric.cluster] | unique'
-# Should list both spoke cluster names
+  "/api/v1/namespaces/open-cluster-management-observability/services/http:observability-thanos-query-frontend:9090/proxy/api/v1/query?query=sum%20by%20%28cluster%29%20%28istio_requests_total%29" \
+  | jq '.data.result'
+# Should return non-empty values for both ${SPOKE_CLUSTER_NAME} and
+# ${SPOKE_TWO_CLUSTER_NAME}.
+
+# Hub metric names; workload:* is absent after federation relabeling
+oc --context=ossm-kiali-hub get --raw \
+  "/api/v1/namespaces/open-cluster-management-observability/services/http:observability-thanos-query-frontend:9090/proxy/api/v1/label/__name__/values" \
+  | jq -r '
+  [.data[] | select(test("istio|envoy"; "i"))] | unique
+  | .[] ,
+  "===\nTOTAL COUNT OF istio_ AND envoy_ METRICS: \(length)"'
 ```
+
+Generate traffic on both spokes before running these commands. The edge raw and
+recorded queries should be non-empty on each cluster. Allow at least one
+five-minute MCOA collection interval for hub Thanos. Hub values lag the edge,
+so compare presence and approximately corresponding counter values rather than
+expecting exact point-in-time equality. Each edge should list `workload:*`
+metrics and substantially more metric names than hub Thanos, where the
+`workload:` prefix has been removed.
 
 ---
 

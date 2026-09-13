@@ -1765,15 +1765,79 @@ oc --context=ossm-kiali-spoke logs -n ambient-demo deployment/traffic-gen --tail
 oc --context=ossm-kiali-spoke logs -n bookinfo deployment/traffic-gen --tail=5
 ```
 
-### 6.3 Verify Istio Metrics Are in Hub Thanos
+### 6.3 Verify Istio Metrics from Edge UWM to Hub Thanos
 
-The metrics pipeline has two hops (spoke UWM → MCOA federation → hub Thanos), so allow **at least 10 minutes** after the demo apps start generating traffic before checking. Run these queries on the **hub cluster**:
+The metrics pipeline has two hops (spoke UWM → MCOA federation → hub Thanos).
+Query all three stages to isolate scrape, recording-rule, and federation
+failures:
 
 ```bash
+# Locate the spoke's user-workload Prometheus pod
+PROM_POD=$(oc --context=ossm-kiali-spoke \
+  -n openshift-user-workload-monitoring \
+  get pods -l app.kubernetes.io/name=prometheus \
+  -o jsonpath='{.items[0].metadata.name}')
+
+# Edge UWM: raw counters scraped from Istio proxies
+oc --context=ossm-kiali-spoke \
+  -n openshift-user-workload-monitoring \
+  exec -c prometheus "${PROM_POD}" -- \
+  wget -qO- \
+  'http://localhost:9090/api/v1/query?query=sum%28istio_requests_total%29' \
+  | jq '.data.result'
+
+# Edge UWM: aggregates produced by the recording rules
+oc --context=ossm-kiali-spoke \
+  -n openshift-user-workload-monitoring \
+  exec -c prometheus "${PROM_POD}" -- \
+  wget -qO- \
+  'http://localhost:9090/api/v1/query?query=sum%28workload%3Aistio_requests_total%29' \
+  | jq '.data.result'
+
+# Hub Thanos: federated aggregates, relabeled back to istio_requests_total
+oc --context=ossm-kiali-hub get --raw \
+  "/api/v1/namespaces/open-cluster-management-observability/services/http:observability-thanos-query-frontend:9090/proxy/api/v1/query?query=sum%28istio_requests_total%7Bcluster%3D%22${SPOKE_CLUSTER_NAME}%22%7D%29" \
+  | jq '.data.result'
+
 # List all Istio metric names present in hub Thanos
 oc --context=ossm-kiali-hub get --raw \
   "/api/v1/namespaces/open-cluster-management-observability/services/http:observability-thanos-query-frontend:9090/proxy/api/v1/label/__name__/values" \
   | jq -r '.data[]' | grep "^istio_"
+```
+
+Generate traffic before running the queries. The edge queries should become
+non-empty after UWM scrapes and evaluates its rules. Allow at least one
+five-minute MCOA collection interval for the hub query. Hub values lag the edge,
+so compare presence and approximately corresponding counter values rather than
+expecting exact point-in-time equality. Allow **at least 10 minutes** before
+checking Kiali `rate()` results, which require two federated samples.
+
+List the Istio and Envoy metric names in edge UWM. This output includes the
+`workload:*` series produced by the recording rules:
+
+```bash
+oc --context=ossm-kiali-spoke \
+  -n openshift-user-workload-monitoring \
+  exec -c prometheus "${PROM_POD}" -- \
+  wget -qO- \
+  'http://localhost:9090/api/v1/label/__name__/values' \
+  | jq -r '
+  [.data[] | select(test("istio|envoy"; "i"))] | unique
+  | .[] ,
+  "===\nTOTAL COUNT OF istio_ AND envoy_ METRICS: \(length)"'
+```
+
+Now list the metrics stored in hub Thanos. The result does not contain
+`workload:*` names because federation relabels those series, and it should have
+far fewer metric names than the edge:
+
+```bash
+oc --context=ossm-kiali-hub get --raw \
+  "/api/v1/namespaces/open-cluster-management-observability/services/http:observability-thanos-query-frontend:9090/proxy/api/v1/label/__name__/values" \
+  | jq -r '
+  [.data[] | select(test("istio|envoy"; "i"))] | unique
+  | .[] ,
+  "===\nTOTAL COUNT OF istio_ AND envoy_ METRICS: \(length)"'
 ```
 
 You should see `istio_tcp_sent_bytes_total`, `istio_tcp_connections_opened_total` (from ztunnel for the ambient namespace) and `istio_requests_total` (from sidecar proxies for the sidecar namespace).
