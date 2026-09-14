@@ -327,9 +327,15 @@ spec:
     replacement: '${1}'
     sourceLabels: [__name__]
     targetLabel: __name__
+  - action: replace
+    regex: 'kiali:(.*)'
+    replacement: '${1}'
+    sourceLabels: [__name__]
+    targetLabel: __name__
   metricsPath: /federate
   params:
     match[]:
+    # CORE TIER
     - '{__name__=~"workload:istio_requests_total"}'
     - '{__name__=~"workload:istio_request_bytes_(bucket|count|sum)"}'
     - '{__name__=~"workload:istio_request_duration_milliseconds_(bucket|count|sum)"}'
@@ -354,6 +360,25 @@ spec:
     - '{__name__=~"envoy_server_memory_allocated"}'
     - '{__name__=~"envoy_server_memory_heap_size"}'
     - '{__name__=~"envoy_server_uptime"}'
+    # KIALI TIER
+    - '{__name__=~"kiali:kiali_.*"}'
+    # ISTIO DASHBOARD TIER
+    - '{__name__=~"pilot_k8s_(reg|cfg)_events"}'
+    - '{__name__=~"pilot_push_triggers"}'
+    - '{__name__=~"pilot_total_xds_(rejects|internal_errors)"}'
+    - '{__name__=~"pilot_xds_push_time_bucket"}'
+    - '{__name__=~"pilot_xds_config_size_bytes_bucket"}'
+    - '{__name__=~"go_goroutines"}'
+    - '{__name__=~"go_memstats_(alloc_bytes|alloc_bytes_total|heap_alloc_bytes|heap_inuse_bytes|heap_sys_bytes|mallocs_total|stack_inuse_bytes)"}'
+    - '{__name__=~"container_fs_usage_bytes"}'
+    - '{__name__=~"process_open_fds"}'
+    - '{__name__=~"process_virtual_memory_bytes"}'
+    - '{__name__=~"istio_dns_requests_total"}'
+    - '{__name__=~"istio_tcp_sockets_open"}'
+    - '{__name__=~"istio_xds_connection_terminations_total"}'
+    - '{__name__=~"istio_xds_message_total"}'
+    - '{__name__=~"workload_manager_pending_proxy_count"}'
+    - '{__name__=~"envoy_wasm_.*"}'
 EOF
   add_mcoa_ref monitoring.rhobs scrapeconfigs kiali-istio-federation
 
@@ -398,6 +423,7 @@ spec:
   - interval: 30s
     name: istio.workload-aggregation
     rules:
+    # CORE TIER
     - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (istio_requests_total)
       record: workload:istio_requests_total
     - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (istio_request_messages_total)
@@ -430,6 +456,101 @@ spec:
       record: workload:istio_response_bytes_sum
     - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (istio_response_bytes_count)
       record: workload:istio_response_bytes_count
+    # KIALI TIER
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_ai_requests_total)
+      record: kiali:kiali_ai_requests_total
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_ai_store_evictions_total)
+      record: kiali:kiali_ai_store_evictions_total
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_api_failures_total)
+      record: kiali:kiali_api_failures_total
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_cache_hits_total)
+      record: kiali:kiali_cache_hits_total
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_cache_requests_total)
+      record: kiali:kiali_cache_requests_total
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_graph_cache_evictions_total)
+      record: kiali:kiali_graph_cache_evictions_total
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_graph_cache_hits_total)
+      record: kiali:kiali_graph_cache_hits_total
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_graph_cache_misses_total)
+      record: kiali:kiali_graph_cache_misses_total
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_health_cache_hits_total)
+      record: kiali:kiali_health_cache_hits_total
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_health_cache_misses_total)
+      record: kiali:kiali_health_cache_misses_total
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_ai_store_conversations_total)
+      record: kiali:kiali_ai_store_conversations_total
+    - expr: max without (pod, pod_template_hash, instance, namespace, job, node) (kiali_graph_nodes)
+      record: kiali:kiali_graph_nodes
+    - expr: max without (pod, pod_template_hash, instance, namespace, job, node) (kiali_kubernetes_clients)
+      record: kiali:kiali_kubernetes_clients
+    - expr: max without (pod, pod_template_hash, instance, namespace, job, node) (kiali_health_status)
+      record: kiali:kiali_health_status
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_ai_request_duration_seconds_bucket)
+      record: kiali:kiali_ai_request_duration_seconds_bucket
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_ai_request_duration_seconds_sum)
+      record: kiali:kiali_ai_request_duration_seconds_sum
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_ai_request_duration_seconds_count)
+      record: kiali:kiali_ai_request_duration_seconds_count
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_api_processing_duration_seconds_bucket)
+      record: kiali:kiali_api_processing_duration_seconds_bucket
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_api_processing_duration_seconds_sum)
+      record: kiali:kiali_api_processing_duration_seconds_sum
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_api_processing_duration_seconds_count)
+      record: kiali:kiali_api_processing_duration_seconds_count
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_checker_processing_duration_seconds_bucket)
+      record: kiali:kiali_checker_processing_duration_seconds_bucket
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_checker_processing_duration_seconds_sum)
+      record: kiali:kiali_checker_processing_duration_seconds_sum
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_checker_processing_duration_seconds_count)
+      record: kiali:kiali_checker_processing_duration_seconds_count
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_graph_appender_duration_seconds_bucket)
+      record: kiali:kiali_graph_appender_duration_seconds_bucket
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_graph_appender_duration_seconds_sum)
+      record: kiali:kiali_graph_appender_duration_seconds_sum
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_graph_appender_duration_seconds_count)
+      record: kiali:kiali_graph_appender_duration_seconds_count
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_graph_generation_duration_seconds_bucket)
+      record: kiali:kiali_graph_generation_duration_seconds_bucket
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_graph_generation_duration_seconds_sum)
+      record: kiali:kiali_graph_generation_duration_seconds_sum
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_graph_generation_duration_seconds_count)
+      record: kiali:kiali_graph_generation_duration_seconds_count
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_graph_marshal_duration_seconds_bucket)
+      record: kiali:kiali_graph_marshal_duration_seconds_bucket
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_graph_marshal_duration_seconds_sum)
+      record: kiali:kiali_graph_marshal_duration_seconds_sum
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_graph_marshal_duration_seconds_count)
+      record: kiali:kiali_graph_marshal_duration_seconds_count
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_health_refresh_duration_seconds_bucket)
+      record: kiali:kiali_health_refresh_duration_seconds_bucket
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_health_refresh_duration_seconds_sum)
+      record: kiali:kiali_health_refresh_duration_seconds_sum
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_health_refresh_duration_seconds_count)
+      record: kiali:kiali_health_refresh_duration_seconds_count
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_prometheus_processing_duration_seconds_bucket)
+      record: kiali:kiali_prometheus_processing_duration_seconds_bucket
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_prometheus_processing_duration_seconds_sum)
+      record: kiali:kiali_prometheus_processing_duration_seconds_sum
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_prometheus_processing_duration_seconds_count)
+      record: kiali:kiali_prometheus_processing_duration_seconds_count
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_single_validation_processing_duration_seconds_bucket)
+      record: kiali:kiali_single_validation_processing_duration_seconds_bucket
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_single_validation_processing_duration_seconds_sum)
+      record: kiali:kiali_single_validation_processing_duration_seconds_sum
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_single_validation_processing_duration_seconds_count)
+      record: kiali:kiali_single_validation_processing_duration_seconds_count
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_tracing_processing_duration_seconds_bucket)
+      record: kiali:kiali_tracing_processing_duration_seconds_bucket
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_tracing_processing_duration_seconds_sum)
+      record: kiali:kiali_tracing_processing_duration_seconds_sum
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_tracing_processing_duration_seconds_count)
+      record: kiali:kiali_tracing_processing_duration_seconds_count
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_validation_processing_duration_seconds_bucket)
+      record: kiali:kiali_validation_processing_duration_seconds_bucket
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_validation_processing_duration_seconds_sum)
+      record: kiali:kiali_validation_processing_duration_seconds_sum
+    - expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (kiali_validation_processing_duration_seconds_count)
+      record: kiali:kiali_validation_processing_duration_seconds_count
 EOF
     add_mcoa_ref monitoring.coreos.com prometheusrules "kiali-istio-aggregation-${ns}"
   done
@@ -438,11 +559,20 @@ EOF
 }
 
 # Create MCOA health federation resources for kiali_health_status (hub only).
+# Uses the same resource names as create_istio_federation_resources so that
+# running Guide 4 standalone produces consistent names with Guide 1.
+# If Guide 1 already ran, those resources exist with the full kiali tier and
+# are skipped here to avoid overwriting them with the minimal health-only rule.
 # Requires MCOA_PLACEMENT_NAME / MCOA_PLACEMENT_NS to be set.
 create_kiali_health_federation_resources() {
   local obs_ns="open-cluster-management-observability"
 
-  oc --context="${HUB_CTX}" apply -f - <<'EOF'
+  # Skip PrometheusRule creation if Guide 1 already created the fuller version.
+  if oc --context="${HUB_CTX}" get prometheusrule kiali-istio-aggregation-istio-system \
+      -n "${obs_ns}" &>/dev/null; then
+    info "PrometheusRule kiali-istio-aggregation-istio-system already exists (created by Guide 1) — skipping"
+  else
+    oc --context="${HUB_CTX}" apply -f - <<'EOF'
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
@@ -452,7 +582,7 @@ metadata:
     app.kubernetes.io/component: user-workload-metrics-collector
     app.kubernetes.io/managed-by: kiali-mcoa-federation
     openshift.io/prometheus-rule-evaluation-scope: leaf-prometheus
-  name: kiali-health-aggregation
+  name: kiali-istio-aggregation-istio-system
   namespace: open-cluster-management-observability
 spec:
   groups:
@@ -462,20 +592,26 @@ spec:
     - expr: max without (pod, pod_template_hash, instance, namespace, job, node) (kiali_health_status)
       record: kiali:kiali_health_status
 EOF
-  add_mcoa_ref monitoring.coreos.com prometheusrules kiali-health-aggregation
+    add_mcoa_ref monitoring.coreos.com prometheusrules kiali-istio-aggregation-istio-system
+  fi
 
-  oc --context="${HUB_CTX}" apply -f - <<'EOF'
+  # Skip ScrapeConfig creation if Guide 1 already created the fuller version.
+  if oc --context="${HUB_CTX}" get scrapeconfig kiali-istio-federation \
+      -n "${obs_ns}" &>/dev/null; then
+    info "ScrapeConfig kiali-istio-federation already exists (created by Guide 1) — skipping"
+  else
+    oc --context="${HUB_CTX}" apply -f - <<'EOF'
 apiVersion: monitoring.rhobs/v1alpha1
 kind: ScrapeConfig
 metadata:
   labels:
     app.kubernetes.io/component: user-workload-metrics-collector
     app.kubernetes.io/managed-by: kiali-mcoa-federation
-  name: kiali-health-federation
+  name: kiali-istio-federation
   namespace: open-cluster-management-observability
 spec:
   honorLabels: true
-  jobName: kiali-health-federation
+  jobName: kiali-istio-federation
   metricRelabelings:
   - action: replace
     regex: 'kiali:(.*)'
@@ -487,7 +623,8 @@ spec:
     match[]:
     - '{__name__="kiali:kiali_health_status"}'
 EOF
-  add_mcoa_ref monitoring.rhobs scrapeconfigs kiali-health-federation
+    add_mcoa_ref monitoring.rhobs scrapeconfigs kiali-istio-federation
+  fi
 
   info "MCOA kiali_health_status federation resources created"
 }
@@ -3438,12 +3575,13 @@ spec:
           enabled: false
 ' 2>/dev/null || true
 
-  # Hub cleanup — remove MCOA health federation placement refs and configuration resources
-  remove_mcoa_ref monitoring.rhobs scrapeconfigs kiali-health-federation 2>/dev/null || true
-  remove_mcoa_ref monitoring.coreos.com prometheusrules kiali-health-aggregation 2>/dev/null || true
-  oc --context="${HUB_CTX}" delete scrapeconfig kiali-health-federation \
+  # Hub cleanup — remove MCOA health federation placement refs and configuration resources.
+  # If Guide 1 also ran, its cleanup handles these same resources; deletes here are no-ops.
+  remove_mcoa_ref monitoring.rhobs scrapeconfigs kiali-istio-federation 2>/dev/null || true
+  remove_mcoa_ref monitoring.coreos.com prometheusrules kiali-istio-aggregation-istio-system 2>/dev/null || true
+  oc --context="${HUB_CTX}" delete scrapeconfig kiali-istio-federation \
     -n open-cluster-management-observability --ignore-not-found
-  oc --context="${HUB_CTX}" delete prometheusrule kiali-health-aggregation \
+  oc --context="${HUB_CTX}" delete prometheusrule kiali-istio-aggregation-istio-system \
     -n open-cluster-management-observability --ignore-not-found
 
   oc --context="${HUB_CTX}" -n open-cluster-management-observability \
