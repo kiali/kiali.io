@@ -629,6 +629,10 @@ If you already applied Phase 4 on the managed clusters, you can keep those local
 
 ### 6.1 Add `kiali_health_status` MCOA Federation Resources
 
+{{% alert color="info" %}}
+**Already followed Guide 1 (hub/spoke)?** The `kiali-istio-aggregation-istio-system` `PrometheusRule` and `kiali-istio-federation` `ScrapeConfig` were created in [Guide 1, §1.5 Configure MCOA Federation]({{< relref "ossm-acm-hub-spoke#15-configure-mcoa-federation" >}}). If you followed that Guide and created those resources already, you do not need to create them again here. Skip the resource creation below and go directly to [§6.2](#62-verify-on-the-hub).
+{{% /alert %}}
+
 On the **hub**, identify the MCOA placement (if you already did this in the hub/spoke guide, re-export the variables):
 
 ```bash
@@ -653,7 +657,7 @@ metadata:
     app.kubernetes.io/component: user-workload-metrics-collector
     app.kubernetes.io/managed-by: kiali-mcoa-federation
     openshift.io/prometheus-rule-evaluation-scope: leaf-prometheus
-  name: kiali-health-aggregation
+  name: kiali-istio-aggregation-istio-system
   namespace: open-cluster-management-observability
 spec:
   groups:
@@ -675,11 +679,11 @@ metadata:
   labels:
     app.kubernetes.io/component: user-workload-metrics-collector
     app.kubernetes.io/managed-by: kiali-mcoa-federation
-  name: kiali-health-federation
+  name: kiali-istio-federation
   namespace: open-cluster-management-observability
 spec:
   honorLabels: true
-  jobName: kiali-health-federation
+  jobName: kiali-istio-federation
   metricRelabelings:
   - action: replace
     regex: 'kiali:(.*)'
@@ -735,8 +739,8 @@ add_mcoa_ref() {
   fi
 }
 
-add_mcoa_ref monitoring.coreos.com prometheusrules kiali-health-aggregation
-add_mcoa_ref monitoring.rhobs scrapeconfigs kiali-health-federation
+add_mcoa_ref monitoring.coreos.com prometheusrules kiali-istio-aggregation-istio-system
+add_mcoa_ref monitoring.rhobs scrapeconfigs kiali-istio-federation
 ```
 
 ### 6.2 Verify on the hub
@@ -745,13 +749,13 @@ After applying the MCOA resources, wait at least 5 to 6 minutes for a federation
 
 ```bash
 # Confirm source PrometheusRule and ScrapeConfig exist on the hub
-oc --context=ossm-kiali-hub get prometheusrule kiali-health-aggregation \
+oc --context=ossm-kiali-hub get prometheusrule kiali-istio-aggregation-istio-system \
   -n open-cluster-management-observability
-oc --context=ossm-kiali-hub get scrapeconfig kiali-health-federation \
+oc --context=ossm-kiali-hub get scrapeconfig kiali-istio-federation \
   -n open-cluster-management-observability
 
 # Confirm the PrometheusRule propagated to the Kiali namespace on the spoke
-oc --context=ossm-kiali-spoke get prometheusrule kiali-health-aggregation \
+oc --context=ossm-kiali-spoke get prometheusrule kiali-istio-aggregation-istio-system \
   -n istio-system
 
 # Query hub Thanos for kiali_health_status (relabeled from kiali:kiali_health_status by the ScrapeConfig)
@@ -1298,14 +1302,14 @@ if [ -n "${ADDON_JSON}" ]; then
     ADDON_JSON=$(oc --context=ossm-kiali-hub get clustermanagementaddon \
       multicluster-observability-addon -o json 2>/dev/null || echo "${ADDON_JSON}")
   }
-  remove_mcoa_ref monitoring.rhobs scrapeconfigs kiali-health-federation
-  remove_mcoa_ref monitoring.coreos.com prometheusrules kiali-health-aggregation
+  remove_mcoa_ref monitoring.rhobs scrapeconfigs kiali-istio-federation
+  remove_mcoa_ref monitoring.coreos.com prometheusrules kiali-istio-aggregation-istio-system
 fi
 
 # Delete the hub-side source resources
-oc --context=ossm-kiali-hub delete scrapeconfig kiali-health-federation \
+oc --context=ossm-kiali-hub delete scrapeconfig kiali-istio-federation \
   -n open-cluster-management-observability --ignore-not-found
-oc --context=ossm-kiali-hub delete prometheusrule kiali-health-aggregation \
+oc --context=ossm-kiali-hub delete prometheusrule kiali-istio-aggregation-istio-system \
   -n open-cluster-management-observability --ignore-not-found
 ```
 
