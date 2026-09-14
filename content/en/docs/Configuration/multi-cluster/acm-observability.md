@@ -272,6 +272,10 @@ Create the following resources on the hub in namespace `open-cluster-management-
 
 First, create a `PrometheusRule` for each target namespace. This example is for `istio-system`; change both the name suffix and target-namespace annotation for each additional namespace. The annotation tells MCOA where to propagate the rule. The label selects UWM Prometheus, rather than Thanos Ruler, to evaluate the rule on the managed cluster.
 
+{{% alert color="info" %}}
+In the below `PrometheusRule` rules, only the "core tier" metrics are listed. If you want the "dashboard tier" or the "kiali tier" metrics, too, simply add them to the list (see [Recording Rules and Federation]({{< relref "../p8s-jaeger-grafana/prometheus" >}}#option-1-recording-rules-and-federation-recommended) for the full list of metrics for all tiers).
+{{% /alert %}}
+
 ```yaml
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
@@ -323,6 +327,11 @@ spec:
 ```
 
 Next, create this UWM `ScrapeConfig`. It federates the aggregated traffic metrics and the non-aggregated Istio, control-plane, process, and Envoy metrics that Kiali needs. The relabeling restores the original `istio_*` names before remote write.
+In effect, these are the metrics that will be stored in the federated Prometheus (i.e. the hub Thanos) that Kiali will see.
+
+{{% alert color="info" %}}
+In the below `ScrapeConfig` match list, only the "core tier" metrics are listed. If you want the "dashboard tier" or the "kiali tier" metrics, too, simply add them to the list (see [Recording Rules and Federation]({{< relref "../p8s-jaeger-grafana/prometheus" >}}#option-1-recording-rules-and-federation-recommended) for the full list of metrics for all tiers).
+{{% /alert %}}
 
 ```yaml
 apiVersion: monitoring.rhobs/v1alpha1
