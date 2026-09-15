@@ -591,7 +591,7 @@ oc create configmap kiali-cabundle \
 **On OpenShift**: The Kiali Operator (or Helm chart) automatically creates a separate ConfigMap named `kiali-cabundle-openshift` for the OpenShift service CA, then uses a projected volume to combine it with your custom `kiali-cabundle` ConfigMap. You only need to create/manage `kiali-cabundle` with your ACM CA - the system handles merging.
 {{% /alert %}}
 
-For more details about CA bundle configuration, see [TLS Configuration]({{< relref "../p8s-jaeger-grafana/tls-configuration" >}}).
+For more details about CA bundle configuration, see [TLS Configuration]({{< relref "../external-services/tls-configuration" >}}).
 
 ### Step 4: Get Observatorium API URL
 
@@ -1152,4 +1152,4 @@ data:
 - [Connecting Grafana to ACM Observability (Red Hat Blog)](https://www.redhat.com/en/blog/how-your-grafana-can-fetch-metrics-from-red-hat-advanced-cluster-management-observability-observatorium-and-thanos)
 - [Kiali Multi-cluster Setup]({{< relref "../multi-cluster" >}})
 - [External Kiali Deployment]({{< relref "./external" >}})
-- [TLS Configuration]({{< relref "../p8s-jaeger-grafana/tls-configuration" >}})
+- [TLS Configuration]({{< relref "../external-services/tls-configuration" >}})

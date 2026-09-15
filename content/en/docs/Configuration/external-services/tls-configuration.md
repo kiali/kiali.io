@@ -3,6 +3,8 @@ title: "TLS Configuration"
 description: >
   This page describes how to configure TLS certificates for Kiali's connections to external services.
 weight: 10
+aliases:
+  - /docs/configuration/p8s-jaeger-grafana/tls-configuration/
 ---
 
 ## Overview

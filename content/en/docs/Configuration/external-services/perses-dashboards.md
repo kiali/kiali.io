@@ -1,7 +1,13 @@
 ---
-title: "Perses"
+title: "Dashboards: Perses"
 description: >
-  This page describes how to configure Perses for Kiali.
+  This page describes how to configure Perses dashboards for Kiali.
+weight: 30
+aliases:
+  - /docs/configuration/p8s-jaeger-grafana/perses/
+  - /docs/configuration/dashboards/
+  - /docs/configuration/dashboards/perses/
+  - /docs/configuration/perses-dashboards/
 ---
 
 ## Perses configuration
