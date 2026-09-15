@@ -246,7 +246,7 @@ The Kiali UI itself graphs some of these metrics. In the Kiali UI, navigate to t
 
 ![Kiali metrics](/images/documentation/configuration/kiali_own_metrics.png)
 
-Use the Kiali UI to analyze these metrics in the same way that you would analyze your application metrics. (Note that "Tracing processing duration" will be empty if you have not [integrated your Tracing backend with Kiali](/docs/configuration/p8s-jaeger-grafana/tracing/)).
+Use the Kiali UI to analyze these metrics in the same way that you would analyze your application metrics. (Note that "Tracing processing duration" will be empty if you have not [integrated your Tracing backend with Kiali](/docs/configuration/external-services/tracing-jaeger/)).
 
 Because these are metrics collected by Promtheus, you can analyze Kiali's metrics through Prometheus queries and the Prometheus UI. Some of the more interesting Prometheus queries are listed below.
 
@@ -275,7 +275,7 @@ Because these are metrics collected by Promtheus, you can analyze Kiali's metric
 
 ## Tracing
 
-Kiali provides the ability to emit debugging traces to the [distributed tracing](/docs/configuration/p8s-jaeger-grafana/tracing) platform, Jaeger or Grafana Tempo.
+Kiali provides the ability to emit debugging traces to the [distributed tracing](/docs/configuration/external-services/tracing-jaeger) platform, Jaeger or Grafana Tempo.
 
 {{% alert color="warning" %}}
 From Kiali 1.79, the feature of Kiali emitting tracing data into Jaeger format **has been removed**.

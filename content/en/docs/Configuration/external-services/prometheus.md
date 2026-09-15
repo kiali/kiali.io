@@ -1,7 +1,13 @@
 ---
-title: "Prometheus"
+title: "Metrics: Prometheus"
 description: >
   This page describes how to configure Prometheus for Kiali.
+weight: 20
+aliases:
+  - /docs/configuration/p8s-jaeger-grafana/
+  - /docs/configuration/p8s-jaeger-grafana/prometheus/
+  - /docs/configuration/metrics/
+  - /docs/configuration/metrics/prometheus/
 ---
 
 
@@ -155,7 +161,7 @@ spec:
       url: "http://prometheus-federated.monitoring:9090/"
 ```
 
-If you use Istio [Perses (or Grafana) dashboards]({{< relref "./perses" >}}) with Kiali, configure them to point at the same Federated Prometheus URL.
+If you use Istio [Perses (or Grafana) dashboards]({{< relref "./perses-dashboards" >}}) with Kiali, configure them to point at the same Federated Prometheus URL.
 
 {{% alert color="warning" %}}
 Query target: In this pattern, `external_services.prometheus.url` always targets Federated Prometheus—the long-retention TSDB that holds federated mesh metrics. Edge Prometheus exists only to collect raw telemetry, evaluate recording rules, and federate upstream; it is not Kiali's database.
