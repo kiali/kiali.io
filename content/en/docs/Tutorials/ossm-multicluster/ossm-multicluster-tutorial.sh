@@ -2539,6 +2539,226 @@ spec:
                   query: sum(rate(istio_tcp_received_bytes_total[10m])) by (destination_workload)
 EOF
 
+  oc --context="${SPOKE_CTX}" apply -f - <<'EOF'
+apiVersion: perses.dev/v1alpha2
+kind: PersesDashboard
+metadata:
+  name: istio-workload-dashboard
+  namespace: perses
+spec:
+  config:
+    display:
+      name: "Istio Workload Dashboard"
+    duration: 30m
+    variables:
+    - kind: TextVariable
+      spec:
+        name: workload
+        display:
+          name: Workload
+        value: ""
+    - kind: TextVariable
+      spec:
+        name: namespace
+        display:
+          name: Namespace
+        value: ""
+    layouts:
+    - kind: Grid
+      spec:
+        display:
+          title: "Inbound HTTP"
+        items:
+        - content:
+            $ref: '#/spec/panels/inbound_rps'
+          height: 8
+          width: 12
+          x: 0
+          "y": 0
+        - content:
+            $ref: '#/spec/panels/inbound_latency'
+          height: 8
+          width: 12
+          x: 12
+          "y": 0
+    - kind: Grid
+      spec:
+        display:
+          title: "Outbound HTTP"
+        items:
+        - content:
+            $ref: '#/spec/panels/outbound_rps'
+          height: 8
+          width: 12
+          x: 0
+          "y": 0
+        - content:
+            $ref: '#/spec/panels/success_rate'
+          height: 8
+          width: 12
+          x: 12
+          "y": 0
+    panels:
+      inbound_rps:
+        kind: Panel
+        spec:
+          display:
+            name: "Inbound Request Rate"
+          plugin:
+            kind: TimeSeriesChart
+            spec:
+              legend:
+                mode: list
+                position: bottom
+          queries:
+          - kind: TimeSeriesQuery
+            spec:
+              plugin:
+                kind: PrometheusTimeSeriesQuery
+                spec:
+                  datasource:
+                    kind: PrometheusDatasource
+                    name: acm-thanos
+                  query: sum(rate(istio_requests_total{reporter="destination",destination_workload="$workload",destination_workload_namespace="$namespace"}[10m])) by (source_app)
+      inbound_latency:
+        kind: Panel
+        spec:
+          display:
+            name: "Inbound Request Latency (p99)"
+          plugin:
+            kind: TimeSeriesChart
+            spec:
+              legend:
+                mode: list
+                position: bottom
+          queries:
+          - kind: TimeSeriesQuery
+            spec:
+              plugin:
+                kind: PrometheusTimeSeriesQuery
+                spec:
+                  datasource:
+                    kind: PrometheusDatasource
+                    name: acm-thanos
+                  query: histogram_quantile(0.99, sum(rate(istio_request_duration_milliseconds_bucket{reporter="destination",destination_workload="$workload",destination_workload_namespace="$namespace"}[10m])) by (le))
+      outbound_rps:
+        kind: Panel
+        spec:
+          display:
+            name: "Outbound Request Rate"
+          plugin:
+            kind: TimeSeriesChart
+            spec:
+              legend:
+                mode: list
+                position: bottom
+          queries:
+          - kind: TimeSeriesQuery
+            spec:
+              plugin:
+                kind: PrometheusTimeSeriesQuery
+                spec:
+                  datasource:
+                    kind: PrometheusDatasource
+                    name: acm-thanos
+                  query: sum(rate(istio_requests_total{reporter="source",source_workload="$workload",source_workload_namespace="$namespace"}[10m])) by (destination_service_name)
+      success_rate:
+        kind: Panel
+        spec:
+          display:
+            name: "Success Rate (non-5xx)"
+          plugin:
+            kind: TimeSeriesChart
+            spec:
+              legend:
+                mode: list
+                position: bottom
+          queries:
+          - kind: TimeSeriesQuery
+            spec:
+              plugin:
+                kind: PrometheusTimeSeriesQuery
+                spec:
+                  datasource:
+                    kind: PrometheusDatasource
+                    name: acm-thanos
+                  query: sum(rate(istio_requests_total{reporter="destination",destination_workload="$workload",destination_workload_namespace="$namespace",response_code!~"5.*"}[10m])) / sum(rate(istio_requests_total{reporter="destination",destination_workload="$workload",destination_workload_namespace="$namespace"}[10m]))
+EOF
+
+  oc --context="${SPOKE_CTX}" apply -f - <<'EOF'
+apiVersion: perses.dev/v1alpha2
+kind: PersesDashboard
+metadata:
+  name: istio-ztunnel-dashboard
+  namespace: perses
+spec:
+  config:
+    display:
+      name: "Istio Ztunnel Dashboard"
+    duration: 30m
+    layouts:
+    - kind: Grid
+      spec:
+        display:
+          title: "Ambient L4 Traffic"
+        items:
+        - content:
+            $ref: '#/spec/panels/tcp_connections_opened'
+          height: 8
+          width: 12
+          x: 0
+          "y": 0
+        - content:
+            $ref: '#/spec/panels/tcp_bytes'
+          height: 8
+          width: 12
+          x: 12
+          "y": 0
+    panels:
+      tcp_connections_opened:
+        kind: Panel
+        spec:
+          display:
+            name: "TCP Connections Opened"
+          plugin:
+            kind: TimeSeriesChart
+            spec:
+              legend:
+                mode: list
+                position: bottom
+          queries:
+          - kind: TimeSeriesQuery
+            spec:
+              plugin:
+                kind: PrometheusTimeSeriesQuery
+                spec:
+                  datasource:
+                    kind: PrometheusDatasource
+                    name: acm-thanos
+                  query: sum(rate(istio_tcp_connections_opened_total[10m])) by (destination_workload)
+      tcp_bytes:
+        kind: Panel
+        spec:
+          display:
+            name: "TCP Throughput (bytes/s)"
+          plugin:
+            kind: TimeSeriesChart
+            spec:
+              legend:
+                mode: list
+                position: bottom
+          queries:
+          - kind: TimeSeriesQuery
+            spec:
+              plugin:
+                kind: PrometheusTimeSeriesQuery
+                spec:
+                  datasource:
+                    kind: PrometheusDatasource
+                    name: acm-thanos
+                  query: sum(rate(istio_tcp_sent_bytes_total[10m]) + rate(istio_tcp_received_bytes_total[10m])) by (destination_workload)
+EOF
+
   # Configure Kiali for Perses
   local CONSOLE_URL
   CONSOLE_URL=$(oc --context="${SPOKE_CTX}" get route console -n openshift-console -o jsonpath='https://{.spec.host}')
