@@ -271,7 +271,7 @@ spec:
 The same `secret:` pattern applies to `oauth2.client_secret` for all external services (prometheus, grafana, tracing, perses, custom_dashboards.prometheus).
 
 {{% alert color="info" %}}
-**Note about CA certificates**: To configure custom CA certificates that Kiali should trust when connecting to external services over HTTPS, see the [TLS Configuration]({{< relref "../Configuration/p8s-jaeger-grafana/tls-configuration" >}}) page. CA certificates are configured globally via a ConfigMap, not per-service.
+**Note about CA certificates**: To configure custom CA certificates that Kiali should trust when connecting to external services over HTTPS, see the [TLS Configuration]({{< relref "../Configuration/external-services/tls-configuration" >}}) page. CA certificates are configured globally via a ConfigMap, not per-service.
 {{% /alert %}}
 
 You can use secrets as explained above for the following fields in the Kiali CR:
@@ -357,7 +357,7 @@ For certificate files, the secret key name (e.g., `tls.crt`, `tls.key`) is prese
 {{% /alert %}}
 
 {{% alert color="info" %}}
-**Note about CA certificates**: To configure custom CA certificates for server verification, see the [TLS Configuration]({{< relref "../Configuration/p8s-jaeger-grafana/tls-configuration" >}}) page. CA certificates are configured globally via a ConfigMap named `<instance-name>-cabundle`, not per-service via secrets.
+**Note about CA certificates**: To configure custom CA certificates for server verification, see the [TLS Configuration]({{< relref "../Configuration/external-services/tls-configuration" >}}) page. CA certificates are configured globally via a ConfigMap named `<instance-name>-cabundle`, not per-service via secrets.
 {{% /alert %}}
 
 ### How does Kiali handle automatic credential rotation?
@@ -394,7 +394,7 @@ All credentials mounted from secrets support automatic rotation:
 - Login token signing key (`login_token.signing_key`)
 
 {{% alert color="info" %}}
-Custom CA bundles are configured via the `kiali-cabundle` ConfigMap (either the global `additional-ca-bundle.pem` key or a component-specific key such as `openid-server-ca.crt`). See the [TLS Configuration]({{< relref "../Configuration/p8s-jaeger-grafana/tls-configuration" >}}) page for details. The deprecated per-service `auth.ca_file` setting is ignored. To rotate CA certificates, update the ConfigMap content and Kubernetes will refresh the projected volume automatically.
+Custom CA bundles are configured via the `kiali-cabundle` ConfigMap (either the global `additional-ca-bundle.pem` key or a component-specific key such as `openid-server-ca.crt`). See the [TLS Configuration]({{< relref "../Configuration/external-services/tls-configuration" >}}) page for details. The deprecated per-service `auth.ca_file` setting is ignored. To rotate CA certificates, update the ConfigMap content and Kubernetes will refresh the projected volume automatically.
 {{% /alert %}}
 
 **Note**: Credentials specified as literal values in the Kiali CR (not using the `secret:` pattern) are loaded at startup and do not support automatic rotation.

@@ -1,7 +1,12 @@
 ---
-title: "Grafana"
+title: "Dashboards: Grafana"
 description: >
-  This page describes how to configure Grafana for Kiali.
+  This page describes how to configure Grafana dashboards for Kiali.
+weight: 40
+aliases:
+  - /docs/configuration/p8s-jaeger-grafana/grafana/
+  - /docs/configuration/dashboards/grafana/
+  - /docs/configuration/grafana-dashboards/
 ---
 
 ## Grafana configuration
