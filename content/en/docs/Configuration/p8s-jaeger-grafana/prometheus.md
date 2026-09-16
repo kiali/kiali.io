@@ -178,7 +178,7 @@ Some Perses dashboards work with the Core tier alone (Mesh, service, and workloa
 
 #### Production reference files
 
-For production deployments, merge the YAML below from [`hack/istio/metric-rules/`](https://github.com/kiali/kiali/tree/master/hack/istio/metric-rules) into your existing Prometheus configuration. These files are reference snippets—not a Kiali installer and not full deployments. Integrate them the same way you manage other Prometheus rules and scrape jobs (`rule_files`, ConfigMap volume mounts, `PrometheusRule` CRs, Helm values, etc.).
+For production deployments, merge the YAML below from [`hack/prometheus/federation/`](https://github.com/kiali/kiali/tree/master/hack/prometheus/federation) into your existing Prometheus configuration. These files are reference snippets—not a Kiali installer and not full deployments. Integrate them the same way you manage other Prometheus rules and scrape jobs (`rule_files`, ConfigMap volume mounts, `PrometheusRule` CRs, Helm values, etc.).
 
 | File | Integrate into | Purpose |
 | ---- | -------------- | ------- |
@@ -209,7 +209,7 @@ See [Demo walkthrough](#demo-walkthrough-lab-only) below to try the pattern loca
 
 #### Recording rules (edge Prometheus)
 
-Apply `core-recording-rules.yml` on the Prometheus instance that scrapes Istio traffic (or merge the groups into your existing rule set). The rules aggregate on scrape-level labels while preserving the workload/service labels Kiali uses in queries:
+Apply `core-recording-rules.yml` on the Prometheus instance that scrapes Istio traffic (or merge the groups into your existing rule set). The rules drop scrape/infrastructure labels (`pod`, `pod_template_hash`, `instance`, `job`, `node`) while preserving Istio semantic labels and the Prometheus scrape `namespace` label. The same `without (...)` shape is used in `kiali-metrics-recording-rules.yml` for consistency.
 
 ```yaml
 groups:
@@ -217,9 +217,9 @@ groups:
   interval: 30s
   rules:
   - record: workload:istio_requests_total
-    expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (istio_requests_total)
+    expr: sum without (pod, pod_template_hash, instance, job, node) (istio_requests_total)
   - record: workload:istio_request_duration_milliseconds_bucket
-    expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (istio_request_duration_milliseconds_bucket)
+    expr: sum without (pod, pod_template_hash, instance, job, node) (istio_request_duration_milliseconds_bucket)
   # ... remaining traffic counters and histogram components — see core-recording-rules.yml
 ```
 
@@ -268,22 +268,22 @@ The `demo/install.sh` script is a learning and CI harness only. It does not repl
 
 ```bash
 # From a clone of github.com/kiali/kiali, with Istio add-on Prometheus running:
-./hack/istio/metric-rules/demo/install.sh
+./hack/prometheus/federation/demo/install.sh
 
 # Optional: also federate Perses dashboard metrics
-./hack/istio/metric-rules/demo/install.sh --with-dashboards
+./hack/prometheus/federation/demo/install.sh --with-dashboards
 
 # Optional: federate Kiali self-monitoring (shared Istio edge Prometheus)
-./hack/istio/metric-rules/demo/install.sh --with-kiali-metrics
+./hack/prometheus/federation/demo/install.sh --with-kiali-metrics
 
 # Optional: federate Kiali self-monitoring (dedicated Kiali edge Prometheus)
-./hack/istio/metric-rules/demo/install.sh --with-kiali-metrics --kiali-edge dedicated
+./hack/prometheus/federation/demo/install.sh --with-kiali-metrics --kiali-edge dedicated
 
 # Optional: point Kiali at the demo federated Prometheus
-./hack/istio/metric-rules/demo/install.sh --switch-kiali
+./hack/prometheus/federation/demo/install.sh --switch-kiali
 
 # Combine flags as needed, for example:
-./hack/istio/metric-rules/demo/install.sh --with-dashboards --with-kiali-metrics --switch-kiali
+./hack/prometheus/federation/demo/install.sh --with-dashboards --with-kiali-metrics --switch-kiali
 ```
 
 After install, port-forward and verify:
@@ -368,7 +368,7 @@ groups:
   interval: 30s          # match 30s scrape_interval
   rules:
   - record: workload:istio_requests_total
-    expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (istio_requests_total)
+    expr: sum without (pod, pod_template_hash, instance, job, node) (istio_requests_total)
 ```
 
 ```yaml
@@ -421,7 +421,7 @@ The metrics HTTP listener (port `server.observability.metrics.port`, default `90
 
 `kiali_health_status` and HA: Multiple Kiali replicas export the same gauge values for the same entities (duplicate series, not partition-of-work). With Options 1 or 2, use `max without (pod, instance, …)` in recording rules to deduplicate—not `sum`. With Option 3, apply the same dedup in alert/dashboard queries (for example `max by (cluster, namespace, health_type, name) (kiali_health_status)`), because raw scrape retains per-replica copies.
 
-The built-in Kiali Internal Metrics custom dashboard queries `external_services.prometheus.url`; it only works when federated Prometheus holds the `kiali_*` series (via federation or direct scrape).
+The built-in Kiali Internal Metrics custom dashboard queries `external_services.prometheus.url` and filters metrics with the Prometheus scrape `namespace` label (for example `{namespace="istio-system", app="kiali", ...}`). It only works when federated Prometheus holds the `kiali_*` series (via federation or direct scrape) **with the `namespace` label retained** after edge recording rules—see `kiali-metrics-recording-rules.yml`.
 
 Reference files for Options 1–2: `kiali-metrics-recording-rules.yml`, `kiali-metrics-federation-match.yml`, and (for Option 2) `demo/prometheus-kiali-edge.yaml`. Try them in the [demo walkthrough](#demo-walkthrough-lab-only) with `--with-kiali-metrics` and optionally `--kiali-edge dedicated`.
 
