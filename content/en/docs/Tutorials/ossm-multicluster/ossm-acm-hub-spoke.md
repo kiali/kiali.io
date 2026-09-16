@@ -1442,6 +1442,8 @@ spec:
   deployment:
     cluster_wide_access: true
     instance_name: kiali
+    logger:
+      log_level: debug
     namespace: istio-system
     replicas: 1
   external_services:

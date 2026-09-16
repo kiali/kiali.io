@@ -1282,6 +1282,8 @@ spec:
   deployment:
     cluster_wide_access: true
     instance_name: kiali
+    logger:
+      log_level: debug
     namespace: istio-system
     replicas: 1
   external_services:
@@ -2061,6 +2063,8 @@ spec:
       redirect_uris:
       - "https://${KIALI_HOST}/api/auth/callback/${SPOKE_TWO_CLUSTER_NAME}"
   deployment:
+    logger:
+      log_level: debug
     namespace: istio-system
     remote_cluster_resources_only: true
 EOF

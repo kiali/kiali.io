@@ -831,6 +831,8 @@ spec:
       redirect_uris:
       - "https://${KIALI_HOST}/api/auth/callback/${SPOKE_TWO_CLUSTER_NAME}"
   deployment:
+    logger:
+      log_level: debug
     namespace: istio-system
     remote_cluster_resources_only: true
 EOF
