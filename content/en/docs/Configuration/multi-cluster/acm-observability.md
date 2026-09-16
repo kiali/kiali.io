@@ -305,37 +305,37 @@ spec:
     interval: 30s
     rules:
     - record: workload:istio_requests_total
-      expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (istio_requests_total)
+      expr: sum without (pod, pod_template_hash, instance, job, node) (istio_requests_total)
     - record: workload:istio_request_messages_total
-      expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (istio_request_messages_total)
+      expr: sum without (pod, pod_template_hash, instance, job, node) (istio_request_messages_total)
     - record: workload:istio_response_messages_total
-      expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (istio_response_messages_total)
+      expr: sum without (pod, pod_template_hash, instance, job, node) (istio_response_messages_total)
     - record: workload:istio_tcp_sent_bytes_total
-      expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (istio_tcp_sent_bytes_total)
+      expr: sum without (pod, pod_template_hash, instance, job, node) (istio_tcp_sent_bytes_total)
     - record: workload:istio_tcp_received_bytes_total
-      expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (istio_tcp_received_bytes_total)
+      expr: sum without (pod, pod_template_hash, instance, job, node) (istio_tcp_received_bytes_total)
     - record: workload:istio_tcp_connections_opened_total
-      expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (istio_tcp_connections_opened_total)
+      expr: sum without (pod, pod_template_hash, instance, job, node) (istio_tcp_connections_opened_total)
     - record: workload:istio_tcp_connections_closed_total
-      expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (istio_tcp_connections_closed_total)
+      expr: sum without (pod, pod_template_hash, instance, job, node) (istio_tcp_connections_closed_total)
     - record: workload:istio_request_duration_milliseconds_bucket
-      expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (istio_request_duration_milliseconds_bucket)
+      expr: sum without (pod, pod_template_hash, instance, job, node) (istio_request_duration_milliseconds_bucket)
     - record: workload:istio_request_duration_milliseconds_sum
-      expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (istio_request_duration_milliseconds_sum)
+      expr: sum without (pod, pod_template_hash, instance, job, node) (istio_request_duration_milliseconds_sum)
     - record: workload:istio_request_duration_milliseconds_count
-      expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (istio_request_duration_milliseconds_count)
+      expr: sum without (pod, pod_template_hash, instance, job, node) (istio_request_duration_milliseconds_count)
     - record: workload:istio_request_bytes_bucket
-      expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (istio_request_bytes_bucket)
+      expr: sum without (pod, pod_template_hash, instance, job, node) (istio_request_bytes_bucket)
     - record: workload:istio_request_bytes_sum
-      expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (istio_request_bytes_sum)
+      expr: sum without (pod, pod_template_hash, instance, job, node) (istio_request_bytes_sum)
     - record: workload:istio_request_bytes_count
-      expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (istio_request_bytes_count)
+      expr: sum without (pod, pod_template_hash, instance, job, node) (istio_request_bytes_count)
     - record: workload:istio_response_bytes_bucket
-      expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (istio_response_bytes_bucket)
+      expr: sum without (pod, pod_template_hash, instance, job, node) (istio_response_bytes_bucket)
     - record: workload:istio_response_bytes_sum
-      expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (istio_response_bytes_sum)
+      expr: sum without (pod, pod_template_hash, instance, job, node) (istio_response_bytes_sum)
     - record: workload:istio_response_bytes_count
-      expr: sum without (pod, pod_template_hash, instance, namespace, job, node) (istio_response_bytes_count)
+      expr: sum without (pod, pod_template_hash, instance, job, node) (istio_response_bytes_count)
 ```
 
 Next, create this UWM `ScrapeConfig`. It federates the aggregated traffic metrics and the non-aggregated Istio, control-plane, process, and Envoy metrics that Kiali needs. The relabeling restores the original `istio_*` names before remote write.

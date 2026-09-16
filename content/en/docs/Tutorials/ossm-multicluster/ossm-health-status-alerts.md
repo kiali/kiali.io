@@ -695,7 +695,7 @@ spec:
   - interval: 30s
     name: kiali.aggregation
     rules:
-    - expr: max without (pod, pod_template_hash, instance, namespace, job, node) (kiali_health_status)
+    - expr: max without (pod, pod_template_hash, instance, job, node) (kiali_health_status)
       record: kiali:kiali_health_status
 EOF
 ```
