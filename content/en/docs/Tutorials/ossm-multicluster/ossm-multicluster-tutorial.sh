@@ -296,8 +296,11 @@ cleanup_istio_cluster_resources() {
       -n "${namespace}" --ignore-not-found 2>/dev/null || true
   done
 
+  # Gateway API CRDs (gateway.networking.k8s.io) are owned by the OpenShift Ingress
+  # Operator; OSSM/Istio only create GatewayClasses and routes. Deleting them is
+  # denied by admission and is not part of tutorial cleanup.
   crds=$(oc --context="${ctx}" get crd -o name 2>/dev/null | \
-    grep -E '\.(gateway\.networking\.k8s\.io|inference\.networking\.(k8s|x-k8s)\.io)$' || true)
+    grep -E '\.inference\.networking\.(k8s|x-k8s)\.io$' || true)
   [ -z "${crds}" ] || echo "${crds}" | \
     xargs oc --context="${ctx}" delete --ignore-not-found
 }
@@ -2473,7 +2476,7 @@ spec:
                   datasource:
                     kind: PrometheusDatasource
                     name: acm-thanos
-                  query: sum(rate(istio_requests_total{reporter="destination"}[10m])) by (destination_service_name)
+                  query: sum(rate(istio_requests_total{reporter=~"destination|waypoint"}[10m])) by (destination_service_name)
       error_rate:
         kind: Panel
         spec:
@@ -2494,7 +2497,7 @@ spec:
                   datasource:
                     kind: PrometheusDatasource
                     name: acm-thanos
-                  query: sum(rate(istio_requests_total{reporter="destination",response_code=~"5.*"}[10m])) by (destination_service_name)
+                  query: sum(rate(istio_requests_total{reporter=~"destination|waypoint",response_code=~"5.*"}[10m])) by (destination_service_name)
       tcp_sent:
         kind: Panel
         spec:
@@ -2619,7 +2622,7 @@ spec:
                   datasource:
                     kind: PrometheusDatasource
                     name: acm-thanos
-                  query: sum(rate(istio_requests_total{reporter="destination",destination_workload="$workload",destination_workload_namespace="$namespace"}[10m])) by (source_app)
+                  query: sum(rate(istio_requests_total{reporter=~"destination|waypoint",destination_workload="$workload",destination_workload_namespace=~"$namespace"}[10m])) by (source_app)
       inbound_latency:
         kind: Panel
         spec:
@@ -2640,7 +2643,7 @@ spec:
                   datasource:
                     kind: PrometheusDatasource
                     name: acm-thanos
-                  query: histogram_quantile(0.99, sum(rate(istio_request_duration_milliseconds_bucket{reporter="destination",destination_workload="$workload",destination_workload_namespace="$namespace"}[10m])) by (le))
+                  query: histogram_quantile(0.99, sum(rate(istio_request_duration_milliseconds_bucket{reporter=~"destination|waypoint",destination_workload="$workload",destination_workload_namespace=~"$namespace"}[10m])) by (le))
       outbound_rps:
         kind: Panel
         spec:
@@ -2661,7 +2664,7 @@ spec:
                   datasource:
                     kind: PrometheusDatasource
                     name: acm-thanos
-                  query: sum(rate(istio_requests_total{reporter="source",source_workload="$workload",source_workload_namespace="$namespace"}[10m])) by (destination_service_name)
+                  query: sum(rate(istio_requests_total{reporter=~"source|waypoint",source_workload="$workload",source_workload_namespace=~"$namespace"}[10m])) by (destination_service_name)
       success_rate:
         kind: Panel
         spec:
@@ -2682,7 +2685,7 @@ spec:
                   datasource:
                     kind: PrometheusDatasource
                     name: acm-thanos
-                  query: sum(rate(istio_requests_total{reporter="destination",destination_workload="$workload",destination_workload_namespace="$namespace",response_code!~"5.*"}[10m])) / sum(rate(istio_requests_total{reporter="destination",destination_workload="$workload",destination_workload_namespace="$namespace"}[10m]))
+                  query: sum(rate(istio_requests_total{reporter=~"destination|waypoint",destination_workload="$workload",destination_workload_namespace=~"$namespace",response_code!~"5.*"}[10m])) / sum(rate(istio_requests_total{reporter=~"destination|waypoint",destination_workload="$workload",destination_workload_namespace=~"$namespace"}[10m]))
 EOF
 
   oc --context="${SPOKE_CTX}" apply -f - <<'EOF'
@@ -3435,6 +3438,35 @@ spec:
   endpoints:
   - interval: 30s
     port: tcp-metrics
+    relabelings:
+    - action: replace
+      regex: "(.+);.*|.*;(.+)"
+      replacement: "\${1}\${2}"
+      separator: ";"
+      sourceLabels:
+      - __meta_kubernetes_service_label_app_kubernetes_io_name
+      - __meta_kubernetes_service_label_app
+      targetLabel: app
+    - action: replace
+      regex: "(.+)"
+      replacement: "\${1}"
+      sourceLabels:
+      - __meta_kubernetes_service_label_app_kubernetes_io_name
+      targetLabel: app_kubernetes_io_name
+    - action: replace
+      regex: "(.+);.*|.*;(.+)"
+      replacement: "\${1}\${2}"
+      separator: ";"
+      sourceLabels:
+      - __meta_kubernetes_service_label_app_kubernetes_io_version
+      - __meta_kubernetes_service_label_version
+      targetLabel: version
+    - action: replace
+      regex: "(.+)"
+      replacement: "\${1}"
+      sourceLabels:
+      - __meta_kubernetes_service_label_app_kubernetes_io_version
+      targetLabel: app_kubernetes_io_version
     scheme: https
     tlsConfig:
       ca:
@@ -4316,7 +4348,7 @@ cleanup_guide1() {
           istio istio-remote istio-waypoint istio-east-west -o name \
           --ignore-not-found 2>/dev/null || true
         oc --context="${check_ctx}" get crd -o name 2>/dev/null | \
-          grep -E '\.(sailoperator\.io|istio\.io|kiali\.io|gateway\.networking\.k8s\.io|inference\.networking\.(k8s|x-k8s)\.io)$' || true
+          grep -E '\.(sailoperator\.io|istio\.io|kiali\.io|inference\.networking\.(k8s|x-k8s)\.io)$' || true
         oc --context="${check_ctx}" get configmap -A \
           -o custom-columns='NS:.metadata.namespace,NAME:.metadata.name' --no-headers 2>/dev/null | \
           grep -E '(^|[[:space:]])(istio-ca-root-cert|istio-ca-crl)$' || true

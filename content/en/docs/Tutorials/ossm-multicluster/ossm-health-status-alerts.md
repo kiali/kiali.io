@@ -230,6 +230,8 @@ Create a `ServiceMonitor` in the Kiali server namespace so User Workload Monitor
 
 Kiali's metrics endpoint uses HTTPS (service-serving certificates on OpenShift), so the ServiceMonitor must include TLS configuration with the correct CA. The Kiali installation creates a ConfigMap named `<kial-instance-name>-cabundle-openshift` (default: `kiali-cabundle-openshift`) that OpenShift automatically populates with the service CA via `service.beta.openshift.io/inject-cabundle`. The ServiceMonitor below references this ConfigMap.
 
+The `relabelings` copy `app` and `version` from the Kiali Service labels (`app.kubernetes.io/name` / `app`, and `app.kubernetes.io/version` / `version`) onto scraped time series so the **Kiali Internal Metrics** workload dashboard can filter by the same labels as the Kiali deployment.
+
 {{% alert color="warning" %}}
 **Do not use `tlsConfig.caFile`** in the ServiceMonitor. UWM blocks filesystem access (`arbitraryFSAccessThroughSMs.deny: true`), so `caFile` paths that work for platform Prometheus will be rejected. Use the ConfigMap-based `tlsConfig.ca` form shown below instead.
 {{% /alert %}}
@@ -261,6 +263,35 @@ spec:
   endpoints:
   - interval: 30s
     port: tcp-metrics
+    relabelings:
+    - action: replace
+      regex: "(.+);.*|.*;(.+)"
+      replacement: "${1}${2}"
+      separator: ";"
+      sourceLabels:
+      - __meta_kubernetes_service_label_app_kubernetes_io_name
+      - __meta_kubernetes_service_label_app
+      targetLabel: app
+    - action: replace
+      regex: "(.+)"
+      replacement: "${1}"
+      sourceLabels:
+      - __meta_kubernetes_service_label_app_kubernetes_io_name
+      targetLabel: app_kubernetes_io_name
+    - action: replace
+      regex: "(.+);.*|.*;(.+)"
+      replacement: "${1}${2}"
+      separator: ";"
+      sourceLabels:
+      - __meta_kubernetes_service_label_app_kubernetes_io_version
+      - __meta_kubernetes_service_label_version
+      targetLabel: version
+    - action: replace
+      regex: "(.+)"
+      replacement: "${1}"
+      sourceLabels:
+      - __meta_kubernetes_service_label_app_kubernetes_io_version
+      targetLabel: app_kubernetes_io_version
     scheme: https
     tlsConfig:
       ca:

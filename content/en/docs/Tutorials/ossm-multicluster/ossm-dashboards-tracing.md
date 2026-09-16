@@ -372,7 +372,7 @@ spec:
                   datasource:
                     kind: PrometheusDatasource
                     name: acm-thanos
-                  query: sum(rate(istio_requests_total{reporter="destination"}[10m])) by (destination_service_name)
+                  query: sum(rate(istio_requests_total{reporter=~"destination|waypoint"}[10m])) by (destination_service_name)
       error_rate:
         kind: Panel
         spec:
@@ -393,7 +393,7 @@ spec:
                   datasource:
                     kind: PrometheusDatasource
                     name: acm-thanos
-                  query: sum(rate(istio_requests_total{reporter="destination",response_code=~"5.*"}[10m])) by (destination_service_name)
+                  query: sum(rate(istio_requests_total{reporter=~"destination|waypoint",response_code=~"5.*"}[10m])) by (destination_service_name)
       tcp_sent:
         kind: Panel
         spec:
@@ -522,7 +522,7 @@ spec:
                   datasource:
                     kind: PrometheusDatasource
                     name: acm-thanos
-                  query: sum(rate(istio_requests_total{reporter="destination",destination_workload="$workload",destination_workload_namespace="$namespace"}[10m])) by (source_app)
+                  query: sum(rate(istio_requests_total{reporter=~"destination|waypoint",destination_workload="$workload",destination_workload_namespace=~"$namespace"}[10m])) by (source_app)
       inbound_latency:
         kind: Panel
         spec:
@@ -543,7 +543,7 @@ spec:
                   datasource:
                     kind: PrometheusDatasource
                     name: acm-thanos
-                  query: histogram_quantile(0.99, sum(rate(istio_request_duration_milliseconds_bucket{reporter="destination",destination_workload="$workload",destination_workload_namespace="$namespace"}[10m])) by (le))
+                  query: histogram_quantile(0.99, sum(rate(istio_request_duration_milliseconds_bucket{reporter=~"destination|waypoint",destination_workload="$workload",destination_workload_namespace=~"$namespace"}[10m])) by (le))
       outbound_rps:
         kind: Panel
         spec:
@@ -564,7 +564,7 @@ spec:
                   datasource:
                     kind: PrometheusDatasource
                     name: acm-thanos
-                  query: sum(rate(istio_requests_total{reporter="source",source_workload="$workload",source_workload_namespace="$namespace"}[10m])) by (destination_service_name)
+                  query: sum(rate(istio_requests_total{reporter=~"source|waypoint",source_workload="$workload",source_workload_namespace=~"$namespace"}[10m])) by (destination_service_name)
       success_rate:
         kind: Panel
         spec:
@@ -585,7 +585,7 @@ spec:
                   datasource:
                     kind: PrometheusDatasource
                     name: acm-thanos
-                  query: sum(rate(istio_requests_total{reporter="destination",destination_workload="$workload",destination_workload_namespace="$namespace",response_code!~"5.*"}[10m])) / sum(rate(istio_requests_total{reporter="destination",destination_workload="$workload",destination_workload_namespace="$namespace"}[10m]))
+                  query: sum(rate(istio_requests_total{reporter=~"destination|waypoint",destination_workload="$workload",destination_workload_namespace=~"$namespace",response_code!~"5.*"}[10m])) / sum(rate(istio_requests_total{reporter=~"destination|waypoint",destination_workload="$workload",destination_workload_namespace=~"$namespace"}[10m]))
 EOF
 ```
 
