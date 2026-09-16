@@ -1486,7 +1486,9 @@ echo "Distributed tracing plugin ready"
 
 ### 2.9 Configure Kiali for Tempo
 
-Patch the Kiali CR on `spoke` to enable tracing with Tempo. The `url_format: "openshift"` and `tempo_config` settings cause Kiali to use the OpenShift console distributed tracing plugin for UI links. When `tenant` is set in `tempo_config`, Kiali automatically appends the tenant API path to `internal_url` — so providing just the gateway base URL is sufficient.
+Patch the Kiali CR on `spoke` to enable mesh tracing with Tempo and to emit [Kiali server self-traces]({{< relref "../../Configuration/debugging-kiali" >}}#tracing) through the local OTEL collector from §2.4 (`otel-collector.istio-system.svc:4317`, OTLP gRPC). Self-traces flow through the same collector pipeline as Istio mesh traces and appear on the **Kiali** workload **Traces** tab once `external_services.tracing` is configured.
+
+The `url_format: "openshift"` and `tempo_config` settings cause Kiali to use the OpenShift console distributed tracing plugin for UI links. When `tenant` is set in `tempo_config`, Kiali automatically appends the tenant API path to `internal_url` — so providing just the gateway base URL is sufficient.
 
 With `url_format: "openshift"`, Kiali appends `/observe/traces?...` to `external_url`, so `external_url` must be the **OCP console base URL** — not the Tempo route:
 
@@ -1498,6 +1500,18 @@ echo "Console URL: ${CONSOLE_URL}"
 
 oc --context=ossm-kiali-spoke patch kiali kiali -n istio-system --type=merge -p "{
   \"spec\": {
+    \"server\": {
+      \"observability\": {
+        \"tracing\": {
+          \"enabled\": true,
+          \"collector_type\": \"otel\",
+          \"collector_url\": \"otel-collector.istio-system.svc:4317\",
+          \"otel\": {
+            \"protocol\": \"grpc\"
+          }
+        }
+      }
+    },
     \"external_services\": {
       \"tracing\": {
         \"enabled\": true,
@@ -1573,6 +1587,7 @@ echo "Kiali:             $(oc --context=ossm-kiali-spoke get route kiali -n isti
 1. Traces are visible from both `spoke` and `spoke-two` clusters (open a trace and check the `k8s.cluster.name` resource attribute in the span details to identify the cluster)
 2. Cross-cluster traces appear when bookinfo traffic routes from `spoke`'s `productpage` through the East-West gateway to `spoke-two`'s `ratings-v2`
 3. The **View in Tracing** link from a workload detail page opens the OCP console **Observe > Traces** page scoped to that workload
+4. On the **Kiali** workload in the `istio-system` namespace, the **Traces** tab lists Kiali server spans (service name matches the Kiali instance, for example `kiali.istio-system`)
 
 ---
 
@@ -1630,9 +1645,9 @@ export TEMPO_TENANT="mesh1"
 REMOTE_COLLECTOR_NAME="otel-remote-${SPOKE_TWO_CLUSTER_NAME}"
 REMOTE_MTLS_CLIENT_BUNDLE="${REMOTE_COLLECTOR_NAME}-client-bundle"
 
-# Revert Kiali tracing config
+# Revert Kiali mesh and self-tracing config
 oc --context=ossm-kiali-spoke patch kiali kiali -n istio-system --type=json \
-  -p '[{"op":"remove","path":"/spec/external_services/tracing"}]' 2>/dev/null || true
+  -p '[{"op":"remove","path":"/spec/external_services/tracing"},{"op":"remove","path":"/spec/server/observability/tracing"}]' 2>/dev/null || true
 
 # Remove the distributed tracing console plugin
 oc --context=ossm-kiali-spoke delete uiplugin distributed-tracing --ignore-not-found

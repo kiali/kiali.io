@@ -3424,6 +3424,18 @@ EOF
 
   oc --context="${SPOKE_CTX}" patch kiali kiali -n istio-system --type=merge -p "{
     \"spec\": {
+      \"server\": {
+        \"observability\": {
+          \"tracing\": {
+            \"enabled\": true,
+            \"collector_type\": \"otel\",
+            \"collector_url\": \"otel-collector.istio-system.svc:4317\",
+            \"otel\": {
+              \"protocol\": \"grpc\"
+            }
+          }
+        }
+      },
       \"external_services\": {
         \"tracing\": {
           \"enabled\": true,
@@ -3885,7 +3897,7 @@ cleanup_guide4() {
   oc --context="${SPOKE_CTX}" delete prometheusrule kiali-health-status -n "${KIALI_NS}" --ignore-not-found
   oc --context="${SPOKE_CTX}" delete servicemonitor kiali -n "${KIALI_NS}" --ignore-not-found
 
-  # Disable health-status metric
+  # Disable health-status metric export only
   oc --context="${SPOKE_CTX}" patch kiali kiali -n "${KIALI_CR_NS}" --type=merge -p '
 spec:
   server:
@@ -3918,7 +3930,7 @@ cleanup_guide3() {
   oc --context="${SPOKE_CTX}" patch kiali kiali -n istio-system --type=json \
     -p '[{"op":"remove","path":"/spec/external_services/perses"}]' 2>/dev/null || true
   oc --context="${SPOKE_CTX}" patch kiali kiali -n istio-system --type=json \
-    -p '[{"op":"remove","path":"/spec/external_services/tracing"}]' 2>/dev/null || true
+    -p '[{"op":"remove","path":"/spec/external_services/tracing"},{"op":"remove","path":"/spec/server/observability/tracing"}]' 2>/dev/null || true
 
   # Remove UIPlugins
   oc --context="${SPOKE_CTX}" delete uiplugin monitoring --ignore-not-found
