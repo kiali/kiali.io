@@ -113,6 +113,80 @@ disable_uwm() {
   fi
 }
 
+configure_mcoa_uwm_namespace() {
+  local context=$1 existing updated
+  oc --context="${context}" create namespace mesh-observability \
+    --dry-run=client -o yaml | oc --context="${context}" apply -f - >/dev/null
+  if ! oc --context="${context}" get configmap user-workload-monitoring-config \
+      -n openshift-user-workload-monitoring >/dev/null 2>&1; then
+    cat <<'EOF' | oc --context="${context}" apply -f - >/dev/null
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: user-workload-monitoring-config
+  namespace: openshift-user-workload-monitoring
+  annotations:
+    kiali.io/mcoa-rule-namespace: mesh-observability
+data:
+  config.yaml: |
+    namespacesWithoutLabelEnforcement:
+    - mesh-observability
+EOF
+    return
+  fi
+  existing=$(oc --context="${context}" get configmap user-workload-monitoring-config \
+    -n openshift-user-workload-monitoring -o jsonpath='{.data.config\.yaml}' 2>/dev/null || true)
+  if printf '%s\n' "${existing}" | grep -Eq \
+      '^[[:space:]]*-[[:space:]]*mesh-observability[[:space:]]*$'; then
+    return
+  fi
+  if printf '%s\n' "${existing}" | grep -Eq \
+      '^[[:space:]]*namespacesWithoutLabelEnforcement:[[:space:]]*\['; then
+    if printf '%s\n' "${existing}" | grep -Eq \
+        '^[[:space:]]*namespacesWithoutLabelEnforcement:[[:space:]]*\[[[:space:]]*\][[:space:]]*$'; then
+      updated=$(printf '%s\n' "${existing}" | sed -E \
+        's#(namespacesWithoutLabelEnforcement:[[:space:]]*\[)[[:space:]]*\]#\1mesh-observability]#')
+    else
+      updated=$(printf '%s\n' "${existing}" | sed -E \
+        's#(namespacesWithoutLabelEnforcement:[^]]*)\]#\1, mesh-observability]#')
+    fi
+  else
+    updated=$(printf '%s\n' "${existing}" | awk \
+      '/^[[:space:]]*namespacesWithoutLabelEnforcement:[[:space:]]*$/ {print; print "- mesh-observability"; added=1; next} {print} END {if (!added) print "namespacesWithoutLabelEnforcement:\n- mesh-observability"}')
+  fi
+  oc --context="${context}" get configmap user-workload-monitoring-config \
+    -n openshift-user-workload-monitoring -o json | \
+    jq --arg cfg "${updated}" \
+      '(.data["config.yaml"]=$cfg) | (.metadata.annotations //= {}) |
+       .metadata.annotations["kiali.io/mcoa-rule-namespace"]="mesh-observability"' | \
+    oc --context="${context}" apply -f - >/dev/null
+}
+
+remove_mcoa_uwm_namespace() {
+  local context=$1 owner existing updated
+  owner=$(oc --context="${context}" get configmap user-workload-monitoring-config \
+    -n openshift-user-workload-monitoring \
+    -o jsonpath='{.metadata.annotations.kiali\.io/mcoa-rule-namespace}' 2>/dev/null || true)
+  [ "${owner}" = mesh-observability ] || return 0
+  existing=$(oc --context="${context}" get configmap user-workload-monitoring-config \
+    -n openshift-user-workload-monitoring -o jsonpath='{.data.config\.yaml}' 2>/dev/null || true)
+  if printf '%s\n' "${existing}" | grep -Eq \
+      '^[[:space:]]*namespacesWithoutLabelEnforcement:[[:space:]]*\['; then
+    updated=$(printf '%s\n' "${existing}" | sed -E \
+      's/,?[[:space:]]*"?mesh-observability"?[[:space:]]*//')
+  else
+    updated=$(printf '%s\n' "${existing}" | awk \
+      '$0 !~ "^[[:space:]]*-[[:space:]]*mesh-observability[[:space:]]*$" {print}')
+  fi
+  oc --context="${context}" get configmap user-workload-monitoring-config \
+    -n openshift-user-workload-monitoring -o json | \
+    jq --arg cfg "${updated}" \
+      '(.data //= {}) | (.data["config.yaml"]=$cfg) |
+       (.metadata.annotations //= {}) |
+       del(.metadata.annotations["kiali.io/mcoa-rule-namespace"])' | \
+    oc --context="${context}" apply -f - >/dev/null
+}
+
 # =============================================================================
 # MCOA helper functions
 # =============================================================================
@@ -305,9 +379,10 @@ cleanup_istio_cluster_resources() {
     xargs oc --context="${ctx}" delete --ignore-not-found
 }
 
-# Create all hub-side MCOA configuration resources for Istio federation (6 objects):
-# 1 shared user-workload ScrapeConfig + 1 cluster-wide platform ScrapeConfig +
-# 4 PrometheusRules.
+# Create all hub-side MCOA configuration resources for Istio federation (3 objects):
+# * 1 shared user-workload ScrapeConfig
+# * 1 cluster-wide platform ScrapeConfig
+# * 1 shared PrometheusRule.
 # Requires MCOA_PLACEMENT_NAME / MCOA_PLACEMENT_NS to be set.
 create_istio_federation_resources() {
   local obs_ns="open-cluster-management-observability"
@@ -405,9 +480,8 @@ spec:
 EOF
   add_mcoa_ref monitoring.rhobs scrapeconfigs kiali-istio-platform-federation
 
-  # Aggregation PrometheusRules (one per namespace)
-  local ns
-  for ns in istio-system ztunnel ambient-demo bookinfo; do
+  # One shared aggregation PrometheusRule in the UWM-exempt namespace
+  local ns=mesh-observability
     oc --context="${HUB_CTX}" apply -f - <<EOF
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
@@ -418,7 +492,7 @@ metadata:
     app.kubernetes.io/component: user-workload-metrics-collector
     app.kubernetes.io/managed-by: kiali-mcoa-federation
     openshift.io/prometheus-rule-evaluation-scope: leaf-prometheus
-  name: kiali-istio-aggregation-${ns}
+  name: kiali-istio-aggregation
   namespace: ${obs_ns}
 spec:
   groups:
@@ -554,8 +628,7 @@ spec:
     - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_validation_processing_duration_seconds_count)
       record: kiali:kiali_validation_processing_duration_seconds_count
 EOF
-    add_mcoa_ref monitoring.coreos.com prometheusrules "kiali-istio-aggregation-${ns}"
-  done
+    add_mcoa_ref monitoring.coreos.com prometheusrules kiali-istio-aggregation
 
   info "MCOA Istio federation resources created and registered with placement"
 }
@@ -570,21 +643,21 @@ create_kiali_health_federation_resources() {
   local obs_ns="open-cluster-management-observability"
 
   # Skip PrometheusRule creation if Guide 1 already created the fuller version.
-  if oc --context="${HUB_CTX}" get prometheusrule kiali-istio-aggregation-istio-system \
+  if oc --context="${HUB_CTX}" get prometheusrule kiali-istio-aggregation \
       -n "${obs_ns}" &>/dev/null; then
-    info "PrometheusRule kiali-istio-aggregation-istio-system already exists (created by Guide 1) — skipping"
+    info "PrometheusRule kiali-istio-aggregation already exists (created by Guide 1) — skipping"
   else
     oc --context="${HUB_CTX}" apply -f - <<'EOF'
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   annotations:
-    observability.open-cluster-management.io/target-namespace: istio-system
+    observability.open-cluster-management.io/target-namespace: mesh-observability
   labels:
     app.kubernetes.io/component: user-workload-metrics-collector
     app.kubernetes.io/managed-by: kiali-mcoa-federation
     openshift.io/prometheus-rule-evaluation-scope: leaf-prometheus
-  name: kiali-istio-aggregation-istio-system
+  name: kiali-istio-aggregation
   namespace: open-cluster-management-observability
 spec:
   groups:
@@ -594,7 +667,7 @@ spec:
     - expr: max without (pod, pod_template_hash, instance, job, node) (kiali_health_status)
       record: kiali:kiali_health_status
 EOF
-    add_mcoa_ref monitoring.coreos.com prometheusrules kiali-istio-aggregation-istio-system
+    add_mcoa_ref monitoring.coreos.com prometheusrules kiali-istio-aggregation
   fi
 
   # Skip ScrapeConfig creation if Guide 1 already created the fuller version.
@@ -990,7 +1063,8 @@ guide1_phase3_ossm3_spoke() {
   wait_for "UWM Prometheus ready" "${TIMEOUT}" \
     "oc --context=${SPOKE_CTX} wait pod --for=condition=Ready -l app.kubernetes.io/name=prometheus -n openshift-user-workload-monitoring --timeout=10s"
 
-  # Ensure target namespaces exist so MCOA can propagate PrometheusRules into them
+  # Ensure the aggregation namespace exists and is exempt from UWM label enforcement.
+  configure_mcoa_uwm_namespace "${SPOKE_CTX}"
   local ns
   for ns in istio-system ztunnel ambient-demo bookinfo; do
     oc --context="${SPOKE_CTX}" create namespace "${ns}" --dry-run=client -o yaml | \
@@ -1674,7 +1748,8 @@ guide2_phase3_ossm3_spoke_two() {
   wait_for "UWM Prometheus ready on spoke-two" "${TIMEOUT}" \
     "oc --context=${SPOKE_TWO_CTX} wait pod --for=condition=Ready -l app.kubernetes.io/name=prometheus -n openshift-user-workload-monitoring --timeout=10s"
 
-  # Ensure target namespaces exist so MCOA can propagate PrometheusRules into them
+  # Ensure the aggregation namespace exists and is exempt from UWM label enforcement.
+  configure_mcoa_uwm_namespace "${SPOKE_TWO_CTX}"
   local ns
   for ns in istio-system ztunnel ambient-demo bookinfo; do
     oc --context="${SPOKE_TWO_CTX}" create namespace "${ns}" --dry-run=client -o yaml | \
@@ -3396,12 +3471,11 @@ EOF
   done
 
   # Restart waypoints for tracing
-  for NS in ambient-demo; do
-    for CTX in "${SPOKE_CTX}" "${SPOKE_TWO_CTX}"; do
-      if oc --context="${CTX}" get deployment waypoint -n "${NS}" &>/dev/null 2>&1; then
-        oc --context="${CTX}" rollout restart deployment/waypoint -n "${NS}"
-      fi
-    done
+  NS=ambient-demo
+  for CTX in "${SPOKE_CTX}" "${SPOKE_TWO_CTX}"; do
+    if oc --context="${CTX}" get deployment waypoint -n "${NS}" &>/dev/null 2>&1; then
+      oc --context="${CTX}" rollout restart deployment/waypoint -n "${NS}"
+    fi
   done
 
   # Distributed tracing console plugin
@@ -3878,11 +3952,9 @@ cleanup_guide4() {
   oc --context="${SPOKE_CTX}" delete operatorgroup openshift-netobserv-operator -n openshift-netobserv-operator --ignore-not-found
   oc --context="${SPOKE_CTX}" delete namespace openshift-netobserv-operator --ignore-not-found
   oc --context="${SPOKE_CTX}" delete consoleplugin netobserv-plugin-static --ignore-not-found
-  for suffix in flows.netobserv.io; do
-    local CRDS
-    CRDS=$(oc --context="${SPOKE_CTX}" get crd --no-headers -o custom-columns=NAME:.metadata.name 2>/dev/null | grep "\.${suffix}$" || true)
-    [ -n "${CRDS}" ] && echo "${CRDS}" | xargs oc --context="${SPOKE_CTX}" delete crd --ignore-not-found
-  done
+  local CRDS
+  CRDS=$(oc --context="${SPOKE_CTX}" get crd --no-headers -o custom-columns=NAME:.metadata.name 2>/dev/null | grep '\.flows\.netobserv\.io$' || true)
+  [ -n "${CRDS}" ] && echo "${CRDS}" | xargs oc --context="${SPOKE_CTX}" delete crd --ignore-not-found
 
   # Remove NetObserv operator ClusterRoles/Bindings
   local NETOBSERV_CRS
@@ -3909,10 +3981,10 @@ spec:
   # Hub cleanup — remove MCOA health federation placement refs and configuration resources.
   # If Guide 1 also ran, its cleanup handles these same resources; deletes here are no-ops.
   remove_mcoa_ref monitoring.rhobs scrapeconfigs kiali-istio-federation 2>/dev/null || true
-  remove_mcoa_ref monitoring.coreos.com prometheusrules kiali-istio-aggregation-istio-system 2>/dev/null || true
+  remove_mcoa_ref monitoring.coreos.com prometheusrules kiali-istio-aggregation 2>/dev/null || true
   oc --context="${HUB_CTX}" delete scrapeconfig kiali-istio-federation \
     -n open-cluster-management-observability --ignore-not-found
-  oc --context="${HUB_CTX}" delete prometheusrule kiali-istio-aggregation-istio-system \
+  oc --context="${HUB_CTX}" delete prometheusrule kiali-istio-aggregation \
     -n open-cluster-management-observability --ignore-not-found
 
   oc --context="${HUB_CTX}" -n open-cluster-management-observability \
@@ -4174,13 +4246,14 @@ cleanup_guide2() {
     [ -n "${HIVE_CRDS}" ] && echo "${HIVE_CRDS}" | xargs oc --context="${SPOKE_TWO_CTX}" delete --ignore-not-found
   fi
 
+  remove_mcoa_uwm_namespace "${SPOKE_TWO_CTX}"
   # Remove UWM config from spoke-two only if the tutorial created it
   disable_uwm "${SPOKE_TWO_CTX}"
 }
 
 cleanup_guide1() {
   info "=== Cleanup Guide 1 ==="
-  local CRDS ACM_CRS ACM_CRBS CSV
+  local CRDS CSV
 
   # Step 1 — Remove demo apps and mesh CRs from spoke
   oc --context="${SPOKE_CTX}" delete gateway waypoint -n ambient-demo --ignore-not-found
@@ -4200,17 +4273,12 @@ cleanup_guide1() {
   oc --context="${SPOKE_CTX}" delete namespace ztunnel istio-system istio-cni --ignore-not-found
 
   # Step 2 — Uninstall MCOA federation while ACM is still running
-  local ns
-  for ns in bookinfo ambient-demo ztunnel istio-system; do
-    remove_mcoa_ref monitoring.coreos.com prometheusrules "kiali-istio-aggregation-${ns}" 2>/dev/null || true
-  done
+  remove_mcoa_ref monitoring.coreos.com prometheusrules kiali-istio-aggregation 2>/dev/null || true
   remove_mcoa_ref monitoring.rhobs scrapeconfigs kiali-istio-platform-federation 2>/dev/null || true
   remove_mcoa_ref monitoring.rhobs scrapeconfigs kiali-istio-federation 2>/dev/null || true
 
-  for ns in istio-system ztunnel ambient-demo bookinfo; do
-    oc --context="${HUB_CTX}" delete prometheusrule "kiali-istio-aggregation-${ns}" \
-      -n open-cluster-management-observability --ignore-not-found
-  done
+  oc --context="${HUB_CTX}" delete prometheusrule kiali-istio-aggregation \
+    -n open-cluster-management-observability --ignore-not-found
   oc --context="${HUB_CTX}" delete scrapeconfig kiali-istio-platform-federation \
     -n open-cluster-management-observability --ignore-not-found
   oc --context="${HUB_CTX}" delete scrapeconfig kiali-istio-federation \
@@ -4383,6 +4451,7 @@ cleanup_guide1() {
 
   # Step 8 — Remove UWM config only if the tutorial created it (label-guarded)
   # The hub ConfigMap is never created by this tutorial and is never removed.
+  remove_mcoa_uwm_namespace "${SPOKE_CTX}"
   # Spoke-two is handled by cleanup_guide2.
   disable_uwm "${SPOKE_CTX}"
 

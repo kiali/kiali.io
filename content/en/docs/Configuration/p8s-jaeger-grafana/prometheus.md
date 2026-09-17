@@ -229,6 +229,14 @@ The recording rules do not apply `rate()`. Kiali applies `rate()` at query time 
 
 How you install the rules depends on your platform—for example a `rule_files` entry in `prometheus.yml`, a ConfigMap volume mount, or a Prometheus Operator `PrometheusRule` CR in the namespace where edge Prometheus runs.
 
+On OpenShift User Workload Monitoring, a cross-namespace aggregation rule needs a
+dedicated namespace that is exempt from UWM label enforcement. For the ACM/MCOA
+pattern used by the multicluster tutorials, use `mesh-observability` and add it
+to `namespacesWithoutLabelEnforcement` in `user-workload-monitoring-config` on
+each managed cluster. This is what allows one propagated rule to aggregate
+metrics scraped in the Istio and application namespaces; it does not remove the
+need for `ServiceMonitor` or `PodMonitor` resources in those namespaces.
+
 #### Federation (federated Prometheus)
 
 Add a federation scrape job to your existing long-retention federated Prometheus. Use `core-federation-match.yml` for the complete core-tier `match[]` list. Federate `workload:*` traffic metrics from the edge and relabel names before storage:

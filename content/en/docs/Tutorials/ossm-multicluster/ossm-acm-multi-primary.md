@@ -258,6 +258,7 @@ oc --context=ossm-kiali-spoke-two wait pod \
 ### 3.2 Install OSSM 3 Operator
 
 ```bash
+# Merge this key into the existing ConfigMap without replacing unrelated UWM settings.
 oc --context=ossm-kiali-spoke-two apply -f - <<'EOF'
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
@@ -397,11 +398,24 @@ oc --context=ossm-kiali-spoke-two get pods -n ztunnel -l app=ztunnel
 
 ### 3.8 Configure Istio Metrics Collection on Spoke-Two
 
-The hub-side MCOA configuration resources from Guide 1 are already registered with the placement. When spoke-two joins the cluster set, MCOA propagates the recording rules into the target namespaces on spoke-two so UWM can aggregate `workload:istio_*` series there.
+The hub-side MCOA configuration resources from Guide 1 are already registered with the placement. When spoke-two joins the cluster set, MCOA propagates the shared recording rule into `mesh-observability` on spoke-two so UWM can aggregate `workload:istio_*` series from all scraped namespaces there.
 
-Ensure the target namespaces exist on spoke-two before MCOA can propagate the recording rules:
+Ensure the aggregation namespace exists and is exempt from UWM label enforcement on spoke-two before MCOA propagates the recording rule:
 
 ```bash
+oc --context=ossm-kiali-spoke-two create namespace mesh-observability --dry-run=client -o yaml | \
+  oc --context=ossm-kiali-spoke-two apply -f -
+oc --context=ossm-kiali-spoke-two apply -f - <<'EOF'
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: user-workload-monitoring-config
+  namespace: openshift-user-workload-monitoring
+data:
+  config.yaml: |
+    namespacesWithoutLabelEnforcement:
+    - mesh-observability
+EOF
 for NS in istio-system ztunnel ambient-demo bookinfo; do
   oc --context=ossm-kiali-spoke-two create namespace "${NS}" --dry-run=client -o yaml | \
     oc --context=ossm-kiali-spoke-two apply -f -
@@ -1299,12 +1313,9 @@ oc --context=ossm-kiali-hub get managedclusteraddon \
 oc --context=ossm-kiali-spoke-two get prometheusagent \
   -n open-cluster-management-agent-addon
 
-# Each target namespace should have a propagated PrometheusRule
-for NS in istio-system ztunnel ambient-demo bookinfo; do
-  echo "=== ${NS} ==="
-  oc --context=ossm-kiali-spoke-two get prometheusrule \
-    "kiali-istio-aggregation-${NS}" -n "${NS}" 2>/dev/null || echo "  MISSING"
-done
+# The shared aggregation rule should be propagated to the exempt namespace
+oc --context=ossm-kiali-spoke-two get prometheusrule \
+  kiali-istio-aggregation -n mesh-observability
 ```
 
 ### 9.5 Verify meshNetworks Configuration

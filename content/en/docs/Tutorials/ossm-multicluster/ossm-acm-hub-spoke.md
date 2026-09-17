@@ -580,26 +580,40 @@ spec:
 EOF
 ```
 
-Create one aggregation `PrometheusRule` per namespace. MCOA propagates each rule into its target namespace on every managed cluster. UWM enforces rule tenancy by injecting the target namespace into selectors and recorded series, which is why a separate rule is required per namespace.
+Create one aggregation `PrometheusRule` in a dedicated namespace. MCOA propagates it into `mesh-observability` on every managed cluster. Exempt that namespace from UWM label enforcement so the rule can select and record metrics from all scraped application namespaces. If `user-workload-monitoring-config` already exists, merge this key into its existing `config.yaml` rather than replacing unrelated UWM settings.
+
+```bash
+oc --context=ossm-kiali-spoke create namespace mesh-observability --dry-run=client -o yaml | \
+  oc --context=ossm-kiali-spoke apply -f -
+oc --context=ossm-kiali-spoke apply -f - <<'EOF'
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: user-workload-monitoring-config
+  namespace: openshift-user-workload-monitoring
+data:
+  config.yaml: |
+    namespacesWithoutLabelEnforcement:
+    - mesh-observability
+EOF
+```
 
 {{% alert color="info" %}}
 The `PrometheusRule` and `ScrapeConfig` resources have distinct roles. The `PrometheusRule` is applied to the spoke’s UWM Prometheus and evaluates `sum without (...)` recording rules. Those rules reduce many per-pod/per-proxy `istio_*` series into lower-cardinality `workload:istio_*` series while preserving the labels Kiali needs. The `ScrapeConfig` configures MCOA’s PrometheusAgent to fetch those already-aggregated `workload:istio_*` series from UWM’s `/federate` endpoint, remove the `workload:` prefix so they again use standard `istio_*` names, and remote-write them to hub Thanos. Without the `PrometheusRule`, MCOA could federate raw per-proxy metrics, but the aggregated hub store would retain much higher-cardinality data. Without the `ScrapeConfig`, the aggregated recording-rule series would remain only on the spoke and would never reach hub Thanos.
 {{% /alert %}}
 
 ```bash
-for NS in istio-system ztunnel ambient-demo bookinfo; do
-  RULE_NAME="kiali-istio-aggregation-${NS}"
-  oc --context=ossm-kiali-hub apply -f - <<EOF
+oc --context=ossm-kiali-hub apply -f - <<'EOF'
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   annotations:
-    observability.open-cluster-management.io/target-namespace: ${NS}
+    observability.open-cluster-management.io/target-namespace: mesh-observability
   labels:
     app.kubernetes.io/component: user-workload-metrics-collector
     app.kubernetes.io/managed-by: kiali-mcoa-federation
     openshift.io/prometheus-rule-evaluation-scope: leaf-prometheus
-  name: ${RULE_NAME}
+  name: kiali-istio-aggregation
   namespace: open-cluster-management-observability
 spec:
   groups:
@@ -738,7 +752,6 @@ spec:
     - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_validation_processing_duration_seconds_count)
       record: kiali:kiali_validation_processing_duration_seconds_count
 EOF
-done
 ```
 
 Register the `ScrapeConfig` and `PrometheusRule` resources you just created above with the selected MCOA placement in ACM’s cluster-scoped `ClusterManagementAddon` named `multicluster-observability-addon`. Specifically, add them to that placement’s `configs` list. This instructs MCOA to propagate those resources from the hub to every managed cluster selected by the placement.
@@ -796,10 +809,8 @@ add_mcoa_ref monitoring.rhobs scrapeconfigs kiali-istio-federation
 # Cluster-wide platform ScrapeConfig
 add_mcoa_ref monitoring.rhobs scrapeconfigs kiali-istio-platform-federation
 
-# Aggregation PrometheusRules (one per namespace)
-for NS in istio-system ztunnel ambient-demo bookinfo; do
-  add_mcoa_ref monitoring.coreos.com prometheusrules "kiali-istio-aggregation-${NS}"
-done
+# Shared aggregation PrometheusRule
+add_mcoa_ref monitoring.coreos.com prometheusrules kiali-istio-aggregation
 ```
 
 The hub-side MCOA configuration resources are now registered with the MCOA placement. To verify, in the `ClusterManagementAddon` named `multicluster-observability-addon`, look for the selected placement’s `configs` list:
@@ -809,9 +820,9 @@ oc --context=ossm-kiali-hub get clustermanagementaddon multicluster-observabilit
   -o jsonpath-as-json='{.spec.installStrategy.placements[*].configs}'
 ```
 
-It should now contain references to the Kiali resources created in this section: the shared `kiali-istio-federation` `ScrapeConfig`, the cluster-wide `kiali-istio-platform-federation` `ScrapeConfig`, and one `kiali-istio-aggregation-*` `PrometheusRule` for each namespace.
+It should now contain references to the Kiali resources created in this section: the shared `kiali-istio-federation` `ScrapeConfig`, the cluster-wide `kiali-istio-platform-federation` `ScrapeConfig`, and the single `kiali-istio-aggregation` `PrometheusRule`.
 
-Once the spoke is imported, MCOA propagates the `PrometheusRule` and `ScrapeConfig` objects into the corresponding namespaces on that managed cluster. Its managed-cluster Prometheus component consumes the `ScrapeConfig` objects there and federates metrics from the local UWM.
+Once the spoke is imported, MCOA propagates the `PrometheusRule` into `mesh-observability` and the `ScrapeConfig` objects to the managed-cluster agent. The agent federates metrics from the local UWM.
 
 ---
 
@@ -1228,10 +1239,10 @@ oc --context=ossm-kiali-spoke get pods -n ztunnel -l app=ztunnel
 
 MCOA deploys the managed-cluster Prometheus operator it needs on each selected spoke. A separate COO subscription is not required for metric federation; Guide 3 installs the full COO product only when its Perses dashboards are needed.
 
-Ensure the target namespaces exist on the spoke before MCOA can propagate the recording rules into them:
+Ensure the aggregation namespace exists and is exempt from UWM label enforcement. The other namespaces below are created for their mesh monitors, not as MCOA rule targets:
 
 ```bash
-for NS in istio-system ztunnel ambient-demo bookinfo; do
+for NS in mesh-observability istio-system ztunnel ambient-demo bookinfo; do
   oc --context=ossm-kiali-spoke create namespace "${NS}" --dry-run=client -o yaml | \
     oc --context=ossm-kiali-spoke apply -f -
 done
@@ -2024,12 +2035,9 @@ oc --context=ossm-kiali-hub get managedclusteraddon \
 oc --context=ossm-kiali-spoke get prometheusagent \
   -n open-cluster-management-agent-addon
 
-# Confirm aggregation PrometheusRules propagated into target namespaces
-for NS in istio-system ztunnel ambient-demo bookinfo; do
-  echo "=== ${NS} ==="
-  oc --context=ossm-kiali-spoke get prometheusrule \
-    "kiali-istio-aggregation-${NS}" -n "${NS}" 2>/dev/null || echo "  MISSING"
-done
+# Confirm the shared aggregation PrometheusRule propagated into the exempt namespace
+oc --context=ossm-kiali-spoke get prometheusrule \
+  kiali-istio-aggregation -n mesh-observability
 
 # Confirm PodMonitors and ServiceMonitors are in place
 oc --context=ossm-kiali-spoke get podmonitor,servicemonitor -A | \
@@ -2128,19 +2136,15 @@ if [ -n "${ADDON_JSON}" ]; then
       multicluster-observability-addon -o json 2>/dev/null || echo "${ADDON_JSON}")
   }
 
-  # Remove in reverse order: PrometheusRules first, then the platform and shared ScrapeConfigs
-  for NS in bookinfo ambient-demo ztunnel istio-system; do
-    remove_mcoa_ref monitoring.coreos.com prometheusrules "kiali-istio-aggregation-${NS}"
-  done
+  # Remove in reverse order: the PrometheusRule first, then the platform and shared ScrapeConfigs
+  remove_mcoa_ref monitoring.coreos.com prometheusrules kiali-istio-aggregation
   remove_mcoa_ref monitoring.rhobs scrapeconfigs kiali-istio-platform-federation
   remove_mcoa_ref monitoring.rhobs scrapeconfigs kiali-istio-federation
 fi
 
 # Delete the hub-side MCOA configuration resources
-for NS in istio-system ztunnel ambient-demo bookinfo; do
-  oc --context=ossm-kiali-hub delete prometheusrule "kiali-istio-aggregation-${NS}" \
-    -n open-cluster-management-observability --ignore-not-found
-done
+oc --context=ossm-kiali-hub delete prometheusrule kiali-istio-aggregation \
+  -n open-cluster-management-observability --ignore-not-found
 oc --context=ossm-kiali-hub delete scrapeconfig kiali-istio-platform-federation \
   -n open-cluster-management-observability --ignore-not-found
 oc --context=ossm-kiali-hub delete scrapeconfig kiali-istio-federation \

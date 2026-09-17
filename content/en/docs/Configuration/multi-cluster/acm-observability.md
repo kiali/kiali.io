@@ -32,7 +32,7 @@ Kiali can query these aggregated metrics either through ACM's external Observato
   - Control plane (istiod in istio-system)
   - Ztunnel (in ztunnel namespace, for L4 metrics in Ambient mode)
   - Waypoint proxies (in application namespaces, for L7 metrics in Ambient mode)
-- **One MCOA PrometheusRule per target namespace**: Aggregates that namespace's raw per-proxy traffic series into `workload:istio_*` series on UWM
+- **One MCOA PrometheusRule in a dedicated aggregation namespace**: Aggregates raw per-proxy traffic series from all scraped namespaces into `workload:istio_*` series on UWM
 - **MCOA user-workload Prometheus Agent**: Federates selected UWM series, restores standard `istio_*` metric names, and remote-writes them to hub Thanos
 
 **Kiali Deployment Location:**
@@ -55,7 +55,7 @@ There are two independent flows:
 **Ingestion (managed cluster → hub):**
 1. **Istio data plane components** (sidecars, ztunnel, or waypoint proxies) expose metrics at `:15020/stats/prometheus`.
 2. **User Workload Monitoring Prometheus** scrapes those metrics (typically every 30s).
-3. UWM evaluates recording rules that reduce cardinality and produce `workload:istio_*` series.
+3. UWM evaluates the cross-namespace recording rule in the dedicated `mesh-observability` namespace and produces `workload:istio_*` series.
 4. The **MCOA user-workload Prometheus Agent** federates selected series through `/federate`, relabels `workload:istio_*` back to `istio_*`, and remote-writes them to the hub (every 5 minutes by default).
 5. The hub stores them in **Thanos Receive/Store** and serves them through **Thanos Query Frontend**.
 
@@ -280,9 +280,23 @@ The hub-level custom allowlist used by the legacy ACM collector is still a valid
 
 Use UWM as the **Edge Prometheus** described in [Recording Rules and Federation]({{< relref "../p8s-jaeger-grafana/prometheus" >}}#option-1-recording-rules-and-federation-recommended). MCOA's Prometheus Agent is the federation and remote-write layer, and ACM Observatorium/Thanos is the long-retention federated backend that Kiali queries.
 
-Create the following resources on the hub in namespace `open-cluster-management-observability`. Create one `PrometheusRule` for **each** target namespace whose Istio traffic Kiali should display (normally the control plane namespace and every application namespace), plus one cluster-wide platform `ScrapeConfig` for container CPU and memory. The target namespaces must exist on every managed cluster selected by the placement.
+Create the following resources on the hub in namespace `open-cluster-management-observability`: one `PrometheusRule` targeting the dedicated `mesh-observability` namespace, one shared user-workload `ScrapeConfig`, and one cluster-wide platform `ScrapeConfig` for container CPU and memory. Application namespaces still need their `ServiceMonitor`/`PodMonitor` resources, but they are not MCOA rule targets.
 
-First, create a `PrometheusRule` for each target namespace. This example is for `istio-system`; change both the name suffix and target-namespace annotation for each additional namespace. The annotation tells MCOA where to propagate the rule. The label selects UWM Prometheus, rather than Thanos Ruler, to evaluate the rule on the managed cluster.
+Before propagating the rule, exempt `mesh-observability` from UWM label enforcement on every managed cluster. This is required because UWM otherwise injects the rule namespace into selectors and recorded series, preventing one rule from aggregating metrics across application namespaces:
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: user-workload-monitoring-config
+  namespace: openshift-user-workload-monitoring
+data:
+  config.yaml: |
+    namespacesWithoutLabelEnforcement:
+    - mesh-observability
+```
+
+Create one `PrometheusRule` named `kiali-istio-aggregation`. Its annotation tells MCOA to propagate it into `mesh-observability`; the label selects UWM Prometheus, rather than Thanos Ruler, to evaluate the rule on each managed cluster.
 
 {{% alert color="info" %}}
 In the below `PrometheusRule` rules, only the "core tier" metrics are listed. If you want the "dashboard tier" or the "kiali tier" metrics, too, simply add them to the list (see [Recording Rules and Federation]({{< relref "../p8s-jaeger-grafana/prometheus" >}}#option-1-recording-rules-and-federation-recommended) for the full list of metrics for all tiers).
@@ -292,10 +306,10 @@ In the below `PrometheusRule` rules, only the "core tier" metrics are listed. If
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
-  name: kiali-istio-aggregation-istio-system
+  name: kiali-istio-aggregation
   namespace: open-cluster-management-observability
   annotations:
-    observability.open-cluster-management.io/target-namespace: istio-system
+    observability.open-cluster-management.io/target-namespace: mesh-observability
   labels:
     app.kubernetes.io/component: user-workload-metrics-collector
     openshift.io/prometheus-rule-evaluation-scope: leaf-prometheus
@@ -397,7 +411,7 @@ spec:
     - '{__name__=~"container_cpu_usage_seconds_total|container_memory_working_set_bytes"}'
 ```
 
-Finally, add references for the `PrometheusRule` objects and both `ScrapeConfig` objects to the selected placement in the existing `ClusterManagementAddOn` object named `multicluster-observability-addon`. The following is a fragment of that placement's `configs` list; merge these entries with its existing entries rather than applying this as a replacement for the whole add-on object. Add one `PrometheusRule` reference per target namespace, one cluster-wide platform `ScrapeConfig` reference, and the shared `kiali-istio-federation` `ScrapeConfig` reference.
+Finally, add references for the single `PrometheusRule` and both `ScrapeConfig` objects to the selected placement in the existing `ClusterManagementAddOn` object named `multicluster-observability-addon`. The following is a fragment of that placement's `configs` list; merge these entries with its existing entries rather than applying this as a replacement for the whole add-on object.
 
 {{% alert color="info" %}}
 A placement is ACM's hub-side selection of managed clusters that receive an add-on configuration. Use the `name` and `namespace` from the placement entry that MCOA already uses:
@@ -418,7 +432,7 @@ spec:
       configs:
       - group: monitoring.coreos.com
         resource: prometheusrules
-        name: kiali-istio-aggregation-istio-system
+        name: kiali-istio-aggregation
         namespace: open-cluster-management-observability
       - group: monitoring.rhobs
         resource: scrapeconfigs
@@ -435,7 +449,7 @@ For a repeatable development installation, the Kiali repository's `hack/configur
 {{% /alert %}}
 
 {{% alert color="warning" %}}
-Every target namespace must exist on every managed cluster selected by the placement before MCOA propagates its recording rule. If clusters use different namespace layouts, use separate placements and resource sets.
+The `mesh-observability` namespace must exist on every managed cluster selected by the placement before MCOA propagates its recording rule. If clusters use different application namespace layouts, create the appropriate `ServiceMonitor` and `PodMonitor` resources locally on each cluster. The same MCOA aggregation rule can still be propagated to `mesh-observability` on every cluster.
 {{% /alert %}}
 
 The `kiali-istio-federation` user-workload `ScrapeConfig` collects the aggregated traffic metrics rather than raw per-proxy series. The cluster-wide platform `ScrapeConfig` collects CPU and memory separately because those metrics belong to OpenShift platform monitoring rather than UWM.
@@ -907,7 +921,7 @@ oc --context="${HUB_CONTEXT}" get --raw "/api/v1/namespaces/open-cluster-managem
    - **Solution**: Wait for the warm-up period to elapse
 
 3. **MCOA federation resources missing**: The recording rules or federation job were not propagated to the managed cluster
-   - **Solution**: On the hub, verify the correctness of the `kiali-istio-federation` and `kiali-istio-platform-federation` `ScrapeConfig` resources and the `kiali-istio-aggregation-*` `PrometheusRule` resources. Then verify their references under the selected `ClusterManagementAddOn` placement. On a managed cluster, run `oc get prometheusagent,scrapeconfig -A` to find MCOA's configured agent namespace (the default is `open-cluster-management-agent-addon`) and run `oc get prometheusrule -n <target-namespace>` to verify the propagated rule.
+   - **Solution**: On the hub, verify the correctness of the `kiali-istio-federation` and `kiali-istio-platform-federation` `ScrapeConfig` resources and the `kiali-istio-aggregation` `PrometheusRule`. Then verify their references under the selected `ClusterManagementAddOn` placement. On a managed cluster, run `oc get prometheusagent,scrapeconfig -A` to find MCOA's configured agent namespace (the default is `open-cluster-management-agent-addon`) and run `oc get prometheusrule -n mesh-observability` to verify the propagated rule.
 
 4. **PodMonitor missing**: Prometheus not scraping Istio data plane components
    - **Solution**: Create an `istio-proxies-monitor-<namespace>` PodMonitor in **each mesh namespace** (including the ztunnel namespace and namespaces with waypoint proxies if using Ambient mode)
@@ -979,7 +993,7 @@ See also the [Why is my graph empty?]({{< relref "../../FAQ/graph#emptygraph" >}
    - Verify waypoint pod exists: `oc get pods -n <namespace> -l gateway.networking.k8s.io/gateway-class-name=istio-waypoint`
    - Create PodMonitor in the waypoint's namespace (same config as sidecar PodMonitor)
 
-3. **Missing recording rule in waypoint namespace**: Create the per-namespace `PrometheusRule` for the waypoint namespace, add its placement reference, and verify that MCOA propagated the rule. The platform `ScrapeConfig` is cluster-wide and does not need a namespace-specific copy.
+3. **Missing recording rule for waypoint metrics**: Verify that the shared `kiali-istio-aggregation` rule is present in `mesh-observability` and that the waypoint namespace has a PodMonitor. The platform `ScrapeConfig` is cluster-wide and does not need a namespace-specific copy.
 
 ### Ambient Mode: No Ztunnel Metrics
 
@@ -989,7 +1003,7 @@ See also the [Why is my graph empty?]({{< relref "../../FAQ/graph#emptygraph" >}
 
 1. **Missing ztunnel PodMonitor**: Create an `istio-proxies-monitor-<ztunnel-namespace>` PodMonitor in the ztunnel namespace
 2. **Wrong ztunnel namespace**: Verify ztunnel location: `oc get pods -l app=ztunnel -A`
-3. **Missing recording rule**: Create the per-namespace `PrometheusRule` for the ztunnel namespace, add its placement reference, and verify that MCOA propagated the rule. The platform `ScrapeConfig` is cluster-wide and does not need a namespace-specific copy.
+3. **Missing recording rule**: Verify that the shared `kiali-istio-aggregation` rule is present in `mesh-observability` and that the ztunnel namespace has a PodMonitor. The platform `ScrapeConfig` is cluster-wide and does not need a namespace-specific copy.
 
 ## Reference
 

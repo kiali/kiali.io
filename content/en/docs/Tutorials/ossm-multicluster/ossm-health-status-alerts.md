@@ -654,14 +654,14 @@ Single-cluster readers can stop here, or continue to [Phase 7](#phase-7-network-
 
 Complete Phases 1–3 on **each managed cluster** that should export `kiali_health_status` (UWM, metric export, ServiceMonitor). Phases 4–5 are optional if you only want hub alerts and do not need per-cluster **Observe > Alerting**.
 
-MCOA federates metrics from each managed cluster's UWM to hub Thanos. This phase adds dedicated MCOA federation resources on the hub that select and relabel `kiali_health_status`, and then configures hub Thanos Ruler alert rules. MCOA uses a separate `ScrapeConfig` for Kiali self-monitoring so the optional health federation is independent from the mandatory Istio core tier from the hub/spoke guide.
+MCOA federates metrics from each managed cluster's UWM to hub Thanos. This phase adds the health recording group to the shared `mesh-observability` aggregation rule and reuses the shared user-workload `ScrapeConfig`, then configures hub Thanos Ruler alert rules.
 
 If you already applied Phase 4 on the managed clusters, you can keep those local alerts, replace them with hub-only rules, or run both — see the trade-offs in [Overview](#overview). Hub evaluation waits for the MCOA PrometheusAgent federation interval (default 5 minutes) before new samples are visible to Thanos Ruler.
 
 ### 6.1 Add `kiali_health_status` MCOA Federation Resources
 
 {{% alert color="info" %}}
-**Already followed Guide 1 (hub/spoke)?** The `kiali-istio-aggregation-istio-system` `PrometheusRule` and `kiali-istio-federation` `ScrapeConfig` were created in [Guide 1, §1.5 Configure MCOA Federation]({{< relref "ossm-acm-hub-spoke#15-configure-mcoa-federation" >}}). If you followed that Guide and created those resources already, you do not need to create them again here. Skip the resource creation below and go directly to [§6.2](#62-verify-on-the-hub).
+**Already followed Guide 1 (hub/spoke)?** The `kiali-istio-aggregation` `PrometheusRule` and `kiali-istio-federation` `ScrapeConfig` were created in [Guide 1, §1.5 Configure MCOA Federation]({{< relref "ossm-acm-hub-spoke#15-configure-mcoa-federation" >}}). Add the health recording group and health match expression to those existing resources; do not create another namespace-specific rule. If you followed that Guide, skip the resource creation below and go directly to [§6.2](#62-verify-on-the-hub).
 {{% /alert %}}
 
 On the **hub**, identify the MCOA placement (if you already did this in the hub/spoke guide, re-export the variables):
@@ -675,7 +675,7 @@ MCOA_PLACEMENT_NS=$(echo "${ADDON_JSON}" | \
   jq -r '.spec.installStrategy.placements[0].namespace')
 ```
 
-Create a hub-side aggregation `PrometheusRule` for `kiali_health_status`. MCOA propagates it into the Kiali namespace on each managed cluster. The `max without` expression deduplicates samples across Kiali HA replicas:
+For a standalone health-only setup, create the shared aggregation `PrometheusRule` in `mesh-observability`. MCOA propagates it into that namespace on each managed cluster. The `max without` expression deduplicates samples across Kiali HA replicas:
 
 ```bash
 oc --context=ossm-kiali-hub apply -f - <<'EOF'
@@ -683,12 +683,12 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   annotations:
-    observability.open-cluster-management.io/target-namespace: istio-system
+    observability.open-cluster-management.io/target-namespace: mesh-observability
   labels:
     app.kubernetes.io/component: user-workload-metrics-collector
     app.kubernetes.io/managed-by: kiali-mcoa-federation
     openshift.io/prometheus-rule-evaluation-scope: leaf-prometheus
-  name: kiali-istio-aggregation-istio-system
+  name: kiali-istio-aggregation
   namespace: open-cluster-management-observability
 spec:
   groups:
@@ -700,7 +700,7 @@ spec:
 EOF
 ```
 
-Create a user-workload `ScrapeConfig` that federates the aggregated `kiali:kiali_health_status` series and relabels it back to `kiali_health_status` for Thanos Ruler queries:
+Use the existing `kiali-istio-federation` user-workload `ScrapeConfig` (or create it once for a health-only setup) to federate the aggregated `kiali:kiali_health_status` series and relabel it back to `kiali_health_status` for Thanos Ruler queries. Merge this match expression with the core and Kiali metric matches; do not create a second ScrapeConfig with the same name.
 
 ```bash
 oc --context=ossm-kiali-hub apply -f - <<'EOF'
@@ -770,7 +770,7 @@ add_mcoa_ref() {
   fi
 }
 
-add_mcoa_ref monitoring.coreos.com prometheusrules kiali-istio-aggregation-istio-system
+add_mcoa_ref monitoring.coreos.com prometheusrules kiali-istio-aggregation
 add_mcoa_ref monitoring.rhobs scrapeconfigs kiali-istio-federation
 ```
 
@@ -780,14 +780,14 @@ After applying the MCOA resources, wait at least 5 to 6 minutes for a federation
 
 ```bash
 # Confirm source PrometheusRule and ScrapeConfig exist on the hub
-oc --context=ossm-kiali-hub get prometheusrule kiali-istio-aggregation-istio-system \
+oc --context=ossm-kiali-hub get prometheusrule kiali-istio-aggregation \
   -n open-cluster-management-observability
 oc --context=ossm-kiali-hub get scrapeconfig kiali-istio-federation \
   -n open-cluster-management-observability
 
-# Confirm the PrometheusRule propagated to the Kiali namespace on the spoke
-oc --context=ossm-kiali-spoke get prometheusrule kiali-istio-aggregation-istio-system \
-  -n istio-system
+# Confirm the PrometheusRule propagated to the shared aggregation namespace on the spoke
+oc --context=ossm-kiali-spoke get prometheusrule kiali-istio-aggregation \
+  -n mesh-observability
 
 # Query hub Thanos for kiali_health_status (relabeled from kiali:kiali_health_status by the ScrapeConfig)
 oc --context=ossm-kiali-hub get --raw \
@@ -1334,13 +1334,13 @@ if [ -n "${ADDON_JSON}" ]; then
       multicluster-observability-addon -o json 2>/dev/null || echo "${ADDON_JSON}")
   }
   remove_mcoa_ref monitoring.rhobs scrapeconfigs kiali-istio-federation
-  remove_mcoa_ref monitoring.coreos.com prometheusrules kiali-istio-aggregation-istio-system
+  remove_mcoa_ref monitoring.coreos.com prometheusrules kiali-istio-aggregation
 fi
 
 # Delete the hub-side source resources
 oc --context=ossm-kiali-hub delete scrapeconfig kiali-istio-federation \
   -n open-cluster-management-observability --ignore-not-found
-oc --context=ossm-kiali-hub delete prometheusrule kiali-istio-aggregation-istio-system \
+oc --context=ossm-kiali-hub delete prometheusrule kiali-istio-aggregation \
   -n open-cluster-management-observability --ignore-not-found
 ```
 
