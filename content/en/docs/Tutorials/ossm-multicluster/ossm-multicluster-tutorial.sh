@@ -305,8 +305,9 @@ cleanup_istio_cluster_resources() {
     xargs oc --context="${ctx}" delete --ignore-not-found
 }
 
-# Create all hub-side MCOA configuration resources for Istio federation (9 objects):
-# 1 shared user-workload ScrapeConfig + 4 platform ScrapeConfigs + 4 PrometheusRules.
+# Create all hub-side MCOA configuration resources for Istio federation (6 objects):
+# 1 shared user-workload ScrapeConfig + 1 cluster-wide platform ScrapeConfig +
+# 4 PrometheusRules.
 # Requires MCOA_PLACEMENT_NAME / MCOA_PLACEMENT_NS to be set.
 create_istio_federation_resources() {
   local obs_ns="open-cluster-management-observability"
@@ -385,29 +386,27 @@ spec:
 EOF
   add_mcoa_ref monitoring.rhobs scrapeconfigs kiali-istio-federation
 
-  # Platform ScrapeConfigs (one per namespace)
-  local ns
-  for ns in istio-system ztunnel ambient-demo bookinfo; do
-    oc --context="${HUB_CTX}" apply -f - <<EOF
+  # Cluster-wide platform ScrapeConfig
+  oc --context="${HUB_CTX}" apply -f - <<EOF
 apiVersion: monitoring.rhobs/v1alpha1
 kind: ScrapeConfig
 metadata:
   labels:
     app.kubernetes.io/component: platform-metrics-collector
     app.kubernetes.io/managed-by: kiali-mcoa-federation
-  name: kiali-istio-platform-federation-${ns}
+  name: kiali-istio-platform-federation
   namespace: ${obs_ns}
 spec:
-  jobName: kiali-istio-platform-federation-${ns}
+  jobName: kiali-istio-platform-federation
   metricsPath: /federate
   params:
     match[]:
-    - '{__name__=~"container_cpu_usage_seconds_total|container_memory_working_set_bytes",namespace="${ns}"}'
+    - '{__name__=~"container_cpu_usage_seconds_total|container_memory_working_set_bytes"}'
 EOF
-    add_mcoa_ref monitoring.rhobs scrapeconfigs "kiali-istio-platform-federation-${ns}"
-  done
+  add_mcoa_ref monitoring.rhobs scrapeconfigs kiali-istio-platform-federation
 
   # Aggregation PrometheusRules (one per namespace)
+  local ns
   for ns in istio-system ztunnel ambient-demo bookinfo; do
     oc --context="${HUB_CTX}" apply -f - <<EOF
 apiVersion: monitoring.coreos.com/v1
@@ -4205,17 +4204,15 @@ cleanup_guide1() {
   for ns in bookinfo ambient-demo ztunnel istio-system; do
     remove_mcoa_ref monitoring.coreos.com prometheusrules "kiali-istio-aggregation-${ns}" 2>/dev/null || true
   done
-  for ns in bookinfo ambient-demo ztunnel istio-system; do
-    remove_mcoa_ref monitoring.rhobs scrapeconfigs "kiali-istio-platform-federation-${ns}" 2>/dev/null || true
-  done
+  remove_mcoa_ref monitoring.rhobs scrapeconfigs kiali-istio-platform-federation 2>/dev/null || true
   remove_mcoa_ref monitoring.rhobs scrapeconfigs kiali-istio-federation 2>/dev/null || true
 
   for ns in istio-system ztunnel ambient-demo bookinfo; do
     oc --context="${HUB_CTX}" delete prometheusrule "kiali-istio-aggregation-${ns}" \
       -n open-cluster-management-observability --ignore-not-found
-    oc --context="${HUB_CTX}" delete scrapeconfig "kiali-istio-platform-federation-${ns}" \
-      -n open-cluster-management-observability --ignore-not-found
   done
+  oc --context="${HUB_CTX}" delete scrapeconfig kiali-istio-platform-federation \
+    -n open-cluster-management-observability --ignore-not-found
   oc --context="${HUB_CTX}" delete scrapeconfig kiali-istio-federation \
     -n open-cluster-management-observability --ignore-not-found
 

@@ -441,7 +441,7 @@ oc --context=ossm-kiali-hub get route observatorium-api \
 {{% alert color="info" %}}
 **How the metrics pipeline works:** User Workload Monitoring (UWM) on each spoke is the short-lived edge metrics store. It scrapes raw `istio_*` series (via the monitors created in Phase 3.8) every 30 seconds; because this tutorial does not explicitly configure UWM retention, OpenShift uses its default 24-hour retention for user-workload metrics. Namespace-scoped `PrometheusRule` objects, propagated by MCOA and evaluated every 30 seconds, aggregate the high-cardinality per-pod and per-proxy series into `workload:istio_*` series within each namespace.
 
-The MCOA PrometheusAgent on each spoke federates the selected `workload:istio_*` series and other core metrics from UWM’s `/federate` endpoint every 5 minutes. It removes the `workload:` prefix — for example, renaming `workload:istio_requests_total` to `istio_requests_total` — and remote-writes the resulting metrics to hub Thanos which is the data Kiali ultimately obtains. Note that separate platform federation jobs collect container CPU and memory from each namespace.
+The MCOA PrometheusAgent on each spoke federates the selected `workload:istio_*` series and other core metrics from UWM’s `/federate` endpoint every 5 minutes. It removes the `workload:` prefix — for example, renaming `workload:istio_requests_total` to `istio_requests_total` — and remote-writes the resulting metrics to hub Thanos which is the data Kiali ultimately obtains. A separate cluster-wide platform federation job collects container CPU and memory from all namespaces.
 
 Hub Thanos retains its own local data for 24 hours and retains raw, 5-minute, and 1-hour aggregate data for 365 days. Kiali queries hub Thanos through the Observatorium API; its `thanos_proxy.scrape_interval` is set to match MCOA’s 5-minute federation interval, and its `thanos_proxy.retention_period` is set to match the hub’s 365-day aggregate retention.
 {{% /alert %}}
@@ -557,29 +557,27 @@ spec:
 EOF
 ```
 
-Create **platform** `ScrapeConfig` objects — one per namespace — for container CPU and memory. Platform monitoring (not UWM) owns these series, so they require separate federation jobs.
+Create one cluster-wide **platform** `ScrapeConfig` for container CPU and memory. Platform monitoring (not UWM) owns these series, so they require a separate federation job. This job intentionally federates those metrics from all namespaces.
 
-The tutorial creates one platform ScrapeConfig for each namespace whose workloads need container CPU and memory metrics in Kiali: `istio-system` for the Istio control plane, `ztunnel` for the ambient data plane, and `ambient-demo` and `bookinfo` for the sample mesh applications. In a production deployment, create equivalent platform `ScrapeConfig` resources that your Kiali instance observes.
+The tutorial creates one platform ScrapeConfig for the cluster. In a production deployment, create the same single cluster-wide resource in the observability namespace used by your Kiali instance.
 
 ```bash
-for NS in istio-system ztunnel ambient-demo bookinfo; do
-  oc --context=ossm-kiali-hub apply -f - <<EOF
+oc --context=ossm-kiali-hub apply -f - <<'EOF'
 apiVersion: monitoring.rhobs/v1alpha1
 kind: ScrapeConfig
 metadata:
   labels:
     app.kubernetes.io/component: platform-metrics-collector
     app.kubernetes.io/managed-by: kiali-mcoa-federation
-  name: kiali-istio-platform-federation-${NS}
+  name: kiali-istio-platform-federation
   namespace: open-cluster-management-observability
 spec:
-  jobName: kiali-istio-platform-federation-${NS}
+  jobName: kiali-istio-platform-federation
   metricsPath: /federate
   params:
     match[]:
-    - '{__name__=~"container_cpu_usage_seconds_total|container_memory_working_set_bytes",namespace="${NS}"}'
+    - '{__name__=~"container_cpu_usage_seconds_total|container_memory_working_set_bytes"}'
 EOF
-done
 ```
 
 Create one aggregation `PrometheusRule` per namespace. MCOA propagates each rule into its target namespace on every managed cluster. UWM enforces rule tenancy by injecting the target namespace into selectors and recorded series, which is why a separate rule is required per namespace.
@@ -795,10 +793,8 @@ add_mcoa_ref() {
 # User-workload ScrapeConfig (shared)
 add_mcoa_ref monitoring.rhobs scrapeconfigs kiali-istio-federation
 
-# Platform ScrapeConfigs (one per namespace)
-for NS in istio-system ztunnel ambient-demo bookinfo; do
-  add_mcoa_ref monitoring.rhobs scrapeconfigs "kiali-istio-platform-federation-${NS}"
-done
+# Cluster-wide platform ScrapeConfig
+add_mcoa_ref monitoring.rhobs scrapeconfigs kiali-istio-platform-federation
 
 # Aggregation PrometheusRules (one per namespace)
 for NS in istio-system ztunnel ambient-demo bookinfo; do
@@ -813,7 +809,7 @@ oc --context=ossm-kiali-hub get clustermanagementaddon multicluster-observabilit
   -o jsonpath-as-json='{.spec.installStrategy.placements[*].configs}'
 ```
 
-It should now contain references to the Kiali resources created in this section: the shared `kiali-istio-federation` `ScrapeConfig`, one `kiali-istio-platform-federation-*` `ScrapeConfig` for each tutorial namespace, and one `kiali-istio-aggregation-*` `PrometheusRule` for each namespace.
+It should now contain references to the Kiali resources created in this section: the shared `kiali-istio-federation` `ScrapeConfig`, the cluster-wide `kiali-istio-platform-federation` `ScrapeConfig`, and one `kiali-istio-aggregation-*` `PrometheusRule` for each namespace.
 
 Once the spoke is imported, MCOA propagates the `PrometheusRule` and `ScrapeConfig` objects into the corresponding namespaces on that managed cluster. Its managed-cluster Prometheus component consumes the `ScrapeConfig` objects there and federates metrics from the local UWM.
 
@@ -2132,13 +2128,11 @@ if [ -n "${ADDON_JSON}" ]; then
       multicluster-observability-addon -o json 2>/dev/null || echo "${ADDON_JSON}")
   }
 
-  # Remove in reverse order: PrometheusRules first, then platform ScrapeConfigs, then shared ScrapeConfig
+  # Remove in reverse order: PrometheusRules first, then the platform and shared ScrapeConfigs
   for NS in bookinfo ambient-demo ztunnel istio-system; do
     remove_mcoa_ref monitoring.coreos.com prometheusrules "kiali-istio-aggregation-${NS}"
   done
-  for NS in bookinfo ambient-demo ztunnel istio-system; do
-    remove_mcoa_ref monitoring.rhobs scrapeconfigs "kiali-istio-platform-federation-${NS}"
-  done
+  remove_mcoa_ref monitoring.rhobs scrapeconfigs kiali-istio-platform-federation
   remove_mcoa_ref monitoring.rhobs scrapeconfigs kiali-istio-federation
 fi
 
@@ -2146,9 +2140,9 @@ fi
 for NS in istio-system ztunnel ambient-demo bookinfo; do
   oc --context=ossm-kiali-hub delete prometheusrule "kiali-istio-aggregation-${NS}" \
     -n open-cluster-management-observability --ignore-not-found
-  oc --context=ossm-kiali-hub delete scrapeconfig "kiali-istio-platform-federation-${NS}" \
-    -n open-cluster-management-observability --ignore-not-found
 done
+oc --context=ossm-kiali-hub delete scrapeconfig kiali-istio-platform-federation \
+  -n open-cluster-management-observability --ignore-not-found
 oc --context=ossm-kiali-hub delete scrapeconfig kiali-istio-federation \
   -n open-cluster-management-observability --ignore-not-found
 ```
