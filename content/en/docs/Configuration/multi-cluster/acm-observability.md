@@ -55,7 +55,7 @@ There are two independent flows:
 **Ingestion (managed cluster → hub):**
 1. **Istio data plane components** (sidecars, ztunnel, or waypoint proxies) expose metrics at `:15020/stats/prometheus`.
 2. **User Workload Monitoring Prometheus** scrapes those metrics (typically every 30s).
-3. UWM evaluates recording rules that remove per-proxy cardinality and produce `workload:istio_*` series.
+3. UWM evaluates recording rules that reduce cardinality and produce `workload:istio_*` series.
 4. The **MCOA user-workload Prometheus Agent** federates selected series through `/federate`, relabels `workload:istio_*` back to `istio_*`, and remote-writes them to the hub (every 5 minutes by default).
 5. The hub stores them in **Thanos Receive/Store** and serves them through **Thanos Query Frontend**.
 
