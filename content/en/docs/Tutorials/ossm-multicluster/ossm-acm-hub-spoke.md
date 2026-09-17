@@ -1953,7 +1953,7 @@ oc --context=ossm-kiali-spoke \
   -n openshift-user-workload-monitoring \
   exec -c prometheus "${PROM_POD}" -- \
   wget -qO- \
-  'http://localhost:9090/api/v1/query?query=sum%28istio_requests_total%29' \
+  'http://localhost:9090/api/v1/query?query=istio_requests_total' \
   | jq '.data.result'
 
 # Edge UWM: aggregates produced by the recording rules
@@ -1961,12 +1961,12 @@ oc --context=ossm-kiali-spoke \
   -n openshift-user-workload-monitoring \
   exec -c prometheus "${PROM_POD}" -- \
   wget -qO- \
-  'http://localhost:9090/api/v1/query?query=sum%28workload%3Aistio_requests_total%29' \
+  'http://localhost:9090/api/v1/query?query=workload%3Aistio_requests_total' \
   | jq '.data.result'
 
 # Hub Thanos: federated aggregates, relabeled back to istio_requests_total
 oc --context=ossm-kiali-hub get --raw \
-  "/api/v1/namespaces/open-cluster-management-observability/services/http:observability-thanos-query-frontend:9090/proxy/api/v1/query?query=sum%28istio_requests_total%7Bcluster%3D%22${SPOKE_CLUSTER_NAME}%22%7D%29" \
+  "/api/v1/namespaces/open-cluster-management-observability/services/http:observability-thanos-query-frontend:9090/proxy/api/v1/query?query=istio_requests_total%7Bcluster%3D%22${SPOKE_CLUSTER_NAME}%22%7D" \
   | jq '.data.result'
 
 # List all Istio metric names present in hub Thanos
