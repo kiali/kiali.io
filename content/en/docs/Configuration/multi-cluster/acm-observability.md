@@ -391,6 +391,7 @@ spec:
     - '{__name__=~"pilot_info|pilot_proxy_convergence_time_(sum|count)|pilot_services|pilot_xds$|pilot_xds_pushes"}'
     - '{__name__=~"workload_manager_active_proxy_count"}'
     - '{__name__=~"envoy_cluster_upstream_cx_active|envoy_cluster_upstream_rq_total|envoy_listener_downstream_cx_active|envoy_listener_http_downstream_rq|envoy_server_memory_allocated|envoy_server_memory_heap_size|envoy_server_uptime"}'
+  scrapeInterval: 5m
 ```
 
 Now create this platform `ScrapeConfig` once per cluster. It collects CPU and memory metrics for pods in all namespaces; no namespace matcher is needed.
@@ -409,6 +410,7 @@ spec:
   params:
     match[]:
     - '{__name__=~"container_cpu_usage_seconds_total|container_memory_working_set_bytes"}'
+  scrapeInterval: 5m
 ```
 
 Finally, add references for the single `PrometheusRule` and both `ScrapeConfig` objects to the selected placement in the existing `ClusterManagementAddOn` object named `multicluster-observability-addon`. The following is a fragment of that placement's `configs` list; merge these entries with its existing entries rather than applying this as a replacement for the whole add-on object.
@@ -643,6 +645,78 @@ helm install kiali kiali-server \
 ```
 
 ## Important Configuration Notes
+
+### Scrape Intervals
+
+This architecture has several independent intervals. They control different
+stages of the metrics pipeline and should not be treated as one global scrape
+period:
+
+- **Edge target scraping** — `ServiceMonitor.spec.endpoints[].interval` and
+  `PodMonitor.spec.podMetricsEndpoints[].interval` control how often the spoke's
+  UWM Prometheus scrapes Istiod, sidecars, ztunnel, and waypoint metrics. If
+  omitted, UWM uses the `prometheus.scrapeInterval` default of `30s`.
+- **Recording-rule evaluation** — `PrometheusRule.spec.groups[].interval` is
+  how often UWM evaluates the aggregation rules. This is an evaluation interval,
+  not a target scrape interval. If omitted, UWM uses the
+  `prometheus.evaluationInterval` default of `30s`.
+- **UWM-to-hub federation** — `ScrapeConfig.spec.scrapeInterval` controls how
+  often the MCOA PrometheusAgent fetches metrics from the spoke UWM
+  Prometheus `/federate` endpoint and remote-writes them to hub Thanos. If
+  omitted, the MCOA PrometheusAgent default is `300s` (`5m`).
+- **Kiali's Thanos hint** —
+  `external_services.prometheus.thanos_proxy.scrape_interval` tells Kiali what
+  interval to use when calculating rate windows and query steps. It does not
+  control federation. If omitted, Kiali defaults it to `30s`; for ACM, set it
+  to the same effective interval as the MCOA federation job, whose default is
+  `5m`.
+
+If a `ServiceMonitor` or `PodMonitor` omits its endpoint `interval`, OpenShift
+UWM uses the default from the `user-workload-monitoring-config` ConfigMap. If a
+`PrometheusRule` group omits its `interval`, UWM uses the ConfigMap's rule
+evaluation default. These defaults can be configured without changing every
+monitor or rule:
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: user-workload-monitoring-config
+  namespace: openshift-user-workload-monitoring
+data:
+  config.yaml: |
+    prometheus:
+      evaluationInterval: 30s
+      scrapeInterval: 30s
+```
+
+The ConfigMap settings are defaults for omitted `ServiceMonitor`, `PodMonitor`,
+and `PrometheusRule` interval fields. They do not configure UWM-to-hub
+federation: `ScrapeConfig.spec.scrapeInterval` defaults to `5m`, and Kiali's
+`thanos_proxy.scrape_interval` defaults to `30s`. For ACM, configure Kiali's
+value to match the effective federation interval.
+
+These intervals must be selected as a pipeline. The `30s` edge scrape and rule
+evaluation intervals determine how quickly UWM discovers new samples and
+refreshes the aggregated recording-rule series; they do not make those samples
+available in hub Thanos every 30 seconds. The `5m` federation interval
+determines how frequently new data points arrive in hub Thanos, so it determines
+both the normal metrics delay and the minimum useful range for PromQL
+`rate()` queries. A rate window should contain at least two federated samples,
+which means it should normally be at least twice the effective federation
+interval (`10m` for a `5m` federation interval).
+
+If the federation interval changes, update Kiali's
+`thanos_proxy.scrape_interval`, dashboard and alert `rate()` windows, and any
+health-check duration settings together. If Kiali's
+`thanos_proxy.scrape_interval` remains at its `30s` default while federation
+remains at `5m`, Kiali can calculate rate windows and query steps that are too
+short for the samples actually arriving in Thanos. This can produce empty or
+misleading rate results even though the underlying metrics exist. Explicit
+PromQL range windows, such as `[5m]`, are separate settings and must also be
+long enough to contain at least two federated samples. Conversely, changing
+only the edge scrape interval affects freshness and UWM resource usage, but
+does not reduce the hub's federation delay.
 
 ### Metrics Latency
 

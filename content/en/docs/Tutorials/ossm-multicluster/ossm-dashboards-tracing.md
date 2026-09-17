@@ -299,7 +299,10 @@ Create three Istio dashboards, each focusing on a different layer of observabili
 The `PersesDashboard` resources below contain the full Prometheus queries for each panel. You can modify the queries, add panels, or create entirely new dashboards to suit your environment — these are a starting point. All panels use the `acm-thanos` datasource so data from both spoke clusters is included.
 
 {{% alert color="info" %}}
-The rate windows below use `[10m]` rather than the typical `[5m]`. Because ACM collects metrics every 5 minutes, a `rate([5m])` window contains only one data point and returns no result. Using `[10m]` ensures at least two collection points are in the window so `rate()` can compute a value. If you change the ACM collection interval, adjust the rate windows to be at least 2x that interval.
+The rate windows below are selected for the ACM federation cadence. Before
+changing the scrape, federation, or query intervals, review [Scrape Intervals]({{< relref "../../Configuration/multi-cluster/acm-observability#scrape-intervals" >}})
+so the windows remain compatible with the rate at which samples arrive in hub
+Thanos.
 {{% /alert %}}
 
 **Istio Mesh Overview** — cluster-wide HTTP and TCP traffic rates:

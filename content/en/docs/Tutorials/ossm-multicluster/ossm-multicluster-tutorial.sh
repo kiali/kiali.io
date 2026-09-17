@@ -458,6 +458,7 @@ spec:
     - '{__name__=~"istio_xds_message_total"}'
     - '{__name__=~"workload_manager_pending_proxy_count"}'
     - '{__name__=~"envoy_wasm_.*"}'
+  scrapeInterval: 5m
 EOF
   add_mcoa_ref monitoring.rhobs scrapeconfigs kiali-istio-federation
 
@@ -477,6 +478,7 @@ spec:
   params:
     match[]:
     - '{__name__=~"container_cpu_usage_seconds_total|container_memory_working_set_bytes"}'
+  scrapeInterval: 5m
 EOF
   add_mcoa_ref monitoring.rhobs scrapeconfigs kiali-istio-platform-federation
 
@@ -697,6 +699,7 @@ spec:
   params:
     match[]:
     - '{__name__="kiali:kiali_health_status"}'
+  scrapeInterval: 5m
 EOF
     add_mcoa_ref monitoring.rhobs scrapeconfigs kiali-istio-federation
   fi

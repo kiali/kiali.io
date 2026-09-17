@@ -439,11 +439,20 @@ oc --context=ossm-kiali-hub get route observatorium-api \
 ### 1.5 Configure MCOA Federation
 
 {{% alert color="info" %}}
-**How the metrics pipeline works:** User Workload Monitoring (UWM) on each spoke is the short-lived edge metrics store. It scrapes raw `istio_*` series (via the monitors created in Phase 3.8) every 30 seconds; because this tutorial does not explicitly configure UWM retention, OpenShift uses its default 24-hour retention for user-workload metrics. Namespace-scoped `PrometheusRule` objects, propagated by MCOA and evaluated every 30 seconds, aggregate the high-cardinality per-pod and per-proxy series into `workload:istio_*` series within each namespace.
+**How the metrics pipeline works:** User Workload Monitoring (UWM) on each
+spoke is the short-lived edge metrics store. It scrapes raw `istio_*` series
+and other user-workload metrics. Recording rules aggregate the selected
+high-cardinality Istio series into `workload:istio_*` series. MCOA federates
+those aggregated series and other core metrics from UWM to hub Thanos. A
+separate cluster-wide platform federation job collects container CPU and memory
+metrics from all namespaces. Hub Thanos is the data source Kiali ultimately
+queries. For the interval relationships, timing expectations, and the
+consequences of changing an interval, see [Scrape Intervals]({{< relref "../../Configuration/multi-cluster/acm-observability#scrape-intervals" >}}).
 
-The MCOA PrometheusAgent on each spoke federates the selected `workload:istio_*` series and other core metrics from UWM’s `/federate` endpoint every 5 minutes. It removes the `workload:` prefix — for example, renaming `workload:istio_requests_total` to `istio_requests_total` — and remote-writes the resulting metrics to hub Thanos which is the data Kiali ultimately obtains. A separate cluster-wide platform federation job collects container CPU and memory from all namespaces.
-
-Hub Thanos retains its own local data for 24 hours and retains raw, 5-minute, and 1-hour aggregate data for 365 days. Kiali queries hub Thanos through the Observatorium API; its `thanos_proxy.scrape_interval` is set to match MCOA’s 5-minute federation interval, and its `thanos_proxy.retention_period` is set to match the hub’s 365-day aggregate retention.
+Hub Thanos retains its own local data for 24 hours and retains raw, 5-minute,
+and 1-hour aggregate data for 365 days. Kiali queries hub Thanos through the
+Observatorium API; its `thanos_proxy.retention_period` is set to match the
+hub's 365-day aggregate retention.
 {{% /alert %}}
 
 First, identify which MCOA placement to use. A "placement" selects the managed clusters that receive the MCOA add-on configuration. The tutorial uses the placement already referenced by ACM’s `multicluster-observability-addon`, so the recording rules and federation configuration are propagated only to the clusters selected by that placement.
@@ -554,6 +563,7 @@ spec:
     - '{__name__=~"workload_manager_pending_proxy_count"}'
     # istio-extension-dashboard (WASM)
     - '{__name__=~"envoy_wasm_.*"}'
+  scrapeInterval: 5m
 EOF
 ```
 
@@ -577,6 +587,7 @@ spec:
   params:
     match[]:
     - '{__name__=~"container_cpu_usage_seconds_total|container_memory_working_set_bytes"}'
+  scrapeInterval: 5m
 EOF
 ```
 
@@ -1718,7 +1729,7 @@ spec:
 EOF
 ```
 
-Generate traffic, then wait 5 to 6 minutes for UWM to scrape the waypoint and for MCOA to federate the first sample to hub Thanos. Confirm the waypoint is producing L7 HTTP metrics by querying hub Thanos for `reporter=waypoint`:
+Generate traffic, then follow the timing guidance in [Scrape Intervals]({{< relref "../../Configuration/multi-cluster/acm-observability#scrape-intervals" >}}) before querying hub Thanos for `reporter=waypoint`:
 
 ```bash
 oc --context=ossm-kiali-hub get --raw \
@@ -1896,7 +1907,7 @@ EOF
 ## Phase 6: Verification
 
 {{% alert color="info" %}}
-**Before running the metrics checks (6.3) and checking the Kiali traffic graph (6.4):** MCOA's PrometheusAgent federates metrics from the spoke's UWM Prometheus to hub Thanos on a default 5 minute interval. After deploying the demo apps, wait at least 10 minutes before expecting metrics to appear — 5 minutes for the first federation cycle, plus another 5 minutes so that Kiali's `rate()` calculations have two data points. The mesh health checks (6.1) and traffic flow checks (6.2) can be run immediately.
+**Before running the metrics checks (6.3) and checking the Kiali traffic graph (6.4):** Review [Scrape Intervals]({{< relref "../../Configuration/multi-cluster/acm-observability#scrape-intervals" >}}) for the expected federation delay, warm-up time, and query-window requirements. The mesh health checks (6.1) and traffic flow checks (6.2) can be run immediately.
 {{% /alert %}}
 
 ### 6.1 Verify Mesh Components
@@ -1976,11 +1987,11 @@ oc --context=ossm-kiali-hub get --raw \
 ```
 
 Generate traffic before running the queries. The edge queries should become
-non-empty after UWM scrapes and evaluates its rules. Allow at least one
-five-minute MCOA collection interval for the hub query. Hub values lag the edge,
-so compare presence and approximately corresponding counter values rather than
-expecting exact point-in-time equality. Allow **at least 10 minutes** before
-checking Kiali `rate()` results, which require two federated samples.
+non-empty after UWM scrapes and evaluates its rules. Hub values follow the MCOA
+federation cadence, so review [Scrape Intervals]({{< relref "../../Configuration/multi-cluster/acm-observability#scrape-intervals" >}})
+for the expected delay and rate-query timing. Compare presence and
+approximately corresponding counter values rather than expecting exact
+point-in-time equality.
 
 List the Istio and Envoy metric names in edge UWM. This output includes the
 `workload:*` series produced by the recording rules:
@@ -2085,7 +2096,9 @@ Open either URL and log in with your OpenShift credentials. You should see:
 For Kiali to show the Ambient badge and ztunnel details it needs access to the `ztunnel` namespace. The `cluster_wide_access: true` setting in the Kiali CR (configured in Phase 4) covers this automatically.
 {{% /alert %}}
 
-Because Kiali queries ACM's hub Thanos (not the spoke's local Prometheus), there is an inherent 5–10 minute latency before new traffic appears in the graph. This is the MCOA federation interval. After the initial warm-up (~10 minutes), the graph updates continuously on each federation cycle. The most recent data in the graph will always be approximately one federation interval old.
+Because Kiali queries ACM's hub Thanos rather than the spoke's local Prometheus,
+the graph follows the MCOA federation cadence. See [Scrape Intervals]({{< relref "../../Configuration/multi-cluster/acm-observability#scrape-intervals" >}})
+for the expected latency and warm-up behavior.
 
 ---
 

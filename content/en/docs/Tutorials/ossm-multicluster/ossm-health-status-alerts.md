@@ -589,7 +589,9 @@ oc --context=ossm-kiali-spoke wait kiali kiali \
 {{% /alert %}}
 
 {{% alert color="info" %}}
-**`compute.duration` and hub Thanos:** If Kiali queries metrics from ACM's hub Thanos (as configured in the [hub/spoke guide]({{< relref "./ossm-acm-hub-spoke" >}})), the default `compute.duration: 5m` may not produce meaningful `rate()` results because ACM's metrics collector typically forwards metrics to hub Thanos every 5 minutes — leaving only one data point in the window. Setting `duration: 10m` ensures at least two data points. This is the same reason why the Perses dashboards in the [dashboards/tracing guide]({{< relref "./ossm-dashboards-tracing" >}}) use `[10m]` rate windows. Single-cluster setups with local Prometheus can use the default `5m`.
+**`compute.duration` and hub Thanos:** The health calculation duration must be
+compatible with the ACM federation cadence. See [Scrape Intervals]({{< relref "../../Configuration/multi-cluster/acm-observability#scrape-intervals" >}})
+before changing the federation interval or this duration.
 {{% /alert %}}
 
 Now inject abort faults on Bookinfo `ratings` (or another service you care about):
@@ -656,7 +658,7 @@ Complete Phases 1–3 on **each managed cluster** that should export `kiali_heal
 
 MCOA federates metrics from each managed cluster's UWM to hub Thanos. This phase adds the health recording group to the shared `mesh-observability` aggregation rule and reuses the shared user-workload `ScrapeConfig`, then configures hub Thanos Ruler alert rules.
 
-If you already applied Phase 4 on the managed clusters, you can keep those local alerts, replace them with hub-only rules, or run both — see the trade-offs in [Overview](#overview). Hub evaluation waits for the MCOA PrometheusAgent federation interval (default 5 minutes) before new samples are visible to Thanos Ruler.
+If you already applied Phase 4 on the managed clusters, you can keep those local alerts, replace them with hub-only rules, or run both — see the trade-offs in [Overview](#overview). Hub evaluation follows the MCOA federation cadence; see [Scrape Intervals]({{< relref "../../Configuration/multi-cluster/acm-observability#scrape-intervals" >}}) for the timing implications.
 
 ### 6.1 Add `kiali_health_status` MCOA Federation Resources
 
@@ -776,7 +778,7 @@ add_mcoa_ref monitoring.rhobs scrapeconfigs kiali-istio-federation
 
 ### 6.2 Verify on the hub
 
-After applying the MCOA resources, wait at least 5 to 6 minutes for a federation cycle to complete, then verify the pipeline:
+After applying the MCOA resources, follow the timing guidance in [Scrape Intervals]({{< relref "../../Configuration/multi-cluster/acm-observability#scrape-intervals" >}}) before verifying the pipeline:
 
 ```bash
 # Confirm source PrometheusRule and ScrapeConfig exist on the hub
