@@ -2114,6 +2114,34 @@ Open either URL and log in with your OpenShift credentials. You should see:
    - `bookinfo`: full L7 graph across `productpage` → `details`, `reviews` → `ratings` with HTTP response codes and latency
 3. **Mesh page**: navigate to the Mesh page to see the overall mesh topology — the control plane, ztunnel, and the `istio-system` namespace can all be represented in the mesh graph.
 
+### 6.5.1 Verify Waypoint Metrics in Kiali
+
+The waypoint emits the HTTP/L7 metrics, but Kiali displays those metrics on the
+application workloads and services involved in the request. The waypoint
+workload page is primarily for checking the waypoint status, enrolled services
+and workloads, and Envoy details; its normal inbound and outbound workload
+metric views are not the right place to validate application traffic.
+
+After `traffic-gen` has generated requests to the `helloworld` Service, use
+the following Kiali views:
+
+1. **Workload details → `helloworld-v1` or `helloworld-v2` → Inbound Metrics**:
+   shows HTTP/L7 traffic received by the workload through the waypoint.
+2. **Workload details → `traffic-gen` → Outbound Metrics**: shows the HTTP/L7
+   traffic sent from the traffic generator through the waypoint.
+3. **Service details → `helloworld` → Inbound Metrics**: shows inbound traffic
+   for the `helloworld` Service.
+4. **Traffic Graph → Traffic → Waypoint**: filters the graph to the waypoint's
+   L7 HTTP edges. Select **Ztunnel** to see the separate L4/TCP edges, or
+   **Total** to see both.
+
+Seeing both a waypoint edge and a ztunnel edge is expected in ambient mode.
+The waypoint provides HTTP details such as response codes and latency, while
+ztunnel provides L4/TCP telemetry. If the waypoint views are empty, first
+confirm that the hub Thanos query for `reporter="waypoint"` in section 5.1.1
+returns a result, then allow another ACM collection cycle for the metrics to
+reach hub Thanos.
+
 {{% alert color="info" %}}
 For Kiali to show the Ambient badge and ztunnel details it needs access to the `ztunnel` namespace. The `cluster_wide_access: true` setting in the Kiali CR (configured in Phase 4) covers this automatically.
 {{% /alert %}}
