@@ -266,7 +266,7 @@ spec:
     relabelings:
     - action: replace
       regex: "(.+);.*|.*;(.+)"
-      replacement: "${1}${2}"
+      replacement: "\${1}\${2}"
       separator: ";"
       sourceLabels:
       - __meta_kubernetes_service_label_app_kubernetes_io_name
@@ -274,13 +274,13 @@ spec:
       targetLabel: app
     - action: replace
       regex: "(.+)"
-      replacement: "${1}"
+      replacement: "\${1}"
       sourceLabels:
       - __meta_kubernetes_service_label_app_kubernetes_io_name
       targetLabel: app_kubernetes_io_name
     - action: replace
       regex: "(.+);.*|.*;(.+)"
-      replacement: "${1}${2}"
+      replacement: "\${1}\${2}"
       separator: ";"
       sourceLabels:
       - __meta_kubernetes_service_label_app_kubernetes_io_version
@@ -288,7 +288,7 @@ spec:
       targetLabel: version
     - action: replace
       regex: "(.+)"
-      replacement: "${1}"
+      replacement: "\${1}"
       sourceLabels:
       - __meta_kubernetes_service_label_app_kubernetes_io_version
       targetLabel: app_kubernetes_io_version
