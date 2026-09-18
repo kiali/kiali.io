@@ -59,6 +59,655 @@ wait_for() {
 }
 
 # =============================================================================
+# UWM helper functions
+# =============================================================================
+
+# Safely enable User Workload Monitoring without clobbering unrelated monitoring
+# settings. When we create the ConfigMap from scratch we label it so disable_uwm
+# knows it is safe to remove on cleanup. When it already exists we merge the
+# enableUserWorkload key into the existing config.yaml rather than replacing it.
+enable_uwm() {
+  local context=$1
+  if oc --context="${context}" get configmap cluster-monitoring-config \
+      -n openshift-monitoring &>/dev/null 2>&1; then
+    local existing_cfg
+    existing_cfg=$(oc --context="${context}" get configmap cluster-monitoring-config \
+      -n openshift-monitoring -o jsonpath='{.data.config\.yaml}' 2>/dev/null || true)
+    if echo "${existing_cfg}" | grep -q "enableUserWorkload:"; then
+      # Key already present — overwrite only that value, preserve everything else
+      oc --context="${context}" get configmap cluster-monitoring-config \
+        -n openshift-monitoring -o json \
+        | jq '.data["config.yaml"] |= sub("enableUserWorkload:\\s*\\w+"; "enableUserWorkload: true")' \
+        | oc --context="${context}" apply -f -
+    else
+      # Key absent — append it without touching other keys.
+      # Use // "" to tolerate a ConfigMap where data or data["config.yaml"] is null.
+      oc --context="${context}" get configmap cluster-monitoring-config \
+        -n openshift-monitoring -o json \
+        | jq '.data["config.yaml"] = ((.data["config.yaml"] // "") + "\nenableUserWorkload: true\n")' \
+        | oc --context="${context}" apply -f -
+    fi
+  else
+    # ConfigMap does not exist — create it and label it as tutorial-owned so
+    # disable_uwm can safely remove it on cleanup.
+    oc --context="${context}" create configmap cluster-monitoring-config \
+      -n openshift-monitoring \
+      --from-literal=config.yaml="enableUserWorkload: true"
+    oc --context="${context}" label configmap cluster-monitoring-config \
+      -n openshift-monitoring kiali.io/tutorial-owned=true
+  fi
+}
+
+# Remove the cluster-monitoring-config ConfigMap only when enable_uwm created
+# it fresh (i.e. it carries kiali.io/tutorial-owned=true). Pre-existing
+# ConfigMaps — and those on clusters the tutorial never touched — are preserved.
+disable_uwm() {
+  local context=$1
+  local owned
+  owned=$(oc --context="${context}" get configmap cluster-monitoring-config \
+    -n openshift-monitoring \
+    -o jsonpath='{.metadata.labels.kiali\.io/tutorial-owned}' 2>/dev/null || true)
+  if [ "${owned}" = "true" ]; then
+    oc --context="${context}" delete configmap cluster-monitoring-config \
+      -n openshift-monitoring --ignore-not-found
+  fi
+}
+
+configure_mcoa_uwm_namespace() {
+  local context=$1 existing updated
+  oc --context="${context}" create namespace mesh-observability \
+    --dry-run=client -o yaml | oc --context="${context}" apply -f - >/dev/null
+  if ! oc --context="${context}" get configmap user-workload-monitoring-config \
+      -n openshift-user-workload-monitoring >/dev/null 2>&1; then
+    cat <<'EOF' | oc --context="${context}" apply -f - >/dev/null
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: user-workload-monitoring-config
+  namespace: openshift-user-workload-monitoring
+  annotations:
+    kiali.io/mcoa-rule-namespace: mesh-observability
+data:
+  config.yaml: |
+    namespacesWithoutLabelEnforcement:
+    - mesh-observability
+EOF
+    return
+  fi
+  existing=$(oc --context="${context}" get configmap user-workload-monitoring-config \
+    -n openshift-user-workload-monitoring -o jsonpath='{.data.config\.yaml}' 2>/dev/null || true)
+  if printf '%s\n' "${existing}" | grep -Eq \
+      '^[[:space:]]*-[[:space:]]*mesh-observability[[:space:]]*$'; then
+    return
+  fi
+  if printf '%s\n' "${existing}" | grep -Eq \
+      '^[[:space:]]*namespacesWithoutLabelEnforcement:[[:space:]]*\['; then
+    if printf '%s\n' "${existing}" | grep -Eq \
+        '^[[:space:]]*namespacesWithoutLabelEnforcement:[[:space:]]*\[[[:space:]]*\][[:space:]]*$'; then
+      updated=$(printf '%s\n' "${existing}" | sed -E \
+        's#(namespacesWithoutLabelEnforcement:[[:space:]]*\[)[[:space:]]*\]#\1mesh-observability]#')
+    else
+      updated=$(printf '%s\n' "${existing}" | sed -E \
+        's#(namespacesWithoutLabelEnforcement:[^]]*)\]#\1, mesh-observability]#')
+    fi
+  else
+    updated=$(printf '%s\n' "${existing}" | awk \
+      '/^[[:space:]]*namespacesWithoutLabelEnforcement:[[:space:]]*$/ {print; print "- mesh-observability"; added=1; next} {print} END {if (!added) print "namespacesWithoutLabelEnforcement:\n- mesh-observability"}')
+  fi
+  oc --context="${context}" get configmap user-workload-monitoring-config \
+    -n openshift-user-workload-monitoring -o json | \
+    jq --arg cfg "${updated}" \
+      '(.data["config.yaml"]=$cfg) | (.metadata.annotations //= {}) |
+       .metadata.annotations["kiali.io/mcoa-rule-namespace"]="mesh-observability"' | \
+    oc --context="${context}" apply -f - >/dev/null
+}
+
+remove_mcoa_uwm_namespace() {
+  local context=$1 owner existing updated
+  owner=$(oc --context="${context}" get configmap user-workload-monitoring-config \
+    -n openshift-user-workload-monitoring \
+    -o jsonpath='{.metadata.annotations.kiali\.io/mcoa-rule-namespace}' 2>/dev/null || true)
+  [ "${owner}" = mesh-observability ] || return 0
+  existing=$(oc --context="${context}" get configmap user-workload-monitoring-config \
+    -n openshift-user-workload-monitoring -o jsonpath='{.data.config\.yaml}' 2>/dev/null || true)
+  if printf '%s\n' "${existing}" | grep -Eq \
+      '^[[:space:]]*namespacesWithoutLabelEnforcement:[[:space:]]*\['; then
+    updated=$(printf '%s\n' "${existing}" | sed -E \
+      's/,?[[:space:]]*"?mesh-observability"?[[:space:]]*//')
+  else
+    updated=$(printf '%s\n' "${existing}" | awk \
+      '$0 !~ "^[[:space:]]*-[[:space:]]*mesh-observability[[:space:]]*$" {print}')
+  fi
+  oc --context="${context}" get configmap user-workload-monitoring-config \
+    -n openshift-user-workload-monitoring -o json | \
+    jq --arg cfg "${updated}" \
+      '(.data //= {}) | (.data["config.yaml"]=$cfg) |
+       (.metadata.annotations //= {}) |
+       del(.metadata.annotations["kiali.io/mcoa-rule-namespace"])' | \
+    oc --context="${context}" apply -f - >/dev/null
+}
+
+# =============================================================================
+# MCOA helper functions
+# =============================================================================
+
+# Install the full COO product on a cluster context. MCOA can also register the
+# ScrapeConfig CRD, so use the COO Subscription rather than that CRD to detect
+# an existing COO installation.
+install_coo() {
+  local ctx="$1" coo_info coo_ns coo_csv
+  coo_info=$(oc --context="${ctx}" get subscriptions.operators.coreos.com -A -o json 2>/dev/null | \
+    jq -r '[.items[] | select(.spec.name == "cluster-observability-operator")][0] |
+      select(. != null) | [.metadata.namespace, (.status.installedCSV // "")] | @tsv' 2>/dev/null || true)
+  if [ -n "${coo_info}" ]; then
+    IFS=$'\t' read -r coo_ns coo_csv <<< "${coo_info}"
+    info "COO already installed on ${ctx} — skipping"
+  else
+    info "Installing COO on ${ctx}"
+    oc --context="${ctx}" apply -f - <<'EOF'
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    openshift.io/cluster-monitoring: "true"
+  name: openshift-cluster-observability-operator
+---
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: cluster-observability-operator
+  namespace: openshift-cluster-observability-operator
+spec: {}
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: cluster-observability-operator
+  namespace: openshift-cluster-observability-operator
+spec:
+  channel: stable
+  installPlanApproval: Automatic
+  name: cluster-observability-operator
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace
+EOF
+  fi
+  wait_for "COO Subscription installed on ${ctx}" "${TIMEOUT}" \
+    "[ -n \"\$(oc --context=${ctx} get subscriptions.operators.coreos.com -A -o json 2>/dev/null | jq -r '[.items[] | select(.spec.name == \"cluster-observability-operator\")][0].status.installedCSV // empty')\" ]"
+}
+
+# Enable MCOA platform and user-workload capabilities on the MCO CR (hub only).
+# Idempotent — patches in place; MCOA waits for the ScrapeConfig CRD and a
+# populated placement before returning.
+enable_mcoa_capabilities() {
+  info "Enabling MCOA platform + user-workload capabilities on hub"
+  oc --context="${HUB_CTX}" patch mco observability --type=merge -p \
+    '{"spec":{"capabilities":{"platform":{"metrics":{"default":{"enabled":true}}},"userWorkloads":{"metrics":{"default":{"enabled":true}}}}}}'
+  wait_for "ScrapeConfig CRD and MCOA placement populated" "${TIMEOUT}" \
+    "oc --context=${HUB_CTX} get crd scrapeconfigs.monitoring.rhobs && \
+     [ \"\$(oc --context=${HUB_CTX} get clustermanagementaddon multicluster-observability-addon \
+         -o json 2>/dev/null | jq '(.spec.installStrategy.placements // []) | length' 2>/dev/null || echo 0)\" -gt 0 ]"
+}
+
+# Load MCOA placement into MCOA_PLACEMENT_NAME / MCOA_PLACEMENT_NS globals.
+# Fails if there are multiple placements and neither var is set.
+MCOA_PLACEMENT_NAME=""
+MCOA_PLACEMENT_NS=""
+select_mcoa_placement() {
+  local addon_json count
+  addon_json=$(oc --context="${HUB_CTX}" get clustermanagementaddon \
+    multicluster-observability-addon -o json)
+  count=$(echo "${addon_json}" | jq '(.spec.installStrategy.placements // []) | length')
+  [ "${count}" -gt 0 ] || error "MCOA has no populated placements"
+  if [ -z "${MCOA_PLACEMENT_NAME}" ]; then
+    [ "${count}" -eq 1 ] || error "MCOA has ${count} placements; set MCOA_PLACEMENT_NAME and MCOA_PLACEMENT_NS"
+    MCOA_PLACEMENT_NAME=$(echo "${addon_json}" | jq -r '.spec.installStrategy.placements[0].name')
+    MCOA_PLACEMENT_NS=$(echo "${addon_json}" | jq -r '.spec.installStrategy.placements[0].namespace')
+    info "Using MCOA placement: ${MCOA_PLACEMENT_NS}/${MCOA_PLACEMENT_NAME}"
+  fi
+}
+
+# Idempotent add of an MCOA configuration resource reference to the placement.
+# Usage: add_mcoa_ref <group> <resource> <name>
+add_mcoa_ref() {
+  local group="$1" resource="$2" name="$3"
+  local obs_ns="open-cluster-management-observability"
+  local addon_json exists idx configs op path
+  addon_json=$(oc --context="${HUB_CTX}" get clustermanagementaddon \
+    multicluster-observability-addon -o json)
+  exists=$(echo "${addon_json}" | jq -r \
+    --arg g "${group}" --arg r "${resource}" --arg n "${name}" --arg ns "${obs_ns}" \
+    --arg pn "${MCOA_PLACEMENT_NAME}" --arg pns "${MCOA_PLACEMENT_NS}" \
+    '[.spec.installStrategy.placements[] |
+      select(.name == $pn and .namespace == $pns) |
+      .configs[]? |
+      select(.group == $g and .resource == $r and .name == $n and .namespace == $ns)] | length')
+  if [ "${exists}" -eq 0 ]; then
+    idx=$(echo "${addon_json}" | jq -r \
+      --arg pn "${MCOA_PLACEMENT_NAME}" --arg pns "${MCOA_PLACEMENT_NS}" \
+      '.spec.installStrategy.placements | to_entries[] |
+        select(.value.name == $pn and .value.namespace == $pns) | .key')
+    configs=$(echo "${addon_json}" | jq -r \
+      --argjson i "${idx}" '.spec.installStrategy.placements[$i].configs | type == "array"')
+    if [ "${configs}" = true ]; then
+      op="add"; path="/spec/installStrategy/placements/${idx}/configs/-"
+    else
+      op="add"; path="/spec/installStrategy/placements/${idx}/configs"
+    fi
+    oc --context="${HUB_CTX}" patch clustermanagementaddon multicluster-observability-addon \
+      --type=json -p="[{\"op\":\"${op}\",\"path\":\"${path}\",
+        \"value\":{\"group\":\"${group}\",\"resource\":\"${resource}\",
+                   \"name\":\"${name}\",\"namespace\":\"${obs_ns}\"}}]"
+    info "Added ${resource}/${name} to placement ${MCOA_PLACEMENT_NS}/${MCOA_PLACEMENT_NAME}"
+  fi
+}
+
+# Idempotent removal of an MCOA configuration resource reference from the placement.
+# Usage: remove_mcoa_ref <group> <resource> <name>
+remove_mcoa_ref() {
+  local group="$1" resource="$2" name="$3"
+  local obs_ns="open-cluster-management-observability"
+  local addon_json patch
+  addon_json=$(oc --context="${HUB_CTX}" get clustermanagementaddon \
+    multicluster-observability-addon -o json 2>/dev/null) || return 0
+  patch=$(echo "${addon_json}" | jq -c \
+    --arg g "${group}" --arg r "${resource}" --arg n "${name}" --arg ns "${obs_ns}" \
+    '[(.spec.installStrategy.placements // []) | to_entries[] as $p |
+      ($p.value.configs // []) | to_entries[] |
+      select(.value.group == $g and .value.resource == $r and
+             .value.name == $n and .value.namespace == $ns) |
+      {op:"remove",
+       path:("/spec/installStrategy/placements/"+($p.key|tostring)+"/configs/"+(.key|tostring))}]
+    | sort_by(.path) | reverse')
+  [ "${patch}" = "[]" ] || oc --context="${HUB_CTX}" patch clustermanagementaddon \
+    multicluster-observability-addon --type=json -p="${patch}"
+}
+
+# Uninstall COO from a given context. Dynamically discovers the subscription
+# namespace — does not assume openshift-operators or any other fixed namespace.
+# Removes the subscription, CSV, namespace, and COO-labeled CRDs. Do not delete
+# every .monitoring.rhobs CRD: MCOA can own APIs in that group independently.
+uninstall_coo() {
+  local ctx="$1"
+  local coo_info coo_ns coo_sub coo_csv
+  coo_info=$(oc --context="${ctx}" get subscriptions.operators.coreos.com -A -o json 2>/dev/null | \
+    jq -r '[.items[] | select(.spec.name == "cluster-observability-operator")][0] |
+      select(. != null) | [.metadata.namespace, .metadata.name, (.status.installedCSV // "")] | @tsv' \
+    2>/dev/null || true)
+  if [ -n "${coo_info}" ]; then
+    IFS=$'\t' read -r coo_ns coo_sub coo_csv <<< "${coo_info}"
+    oc --context="${ctx}" delete subscription.operators.coreos.com \
+      "${coo_sub}" -n "${coo_ns}" --ignore-not-found
+    [ -z "${coo_csv}" ] || oc --context="${ctx}" delete csv \
+      "${coo_csv}" -n "${coo_ns}" --ignore-not-found
+    oc --context="${ctx}" delete namespace "${coo_ns}" --ignore-not-found --wait=false
+    wait_for "COO namespace ${coo_ns} removed from ${ctx}" 120 \
+      "! oc --context=${ctx} get namespace ${coo_ns} &>/dev/null"
+  else
+    info "No full COO Subscription on ${ctx} — leaving MCOA-managed monitoring.rhobs APIs intact"
+    return 0
+  fi
+  local coo_crds
+  coo_crds=$(oc --context="${ctx}" get crd \
+    -l 'operators.coreos.com/cluster-observability-operator.openshift-cluster-observability' \
+    -o name 2>/dev/null | grep -v '\.monitoring\.rhobs$' || true)
+  [ -z "${coo_crds}" ] || echo "${coo_crds}" | \
+    xargs oc --context="${ctx}" delete --ignore-not-found
+  info "COO uninstalled from ${ctx}"
+}
+
+cleanup_istio_cluster_resources() {
+  local ctx="$1" namespaces crds
+
+  oc --context="${ctx}" delete gatewayclass istio istio-remote istio-waypoint \
+    istio-east-west --ignore-not-found 2>/dev/null || true
+
+  namespaces=$(oc --context="${ctx}" get configmap -A \
+    -o custom-columns='NS:.metadata.namespace,NAME:.metadata.name' --no-headers 2>/dev/null | \
+    grep -E 'istio-ca-root-cert|istio-ca-crl' | awk '{print $1}' | sort -u || true)
+  for namespace in ${namespaces}; do
+    oc --context="${ctx}" delete configmap istio-ca-root-cert istio-ca-crl \
+      -n "${namespace}" --ignore-not-found 2>/dev/null || true
+  done
+
+  # Gateway API CRDs (gateway.networking.k8s.io) are owned by the OpenShift Ingress
+  # Operator; OSSM/Istio only create GatewayClasses and routes. Deleting them is
+  # denied by admission and is not part of tutorial cleanup.
+  crds=$(oc --context="${ctx}" get crd -o name 2>/dev/null | \
+    grep -E '\.inference\.networking\.(k8s|x-k8s)\.io$' || true)
+  [ -z "${crds}" ] || echo "${crds}" | \
+    xargs oc --context="${ctx}" delete --ignore-not-found
+}
+
+# Create all hub-side MCOA configuration resources for Istio federation (3 objects):
+# * 1 shared user-workload ScrapeConfig
+# * 1 cluster-wide platform ScrapeConfig
+# * 1 shared PrometheusRule.
+# Requires MCOA_PLACEMENT_NAME / MCOA_PLACEMENT_NS to be set.
+create_istio_federation_resources() {
+  local obs_ns="open-cluster-management-observability"
+
+  # Shared user-workload ScrapeConfig
+  oc --context="${HUB_CTX}" apply -f - <<'EOF'
+apiVersion: monitoring.rhobs/v1alpha1
+kind: ScrapeConfig
+metadata:
+  labels:
+    app.kubernetes.io/component: user-workload-metrics-collector
+    app.kubernetes.io/managed-by: kiali-mcoa-federation
+  name: kiali-istio-federation
+  namespace: open-cluster-management-observability
+spec:
+  honorLabels: true
+  jobName: kiali-istio-federation
+  metricRelabelings:
+  - action: replace
+    regex: 'workload:(.*)'
+    replacement: '${1}'
+    sourceLabels: [__name__]
+    targetLabel: __name__
+  - action: replace
+    regex: 'kiali:(.*)'
+    replacement: '${1}'
+    sourceLabels: [__name__]
+    targetLabel: __name__
+  metricsPath: /federate
+  params:
+    match[]:
+    # CORE TIER
+    - '{__name__=~"workload:istio_requests_total"}'
+    - '{__name__=~"workload:istio_request_bytes_(bucket|count|sum)"}'
+    - '{__name__=~"workload:istio_request_duration_milliseconds_(bucket|count|sum)"}'
+    - '{__name__=~"workload:istio_request_messages_total"}'
+    - '{__name__=~"workload:istio_response_bytes_(bucket|count|sum)"}'
+    - '{__name__=~"workload:istio_response_messages_total"}'
+    - '{__name__=~"workload:istio_tcp_connections_(opened|closed)_total"}'
+    - '{__name__=~"workload:istio_tcp_(received|sent)_bytes_total"}'
+    - '{__name__=~"istio_build"}'
+    - '{__name__=~"process_cpu_seconds_total"}'
+    - '{__name__=~"process_resident_memory_bytes"}'
+    - '{__name__=~"pilot_info"}'
+    - '{__name__=~"pilot_proxy_convergence_time_(sum|count)"}'
+    - '{__name__=~"pilot_services"}'
+    - '{__name__=~"pilot_xds$"}'
+    - '{__name__=~"pilot_xds_pushes"}'
+    - '{__name__=~"workload_manager_active_proxy_count"}'
+    - '{__name__=~"envoy_cluster_upstream_cx_active"}'
+    - '{__name__=~"envoy_cluster_upstream_rq_total"}'
+    - '{__name__=~"envoy_listener_downstream_cx_active"}'
+    - '{__name__=~"envoy_listener_http_downstream_rq"}'
+    - '{__name__=~"envoy_server_memory_allocated"}'
+    - '{__name__=~"envoy_server_memory_heap_size"}'
+    - '{__name__=~"envoy_server_uptime"}'
+    # KIALI TIER
+    - '{__name__=~"kiali:kiali_.*"}'
+    # ISTIO DASHBOARD TIER
+    - '{__name__=~"pilot_k8s_(reg|cfg)_events"}'
+    - '{__name__=~"pilot_push_triggers"}'
+    - '{__name__=~"pilot_total_xds_(rejects|internal_errors)"}'
+    - '{__name__=~"pilot_xds_push_time_bucket"}'
+    - '{__name__=~"pilot_xds_config_size_bytes_bucket"}'
+    - '{__name__=~"go_goroutines"}'
+    - '{__name__=~"go_memstats_(alloc_bytes|alloc_bytes_total|heap_alloc_bytes|heap_inuse_bytes|heap_sys_bytes|mallocs_total|stack_inuse_bytes)"}'
+    - '{__name__=~"container_fs_usage_bytes"}'
+    - '{__name__=~"process_open_fds"}'
+    - '{__name__=~"process_virtual_memory_bytes"}'
+    - '{__name__=~"istio_dns_requests_total"}'
+    - '{__name__=~"istio_tcp_sockets_open"}'
+    - '{__name__=~"istio_xds_connection_terminations_total"}'
+    - '{__name__=~"istio_xds_message_total"}'
+    - '{__name__=~"workload_manager_pending_proxy_count"}'
+    - '{__name__=~"envoy_wasm_.*"}'
+  scrapeInterval: 5m
+EOF
+  add_mcoa_ref monitoring.rhobs scrapeconfigs kiali-istio-federation
+
+  # Cluster-wide platform ScrapeConfig
+  oc --context="${HUB_CTX}" apply -f - <<EOF
+apiVersion: monitoring.rhobs/v1alpha1
+kind: ScrapeConfig
+metadata:
+  labels:
+    app.kubernetes.io/component: platform-metrics-collector
+    app.kubernetes.io/managed-by: kiali-mcoa-federation
+  name: kiali-istio-platform-federation
+  namespace: ${obs_ns}
+spec:
+  jobName: kiali-istio-platform-federation
+  metricsPath: /federate
+  params:
+    match[]:
+    - '{__name__=~"container_cpu_usage_seconds_total|container_memory_working_set_bytes"}'
+  scrapeInterval: 5m
+EOF
+  add_mcoa_ref monitoring.rhobs scrapeconfigs kiali-istio-platform-federation
+
+  # One shared aggregation PrometheusRule in the UWM-exempt namespace
+  local ns=mesh-observability
+    oc --context="${HUB_CTX}" apply -f - <<EOF
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  annotations:
+    observability.open-cluster-management.io/target-namespace: ${ns}
+  labels:
+    app.kubernetes.io/component: user-workload-metrics-collector
+    app.kubernetes.io/managed-by: kiali-mcoa-federation
+    openshift.io/prometheus-rule-evaluation-scope: leaf-prometheus
+  name: kiali-istio-aggregation
+  namespace: ${obs_ns}
+spec:
+  groups:
+  - interval: 30s
+    name: istio.workload-aggregation
+    rules:
+    # CORE TIER
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (istio_requests_total)
+      record: workload:istio_requests_total
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (istio_request_messages_total)
+      record: workload:istio_request_messages_total
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (istio_response_messages_total)
+      record: workload:istio_response_messages_total
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (istio_tcp_sent_bytes_total)
+      record: workload:istio_tcp_sent_bytes_total
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (istio_tcp_received_bytes_total)
+      record: workload:istio_tcp_received_bytes_total
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (istio_tcp_connections_opened_total)
+      record: workload:istio_tcp_connections_opened_total
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (istio_tcp_connections_closed_total)
+      record: workload:istio_tcp_connections_closed_total
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (istio_request_duration_milliseconds_bucket)
+      record: workload:istio_request_duration_milliseconds_bucket
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (istio_request_duration_milliseconds_sum)
+      record: workload:istio_request_duration_milliseconds_sum
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (istio_request_duration_milliseconds_count)
+      record: workload:istio_request_duration_milliseconds_count
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (istio_request_bytes_bucket)
+      record: workload:istio_request_bytes_bucket
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (istio_request_bytes_sum)
+      record: workload:istio_request_bytes_sum
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (istio_request_bytes_count)
+      record: workload:istio_request_bytes_count
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (istio_response_bytes_bucket)
+      record: workload:istio_response_bytes_bucket
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (istio_response_bytes_sum)
+      record: workload:istio_response_bytes_sum
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (istio_response_bytes_count)
+      record: workload:istio_response_bytes_count
+    # KIALI TIER
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_ai_requests_total)
+      record: kiali:kiali_ai_requests_total
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_ai_store_evictions_total)
+      record: kiali:kiali_ai_store_evictions_total
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_api_failures_total)
+      record: kiali:kiali_api_failures_total
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_cache_hits_total)
+      record: kiali:kiali_cache_hits_total
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_cache_requests_total)
+      record: kiali:kiali_cache_requests_total
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_graph_cache_evictions_total)
+      record: kiali:kiali_graph_cache_evictions_total
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_graph_cache_hits_total)
+      record: kiali:kiali_graph_cache_hits_total
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_graph_cache_misses_total)
+      record: kiali:kiali_graph_cache_misses_total
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_health_cache_hits_total)
+      record: kiali:kiali_health_cache_hits_total
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_health_cache_misses_total)
+      record: kiali:kiali_health_cache_misses_total
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_ai_store_conversations_total)
+      record: kiali:kiali_ai_store_conversations_total
+    - expr: max without (pod, pod_template_hash, instance, job, node) (kiali_graph_nodes)
+      record: kiali:kiali_graph_nodes
+    - expr: max without (pod, pod_template_hash, instance, job, node) (kiali_kubernetes_clients)
+      record: kiali:kiali_kubernetes_clients
+    - expr: max without (pod, pod_template_hash, instance, job, node) (kiali_health_status)
+      record: kiali:kiali_health_status
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_ai_request_duration_seconds_bucket)
+      record: kiali:kiali_ai_request_duration_seconds_bucket
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_ai_request_duration_seconds_sum)
+      record: kiali:kiali_ai_request_duration_seconds_sum
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_ai_request_duration_seconds_count)
+      record: kiali:kiali_ai_request_duration_seconds_count
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_api_processing_duration_seconds_bucket)
+      record: kiali:kiali_api_processing_duration_seconds_bucket
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_api_processing_duration_seconds_sum)
+      record: kiali:kiali_api_processing_duration_seconds_sum
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_api_processing_duration_seconds_count)
+      record: kiali:kiali_api_processing_duration_seconds_count
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_checker_processing_duration_seconds_bucket)
+      record: kiali:kiali_checker_processing_duration_seconds_bucket
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_checker_processing_duration_seconds_sum)
+      record: kiali:kiali_checker_processing_duration_seconds_sum
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_checker_processing_duration_seconds_count)
+      record: kiali:kiali_checker_processing_duration_seconds_count
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_graph_appender_duration_seconds_bucket)
+      record: kiali:kiali_graph_appender_duration_seconds_bucket
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_graph_appender_duration_seconds_sum)
+      record: kiali:kiali_graph_appender_duration_seconds_sum
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_graph_appender_duration_seconds_count)
+      record: kiali:kiali_graph_appender_duration_seconds_count
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_graph_generation_duration_seconds_bucket)
+      record: kiali:kiali_graph_generation_duration_seconds_bucket
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_graph_generation_duration_seconds_sum)
+      record: kiali:kiali_graph_generation_duration_seconds_sum
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_graph_generation_duration_seconds_count)
+      record: kiali:kiali_graph_generation_duration_seconds_count
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_graph_marshal_duration_seconds_bucket)
+      record: kiali:kiali_graph_marshal_duration_seconds_bucket
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_graph_marshal_duration_seconds_sum)
+      record: kiali:kiali_graph_marshal_duration_seconds_sum
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_graph_marshal_duration_seconds_count)
+      record: kiali:kiali_graph_marshal_duration_seconds_count
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_health_refresh_duration_seconds_bucket)
+      record: kiali:kiali_health_refresh_duration_seconds_bucket
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_health_refresh_duration_seconds_sum)
+      record: kiali:kiali_health_refresh_duration_seconds_sum
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_health_refresh_duration_seconds_count)
+      record: kiali:kiali_health_refresh_duration_seconds_count
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_prometheus_processing_duration_seconds_bucket)
+      record: kiali:kiali_prometheus_processing_duration_seconds_bucket
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_prometheus_processing_duration_seconds_sum)
+      record: kiali:kiali_prometheus_processing_duration_seconds_sum
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_prometheus_processing_duration_seconds_count)
+      record: kiali:kiali_prometheus_processing_duration_seconds_count
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_single_validation_processing_duration_seconds_bucket)
+      record: kiali:kiali_single_validation_processing_duration_seconds_bucket
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_single_validation_processing_duration_seconds_sum)
+      record: kiali:kiali_single_validation_processing_duration_seconds_sum
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_single_validation_processing_duration_seconds_count)
+      record: kiali:kiali_single_validation_processing_duration_seconds_count
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_tracing_processing_duration_seconds_bucket)
+      record: kiali:kiali_tracing_processing_duration_seconds_bucket
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_tracing_processing_duration_seconds_sum)
+      record: kiali:kiali_tracing_processing_duration_seconds_sum
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_tracing_processing_duration_seconds_count)
+      record: kiali:kiali_tracing_processing_duration_seconds_count
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_validation_processing_duration_seconds_bucket)
+      record: kiali:kiali_validation_processing_duration_seconds_bucket
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_validation_processing_duration_seconds_sum)
+      record: kiali:kiali_validation_processing_duration_seconds_sum
+    - expr: sum without (pod, pod_template_hash, instance, job, node) (kiali_validation_processing_duration_seconds_count)
+      record: kiali:kiali_validation_processing_duration_seconds_count
+EOF
+    add_mcoa_ref monitoring.coreos.com prometheusrules kiali-istio-aggregation
+
+  info "MCOA Istio federation resources created and registered with placement"
+}
+
+# Create MCOA health federation resources for kiali_health_status (hub only).
+# Uses the same resource names as create_istio_federation_resources so that
+# running Guide 4 standalone produces consistent names with Guide 1.
+# If Guide 1 already ran, those resources exist with the full kiali tier and
+# are skipped here to avoid overwriting them with the minimal health-only rule.
+# Requires MCOA_PLACEMENT_NAME / MCOA_PLACEMENT_NS to be set.
+create_kiali_health_federation_resources() {
+  local obs_ns="open-cluster-management-observability"
+
+  # Skip PrometheusRule creation if Guide 1 already created the fuller version.
+  if oc --context="${HUB_CTX}" get prometheusrule kiali-istio-aggregation \
+      -n "${obs_ns}" &>/dev/null; then
+    info "PrometheusRule kiali-istio-aggregation already exists (created by Guide 1) — skipping"
+  else
+    oc --context="${HUB_CTX}" apply -f - <<'EOF'
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  annotations:
+    observability.open-cluster-management.io/target-namespace: mesh-observability
+  labels:
+    app.kubernetes.io/component: user-workload-metrics-collector
+    app.kubernetes.io/managed-by: kiali-mcoa-federation
+    openshift.io/prometheus-rule-evaluation-scope: leaf-prometheus
+  name: kiali-istio-aggregation
+  namespace: open-cluster-management-observability
+spec:
+  groups:
+  - interval: 30s
+    name: kiali.aggregation
+    rules:
+    - expr: max without (pod, pod_template_hash, instance, job, node) (kiali_health_status)
+      record: kiali:kiali_health_status
+EOF
+    add_mcoa_ref monitoring.coreos.com prometheusrules kiali-istio-aggregation
+  fi
+
+  # Skip ScrapeConfig creation if Guide 1 already created the fuller version.
+  if oc --context="${HUB_CTX}" get scrapeconfig kiali-istio-federation \
+      -n "${obs_ns}" &>/dev/null; then
+    info "ScrapeConfig kiali-istio-federation already exists (created by Guide 1) — skipping"
+  else
+    oc --context="${HUB_CTX}" apply -f - <<'EOF'
+apiVersion: monitoring.rhobs/v1alpha1
+kind: ScrapeConfig
+metadata:
+  labels:
+    app.kubernetes.io/component: user-workload-metrics-collector
+    app.kubernetes.io/managed-by: kiali-mcoa-federation
+  name: kiali-istio-federation
+  namespace: open-cluster-management-observability
+spec:
+  honorLabels: true
+  jobName: kiali-istio-federation
+  metricRelabelings:
+  - action: replace
+    regex: 'kiali:(.*)'
+    replacement: '${1}'
+    sourceLabels: [__name__]
+    targetLabel: __name__
+  metricsPath: /federate
+  params:
+    match[]:
+    - '{__name__="kiali:kiali_health_status"}'
+  scrapeInterval: 5m
+EOF
+    add_mcoa_ref monitoring.rhobs scrapeconfigs kiali-istio-federation
+  fi
+
+  info "MCOA kiali_health_status federation resources created"
+}
+
+# =============================================================================
 # Configuration
 # =============================================================================
 
@@ -253,6 +902,15 @@ kind: MultiClusterObservability
 metadata:
   name: observability
 spec:
+  capabilities:
+    platform:
+      metrics:
+        default:
+          enabled: true
+    userWorkloads:
+      metrics:
+        default:
+          enabled: true
   observabilityAddonSpec: {}
   storageConfig:
     metricObjectStorage:
@@ -265,9 +923,10 @@ spec:
     storeStorageSize: 10Gi
   advanced:
     retentionConfig:
-      retentionResolution1h: 14d
-      retentionResolution5m: 14d
-      retentionResolutionRaw: 14d
+      retentionInLocal: 24h
+      retentionResolution1h: 365d
+      retentionResolution5m: 365d
+      retentionResolutionRaw: 365d
     alertmanager:
       replicas: 1
       resources:
@@ -343,51 +1002,12 @@ EOF
   wait_for "MultiClusterObservability Ready" "${TIMEOUT}" \
     "[ \"\$(oc --context=${HUB_CTX} get mco observability -o jsonpath='{.status.conditions[?(@.type==\"Ready\")].status}' 2>/dev/null)\" = 'True' ]"
 
-  info "Creating Istio metrics allowlist"
-  oc --context="${HUB_CTX}" apply -f - <<'EOF'
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: observability-metrics-custom-allowlist
-  namespace: open-cluster-management-observability
-data:
-  uwl_metrics_list.yaml: |
-    names:
-    - istio_requests_total
-    - istio_request_bytes_bucket
-    - istio_request_bytes_count
-    - istio_request_bytes_sum
-    - istio_request_duration_milliseconds_bucket
-    - istio_request_duration_milliseconds_count
-    - istio_request_duration_milliseconds_sum
-    - istio_request_messages_total
-    - istio_response_bytes_bucket
-    - istio_response_bytes_count
-    - istio_response_bytes_sum
-    - istio_response_messages_total
-    - istio_tcp_connections_closed_total
-    - istio_tcp_connections_opened_total
-    - istio_tcp_received_bytes_total
-    - istio_tcp_sent_bytes_total
-    - workload_manager_active_proxy_count
-    - istio_build
-    - pilot_proxy_convergence_time_sum
-    - pilot_proxy_convergence_time_count
-    - pilot_services
-    - pilot_xds
-    - pilot_xds_pushes
-    - envoy_cluster_upstream_cx_active
-    - envoy_cluster_upstream_rq_total
-    - envoy_listener_downstream_cx_active
-    - envoy_listener_http_downstream_rq
-    - envoy_server_memory_allocated
-    - envoy_server_memory_heap_size
-    - envoy_server_uptime
-    - container_cpu_usage_seconds_total
-    - container_memory_working_set_bytes
-    - process_cpu_seconds_total
-    - process_resident_memory_bytes
-EOF
+  # MCOA owns its ScrapeConfig API and managed-cluster Prometheus components.
+  enable_mcoa_capabilities
+  select_mcoa_placement
+
+  # Create hub-side MCOA configuration resources for Istio federation
+  create_istio_federation_resources
 }
 
 guide1_phase2_import_spoke() {
@@ -440,20 +1060,19 @@ EOF
 guide1_phase3_ossm3_spoke() {
   info "=== Guide 1 Phase 3: OSSM 3 on Spoke ==="
 
-  # Enable User Workload Monitoring
-  oc --context="${SPOKE_CTX}" apply -f - <<'EOF'
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: cluster-monitoring-config
-  namespace: openshift-monitoring
-data:
-  config.yaml: |
-    enableUserWorkload: true
-EOF
+  # Enable UWM (safe merge — does not overwrite unrelated monitoring settings)
+  enable_uwm "${SPOKE_CTX}"
 
   wait_for "UWM Prometheus ready" "${TIMEOUT}" \
     "oc --context=${SPOKE_CTX} wait pod --for=condition=Ready -l app.kubernetes.io/name=prometheus -n openshift-user-workload-monitoring --timeout=10s"
+
+  # Ensure the aggregation namespace exists and is exempt from UWM label enforcement.
+  configure_mcoa_uwm_namespace "${SPOKE_CTX}"
+  local ns
+  for ns in istio-system ztunnel ambient-demo bookinfo; do
+    oc --context="${SPOKE_CTX}" create namespace "${ns}" --dry-run=client -o yaml | \
+      oc --context="${SPOKE_CTX}" apply -f - 2>/dev/null || true
+  done
 
   # Install OSSM 3 Operator
   oc --context="${SPOKE_CTX}" apply -f - <<'EOF'
@@ -649,6 +1268,28 @@ spec:
       replacement: '\$2:\$1'
       sourceLabels: ["__meta_kubernetes_pod_annotation_prometheus_io_port","__meta_kubernetes_pod_ip"]
       targetLabel: "__address__"
+    - sourceLabels: ["__meta_kubernetes_pod_label_app_kubernetes_io_name","__meta_kubernetes_pod_label_app"]
+      separator: ";"
+      targetLabel: "app"
+      action: replace
+      regex: "(.+);.*|.*;(.+)"
+      replacement: "\${1}\${2}"
+    - sourceLabels: ["__meta_kubernetes_pod_label_app_kubernetes_io_version","__meta_kubernetes_pod_label_version"]
+      separator: ";"
+      targetLabel: "version"
+      action: replace
+      regex: "(.+);.*|.*;(.+)"
+      replacement: "\${1}\${2}"
+    - action: replace
+      regex: "(.+)"
+      replacement: "\${1}"
+      sourceLabels: ["__meta_kubernetes_pod_label_app_kubernetes_io_name"]
+      targetLabel: "app_kubernetes_io_name"
+    - action: replace
+      regex: "(.+)"
+      replacement: "\${1}"
+      sourceLabels: ["__meta_kubernetes_pod_label_app_kubernetes_io_version"]
+      targetLabel: "app_kubernetes_io_version"
     - sourceLabels: ["__meta_kubernetes_namespace"]
       action: replace
       targetLabel: namespace
@@ -733,9 +1374,14 @@ metadata:
 spec:
   auth:
     strategy: openshift
+    openshift:
+      impersonation:
+        enabled: false
   deployment:
     cluster_wide_access: true
     instance_name: kiali
+    logger:
+      log_level: debug
     namespace: istio-system
     replicas: 1
   external_services:
@@ -749,7 +1395,7 @@ spec:
         use_kiali_token: false
       thanos_proxy:
         enabled: true
-        retention_period: "14d"
+        retention_period: "365d"
         scrape_interval: "5m"
       url: "${OBSERVATORIUM_URL}"
   version: default
@@ -884,6 +1530,28 @@ spec:
       replacement: '\$2:\$1'
       sourceLabels: ["__meta_kubernetes_pod_annotation_prometheus_io_port","__meta_kubernetes_pod_ip"]
       targetLabel: "__address__"
+    - sourceLabels: ["__meta_kubernetes_pod_label_app_kubernetes_io_name","__meta_kubernetes_pod_label_app"]
+      separator: ";"
+      targetLabel: "app"
+      action: replace
+      regex: "(.+);.*|.*;(.+)"
+      replacement: "\${1}\${2}"
+    - sourceLabels: ["__meta_kubernetes_pod_label_app_kubernetes_io_version","__meta_kubernetes_pod_label_version"]
+      separator: ";"
+      targetLabel: "version"
+      action: replace
+      regex: "(.+);.*|.*;(.+)"
+      replacement: "\${1}\${2}"
+    - action: replace
+      regex: "(.+)"
+      replacement: "\${1}"
+      sourceLabels: ["__meta_kubernetes_pod_label_app_kubernetes_io_name"]
+      targetLabel: "app_kubernetes_io_name"
+    - action: replace
+      regex: "(.+)"
+      replacement: "\${1}"
+      sourceLabels: ["__meta_kubernetes_pod_label_app_kubernetes_io_version"]
+      targetLabel: "app_kubernetes_io_version"
     - sourceLabels: ["__meta_kubernetes_namespace"]
       action: replace
       targetLabel: namespace
@@ -978,6 +1646,16 @@ spec:
       action: replace
       regex: "(.+);.*|.*;(.+)"
       replacement: "\${1}\${2}"
+    - action: replace
+      regex: "(.+)"
+      replacement: "\${1}"
+      sourceLabels: ["__meta_kubernetes_pod_label_app_kubernetes_io_name"]
+      targetLabel: "app_kubernetes_io_name"
+    - action: replace
+      regex: "(.+)"
+      replacement: "\${1}"
+      sourceLabels: ["__meta_kubernetes_pod_label_app_kubernetes_io_version"]
+      targetLabel: "app_kubernetes_io_version"
     - sourceLabels: ["__meta_kubernetes_namespace"]
       action: replace
       targetLabel: namespace
@@ -1089,20 +1767,19 @@ EOF
 guide2_phase3_ossm3_spoke_two() {
   info "=== Guide 2 Phase 3: Install OSSM 3 on Spoke-Two ==="
 
-  # Enable UWM
-  oc --context="${SPOKE_TWO_CTX}" apply -f - <<'EOF'
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: cluster-monitoring-config
-  namespace: openshift-monitoring
-data:
-  config.yaml: |
-    enableUserWorkload: true
-EOF
+  # Enable UWM (safe merge — does not overwrite unrelated monitoring settings)
+  enable_uwm "${SPOKE_TWO_CTX}"
 
   wait_for "UWM Prometheus ready on spoke-two" "${TIMEOUT}" \
     "oc --context=${SPOKE_TWO_CTX} wait pod --for=condition=Ready -l app.kubernetes.io/name=prometheus -n openshift-user-workload-monitoring --timeout=10s"
+
+  # Ensure the aggregation namespace exists and is exempt from UWM label enforcement.
+  configure_mcoa_uwm_namespace "${SPOKE_TWO_CTX}"
+  local ns
+  for ns in istio-system ztunnel ambient-demo bookinfo; do
+    oc --context="${SPOKE_TWO_CTX}" create namespace "${ns}" --dry-run=client -o yaml | \
+      oc --context="${SPOKE_TWO_CTX}" apply -f - 2>/dev/null || true
+  done
 
   # Install OSSM 3 Operator
   oc --context="${SPOKE_TWO_CTX}" apply -f - <<'EOF'
@@ -1253,6 +1930,28 @@ spec:
       replacement: '\$2:\$1'
       sourceLabels: ["__meta_kubernetes_pod_annotation_prometheus_io_port","__meta_kubernetes_pod_ip"]
       targetLabel: "__address__"
+    - sourceLabels: ["__meta_kubernetes_pod_label_app_kubernetes_io_name","__meta_kubernetes_pod_label_app"]
+      separator: ";"
+      targetLabel: "app"
+      action: replace
+      regex: "(.+);.*|.*;(.+)"
+      replacement: "\${1}\${2}"
+    - sourceLabels: ["__meta_kubernetes_pod_label_app_kubernetes_io_version","__meta_kubernetes_pod_label_version"]
+      separator: ";"
+      targetLabel: "version"
+      action: replace
+      regex: "(.+);.*|.*;(.+)"
+      replacement: "\${1}\${2}"
+    - action: replace
+      regex: "(.+)"
+      replacement: "\${1}"
+      sourceLabels: ["__meta_kubernetes_pod_label_app_kubernetes_io_name"]
+      targetLabel: "app_kubernetes_io_name"
+    - action: replace
+      regex: "(.+)"
+      replacement: "\${1}"
+      sourceLabels: ["__meta_kubernetes_pod_label_app_kubernetes_io_version"]
+      targetLabel: "app_kubernetes_io_version"
     - sourceLabels: ["__meta_kubernetes_namespace"]
       action: replace
       targetLabel: namespace
@@ -1465,7 +2164,8 @@ EOF
   wait_for "Kiali operator ready on spoke-two" "${TIMEOUT}" \
     "oc --context=${SPOKE_TWO_CTX} wait pod --for=condition=Ready -l app.kubernetes.io/name=kiali-operator -n openshift-operators --timeout=10s"
 
-  # Get Kiali host for OAuth redirect
+  # Required for the tutorial's non-impersonation per-cluster OAuth flow.
+  # If impersonation is enabled in a Kiali version that supports it, this is not technically needed.
   local KIALI_HOST
   KIALI_HOST=$(oc --context="${SPOKE_CTX}" get route kiali -n istio-system -o jsonpath='{.spec.host}')
 
@@ -1479,9 +2179,13 @@ metadata:
 spec:
   auth:
     openshift:
+      impersonation:
+        enabled: false
       redirect_uris:
       - "https://${KIALI_HOST}/api/auth/callback/${SPOKE_TWO_CLUSTER_NAME}"
   deployment:
+    logger:
+      log_level: debug
     namespace: istio-system
     remote_cluster_resources_only: true
 EOF
@@ -1625,6 +2329,28 @@ spec:
       replacement: '\$2:\$1'
       sourceLabels: ["__meta_kubernetes_pod_annotation_prometheus_io_port","__meta_kubernetes_pod_ip"]
       targetLabel: "__address__"
+    - sourceLabels: ["__meta_kubernetes_pod_label_app_kubernetes_io_name","__meta_kubernetes_pod_label_app"]
+      separator: ";"
+      targetLabel: "app"
+      action: replace
+      regex: "(.+);.*|.*;(.+)"
+      replacement: "\${1}\${2}"
+    - sourceLabels: ["__meta_kubernetes_pod_label_app_kubernetes_io_version","__meta_kubernetes_pod_label_version"]
+      separator: ";"
+      targetLabel: "version"
+      action: replace
+      regex: "(.+);.*|.*;(.+)"
+      replacement: "\${1}\${2}"
+    - action: replace
+      regex: "(.+)"
+      replacement: "\${1}"
+      sourceLabels: ["__meta_kubernetes_pod_label_app_kubernetes_io_name"]
+      targetLabel: "app_kubernetes_io_name"
+    - action: replace
+      regex: "(.+)"
+      replacement: "\${1}"
+      sourceLabels: ["__meta_kubernetes_pod_label_app_kubernetes_io_version"]
+      targetLabel: "app_kubernetes_io_version"
     - sourceLabels: ["__meta_kubernetes_namespace"]
       action: replace
       targetLabel: namespace
@@ -1738,6 +2464,16 @@ spec:
       action: replace
       regex: "(.+);.*|.*;(.+)"
       replacement: "\${1}\${2}"
+    - action: replace
+      regex: "(.+)"
+      replacement: "\${1}"
+      sourceLabels: ["__meta_kubernetes_pod_label_app_kubernetes_io_name"]
+      targetLabel: "app_kubernetes_io_name"
+    - action: replace
+      regex: "(.+)"
+      replacement: "\${1}"
+      sourceLabels: ["__meta_kubernetes_pod_label_app_kubernetes_io_version"]
+      targetLabel: "app_kubernetes_io_version"
     - sourceLabels: ["__meta_kubernetes_namespace"]
       action: replace
       targetLabel: namespace
@@ -1763,26 +2499,20 @@ guide2_phase9_verification() {
 guide3_phase1_perses() {
   info "=== Guide 3 Phase 1: Perses ==="
 
-  # Install COO
-  oc --context="${SPOKE_CTX}" apply -f - <<'EOF'
-apiVersion: operators.coreos.com/v1alpha1
-kind: Subscription
-metadata:
-  name: cluster-observability-operator
-  namespace: openshift-operators
-spec:
-  channel: stable
-  installPlanApproval: Automatic
-  name: cluster-observability-operator
-  source: redhat-operators
-  sourceNamespace: openshift-marketplace
-EOF
+  # Perses requires the full COO product; MCOA alone is not sufficient.
+  install_coo "${SPOKE_CTX}"
 
   wait_for "Perses CRD ready" "${TIMEOUT}" \
     "oc --context=${SPOKE_CTX} get crd perses.perses.dev"
 
+  # Find COO namespace dynamically (may be openshift-cluster-observability-operator or openshift-operators)
+  local COO_NS
+  COO_NS=$(oc --context="${SPOKE_CTX}" get subscriptions.operators.coreos.com -A -o json 2>/dev/null | \
+    jq -r '[.items[] | select(.spec.name == "cluster-observability-operator")][0] |
+      select(. != null) | .metadata.namespace' 2>/dev/null || echo "openshift-cluster-observability-operator")
+
   wait_for "COO Perses operator ready" "${TIMEOUT}" \
-    "oc --context=${SPOKE_CTX} wait pod --for=condition=Ready -l app.kubernetes.io/name=perses-operator -n openshift-operators --timeout=10s"
+    "oc --context=${SPOKE_CTX} wait pod --for=condition=Ready -l app.kubernetes.io/name=perses-operator -n ${COO_NS} --timeout=10s"
 
   # Create UIPlugin for Perses
   oc --context="${SPOKE_CTX}" apply -f - <<'EOF'
@@ -1798,7 +2528,7 @@ spec:
 EOF
 
   wait_for "Perses pod ready" "${TIMEOUT}" \
-    "oc --context=${SPOKE_CTX} wait pod --for=condition=Ready -l app.kubernetes.io/name=perses -n openshift-operators --timeout=10s"
+    "oc --context=${SPOKE_CTX} wait pod --for=condition=Ready -l app.kubernetes.io/name=perses -n ${COO_NS} --timeout=10s"
 
   # Prepare certs for Perses datasource
   local OBSERVATORIUM_URL
@@ -1811,16 +2541,17 @@ EOF
     -o jsonpath='{.data.ca\.crt}' | base64 -d > "${TMP_DIR}/perses-server-ca.crt"
 
   oc --context="${SPOKE_CTX}" create configmap perses-acm-server-ca \
-    -n openshift-operators \
+    -n "${COO_NS}" \
     --from-file=ca.crt="${TMP_DIR}/perses-server-ca.crt" \
     --dry-run=client -o yaml | oc --context="${SPOKE_CTX}" apply -f -
 
   oc --context="${SPOKE_CTX}" get secret acm-observability-certs -n istio-system -o json | \
-    jq 'del(.metadata.namespace, .metadata.resourceVersion, .metadata.uid, .metadata.creationTimestamp, .metadata.ownerReferences) | .metadata.namespace = "openshift-operators" | .metadata.name = "perses-acm-client-certs"' | \
+    jq --arg ns "${COO_NS}" \
+      'del(.metadata.namespace, .metadata.resourceVersion, .metadata.uid, .metadata.creationTimestamp, .metadata.ownerReferences) | .metadata.namespace = $ns | .metadata.name = "perses-acm-client-certs"' | \
     oc --context="${SPOKE_CTX}" apply -f -
 
   # Mount CA into Perses pod
-  oc --context="${SPOKE_CTX}" patch perses perses -n openshift-operators --type=merge -p '{
+  oc --context="${SPOKE_CTX}" patch perses perses -n "${COO_NS}" --type=merge -p '{
     "spec": {
       "volumes": [{"name": "acm-server-ca", "configMap": {"name": "perses-acm-server-ca"}}],
       "volumeMounts": [{"name": "acm-server-ca", "mountPath": "/etc/ssl/certs/acm-thanos-ca.crt", "subPath": "ca.crt", "readOnly": true}]
@@ -1828,7 +2559,7 @@ EOF
   }'
 
   wait_for "Perses pod ready after volume mount" "${TIMEOUT}" \
-    "oc --context=${SPOKE_CTX} wait pod --for=condition=Ready -l app.kubernetes.io/name=perses -n openshift-operators --timeout=10s"
+    "oc --context=${SPOKE_CTX} wait pod --for=condition=Ready -l app.kubernetes.io/name=perses -n ${COO_NS} --timeout=10s"
 
   # Create namespace and datasource
   oc --context="${SPOKE_CTX}" create namespace perses 2>/dev/null || true
@@ -1861,7 +2592,7 @@ spec:
       userCert:
         type: secret
         name: perses-acm-client-certs
-        namespace: openshift-operators
+        namespace: ${COO_NS}
         certPath: tls.crt
         privateKeyPath: tls.key
 EOF
@@ -1934,7 +2665,7 @@ spec:
                   datasource:
                     kind: PrometheusDatasource
                     name: acm-thanos
-                  query: sum(rate(istio_requests_total{reporter="destination"}[10m])) by (destination_service_name)
+                  query: sum(rate(istio_requests_total{reporter=~"destination|waypoint"}[10m])) by (destination_service_name)
       error_rate:
         kind: Panel
         spec:
@@ -1955,7 +2686,7 @@ spec:
                   datasource:
                     kind: PrometheusDatasource
                     name: acm-thanos
-                  query: sum(rate(istio_requests_total{reporter="destination",response_code=~"5.*"}[10m])) by (destination_service_name)
+                  query: sum(rate(istio_requests_total{reporter=~"destination|waypoint",response_code=~"5.*"}[10m])) by (destination_service_name)
       tcp_sent:
         kind: Panel
         spec:
@@ -2000,6 +2731,226 @@ spec:
                   query: sum(rate(istio_tcp_received_bytes_total[10m])) by (destination_workload)
 EOF
 
+  oc --context="${SPOKE_CTX}" apply -f - <<'EOF'
+apiVersion: perses.dev/v1alpha2
+kind: PersesDashboard
+metadata:
+  name: istio-workload-dashboard
+  namespace: perses
+spec:
+  config:
+    display:
+      name: "Istio Workload Dashboard"
+    duration: 30m
+    variables:
+    - kind: TextVariable
+      spec:
+        name: workload
+        display:
+          name: Workload
+        value: ""
+    - kind: TextVariable
+      spec:
+        name: namespace
+        display:
+          name: Namespace
+        value: ""
+    layouts:
+    - kind: Grid
+      spec:
+        display:
+          title: "Inbound HTTP"
+        items:
+        - content:
+            $ref: '#/spec/panels/inbound_rps'
+          height: 8
+          width: 12
+          x: 0
+          "y": 0
+        - content:
+            $ref: '#/spec/panels/inbound_latency'
+          height: 8
+          width: 12
+          x: 12
+          "y": 0
+    - kind: Grid
+      spec:
+        display:
+          title: "Outbound HTTP"
+        items:
+        - content:
+            $ref: '#/spec/panels/outbound_rps'
+          height: 8
+          width: 12
+          x: 0
+          "y": 0
+        - content:
+            $ref: '#/spec/panels/success_rate'
+          height: 8
+          width: 12
+          x: 12
+          "y": 0
+    panels:
+      inbound_rps:
+        kind: Panel
+        spec:
+          display:
+            name: "Inbound Request Rate"
+          plugin:
+            kind: TimeSeriesChart
+            spec:
+              legend:
+                mode: list
+                position: bottom
+          queries:
+          - kind: TimeSeriesQuery
+            spec:
+              plugin:
+                kind: PrometheusTimeSeriesQuery
+                spec:
+                  datasource:
+                    kind: PrometheusDatasource
+                    name: acm-thanos
+                  query: sum(rate(istio_requests_total{reporter=~"destination|waypoint",destination_workload="$workload",destination_workload_namespace=~"$namespace"}[10m])) by (source_app)
+      inbound_latency:
+        kind: Panel
+        spec:
+          display:
+            name: "Inbound Request Latency (p99)"
+          plugin:
+            kind: TimeSeriesChart
+            spec:
+              legend:
+                mode: list
+                position: bottom
+          queries:
+          - kind: TimeSeriesQuery
+            spec:
+              plugin:
+                kind: PrometheusTimeSeriesQuery
+                spec:
+                  datasource:
+                    kind: PrometheusDatasource
+                    name: acm-thanos
+                  query: histogram_quantile(0.99, sum(rate(istio_request_duration_milliseconds_bucket{reporter=~"destination|waypoint",destination_workload="$workload",destination_workload_namespace=~"$namespace"}[10m])) by (le))
+      outbound_rps:
+        kind: Panel
+        spec:
+          display:
+            name: "Outbound Request Rate"
+          plugin:
+            kind: TimeSeriesChart
+            spec:
+              legend:
+                mode: list
+                position: bottom
+          queries:
+          - kind: TimeSeriesQuery
+            spec:
+              plugin:
+                kind: PrometheusTimeSeriesQuery
+                spec:
+                  datasource:
+                    kind: PrometheusDatasource
+                    name: acm-thanos
+                  query: sum(rate(istio_requests_total{reporter=~"source|waypoint",source_workload="$workload",source_workload_namespace=~"$namespace"}[10m])) by (destination_service_name)
+      success_rate:
+        kind: Panel
+        spec:
+          display:
+            name: "Success Rate (non-5xx)"
+          plugin:
+            kind: TimeSeriesChart
+            spec:
+              legend:
+                mode: list
+                position: bottom
+          queries:
+          - kind: TimeSeriesQuery
+            spec:
+              plugin:
+                kind: PrometheusTimeSeriesQuery
+                spec:
+                  datasource:
+                    kind: PrometheusDatasource
+                    name: acm-thanos
+                  query: sum(rate(istio_requests_total{reporter=~"destination|waypoint",destination_workload="$workload",destination_workload_namespace=~"$namespace",response_code!~"5.*"}[10m])) / sum(rate(istio_requests_total{reporter=~"destination|waypoint",destination_workload="$workload",destination_workload_namespace=~"$namespace"}[10m]))
+EOF
+
+  oc --context="${SPOKE_CTX}" apply -f - <<'EOF'
+apiVersion: perses.dev/v1alpha2
+kind: PersesDashboard
+metadata:
+  name: istio-ztunnel-dashboard
+  namespace: perses
+spec:
+  config:
+    display:
+      name: "Istio Ztunnel Dashboard"
+    duration: 30m
+    layouts:
+    - kind: Grid
+      spec:
+        display:
+          title: "Ambient L4 Traffic"
+        items:
+        - content:
+            $ref: '#/spec/panels/tcp_connections_opened'
+          height: 8
+          width: 12
+          x: 0
+          "y": 0
+        - content:
+            $ref: '#/spec/panels/tcp_bytes'
+          height: 8
+          width: 12
+          x: 12
+          "y": 0
+    panels:
+      tcp_connections_opened:
+        kind: Panel
+        spec:
+          display:
+            name: "TCP Connections Opened"
+          plugin:
+            kind: TimeSeriesChart
+            spec:
+              legend:
+                mode: list
+                position: bottom
+          queries:
+          - kind: TimeSeriesQuery
+            spec:
+              plugin:
+                kind: PrometheusTimeSeriesQuery
+                spec:
+                  datasource:
+                    kind: PrometheusDatasource
+                    name: acm-thanos
+                  query: sum(rate(istio_tcp_connections_opened_total[10m])) by (destination_workload)
+      tcp_bytes:
+        kind: Panel
+        spec:
+          display:
+            name: "TCP Throughput (bytes/s)"
+          plugin:
+            kind: TimeSeriesChart
+            spec:
+              legend:
+                mode: list
+                position: bottom
+          queries:
+          - kind: TimeSeriesQuery
+            spec:
+              plugin:
+                kind: PrometheusTimeSeriesQuery
+                spec:
+                  datasource:
+                    kind: PrometheusDatasource
+                    name: acm-thanos
+                  query: sum(rate(istio_tcp_sent_bytes_total[10m]) + rate(istio_tcp_received_bytes_total[10m])) by (destination_workload)
+EOF
+
   # Configure Kiali for Perses
   local CONSOLE_URL
   CONSOLE_URL=$(oc --context="${SPOKE_CTX}" get route console -n openshift-console -o jsonpath='https://{.spec.host}')
@@ -2011,7 +2962,7 @@ EOF
           \"enabled\": true,
           \"url_format\": \"openshift\",
           \"external_url\": \"${CONSOLE_URL}\",
-          \"health_check_url\": \"https://perses.openshift-operators.svc.cluster.local:8080/api/v1/health\",
+          \"health_check_url\": \"https://perses.${COO_NS}.svc.cluster.local:8080/api/v1/health\",
           \"project\": \"perses\",
           \"dashboards\": [
             {\"name\": \"Istio Mesh Overview\"},
@@ -2111,7 +3062,7 @@ spec:
           mountPath: "/storage"
       containers:
       - name: minio
-        image: mirror.gcr.io/minio/minio:latest
+        image: quay.io/minio/minio:latest
         args:
         - server
         - /storage
@@ -2180,9 +3131,6 @@ spec:
   template:
     gateway:
       enabled: true
-    queryFrontend:
-      jaegerQuery:
-        enabled: true
 EOF
 
   wait_for "TempoStack gateway service" "${TIMEOUT}" \
@@ -2570,12 +3518,11 @@ EOF
   done
 
   # Restart waypoints for tracing
-  for NS in ambient-demo; do
-    for CTX in "${SPOKE_CTX}" "${SPOKE_TWO_CTX}"; do
-      if oc --context="${CTX}" get deployment waypoint -n "${NS}" &>/dev/null 2>&1; then
-        oc --context="${CTX}" rollout restart deployment/waypoint -n "${NS}"
-      fi
-    done
+  NS=ambient-demo
+  for CTX in "${SPOKE_CTX}" "${SPOKE_TWO_CTX}"; do
+    if oc --context="${CTX}" get deployment waypoint -n "${NS}" &>/dev/null 2>&1; then
+      oc --context="${CTX}" rollout restart deployment/waypoint -n "${NS}"
+    fi
   done
 
   # Distributed tracing console plugin
@@ -2597,6 +3544,18 @@ EOF
 
   oc --context="${SPOKE_CTX}" patch kiali kiali -n istio-system --type=merge -p "{
     \"spec\": {
+      \"server\": {
+        \"observability\": {
+          \"tracing\": {
+            \"enabled\": true,
+            \"collector_type\": \"otel\",
+            \"collector_url\": \"otel-collector.istio-system.svc:4317\",
+            \"otel\": {
+              \"protocol\": \"grpc\"
+            }
+          }
+        }
+      },
       \"external_services\": {
         \"tracing\": {
           \"enabled\": true,
@@ -2679,6 +3638,35 @@ spec:
   endpoints:
   - interval: 30s
     port: tcp-metrics
+    relabelings:
+    - action: replace
+      regex: "(.+);.*|.*;(.+)"
+      replacement: "\${1}\${2}"
+      separator: ";"
+      sourceLabels:
+      - __meta_kubernetes_service_label_app_kubernetes_io_name
+      - __meta_kubernetes_service_label_app
+      targetLabel: app
+    - action: replace
+      regex: "(.+)"
+      replacement: "\${1}"
+      sourceLabels:
+      - __meta_kubernetes_service_label_app_kubernetes_io_name
+      targetLabel: app_kubernetes_io_name
+    - action: replace
+      regex: "(.+);.*|.*;(.+)"
+      replacement: "\${1}\${2}"
+      separator: ";"
+      sourceLabels:
+      - __meta_kubernetes_service_label_app_kubernetes_io_version
+      - __meta_kubernetes_service_label_version
+      targetLabel: version
+    - action: replace
+      regex: "(.+)"
+      replacement: "\${1}"
+      sourceLabels:
+      - __meta_kubernetes_service_label_app_kubernetes_io_version
+      targetLabel: app_kubernetes_io_version
     scheme: https
     tlsConfig:
       ca:
@@ -2766,15 +3754,11 @@ EOF
 guide4_phase6_acm_hub_alerts() {
   info "=== Guide 4 Phase 6: ACM Hub Alerts ==="
 
-  # Add kiali_health_status to allowlist
-  oc --context="${HUB_CTX}" -n open-cluster-management-observability \
-    get configmap observability-metrics-custom-allowlist -o json \
-    | jq '.data["uwl_metrics_list.yaml"] as $cfg
-          | if ($cfg | test("kiali_health_status"))
-            then .
-            else .data["uwl_metrics_list.yaml"] = ($cfg + "    - kiali_health_status\n")
-            end' \
-    | oc --context="${HUB_CTX}" apply -f -
+  # Ensure placement is selected (may already be set if Guide 1 ran in the same session)
+  select_mcoa_placement
+
+  # Create MCOA health federation resources for kiali_health_status
+  create_kiali_health_federation_resources
 
   # Create hub Thanos Ruler rules
   oc --context="${HUB_CTX}" apply -f - <<'EOF'
@@ -3015,11 +3999,9 @@ cleanup_guide4() {
   oc --context="${SPOKE_CTX}" delete operatorgroup openshift-netobserv-operator -n openshift-netobserv-operator --ignore-not-found
   oc --context="${SPOKE_CTX}" delete namespace openshift-netobserv-operator --ignore-not-found
   oc --context="${SPOKE_CTX}" delete consoleplugin netobserv-plugin-static --ignore-not-found
-  for suffix in flows.netobserv.io; do
-    local CRDS
-    CRDS=$(oc --context="${SPOKE_CTX}" get crd --no-headers -o custom-columns=NAME:.metadata.name 2>/dev/null | grep "\.${suffix}$" || true)
-    [ -n "${CRDS}" ] && echo "${CRDS}" | xargs oc --context="${SPOKE_CTX}" delete crd --ignore-not-found
-  done
+  local CRDS
+  CRDS=$(oc --context="${SPOKE_CTX}" get crd --no-headers -o custom-columns=NAME:.metadata.name 2>/dev/null | grep '\.flows\.netobserv\.io$' || true)
+  [ -n "${CRDS}" ] && echo "${CRDS}" | xargs oc --context="${SPOKE_CTX}" delete crd --ignore-not-found
 
   # Remove NetObserv operator ClusterRoles/Bindings
   local NETOBSERV_CRS
@@ -3033,7 +4015,7 @@ cleanup_guide4() {
   oc --context="${SPOKE_CTX}" delete prometheusrule kiali-health-status -n "${KIALI_NS}" --ignore-not-found
   oc --context="${SPOKE_CTX}" delete servicemonitor kiali -n "${KIALI_NS}" --ignore-not-found
 
-  # Disable health-status metric
+  # Disable health-status metric export only
   oc --context="${SPOKE_CTX}" patch kiali kiali -n "${KIALI_CR_NS}" --type=merge -p '
 spec:
   server:
@@ -3043,11 +4025,14 @@ spec:
           enabled: false
 ' 2>/dev/null || true
 
-  # Hub cleanup
-  oc --context="${HUB_CTX}" -n open-cluster-management-observability \
-    get configmap observability-metrics-custom-allowlist -o json 2>/dev/null \
-    | jq '.data["uwl_metrics_list.yaml"] |= gsub("    - kiali_health_status\n"; "")' \
-    | oc --context="${HUB_CTX}" apply -f - 2>/dev/null || true
+  # Hub cleanup — remove MCOA health federation placement refs and configuration resources.
+  # If Guide 1 also ran, its cleanup handles these same resources; deletes here are no-ops.
+  remove_mcoa_ref monitoring.rhobs scrapeconfigs kiali-istio-federation 2>/dev/null || true
+  remove_mcoa_ref monitoring.coreos.com prometheusrules kiali-istio-aggregation 2>/dev/null || true
+  oc --context="${HUB_CTX}" delete scrapeconfig kiali-istio-federation \
+    -n open-cluster-management-observability --ignore-not-found
+  oc --context="${HUB_CTX}" delete prometheusrule kiali-istio-aggregation \
+    -n open-cluster-management-observability --ignore-not-found
 
   oc --context="${HUB_CTX}" -n open-cluster-management-observability \
     delete configmap thanos-ruler-custom-rules --ignore-not-found
@@ -3063,18 +4048,22 @@ cleanup_guide3() {
   oc --context="${SPOKE_CTX}" patch kiali kiali -n istio-system --type=json \
     -p '[{"op":"remove","path":"/spec/external_services/perses"}]' 2>/dev/null || true
   oc --context="${SPOKE_CTX}" patch kiali kiali -n istio-system --type=json \
-    -p '[{"op":"remove","path":"/spec/external_services/tracing"}]' 2>/dev/null || true
+    -p '[{"op":"remove","path":"/spec/external_services/tracing"},{"op":"remove","path":"/spec/server/observability/tracing"}]' 2>/dev/null || true
 
   # Remove UIPlugins
   oc --context="${SPOKE_CTX}" delete uiplugin monitoring --ignore-not-found
   oc --context="${SPOKE_CTX}" delete uiplugin distributed-tracing --ignore-not-found
 
-  # Remove Perses resources
+  # Remove Perses resources (dynamically find COO namespace where Perses lives)
+  local COO_NS
+  COO_NS=$(oc --context="${SPOKE_CTX}" get subscriptions.operators.coreos.com -A -o json 2>/dev/null | \
+    jq -r '[.items[] | select(.spec.name == "cluster-observability-operator")][0] |
+      select(. != null) | .metadata.namespace' 2>/dev/null || echo "openshift-cluster-observability-operator")
   oc --context="${SPOKE_CTX}" delete persesdashboard --all -n perses --ignore-not-found
   oc --context="${SPOKE_CTX}" delete persesdatasource --all -n perses --ignore-not-found
-  oc --context="${SPOKE_CTX}" delete perses perses -n openshift-operators --ignore-not-found
-  oc --context="${SPOKE_CTX}" delete configmap perses-acm-server-ca -n openshift-operators --ignore-not-found
-  oc --context="${SPOKE_CTX}" delete secret perses-acm-client-certs -n openshift-operators --ignore-not-found
+  oc --context="${SPOKE_CTX}" delete perses perses -n "${COO_NS}" --ignore-not-found
+  oc --context="${SPOKE_CTX}" delete configmap perses-acm-server-ca -n "${COO_NS}" --ignore-not-found
+  oc --context="${SPOKE_CTX}" delete secret perses-acm-client-certs -n "${COO_NS}" --ignore-not-found
   oc --context="${SPOKE_CTX}" delete namespace perses --ignore-not-found
 
   # Remove Telemetry CRs and tracing from Istio
@@ -3109,7 +4098,6 @@ cleanup_guide3() {
   oc --context="${SPOKE_CTX}" delete namespace "${TEMPO_NAMESPACE}" --ignore-not-found
 
   # Remove operators (all CRs above must be gone before this point)
-  oc --context="${SPOKE_CTX}" delete subscriptions.operators.coreos.com cluster-observability-operator -n openshift-operators --ignore-not-found
   for CTX in "${SPOKE_CTX}" "${SPOKE_TWO_CTX}"; do
     oc --context="${CTX}" delete subscriptions.operators.coreos.com opentelemetry-product -n openshift-operators --ignore-not-found
   done
@@ -3126,19 +4114,21 @@ cleanup_guide3() {
   CSV=$(oc --context="${SPOKE_CTX}" get csv -n openshift-operators -l operators.coreos.com/tempo-product.openshift-operators --no-headers -o custom-columns=NAME:.metadata.name 2>/dev/null | head -1)
   [ -n "${CSV}" ] && oc --context="${SPOKE_CTX}" delete csv "${CSV}" -n openshift-operators --ignore-not-found
 
-  CSV=$(oc --context="${SPOKE_CTX}" get csv -n openshift-operators -l operators.coreos.com/cluster-observability-operator.openshift-operators --no-headers -o custom-columns=NAME:.metadata.name 2>/dev/null | head -1)
-  [ -n "${CSV}" ] && oc --context="${SPOKE_CTX}" delete csv "${CSV}" -n openshift-operators --ignore-not-found
-
-  # Remove CRDs
+  # Remove CRDs (only OpenTelemetry, Tempo, and Perses — NOT monitoring.rhobs which belongs to COO)
   for CTX in "${SPOKE_CTX}" "${SPOKE_TWO_CTX}"; do
     local CRDS
     CRDS=$(oc --context="${CTX}" get crd --no-headers -o custom-columns=NAME:.metadata.name 2>/dev/null | grep "\.opentelemetry\.io$" || true)
     [ -n "${CRDS}" ] && echo "${CRDS}" | xargs oc --context="${CTX}" delete crd --ignore-not-found
   done
-  for suffix in tempo.grafana.com perses.dev observability.openshift.io monitoring.rhobs; do
+  for suffix in tempo.grafana.com perses.dev; do
     local CRDS
     CRDS=$(oc --context="${SPOKE_CTX}" get crd --no-headers -o custom-columns=NAME:.metadata.name 2>/dev/null | grep "\.${suffix}$" || true)
     [ -n "${CRDS}" ] && echo "${CRDS}" | xargs oc --context="${SPOKE_CTX}" delete crd --ignore-not-found
+  done
+
+  # Remove the ClusterRole installed by the OpenTelemetry Operator on each spoke.
+  for CTX in "${SPOKE_CTX}" "${SPOKE_TWO_CTX}"; do
+    oc --context="${CTX}" delete clusterrole opentelemetry-operator-metrics-reader --ignore-not-found
   done
 
   # Remove Perses and Tempo operator ClusterRoles/Bindings
@@ -3151,6 +4141,10 @@ cleanup_guide3() {
   local TEMPO_CRBS
   TEMPO_CRBS=$(oc --context="${SPOKE_CTX}" get clusterrolebinding --no-headers -o custom-columns=NAME:.metadata.name 2>/dev/null | grep "^tempo-operator" || true)
   [ -n "${TEMPO_CRBS}" ] && echo "${TEMPO_CRBS}" | xargs oc --context="${SPOKE_CTX}" delete clusterrolebinding --ignore-not-found
+
+  # COO was installed by Guide 3 for Perses, not by MCOA. MCOA keeps its own
+  # managed-cluster Prometheus component after the full COO subscription is removed.
+  uninstall_coo "${SPOKE_CTX}"
 }
 
 cleanup_guide2() {
@@ -3180,7 +4174,12 @@ cleanup_guide2() {
 
   # Remove spoke-two operators (all CRs above must be gone)
   oc --context="${SPOKE_TWO_CTX}" delete subscriptions.operators.coreos.com kiali-ossm openshift-service-mesh-operator -n openshift-operators --ignore-not-found
-  oc --context="${SPOKE_TWO_CTX}" delete installplan -n openshift-operators --all --ignore-not-found
+  for subscription_label in \
+    operators.coreos.com/kiali-ossm.openshift-operators \
+    operators.coreos.com/servicemeshoperator3.openshift-operators; do
+    oc --context="${SPOKE_TWO_CTX}" delete installplan -n openshift-operators \
+      -l "${subscription_label}" --ignore-not-found
+  done
 
   local CSV
   CSV=$(oc --context="${SPOKE_TWO_CTX}" get csv -n openshift-operators -l operators.coreos.com/kiali-ossm.openshift-operators --no-headers -o custom-columns=NAME:.metadata.name 2>/dev/null | head -1)
@@ -3193,6 +4192,8 @@ cleanup_guide2() {
     CRDS=$(oc --context="${SPOKE_TWO_CTX}" get crd --no-headers -o custom-columns=NAME:.metadata.name 2>/dev/null | grep "\.${suffix}$" || true)
     [ -n "${CRDS}" ] && echo "${CRDS}" | xargs oc --context="${SPOKE_TWO_CTX}" delete crd --ignore-not-found
   done
+  cleanup_istio_cluster_resources "${SPOKE_TWO_CTX}"
+  oc --context="${SPOKE_TWO_CTX}" delete clusterrole servicemeshoperator3-metrics-reader --ignore-not-found
 
   # Revert spoke to single-cluster
   oc --context="${SPOKE_CTX}" patch istio default --type=json \
@@ -3204,14 +4205,104 @@ cleanup_guide2() {
     -p '[{"op":"remove","path":"/spec/kubernetes_config/cluster_name"}]' 2>/dev/null || true
 
   # Detach spoke-two from ACM
-  oc --context="${HUB_CTX}" delete klusterletaddonconfig "${SPOKE_TWO_CLUSTER_NAME}" -n "${SPOKE_TWO_CLUSTER_NAME}" --ignore-not-found
-  oc --context="${HUB_CTX}" delete managedcluster "${SPOKE_TWO_CLUSTER_NAME}" --ignore-not-found
+  oc --context="${HUB_CTX}" delete klusterletaddonconfig "${SPOKE_TWO_CLUSTER_NAME}" \
+    -n "${SPOKE_TWO_CLUSTER_NAME}" --ignore-not-found
+  # Tear down the Klusterlet agent on spoke-two before waiting for the hub
+  # namespace, mirroring the same order used for the primary spoke.
+  oc --context="${SPOKE_TWO_CTX}" delete klusterlet klusterlet \
+    --ignore-not-found --wait=false 2>/dev/null || true
+  until ! oc --context="${SPOKE_TWO_CTX}" get klusterlet klusterlet &>/dev/null 2>&1; do
+    echo "Waiting for spoke-two Klusterlet removal..."
+    sleep 10
+  done
+  oc --context="${SPOKE_TWO_CTX}" delete namespace \
+    open-cluster-management-agent open-cluster-management-agent-addon \
+    open-cluster-management-policies \
+    --ignore-not-found --wait=false 2>/dev/null || true
+  oc --context="${HUB_CTX}" delete managedcluster "${SPOKE_TWO_CLUSTER_NAME}" \
+    --ignore-not-found --wait=false
+  until ! oc --context="${HUB_CTX}" get managedcluster "${SPOKE_TWO_CLUSTER_NAME}" &>/dev/null 2>&1; do
+    echo "Waiting for spoke-two ManagedCluster removal..."
+    sleep 10
+  done
+  oc --context="${HUB_CTX}" delete namespace "${SPOKE_TWO_CLUSTER_NAME}" --ignore-not-found
+
+  # Clean up spoke-two ACM residue (objects that linger after Klusterlet teardown)
+  if oc --context="${SPOKE_TWO_CTX}" get crd appliedmanifestworks.work.open-cluster-management.io &>/dev/null; then
+    local AMWS
+    AMWS=$(oc --context="${SPOKE_TWO_CTX}" get appliedmanifestwork -o name 2>/dev/null || true)
+    [ -n "${AMWS}" ] && echo "${AMWS}" | xargs oc --context="${SPOKE_TWO_CTX}" delete --ignore-not-found
+  fi
+  # Release orphaned ConfigurationPolicy finalizers before ACM CRDs are removed
+  if oc --context="${SPOKE_TWO_CTX}" get crd configurationpolicies.policy.open-cluster-management.io \
+      &>/dev/null 2>&1; then
+    local ORPHANED
+    ORPHANED=$(oc --context="${SPOKE_TWO_CTX}" get configurationpolicy \
+      -n "${SPOKE_TWO_CLUSTER_NAME}" -o json 2>/dev/null | \
+      jq -r --arg cluster "${SPOKE_TWO_CLUSTER_NAME}" '.items[] |
+        select(.metadata.deletionTimestamp != null) |
+        select(.metadata.labels["policy.open-cluster-management.io/cluster-name"] == $cluster) |
+        select(any(.metadata.finalizers[]?;
+          . == "policy.open-cluster-management.io/delete-related-objects")) |
+        .metadata.name' 2>/dev/null || true)
+    for policy in ${ORPHANED}; do
+      info "Releasing orphaned ConfigurationPolicy finalizer on spoke-two: ${policy}"
+      oc --context="${SPOKE_TWO_CTX}" patch configurationpolicy "${policy}" \
+        -n "${SPOKE_TWO_CLUSTER_NAME}" \
+        --type=merge -p '{"metadata":{"finalizers":[]}}' 2>/dev/null || true
+    done
+  fi
+  local PROM_RULES
+  PROM_RULES=$(oc --context="${SPOKE_TWO_CTX}" get prometheusrule \
+    -n openshift-monitoring -o name 2>/dev/null | grep '/acm-rs-' || true)
+  [ -n "${PROM_RULES}" ] && echo "${PROM_RULES}" | xargs oc --context="${SPOKE_TWO_CTX}" \
+    -n openshift-monitoring delete --ignore-not-found
+  local RBAC
+  RBAC=$(oc --context="${SPOKE_TWO_CTX}" get clusterrole,clusterrolebinding -o name 2>/dev/null | \
+    grep -E '/(ocm:|.*open-cluster-management|.*multicluster-observability|.*observability.*mco)' || true)
+  [ -n "${RBAC}" ] && echo "${RBAC}" | xargs oc --context="${SPOKE_TWO_CTX}" delete --ignore-not-found
+  local WEBHOOKS
+  WEBHOOKS=$(oc --context="${SPOKE_TWO_CTX}" get \
+    validatingwebhookconfiguration,mutatingwebhookconfiguration -o name 2>/dev/null | \
+    grep -E '/.*(open-cluster-management|multicluster|observability)' || true)
+  [ -n "${WEBHOOKS}" ] && echo "${WEBHOOKS}" | xargs oc --context="${SPOKE_TWO_CTX}" delete --ignore-not-found
+  # APIServices: ACM/MCE + Observatorium; Hive only when no live workloads
+  local APIS
+  APIS=$(oc --context="${SPOKE_TWO_CTX}" get apiservice -o name 2>/dev/null | \
+    grep -E '\.(open-cluster-management\.io|multicluster\.openshift\.io|multicluster\.x-k8s\.io|observatorium\.io)$' || true)
+  [ -n "${APIS}" ] && echo "${APIS}" | xargs oc --context="${SPOKE_TWO_CTX}" delete --ignore-not-found
+  if ! (oc --context="${SPOKE_TWO_CTX}" get namespace hive &>/dev/null && \
+        [ -n "$(oc --context="${SPOKE_TWO_CTX}" get deploy,statefulset,daemonset,pod \
+          -n hive -o name 2>/dev/null || true)" ]); then
+    local HIVE_APIS
+    HIVE_APIS=$(oc --context="${SPOKE_TWO_CTX}" get apiservice -o name 2>/dev/null | \
+      grep -E '\.(hive\.openshift\.io|hiveinternal\.openshift\.io)$' || true)
+    [ -n "${HIVE_APIS}" ] && echo "${HIVE_APIS}" | xargs oc --context="${SPOKE_TWO_CTX}" delete --ignore-not-found
+  fi
+  # CRDs last — the cleanup above still needs their APIs
+  local ACM_SPOKE_TWO_CRDS
+  ACM_SPOKE_TWO_CRDS=$(oc --context="${SPOKE_TWO_CTX}" get crd -o name 2>/dev/null | \
+    grep -E '\.(open-cluster-management\.io|multicluster\.openshift\.io|multicluster\.x-k8s\.io|observatorium\.io)$' || true)
+  [ -n "${ACM_SPOKE_TWO_CRDS}" ] && echo "${ACM_SPOKE_TWO_CRDS}" | xargs oc --context="${SPOKE_TWO_CTX}" delete --ignore-not-found
+  if ! (oc --context="${SPOKE_TWO_CTX}" get namespace hive &>/dev/null && \
+        [ -n "$(oc --context="${SPOKE_TWO_CTX}" get deploy,statefulset,daemonset,pod \
+          -n hive -o name 2>/dev/null || true)" ]); then
+    local HIVE_CRDS
+    HIVE_CRDS=$(oc --context="${SPOKE_TWO_CTX}" get crd -o name 2>/dev/null | \
+      grep -E '\.(hive\.openshift\.io|hiveinternal\.openshift\.io)$' || true)
+    [ -n "${HIVE_CRDS}" ] && echo "${HIVE_CRDS}" | xargs oc --context="${SPOKE_TWO_CTX}" delete --ignore-not-found
+  fi
+
+  remove_mcoa_uwm_namespace "${SPOKE_TWO_CTX}"
+  # Remove UWM config from spoke-two only if the tutorial created it
+  disable_uwm "${SPOKE_TWO_CTX}"
 }
 
 cleanup_guide1() {
   info "=== Cleanup Guide 1 ==="
+  local CRDS CSV
 
-  # Remove demo apps and mesh CRs from spoke (must complete before operators are removed)
+  # Step 1 — Remove demo apps and mesh CRs from spoke
   oc --context="${SPOKE_CTX}" delete gateway waypoint -n ambient-demo --ignore-not-found
   oc --context="${SPOKE_CTX}" delete namespace ambient-demo bookinfo --ignore-not-found
   oc --context="${SPOKE_CTX}" delete ossmconsole ossmconsole -n istio-system --ignore-not-found
@@ -3220,7 +4311,6 @@ cleanup_guide1() {
   oc --context="${SPOKE_CTX}" wait kiali/kiali -n istio-system --for=delete --timeout=120s 2>/dev/null || true
   oc --context="${SPOKE_CTX}" delete secret acm-observability-certs cacerts -n istio-system --ignore-not-found
   oc --context="${SPOKE_CTX}" delete configmap kiali-cabundle -n istio-system --ignore-not-found
-  oc --context="${SPOKE_CTX}" delete configmap cluster-monitoring-config -n openshift-monitoring --ignore-not-found
   oc --context="${SPOKE_CTX}" delete ztunnel default --ignore-not-found
   oc --context="${SPOKE_CTX}" wait ztunnel/default --for=delete --timeout=120s 2>/dev/null || true
   oc --context="${SPOKE_CTX}" delete istio default --ignore-not-found
@@ -3229,19 +4319,115 @@ cleanup_guide1() {
   oc --context="${SPOKE_CTX}" wait istiocni/default --for=delete --timeout=120s 2>/dev/null || true
   oc --context="${SPOKE_CTX}" delete namespace ztunnel istio-system istio-cni --ignore-not-found
 
-  # Remove ACM Observability from hub
+  # Step 2 — Uninstall MCOA federation while ACM is still running
+  remove_mcoa_ref monitoring.coreos.com prometheusrules kiali-istio-aggregation 2>/dev/null || true
+  remove_mcoa_ref monitoring.rhobs scrapeconfigs kiali-istio-platform-federation 2>/dev/null || true
+  remove_mcoa_ref monitoring.rhobs scrapeconfigs kiali-istio-federation 2>/dev/null || true
+
+  oc --context="${HUB_CTX}" delete prometheusrule kiali-istio-aggregation \
+    -n open-cluster-management-observability --ignore-not-found
+  oc --context="${HUB_CTX}" delete scrapeconfig kiali-istio-platform-federation \
+    -n open-cluster-management-observability --ignore-not-found
+  oc --context="${HUB_CTX}" delete scrapeconfig kiali-istio-federation \
+    -n open-cluster-management-observability --ignore-not-found
+
+  # Step 3 — Remove ACM Observability from hub
   oc --context="${HUB_CTX}" delete mco observability --ignore-not-found
   oc --context="${HUB_CTX}" wait mco observability --for=delete --timeout=120s 2>/dev/null || true
-  oc --context="${HUB_CTX}" delete configmap observability-metrics-custom-allowlist -n open-cluster-management-observability --ignore-not-found
   oc --context="${HUB_CTX}" delete deployment minio -n open-cluster-management-observability --ignore-not-found
   oc --context="${HUB_CTX}" delete service minio -n open-cluster-management-observability --ignore-not-found
   oc --context="${HUB_CTX}" delete secret thanos-object-storage -n open-cluster-management-observability --ignore-not-found
   oc --context="${HUB_CTX}" delete namespace open-cluster-management-observability --ignore-not-found
 
-  # Detach spoke from ACM
-  oc --context="${HUB_CTX}" delete managedcluster "${SPOKE_CLUSTER_NAME}" --ignore-not-found
+  # Step 4 — Detach spoke from ACM
+  oc --context="${SPOKE_CTX}" delete klusterlet klusterlet --ignore-not-found --wait=false 2>/dev/null || true
+  until ! oc --context="${SPOKE_CTX}" get klusterlet klusterlet &>/dev/null 2>&1; do
+    echo "Waiting for Klusterlet removal..."
+    sleep 10
+  done
+  oc --context="${SPOKE_CTX}" delete namespace \
+    open-cluster-management-agent open-cluster-management-agent-addon \
+    open-cluster-management-policies \
+    --ignore-not-found --wait=false 2>/dev/null || true
+  oc --context="${HUB_CTX}" delete managedcluster "${SPOKE_CLUSTER_NAME}" \
+    --ignore-not-found --wait=false
+  until ! oc --context="${HUB_CTX}" get managedcluster "${SPOKE_CLUSTER_NAME}" &>/dev/null 2>&1; do
+    echo "Waiting for ManagedCluster removal..."
+    sleep 10
+  done
+  oc --context="${HUB_CTX}" delete namespace "${SPOKE_CLUSTER_NAME}" --ignore-not-found
 
-  # Remove ACM from hub
+  # Step 5 — Clean up spoke ACM residue
+  if oc --context="${SPOKE_CTX}" get crd appliedmanifestworks.work.open-cluster-management.io &>/dev/null; then
+    local AMWS
+    AMWS=$(oc --context="${SPOKE_CTX}" get appliedmanifestwork -o name 2>/dev/null || true)
+    [ -n "${AMWS}" ] && echo "${AMWS}" | xargs oc --context="${SPOKE_CTX}" delete --ignore-not-found
+  fi
+  # Release ConfigurationPolicy finalizers on the spoke — the stranded policies
+  # live on the spoke in the namespace named after the spoke cluster. The policy
+  # controller may already be gone; scope to that namespace, the cluster-name
+  # label, terminating state, and the specific "delete-related-objects" finalizer
+  # to avoid touching unrelated policies.
+  if oc --context="${SPOKE_CTX}" get crd configurationpolicies.policy.open-cluster-management.io \
+      &>/dev/null 2>&1; then
+    local ORPHANED policy
+    ORPHANED=$(oc --context="${SPOKE_CTX}" get configurationpolicy \
+      -n "${SPOKE_CLUSTER_NAME}" -o json 2>/dev/null | \
+      jq -r --arg cluster "${SPOKE_CLUSTER_NAME}" '.items[] |
+        select(.metadata.deletionTimestamp != null) |
+        select(.metadata.labels["policy.open-cluster-management.io/cluster-name"] == $cluster) |
+        select(any(.metadata.finalizers[]?;
+          . == "policy.open-cluster-management.io/delete-related-objects")) |
+        .metadata.name' 2>/dev/null || true)
+    for policy in ${ORPHANED}; do
+      info "Releasing orphaned ConfigurationPolicy finalizer on spoke: ${SPOKE_CLUSTER_NAME}/${policy}"
+      oc --context="${SPOKE_CTX}" patch configurationpolicy "${policy}" \
+        -n "${SPOKE_CLUSTER_NAME}" \
+        --type=merge -p '{"metadata":{"finalizers":[]}}' 2>/dev/null || true
+    done
+  fi
+  local PROM_RULES
+  PROM_RULES=$(oc --context="${SPOKE_CTX}" get prometheusrule \
+    -n openshift-monitoring -o name 2>/dev/null | grep '/acm-rs-' || true)
+  [ -n "${PROM_RULES}" ] && echo "${PROM_RULES}" | xargs oc --context="${SPOKE_CTX}" \
+    -n openshift-monitoring delete --ignore-not-found
+  local RBAC
+  RBAC=$(oc --context="${SPOKE_CTX}" get clusterrole,clusterrolebinding -o name 2>/dev/null | \
+    grep -E '/(ocm:|.*open-cluster-management|.*multicluster-observability|.*observability.*mco)' || true)
+  [ -n "${RBAC}" ] && echo "${RBAC}" | xargs oc --context="${SPOKE_CTX}" delete --ignore-not-found
+  local WEBHOOKS
+  WEBHOOKS=$(oc --context="${SPOKE_CTX}" get \
+    validatingwebhookconfiguration,mutatingwebhookconfiguration -o name 2>/dev/null | \
+    grep -E '/.*(open-cluster-management|multicluster|observability)' || true)
+  [ -n "${WEBHOOKS}" ] && echo "${WEBHOOKS}" | xargs oc --context="${SPOKE_CTX}" delete --ignore-not-found
+  # APIServices: ACM/MCE + Observatorium; Hive only when no live workloads
+  local APIS
+  APIS=$(oc --context="${SPOKE_CTX}" get apiservice -o name 2>/dev/null | \
+    grep -E '\.(open-cluster-management\.io|multicluster\.openshift\.io|multicluster\.x-k8s\.io|observatorium\.io)$' || true)
+  [ -n "${APIS}" ] && echo "${APIS}" | xargs oc --context="${SPOKE_CTX}" delete --ignore-not-found
+  if ! (oc --context="${SPOKE_CTX}" get namespace hive &>/dev/null && \
+        [ -n "$(oc --context="${SPOKE_CTX}" get deploy,statefulset,daemonset,pod \
+          -n hive -o name 2>/dev/null || true)" ]); then
+    local HIVE_APIS
+    HIVE_APIS=$(oc --context="${SPOKE_CTX}" get apiservice -o name 2>/dev/null | \
+      grep -E '\.(hive\.openshift\.io|hiveinternal\.openshift\.io)$' || true)
+    [ -n "${HIVE_APIS}" ] && echo "${HIVE_APIS}" | xargs oc --context="${SPOKE_CTX}" delete --ignore-not-found
+  fi
+  # CRDs last — the cleanup above still needs their APIs
+  local ACM_SPOKE_CRDS
+  ACM_SPOKE_CRDS=$(oc --context="${SPOKE_CTX}" get crd -o name 2>/dev/null | \
+    grep -E '\.(open-cluster-management\.io|multicluster\.openshift\.io|multicluster\.x-k8s\.io|observatorium\.io)$' || true)
+  [ -n "${ACM_SPOKE_CRDS}" ] && echo "${ACM_SPOKE_CRDS}" | xargs oc --context="${SPOKE_CTX}" delete --ignore-not-found
+  if ! (oc --context="${SPOKE_CTX}" get namespace hive &>/dev/null && \
+        [ -n "$(oc --context="${SPOKE_CTX}" get deploy,statefulset,daemonset,pod \
+          -n hive -o name 2>/dev/null || true)" ]); then
+    local HIVE_CRDS
+    HIVE_CRDS=$(oc --context="${SPOKE_CTX}" get crd -o name 2>/dev/null | \
+      grep -E '\.(hive\.openshift\.io|hiveinternal\.openshift\.io)$' || true)
+    [ -n "${HIVE_CRDS}" ] && echo "${HIVE_CRDS}" | xargs oc --context="${SPOKE_CTX}" delete --ignore-not-found
+  fi
+
+  # Step 6 — Remove ACM from hub
   oc --context="${HUB_CTX}" delete multiclusterhub multiclusterhub -n open-cluster-management --ignore-not-found
   info "Waiting for MultiClusterHub deletion (may take 5-15 minutes)..."
   oc --context="${HUB_CTX}" wait multiclusterhub multiclusterhub -n open-cluster-management --for=delete --timeout=900s 2>/dev/null || true
@@ -3249,37 +4435,129 @@ cleanup_guide1() {
   oc --context="${HUB_CTX}" delete csv -n open-cluster-management --all --ignore-not-found
   oc --context="${HUB_CTX}" delete namespace open-cluster-management --ignore-not-found --timeout=300s 2>/dev/null || true
 
-  # Remove ACM/MCE CRDs and RBAC from hub
-  for suffix in open-cluster-management.io multicluster.openshift.io; do
-    local CRDS
-    CRDS=$(oc --context="${HUB_CTX}" get crd --no-headers -o custom-columns=NAME:.metadata.name 2>/dev/null | grep "\.${suffix}$" || true)
-    [ -n "${CRDS}" ] && echo "${CRDS}" | xargs oc --context="${HUB_CTX}" delete crd --ignore-not-found
-  done
-  local ACM_CRS
-  ACM_CRS=$(oc --context="${HUB_CTX}" get clusterrole --no-headers -o custom-columns=NAME:.metadata.name 2>/dev/null | grep -E "^open-cluster-management|^multiclusterengines" || true)
-  [ -n "${ACM_CRS}" ] && echo "${ACM_CRS}" | xargs oc --context="${HUB_CTX}" delete clusterrole --ignore-not-found
-  local ACM_CRBS
-  ACM_CRBS=$(oc --context="${HUB_CTX}" get clusterrolebinding --no-headers -o custom-columns=NAME:.metadata.name 2>/dev/null | grep -E "^open-cluster-management" || true)
-  [ -n "${ACM_CRBS}" ] && echo "${ACM_CRBS}" | xargs oc --context="${HUB_CTX}" delete clusterrolebinding --ignore-not-found
+  # Step 6b — Clean up hub-side ACM/MCE/Hive/Observatorium residue. These CRDs,
+  # RBAC, webhooks, and APIService registrations can survive after the ACM
+  # namespace and operators have been removed.
+  local HUB_RBAC
+  HUB_RBAC=$(oc --context="${HUB_CTX}" get clusterrole,clusterrolebinding -o name 2>/dev/null | \
+    grep -E '/(ocm:|.*open-cluster-management|.*multiclusterengine|.*multicluster-observability|.*observability.*mco)' || true)
+  [ -n "${HUB_RBAC}" ] && echo "${HUB_RBAC}" | xargs oc --context="${HUB_CTX}" delete --ignore-not-found
+  local HUB_WEBHOOKS
+  HUB_WEBHOOKS=$(oc --context="${HUB_CTX}" get \
+    validatingwebhookconfiguration,mutatingwebhookconfiguration -o name 2>/dev/null | \
+    grep -E '/.*(open-cluster-management|multicluster|observability)' || true)
+  [ -n "${HUB_WEBHOOKS}" ] && echo "${HUB_WEBHOOKS}" | xargs oc --context="${HUB_CTX}" delete --ignore-not-found
+  local HUB_APIS
+  HUB_APIS=$(oc --context="${HUB_CTX}" get apiservice -o name 2>/dev/null | \
+    grep -E '\.(open-cluster-management\.io|multicluster\.openshift\.io|multicluster\.x-k8s\.io|observatorium\.io)$' || true)
+  [ -n "${HUB_APIS}" ] && echo "${HUB_APIS}" | xargs oc --context="${HUB_CTX}" delete --ignore-not-found
+  if ! (oc --context="${HUB_CTX}" get namespace hive &>/dev/null && \
+        [ -n "$(oc --context="${HUB_CTX}" get deploy,statefulset,daemonset,pod \
+          -n hive -o name 2>/dev/null || true)" ]); then
+    local HIVE_HUB_APIS
+    HIVE_HUB_APIS=$(oc --context="${HUB_CTX}" get apiservice -o name 2>/dev/null | \
+      grep -E '\.(hive\.openshift\.io|hiveinternal\.openshift\.io)$' || true)
+    [ -n "${HIVE_HUB_APIS}" ] && echo "${HIVE_HUB_APIS}" | xargs oc --context="${HUB_CTX}" delete --ignore-not-found
+  fi
+  # CRDs last — the cleanup above still needs their APIs
+  local HUB_CRDS
+  HUB_CRDS=$(oc --context="${HUB_CTX}" get crd -o name 2>/dev/null | \
+    grep -E '\.(open-cluster-management\.io|multicluster\.openshift\.io|multicluster\.x-k8s\.io|observatorium\.io)$' || true)
+  [ -n "${HUB_CRDS}" ] && echo "${HUB_CRDS}" | xargs oc --context="${HUB_CTX}" delete --ignore-not-found
+  if ! (oc --context="${HUB_CTX}" get namespace hive &>/dev/null && \
+        [ -n "$(oc --context="${HUB_CTX}" get deploy,statefulset,daemonset,pod \
+          -n hive -o name 2>/dev/null || true)" ]); then
+    local HIVE_HUB_CRDS
+    HIVE_HUB_CRDS=$(oc --context="${HUB_CTX}" get crd -o name 2>/dev/null | \
+      grep -E '\.(hive\.openshift\.io|hiveinternal\.openshift\.io)$' || true)
+    [ -n "${HIVE_HUB_CRDS}" ] && echo "${HIVE_HUB_CRDS}" | xargs oc --context="${HUB_CTX}" delete --ignore-not-found
+    # Remove the empty hive namespace that ACM installed Hive into
+    if oc --context="${HUB_CTX}" get namespace hive &>/dev/null 2>&1; then
+      oc --context="${HUB_CTX}" delete namespace hive --ignore-not-found --timeout=120s 2>/dev/null || true
+    fi
+  fi
 
-  # Remove klusterlet remnants from spoke
-  oc --context="${SPOKE_CTX}" delete namespace open-cluster-management-agent open-cluster-management-agent-addon --ignore-not-found
-
-  # Remove OSSM and Kiali operators from spoke
+  # Step 7 — Remove OSSM and Kiali operators from spoke
   oc --context="${SPOKE_CTX}" delete subscriptions.operators.coreos.com kiali-ossm openshift-service-mesh-operator -n openshift-operators --ignore-not-found
-  oc --context="${SPOKE_CTX}" delete installplan -n openshift-operators --all --ignore-not-found
-
-  local CSV
+  for subscription_label in \
+    operators.coreos.com/kiali-ossm.openshift-operators \
+    operators.coreos.com/servicemeshoperator3.openshift-operators; do
+    oc --context="${SPOKE_CTX}" delete installplan -n openshift-operators \
+      -l "${subscription_label}" --ignore-not-found
+  done
   CSV=$(oc --context="${SPOKE_CTX}" get csv -n openshift-operators -l operators.coreos.com/kiali-ossm.openshift-operators --no-headers -o custom-columns=NAME:.metadata.name 2>/dev/null | head -1)
   [ -n "${CSV}" ] && oc --context="${SPOKE_CTX}" delete csv "${CSV}" -n openshift-operators --ignore-not-found
   CSV=$(oc --context="${SPOKE_CTX}" get csv -n openshift-operators -l operators.coreos.com/servicemeshoperator3.openshift-operators --no-headers -o custom-columns=NAME:.metadata.name 2>/dev/null | head -1)
   [ -n "${CSV}" ] && oc --context="${SPOKE_CTX}" delete csv "${CSV}" -n openshift-operators --ignore-not-found
-
   for suffix in sailoperator.io istio.io kiali.io; do
-    local CRDS
     CRDS=$(oc --context="${SPOKE_CTX}" get crd --no-headers -o custom-columns=NAME:.metadata.name 2>/dev/null | grep "\.${suffix}$" || true)
     [ -n "${CRDS}" ] && echo "${CRDS}" | xargs oc --context="${SPOKE_CTX}" delete crd --ignore-not-found
   done
+  cleanup_istio_cluster_resources "${SPOKE_CTX}"
+  oc --context="${SPOKE_CTX}" delete clusterrole servicemeshoperator3-metrics-reader --ignore-not-found
+
+  # Step 8 — Remove UWM config only if the tutorial created it (label-guarded)
+  # The hub ConfigMap is never created by this tutorial and is never removed.
+  remove_mcoa_uwm_namespace "${SPOKE_CTX}"
+  # Spoke-two is handled by cleanup_guide2.
+  disable_uwm "${SPOKE_CTX}"
+
+  # Final residue audit — report and fail on any leftover ACM/MCOA/Hive/
+  # Observatorium/UWM artifacts so the script never silently declares success
+  # while resources remain behind.
+  local audit_failed=false
+  for check_role in hub spoke; do
+    local check_ctx="${HUB_CTX}"
+    [ "${check_role}" = spoke ] && check_ctx="${SPOKE_CTX}"
+    local residue
+    residue=$(
+      oc --context="${check_ctx}" get crd -o name 2>/dev/null | \
+        grep -E '\.(open-cluster-management\.io|multicluster\.openshift\.io|multicluster\.x-k8s\.io|observatorium\.io|hive\.openshift\.io|hiveinternal\.openshift\.io)$' || true
+      oc --context="${check_ctx}" get clusterrole,clusterrolebinding -o name 2>/dev/null | \
+        grep -E '/(ocm:|.*open-cluster-management|.*multiclusterengine|.*multicluster-observability|.*observability.*mco)' || true
+      oc --context="${check_ctx}" get \
+        validatingwebhookconfiguration,mutatingwebhookconfiguration -o name 2>/dev/null | \
+        grep -E '/.*(open-cluster-management|multicluster|observability)' || true
+      oc --context="${check_ctx}" get apiservice -o name 2>/dev/null | \
+        grep -E '\.(open-cluster-management\.io|multicluster\.openshift\.io|multicluster\.x-k8s\.io|observatorium\.io|hive\.openshift\.io|hiveinternal\.openshift\.io)$' || true
+      for ns in open-cluster-management open-cluster-management-observability \
+          open-cluster-management-agent open-cluster-management-agent-addon \
+          open-cluster-management-policies hive; do
+        oc --context="${check_ctx}" get namespace "${ns}" &>/dev/null 2>&1 && \
+          echo "namespace/${ns}"
+      done
+    )
+    # Check for tutorial-owned UWM ConfigMap on spoke only (hub CM never created here)
+    if [ "${check_role}" = spoke ]; then
+      local owned
+      owned=$(oc --context="${check_ctx}" get configmap cluster-monitoring-config \
+        -n openshift-monitoring \
+        -o jsonpath='{.metadata.labels.kiali\.io/tutorial-owned}' 2>/dev/null || true)
+      [ "${owned}" = "true" ] && \
+        residue="${residue}${residue:+$'\n'}configmap/openshift-monitoring/cluster-monitoring-config"
+      local istio_residue
+      istio_residue=$(
+        oc --context="${check_ctx}" get gatewayclass \
+          istio istio-remote istio-waypoint istio-east-west -o name \
+          --ignore-not-found 2>/dev/null || true
+        oc --context="${check_ctx}" get crd -o name 2>/dev/null | \
+          grep -E '\.(sailoperator\.io|istio\.io|kiali\.io|inference\.networking\.(k8s|x-k8s)\.io)$' || true
+        oc --context="${check_ctx}" get configmap -A \
+          -o custom-columns='NS:.metadata.namespace,NAME:.metadata.name' --no-headers 2>/dev/null | \
+          grep -E '(^|[[:space:]])(istio-ca-root-cert|istio-ca-crl)$' || true
+      )
+      [ -z "${istio_residue}" ] || \
+        residue="${residue}${residue:+$'\n'}${istio_residue}"
+    fi
+    if [ -n "${residue}" ]; then
+      audit_failed=true
+      warn "Residual ${check_role} resources after cleanup:"
+      echo "${residue}" | sed 's/^/  /' >&2
+    fi
+  done
+  [ "${audit_failed}" = true ] && \
+    error "Guide 1 cleanup left managed resources behind — inspect the output above"
+  info "Residue audit passed: ACM, MCOA, Hive, Observatorium, Istio, and tutorial-owned UWM artifacts are absent"
 }
 
 # =============================================================================
