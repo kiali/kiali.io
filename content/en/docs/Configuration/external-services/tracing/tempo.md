@@ -1,11 +1,12 @@
 ---
-title: "Tracing: Tempo"
+title: "Tempo"
 description: >
   This page describes how to configure Grafana Tempo for Kiali.
-weight: 60
+weight: 20
 aliases:
   - /docs/configuration/p8s-jaeger-grafana/tracing/tempo/
   - /docs/configuration/tracing/tempo/
+  - /docs/configuration/external-services/tracing-tempo/
 ---
 
 - [Grafana Tempo Configuration](#grafana-tempo-configuration)
@@ -352,7 +353,7 @@ spec:
       health_check_url: ""
 ```
 
-To configure a secret to be used as a password, see this [FAQ entry]({{< relref "../../FAQ/installation#how-can-i-use-a-secret-to-pass-external-service-credentials-to-the-kiali-server" >}}).
+To configure a secret to be used as a password, see this [FAQ entry]({{< relref "../../../FAQ/installation#how-can-i-use-a-secret-to-pass-external-service-credentials-to-the-kiali-server" >}}).
 
 To authenticate using OAuth2 `client_credentials` flow, set `type: "oauth2"` and provide the `oauth2` block:
 
@@ -377,14 +378,14 @@ OAuth2 authentication requires `use_grpc: false`. OAuth2 token injection is not 
 {{% /alert %}}
 
 {{% alert color="warning" %}}
-`insecure_skip_verify` applies only to the Tempo connection, not to the OAuth2 token endpoint. The token endpoint always validates TLS certificates. To trust a private CA for the token endpoint, add the CA to the `kiali-cabundle` ConfigMap as described in the [TLS Configuration]({{< relref "./tls-configuration" >}}) page.
+`insecure_skip_verify` applies only to the Tempo connection, not to the OAuth2 token endpoint. The token endpoint always validates TLS certificates. To trust a private CA for the token endpoint, add the CA to the `kiali-cabundle` ConfigMap as described in the [TLS Configuration]({{< relref "../tls-configuration" >}}) page.
 {{% /alert %}}
 
-The `client_secret` field supports the `secret:<secretName>:<secretKey>` pattern for automatic secret mounting and rotation without pod restart. See the [FAQ entry]({{< relref "../../FAQ/installation#how-can-i-use-a-secret-to-pass-external-service-credentials-to-the-kiali-server" >}}) for details.
+The `client_secret` field supports the `secret:<secretName>:<secretKey>` pattern for automatic secret mounting and rotation without pod restart. See the [FAQ entry]({{< relref "../../../FAQ/installation#how-can-i-use-a-secret-to-pass-external-service-credentials-to-the-kiali-server" >}}) for details.
 
 #### TLS Certificate Configuration
 
-If your Tempo server uses HTTPS with a certificate issued by a private CA, see the [TLS Configuration]({{< relref "./tls-configuration" >}}) page to learn how to configure Kiali to trust your CA.
+If your Tempo server uses HTTPS with a certificate issued by a private CA, see the [TLS Configuration]({{< relref "../tls-configuration" >}}) page to learn how to configure Kiali to trust your CA.
 
 ### Tempo cache
 

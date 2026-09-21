@@ -1,22 +1,23 @@
 ---
-title: "Metrics: Prometheus"
+title: "Prometheus"
 description: >
   This page describes how to configure Prometheus for Kiali.
-weight: 20
+weight: 10
 aliases:
   - /docs/configuration/p8s-jaeger-grafana/
   - /docs/configuration/p8s-jaeger-grafana/prometheus/
   - /docs/configuration/metrics/
   - /docs/configuration/metrics/prometheus/
+  - /docs/configuration/external-services/prometheus/
 ---
 
 
 ## Prometheus configuration
 
 Kiali uses Prometheus to generate the
-[topology graph]({{< relref "../../Features/topology" >}}),
-[show metrics]({{< relref "../../Features/details#metrics" >}}),
-[calculate health]({{< relref "../../Features/health" >}}) and
+[topology graph]({{< relref "../../../Features/topology" >}}),
+[show metrics]({{< relref "../../../Features/details#metrics" >}}),
+[calculate health]({{< relref "../../../Features/health" >}}) and
 for several other features. Prometheus is enabled by default and is required
 for full Kiali functionality.
 
@@ -161,7 +162,7 @@ spec:
       url: "http://prometheus-federated.monitoring:9090/"
 ```
 
-If you use Istio [Perses (or Grafana) dashboards]({{< relref "./perses-dashboards" >}}) with Kiali, configure them to point at the same Federated Prometheus URL.
+If you use Istio [Perses (or Grafana) dashboards]({{< relref "../dashboards/perses" >}}) with Kiali, configure them to point at the same Federated Prometheus URL.
 
 {{% alert color="warning" %}}
 Query target: In this pattern, `external_services.prometheus.url` always targets Federated Prometheus—the long-retention TSDB that holds federated mesh metrics. Edge Prometheus exists only to collect raw telemetry, evaluate recording rules, and federate upstream; it is not Kiali's database.
@@ -439,7 +440,7 @@ The built-in Kiali Internal Metrics custom dashboard queries `external_services.
 
 Reference files for Options 1–2: `kiali-metrics-recording-rules.yml`, `kiali-metrics-federation-match.yml`, and (for Option 2) `demo/prometheus-kiali-edge.yaml`. Try them in the [demo walkthrough](#demo-walkthrough-lab-only) with `--with-kiali-metrics` and optionally `--kiali-edge dedicated`.
 
-For `kiali_health_status` alerting on OpenShift, see the [OSSM health status alerts tutorial]({{< relref "../../Tutorials/ossm-multicluster/ossm-health-status-alerts" >}}).
+For `kiali_health_status` alerting on OpenShift, see the [OSSM health status alerts tutorial]({{< relref "../../../Tutorials/ossm-multicluster/ossm-health-status-alerts" >}}).
 
 #### Validation
 
@@ -573,7 +574,7 @@ spec:
       health_check_url: ""
 ```
 
-To configure a secret to be used as a password, see this [FAQ entry]({{< relref "../../FAQ/installation#how-can-i-use-a-secret-to-pass-external-service-credentials-to-the-kiali-server" >}}).
+To configure a secret to be used as a password, see this [FAQ entry]({{< relref "../../../FAQ/installation#how-can-i-use-a-secret-to-pass-external-service-credentials-to-the-kiali-server" >}}).
 
 To authenticate using OAuth2 `client_credentials` flow (for example, Azure Monitor Managed Prometheus or any OAuth2-protected endpoint), set `type: "oauth2"` and provide the `oauth2` block:
 
@@ -593,12 +594,12 @@ spec:
           auth_style: "header"  # "header" (default) or "params"
 ```
 
-The `client_secret` field supports the `secret:<secretName>:<secretKey>` pattern for automatic secret mounting and rotation without pod restart. See the [FAQ entry]({{< relref "../../FAQ/installation#how-can-i-use-a-secret-to-pass-external-service-credentials-to-the-kiali-server" >}}) for details.
+The `client_secret` field supports the `secret:<secretName>:<secretKey>` pattern for automatic secret mounting and rotation without pod restart. See the [FAQ entry]({{< relref "../../../FAQ/installation#how-can-i-use-a-secret-to-pass-external-service-credentials-to-the-kiali-server" >}}) for details.
 
 {{% alert color="warning" %}}
-`insecure_skip_verify` applies only to the Prometheus connection, not to the OAuth2 token endpoint. The token endpoint always validates TLS certificates. To trust a private CA for the token endpoint, add the CA to the `kiali-cabundle` ConfigMap as described in the [TLS Configuration]({{< relref "./tls-configuration" >}}) page.
+`insecure_skip_verify` applies only to the Prometheus connection, not to the OAuth2 token endpoint. The token endpoint always validates TLS certificates. To trust a private CA for the token endpoint, add the CA to the `kiali-cabundle` ConfigMap as described in the [TLS Configuration]({{< relref "../tls-configuration" >}}) page.
 {{% /alert %}}
 
 ### TLS Certificate Configuration
 
-If your Prometheus server uses HTTPS with a certificate issued by a private CA, see the [TLS Configuration]({{< relref "./tls-configuration" >}}) page to learn how to configure Kiali to trust your CA.
+If your Prometheus server uses HTTPS with a certificate issued by a private CA, see the [TLS Configuration]({{< relref "../tls-configuration" >}}) page to learn how to configure Kiali to trust your CA.
