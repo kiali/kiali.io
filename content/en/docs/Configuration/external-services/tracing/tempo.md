@@ -1,8 +1,12 @@
 ---
-title: "Grafana Tempo"
+title: "Tempo"
 description: >
   This page describes how to configure Grafana Tempo for Kiali.
-weight: 2
+weight: 20
+aliases:
+  - /docs/configuration/p8s-jaeger-grafana/tracing/tempo/
+  - /docs/configuration/tracing/tempo/
+  - /docs/configuration/external-services/tracing-tempo/
 ---
 
 - [Grafana Tempo Configuration](#grafana-tempo-configuration)

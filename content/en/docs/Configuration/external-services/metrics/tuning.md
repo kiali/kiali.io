@@ -1,119 +1,17 @@
 ---
-title: "Prometheus"
+title: "Tuning"
 description: >
-  This page describes how to configure Prometheus for Kiali.
+  Production Prometheus tuning for Kiali — recording rules, federation, metric thinning, and retention.
+weight: 20
 ---
-
-
-## Prometheus configuration
-
-Kiali uses Prometheus to generate the
-[topology graph]({{< relref "../../Features/topology" >}}),
-[show metrics]({{< relref "../../Features/details#metrics" >}}),
-[calculate health]({{< relref "../../Features/health" >}}) and
-for several other features. Prometheus is enabled by default and is required
-for full Kiali functionality.
-
-### Disabling Prometheus
-
-If you want to run Kiali without a Prometheus instance, you can disable it:
-
-```yaml
-spec:
-  external_services:
-    prometheus:
-      enabled: false
-```
-
-When Prometheus is disabled, Kiali will still start and serve non-metrics features
-such as workload/service/app listing, Istio configuration, and mesh topology.
-However, the graph, metrics tabs, traffic tabs, and request-rate health will be
-unavailable. Health badges for workloads and apps will degrade to show only
-Kubernetes-level status (replica counts).
-
-The UI will display a subtle informational message reminding you that metrics
-features are unavailable due to your configuration choice.
-
-### When Prometheus is Unreachable
-
-When Prometheus is enabled (the default) but Kiali cannot reach it at startup,
-Kiali will still start successfully with metrics features temporarily unavailable.
-
-The UI will display a warning notification explaining why metrics are
-unavailable. The Prometheus component will still appear in the masthead status
-and the mesh topology page, reported as unhealthy, so you have clear visibility
-into the misconfiguration.
-
-To restore full metrics functionality after a startup failure, fix the Prometheus
-connectivity issue (correct the URL, ensure the Prometheus server is running, etc.) and
-restart Kiali.
-
-### Configuring the Prometheus URL
-
-By default, Kiali assumes that Prometheus is available at the URL of the form
-`http://prometheus.<istio_namespace_name>:9090`, which is the usual case if you
-are using [the Prometheus Istio
-add-on](https://istio.io/latest/docs/ops/integrations/prometheus/#option-1-quick-start).
-If your Prometheus instance has a different service name or is installed in a
-different namespace, you must manually provide the endpoint where it is
-available, like in the following example:
-
-```yaml
-spec:
-  external_services:
-    prometheus:
-      # Prometheus service name is "metrics" and is in the "telemetry" namespace
-      url: "http://metrics.telemetry:9090/"
-```
-
-{{% alert color="success" %}}
-Notice that you don't need to expose Prometheus outside the cluster. It is
-enough to provide the Kubernetes internal service URL.
-{{% /alert %}}
-
-Kiali maintains an internal cache of some Prometheus queries to improve
-performance (mainly, the queries to calculate Health indicators). It
-would be very rare to see data delays, but should you notice any delays you may
-tune caching parameters to values that work better for your environment.
-
-See the [Kiali CR reference page](/docs/configuration/kialis\.kiali\.io/#example-cr) for the current default values.
-
-### Compatibility with Prometheus-like servers
-
-Although Kiali assumes a Prometheus server and is tested against it, there are
-<abbr title="Time series databases">TSDBs</abbr> that can be used as a Prometheus
-replacement despite not implementing the full Prometheus API. 
-
-Community users have faced two issues when using Prometheus-like TSDBs:
-* Kiali may report that the TSDB is unreachable, and/or
-* Kiali may show empty metrics if the TSBD does not implement the `/api/v1/status/config`.
-
-To fix these issues, you may need to provide a custom health check endpoint for
-the TSDB and/or manually provide the configurations that Kiali reads from the
-`/api/v1/status/config` API endpoint:
-
-```yaml
-spec:
-  external_services:
-    prometheus:
-      # Fix the "Unreachable" metrics server warning.
-      health_check_url: "http://custom-tsdb-health-check-url"
-      # Fix for the empty metrics dashboards
-      thanos_proxy:
-        enabled: true
-        retention_period: "7d"
-        scrape_interval: "30s"
-```
-
-## Prometheus Tuning
 
 Production environments should not be using the Istio Prometheus add-on, or carrying over its configuration settings.  That is useful only for small, or demo installations.  Instead, Prometheus should have been installed in a production-oriented way, following the [Prometheus documentation](https://prometheus.io/docs/prometheus/latest/installation).
 
-This section is primarily for users where Prometheus is being used specifically for Kiali, and possible optimizations that can be made knowing that Kiali does not utilize all of the default Istio and Envoy telemetry.
+This page is primarily for users where Prometheus is being used specifically for Kiali, and possible optimizations that can be made knowing that Kiali does not utilize all of the default Istio and Envoy telemetry.
 
 Istio and Envoy generate a large amount of telemetry for analysis and troubleshooting.  This can result in significant resources being required to ingest and store the telemetry, and to support queries into the data.  If you use the telemetry specifically to support Kiali, it is possible to drop unnecessary metrics and unnecessary labels on required metrics.  This [FAQ Entry]({{< ref "/docs/faq/general#requiredmetrics" >}}) displays the metrics and attributes required for Kiali to operate.
 
-### Option 1: Recording Rules and Federation (Recommended)
+## Option 1: Recording Rules and Federation (Recommended)
 
 For production meshes at scale, [metric thinning](#option-2-metric-thinning) on a single Prometheus TSDB reduces storage somewhat but still retains per-proxy Istio series. A more efficient approach—aligned with [Istio Observability Best Practices](https://istio.io/latest/docs/ops/best-practices/observability/#federation-using-workload-level-aggregated-metrics)—is to:
 
@@ -125,7 +23,7 @@ For production meshes at scale, [metric thinning](#option-2-metric-thinning) on 
 Kiali already aggregates traffic at workload/service granularity in its PromQL; it does not use per-pod Istio labels. Pre-aggregated counters and histograms are therefore compatible with the traffic graph, health monitoring, and metrics tabs.
 
 
-#### Architecture
+### Architecture
 
 ```
   Edge Prometheus                         Federated Prometheus
@@ -155,7 +53,7 @@ spec:
       url: "http://prometheus-federated.monitoring:9090/"
 ```
 
-If you use Istio [Perses (or Grafana) dashboards]({{< relref "./perses" >}}) with Kiali, configure them to point at the same Federated Prometheus URL.
+If you use Istio [Perses (or Grafana) dashboards]({{< relref "../dashboards/perses" >}}) with Kiali, configure them to point at the same Federated Prometheus URL.
 
 {{% alert color="warning" %}}
 Query target: In this pattern, `external_services.prometheus.url` always targets Federated Prometheus—the long-retention TSDB that holds federated mesh metrics. Edge Prometheus exists only to collect raw telemetry, evaluate recording rules, and federate upstream; it is not Kiali's database.
@@ -163,7 +61,7 @@ Query target: In this pattern, `external_services.prometheus.url` always targets
 `kiali_*` self-monitoring metrics must also end up in that Federated Prometheus TSDB, but may reach it via edge aggregation and federation or via direct scrape—see [Kiali self-monitoring metrics](#kiali-self-monitoring-metrics).
 {{% /alert %}}
 
-#### Metric tiers
+### Metric tiers
 
 Federation configuration is split into tiers (metric groupings) so that Federated Prometheus pulls only needed metrics:
 
@@ -176,7 +74,7 @@ Federation configuration is split into tiers (metric groupings) so that Federate
 
 Some Perses dashboards work with the Core tier alone (Mesh, service, and workload dashboards). To ensure all of the Istio dashboards are supported, enable the Istio Dashboards tier. Enable Kiali self-monitoring when the built-in Kiali metrics dashboard or `kiali_health_status` alerting is needed. Note that if you define your own Kiali Custom Dashboards, you will need to ensure any required metrics are also configured for the federated Prometheus.
 
-#### Production reference files
+### Production reference files
 
 For production deployments, merge the YAML below from [`hack/prometheus/federation/`](https://github.com/kiali/kiali/tree/master/hack/prometheus/federation) into your existing Prometheus configuration. These files are reference snippets—not a Kiali installer and not full deployments. Integrate them the same way you manage other Prometheus rules and scrape jobs (`rule_files`, ConfigMap volume mounts, `PrometheusRule` CRs, Helm values, etc.).
 
@@ -193,7 +91,7 @@ For production deployments, merge the YAML below from [`hack/prometheus/federati
 
 The [recording rules](#recording-rules-edge-prometheus), [federation](#federation-federated-prometheus), and [production checklist](#integration-checklist) sections below describe how to apply these files. Optional tiers (Istio dashboards, Kiali self-monitoring) are added only when those features are enabled.
 
-#### Demo lab files (not for production)
+### Demo lab files (not for production)
 
 The `demo/` subdirectory under the same path contains scripts and sample Kubernetes deployments for learning and CI. They patch the Istio add-on Prometheus in `istio-system` and deploy sample `prometheus-federated` / `prometheus-kiali-edge` instances. **Do not use `demo/` in production clusters**—use the reference files above with your own Prometheus instead.
 
@@ -207,7 +105,7 @@ The `demo/` subdirectory under the same path contains scripts and sample Kuberne
 See [Demo walkthrough](#demo-walkthrough-lab-only) below to try the pattern locally.
 
 
-#### Recording rules (edge Prometheus)
+### Recording rules (edge Prometheus)
 
 Apply `core-recording-rules.yml` on the Prometheus instance that scrapes Istio traffic (or merge the groups into your existing rule set). The rules drop scrape/infrastructure labels (`pod`, `pod_template_hash`, `instance`, `job`, `node`) while preserving Istio semantic labels and the Prometheus scrape `namespace` label. The same `without (...)` shape is used in `kiali-metrics-recording-rules.yml` for consistency.
 
@@ -237,7 +135,7 @@ each managed cluster. This is what allows one propagated rule to aggregate
 metrics scraped in the Istio and application namespaces; it does not remove the
 need for `ServiceMonitor` or `PodMonitor` resources in those namespaces.
 
-#### Federation (federated Prometheus)
+### Federation (federated Prometheus)
 
 Add a federation scrape job to your existing long-retention federated Prometheus. Use `core-federation-match.yml` for the complete core-tier `match[]` list. Federate `workload:*` traffic metrics from the edge and relabel names before storage:
 
@@ -268,9 +166,9 @@ Also federate non-traffic metrics that Kiali needs but does not aggregate (for e
 
 To include Istio dashboard metrics, append the selectors from `istio-dashboard-federation-match.yml` to `match[]`.
 
-Configure network access, TLS, and authentication between Federated and Edge Prometheus according to your environment. Kiali authentication for the Federated Prometheus URL is configured separately (see [Prometheus authentication configuration](#prometheus-authentication-configuration) below).
+Configure network access, TLS, and authentication between Federated and Edge Prometheus according to your environment. Kiali authentication for the Federated Prometheus URL is configured separately (see [Prometheus authentication configuration]({{< relref "./prometheus#prometheus-authentication-configuration" >}})).
 
-#### Demo walkthrough (lab only)
+### Demo walkthrough (lab only)
 
 The `demo/install.sh` script is a learning and CI harness only. It does not replace the production integration above—it automates the same reference YAML against the Istio add-on Prometheus in `istio-system` so you can validate the pattern locally:
 
@@ -318,7 +216,7 @@ The Kiali Internal Metrics dashboard only works when Kiali queries federated Pro
 
 Run `demo/uninstall.sh` for teardown.
 
-#### Integration checklist
+### Integration checklist
 
 Use this checklist when integrating the [production reference files](#production-reference-files) into your own Prometheus stack (not the `demo/` installer):
 
@@ -333,7 +231,7 @@ Use this checklist when integrating the [production reference files](#production
 
 For multi-cluster deployments, apply the same edge → federated pattern per mesh cluster: each cluster's Edge Prometheus scrapes local Istio/Envoy telemetry, evaluates recording rules, and federates into that cluster's Federated Prometheus (or into a shared central Federated Prometheus, if your organization consolidates metrics that way). Kiali already supports per-cluster Prometheus URLs in [multicluster configuration]({{< ref "/docs/configuration/multi-cluster" >}})—set each cluster's `external_services.prometheus.url` to the Federated Prometheus instance that holds that cluster's federated mesh metrics, not the local Edge scraper.
 
-#### Interval tuning
+### Interval tuning
 
 Several independent intervals affect freshness, CPU use, and the minimum time windows Kiali can use for `rate()` queries. Set them together—not in isolation.
 
@@ -406,7 +304,7 @@ Kiali reads `globalScrapeInterval` from the Prometheus at `external_services.pro
 
 If the federated Prometheus `global.scrape_interval` differs from the federation job interval (for example `global.scrape_interval: 15s` but the federation job runs every `30s`), Kiali may offer durations shorter than the federation sampling supports. Ensure the federated Prometheus `global.scrape_interval` matches or exceeds the federation job's `scrape_interval`.
 
-#### Kiali self-monitoring metrics
+### Kiali self-monitoring metrics
 
 Kiali can export its own Prometheus metrics (`kiali_*`) for performance and optional health-status monitoring. These are not Istio mesh metrics—they are not produced on the edge by Envoy, not listed in `core-metrics.yml`, and not part of the Istio federation tiers.
 
@@ -433,9 +331,9 @@ The built-in Kiali Internal Metrics custom dashboard queries `external_services.
 
 Reference files for Options 1–2: `kiali-metrics-recording-rules.yml`, `kiali-metrics-federation-match.yml`, and (for Option 2) `demo/prometheus-kiali-edge.yaml`. Try them in the [demo walkthrough](#demo-walkthrough-lab-only) with `--with-kiali-metrics` and optionally `--kiali-edge dedicated`.
 
-For `kiali_health_status` alerting on OpenShift, see the [OSSM health status alerts tutorial]({{< relref "../../Tutorials/ossm-multicluster/ossm-health-status-alerts" >}}).
+For `kiali_health_status` alerting on OpenShift, see the [OSSM health status alerts tutorial]({{< relref "../../../Tutorials/ossm-multicluster/ossm-health-status-alerts" >}}).
 
-#### Validation
+### Validation
 
 Confirm that federated series match edge aggregates (on federated Prometheus, after relabel):
 
@@ -457,7 +355,7 @@ count({__name__="workload:istio_requests_total"})
 The `workload:*` count should be substantially lower when workloads have been associated with multiple pods (replicas or restarts).
 
 
-### Option 2: Metric Thinning
+## Option 2: Metric Thinning
 
 If the Federation option is not possible and you are limited to a single TSDB instance, this may be helpful.
 
@@ -480,7 +378,7 @@ The `metric_relabel_configs:` attribute should be added under each job name defi
 Applying this configuration should reduce the number of stored metrics by about 20%, as well as reducing the number of attributes stored on many remaining metrics.
 
 
-### Metric Thinning with Disabled Features
+## Metric Thinning with Disabled Features
 
 The section above drops metrics unused by Kiali. As such, making those configuration changes should not negatively impact Kiali behavior in any way. But some very heavy metrics remain. These metrics can also be dropped, but their removal will impact the behavior of Kiali.  This may be OK if you don't use the affected features of Kiali, or if you are willing to sacrifice the feature for the associated metric savings. In particular, these are "Histogram" metrics.  Istio is planning to make some improvements to help users better configure these metrics, but as of this writing they are still defined with fairly inefficient default "buckets", making the number of associated time-series quite large, and the overhead of maintaining and querying the metrics, intensive.  Each histogram actually is comprised of 3 stored metrics.  For example, a histogram named `xxx` would result in the following metrics stored into Prometheus:
 
@@ -500,21 +398,21 @@ When considering whether to thin the Histogram metrics, one of the following thr
 
 These are the relevant Histogram metrics:
 
-#### istio_request_bytes
+### istio_request_bytes
 
 This metric is used to produce the `Request Size` chart on the metric tabs.  It also supports `Request Throughput` edge labels on the graph.
 
 - Appending `|istio_request_bytes_.*` to the `drop` regex above would drop all associated metrics and would prevent any request size/throughput reporting in Kiali.
 - Appending `|istio_request_bytes_bucket` to the `drop` regex above, would prevent any request size percentile reporting in the Kiali metric charts.
 
-#### istio_response_bytes
+### istio_response_bytes
 
 This metric is used to produce the `Response Size` chart on the metric tabs.  And also supports `Response Throughput` edge labels on the graph
 
 - Appending `|istio_response_bytes_.*` to the `drop` regex above would drop all associated metrics and would prevent any response size/throughput reporting in Kiali.
 - Appending `|istio_response_bytes_bucket` to the `drop` regex above would prevent any response size percentile reporting in the Kiali metric charts.
 
-#### istio_request_duration_milliseconds
+### istio_request_duration_milliseconds
 
 This metric is used to produce the `Request Duration` chart on the metric tabs.  It also supports `Response Time` edge labels on the graph.
 
@@ -522,7 +420,7 @@ This metric is used to produce the `Request Duration` chart on the metric tabs. 
 - Appending `|istio_request_duration_milliseconds_bucket` to the `drop` regex above would prevent any request duration/response time percentile reporting in the Kiali metric charts or graph edge labels.
 
 
-### Scrape Interval
+## Scrape Interval
 
 The Prometheus `globalScrapeInterval` is an important configuration option[^2]. The scrape interval can have a significant effect on metrics collection overhead as it takes effort to pull all of those configured metrics and update the relevant time-series. And although it doesn't affect time-series cardinality, it does affect storage for the data-points, as well as having impact when computing query results (the more data-points, the more processing and aggregation).
 
@@ -541,58 +439,10 @@ Kiali does a lot of aggregation and querying over time periods. As such, the num
 For more information, see the [Prometheus documentation](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#configuration).
 
 
-### TSDB retention time
+## TSDB retention time
 
 The Prometheus `tsdbRetentionTime` is an important configuration option. It has a significant effect on metrics storage, as Prometheus will keep each reported data-point for that period of time, performing compaction as needed. The larger the retention time, the larger the required storage.  Note also that Kiali queries against large time periods, and very large data-sets, may result in poor performance or timeouts.
 
 The recommendation for Kiali is to set the shortest retention time that meets your needs and/or operational limits.  In some cases users may want to offload older data to a secondary store.  Kiali will [eliminate invalid Duration options]({{< ref "/docs/faq/graph#scrapeduration" >}}) given the tsdbRetentionTime.
 
 For more information, see the [Prometheus documentation](https://prometheus.io/docs/prometheus/latest/storage/#operational-aspects).
-
-### Prometheus authentication configuration
-
-The Kiali CR provides authentication configuration that will be used also for querying the version check to provide information in the Mesh graph.
-
-```yaml
-spec:
-  external_services:
-    prometheus:
-      auth:
-        insecure_skip_verify: false
-        password: "pwd"
-        token: ""
-        type: "basic"
-        use_kiali_token: false
-        username: "user"
-      health_check_url: ""
-```
-
-To configure a secret to be used as a password, see this [FAQ entry]({{< relref "../../FAQ/installation#how-can-i-use-a-secret-to-pass-external-service-credentials-to-the-kiali-server" >}}).
-
-To authenticate using OAuth2 `client_credentials` flow (for example, Azure Monitor Managed Prometheus or any OAuth2-protected endpoint), set `type: "oauth2"` and provide the `oauth2` block:
-
-```yaml
-spec:
-  external_services:
-    prometheus:
-      auth:
-        type: "oauth2"
-        oauth2:
-          client_id: "my-client-id"
-          client_secret: "secret:my-oauth2-secret:client_secret"
-          token_url: "https://login.microsoftonline.com/<tenant>/oauth2/v2.0/token"
-          scopes:
-          - "https://prometheus.monitor.azure.com/.default"
-          audience: ""          # optional: some providers require this
-          auth_style: "header"  # "header" (default) or "params"
-```
-
-The `client_secret` field supports the `secret:<secretName>:<secretKey>` pattern for automatic secret mounting and rotation without pod restart. See the [FAQ entry]({{< relref "../../FAQ/installation#how-can-i-use-a-secret-to-pass-external-service-credentials-to-the-kiali-server" >}}) for details.
-
-{{% alert color="warning" %}}
-`insecure_skip_verify` applies only to the Prometheus connection, not to the OAuth2 token endpoint. The token endpoint always validates TLS certificates. To trust a private CA for the token endpoint, add the CA to the `kiali-cabundle` ConfigMap as described in the [TLS Configuration]({{< relref "./tls-configuration" >}}) page.
-{{% /alert %}}
-
-### TLS Certificate Configuration
-
-If your Prometheus server uses HTTPS with a certificate issued by a private CA, see the [TLS Configuration]({{< relref "./tls-configuration" >}}) page to learn how to configure Kiali to trust your CA.

@@ -2,7 +2,12 @@
 title: "Jaeger"
 description: >
   This page describes how to configure Jaeger for Kiali.
-weight: 1
+weight: 10
+aliases:
+  - /docs/configuration/p8s-jaeger-grafana/tracing/jaeger/
+  - /docs/configuration/tracing/
+  - /docs/configuration/tracing/jaeger/
+  - /docs/configuration/external-services/tracing-jaeger/
 ---
 
 ## Jaeger configuration

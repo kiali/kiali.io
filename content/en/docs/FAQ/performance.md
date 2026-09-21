@@ -9,7 +9,7 @@ It can be an observability challenge to work with a large mesh. Here are a few t
 
 #### Resources and Connectivity
 
-Before talking about Kiali features, it is important to understand that Kiali's performance is dependent on the performance and responsiveness of your metrics database (typically Prometheus), and your tracing store, for installations using tracing. For Prometheus scalability tips, see [Prometheus Tuning]({{< ref "/docs/Configuration/p8s-jaeger-grafana/prometheus#prometheus-tuning" >}}). See [Tempo Tuning]({{< ref "/docs/Configuration/p8s-jaeger-grafana/tracing/tempo#tempo-tuning" >}}) if using Tempo for your trace store.
+Before talking about Kiali features, it is important to understand that Kiali's performance is dependent on the performance and responsiveness of your metrics database (typically Prometheus), and your tracing store, for installations using tracing. For Prometheus scalability tips, see [Tuning]({{< ref "/docs/Configuration/external-services/metrics/tuning" >}}). See [Tempo Tuning]({{< ref "/docs/Configuration/external-services/tracing/tempo#tempo-tuning" >}}) if using Tempo for your trace store.
 
 Only when query performance for metrics and traces is good, can Kiali respond in a reasonable way. So, it is also important to provide sufficient connectivity for the API calls to return information in a timely way.
 

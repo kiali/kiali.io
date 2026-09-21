@@ -17,7 +17,7 @@ While on any Tracing page, error "Could not fetch traces" is displayed:
 
 ![Could not fetch traces](/images/documentation/faq/tracing/could-not-fetch-traces.png)
 
-Apparently, Kiali is unable to connect to Jaeger. Make sure [tracing is correctly configured in the Kiali CR]({{< relref "../Configuration/p8s-jaeger-grafana#jaeger-configuration" >}}).
+Apparently, Kiali is unable to connect to Jaeger. Make sure [tracing is correctly configured in the Kiali CR]({{< relref "../Configuration/external-services/tracing/jaeger#jaeger-configuration" >}}).
 
 ```yaml
       tracing:
@@ -189,7 +189,7 @@ tracing:
   namespace_selector: false
 ```
 
-For further Tempo configuration options, take a look at the [Tempo configuration page]({{< ref "/docs/configuration/p8s-jaeger-grafana/tracing/tempo" >}})
+For further Tempo configuration options, take a look at the [Tempo configuration page]({{< ref "/docs/configuration/external-services/tracing/tempo" >}})
 
 ### How do I modify the trace limit?
 
