@@ -13,7 +13,8 @@ main() {
   while IFS= read -r line; do
   if [[ "$line" =~ .*"$SUB".* ]]; then
     SUBSTR=$(echo "$line" | sed 's,content/en/docs/,,g' | tr '[:upper:]' '[:lower:]')
-    URL=$(echo ",/.*${SUBSTR%.*}.*/" | sed 's, ,-,g')
+    # (?i) for case-insensitive match: Hugo paths use Configuration but URLs are lowercased above.
+    URL=$(echo ",/(?i).*${SUBSTR%.*}.*/" | sed 's, ,-,g')
     EXCLUDE_URLS="$EXCLUDE_URLS$URL"
   fi;
   done <<< "$(git diff --name-only --diff-filter=ACR $BRANCH)"
