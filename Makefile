@@ -50,42 +50,9 @@ serve: build-hugo
 
 .PHONY: generate_metrics_json
 generate_metrics_json:
-	python scripts/api_gh/pull_api_data.py	
-# Ignore hash anchors (#) that go nowhere.
-# Ignore some links to Kiali repositories. These are ignored because there are lots of links
-# to Kiali repositories and, because of that, the checker reaches the max GitHub request limit and
-# we get throttled which results in errors because of 429 HTTP error codes.
-# So, we ignore some URLs that are probably safe to ignore:
-# 1. URLs to specific pulls; i.e. of the form https://github.com/kiali/kiali/pull/1234
-# 2. URLs to specific issues; i.e. of the form https://github.com/kiali/kiali/issues/1234
-# 3. URLs to a folder in repository in a branch; i.e. of the form https://github.com/kiali/kiali/tree/v1.24/whatever
-#   - We only ignore links to branches, because it's so-so stable. Master branch
-#     is unsafe because files are moved, renamed, etc.
-# 4. URLs to a folder in repository in a branch; i.e. of the form https://github.com/kiali/kiali/blob/v1.24/whatever
-#   - Same reasoning as previous point.
-# 5. URLs to kiali.io and kiali to edit doc files or create new doc files or create new issues
-# 6. URLs to kiali.io commits
-# 7. URLs in examples
-# 8. Internal Kubernetes cluster URLs (*.svc.cluster.local) used in examples
-URL_IGNORE=\#$\
-          ,/^https:\/\/github.com\/kiali\/kiali\/pull\/\d+/$\
-          ,/^https:\/\/github.com\/kiali\/kiali\/issues\/\d+/$\
-          ,/^https:\/\/github.com\/kiali\/kiali\/issues\/new/$\
-          ,/^https:\/\/github.com\/kiali\/kiali\/tree\/v\d+\.\d+(\.\d+)?\//$\
-          ,/^https:\/\/github.com\/kiali\/kiali\/blob\/v\d+\.\d+(\.\d+)?\//$\
-          ,/^https:\/\/github.com\/kiali\/kiali\.io\/edit\//$\
-          ,/^https:\/\/github.com\/kiali\/kiali\.io\/new\//$\
-          ,/^https:\/\/github.com\/kiali\/kiali\.io\/commit\//$\
-          ,/^https:\/\/github.com\/kiali\/kiali\.io\/issues\/new/$\
-          ,/.*web.libera.chat.*/$\
-          ,/^http:\/\/tracing\.istio-system.*/$\
-          ,/.*tracing-service.*/$\
-          ,/.*\.svc\.cluster\.local.*/
-
-NEW_URLS=$(shell scripts/ignore_new_urls.sh 2> /dev/null)
-URL_IGNORE:=$(URL_IGNORE)$(NEW_URLS)
+	python scripts/api_gh/pull_api_data.py
 
 ## validate-site: Builds the site and validates the pages. This is used for CI
 .PHONY: validate-site
 validate-site: build-hugo
-	${DORP} run -t -i --rm -v "$(shell pwd)":/site:z -w /site ${KIALI_HUGO_IMAGE} /bin/bash -c "${DOCSY_BUILD} && npm prune && npm config set fetch-retry-mintimeout 20000 && npm config set fetch-retry-maxtimeout 120000 && hugo && htmlproofer --typhoeus '{\"connecttimeout\":120, \"timeout\":120, \"headers\":{\"User-Agent\":\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36\"}}' --hydra='{\"max_concurrency\":2}' --allow-hash-href --allow-missing-href --ignore-empty-alt --ignore-missing-alt --no-check-external-hash --no-check-internal-hash --no-enforce-https --ignore_status_codes "0,301,302,403,429,503,999" --ignore-urls \"${URL_IGNORE}\" ./public"
+	${DORP} run -t -i --rm -v "$(shell pwd)":/site:z -w /site ${KIALI_HUGO_IMAGE} /site/scripts/validate-site.sh

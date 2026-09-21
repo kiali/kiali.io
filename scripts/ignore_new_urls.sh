@@ -12,9 +12,7 @@ main() {
 
   while IFS= read -r line; do
   if [[ "$line" =~ .*"$SUB".* ]]; then
-    SUBSTR=$(echo $line | sed 's,content/en/docs/,,g')
-    PATTERN=$(echo "${SUBSTR%.*}")
-    # Preserve original case to match GitHub URLs exactly (don't lowercase)
+    SUBSTR=$(echo "$line" | sed 's,content/en/docs/,,g' | tr '[:upper:]' '[:lower:]')
     URL=$(echo ",/.*${SUBSTR%.*}.*/" | sed 's, ,-,g')
     EXCLUDE_URLS="$EXCLUDE_URLS$URL"
   fi;
