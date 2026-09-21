@@ -278,7 +278,7 @@ The hub-level custom allowlist used by the legacy ACM collector is still a valid
 
 ### 5. Aggregate and federate Istio metrics
 
-Use UWM as the **Edge Prometheus** described in [Recording Rules and Federation]({{< relref "../p8s-jaeger-grafana/prometheus" >}}#option-1-recording-rules-and-federation-recommended). MCOA's Prometheus Agent is the federation and remote-write layer, and ACM Observatorium/Thanos is the long-retention federated backend that Kiali queries.
+Use UWM as the **Edge Prometheus** described in [Recording Rules and Federation]({{< relref "../external-services/prometheus" >}}#option-1-recording-rules-and-federation-recommended). MCOA's Prometheus Agent is the federation and remote-write layer, and ACM Observatorium/Thanos is the long-retention federated backend that Kiali queries.
 
 Create the following resources on the hub in namespace `open-cluster-management-observability`: one `PrometheusRule` targeting the dedicated `mesh-observability` namespace, one shared user-workload `ScrapeConfig`, and one cluster-wide platform `ScrapeConfig` for container CPU and memory. Application namespaces still need their `ServiceMonitor`/`PodMonitor` resources, but they are not MCOA rule targets.
 
@@ -299,7 +299,7 @@ data:
 Create one `PrometheusRule` named `kiali-istio-aggregation`. Its annotation tells MCOA to propagate it into `mesh-observability`; the label selects UWM Prometheus, rather than Thanos Ruler, to evaluate the rule on each managed cluster.
 
 {{% alert color="info" %}}
-In the below `PrometheusRule` rules, only the "core tier" metrics are listed. If you want the "dashboard tier" or the "kiali tier" metrics, too, simply add them to the list (see [Recording Rules and Federation]({{< relref "../p8s-jaeger-grafana/prometheus" >}}#option-1-recording-rules-and-federation-recommended) for the full list of metrics for all tiers).
+In the below `PrometheusRule` rules, only the "core tier" metrics are listed. If you want the "dashboard tier" or the "kiali tier" metrics, too, simply add them to the list (see [Recording Rules and Federation]({{< relref "../external-services/prometheus" >}}#option-1-recording-rules-and-federation-recommended) for the full list of metrics for all tiers).
 {{% /alert %}}
 
 ```yaml
@@ -356,7 +356,7 @@ Next, create this UWM `ScrapeConfig`. It federates the aggregated traffic metric
 In effect, these are the metrics that will be stored in the federated Prometheus (i.e. the hub Thanos) that Kiali will see.
 
 {{% alert color="info" %}}
-In the below `ScrapeConfig` match list, only the "core tier" metrics are listed. If you want the "dashboard tier" or the "kiali tier" metrics, too, simply add them to the list (see [Recording Rules and Federation]({{< relref "../p8s-jaeger-grafana/prometheus" >}}#option-1-recording-rules-and-federation-recommended) for the full list of metrics for all tiers).
+In the below `ScrapeConfig` match list, only the "core tier" metrics are listed. If you want the "dashboard tier" or the "kiali tier" metrics, too, simply add them to the list (see [Recording Rules and Federation]({{< relref "../external-services/prometheus" >}}#option-1-recording-rules-and-federation-recommended) for the full list of metrics for all tiers).
 {{% /alert %}}
 
 ```yaml
