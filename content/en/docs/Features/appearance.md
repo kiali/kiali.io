@@ -32,7 +32,7 @@ Choose the visual contrast style applied to the interface:
 | **Glass** | PatternFly glass contrast mode with translucent surfaces and opaque control fills for buttons and toggles. |
 | **High contrast** | PatternFly high-contrast mode for stronger visual separation. |
 
-Glass and high contrast modes are not applied together. When the OS requests both, Kiali applies high contrast.
+When **System** is selected, Kiali updates automatically if you change the OS contrast preference while the console is open. If the OS requests increased contrast, Kiali applies high contrast; otherwise it uses the default style. **Glass** is available only as an explicit choice and is not combined with high contrast.
 
 ## Theme
 
@@ -47,8 +47,6 @@ Theme is independent of color scheme and contrast mode. You can combine, for exa
 
 ## Standalone vs. OSSMC
 
-These appearance controls are available in the **standalone Kiali Console** only.
+The **Preferences** appearance controls described above apply only to the standalone Kiali Console.
 
-In the [OSSMC plugin]({{< relref "/docs/OSSMC" >}}), the **Preferences** modal does not expose appearance settings. OSSMC follows the OpenShift Console appearance, including color scheme, glass, felt, and high-contrast modes applied to the console `<html>` element.
-
-If you use both standalone Kiali and OSSMC, your standalone appearance choices are preserved in browser storage and are not overwritten when you visit OSSMC.
+In the [OSSMC plugin]({{< relref "/docs/OSSMC" >}}), appearance is handled by the **OpenShift Console**, not by Kiali. Use the console's appearance settings to change color scheme, contrast, glass, felt, and high-contrast modes; OSSMC inherits those styles from the console.
