@@ -13,7 +13,7 @@ For color scheme, contrast, and theme settings, see [Appearance]({{< relref "./a
 
 In the standalone Kiali Console, open **Preferences** from the user dropdown as described in [Appearance]({{< relref "./appearance" >}}), then choose a value in the **Language** dropdown.
 
-![Preferences language selector](/images/documentation/features/internationalization-preferences.png "Preferences language selector")
+![Preferences language selector](/images/documentation/features/internationalization/internationalization-preferences.png "Preferences language selector")
 
 The language selector is shown by default. Supported options are:
 
@@ -68,7 +68,7 @@ Supported language codes:
 
 As an example, this is how Kiali displays the Overview page in Spanish:
 
-![Overview page in Spanish](/images/documentation/features/internationalization-spanish.png "Overview page in Spanish")
+![Overview page in Spanish](/images/documentation/features/internationalization/internationalization-spanish.png "Overview page in Spanish")
 
 ### OSSMC Support
 
