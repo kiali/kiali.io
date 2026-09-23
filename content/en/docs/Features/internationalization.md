@@ -11,7 +11,7 @@ For color scheme, contrast, and theme settings, see [Appearance]({{< relref "./a
 
 ## Language preference
 
-In the standalone Kiali Console, change language from the user dropdown in the top-right corner. Select **Preferences**, then choose a value in the **Language** dropdown.
+In the standalone Kiali Console, open **Preferences** from the user dropdown as described in [Appearance]({{< relref "./appearance" >}}), then choose a value in the **Language** dropdown.
 
 ![Preferences language selector](/images/documentation/features/internationalization-preferences.png "Preferences language selector")
 

@@ -3,9 +3,17 @@ title: "Appearance"
 description: "How to customize color scheme, contrast, and theme in the standalone Kiali Console."
 ---
 
-The standalone Kiali Console lets you customize how the interface looks on your device. Open the user dropdown in the top-right corner and select **Preferences** to adjust color scheme, contrast mode, and theme. These choices are saved in your browser and persist across sessions.
+The standalone Kiali Console lets you customize how the interface looks on your device. These choices are saved in your browser and persist across sessions.
 
 For language settings, see [Internationalization]({{< relref "./internationalization" >}}).
+
+## Opening Preferences
+
+Open the user dropdown in the top-right corner and select **Preferences**.
+
+![User dropdown with Preferences menu item](/images/documentation/features/preferences-user-dropdown.png "User dropdown with Preferences menu item")
+
+In the **Preferences** modal, adjust color scheme, contrast mode, and theme:
 
 ![Preferences appearance settings](/images/documentation/features/appearance-preferences.png "Preferences appearance settings")
 
