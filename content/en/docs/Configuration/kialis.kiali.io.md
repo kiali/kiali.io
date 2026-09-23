@@ -584,7 +584,6 @@ spec:
           tcp: "sent"
       i18n:
         language: "en"
-        show_selector: false
       list:
         include_health: true
         include_istio_resources: true
@@ -4701,6 +4700,25 @@ Example,</p>
 
 <div class="property-description">
 <p>The lowest priority of messages to log. Must be one of: <code>trace</code>, <code>debug</code>, <code>info</code>, <code>warn</code>, <code>error</code>, or <code>fatal</code>.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.logger.log_prometheus_queries">.spec.deployment.logger.log_prometheus_queries</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>When true and log_level is trace, Kiali logs PromQL instant and range queries used to obtain metrics.</p>
 
 </div>
 
@@ -11339,7 +11357,7 @@ where LIST permission is granted broadly but GET is restricted per namespace.</p
 </div>
 
 <div class="property-description">
-<p>If true Kiali masthead displays language selector icon.</p>
+<p>DEPRECATED AFTER v2.27: Language selection is available in Preferences by default. If false, the language selector is hidden until this setting is removed in a future release.</p>
 
 </div>
 
