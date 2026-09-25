@@ -35,8 +35,12 @@ The [Multi-Primary Mesh]({{< relref "./ossm-acm-multi-primary" >}}) guide must b
 These variables extend the multi-primary environment. Re-export all variables from that guide first, then add:
 
 ```bash
-# Namespace where the TempoStack and MinIO are deployed
+# Namespace where the TempoStack and SeaweedFS are deployed
 export TEMPO_NAMESPACE="tempo"
+
+# Development credentials for the in-cluster SeaweedFS S3 endpoint
+export SEAWEEDFS_ACCESS_KEY="seaweedfs"
+export SEAWEEDFS_SECRET_KEY="seaweedfs123"
 
 # Name of the TempoStack CR — becomes part of service names
 # (e.g. tempo-${TEMPO_STACK_NAME}-gateway). Use one stack per independent
@@ -761,7 +765,7 @@ Due to a known Kiali bug ([kiali/kiali#10021](https://github.com/kiali/kiali/iss
 
 Tempo is a distributed tracing backend. The architecture deployed here:
 
-- A central **TempoStack** runs on `spoke`, backed by in-cluster MinIO
+- A central **TempoStack** runs on `spoke`, backed by in-cluster SeaweedFS
 - A **local OTEL collector** on `spoke` receives traces from `spoke`'s Istio proxies and forwards them to Tempo
 - A **remote OTEL collector** on `spoke` receives traces from `spoke-two`'s OTEL collector over a passthrough mTLS Route
 - A **remote forwarder** on `spoke-two` receives traces from `spoke-two`'s Istio proxies and forwards them to `spoke` via the mTLS Route
@@ -829,19 +833,19 @@ done
 echo "OTel CRD ready on spoke-two"
 ```
 
-### 2.2 Deploy MinIO and TempoStack on Spoke
+### 2.2 Deploy SeaweedFS and TempoStack on Spoke
 
-Deploy MinIO as an in-cluster object store for Tempo, then create the TempoStack. The stack runs in multi-tenant OpenShift mode with tenant `${TEMPO_TENANT}` for trace writes and reads.
+Deploy [SeaweedFS](https://github.com/seaweedfs/seaweedfs) `mini` mode as a single-pod S3-compatible object store for Tempo, then create the TempoStack. The stack runs in multi-tenant OpenShift mode with tenant `${TEMPO_TENANT}` for trace writes and reads.
 
 ```bash
 oc --context=ossm-kiali-spoke create namespace "${TEMPO_NAMESPACE}" 2>/dev/null || true
 
-# MinIO deployment and PVC
-oc --context=ossm-kiali-spoke apply -n "${TEMPO_NAMESPACE}" -f - <<'EOF'
+# SeaweedFS deployment and PVC
+oc --context=ossm-kiali-spoke apply -n "${TEMPO_NAMESPACE}" -f - <<EOF
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: minio-pv-claim
+  name: seaweedfs-pv-claim
 spec:
   accessModes:
   - ReadWriteOnce
@@ -852,81 +856,82 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: minio
+  name: seaweedfs
 spec:
   selector:
     matchLabels:
-      app: minio
+      app: seaweedfs
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: minio
+        app: seaweedfs
     spec:
       volumes:
       - name: storage
         persistentVolumeClaim:
-          claimName: minio-pv-claim
-      initContainers:
-      - name: create-buckets
-        image: mirror.gcr.io/library/busybox:1.28
-        command: ["sh", "-c", "mkdir -p /storage/tempo-data"]
-        volumeMounts:
-        - name: storage
-          mountPath: "/storage"
+          claimName: seaweedfs-pv-claim
       containers:
-      - name: minio
-        image: quay.io/minio/minio:latest
+      - name: seaweedfs
+        image: ghcr.io/chrislusf/seaweedfs:4.47
         args:
-        - server
-        - /storage
-        - --console-address
-        - ":9001"
+        - mini
+        - -dir=/data
+        - -admin.port=12646
+        - -master.telemetry=false
         env:
-        - name: MINIO_ROOT_USER
-          value: "minio"
-        - name: MINIO_ROOT_PASSWORD
-          value: "minio123"
+        - name: AWS_ACCESS_KEY_ID
+          value: "${SEAWEEDFS_ACCESS_KEY}"
+        - name: AWS_SECRET_ACCESS_KEY
+          value: "${SEAWEEDFS_SECRET_KEY}"
+        - name: S3_BUCKET
+          value: "tempo-data"
         ports:
-        - containerPort: 9000
-        - containerPort: 9001
+        - containerPort: 8333
+          name: s3
         volumeMounts:
         - name: storage
-          mountPath: "/storage"
+          mountPath: "/data"
+        readinessProbe:
+          tcpSocket:
+            port: 8333
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        livenessProbe:
+          tcpSocket:
+            port: 8333
+          initialDelaySeconds: 10
+          periodSeconds: 5
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: minio
+  name: seaweedfs
 spec:
   type: ClusterIP
   ports:
-  - port: 9000
-    targetPort: 9000
+  - port: 8333
+    targetPort: 8333
     protocol: TCP
-    name: api
-  - port: 9001
-    targetPort: 9001
-    protocol: TCP
-    name: console
+    name: s3
   selector:
-    app: minio
+    app: seaweedfs
 EOF
 
-oc --context=ossm-kiali-spoke rollout status deployment/minio \
+oc --context=ossm-kiali-spoke rollout status deployment/seaweedfs \
   -n "${TEMPO_NAMESPACE}" --timeout=120s
 ```
 
-Create the MinIO object storage secret and the TempoStack CR:
+Create the SeaweedFS object storage secret and the TempoStack CR:
 
 ```bash
-oc --context=ossm-kiali-spoke create secret generic tempostack-dev-minio \
+oc --context=ossm-kiali-spoke create secret generic tempostack-dev-seaweedfs \
   -n "${TEMPO_NAMESPACE}" \
   --from-literal=bucket="tempo-data" \
-  --from-literal=endpoint="http://minio.${TEMPO_NAMESPACE}.svc.cluster.local:9000" \
-  --from-literal=access_key_id="minio" \
-  --from-literal=access_key_secret="minio123" \
+  --from-literal=endpoint="http://seaweedfs.${TEMPO_NAMESPACE}.svc.cluster.local:8333" \
+  --from-literal=access_key_id="${SEAWEEDFS_ACCESS_KEY}" \
+  --from-literal=access_key_secret="${SEAWEEDFS_SECRET_KEY}" \
   --dry-run=client -o yaml | oc --context=ossm-kiali-spoke apply -f -
 
 oc --context=ossm-kiali-spoke apply -f - <<EOF
@@ -941,7 +946,7 @@ spec:
   storage:
     secret:
       type: s3
-      name: tempostack-dev-minio
+      name: tempostack-dev-seaweedfs
   tenants:
     mode: openshift
     authentication:
@@ -1689,12 +1694,12 @@ oc --context=ossm-kiali-spoke delete clusterrole \
   tempostack-traces-write \
   "tempostack-traces-reader-${TEMPO_TENANT}" --ignore-not-found
 
-# Remove TempoStack, MinIO, and namespace
+# Remove TempoStack, SeaweedFS, and namespace
 oc --context=ossm-kiali-spoke delete tempostack "${TEMPO_STACK_NAME}" \
   -n "${TEMPO_NAMESPACE}" --ignore-not-found
-oc --context=ossm-kiali-spoke delete deployment minio -n "${TEMPO_NAMESPACE}" --ignore-not-found
-oc --context=ossm-kiali-spoke delete pvc minio-pv-claim -n "${TEMPO_NAMESPACE}" --ignore-not-found
-oc --context=ossm-kiali-spoke delete secret tempostack-dev-minio \
+oc --context=ossm-kiali-spoke delete deployment seaweedfs -n "${TEMPO_NAMESPACE}" --ignore-not-found
+oc --context=ossm-kiali-spoke delete pvc seaweedfs-pv-claim -n "${TEMPO_NAMESPACE}" --ignore-not-found
+oc --context=ossm-kiali-spoke delete secret tempostack-dev-seaweedfs \
   -n "${TEMPO_NAMESPACE}" --ignore-not-found
 oc --context=ossm-kiali-spoke delete namespace "${TEMPO_NAMESPACE}" --ignore-not-found
 
