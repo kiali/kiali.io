@@ -57,10 +57,10 @@ export ISTIO_VERSION="1.30.1"
 # meshID - arbitrary identifier for this mesh
 export MESH_ID="mesh1"
 
-# MinIO credentials for in-cluster Thanos object storage (ACM Observability)
+# SeaweedFS S3 credentials for in-cluster Thanos object storage (ACM Observability)
 # These are only used inside the cluster — no external storage account is required
-export MINIO_ACCESS_KEY="minio"
-export MINIO_SECRET_KEY="minio123"
+export SEAWEEDFS_ACCESS_KEY="seaweedfs"
+export SEAWEEDFS_SECRET_KEY="seaweedfs123"
 ```
 
 Verify both kubeconfig contexts are reachable:
@@ -186,7 +186,7 @@ oc --context=ossm-kiali-hub get multiclusterhub multiclusterhub -n open-cluster-
 
 ACM Observability collects metrics from all managed clusters and stores them in Thanos on the hub. Kiali will query these aggregated metrics via the Observatorium API.
 
-ACM needs an S3-compatible object store as its Thanos backend. This guide deploys MinIO in-cluster so that no external storage account is required.
+ACM needs an S3-compatible object store as its Thanos backend. This guide deploys SeaweedFS in-cluster so that no external storage account is required.
 
 Create the observability namespace:
 
@@ -194,56 +194,54 @@ Create the observability namespace:
 oc --context=ossm-kiali-hub create namespace open-cluster-management-observability 2>/dev/null || true
 ```
 
-Deploy MinIO as a single-pod in-cluster object store:
+Deploy [SeaweedFS](https://github.com/seaweedfs/seaweedfs) as a single-pod in-cluster object store. Its `mini` mode runs the S3 gateway and storage services in one process and creates the `thanos` bucket at startup:
 
 ```bash
 oc --context=ossm-kiali-hub apply -f - <<EOF
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: minio
+  name: seaweedfs
   namespace: open-cluster-management-observability
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: minio
+      app: seaweedfs
   template:
     metadata:
       labels:
-        app: minio
+        app: seaweedfs
     spec:
       containers:
-      - name: minio
-        image: quay.io/minio/minio:latest
+      - name: seaweedfs
+        image: ghcr.io/chrislusf/seaweedfs:4.47
         args:
-        - server
-        - /data
-        - --console-address
-        - ":9001"
+        - mini
+        - -dir=/data
+        - -admin.port=12646
+        - -master.telemetry=false
         env:
-        - name: MINIO_ROOT_USER
-          value: "${MINIO_ACCESS_KEY}"
-        - name: MINIO_ROOT_PASSWORD
-          value: "${MINIO_SECRET_KEY}"
+        - name: AWS_ACCESS_KEY_ID
+          value: "${SEAWEEDFS_ACCESS_KEY}"
+        - name: AWS_SECRET_ACCESS_KEY
+          value: "${SEAWEEDFS_SECRET_KEY}"
+        - name: S3_BUCKET
+          value: thanos
         ports:
-        - containerPort: 9000
-          name: api
-        - containerPort: 9001
-          name: console
+        - containerPort: 8333
+          name: s3
         volumeMounts:
         - name: data
           mountPath: /data
         readinessProbe:
-          httpGet:
-            path: /minio/health/ready
-            port: 9000
+          tcpSocket:
+            port: 8333
           initialDelaySeconds: 10
           periodSeconds: 5
         livenessProbe:
-          httpGet:
-            path: /minio/health/live
-            port: 9000
+          tcpSocket:
+            port: 8333
           initialDelaySeconds: 10
           periodSeconds: 5
       volumes:
@@ -253,34 +251,27 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: minio
+  name: seaweedfs
   namespace: open-cluster-management-observability
 spec:
   ports:
-  - port: 9000
-    name: api
-    targetPort: 9000
-  - port: 9001
-    name: console
-    targetPort: 9001
+  - port: 8333
+    name: s3
+    targetPort: 8333
   selector:
-    app: minio
+    app: seaweedfs
 EOF
 ```
 
-Wait for MinIO to be ready, then create the Thanos bucket inside it:
+Wait for SeaweedFS and its pre-created Thanos bucket to be ready:
 
 ```bash
-oc --context=ossm-kiali-hub rollout status deployment/minio \
+oc --context=ossm-kiali-hub rollout status deployment/seaweedfs \
   -n open-cluster-management-observability \
   --timeout=120s
-
-MINIO_POD=$(oc --context=ossm-kiali-hub get pods -n open-cluster-management-observability \
-  -l app=minio -o jsonpath='{.items[0].metadata.name}')
-oc --context=ossm-kiali-hub exec -n open-cluster-management-observability "${MINIO_POD}" -- mkdir -p /data/thanos
 ```
 
-Create the Thanos object storage secret pointing at the in-cluster MinIO:
+Create the Thanos object storage secret pointing at the in-cluster SeaweedFS S3 endpoint:
 
 ```bash
 oc --context=ossm-kiali-hub apply -f - <<EOF
@@ -295,10 +286,10 @@ stringData:
     type: s3
     config:
       bucket: thanos
-      endpoint: minio.open-cluster-management-observability.svc:9000
+      endpoint: seaweedfs.open-cluster-management-observability.svc:8333
       insecure: true
-      access_key: ${MINIO_ACCESS_KEY}
-      secret_key: ${MINIO_SECRET_KEY}
+      access_key: ${SEAWEEDFS_ACCESS_KEY}
+      secret_key: ${SEAWEEDFS_SECRET_KEY}
 EOF
 ```
 
@@ -2214,13 +2205,13 @@ oc --context=ossm-kiali-hub delete scrapeconfig kiali-istio-federation \
   -n open-cluster-management-observability --ignore-not-found
 ```
 
-**Step 3 — Remove ACM Observability from the hub.** Delete the MCO first and wait for it to be gone before removing MinIO:
+**Step 3 — Remove ACM Observability from the hub.** Delete the MCO first and wait for it to be gone before removing SeaweedFS:
 
 ```bash
 oc --context=ossm-kiali-hub delete mco observability --ignore-not-found
 oc --context=ossm-kiali-hub wait mco observability --for=delete --timeout=120s 2>/dev/null || true
-oc --context=ossm-kiali-hub delete deployment minio -n open-cluster-management-observability --ignore-not-found
-oc --context=ossm-kiali-hub delete service minio -n open-cluster-management-observability --ignore-not-found
+oc --context=ossm-kiali-hub delete deployment seaweedfs -n open-cluster-management-observability --ignore-not-found
+oc --context=ossm-kiali-hub delete service seaweedfs -n open-cluster-management-observability --ignore-not-found
 oc --context=ossm-kiali-hub delete secret thanos-object-storage -n open-cluster-management-observability --ignore-not-found
 oc --context=ossm-kiali-hub delete namespace open-cluster-management-observability --ignore-not-found
 ```

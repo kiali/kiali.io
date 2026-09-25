@@ -719,8 +719,8 @@ SPOKE_CLUSTER_NAME="spoke"
 SPOKE_TWO_CLUSTER_NAME="spoke-two"
 ISTIO_VERSION="${ISTIO_VERSION:-1.30.1}"
 MESH_ID="mesh1"
-MINIO_ACCESS_KEY="minio"
-MINIO_SECRET_KEY="minio123"
+SEAWEEDFS_ACCESS_KEY="seaweedfs"
+SEAWEEDFS_SECRET_KEY="seaweedfs123"
 SPOKE_NETWORK="network1"
 SPOKE_TWO_NETWORK="network2"
 TEMPO_NAMESPACE="tempo"
@@ -804,49 +804,47 @@ EOF
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: minio
+  name: seaweedfs
   namespace: open-cluster-management-observability
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: minio
+      app: seaweedfs
   template:
     metadata:
       labels:
-        app: minio
+        app: seaweedfs
     spec:
       containers:
-      - name: minio
-        image: quay.io/minio/minio:latest
+      - name: seaweedfs
+        image: ghcr.io/chrislusf/seaweedfs:4.47
         args:
-        - server
-        - /data
-        - --console-address
-        - ":9001"
+        - mini
+        - -dir=/data
+        - -admin.port=12646
+        - -master.telemetry=false
         env:
-        - name: MINIO_ROOT_USER
-          value: "${MINIO_ACCESS_KEY}"
-        - name: MINIO_ROOT_PASSWORD
-          value: "${MINIO_SECRET_KEY}"
+        - name: AWS_ACCESS_KEY_ID
+          value: "${SEAWEEDFS_ACCESS_KEY}"
+        - name: AWS_SECRET_ACCESS_KEY
+          value: "${SEAWEEDFS_SECRET_KEY}"
+        - name: S3_BUCKET
+          value: thanos
         ports:
-        - containerPort: 9000
-          name: api
-        - containerPort: 9001
-          name: console
+        - containerPort: 8333
+          name: s3
         volumeMounts:
         - name: data
           mountPath: /data
         readinessProbe:
-          httpGet:
-            path: /minio/health/ready
-            port: 9000
+          tcpSocket:
+            port: 8333
           initialDelaySeconds: 10
           periodSeconds: 5
         livenessProbe:
-          httpGet:
-            path: /minio/health/live
-            port: 9000
+          tcpSocket:
+            port: 8333
           initialDelaySeconds: 10
           periodSeconds: 5
       volumes:
@@ -856,27 +854,19 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: minio
+  name: seaweedfs
   namespace: open-cluster-management-observability
 spec:
   ports:
-  - port: 9000
-    name: api
-    targetPort: 9000
-  - port: 9001
-    name: console
-    targetPort: 9001
+  - port: 8333
+    name: s3
+    targetPort: 8333
   selector:
-    app: minio
+    app: seaweedfs
 EOF
 
-  wait_for "MinIO ready" "${TIMEOUT}" \
-    "oc --context=${HUB_CTX} rollout status deployment/minio -n open-cluster-management-observability --timeout=10s"
-
-  local MINIO_POD
-  MINIO_POD=$(oc --context="${HUB_CTX}" get pods -n open-cluster-management-observability \
-    -l app=minio -o jsonpath='{.items[0].metadata.name}')
-  oc --context="${HUB_CTX}" exec -n open-cluster-management-observability "${MINIO_POD}" -- mkdir -p /data/thanos
+  wait_for "SeaweedFS ready" "${TIMEOUT}" \
+    "oc --context=${HUB_CTX} rollout status deployment/seaweedfs -n open-cluster-management-observability --timeout=10s"
 
   oc --context="${HUB_CTX}" apply -f - <<EOF
 apiVersion: v1
@@ -890,10 +880,10 @@ stringData:
     type: s3
     config:
       bucket: thanos
-      endpoint: minio.open-cluster-management-observability.svc:9000
+      endpoint: seaweedfs.open-cluster-management-observability.svc:8333
       insecure: true
-      access_key: ${MINIO_ACCESS_KEY}
-      secret_key: ${MINIO_SECRET_KEY}
+      access_key: ${SEAWEEDFS_ACCESS_KEY}
+      secret_key: ${SEAWEEDFS_SECRET_KEY}
 EOF
 
   oc --context="${HUB_CTX}" apply -f - <<'EOF'
@@ -3019,14 +3009,14 @@ EOF
   wait_for "OTel CRD on spoke-two" "${TIMEOUT}" \
     "oc --context=${SPOKE_TWO_CTX} get crd opentelemetrycollectors.opentelemetry.io"
 
-  # Deploy MinIO and TempoStack
+  # Deploy SeaweedFS and TempoStack
   oc --context="${SPOKE_CTX}" create namespace "${TEMPO_NAMESPACE}" 2>/dev/null || true
 
-  oc --context="${SPOKE_CTX}" apply -n "${TEMPO_NAMESPACE}" -f - <<'EOF'
+  oc --context="${SPOKE_CTX}" apply -n "${TEMPO_NAMESPACE}" -f - <<EOF
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: minio-pv-claim
+  name: seaweedfs-pv-claim
 spec:
   accessModes:
   - ReadWriteOnce
@@ -3037,77 +3027,78 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: minio
+  name: seaweedfs
 spec:
   selector:
     matchLabels:
-      app: minio
+      app: seaweedfs
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: minio
+        app: seaweedfs
     spec:
       volumes:
       - name: storage
         persistentVolumeClaim:
-          claimName: minio-pv-claim
-      initContainers:
-      - name: create-buckets
-        image: mirror.gcr.io/library/busybox:1.28
-        command: ["sh", "-c", "mkdir -p /storage/tempo-data"]
-        volumeMounts:
-        - name: storage
-          mountPath: "/storage"
+          claimName: seaweedfs-pv-claim
       containers:
-      - name: minio
-        image: quay.io/minio/minio:latest
+      - name: seaweedfs
+        image: ghcr.io/chrislusf/seaweedfs:4.47
         args:
-        - server
-        - /storage
-        - --console-address
-        - ":9001"
+        - mini
+        - -dir=/data
+        - -admin.port=12646
+        - -master.telemetry=false
         env:
-        - name: MINIO_ROOT_USER
-          value: "minio"
-        - name: MINIO_ROOT_PASSWORD
-          value: "minio123"
+        - name: AWS_ACCESS_KEY_ID
+          value: "${SEAWEEDFS_ACCESS_KEY}"
+        - name: AWS_SECRET_ACCESS_KEY
+          value: "${SEAWEEDFS_SECRET_KEY}"
+        - name: S3_BUCKET
+          value: "tempo-data"
         ports:
-        - containerPort: 9000
-        - containerPort: 9001
+        - containerPort: 8333
+          name: s3
         volumeMounts:
         - name: storage
-          mountPath: "/storage"
+          mountPath: "/data"
+        readinessProbe:
+          tcpSocket:
+            port: 8333
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        livenessProbe:
+          tcpSocket:
+            port: 8333
+          initialDelaySeconds: 10
+          periodSeconds: 5
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: minio
+  name: seaweedfs
 spec:
   type: ClusterIP
   ports:
-  - port: 9000
-    targetPort: 9000
+  - port: 8333
+    targetPort: 8333
     protocol: TCP
-    name: api
-  - port: 9001
-    targetPort: 9001
-    protocol: TCP
-    name: console
+    name: s3
   selector:
-    app: minio
+    app: seaweedfs
 EOF
 
-  wait_for "Tempo MinIO ready" "${TIMEOUT}" \
-    "oc --context=${SPOKE_CTX} rollout status deployment/minio -n ${TEMPO_NAMESPACE} --timeout=10s"
+  wait_for "Tempo SeaweedFS ready" "${TIMEOUT}" \
+    "oc --context=${SPOKE_CTX} rollout status deployment/seaweedfs -n ${TEMPO_NAMESPACE} --timeout=10s"
 
-  oc --context="${SPOKE_CTX}" create secret generic tempostack-dev-minio \
+  oc --context="${SPOKE_CTX}" create secret generic tempostack-dev-seaweedfs \
     -n "${TEMPO_NAMESPACE}" \
     --from-literal=bucket="tempo-data" \
-    --from-literal=endpoint="http://minio.${TEMPO_NAMESPACE}.svc.cluster.local:9000" \
-    --from-literal=access_key_id="minio" \
-    --from-literal=access_key_secret="minio123" \
+    --from-literal=endpoint="http://seaweedfs.${TEMPO_NAMESPACE}.svc.cluster.local:8333" \
+    --from-literal=access_key_id="${SEAWEEDFS_ACCESS_KEY}" \
+    --from-literal=access_key_secret="${SEAWEEDFS_SECRET_KEY}" \
     --dry-run=client -o yaml | oc --context="${SPOKE_CTX}" apply -f -
 
   oc --context="${SPOKE_CTX}" apply -f - <<EOF
@@ -3122,7 +3113,7 @@ spec:
   storage:
     secret:
       type: s3
-      name: tempostack-dev-minio
+      name: tempostack-dev-seaweedfs
   tenants:
     mode: openshift
     authentication:
@@ -4092,9 +4083,9 @@ cleanup_guide3() {
   # Remove TempoStack
   oc --context="${SPOKE_CTX}" delete tempostack "${TEMPO_STACK_NAME}" -n "${TEMPO_NAMESPACE}" --ignore-not-found
   oc --context="${SPOKE_CTX}" wait "tempostack/${TEMPO_STACK_NAME}" -n "${TEMPO_NAMESPACE}" --for=delete --timeout=120s 2>/dev/null || true
-  oc --context="${SPOKE_CTX}" delete deployment minio -n "${TEMPO_NAMESPACE}" --ignore-not-found
-  oc --context="${SPOKE_CTX}" delete pvc minio-pv-claim -n "${TEMPO_NAMESPACE}" --ignore-not-found
-  oc --context="${SPOKE_CTX}" delete secret tempostack-dev-minio -n "${TEMPO_NAMESPACE}" --ignore-not-found
+  oc --context="${SPOKE_CTX}" delete deployment seaweedfs -n "${TEMPO_NAMESPACE}" --ignore-not-found
+  oc --context="${SPOKE_CTX}" delete pvc seaweedfs-pv-claim -n "${TEMPO_NAMESPACE}" --ignore-not-found
+  oc --context="${SPOKE_CTX}" delete secret tempostack-dev-seaweedfs -n "${TEMPO_NAMESPACE}" --ignore-not-found
   oc --context="${SPOKE_CTX}" delete namespace "${TEMPO_NAMESPACE}" --ignore-not-found
 
   # Remove operators (all CRs above must be gone before this point)
@@ -4334,8 +4325,8 @@ cleanup_guide1() {
   # Step 3 — Remove ACM Observability from hub
   oc --context="${HUB_CTX}" delete mco observability --ignore-not-found
   oc --context="${HUB_CTX}" wait mco observability --for=delete --timeout=120s 2>/dev/null || true
-  oc --context="${HUB_CTX}" delete deployment minio -n open-cluster-management-observability --ignore-not-found
-  oc --context="${HUB_CTX}" delete service minio -n open-cluster-management-observability --ignore-not-found
+  oc --context="${HUB_CTX}" delete deployment seaweedfs -n open-cluster-management-observability --ignore-not-found
+  oc --context="${HUB_CTX}" delete service seaweedfs -n open-cluster-management-observability --ignore-not-found
   oc --context="${HUB_CTX}" delete secret thanos-object-storage -n open-cluster-management-observability --ignore-not-found
   oc --context="${HUB_CTX}" delete namespace open-cluster-management-observability --ignore-not-found
 
