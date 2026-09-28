@@ -1,21 +1,35 @@
 ---
 title: "Internationalization"
-description: "How Kiali is displayed in mutliple languages."
+description: "How Kiali is displayed in multiple languages."
 ---
 
 Kiali is used worldwide and some users prefer to display Kiali in a language that they are more comfortable with than English. For this reason Kiali supports internationalization, and it can be localized into multiple languages.
 
-Current supported languages are English, Chinese and Spanish.
+Current supported languages are English, Chinese, Korean, and Spanish.
 
-## Language Selector
+For color scheme, contrast, and theme settings, see [Appearance]({{< relref "./appearance" >}}).
 
-Kiali provides a language selector in the Masthead to be able to switch Kiali between supported languages:
+## Language preference
 
-![Masthead language selector](/images/documentation/features/internationalization-masthead.png "Masthead language selector")
+In the standalone Kiali Console, open **Preferences** from the user dropdown as described in [Appearance]({{< relref "./appearance" >}}), then choose a value in the **Language** dropdown.
 
-By default the language selector is hidden, and English is the default language.
+![Preferences language selector](/images/documentation/features/internationalization/internationalization-preferences.png "Preferences language selector")
 
-In order to show the language selector a feature flag must be enabled in the Kiali CR:
+The language selector is shown by default. Supported options are:
+
+| Option | Behavior |
+|--------|----------|
+| **System** | Matches your operating system or browser locale. Kiali resolves the locale using `Intl` and `navigator.languages`, then picks the best supported language. |
+| **English** | Display the interface in English. |
+| **Español** | Display the interface in Spanish. |
+| **中文** | Display the interface in Chinese. |
+| **한국어** | Display the interface in Korean. |
+
+When **System** is selected, Kiali updates automatically if the browser language changes while the console is open. Your choice is saved in the browser and persists across sessions.
+
+### Operator configuration
+
+Cluster administrators can influence the default language behavior through the Kiali CR:
 
 ```yaml
 spec:
@@ -23,22 +37,38 @@ spec:
     ui_defaults:
       i18n:
         language: en
-        show_selector: true
 ```
 
-You can also modify the default language shown in Kiali (values according to ISO 639-1 codes):
+Set `language` to a supported ISO 639-1 code (`en`, `es`, `zh`, or `ko`) to use that language as the server fallback when **System** cannot resolve a supported locale. If `language` is not set, new users default to **System**.
+
+To hide the language selector, set `show_selector` to `false`:
+
+```yaml
+spec:
+  kiali_feature_flags:
+    ui_defaults:
+      i18n:
+        show_selector: false
+```
+
+{{% alert color="warning" %}}
+The `show_selector` setting is deprecated. Language selection is available in **Preferences** by default. Setting `show_selector` to `false` hides the selector until the setting is removed in a future release.
+{{% /alert %}}
+
+Supported language codes:
 
 | <div style="width:100px">Language</div> | <div style="width:70px">Code</div> |
 |-----------------------------------------|------------------------------------|
 | Chinese                                 | zh                                 |
 | English                                 | en                                 |
+| Korean                                  | ko                                 |
 | Spanish                                 | es                                 |
 
 <br />
 
 As an example, this is how Kiali displays the Overview page in Spanish:
 
-![Overview page in Spanish](/images/documentation/features/internationalization-spanish.png "Overview page in Spanish")
+![Overview page in Spanish](/images/documentation/features/internationalization/internationalization-spanish.png "Overview page in Spanish")
 
 ### OSSMC Support
 
