@@ -7,7 +7,7 @@ weight: 1
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
 ## 2.33.0
-Sprint Release: October 02, 2026
+Release: October 05, 2026
 
 Features:
 
@@ -30,7 +30,7 @@ Fixes:
 * `spec.kiali_feature_flags.ui_defaults.i18n.show_selector`
 
 ## 2.32.0
-Sprint Release: September 14, 2026
+Release: September 14, 2026
 
 Features:
 
