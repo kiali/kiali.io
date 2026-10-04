@@ -6,8 +6,31 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 2.33.0
+Release: October 05, 2026
+
+Features:
+
+* [Config: Add an option to add labels only to the Kiali service (i.e. via a new parameter service_labels)](https://github.com/kiali/kiali/issues/9858)
+* [Config: Be able to log prometheus queries](https://github.com/kiali/kiali/issues/10317)
+* [OSSMC: Kiali connect and ACM Fleet view improvements](https://github.com/kiali/openshift-servicemesh-plugin/issues/841)
+* [UX: Add PF glass and high contrast contrast modes](https://github.com/kiali/kiali/issues/10267)
+* [UX: Move language selector into user Preferences modal](https://github.com/kiali/kiali/issues/10321)
+* [UX: Replace custom ListColumnManagementModal with PatternFly ColumnManagementModal](https://github.com/kiali/kiali/issues/10307)
+
+Fixes:
+
+* [AI: Corner case: Chopped output is finished in a next query](https://github.com/kiali/kiali/issues/9739)
+* [Metrics: Prom federation recording rules issue](https://github.com/kiali/kiali/issues/10315)
+* [Metrics: Ztunnel metrics dashboard fails with federated metrics and multi-cluster namespace access](https://github.com/kiali/kiali/issues/10325)
+* [Perses: Istio Perses Dashboards: align dashboard IDs with Kiali + fix Mesh table](https://github.com/kiali/kiali/issues/10309)
+
+**The following field is no longer used by the Kiali CR and will be ignored if currently set.**
+
+* `spec.kiali_feature_flags.ui_defaults.i18n.show_selector`
+
 ## 2.32.0
-Sprint Release: September 14, 2026
+Release: September 14, 2026
 
 Features:
 
