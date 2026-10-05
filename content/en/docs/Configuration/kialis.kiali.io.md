@@ -299,6 +299,9 @@ spec:
     # default: service_annotations is empty
     service_annotations:
       svcAnnotation: "svcAnnotationValue"
+    # default: service_labels is empty
+    service_labels:
+      svcLabel: "svcLabelValue"
     # default: service_type is undefined
     service_type: "NodePort"
     strategy: {}
@@ -4950,6 +4953,9 @@ An example use for this setting is to inject an Istio sidecar such as,</p>
 <pre><code>sidecar.istio.io/inject: &quot;true&quot;
 </code></pre>
 
+<p>Note that if you set a label key that conflicts with a standard Kiali label,
+your value will take precedence (user labels win on collision).</p>
+
 </div>
 
 </div>
@@ -5268,6 +5274,27 @@ If you do not set this at all, the default is,</p>
 
 <div class="property-description">
 <p>Custom annotations to be created on the Kiali Service resource.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.deployment.service_labels">.spec.deployment.service_labels</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>Custom labels to be created on the Kiali Service resource.
+Note that if you set a label key that conflicts with a standard Kiali label,
+your value will take precedence (user labels win on collision).</p>
 
 </div>
 
