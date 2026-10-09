@@ -390,7 +390,7 @@ spec:
     - '{__name__=~"istio_build|process_cpu_seconds_total|process_resident_memory_bytes"}'
     - '{__name__=~"pilot_info|pilot_proxy_convergence_time_(sum|count)|pilot_services|pilot_xds$|pilot_xds_pushes"}'
     - '{__name__=~"workload_manager_active_proxy_count"}'
-    - '{__name__=~"envoy_cluster_upstream_cx_active|envoy_cluster_upstream_rq_total|envoy_listener_downstream_cx_active|envoy_listener_http_downstream_rq|envoy_server_memory_allocated|envoy_server_memory_heap_size|envoy_server_uptime"}'
+    - '{__name__=~"envoy_cluster_manager_active_clusters|envoy_cluster_upstream_cx_active|envoy_cluster_upstream_rq_total|envoy_listener_downstream_cx_active|envoy_listener_http_downstream_rq|envoy_server_memory_allocated|envoy_server_memory_heap_size|envoy_server_uptime"}'
   scrapeInterval: 5m
 ```
 
