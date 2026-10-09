@@ -265,6 +265,7 @@ Envoy metrics:
 
 |Metric                                      |Notes|
 |--------------------------------------------|-----|
+|envoy_cluster_manager_active_clusters       |used in workload Envoy memory diagnostics|
 |envoy_cluster_upstream_cx_active            |used in workload details|
 |envoy_cluster_upstream_rq_total             |used in workload details|
 |envoy_listener_downstream_cx_active         |used in workload details|

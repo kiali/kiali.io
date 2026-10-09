@@ -78,15 +78,37 @@ Kiali comes with built-in dashboards for several runtimes, including Envoy, Go, 
 
 #### Envoy
 
-The most important built-in dashboard is for Envoy.  Kiali offers the _Envoy_ tab for many workloads.  The Envoy tab is actually a [Built-In Dashboard](#built-in-dash), but it is very common as it applies to any workload injected with, or that is itself, an Envoy proxy.  Being able to inspect the Envoy proxy is invaluable when troublshooting your mesh.  The Envoy tab itself offers five subtabs, exposing a wealth of information.
+The most important built-in dashboard is for Envoy.  Kiali offers the _Envoy_ tab for many workloads that run an Istio sidecar, waypoint, or gateway proxy.  The Envoy tab is actually a [Built-In Dashboard](#built-in-dash), but it is very common as it applies to any workload injected with, or that is itself, an Envoy proxy.  Being able to inspect the Envoy proxy is invaluable when troublshooting your mesh.  The Envoy tab itself offers five subtabs, exposing a wealth of information.
 
 ![Detail Envoy](/images/documentation/features/detail-envoy.png)
 
 Istio's Envoy sidecars supply [some internal metrics](https://www.envoyproxy.io/docs/envoy/latest/configuration/upstream/cluster_manager/cluster_stats), that can be viewed in Kiali. They are different than the metrics reported by Istio Telemetry, which Kiali uses extensively. Some of Envoy's metrics may be redundant.
 
-Note that the enabled Envoy metrics can be tuned, as explained in the [Istio documentation](https://istio.io/docs/ops/telemetry/envoy-stats/): it's possible to get more metrics using the `statsInclusionPrefixes` annotation. Make sure you include `cluster_manager` and `listener_manager` as they are required.
+Note that the enabled Envoy metrics can be tuned, as explained in the [Istio documentation](https://istio.io/docs/ops/telemetry/envoy-stats/): it's possible to get more metrics using the `statsInclusionPrefixes` annotation. Make sure you include `cluster_manager` and `listener_manager` as they are required for the built-in Envoy dashboard and for [Envoy memory diagnostics](#envoy-memory).
 
 For example, `sidecar.istio.io/statsInclusionPrefixes: cluster_manager,listener_manager,listener` will add `listener` metrics for more inbound traffic information. You can then customize the Envoy dashboard of Kiali according to the collected metrics.
+
+#### Envoy memory diagnostics {#envoy-memory}
+
+For workloads with an Envoy proxy, Kiali evaluates proxy memory and shows a compact **Envoy memory** status when the [required metrics]({{< ref "/docs/faq/general#requiredmetrics" >}}) are present in Prometheus. The status is meant to highlight sidecars, waypoints, or gateways that may be using more memory than expected and whether configuration size or traffic is the more likely driver.
+
+On the workload **Overview** tab, the status sits with the rest of the workload summary:
+
+![Envoy memory on workload Overview](/images/documentation/features/details/envoy_overview.png "Envoy memory summary on the workload Overview tab")
+
+On the overview tab, when Envoy is detected, the Envoy health indicator will be shown in the details card:
+
+![Envoy memory on workload Envoy tab](/images/documentation/features/details/envoy-details-overview.png "Envoy memory status and Envoy Memory dashboard on the workload Envoy tab")
+
+Kiali combines Prometheus Envoy stats with Istio telemetry (and config-dump cluster counts when the admin API is reachable) to show:
+
+- allocated memory, optional limit from the `sidecar.istio.io/proxyMemoryLimit` annotation, and active cluster count;
+- traffic signals (HTTP request rate or, for waypoints and some gateways, TCP byte rate);
+- a heuristic **cause** when memory is high: `configuration` (many active clusters), `traffic`, `ok`, or `unknown`.
+
+When the cause points to configuration, Kiali links to Istio [configuration scoping](https://istio.io/latest/docs/ops/configuration/mesh/configuration-scoping/), which can reduce proxy memory by limiting the config each Envoy receives.
+
+Thresholds differ by proxy role (sidecar, waypoint, gateway). If required metrics are missing from Prometheus, the Envoy Memory UI may be hidden or incomplete. See [required Envoy metrics]({{< ref "/docs/faq/general#requiredmetrics" >}}) and [metric tuning / federation]({{< ref "/docs/configuration/external-services/metrics/tuning" >}}) when you scrape or federate only a subset of Istio telemetry.
 
 
 #### Go

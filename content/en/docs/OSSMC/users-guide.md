@@ -150,7 +150,7 @@ If the plugin config needs to be adjusted, the following settings should be incl
 
 ### Workload: Envoy
 
-The **Envoy** sub-tab provides information about the Envoy sidecar configuration. This is useful when you need to dig down deep into the sidecar configuration when debugging things such as connectivity issues.
+The **Envoy** sub-tab provides information about the Envoy sidecar configuration. This is useful when you need to dig down deep into the sidecar configuration when debugging things such as connectivity issues. When metrics are available in Prometheus, Kiali can also show **Envoy memory** diagnostics (see [Detail Views — Envoy]({{< ref "/docs/features/details#envoy-memory" >}})).
 
 ![Workload: Envoy](/images/documentation/ossmc/19-workload-envoy.png)
 

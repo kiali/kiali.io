@@ -522,7 +522,8 @@ spec:
     - '{__name__=~"pilot_xds$"}'
     - '{__name__=~"pilot_xds_pushes"}'
     - '{__name__=~"workload_manager_active_proxy_count"}'
-    # Envoy workload details (all metrics used by Kiali Envoy tab)
+    # Envoy workload details (Envoy tab and Envoy memory diagnostics)
+    - '{__name__=~"envoy_cluster_manager_active_clusters"}'
     - '{__name__=~"envoy_cluster_upstream_cx_active"}'
     - '{__name__=~"envoy_cluster_upstream_rq_total"}'
     - '{__name__=~"envoy_listener_downstream_cx_active"}'
