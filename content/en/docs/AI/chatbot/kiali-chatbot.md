@@ -1,8 +1,10 @@
 ---
-title: "Kiali Chatbot"
+title: "Chatbot"
 description: >
   Query Kiali and your service mesh using an AI assistant.
 weight: 10
+aliases:
+  - /docs/ai/kiali-chatbot/
 ---
 
 Kiali Chatbot is Kiali’s built-in AI assistant in the Kiali UI. It lets you ask questions about your service mesh and get answers backed by live data from Kiali and its configured backends (Prometheus, tracing, Kubernetes, etc.).
@@ -27,6 +29,8 @@ At a high level:
 - The response is delivered as **streaming events** (for example: `start`, `token`, `tool_call`, `tool_result`, `end`, `error`) so the UI can progressively render tokens and tool activity in real time.
 
 For configuration keys (enable/disable, tool filters, providers/models, store), see the `ai.chat` section in the [Kiali CR spec](/docs/configuration/kialis.kiali.io/#.spec.ai.chat).
+
+To estimate ChatAI cost from token usage, **`ai.metrics` must be enabled**. You can then set a custom price catalog and optional per-user budgets. If you do not set `ai.consumption.prices_config_map`, Kiali uses the built-in catalog. See [Token prices]({{< relref "kiali-chatbot-prices" >}}) and [Budgets]({{< relref "kiali-chatbot-budgets" >}}).
 
 ![Kiali Chatbot architecture](/images/documentation/ai/kiali-chatbot-architecture.png)
 
@@ -236,5 +240,5 @@ The difference between the two modes depends a lot on the model used. In the cas
 
 ### Next step
 
-If you want to use an AI assistant outside the Kiali UI (for example, in an IDE), see [Kiali MCP]({{< relref "kiali-mcp" >}}).
+If you want to use an AI assistant outside the Kiali UI (for example, in an IDE), see [Kiali MCP]({{< relref "/docs/ai/kiali-mcp" >}}).
 

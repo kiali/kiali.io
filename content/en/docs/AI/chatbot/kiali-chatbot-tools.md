@@ -1,8 +1,10 @@
 ---
-title: "Kiali Chatbot tools (schemas)"
+title: "Tools (schemas)"
 description: >
   Input/output schemas for the built-in Kiali AI tools.
 weight: 15
+aliases:
+  - /docs/ai/kiali-chatbot-tools/
 ---
 
 Kiali Chatbot uses **internal MCP-style tools** (implemented inside Kiali) to fetch live data and perform safe actions. These are **not** external MCP server tools.
