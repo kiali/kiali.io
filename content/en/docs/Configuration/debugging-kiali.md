@@ -153,7 +153,7 @@ When Kiali's metrics endpoint is enabled, the Kiali pod includes standard `prome
 
 **For HTTP (no TLS configured):** If your Prometheus setup is configured to honor `prometheus.io/*` pod annotations (for example, the standard `kubernetes-pods` scrape job), it can scrape Kiali metrics without additional configuration. If you're using Prometheus Operator and do not have a pod-annotation scrape job, create a `PodMonitor` or `ServiceMonitor` instead.
 
-**For HTTPS (TLS configured):** When TLS is enabled, Prometheus needs additional configuration to properly scrape the metrics endpoint. This is particularly relevant on OpenShift where Kiali automatically uses [service-serving certificates](https://docs.openshift.com/container-platform/latest/security/certificates/service-serving-certificate.html).
+**For HTTPS (TLS configured):** When TLS is enabled, Prometheus needs additional configuration to properly scrape the metrics endpoint. This is particularly relevant on OpenShift where Kiali automatically uses [service-serving certificates](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/security_and_compliance/configuring-certificates#add-service-serving).
 
 The challenge is that service-serving certificates are valid for the **Service DNS name** (e.g., `kiali.istio-system.svc`), not for pod IP addresses. When Prometheus scrapes pods directly by IP address (as the standard `kubernetes-pods` job does), TLS certificate validation fails. The solutions below address this by ensuring Prometheus uses the Service DNS name for TLS validation, even when the actual scrape target is a pod IP.
 

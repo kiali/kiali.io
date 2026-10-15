@@ -12927,7 +12927,7 @@ Can be specified as a number (seconds) or duration string (e.g., &ldquo;30s&rdqu
 
 <p>In OpenShift clusters, the route request time out should be also increased.
 This can be done by annotating the specific route with <code>haproxy.router.openshift.io/timeout</code>.
-See <a href="https://docs.openshift.com/container-platform/4.16/networking/routes/route-configuration.html#nw-configuring-route-timeouts_route-configuration">https://docs.openshift.com/container-platform/4.16/networking/routes/route-configuration.html#nw-configuring-route-timeouts_route-configuration</a> for further details.</p>
+See <a href="https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/ingress_and_load_balancing/routes#nw-configuring-route-timeouts_configuring-routes">https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/ingress_and_load_balancing/routes#nw-configuring-route-timeouts_configuring-routes</a> for further details.</p>
 
 </div>
 

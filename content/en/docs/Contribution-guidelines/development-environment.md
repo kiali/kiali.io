@@ -17,7 +17,7 @@ In this section it is explained how to set up a development environment:
 ### Prerequisites 
 
 - Development tools are installed:
-  - [oc](https://docs.openshift.com/container-platform/4.7/cli_reference/openshift_cli/getting-started-cli.html) or [kubectl](https://kubernetes.io/es/docs/tasks/tools/)
+  - [oc](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/cli_tools/openshift-cli-oc#cli-getting-started) or [kubectl](https://kubernetes.io/es/docs/tasks/tools/)
   - [go](https://go.dev/)
   - [make](https://www.gnu.org/software/make/)
   - [npm](https://www.npmjs.com/)
