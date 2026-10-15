@@ -18,7 +18,7 @@ and `RoleBindings` resources (or `ClusterRoleBindings`) are used.
 The [Kubernetes RBAC documentation](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)
 describe how to use _Roles, ClusterRoles, RoleBindings_ and _ClusterRoleBindings_
 resources. If you are using OpenShift, read the
-[OpenShift RBAC documentation](https://docs.openshift.com/container-platform/latest/authentication/using-rbac.html).
+[OpenShift RBAC documentation](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/rbac_apis/rbac-apis).
 {{% /alert %}}
 
 Kiali can only restrict or grant _read_ access to namespaces as a whole. So,
