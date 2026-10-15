@@ -106,6 +106,6 @@ The Service Detail page offers several wizards to create traffic control config:
 ## AI-Assisted Configuration
 
 As of Kiali v2.22, Istio configuration can also be created and managed through
-Kiali's [AI Assistant](/docs/ai/kiali-chatbot/) (developer preview). The AI assistant
+Kiali's [AI Assistant](/docs/ai/chatbot/kiali-chatbot/) (developer preview). The AI assistant
 can generate, inspect, and update Istio resources using natural language prompts.
 
