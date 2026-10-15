@@ -33,6 +33,12 @@ endif
 .PHONY: gen-crd-doc
 gen-crd-doc: .gen-crd-doc-kiali .gen-crd-doc-ossmconsole
 
+## Regenerates the Kiali MCP tool catalog in content/en/docs/AI/kiali-mcp.md
+## from the Kubernetes MCP Server tool schema.
+.PHONY: gen-kiali-mcp-doc
+gen-kiali-mcp-doc:
+	python3 scripts/gen-kiali-mcp-tools.py
+
 ## Deletes the directories that are auto-generated
 .PHONY: clean
 clean:

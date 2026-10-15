@@ -97,6 +97,16 @@ Commit the generated diff in the same PR that depends on the operator change, or
 
 Requires Podman or Docker (see `DORP` in the Makefile).
 
+## Kiali MCP tool catalog
+
+The tool tables inside `content/en/docs/AI/kiali-mcp.md` (between the `KIALI-MCP-TOOLS` markers) are generated from the Kubernetes MCP Server schema. Do not edit that block by hand. Refresh it with:
+
+```bash
+make gen-kiali-mcp-doc
+```
+
+The release script runs this on `staging` before promoting that branch, and commits the page only when the upstream schema changed. CI does not refetch the schema: a live check would fail unrelated pull requests whenever Kubernetes MCP Server changes.
+
 ## Pull Requests
 
 1. Branch from `staging`.
