@@ -105,15 +105,29 @@ if [ "${GENERATE_DOCS}" == "true" ]; then
   echo "===== Create a new branch named [${STAGING_BRANCH}] (or switch to it if it already exists)"
   git checkout -b ${STAGING_BRANCH} ${REMOTE_NAME}/${STAGING_BRANCH} || (git checkout ${STAGING_BRANCH} && git reset --hard ${REMOTE_NAME}/${STAGING_BRANCH})
 
+  updated=false
+
   echo "===== Generate the CRD schema documentation"
   make gen-crd-doc
-
   if ! git diff --quiet; then
     git commit -am "Auto-generated CRD schema documentation"
-    echo "===== Push the branch [${STAGING_BRANCH}] to remote [${REMOTE_NAME}]"
-    git push ${REMOTE_NAME} ${STAGING_BRANCH}
+    updated=true
   else
     echo "No changes to CRD schema documentation"
+  fi
+
+  echo "===== Generate the Kiali MCP tool catalog"
+  make gen-kiali-mcp-doc
+  if ! git diff --quiet; then
+    git commit -am "Auto-generated Kiali MCP tool catalog"
+    updated=true
+  else
+    echo "No changes to Kiali MCP tool catalog"
+  fi
+
+  if [ "${updated}" = "true" ]; then
+    echo "===== Push the branch [${STAGING_BRANCH}] to remote [${REMOTE_NAME}]"
+    git push ${REMOTE_NAME} ${STAGING_BRANCH}
   fi
 
 fi
