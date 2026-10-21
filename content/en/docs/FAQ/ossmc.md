@@ -23,3 +23,9 @@ If you recently connected a Kiali instance but those pages still do not appear, 
 ### Why is the Istio control planes or Kiali instances list empty (or missing entries) even though I know they exist?
 
 The **Istios** and **Kialis** pages only show custom resources your OpenShift user account has permission to read. If your account has namespace-scoped access rather than cluster-wide access to `istios.sailoperator.io` or `kialis.kiali.io`, instances in namespaces you cannot access will not appear. Ask your cluster administrator to grant `list`/`get` permission on the relevant custom resource, either cluster-wide or in the specific namespaces you need to see.
+
+### What TLS configuration does the OSSMC plugin use?
+
+The OSSMC plugin backend is an nginx server that serves the plugin's static assets over HTTPS (port 9443). When OSSMC is installed by the Kiali Operator, its TLS configuration (protocols, cipher suites, and key exchange groups) is rendered from the cluster's TLS security profile (`spec.tlsSecurityProfile` on `APIServer/cluster`) — the same profile the Kiali server follows when `deployment.tls_config.source` is `auto`. See [TLS Policy](/docs/configuration/tls-policy/).
+
+When the cluster TLS security profile changes, the operator re-renders the nginx configuration and restarts the OSSMC pod to pick it up. If the cluster profile is invalid for OSSMC (for example, the `Old` profile, which requires TLS 1.0 or 1.1 that OSSMC does not allow), the operator scales the OSSMC deployment to zero and leaves the last known good configuration in place — OSSMC serves nothing rather than serve TLS outside the cluster's policy. It recovers automatically once a valid profile is set.
