@@ -38,7 +38,9 @@ spec:
       source: auto
 ```
 
-With this configuration, Kiali reads the TLS settings from OpenShift's API Server and enforces them for all connections. If the cluster profile changes, the Kiali Operator detects the change and restarts the Kiali pod so the new settings take effect (see [Policy Refresh](#policy-refresh)). If you installed the Kiali Server without the operator (for example, with the server Helm chart), you must restart the pod manually.
+With this configuration, Kiali reads the TLS settings from OpenShift's API Server and enforces them for all connections. Not every cluster sets a TLS security profile — the `spec.tlsSecurityProfile` field on `APIServer/cluster` is optional. When it is not set, Kiali uses the `Intermediate` profile, which is the same default OpenShift itself applies. The `Intermediate` profile enforces TLS 1.2 or higher, uses the six ECDHE cipher suites for TLS 1.2 connections (the same list as Kiali's [secure defaults](#secure-defaults-minimal-configuration); TLS 1.3 cipher suites are managed by Go and are not configurable), and allows the `X25519MLKEM768`, `X25519`, `secp256r1`, and `secp384r1` key exchange groups.
+
+If the cluster profile changes, the Kiali Operator detects the change and restarts the Kiali pod so the new settings take effect (see [Policy Refresh](#policy-refresh)). If you installed the Kiali Server without the operator (for example, with the server Helm chart), you must restart the pod manually.
 
 ### Non-OpenShift: Explicit TLS 1.2 and 1.3
 
