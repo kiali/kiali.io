@@ -13,6 +13,7 @@ Features:
 
 * [Istio: Support meshConfig.serviceEntryVisibility](https://github.com/kiali/kiali/issues/10392)
 * [Operator: CSV missing RBAC escalation permissions for older operand versions](https://github.com/kiali/kiali/issues/10383)
+* [operator: bump operator base image to 1.42.3](https://github.com/kiali/kiali-operator/pull/1111)
 * [OSSMC: nginx backend must honor cluster APIServer tlsSecurityProfile (TLS adherence)](https://github.com/kiali/openshift-servicemesh-plugin/issues/874)
 * [UI: Robust AI token/cost dashboard](https://github.com/kiali/kiali/issues/9885)
 * [UI: New Envoy Overview tab in workload detail shows sidecar memory usage](https://github.com/kiali/kiali/issues/9003)
