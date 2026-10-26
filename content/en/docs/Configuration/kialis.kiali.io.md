@@ -36,6 +36,7 @@ spec:
 
   ai:
     chat:
+      allowed_users: []
       default_provider: ""
       enabled: false
       max_tool_iterations: 5
@@ -47,7 +48,12 @@ spec:
         reduce_threshold: 15
         reduce_with_ai: false
       tools: {}
+    consumption:
+      allowed_users_dashboard: []
+      budgets: []
+      prices_config_map: ""
     enabled: false
+    metrics: false
 
   auth:
     strategy: ""
@@ -853,7 +859,7 @@ The Kiali CR has a CRD Schema so it will be validated when you create or update 
 </div>
 
 <div class="property-description">
-<p>A list of users that are allowed to use the ChatAI feature. This is the list of users that will be allowed to use the ChatAI feature.</p>
+<p>A list of users that are allowed to use the ChatAI feature. If this list is empty, all users have access. If populated, only the specified users can see and interact with the Chatbot.</p>
 
 </div>
 
@@ -1275,7 +1281,7 @@ The Kiali CR has a CRD Schema so it will be validated when you create or update 
 </div>
 
 <div class="property-description">
-<p>Optional provider-specific filter for the ChatAI toolset. Applied after the global <code>chat_ai.tools</code> filter. It can further restrict tools for this provider, but it cannot re-enable tools that were already filtered out globally or by feature availability.</p>
+<p>Optional provider-specific filter for the ChatAI toolset. Applied after the global <code>ai.chat.tools</code> filter. It can further restrict tools for this provider, but it cannot re-enable tools that were already filtered out globally or by feature availability.</p>
 
 </div>
 
@@ -1569,6 +1575,266 @@ The Kiali CR has a CRD Schema so it will be validated when you create or update 
 <div class="property depth-2">
 <div class="property-header">
 <hr/>
+<h3 class="property-path" id=".spec.ai.consumption">.spec.ai.consumption</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+<div class="property-description">
+<p>Configuration for the AI consumption/cost-tracking subsystem. Requires <code>ai.metrics</code> to be enabled. Kiali ships with a built-in default token pricing catalog; set <code>prices_config_map</code> to load a replacement catalog from a user-managed ConfigMap.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.consumption.allowed_users_dashboard">.spec.ai.consumption.allowed_users_dashboard</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>A list of users that are allowed to view the AI consumption dashboard. If this list is empty, all users have access.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.consumption.allowed_users_dashboard[*]">.spec.ai.consumption.allowed_users_dashboard[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.consumption.budgets">.spec.ai.consumption.budgets</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>Budget limits and model/provider restrictions applied per user. If empty, no budget restrictions are applied.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.consumption.budgets[*]">.spec.ai.consumption.budgets[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(object)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.consumption.budgets[*].allowed_models">.spec.ai.consumption.budgets[*].allowed_models</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>Model names or IDs this budget allows. Supports <code>*</code> wildcards. If empty, all models of the allowed providers may be used.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.consumption.budgets[*].allowed_models[*]">.spec.ai.consumption.budgets[*].allowed_models[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.consumption.budgets[*].allowed_providers">.spec.ai.consumption.budgets[*].allowed_providers</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>Provider types this budget allows (<code>openai</code>, <code>anthropic</code>, <code>google</code>, <code>lightspeed</code>). If empty, all configured providers may be used.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.consumption.budgets[*].allowed_providers[*]">.spec.ai.consumption.budgets[*].allowed_providers[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.consumption.budgets[*].interval">.spec.ai.consumption.budgets[*].interval</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>Budget reset interval. Valid values are <code>weekly</code> and <code>monthly</code>.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.consumption.budgets[*].max_cost">.spec.ai.consumption.budgets[*].max_cost</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(number)</span>
+
+</div>
+
+<div class="property-description">
+<p>Maximum estimated cost allowed in the budget interval, in the pricing currency (typically USD).</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.consumption.budgets[*].max_tokens">.spec.ai.consumption.budgets[*].max_tokens</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(number)</span>
+
+</div>
+
+<div class="property-description">
+<p>Maximum number of tokens allowed in the budget interval, expressed in millions of tokens.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.consumption.budgets[*].usernames">.spec.ai.consumption.budgets[*].usernames</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(array)</span>
+
+</div>
+
+<div class="property-description">
+<p>Users this budget applies to. Use <code>*</code> as a catch-all. Required and must not be empty.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.consumption.budgets[*].usernames[*]">.spec.ai.consumption.budgets[*].usernames[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.consumption.prices_config_map">.spec.ai.consumption.prices_config_map</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(string)</span>
+
+</div>
+
+<div class="property-description">
+<p>Name of a ConfigMap in the Kiali deployment namespace that holds a custom token pricing catalog. The ConfigMap is user-managed (the operator never creates or writes it). The operator mounts it read-only at <code>/kiali-ai-pricing</code> with <code>optional: true</code>. If omitted or empty, or if the file cannot be read, Kiali uses its built-in catalog. For the ConfigMap format and how to install it, see the documentation at <a href="https://kiali.io/docs/ai/chatbot/kiali-chatbot-prices/">https://kiali.io/docs/ai/chatbot/kiali-chatbot-prices/</a></p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
 <h3 class="property-path" id=".spec.ai.enabled">.spec.ai.enabled</h3>
 </div>
 <div class="property-body">
@@ -1579,6 +1845,25 @@ The Kiali CR has a CRD Schema so it will be validated when you create or update 
 
 <div class="property-description">
 <p>Enable or disable the AI feature.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<hr/>
+<h3 class="property-path" id=".spec.ai.metrics">.spec.ai.metrics</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">(boolean)</span>
+
+</div>
+
+<div class="property-description">
+<p>Enable or disable ChatAI usage metrics. Required for consumption tracking and the AI dashboard.</p>
 
 </div>
 
@@ -12927,7 +13212,7 @@ Can be specified as a number (seconds) or duration string (e.g., &ldquo;30s&rdqu
 
 <p>In OpenShift clusters, the route request time out should be also increased.
 This can be done by annotating the specific route with <code>haproxy.router.openshift.io/timeout</code>.
-See <a href="https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/ingress_and_load_balancing/routes#nw-configuring-route-timeouts_configuring-routes">https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/ingress_and_load_balancing/routes#nw-configuring-route-timeouts_configuring-routes</a> for further details.</p>
+See <a href="https://docs.openshift.com/container-platform/4.16/networking/routes/route-configuration.html#nw-configuring-route-timeouts_route-configuration">https://docs.openshift.com/container-platform/4.16/networking/routes/route-configuration.html#nw-configuring-route-timeouts_route-configuration</a> for further details.</p>
 
 </div>
 
