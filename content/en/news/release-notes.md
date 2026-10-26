@@ -6,6 +6,27 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 2.34.0
+Release: October 26, 2026
+
+Features:
+
+* [Istio: Support meshConfig.serviceEntryVisibility](https://github.com/kiali/kiali/issues/10392)
+* [Operator: CSV missing RBAC escalation permissions for older operand versions](https://github.com/kiali/kiali/issues/10383)
+* [OSSMC: nginx backend must honor cluster APIServer tlsSecurityProfile (TLS adherence)](https://github.com/kiali/openshift-servicemesh-plugin/issues/874)
+* [UI: Robust AI token/cost dashboard](https://github.com/kiali/kiali/issues/9885)
+* [UI: New Envoy Overview tab in workload detail shows sidecar memory usage](https://github.com/kiali/kiali/issues/9003)
+* [UI: New Health Status History ribbon on detail pages](https://github.com/kiali/kiali/issues/10361)
+* [UI: Health status ribbon actions for targeted graph or metrics](https://github.com/kiali/kiali/issues/10379)
+
+Fixes:
+
+* [Ambient: App/workload health never queries request rates for workloads behind a waypoint: HasHTTPTraffic() reads a shadowed, never-populated WaypointWorkloads field](https://github.com/kiali/kiali/issues/10380)
+* [API: Fix and regenerate kiali_internal_api.md swagger documentation](https://github.com/kiali/kiali/issues/10364)
+* [Tempo: HTTP search hides a wrong tracing URL behind "No traces"](https://github.com/kiali/kiali/issues/10371)
+* [Validation: false positive KIA1101](https://github.com/kiali/kiali/issues/10416)
+* [UI: KIA1101 list/detail inconsistency: opening a VirtualService without exportTo clears its cached error](https://github.com/kiali/kiali/issues/10410)
+
 ## 2.33.0
 Release: October 05, 2026
 
