@@ -2,6 +2,7 @@ SHELL := /bin/bash
 
 # Make sure this Hugo version is compatible with the one defined in netlify.toml
 HUGO_VERSION ?= 0.121.1
+CRD_DOCS_GENERATOR_IMAGE ?= quay.io/kiali/crd-docs-generator:0.11.4
 DORP ?= podman
 KIALI_HUGO_IMAGE ?= kiali/hugo:latest
 DOCSY_BUILD=cd themes/docsy && npm install && cd ../..
@@ -18,7 +19,7 @@ endif
 	mkdir -p ./tmp-crd-docs
 	curl -L https://raw.githubusercontent.com/kiali/kiali-operator/master/crd-docs/config/kiali/apigen-config.yaml -o ./tmp-crd-docs/apigen-config.yaml
 	curl -L https://raw.githubusercontent.com/kiali/kiali-operator/master/crd-docs/config/kiali/apigen-crd.template -o ./tmp-crd-docs/apigen-crd.template
-	${DORP} run -v ./content/en/docs/Configuration:/opt/crd-docs-generator/output:z -v ./tmp-crd-docs:/opt/crd-docs-generator/config:z quay.io/giantswarm/crd-docs-generator:0.9.0 --config /opt/crd-docs-generator/config/apigen-config.yaml
+	${DORP} run -v ./content/en/docs/Configuration:/opt/crd-docs-generator/output:z -v ./tmp-crd-docs:/opt/crd-docs-generator/config:z ${CRD_DOCS_GENERATOR_IMAGE} --config /opt/crd-docs-generator/config/apigen-config.yaml
 	rm -rf ./tmp-crd-docs
 
 .PHONY: .gen-crd-doc-ossmconsole
@@ -26,7 +27,7 @@ endif
 	mkdir -p ./tmp-crd-docs
 	curl -L https://raw.githubusercontent.com/kiali/kiali-operator/master/crd-docs/config/ossmconsole/apigen-config.yaml -o ./tmp-crd-docs/apigen-config.yaml
 	curl -L https://raw.githubusercontent.com/kiali/kiali-operator/master/crd-docs/config/ossmconsole/apigen-crd.template -o ./tmp-crd-docs/apigen-crd.template
-	${DORP} run -v ./content/en/docs/Configuration:/opt/crd-docs-generator/output:z -v ./tmp-crd-docs:/opt/crd-docs-generator/config:z quay.io/giantswarm/crd-docs-generator:0.9.0 --config /opt/crd-docs-generator/config/apigen-config.yaml
+	${DORP} run -v ./content/en/docs/Configuration:/opt/crd-docs-generator/output:z -v ./tmp-crd-docs:/opt/crd-docs-generator/config:z ${CRD_DOCS_GENERATOR_IMAGE} --config /opt/crd-docs-generator/config/apigen-config.yaml
 	rm -rf ./tmp-crd-docs
 
 ## Generates the CRD documentation. This requires cluster-admin access to a k8s cluster.
