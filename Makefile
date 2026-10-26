@@ -2,7 +2,7 @@ SHELL := /bin/bash
 
 # Make sure this Hugo version is compatible with the one defined in netlify.toml
 HUGO_VERSION ?= 0.121.1
-CRD_DOCS_GENERATOR_IMAGE ?= gsoci.azurecr.io/giantswarm/crd-docs-generator:0.11.4
+CRD_DOCS_GENERATOR_IMAGE ?= quay.io/kiali/crd-docs-generator:0.11.4
 DORP ?= podman
 KIALI_HUGO_IMAGE ?= kiali/hugo:latest
 DOCSY_BUILD=cd themes/docsy && npm install && cd ../..
