@@ -4,6 +4,9 @@ resources
 tmp-crd-docs
 .hugo_build.lock
 
+# Local copy from `hugo mod vendor` (optional); CI and Netlify use go.mod/go.sum instead.
+_vendor/
+
 # Python bytecode (diagram generator and other scripts)
 __pycache__/
 *.py[cod]
