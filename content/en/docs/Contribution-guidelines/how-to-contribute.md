@@ -14,6 +14,7 @@ In short you will:
 1. Make your changes and send a pull request (PR).
 1. If you're not yet ready for a review, add "WIP" to the PR name to indicate it's a work in progress.
     1. **Don't** add the Hugo property  "draft = true" to the page front matter, it prevents auto-deployment of the content preview.
+1. Optionally run `make validate-site` locally to match CI link checks (see [Validating the site]({{< relref "validating-the-site" >}})).
 1. Wait for the automated PR workflow to do some checks. When it's ready, you should see a comment like this: **deploy/netlify — Deploy preview ready!**
 1. Click **Details** to the right of "Deploy preview ready" to see a preview of your updates.
 1. Continue updating your doc and pushing your changes until you're happy with  the content.

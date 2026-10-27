@@ -29,6 +29,8 @@ URL_IGNORE+=",/^https:\\/\\/github.com\\/kiali\\/kiali\\.io\\/edit\\//"
 URL_IGNORE+=",/^https:\\/\\/github.com\\/kiali\\/kiali\\.io\\/new\\//"
 URL_IGNORE+=",/^https:\\/\\/github.com\\/kiali\\/kiali\\.io\\/commit\\//"
 URL_IGNORE+=",/^https:\\/\\/github.com\\/kiali\\/kiali\\.io\\/issues\\/new/"
+# Docsy page meta links (view/edit source on github_branch); not validated against the Hugo build.
+URL_IGNORE+=",/^https:\\/\\/github.com\\/kiali\\/kiali\\.io\\/(tree|edit|blob)\\/staging\\/content\\//"
 URL_IGNORE+=",/.*web.libera.chat.*/"
 URL_IGNORE+=",/^http:\\/\\/tracing\\.istio-system.*/"
 URL_IGNORE+=",/.*tracing-service.*/"
@@ -36,6 +38,12 @@ URL_IGNORE+=",/.*\\.svc\\.cluster\\.local.*/"
 
 NEW_URLS=$(scripts/ignore_new_urls.sh 2>/dev/null || true)
 URL_IGNORE+="${NEW_URLS}"
+
+# Hand-written docs should use relref; generated CRD HTML may use absolute https://kiali.io/...
+# links. Rewrite them to this build (--swap-urls) and validate — do not ignore kiali.io/docs.
+# html-proofer splits swap-urls on unescaped ":"; escape every literal colon as \:
+SWAP_URLS="^https\\://kiali\\.io\\/:http\\://127.0.0.1\\:${PROOFER_PORT}/"
+SWAP_URLS+=",^https\\://staging\\.kiali\\.io\\/:http\\://127.0.0.1\\:${PROOFER_PORT}/"
 
 htmlproofer \
   --typhoeus '{"connecttimeout":120, "timeout":120, "headers":{"User-Agent":"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"}}' \
@@ -49,4 +57,5 @@ htmlproofer \
   --no-enforce-https \
   --ignore_status_codes "0,301,302,403,429,503,999" \
   --ignore-urls "${URL_IGNORE}" \
+  --swap-urls "${SWAP_URLS}" \
   ./public
