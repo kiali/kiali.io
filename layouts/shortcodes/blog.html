@@ -9,14 +9,17 @@
 {{- $mediumFeedURL := "https://medium.com/feed/kialiproject" }}
 {{- $feedData     := dict }}
 {{- $opts         := dict "timeout" "10s" }}
-{{- $r            := resources.GetRemote $mediumFeedURL $opts }}
-{{- if $r }}
-  {{- $parsed := $r.Content | transform.Unmarshal (dict "format" "xml") }}
-  {{- if $parsed.channel }}
-    {{- $feedData = $parsed }}
+{{- with try (resources.GetRemote $mediumFeedURL $opts) }}
+  {{- with .Err }}
+    {{- warnf "Blog shortcode: failed to fetch Medium feed from %s: %s" $mediumFeedURL . }}
+  {{- else with .Value }}
+    {{- $parsed := .Content | transform.Unmarshal (dict "format" "xml") }}
+    {{- if $parsed.channel }}
+      {{- $feedData = $parsed }}
+    {{- end }}
+  {{- else }}
+    {{- warnf "Blog shortcode: failed to fetch Medium feed from %s" $mediumFeedURL }}
   {{- end }}
-{{- else }}
-  {{- warnf "Blog shortcode: failed to fetch Medium feed from %s" $mediumFeedURL }}
 {{- end }}
 
 {{- $items := slice }}

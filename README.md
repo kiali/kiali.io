@@ -25,7 +25,7 @@ To run the website locally, you will need:
 
 Generally `podman` is easier to setup. The dev container image includes Go (for Hugo Modules), Node/npm, and htmlproofer; Hugo **extended** and Dart Sass (`sass-embedded`) come from npm (`package.json`), same as [Docsy’s recommended setup](https://www.docsy.dev/docs/get-started/docsy-as-module/installation-prerequisites/). Docsy is pulled as a Hugo module (`go.mod`); theme npm assets are merged into `packages/hugoautogen/` via `hugo mod npm pack`.
 
-On the host (without the container), install dependencies with `npm run install:safe`, then run `npm run approve:hugo` once to allow the `hugo-extended` install script.
+On the host (without the container), install dependencies with `npm run install:safe`, then run `npm run approve:hugo` once to allow the `hugo-extended` install script. Node **24** and npm **≥11.9** match `package.json` engines.
 
 ## Configuring and Running
 
@@ -50,7 +50,15 @@ make serve
 > export DOCKER_DEFAULT_PLATFORM=linux/amd64
 > ```
 
-If everything is working as expected, you should see something like this (if not see [Upgrading Hugo Version](#upgrading-hugo-version)):
+To build and validate the site the same way CI does (Hugo production flags plus htmlproofer):
+
+```
+make validate-site
+```
+
+On the host you can also run `npm test` (Node maintenance scripts) and `npm run build:ci` after `npm run install:safe`.
+
+If everything is working as expected, you should see something like this when serving (if not see [Upgrading Hugo Version](#upgrading-hugo-version)):
 
 ```
                    | EN

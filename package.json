@@ -21,11 +21,14 @@
     "_hugo-bin": "hugo",
     "_netlify:prepare": "npm run install:safe",
     "_prepare:modules": "npm run _hugo-bin -- mod get && npm run update:docsy:pack",
+    "build:ci": "npm run _hugo -- --minify",
+    "verify:modules": "go mod download && go mod verify",
     "approve:hugo": "npm run install:safe && npm approve-scripts --allow-scripts-pin hugo-extended && npm rebuild hugo-extended --ignore-scripts=false && npm run update:docsy:pack",
     "build:preview": "npm run _prepare:modules && npm run _hugo -- --minify --baseURL \"${DEPLOY_PRIME_URL:-/}\"",
-    "build:production": "npm run _prepare:modules && npm run _hugo -- --minify",
+    "build:production": "npm run _prepare:modules && npm run build:ci",
     "install:safe": "npm ci --ignore-scripts && node scripts/fix-sass-bin.mjs",
     "serve": "npm run _hugo -- serve --baseURL http://localhost:1313/ --bind 0.0.0.0 --disableFastRender --noHTTPCache --poll 1s",
+    "test": "node --test scripts/*.test.mjs",
     "update:docsy:pack": "npm run _hugo-bin -- mod npm pack && npm pkg set 'name=\"@kiali/hugoautogen\"' private=true --json --prefix packages/hugoautogen && npm install --ignore-scripts && node scripts/fix-sass-bin.mjs"
   },
   "devDependencies": {
@@ -34,7 +37,7 @@
   },
   "engines": {
     "node": ">=24",
-    "npm": ">=11.16.0"
+    "npm": ">=11.9.0"
   },
   "allowScripts": {
     "hugo-extended@0.168.0": true

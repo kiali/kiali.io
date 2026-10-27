@@ -9,7 +9,7 @@ Kiali help users know whether their service mesh is healthy. This includes the h
 
 Users can quickly confirm the health of their infrastructure by looking at the Kiali Masthead. If Kiali detects any health issues with the infrastructure of the mesh, including multi-cluster setups, it will show an indication in the masthead, severity will be reflected via color, and hovering will show the detail:
 
-![Masthead Health](/images/documentation/features/health-masthead.png "Masthead Health")
+![Masthead Health](/images/documentation/features/health/health-masthead.png "Masthead Health")
 
 For more detail on how Kiali tracks the Istio infrastructure status, see the [Istio Status Feature]({{< relref "./istio-component-status" >}}).
 
@@ -17,7 +17,7 @@ For more detail on how Kiali tracks the Istio infrastructure status, see the [Is
 
 The default Kiali page is an Overview Dashboard. This view will quickly allow you to identify components with issues, including clusters, Istio configuration, control planes and data planes. It provides a chart showing all applications grouped by health, and Service Insights showing the services with the top error rates and p95 latencies.
 
-![Overview Health](/images/documentation/features/health-overview.png "Overview Health")
+![Overview Health](/images/documentation/features/health/health-overview.png "Overview Health")
 
 ## Graph Health
 
@@ -25,7 +25,7 @@ The Kiali Graph offers a rich visualization of your service mesh traffic.  The h
 
 The health of nodes and edges is refreshed automatically based on the user's desired refresh interval. The graph can also be paused to examine a particular state, or replayed to re-examine a particular time period.
 
-![Graph Health](/images/documentation/features/health-graph.png "Graph Health")
+![Graph Health](/images/documentation/features/health/health-graph.png "Graph Health")
 
 ## Health Configuration
 

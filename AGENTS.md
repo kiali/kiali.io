@@ -52,12 +52,12 @@ Preview at [http://localhost:1313](http://localhost:1313). Hugo **extended** is 
 
 First-time setup: `npm run install:safe`, then `npm run approve:hugo` if you want to pre-download the Hugo binary (Netlify relies on hugo-extended self-install on first `hugo` invocation). If Hugo hangs at “Start building sites …”, check `readlink node_modules/.bin/sass` (should be under `sass-embedded`); `install:safe` / `update:docsy:pack` run `scripts/fix-sass-bin.mjs` when npm hoists the pure-JS `sass` package.
 
-Local `make serve` / `make validate-site` use the `kiali/hugo` container image (`Dockerfile`) for Ruby/htmlproofer and mount the repo; Hugo and Sass install from npm inside the container (Node **24** / npm **≥11.16**, matching `package.json` engines). `make build-hugo` rebuilds when the image is missing or `Dockerfile` is newer than the image; use `make -e FORCE_BUILD=true build-hugo` to rebuild anyway.
+Local `make serve` / `make validate-site` use the `kiali/hugo` container image (`Dockerfile`) for Ruby/htmlproofer and mount the repo; Hugo and Sass install from npm inside the container (Node **24** / npm **≥11.9**, matching `package.json` engines). `make build-hugo` rebuilds when the image is missing or `Dockerfile` is newer than the image; use `make -e FORCE_BUILD=true build-hugo` to rebuild anyway.
 
 ## Content Layout
 
 - Use Hugo front matter (`title`, `description`, optional `weight`) on every page.
-- **Cross-link docs** with Hugo **`relref`** so broken targets fail at `hugo` build time (`refLinksErrorLevel` defaults to `ERROR`). Use paths **relative to the current page**, not absolute `/docs/...` in `ref`/`relref` (those break easily on Hugo 0.168+). Examples: `[Appearance]({{< relref "./appearance" >}})` (same section), `[RBAC]({{< relref "../Configuration/rbac" >}})`, `[anonymous setup]({{< relref "authentication/anonymous/#set-up" >}})` from `Configuration/_index.md`. For **section landing pages** (`_index.md`), use root-relative Markdown: `[Configuration](/docs/configuration/)` (Hugo does not resolve `relref` to section indexes reliably). Unresolved `relref`/`ref` fail the build; `make validate-site` (htmlproofer) still checks rendered HTML and external URLs.
+- **Cross-link docs** with Hugo **`relref`** so broken targets fail at `hugo` build time (`refLinksErrorLevel` defaults to `ERROR`). Use paths **relative to the current page**, not absolute `/docs/...` in `ref`/`relref` (those break easily on Hugo 0.168+). Examples: `[Appearance]({{< relref "./appearance" >}})` (same section), `[RBAC]({{< relref "../Configuration/rbac" >}})`, `[anonymous setup]({{< relref "./authentication/anonymous#set-up" >}})` from `Configuration/_index.md`. For **section landing pages** (`_index.md`), use root-relative Markdown: `[Configuration](/docs/configuration/)` (Hugo does not resolve `relref` to section indexes reliably). Unresolved `relref`/`ref` fail the build; `make validate-site` (htmlproofer) still checks rendered HTML and external URLs.
 - Do not add `draft = true` to pages intended for Netlify PR previews.
 - Match the tone and structure of surrounding pages in the same section.
 
@@ -72,6 +72,12 @@ Store screenshots for **Features** pages in a subfolder named after the markdown
 | `content/en/docs/Features/appearance.md` | `static/images/documentation/features/appearance/` | `/images/documentation/features/appearance/...` |
 | `content/en/docs/Features/internationalization.md` | `static/images/documentation/features/internationalization/` | `/images/documentation/features/internationalization/...` |
 | `content/en/docs/Features/ambient.md` | `static/images/documentation/features/ambient/` | `/images/documentation/features/ambient/...` |
+| `content/en/docs/Features/configuration.md` | `static/images/documentation/features/configuration/` | `/images/documentation/features/configuration/...` |
+| `content/en/docs/Features/details.md` | `static/images/documentation/features/details/` | `/images/documentation/features/details/...` |
+| `content/en/docs/Features/health.md` | `static/images/documentation/features/health/` | `/images/documentation/features/health/...` |
+| `content/en/docs/Features/tracing.md` | `static/images/documentation/features/tracing/` | `/images/documentation/features/tracing/...` |
+| `content/en/docs/Features/validations.md` | `static/images/documentation/features/validations/` | `/images/documentation/features/validations/...` |
+| (shared across feature pages) | `static/images/documentation/features/shared/` | `/images/documentation/features/shared/...` |
 
 ### Rules
 

@@ -287,3 +287,11 @@ Hide the "create documentation issue" links. Kiali tracks documentation issues i
     bottom: 0;
   }
 }
+
+// Doc page screenshots (formerly in assets/scss/_content.scss)
+.td-content img {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  margin-left: 5%;
+  max-width: 90%;
+}

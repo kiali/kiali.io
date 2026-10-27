@@ -6,14 +6,7 @@ KIALI_HUGO_IMAGE ?= kiali/hugo:latest
 DOCSY_BUILD=npm run install:safe && npm run _prepare:modules
 
 .prepare-force-build:
-	@$(eval FORCE_BUILD ?= $(shell \
-		if ! $(DORP) inspect ${KIALI_HUGO_IMAGE} >/dev/null 2>&1; then \
-			echo true; \
-		else \
-			img=$$(date -d "$$($(DORP) inspect -f '{{.Created}}' ${KIALI_HUGO_IMAGE} 2>/dev/null)" +%s 2>/dev/null || echo 0); \
-			df=$$(stat -c %Y Dockerfile 2>/dev/null || echo 0); \
-			if [ "$$df" -gt "$$img" ]; then echo true; else echo false; fi; \
-		fi))
+	@$(eval FORCE_BUILD ?= $(shell bash scripts/hugo-image-stale.sh $(DORP) ${KIALI_HUGO_IMAGE}))
 
 .PHONY: .gen-crd-doc-kiali
 .gen-crd-doc-kiali:

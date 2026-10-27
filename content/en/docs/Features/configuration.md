@@ -8,7 +8,7 @@ Kiali is more than observability, it also helps you to configure, update and val
 The Istio configuration view provides advanced filtering and navigation for Istio configuration objects, such as Virtual Services and Gateways.
 Kiali provides inline config editing and powerful semantic validation for Istio resources.
 
-![Istio Config List](/images/documentation/features/istio-config-list.png "Istio Config List")
+![Istio Config List](/images/documentation/features/configuration/istio-config-list.png "Istio Config List")
 
 ## Validations
 
@@ -18,7 +18,7 @@ As of Kiali v2.25, validations support **multi-primary Istio deployments**, incl
 
 Check the complete [list of validations]({{< relref "./validations" >}}) for further information.
 
-![Istio Config Validation](/images/documentation/features/istio-config-validation.png "Istio Config Validation")
+![Istio Config Validation](/images/documentation/features/shared/istio-config-validation.png "Istio Config Validation")
 
 ## Wizards
 
@@ -30,12 +30,12 @@ Istio Config for Routing, Gateways, Security scenarios and more.
 
 These Create Actions are available on the Istio Config page:
 
-![Istio Config Create Actions](/images/documentation/features/istio-config-actions.png "Istio Config Create Actions")
+![Istio Config Create Actions](/images/documentation/features/configuration/istio-config-actions.png "Istio Config Create Actions")
 
 #### Authorization Wizards
 
 Kiali allows creation of Istio AuthorizationPolicy resources:
-![AuthorizationPolicy](/images/documentation/features/istio-config-wizard-authpolicy.png "AuthorizationPolicy")
+![AuthorizationPolicy](/images/documentation/features/configuration/istio-config-wizard-authpolicy.png "AuthorizationPolicy")
 
 The AuthorizationPolicy wizard configures:
 - **Selector** — which workloads this policy targets (by label selector)
@@ -44,7 +44,7 @@ The AuthorizationPolicy wizard configures:
 - **Provider** — name of the external authorization provider (CUSTOM action only)
 
 Istio PeerAuthentication resources:
-![PeerAuthentication](/images/documentation/features/istio-config-wizard-peerauth.png "PeerAuthentication")
+![PeerAuthentication](/images/documentation/features/configuration/istio-config-wizard-peerauth.png "PeerAuthentication")
 
 The PeerAuthentication wizard configures:
 - **Selector** — which workloads this policy targets
@@ -52,7 +52,7 @@ The PeerAuthentication wizard configures:
 - **Port-level mTLS** — override the mTLS mode per specific port
 
 Istio RequestAuthentication resources:
-![RequestAuthentication](/images/documentation/features/istio-config-wizard-requestauth.png "RequestAuthentication")
+![RequestAuthentication](/images/documentation/features/configuration/istio-config-wizard-requestauth.png "RequestAuthentication")
 
 The RequestAuthentication wizard configures:
 - **Selector** — which workloads this policy targets
@@ -62,18 +62,18 @@ The RequestAuthentication wizard configures:
 
 Kiali also allows creation of Istio Gateway resources.
 
-![Gateway](/images/documentation/features/istio-config-wizard-gateway.png "Gateway")
+![Gateway](/images/documentation/features/configuration/istio-config-wizard-gateway.png "Gateway")
 
 Istio ServiceEntry resources:
 
-![ServiceEntry](/images/documentation/features/istio-config-wizard-serviceentry.png "ServiceEntry")
+![ServiceEntry](/images/documentation/features/configuration/istio-config-wizard-serviceentry.png "ServiceEntry")
 
 Istio Sidecar resources:
 
-![Sidecar](/images/documentation/features/istio-config-wizard-sidecar.png "Sidecar")
+![Sidecar](/images/documentation/features/configuration/istio-config-wizard-sidecar.png "Sidecar")
 
 K8s Gateway resources:
-![K8sGateway](/images/documentation/features/istio-config-wizard-k8s-gateway.png "K8sGateway")
+![K8sGateway](/images/documentation/features/configuration/istio-config-wizard-k8s-gateway.png "K8sGateway")
 
 Kiali supports the [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/) (v1.5.0+) as an
 alternative to Istio's own Gateway resource. Use K8s Gateway resources when your cluster manages
@@ -81,7 +81,7 @@ ingress through the standard Gateway API rather than Istio-specific CRDs. The wi
 configure the GatewayClass, listeners, and allowed routes.
 
 K8s Reference Grants resources:
-![K8sReferenceGrant](/images/documentation/features/istio-config-wizard-k8s-referencegrants.png "K8sReferenceGrant")
+![K8sReferenceGrant](/images/documentation/features/configuration/istio-config-wizard-k8s-referencegrants.png "K8sReferenceGrant")
 
 K8s ReferenceGrants allow cross-namespace routing — they grant permission for a Gateway in one
 namespace to reference a Service in another. The wizard configures the `from` and `to` selectors
@@ -95,13 +95,13 @@ Kiali also has Wizards available from the Namespaces page (Kiali >= 2.23) and ma
 
 The Namespaces page (Kiali >= 2.23) has namespace-specific actions for creating traffic policies:
 
-![Namespace Actions](/images/documentation/features/overview-actions.png "Namespace Actions")
+![Namespace Actions](/images/documentation/features/configuration/overview-actions.png "Namespace Actions")
 
 #### Service Wizards
 
 The Service Detail page offers several wizards to create traffic control config:
 
-![Service Actions](/images/documentation/features/service-actions.png "Service Actions")
+![Service Actions](/images/documentation/features/configuration/service-actions.png "Service Actions")
 
 ## AI-Assisted Configuration
 

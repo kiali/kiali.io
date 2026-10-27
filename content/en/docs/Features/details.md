@@ -10,10 +10,10 @@ Kiali provides filtered list views of all your service mesh definitions. Each vi
 * Services
 * Workloads
 
-![Detail list apps](/images/documentation/features/detail-list-app.png)
-![Detail list service](/images/documentation/features/detail-list-service.png)
-![Detail list workload](/images/documentation/features/detail-list-workload.png)
-![Detail list Istio config](/images/documentation/features/detail-list-config.png)
+![Detail list apps](/images/documentation/features/details/detail-list-app.png)
+![Detail list service](/images/documentation/features/details/detail-list-service.png)
+![Detail list workload](/images/documentation/features/details/detail-list-workload.png)
+![Detail list Istio config](/images/documentation/features/details/detail-list-config.png)
 
 Selecting an object from the list will bring you to its detail page.  For Istio Config, Kiali will present its YAML, along with contextual validation information. Other mesh components present a variety of Tabs.
 
@@ -34,25 +34,25 @@ And also type-specfic information.  For example:
 * Service detail includes Network information.
 * Workload detail provides backing Pod information.
 
-![Detail overview app](/images/documentation/features/detail-overview-app.png)
-![Detail overview service](/images/documentation/features/detail-overview-service.png)
-![Detail overview workload](/images/documentation/features/detail-overview-workload.png)
+![Detail overview app](/images/documentation/features/details/detail-overview-app.png)
+![Detail overview service](/images/documentation/features/details/detail-overview-service.png)
+![Detail overview workload](/images/documentation/features/details/detail-overview-workload.png)
 
 Both Workload and Service detail can be customized to some extent, by adding additional details supplied as annotations. This is done through the `additional_display_details` field in [the Kiali CR]({{< relref "../Configuration/kialis.kiali.io#.spec.additional_display_details" >}}).
 
-![Detail overview additional details](/images/documentation/features/detail-overview-additional-details.png)
+![Detail overview additional details](/images/documentation/features/details/detail-overview-additional-details.png)
 
 ## Traffic
 
 The Traffic Tab presents a service, app, or workload's Inbound and Outbound traffic in a table-oriented way:
 
-![Detail traffic](/images/documentation/features/detail-traffic.png)
+![Detail traffic](/images/documentation/features/details/detail-traffic.png)
 
 ## Logs
 
 Workload detail offers a special Logs tab.  Kiali offers a special _unified_ logs view that lets users correlate app and proxy logs.  It can also add-in trace span information to help identify important traces based on associated logging. More powerful features include substring or regex Show/Hide, full-screen, and the ability to set proxy log level without a pod restart.
 
-![Detail logs](/images/documentation/features/detail-logs.png)
+![Detail logs](/images/documentation/features/details/detail-logs.png)
 
 ## Metrics
 
@@ -60,8 +60,8 @@ Each detail view provides _Inbound Metrics_ and/or _Outbound Metrics_ tabs, offe
 
 Kiali allows the user to customize the charts by choosing the charted dimensions.  It can also present metrics reported by either source or destination proxy metrics.  And for troublshooting it can overlay trace spans.
 
-![Detail metric inbound](/images/documentation/features/detail-metrics-in.png)
-![Detail metrics outbound](/images/documentation/features/detail-metrics-out.png)
+![Detail metric inbound](/images/documentation/features/details/detail-metrics-in.png)
+![Detail metrics outbound](/images/documentation/features/details/detail-metrics-out.png)
 
 ## Traces
 
@@ -80,7 +80,7 @@ Kiali comes with built-in dashboards for several runtimes, including Envoy, Go, 
 
 The most important built-in dashboard is for Envoy.  Kiali offers the _Envoy_ tab for many workloads that run an Istio sidecar, waypoint, or gateway proxy.  The Envoy tab is actually a [Built-In Dashboard](#built-in-dash), but it is very common as it applies to any workload injected with, or that is itself, an Envoy proxy.  Being able to inspect the Envoy proxy is invaluable when troublshooting your mesh.  The Envoy tab itself offers five subtabs, exposing a wealth of information.
 
-![Detail Envoy](/images/documentation/features/detail-envoy.png)
+![Detail Envoy](/images/documentation/features/details/detail-envoy.png)
 
 Istio's Envoy sidecars supply [some internal metrics](https://www.envoyproxy.io/docs/envoy/latest/configuration/upstream/cluster_manager/cluster_stats), that can be viewed in Kiali. They are different than the metrics reported by Istio Telemetry, which Kiali uses extensively. Some of Envoy's metrics may be redundant.
 
@@ -131,8 +131,8 @@ The pod annotation for Kiali is: `kiali.io/dashboards: go`
 
 Kiali has its own built-in dashboard that helps you observe performance of the Kiali server itself. To view this dashboard, navigate to either the application or workload view of the Kiali server and select the `Kiali Internal Metrics` tab to see Kiali's own internal metrics:
 
-![Kiali Metrics (app view)](/images/documentation/features/kiali-dashboard-app-metrics.png)
-![Kiali Metrics (workload view)](/images/documentation/features/kiali-dashboard-workload-metrics.png)
+![Kiali Metrics (app view)](/images/documentation/features/details/kiali-dashboard-app-metrics.png)
+![Kiali Metrics (workload view)](/images/documentation/features/details/kiali-dashboard-workload-metrics.png)
 
 #### Node.js
 

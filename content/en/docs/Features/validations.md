@@ -5,7 +5,7 @@ description: "A description and complete list of Kiali validations."
 
 Kiali performs a set of validations on your Istio Objects, such as Destination Rules, Service Entries, and Virtual Services. Kiali's validations go above and beyond what Istio offers.  Where Istio offers mainly static checks for well-formed definitions, Kiali performs semantic validations to ensure that the definitions make sense, across objects, and in some cases even across namespaces.  Kiali validations are based on the runtime status of your service mesh.
 
-![Istio Config Validation](/images/documentation/features/istio-config-validation.png "Istio Config Validation")
+![Istio Config Validation](/images/documentation/features/shared/istio-config-validation.png "Istio Config Validation")
 
 ## Disabling validations
 
@@ -1655,7 +1655,7 @@ This is a generic rule implemented by the Gateway, and each particular error sho
 
 <i class="fas fa-exclamation-triangle text-warning"></i> Warning
 
-![GWAPI](/images/documentation/features/GWAPI.png)
+![GWAPI](/images/documentation/features/validations/GWAPI.png)
 
 ## Workload Groups {#workloadgroups}
 

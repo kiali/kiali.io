@@ -16,5 +16,6 @@ RUN microdnf -y install \
 # Install html-proofer and typhoeus for validate-site.sh
 RUN gem install html-proofer typhoeus
 
-# Confirm htmlproofer binary is available and show its version
+# Confirm htmlproofer binary is available and show its version.
+# Hugo extended is installed from npm when validate-site.sh or make serve runs.
 RUN htmlproofer --version
