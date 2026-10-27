@@ -1760,7 +1760,7 @@ The table below shows where each cluster's name appears. Each cluster (`spoke` a
     </tr>
     <tr>
       <td>OTEL collector <code>resource</code> processor (tracing only)</td>
-      <td><code>k8s.cluster.name</code> attribute stamped on spans — only required if setting up distributed tracing (see the <a href="{{ relref . "./ossm-dashboards-tracing" }}">Dashboards and Tracing</a> guide)</td>
+      <td><code>k8s.cluster.name</code> attribute stamped on spans — only required if setting up distributed tracing (see the <a href="{{< relref "./ossm-dashboards-tracing" >}}">Dashboards and Tracing</a> guide)</td>
       <td><code>spoke</code> or <code>spoke-two</code></td>
     </tr>
   </tbody>
