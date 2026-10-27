@@ -14,7 +14,7 @@ This guide provides conventions and workflows for AI agents and contributors wor
 
 ## Repository Overview
 
-kiali.io is a [Hugo](https://gohugo.io) site using the [Docsy](https://www.docsy.dev/) theme (**v0.18** as a [Hugo Module](https://gohugo.io/hugo-modules/), not a git submodule). All English content lives under `content/en/`. Static assets (images, downloadable files) live under `static/`.
+kiali.io is a [Hugo](https://gohugo.io) site using the [Docsy](https://www.docsy.dev/) theme. All English content lives under `content/en/`. Static assets (images, downloadable files) live under `static/`.
 
 | Path | Purpose |
 |------|---------|
@@ -57,7 +57,7 @@ Local `make serve` / `make validate-site` use the `kiali/hugo` container image (
 ## Content Layout
 
 - Use Hugo front matter (`title`, `description`, optional `weight`) on every page.
-- **Cross-link docs** with Hugo **`relref`** so broken targets fail at `hugo` build time (`refLinksErrorLevel` defaults to `ERROR`). Use paths **relative to the current page**, not absolute `/docs/...` in `ref`/`relref` (those break easily on Hugo 0.168+). Examples: `[Appearance]({{< relref "./appearance" >}})` (same section), `[RBAC]({{< relref "../Configuration/rbac" >}})`, `[anonymous setup]({{< relref "./authentication/anonymous#set-up" >}})` from `Configuration/_index.md`. For **section landing pages** (`_index.md`), use root-relative Markdown: `[Configuration](/docs/configuration/)` (Hugo does not resolve `relref` to section indexes reliably). Unresolved `relref`/`ref` fail the build; `make validate-site` (htmlproofer) still checks rendered HTML and external URLs.
+- **Cross-link docs** with Hugo **`relref`** so broken targets fail at `hugo` build time (`refLinksErrorLevel` defaults to `ERROR`). Use paths **relative to the current page**, not absolute `/docs/...` in `ref`/`relref`. Examples: `[Appearance]({{< relref "./appearance" >}})` (same section), `[RBAC]({{< relref "../Configuration/rbac" >}})`, `[anonymous setup]({{< relref "./authentication/anonymous#set-up" >}})` from `Configuration/_index.md`. For **section landing pages** (`_index.md`), use root-relative Markdown: `[Configuration](/docs/configuration/)` (Hugo does not resolve `relref` to section indexes reliably). Unresolved `relref`/`ref` fail the build; `make validate-site` (htmlproofer) still checks rendered HTML and external URLs.
 - Do not add `draft = true` to pages intended for Netlify PR previews.
 - Match the tone and structure of surrounding pages in the same section.
 

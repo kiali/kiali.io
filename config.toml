@@ -9,7 +9,7 @@ timeout = 45
 # Will give values to .Lastmod etc.
 enableGitInfo = true
 
-# Language settings (contentDir belongs under [languages.en] for Hugo 0.12x+)
+# Language settings (contentDir belongs under [languages.en])
 defaultContentLanguage = "en"
 defaultContentLanguageInSubdir = false
 # Useful when translating.
@@ -43,7 +43,7 @@ pygmentsUseClassic = false
 # See https://help.farbox.com/pygments.html
 pygmentsStyle = "tango"
 
-# Hugo 0.12x+ blocks HTML in content files by default; homepage uses content/en/_index.html.
+# Hugo blocks HTML in content files by default; homepage uses content/en/_index.html.
 [security]
 allowContent = ['^text/', '^text/html$']
 
