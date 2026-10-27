@@ -7,7 +7,7 @@ description: "Questions about Kiali installation options or issues."
 
 There are two installation mechanisms from which you can choose when installing the Kiali Server. The first is the recommended installation mechanism - the Kiali Operator. The second installation mechanism is the server helm chart. There are some features that you get with the Kiali Operator that you do not get with the server helm chart. The main differences between the two are mentioned below, though this list may be incomplete.
 
-1. The operator watches for changes to the multi-cluster remote cluster secret - if a change is detected, the operator automatically rolls out a new Kiali server pod so the server picks up the changes immediately. See the [multi-cluster docs](/docs/configuration/multi-cluster/#setup) for more details.
+1. The operator watches for changes to the multi-cluster remote cluster secret - if a change is detected, the operator automatically rolls out a new Kiali server pod so the server picks up the changes immediately. See the [multi-cluster docs]({{< relref "../Configuration/multi-cluster#setup" >}}) for more details.
 1. Both the operator and server helm chart support disabling cluster-wide-access mode (`deployment.cluster_wide_access=false`) - see the [Namespace Management docs](https://kiali.io/docs/configuration/namespace-management/#accessible-namespaces) for details. However, when using the server helm chart with `deployment.cluster_wide_access=false`, there are some lifecycle management features that only the operator provides (see the list below), so you may need to manually clean up resources when changing these configurations via the server helm chart. To avoid this, uninstall and reinstall the Kiali server rather than using `helm upgrade` when modifying these settings.
 
     - The operator automatically cleans up Roles/RoleBindings from namespaces that are no longer accessible when discovery selectors (`deployment.discovery_selectors.default`) change
@@ -40,14 +40,14 @@ one Kiali CR for each Kiali Server you want the Operator to install and manage. 
 
 Most options are described in the pages of the [Installation]({{< relref "../Installation" >}}) and [Configuration]({{< relref "../Configuration" >}}) sections of the documentation.
 
-If you cannot find some configuration, check the [Kiali CR Reference](/docs/configuration/kialis.kiali.io), which briefly describes all available options along with an example CR and all default values.
+If you cannot find some configuration, check the [Kiali CR Reference]({{< relref "../Configuration/kialis.kiali.io" >}}), which briefly describes all available options along with an example CR and all default values.
 If you are using a specific version of the Operator prior to 1.46, the Kiali CR that is valid for that version can be found in the version tag within the github repository (e.g. Operator v1.25.0 supported [these Kiali CR settings](https://github.com/kiali/kiali-operator/blob/v1.25.0/deploy/kiali/kiali_cr.yaml)).
 
 ### How to configure some operator features at runtime {#operator-configuration}
 
 {{% alert color="danger" %}}
 First, read 
-[Managing configuration of Helm installations in the Installation guide]({{< ref "/docs/installation/installation-guide/install-with-helm#managing-installation-config" >}}) to
+[Managing configuration of Helm installations in the Installation guide]({{< relref "../Installation/installation-guide/install-with-helm#managing-installation-config" >}}) to
 check if that method works for your case.
 {{% /alert %}}
 

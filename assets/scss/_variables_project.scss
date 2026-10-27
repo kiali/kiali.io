@@ -1,6 +1,32 @@
 /*
+ * Kiali brand colors (match https://kiali.io/ and legacy Docsy theme).
+ * See https://www.docsy.dev/docs/content/lookandfeel/#site-colors
+ */
 
-Add styles or override variables from the theme here.
+$enable-gradients: true;
+$enable-shadows: true;
 
-*/
+$primary: #30638e;
+$secondary: #ffa630;
 
+// Text links use Bootstrap $link-color (--bs-link-color), not brand $primary.
+$link-color: $blue;
+$success: #3772ff;
+$info: #c0e0de;
+$warning: #ed6a5a;
+$danger: #ed6a5a;
+$light: #d3f3ee;
+$dark: #403f4c;
+
+$code-color: shade-color($secondary, 40%);
+
+$border-color: $gray-300;
+$td-sidebar-tree-root-color: $primary;
+$td-sidebar-bg-color: rgba($primary, 0.03);
+$td-sidebar-border-color: $border-color;
+
+$td-box-colors: $dark, $primary, $secondary, $info, $white, $gray-600, $success,
+  $warning, $dark, $danger, $primary, $secondary, $info;
+
+// Solid primary bar on doc pages (Docsy 0.18 defaults to body background).
+$td-navbar-bg-color: $primary;

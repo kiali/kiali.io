@@ -28,9 +28,9 @@ At a high level:
 - Kiali executes those tool calls against Kiali/Kubernetes/Prometheus/tracing backends and returns the final answer, including optional UI navigation actions and documentation citations.
 - The response is delivered as **streaming events** (for example: `start`, `token`, `tool_call`, `tool_result`, `end`, `error`) so the UI can progressively render tokens and tool activity in real time.
 
-For configuration keys (enable/disable, tool filters, providers/models, store), see the `ai.chat` section in the [Kiali CR spec](/docs/configuration/kialis.kiali.io/#.spec.ai.chat).
+For configuration keys (enable/disable, tool filters, providers/models, store), see the `ai.chat` section in the [Kiali CR spec]({{< relref "../../Configuration/kialis.kiali.io#.spec.ai.chat" >}}).
 
-To estimate ChatAI cost from token usage, **`ai.metrics` must be enabled**. You can then set a custom price catalog and optional per-user budgets. If you do not set `ai.consumption.prices_config_map`, Kiali uses the built-in catalog. See [Token prices]({{< relref "kiali-chatbot-prices" >}}) and [Budgets]({{< relref "kiali-chatbot-budgets" >}}).
+To estimate ChatAI cost from token usage, **`ai.metrics` must be enabled**. You can then set a custom price catalog and optional per-user budgets. If you do not set `ai.consumption.prices_config_map`, Kiali uses the built-in catalog. See [Token prices]({{< relref "./kiali-chatbot-prices" >}}) and [Budgets]({{< relref "./kiali-chatbot-budgets" >}}).
 
 ![Kiali Chatbot architecture](/images/documentation/ai/kiali-chatbot-architecture.png)
 
@@ -135,7 +135,7 @@ ai:
 
 `enabled_tools` acts as an allowlist: when set, only the listed tool names are exposed. `disabled_tools` acts as a denylist and is applied afterwards. You can define these filters globally under `ai.chat.tools` and/or per provider under `ai.chat.providers[].tools`. Provider-level filters can only further restrict the already-allowed global toolset.
 
-To see the available built-in tool names you can use in these lists, see [Kiali Chatbot tools]({{< relref "kiali-chatbot-tools" >}}).
+To see the available built-in tool names you can use in these lists, see [Kiali Chatbot tools]({{< relref "./kiali-chatbot-tools" >}}).
 
 LightSpeed provider example:
 
@@ -240,5 +240,5 @@ The difference between the two modes depends a lot on the model used. In the cas
 
 ### Next step
 
-If you want to use an AI assistant outside the Kiali UI (for example, in an IDE), see [Kiali MCP]({{< relref "/docs/ai/kiali-mcp" >}}).
+If you want to use an AI assistant outside the Kiali UI (for example, in an IDE), see [Kiali MCP]({{< relref "../kiali-mcp" >}}).
 

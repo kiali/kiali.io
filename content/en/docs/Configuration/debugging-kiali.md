@@ -139,9 +139,9 @@ Some timers that may be of interest are:
 
 ## Metrics
 
-Kiali has a [metrics endpoint that can be enabled](/docs/configuration/kialis.kiali.io/#.spec.server.observability.metrics.enabled), allowing Prometheus to collect Kiali metrics. You can then use Prometheus (or Kiali itself) to examine and analyze these metrics.
+Kiali has a [metrics endpoint that can be enabled]({{< relref "./kialis.kiali.io#.spec.server.observability.metrics.enabled" >}}), allowing Prometheus to collect Kiali metrics. You can then use Prometheus (or Kiali itself) to examine and analyze these metrics.
 
-The metrics server uses the same TLS configuration as the main Kiali server. When TLS is enabled (via `identity.cert_file` and `identity.private_key_file`), the metrics endpoint requires HTTPS and enforces the same [TLS policy](/docs/configuration/tls-policy) (versions and cipher suites). When TLS is not configured, the metrics endpoint uses plain HTTP.
+The metrics server uses the same TLS configuration as the main Kiali server. When TLS is enabled (via `identity.cert_file` and `identity.private_key_file`), the metrics endpoint requires HTTPS and enforces the same [TLS policy]({{< relref "./tls-policy" >}}) (versions and cipher suites). When TLS is not configured, the metrics endpoint uses plain HTTP.
 
 ### Configuring Prometheus to Scrape Kiali Metrics
 
@@ -246,7 +246,7 @@ The Kiali UI itself graphs some of these metrics. In the Kiali UI, navigate to t
 
 ![Kiali metrics](/images/documentation/configuration/kiali_own_metrics.png)
 
-Use the Kiali UI to analyze these metrics in the same way that you would analyze your application metrics. (Note that "Tracing processing duration" will be empty if you have not [integrated your Tracing backend with Kiali](/docs/configuration/external-services/tracing/jaeger/)).
+Use the Kiali UI to analyze these metrics in the same way that you would analyze your application metrics. (Note that "Tracing processing duration" will be empty if you have not [integrated your Tracing backend with Kiali]({{< relref "./external-services/tracing/jaeger" >}})).
 
 Because these are metrics collected by Promtheus, you can analyze Kiali's metrics through Prometheus queries and the Prometheus UI. Some of the more interesting Prometheus queries are listed below.
 
@@ -275,7 +275,7 @@ Because these are metrics collected by Promtheus, you can analyze Kiali's metric
 
 ## Tracing
 
-Kiali provides the ability to emit debugging traces to the [distributed tracing](/docs/configuration/external-services/tracing/jaeger) platform, Jaeger or Grafana Tempo.
+Kiali provides the ability to emit debugging traces to the [distributed tracing]({{< relref "./external-services/tracing/jaeger" >}}) platform, Jaeger or Grafana Tempo.
 
 {{% alert color="warning" %}}
 From Kiali 1.79, the feature of Kiali emitting tracing data into Jaeger format **has been removed**.

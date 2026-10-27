@@ -1,38 +1,21 @@
-FROM registry.fedoraproject.org/fedora-minimal:40
-
-ARG HUGO_VERSION
+FROM registry.fedoraproject.org/fedora-minimal:44
 
 VOLUME /site
 WORKDIR /site
 
-# Required when running htmlproofer
+# Required when running html-proofer
 ENV LANG=C.UTF-8
 
-# Install dependencies needed for hugo
-RUN microdnf -y install tar shadow-utils git nodejs
+# Go for Hugo Modules; Node 24 + npm from Fedora (nodejs24); Ruby for htmlproofer
+RUN microdnf -y install \
+    git golang \
+    nodejs24 nodejs24-npm \
+    ruby ruby-devel gcc redhat-rpm-config \
+ && microdnf clean all
 
-# Install dependencies needed for htmlproofer
-RUN microdnf -y install ruby ruby-devel gcc redhat-rpm-config
+# Install html-proofer and typhoeus for validate-site.sh
+RUN gem install html-proofer typhoeus
 
-RUN microdnf clean all
-
-# Download, untar, and install Hugo
-ADD https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_Linux-64bit.tar.gz /hugo.tar.gz
-RUN tar xzvf /hugo.tar.gz -C / \
- && rm /hugo.tar.gz \
- && mv /hugo /usr/bin/hugo
-
-# Stuff for docsy
-RUN npm -g -D install postcss postcss-cli autoprefixer
-
-# Install html-proofer
-RUN gem install html-proofer
-
-# Confirm htmlproofer binary is available and show its version
+# Confirm htmlproofer binary is available and show its version.
+# Hugo extended is installed from npm when validate-site.sh or make serve runs.
 RUN htmlproofer --version
-
-# This allows us to increase timeouts, and avoid htmlproofer errors
-RUN gem install typhoeus
-
-# Confirm hugo binary is available and show its version
-RUN hugo version

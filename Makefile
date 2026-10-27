@@ -1,18 +1,12 @@
 SHELL := /bin/bash
 
-# Make sure this Hugo version is compatible with the one defined in netlify.toml
-HUGO_VERSION ?= 0.121.1
 CRD_DOCS_GENERATOR_IMAGE ?= quay.io/kiali/crd-docs-generator:0.11.4
 DORP ?= podman
 KIALI_HUGO_IMAGE ?= kiali/hugo:latest
-DOCSY_BUILD=cd themes/docsy && npm install && cd ../..
+DOCSY_BUILD=npm run install:safe && npm run _prepare:modules
 
 .prepare-force-build:
-ifeq ($(DORP),docker)
-	@$(eval FORCE_BUILD ?= $(shell docker inspect ${KIALI_HUGO_IMAGE} > /dev/null 2>&1 || echo "true"))
-else
-	@$(eval FORCE_BUILD ?= $(shell podman inspect ${KIALI_HUGO_IMAGE} > /dev/null 2>&1 || echo "true"))
-endif
+	@$(eval FORCE_BUILD ?= $(shell bash scripts/hugo-image-stale.sh $(DORP) ${KIALI_HUGO_IMAGE}))
 
 .PHONY: .gen-crd-doc-kiali
 .gen-crd-doc-kiali:
@@ -43,17 +37,17 @@ gen-kiali-mcp-doc:
 ## Deletes the directories that are auto-generated
 .PHONY: clean
 clean:
-	rm -rf ./node_modules ./public ./resources ./tmp-crd-docs
+	rm -rf ./node_modules ./public ./resources ./tmp-crd-docs ./themes
 
 ## build-hugo: Builds the hugo image if necessary. You can force a rebuild by setting the environment variable "FORCE_BUILD=true".
 .PHONY: build-hugo
 build-hugo: .prepare-force-build
-	@if [ "${FORCE_BUILD}" == "true" ]; then ${DORP} build --build-arg HUGO_VERSION=${HUGO_VERSION} -t ${KIALI_HUGO_IMAGE} . ; else echo "Will not rebuild the image [${KIALI_HUGO_IMAGE}]."; fi
+	@if [ "${FORCE_BUILD}" == "true" ]; then ${DORP} build -t ${KIALI_HUGO_IMAGE} . ; else echo "Will not rebuild the image [${KIALI_HUGO_IMAGE}]."; fi
 
 ## serve: If necessary, builds the image and then runs a hugo server on your local machine at localhost:1313
 .PHONY: serve
 serve: build-hugo
-	@${DORP} run -t -i --sig-proxy=true --rm -v "$(shell pwd)":/site:z -w /site -p 1313:1313 ${KIALI_HUGO_IMAGE} /bin/bash -c "${DOCSY_BUILD} && hugo serve --baseURL "http://localhost:1313/" --bind 0.0.0.0 --disableFastRender"
+	@${DORP} run -t -i --sig-proxy=true --rm -v "$(shell pwd)":/site:z -w /site -p 1313:1313 ${KIALI_HUGO_IMAGE} /bin/bash -c "${DOCSY_BUILD} && npm run serve"
 
 .PHONY: generate_metrics_json
 generate_metrics_json:

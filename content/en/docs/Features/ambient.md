@@ -27,7 +27,7 @@ This badge indicates that Kiali has detected a `ztunnel` (the L4 component for A
 ![Ambient Control Plane](/images/documentation/features/ambient/ambient-control-plane.png)
 
 {{% alert color="warning" %}}
-For Kiali to detect Ambient, it needs to have access to the namespace where `ztunnel` is deployed. This is usually the Istio control plane namespace (often `istio-system`), but on platforms such as OpenShift, it may differ. To learn how to give Kiali access to specific namespaces see [Namespace Management](/docs/configuration/namespace-management).
+For Kiali to detect Ambient, it needs to have access to the namespace where `ztunnel` is deployed. This is usually the Istio control plane namespace (often `istio-system`), but on platforms such as OpenShift, it may differ. To learn how to give Kiali access to specific namespaces see [Namespace Management]({{< relref "../Configuration/namespace-management" >}}).
 {{% /alert %}}
 
 ### Ambient Namespace
@@ -157,4 +157,4 @@ Kiali validates L7 Istio configurations in Ambient namespaces and warns when the
 
 L4-only policies (for example AuthorizationPolicies that only use principals and ports, or DestinationRules that only set TLS) do not require a waypoint and do not trigger these warnings. VirtualServices bound only to ingress/egress Gateways also do not need a waypoint.
 
-The full list of Ambient L7 validation codes is documented under [Validation]({{< relref "validations" >}}).
+The full list of Ambient L7 validation codes is documented under [Validation]({{< relref "./validations" >}}).

@@ -5,7 +5,7 @@ description: "A description and complete list of Kiali validations."
 
 Kiali performs a set of validations on your Istio Objects, such as Destination Rules, Service Entries, and Virtual Services. Kiali's validations go above and beyond what Istio offers.  Where Istio offers mainly static checks for well-formed definitions, Kiali performs semantic validations to ensure that the definitions make sense, across objects, and in some cases even across namespaces.  Kiali validations are based on the runtime status of your service mesh.
 
-![Istio Config Validation](/images/documentation/features/istio-config-validation.png "Istio Config Validation")
+![Istio Config Validation](/images/documentation/features/shared/istio-config-validation.png "Istio Config Validation")
 
 ## Disabling validations
 
@@ -28,7 +28,7 @@ There are two ways to ignore validations:
 
 ### Globally via the Kiali CR
 
-You can ignore one or more validation codes across all resources by configuring `kiali_feature_flags.validations.ignore` in the Kiali CR. See the [Kiali CR reference](/docs/configuration/kialis.kiali.io/#.spec.kiali_feature_flags.validations.ignore) for details.
+You can ignore one or more validation codes across all resources by configuring `kiali_feature_flags.validations.ignore` in the Kiali CR. See the [Kiali CR reference]({{< relref "../Configuration/kialis.kiali.io#.spec.kiali_feature_flags.validations.ignore" >}}) for details.
 
 ```yaml
 spec:
@@ -256,7 +256,7 @@ L4-only AuthorizationPolicies (principals, namespaces, ports) are enforced by zt
 
 #### Resolution
 
-Enroll the namespace or selected workloads with `istio.io/use-waypoint` pointing to a waypoint proxy. See [Ambient L7 Istio config validations]({{< relref "ambient#ambient-l7-istio-config-validations" >}}).
+Enroll the namespace or selected workloads with `istio.io/use-waypoint` pointing to a waypoint proxy. See [Ambient L7 Istio config validations]({{< relref "./ambient#ambient-l7-istio-config-validations" >}}).
 
 #### Severity
 
@@ -511,7 +511,7 @@ L4-only DestinationRules (for example TLS settings only) do not trigger this war
 
 #### Resolution
 
-Enroll the Ambient namespace or destination service with `istio.io/use-waypoint`. See [Ambient L7 Istio config validations]({{< relref "ambient#ambient-l7-istio-config-validations" >}}).
+Enroll the Ambient namespace or destination service with `istio.io/use-waypoint`. See [Ambient L7 Istio config validations]({{< relref "./ambient#ambient-l7-istio-config-validations" >}}).
 
 #### Severity
 
@@ -1052,7 +1052,7 @@ VirtualServices that only bind to named ingress/egress Gateways do not need a wa
 
 #### Resolution
 
-Enroll the Ambient namespace or destination service with `istio.io/use-waypoint`. See [Ambient L7 Istio config validations]({{< relref "ambient#ambient-l7-istio-config-validations" >}}).
+Enroll the Ambient namespace or destination service with `istio.io/use-waypoint`. See [Ambient L7 Istio config validations]({{< relref "./ambient#ambient-l7-istio-config-validations" >}}).
 
 #### Severity
 
@@ -1105,7 +1105,7 @@ RequestAuthentication (JWT validation) is an L7 feature enforced by a waypoint i
 
 #### Resolution
 
-Enroll the namespace or selected workloads with `istio.io/use-waypoint` pointing to a waypoint proxy. See [Ambient L7 Istio config validations]({{< relref "ambient#ambient-l7-istio-config-validations" >}}).
+Enroll the namespace or selected workloads with `istio.io/use-waypoint` pointing to a waypoint proxy. See [Ambient L7 Istio config validations]({{< relref "./ambient#ambient-l7-istio-config-validations" >}}).
 
 #### Severity
 
@@ -1143,7 +1143,7 @@ WasmPlugins in Ambient namespaces require a waypoint to take effect. The Ambient
 
 #### Resolution
 
-Enroll the namespace or selected workloads with `istio.io/use-waypoint` pointing to a waypoint proxy. See [Ambient L7 Istio config validations]({{< relref "ambient#ambient-l7-istio-config-validations" >}}).
+Enroll the namespace or selected workloads with `istio.io/use-waypoint` pointing to a waypoint proxy. See [Ambient L7 Istio config validations]({{< relref "./ambient#ambient-l7-istio-config-validations" >}}).
 
 #### Severity
 
@@ -1181,7 +1181,7 @@ Telemetry resources that configure L7 features (tracing, access logging, or cust
 
 #### Resolution
 
-Enroll the namespace or selected workloads with `istio.io/use-waypoint` pointing to a waypoint proxy. See [Ambient L7 Istio config validations]({{< relref "ambient#ambient-l7-istio-config-validations" >}}).
+Enroll the namespace or selected workloads with `istio.io/use-waypoint` pointing to a waypoint proxy. See [Ambient L7 Istio config validations]({{< relref "./ambient#ambient-l7-istio-config-validations" >}}).
 
 #### Severity
 
@@ -1466,7 +1466,7 @@ Workloads that are not selected by the L7 policy do not get this warning. L4-onl
 
 #### Resolution
 
-Add a waypoint and enroll the workload or namespace with `istio.io/use-waypoint` so L7 policies are properly enforced. See [Ambient L7 Istio config validations]({{< relref "ambient#ambient-l7-istio-config-validations" >}}).
+Add a waypoint and enroll the workload or namespace with `istio.io/use-waypoint` so L7 policies are properly enforced. See [Ambient L7 Istio config validations]({{< relref "./ambient#ambient-l7-istio-config-validations" >}}).
 
 #### Severity
 
@@ -1655,7 +1655,7 @@ This is a generic rule implemented by the Gateway, and each particular error sho
 
 <i class="fas fa-exclamation-triangle text-warning"></i> Warning
 
-![GWAPI](/images/documentation/features/GWAPI.png)
+![GWAPI](/images/documentation/features/validations/GWAPI.png)
 
 ## Workload Groups {#workloadgroups}
 

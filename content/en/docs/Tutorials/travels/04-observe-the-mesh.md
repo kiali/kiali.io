@@ -66,7 +66,7 @@ Return to **Traffic Graph**, keep all three Travel Demo namespaces selected, and
 
 ## Graph Walkthrough
 
-The graph provides a powerful set of [graph features]({{< ref "/docs/Features/topology" >}}) to visualize service mesh traffic.
+The graph provides a powerful set of [graph features]({{< relref "../../Features/topology" >}}) to visualize service mesh traffic.
 
 In this section we use the graph to explore the Travel Demo and identify the busiest services.
 
@@ -113,7 +113,7 @@ The graph focuses on the selected element so you can study one part of the topol
 
 ## Application Details
 
-Kiali provides [detail views]({{< ref "/docs/Features/details" >}}) for applications, workloads, and services.
+Kiali provides [detail views]({{< relref "../../Features/details" >}}) for applications, workloads, and services.
 
 These views show structure, health, metrics, logs, traces, and Istio configuration for each component.
 
@@ -167,7 +167,7 @@ Two main business methods appear in the application logs: *GetDestinations* and 
 
 ![Travels-v1 Logs GetTravelQuote](/images/tutorial/04-03-travels-v1-logs-gettravelquote.png "Travels-v1 Logs GetTravelQuote")
 
-As described in the [Travel Demo design]({{< relref "./02-install-travel-demo/#travel-agency-namespace" >}}), an initial query returns available hotels before the user selects a destination and requests quotes from the other services — which explains the higher *hotels* utilization.
+As described in the [Travel Demo design]({{< relref "./02-install-travel-demo#travel-agency-namespace" >}}), an initial query returns available hotels before the user selects a destination and requests quotes from the other services — which explains the higher *hotels* utilization.
 
 {{% alert title="Step 4" color="success" %}}
 Review **Traces** for *travels-v1*
@@ -195,6 +195,6 @@ This chapter focused on the graph and on the *travels-v1* workload detail. The s
 
 Each detail page starts with an **Overview** tab (mini-graph, health, and links to related objects). Applications, services, and workloads also provide **Traffic**, **Metrics**, and **Traces** tabs. Workloads add **Logs** and **Envoy**, as you saw on *travels-v1*.
 
-See [Detail Views]({{< ref "/docs/Features/details" >}}) for a full description of each tab.
+See [Detail Views]({{< relref "../../Features/details" >}}) for a full description of each tab.
 
 When you are ready to change mesh behavior — not only observe it — continue to [Control the Mesh]({{< relref "./05-control-the-mesh" >}}), where Kiali wizards help configure request routing and other traffic management scenarios.

@@ -52,7 +52,7 @@ The diagram below shows the alerting pipeline this guide configures. Badges such
 {{% /alert %}}
 
 {{% alert color="info" %}}
-**Multi-cluster readers:** This guide builds on the same UWM and MCOA federation concepts as the [MultiCluster on OpenShift]({{< relref "./" >}}) tutorial series. You do not need to re-install ACM. Completing the [hub/spoke guide]({{< relref "./ossm-acm-hub-spoke" >}}) (at minimum) is recommended so Istio metrics, Kiali, and the Bookinfo demo are already in place.
+**Multi-cluster readers:** This guide builds on the same UWM and MCOA federation concepts as the [MultiCluster on OpenShift]({{< relref "." >}}) tutorial series. You do not need to re-install ACM. Completing the [hub/spoke guide]({{< relref "./ossm-acm-hub-spoke" >}}) (at minimum) is recommended so Istio metrics, Kiali, and the Bookinfo demo are already in place.
 {{% /alert %}}
 
 - OpenShift 4.19 or later with cluster monitoring (`openshift-monitoring`).
@@ -663,7 +663,7 @@ If you already applied Phase 4 on the managed clusters, you can keep those local
 ### 6.1 Add `kiali_health_status` MCOA Federation Resources
 
 {{% alert color="info" %}}
-**Already followed Guide 1 (hub/spoke)?** The `kiali-istio-aggregation` `PrometheusRule` and `kiali-istio-federation` `ScrapeConfig` were created in [Guide 1, §1.5 Configure MCOA Federation]({{< relref "ossm-acm-hub-spoke#15-configure-mcoa-federation" >}}). Add the health recording group and health match expression to those existing resources; do not create another namespace-specific rule. If you followed that Guide, skip the resource creation below and go directly to [§6.2](#62-verify-on-the-hub).
+**Already followed Guide 1 (hub/spoke)?** The `kiali-istio-aggregation` `PrometheusRule` and `kiali-istio-federation` `ScrapeConfig` were created in [Guide 1, §1.5 Configure MCOA Federation]({{< relref "./ossm-acm-hub-spoke#15-configure-mcoa-federation" >}}). Add the health recording group and health match expression to those existing resources; do not create another namespace-specific rule. If you followed that Guide, skip the resource creation below and go directly to [§6.2](#62-verify-on-the-hub).
 {{% /alert %}}
 
 On the **hub**, identify the MCOA placement (if you already did this in the hub/spoke guide, re-export the variables):

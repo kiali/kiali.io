@@ -5,11 +5,11 @@ description: >
 weight: 12
 ---
 
-Kiali can estimate the monetary cost of ChatAI usage from a **per-model token price catalog**. Those estimates appear on the AI consumption dashboard and can be used with optional per-user [budgets]({{< relref "kiali-chatbot-budgets" >}}).
+Kiali can estimate the monetary cost of ChatAI usage from a **per-model token price catalog**. Those estimates appear on the AI consumption dashboard and can be used with optional per-user [budgets]({{< relref "./kiali-chatbot-budgets" >}}).
 
 **To use consumption tracking, token prices, and the AI consumption dashboard, `ai.metrics` must be enabled (`ai.metrics: true`).** If metrics are disabled, Kiali does not record token usage, does not estimate cost, and does not show consumption data.
 
-Cost estimates, dashboard access, and the price catalog are configured under `ai.consumption`. For the configuration keys, see `ai.metrics` and `ai.consumption` in the [Kiali CR spec](/docs/configuration/kialis.kiali.io/#.spec.ai).
+Cost estimates, dashboard access, and the price catalog are configured under `ai.consumption`. For the configuration keys, see `ai.metrics` and `ai.consumption` in the [Kiali CR spec]({{< relref "../../Configuration/kialis.kiali.io#.spec.ai" >}}).
 
 ### Default catalog
 
@@ -115,7 +115,7 @@ Copy rows from the [built-in catalog](https://github.com/kiali/kiali/blob/master
 
 ### Dashboard access
 
-`ai.consumption.allowed_users_dashboard` lists usernames that may open the consumption dashboard. If the list is empty (the default), all authenticated users have access. This is independent of `ai.chat.allowed_users`, which controls who can use the [Chatbot]({{< relref "kiali-chatbot" >}}).
+`ai.consumption.allowed_users_dashboard` lists usernames that may open the consumption dashboard. If the list is empty (the default), all authenticated users have access. This is independent of `ai.chat.allowed_users`, which controls who can use the [Chatbot]({{< relref "./kiali-chatbot" >}}).
 
 ```yaml
 ai:
@@ -129,4 +129,4 @@ ai:
 
 ### Next step
 
-To limit cost or tokens per user, see [Budgets]({{< relref "kiali-chatbot-budgets" >}}).
+To limit cost or tokens per user, see [Budgets]({{< relref "./kiali-chatbot-budgets" >}}).

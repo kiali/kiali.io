@@ -5,7 +5,7 @@ description: "Questions about the Jaeger integration."
 
 ### How to know which is the URL for Jaeger or Tempo?
 
-From Kiali 2.11, a new [tracing tool](/docs/configuration/debugging-kiali/#tracing-integration) in the Mesh page is provided to help troubleshooting and provide possible valid tracing configurations. 
+From Kiali 2.11, a new [tracing tool]({{< relref "../Configuration/debugging-kiali#tracing-integration" >}}) in the Mesh page is provided to help troubleshooting and provide possible valid tracing configurations. 
 
 ### Why is Jaeger unreachable or Kiali showing the error "Could not fetch traces"?
 
@@ -65,7 +65,7 @@ If for some reason the GRPC connection fails and you think it shouldn't (e.g. yo
 
 ### Why can't I see any external link to Jaeger?
 
-In addition to the embedded integration that Kiali provides with Jaeger, it is possible to show external links to the Jaeger UI. To do so, the external URL must be configured in the [Kiali CR](/docs/configuration/kialis.kiali.io/#.spec.external_services.tracing.external_url).
+In addition to the embedded integration that Kiali provides with Jaeger, it is possible to show external links to the Jaeger UI. To do so, the external URL must be configured in the [Kiali CR]({{< relref "../Configuration/kialis.kiali.io#.spec.external_services.tracing.external_url" >}}).
 
 ```yaml
     tracing:
@@ -86,7 +86,7 @@ When configured, this URL will be used to generate a couple of links to Jaeger w
 
 On the Application detail page, the Traces tab might redirect to Jaeger via an external link instead of showing the Kiali Tracing view. It happens when you have the `external_url` field configured, but not `internal_url`, which means the Kiali backend will not be able to connect to Jaeger.
 
-To fix it, configure `internal_url` in the [Kiali CR](/docs/configuration/kialis.kiali.io/#.spec.external_services.tracing.internal_url).
+To fix it, configure `internal_url` in the [Kiali CR]({{< relref "../Configuration/kialis.kiali.io#.spec.external_services.tracing.internal_url" >}}).
 
 
 ### Why do I see "Missing root span" for the root span of some span details on Traces tab?
@@ -174,7 +174,7 @@ Where:
 
 ![View in Tracing](/images/documentation/faq/tracing/view-in-tracing.png)
 
-For [OSSMC]({{< ref "/docs/OSSMC/users-guide#workload-traces" >}}), when the tracing plugin is enabled, it will redirect automatically to the Tracing UI plugin.
+For [OSSMC]({{< relref "../OSSMC/users-guide#workload-traces" >}}), when the tracing plugin is enabled, it will redirect automatically to the Tracing UI plugin.
 
 ### Why can't I see traces and there are no errors?
 
@@ -189,7 +189,7 @@ tracing:
   namespace_selector: false
 ```
 
-For further Tempo configuration options, take a look at the [Tempo configuration page]({{< ref "/docs/configuration/external-services/tracing/tempo" >}})
+For further Tempo configuration options, take a look at the [Tempo configuration page]({{< relref "../Configuration/external-services/tracing/tempo" >}})
 
 ### How do I modify the trace limit?
 

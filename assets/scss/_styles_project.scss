@@ -1,13 +1,153 @@
 /*
-Hide the "create documentation issue" links and defer "create project issue".  Kiali puts all issues under the project.
-- The two lines below do the same thing, the top line is for our current version of Docsy.  The bottom
-  line is the newer, preferred way.  TODO: remove top line when we update Docsy.
+Hide the "create documentation issue" links. Kiali tracks documentation issues in kiali/kiali.
 */
-.td-page-meta > a:nth-child(3) { display: none !important; }
-.td-page-meta--issue { display: none !important; }
+.td-page-meta > a:nth-child(3) {
+  display: none !important;
+}
+.td-page-meta--issue {
+  display: none !important;
+}
 
-// Docsy's `.td-content table { @extend .td-table }` does not reliably compile
-// into the Bootstrap table rules. Style markdown tables directly instead.
+// Navbar and homepage cover (legacy Kiali / Docsy look before theme module).
+.td-navbar {
+  --bs-navbar-color: rgba(255, 255, 255, 0.85);
+  --bs-navbar-hover-color: #fff;
+  --bs-navbar-active-color: #fff;
+  --bs-navbar-brand-color: #fff;
+  --bs-navbar-brand-hover-color: #fff;
+  --bs-navbar-toggler-border-color: rgba(255, 255, 255, 0.25);
+  --bs-navbar-toggler-icon-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+
+  background-color: $primary !important;
+  border-bottom: none;
+
+  .navbar-brand {
+    margin-left: 0.5rem;
+
+    &__logo {
+      margin-left: 0.25rem;
+    }
+  }
+
+  .navbar-brand,
+  .navbar-brand__name {
+    color: #fff;
+  }
+
+  .nav-link {
+    font-weight: $font-weight-bold;
+  }
+
+  .td-search {
+    color: rgba(255, 255, 255, 0.85);
+
+    &__icon {
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    &__input {
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.5);
+
+      &::placeholder {
+        color: rgba(255, 255, 255, 0.75);
+        opacity: 1;
+      }
+
+      &:not(:focus) {
+        background: transparent;
+      }
+
+      &.form-control:focus {
+        color: #000;
+        border-color: rgba(255, 255, 255, 0.75);
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.25);
+      }
+    }
+  }
+
+  .td-lang-menu,
+  .td-version-menu {
+    .dropdown-item {
+      padding-left: 1rem;
+
+      &.active,
+      &-home {
+        padding-left: 1.75rem;
+      }
+    }
+  }
+}
+
+// Lead block wraps copy in `.h4`; Docsy box styles only target `p > a`.
+.td-box--primary {
+  .h4 a {
+    color: $secondary;
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+
+    &:hover,
+    &:focus {
+      color: tint-color($secondary, 15%);
+    }
+  }
+}
+
+.td-navbar.td-navbar-cover {
+  @include media-breakpoint-up(md) {
+    .td-search {
+      &__input {
+        padding-left: 1rem;
+
+        &.form-control:focus {
+          color: #000;
+          text-shadow: none;
+        }
+      }
+    }
+
+    &.td-navbar-transparent {
+      background: transparent !important;
+      --td-navbar-bg-color: transparent;
+      backdrop-filter: none !important;
+      --td-navbar-backdrop-filter: none;
+
+      .nav-link {
+        text-shadow: 1px 1px 2px $dark;
+      }
+
+      .td-search {
+        text-shadow: 1px 1px 2px $dark;
+        &__input {
+          &::placeholder {
+            text-shadow: 1px 1px 2px $dark;
+          }
+
+          &.form-control:focus {
+            &::placeholder {
+              text-shadow: none;
+            }
+          }
+        }
+      }
+    }
+
+    &:not(.td-navbar-transparent) {
+      background-color: $primary !important;
+      --td-navbar-bg-color: #{$primary};
+
+      .nav-link {
+        text-shadow: none;
+      }
+    }
+  }
+}
+
+.td-footer {
+  margin-top: 1rem;
+}
+
+// Docsy table styling for markdown tables (see kiali.io issue history).
 .td-content table:not(.td-initial) {
   @extend .table;
   @extend .table-striped;
@@ -17,3 +157,141 @@ Hide the "create documentation issue" links and defer "create project issue".  K
   -webkit-overflow-scrolling: touch;
 }
 
+.home-sponsor-redhat {
+  float: right;
+  margin-top: 1rem;
+  margin-right: 1rem;
+}
+
+.community-stats-chart {
+  width: 100%;
+  height: 500px;
+}
+
+// Homepage blog and video cards (formerly assets/scss/_content.scss).
+.blog-header,
+.videos-header {
+  flex: 0 0 100%;
+  padding-bottom: 1em;
+}
+
+.blog-card {
+  width: 350px;
+  height: 23em;
+  background-color: white;
+  text-align: left;
+  box-shadow:
+    0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+
+  figure img {
+    width: 350px;
+    height: 125px;
+    object-fit: cover;
+    object-position: 0% 0%;
+    margin-bottom: 0;
+    margin-top: 0;
+    margin-left: auto;
+    max-width: 100%;
+  }
+
+  .blog-card-body {
+    padding: 0.5rem;
+    border-bottom: 1px solid lightgray;
+  }
+
+  .blog-card-date {
+    font-size: x-small;
+    color: gray;
+    text-transform: uppercase;
+  }
+
+  .blog-card-title {
+    font-size: 1em;
+    font-weight: bold;
+    margin-bottom: 1em;
+    height: 3em;
+  }
+
+  .blog-card-author {
+    display: none;
+  }
+
+  .blog-card-summary {
+    font-size: 0.8em;
+    max-height: 7em;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .pt-0 {
+    text-align: right;
+    position: absolute;
+    right: 1em;
+    bottom: 0;
+  }
+}
+
+.video-card {
+  max-width: 300px;
+  height: 18em;
+  background-color: white;
+  text-align: left;
+  box-shadow:
+    0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+
+  figure {
+    text-align: center;
+
+    img {
+      width: 240px;
+      height: 125px;
+      object-fit: cover;
+      object-position: 0% 50%;
+      margin-bottom: 0;
+      margin-top: 0;
+      margin-left: auto;
+      max-width: 100%;
+    }
+  }
+
+  .video-card-body {
+    padding: 0.5rem;
+    border-bottom: 1px solid lightgray;
+  }
+
+  .video-card-date {
+    font-size: x-small;
+    color: gray;
+    text-transform: uppercase;
+  }
+
+  .video-card-title {
+    font-size: 1em;
+    font-weight: bold;
+    margin-bottom: 1em;
+    height: 3em;
+  }
+
+  .pt-0 {
+    text-align: right;
+    position: absolute;
+    right: 1em;
+    bottom: 0;
+  }
+}
+
+// Doc page screenshots (formerly in assets/scss/_content.scss)
+.td-content img {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  margin-left: 5%;
+  max-width: 90%;
+}

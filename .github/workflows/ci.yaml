@@ -17,5 +17,13 @@ jobs:
           # Full history needed for ignore_new_urls.sh to detect new/changed doc paths
           fetch-depth: 0
 
+      - name: Set up Go
+        uses: actions/setup-go@0aaccfd150d50ccaeb58ebd88d36e91967a5f35b  # v5.4.0
+        with:
+          go-version: "1.23"
+
+      - name: Verify Hugo module checksums
+        run: go mod download && go mod verify
+
       - name: Validate
         run: make validate-site

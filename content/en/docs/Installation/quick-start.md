@@ -32,7 +32,7 @@ If you want to run Kiali locally without a Prometheus instance, use the `--disab
 kiali run --disable-prometheus
 ```
 
-This is useful for quickly exploring Kiali's non-metrics features (workloads, services, Istio configuration, mesh topology) without needing a Prometheus deployment. See [Disabling Prometheus]({{< relref "/docs/configuration/external-services/metrics/prometheus#disabling-prometheus" >}}) for more details.
+This is useful for quickly exploring Kiali's non-metrics features (workloads, services, Istio configuration, mesh topology) without needing a Prometheus deployment. See [Disabling Prometheus]({{< relref "../Configuration/external-services/metrics/prometheus#disabling-prometheus" >}}) for more details.
 
 {{% alert color="info" %}}
 If the cluster name in your kubeconfig does not match the cluster name in Istio you can override this with `--cluster-name-overrides kubeconfig-name=istio-cluster-name`. The flag is a comma separated list so you can override as many names as you need.
@@ -44,7 +44,7 @@ You can quickly install Kiali into your cluster via one of the following two met
 
 {{% alert color="warning" %}}
 These instructions are not recommended for production environments. Find more detailed information on installing Kiali,
-see the [installation guide]({{< ref "/docs/installation" >}}).
+see the [installation guide]({{< relref "." >}}).
 {{% /alert %}}
 
 {{% alert color="warning" %}}

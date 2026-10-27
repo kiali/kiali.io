@@ -247,7 +247,7 @@ the Jaeger API. You can point to the `16685` port to use GRPC or `16686` if not.
 For the given example, the value would be
 `http://tempo-ssm-query-frontend.tempo.svc.cluster.local:16685`.
 
-There is a [related tutorial]({{< ref "/docs/tutorials/tempo/02-kiali-tempo-integration" >}}) with detailed instructions to setup Kiali and Grafana Tempo with the Operator.
+There is a [related tutorial]({{< relref "../../../Tutorials/tempo/02-kiali-tempo-integration" >}}) with detailed instructions to setup Kiali and Grafana Tempo with the Operator.
 
 ### Configuration table
 

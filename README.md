@@ -23,7 +23,9 @@ To run the website locally, you will need:
 - [Podman](https://podman.io) or [Docker](https://docker.io)
 - [GNU Make](https://www.gnu.org/software/make/)
 
-Generally `podman` is easier to setup.
+Generally `podman` is easier to setup. The dev container image includes Go (for Hugo Modules), Node/npm, and htmlproofer; Hugo **extended** and Dart Sass (`sass-embedded`) come from npm (`package.json`), same as [Docsy’s recommended setup](https://www.docsy.dev/docs/get-started/docsy-as-module/installation-prerequisites/). Docsy is pulled as a Hugo module (`go.mod`); theme npm assets are merged into `packages/hugoautogen/` via `hugo mod npm pack`.
+
+On the host (without the container), install dependencies with `npm run install:safe`, then run `npm run approve:hugo` once to allow the `hugo-extended` install script. Node **24** and npm **≥11.9** match `package.json` engines.
 
 ## Configuring and Running
 
@@ -48,7 +50,15 @@ make serve
 > export DOCKER_DEFAULT_PLATFORM=linux/amd64
 > ```
 
-If everything is working as expected, you should see something like this (if not see [Upgrading Hugo Version](#upgrading-hugo-version)):
+To build and validate the site the same way CI does (Hugo production flags plus htmlproofer):
+
+```
+make validate-site
+```
+
+On the host you can also run `npm test` (Node maintenance scripts) and `npm run build:ci` after `npm run install:safe`.
+
+If everything is working as expected, you should see something like this when serving (if not see [Upgrading Hugo Version](#upgrading-hugo-version)):
 
 ```
                    | EN
@@ -73,9 +83,7 @@ The server should be available on [http://localhost:1313](http://localhost:1313)
 
 ## Upgrading Hugo version
 
-The current version of Hugo used to build the site is defined in [netlify.toml](./netlify.toml) and in the [Makefile](./Makefile). Make sure the versions defined in both places are the same or, at minimum, compatible. If `make serve` fails you may need to upgrade Hugo.
-
-When upgrading to a new version of Hugo, change the versions in both files mentioned above and then rebuild your dev container image by passing in `-e FORCE_BUILD=true` when running make (e.g. `make -e FORCE_BUILD=true build-hugo`).
+The Hugo **extended** version is pinned in [package.json](./package.json) (`devDependencies.hugo-extended`). Update that version and `allowScripts` if needed, run `npm run approve:hugo`, then `npm run update:docsy:pack` and commit `package-lock.json`. Netlify does not use a `HUGO_VERSION` environment variable; it uses the npm package.
 
 ## Documentation Versioning
 
@@ -90,6 +98,7 @@ Deployment is done automatically when a pull request is merged, and preview depl
 
 The directory structure is typical for projects using the [Docsy](https://www.docsy.dev/) theme. A couple of notes:
 
+- Docsy is not vendored under `themes/`; it is declared in `go.mod` and fetched by Hugo.
 - The site only supports English and as such, all content is under `content/en`.
 - The site minimizes customization but custom CSS is found in `assets/scss`.
 - The site keeps consolidates static content under `static`.

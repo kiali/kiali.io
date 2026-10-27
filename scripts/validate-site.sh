@@ -3,7 +3,12 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-cd themes/docsy && npm install && cd ../..
+node -v
+npm -v
+go version
+
+npm run install:safe
+go mod download && go mod verify
 npm prune
 npm config set fetch-retry-mintimeout 20000
 npm config set fetch-retry-maxtimeout 120000
@@ -12,7 +17,7 @@ npm config set fetch-retry-maxtimeout 120000
 # fetching the live staging site (which may not yet include pages from the PR).
 PROOFER_PORT=8765
 LOCAL_BASE_URL="http://127.0.0.1:${PROOFER_PORT}/"
-hugo --baseURL "${LOCAL_BASE_URL}"
+npm run build:ci -- --baseURL "${LOCAL_BASE_URL}"
 
 npx --yes http-server ./public -p "${PROOFER_PORT}" -a 127.0.0.1 -s &
 SERVER_PID=$!

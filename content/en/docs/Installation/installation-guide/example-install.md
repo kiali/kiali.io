@@ -32,7 +32,7 @@ reviews-v3       1/1     1            1           21m
 
 ## Install Kiali Operator via Helm Chart
 
-First, the Kiali Operator will be installed in the `kiali-operator` namespace using the [operator helm chart]({{< ref "/docs/installation/installation-guide/install-with-helm#operator-only-install" >}}):
+First, the Kiali Operator will be installed in the `kiali-operator` namespace using the [operator helm chart]({{< relref "./install-with-helm#operator-only-install" >}}):
 
 ```bash
 $ helm repo add kiali https://kiali.org/helm-charts
@@ -198,7 +198,7 @@ kubectl delete kiali kiali -n istio-system
 To uninstall the Kiali Operator, use `helm uninstall` and then manually remove the Kiali CRD.
 
 {{% alert color="warning" %}}
-You must delete all Kiali CRs in the cluster prior to uninstalling the Kiali Operator. If you fail to do this, uninstalling the operator will hang and remnants of Kiali Server installations will remain in your cluster and you will be required to perform some [manual steps]({{< ref "/docs/installation/installation-guide/install-with-helm#known-problem-uninstall-hangs-unable-to-delete-the-kiali-cr" >}}) to clean it up.
+You must delete all Kiali CRs in the cluster prior to uninstalling the Kiali Operator. If you fail to do this, uninstalling the operator will hang and remnants of Kiali Server installations will remain in your cluster and you will be required to perform some [manual steps]({{< relref "./install-with-helm#known-problem-uninstall-hangs-unable-to-delete-the-kiali-cr" >}}) to clean it up.
 {{% /alert %}}
 
 ```bash

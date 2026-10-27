@@ -29,4 +29,4 @@ spec:
 ```
 
 The `token` strategy doesn't have any additional configuration other than the
-[session expiration time]({{< relref "session-configs" >}}).
+[session expiration time]({{< relref "./session-configs" >}}).

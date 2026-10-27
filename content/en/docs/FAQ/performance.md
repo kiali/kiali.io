@@ -9,7 +9,7 @@ It can be an observability challenge to work with a large mesh. Here are a few t
 
 #### Resources and Connectivity
 
-Before talking about Kiali features, it is important to understand that Kiali's performance is dependent on the performance and responsiveness of your metrics database (typically Prometheus), and your tracing store, for installations using tracing. For Prometheus scalability tips, see [Tuning]({{< ref "/docs/Configuration/external-services/metrics/tuning" >}}). See [Tempo Tuning]({{< ref "/docs/Configuration/external-services/tracing/tempo#tempo-tuning" >}}) if using Tempo for your trace store.
+Before talking about Kiali features, it is important to understand that Kiali's performance is dependent on the performance and responsiveness of your metrics database (typically Prometheus), and your tracing store, for installations using tracing. For Prometheus scalability tips, see [Tuning]({{< relref "../Configuration/external-services/metrics/tuning" >}}). See [Tempo Tuning]({{< relref "../Configuration/external-services/tracing/tempo#tempo-tuning" >}}) if using Tempo for your trace store.
 
 Only when query performance for metrics and traces is good, can Kiali respond in a reasonable way. So, it is also important to provide sufficient connectivity for the API calls to return information in a timely way.
 
@@ -59,7 +59,7 @@ After your graph is generated and rendered in the UI, there are client-side ways
   - Find will highlight the nodes and edges that match the expression. This can help locate nodes and edges in a large graph (or even a small graph).
   - Hide will temporarily remove the matching nodes and edges. This can effectively clean up a large graph into a very focused view.
   - It is possible to pre-define Find and Hide expressions in your Kiali CR. These pre-defined expressions can even be configured to be applied automatically.
-    - For more, see [find_options](/docs/configuration/kialis.kiali.io/#.spec.kiali_feature_flags.ui_defaults.graph.find_options) and [hide_options](/docs/configuration/kialis.kiali.io/#.spec.kiali_feature_flags.ui_defaults.graph.hide_options) in the [Kiali CR Reference](/docs/configuration/kialis.kiali.io/#example-cr).
+    - For more, see [find_options]({{< relref "../Configuration/kialis.kiali.io#.spec.kiali_feature_flags.ui_defaults.graph.find_options" >}}) and [hide_options]({{< relref "../Configuration/kialis.kiali.io#.spec.kiali_feature_flags.ui_defaults.graph.hide_options" >}}) in the [Kiali CR Reference]({{< relref "../Configuration/kialis.kiali.io#example-cr" >}}).
 - Layouts
   - Kiali provides multiple layouts. Many graphs looks best using the default layout, but others may improve using a different layout.
   - Layouts are available by clicking the on-screen icons at the bottom of the graph.

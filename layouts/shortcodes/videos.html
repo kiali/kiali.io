@@ -2,15 +2,16 @@
 {{- $feedURL   := "https://www.youtube.com/feeds/videos.xml?channel_id=UCcm2NzDN_UCZKk2yYmOpc5w" }}
 {{- $feedData  := dict }}
 {{- $opts      := dict "timeout" "10s" }}
-{{- $r         := resources.GetRemote $feedURL $opts }}
-{{- if $r }}
-  {{- if $r.Err }}
-    {{- warnf "Videos shortcode: failed to fetch YouTube feed: %s" $r.Err }}
-  {{- else }}
-    {{- $parsed := $r.Content | transform.Unmarshal (dict "format" "xml") }}
+{{- with try (resources.GetRemote $feedURL $opts) }}
+  {{- with .Err }}
+    {{- warnf "Videos shortcode: failed to fetch YouTube feed from %s: %s" $feedURL . }}
+  {{- else with .Value }}
+    {{- $parsed := .Content | transform.Unmarshal (dict "format" "xml") }}
     {{- if $parsed.entry }}
       {{- $feedData = $parsed }}
     {{- end }}
+  {{- else }}
+    {{- warnf "Videos shortcode: failed to fetch YouTube feed from %s" $feedURL }}
   {{- end }}
 {{- end }}
 

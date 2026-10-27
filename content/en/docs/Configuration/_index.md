@@ -11,7 +11,7 @@ Unless noted, it is assumed that you are using the Kiali operator and that you
 are managing the Kiali installation through a Kiali CR. The provided YAML
 snippets for configuring Kiali should be placed in your Kiali CR. For example,
 the provided configuration snippet for [setting up the Anonymous authentication
-strategy]({{< relref "authentication/anonymous/#set-up" >}}) is the following:
+strategy]({{< relref "./authentication/anonymous#set-up" >}}) is the following:
 
 ```yaml
 spec:
@@ -41,4 +41,4 @@ _[The Kiali CR]({{< relref "../Installation/installation-guide/creating-updating
 and the _[Example Install]({{< relref "../Installation/installation-guide/example-install" >}})_
 pages of the Installation Guide for more information about using the Kiali CR.
 
-Also, for reference, see [Kiali CR Reference](/docs/configuration/kialis.kiali.io) which documents all available options.
+Also, for reference, see [Kiali CR Reference]({{< relref "./kialis.kiali.io" >}}) which documents all available options.

@@ -27,11 +27,11 @@ access, Kiali won't offer the same privilege granularity that the cluster
 supports. For example, a user that does not have privileges to get Kubernetes
 `Deployments` via typical tools (e.g. `kubectl`) would still be able to get
 some details of Deployments through Kiali when [listing Workloads or when
-viewing detail pages]({{<relref "../features/details">}}), or in the
-[Graph]({{<relref "../features/topology">}}).
+viewing detail pages]({{< relref "../Features/details" >}}), or in the
+[Graph]({{< relref "../Features/topology" >}}).
 
 Some features allow creating or changing resources in the cluster (for example,
-[the Wizards]({{<relref "../features/wizards" >}})). For these _write_
+[the Wizards]({{< relref "../Features/wizards" >}})). For these _write_
 operations which may be sensitive, the users will need to have the required
 privileges in the cluster to perform updates - i.e. the cluster RBAC takes
 effect.
@@ -74,7 +74,7 @@ rules:
 ``` 
 
 {{% alert color="info" %}}
-The `pods/log` privilege is needed for the [pods Logs view]({{<relref "../features/details#logs">}}).
+The `pods/log` privilege is needed for the [pods Logs view]({{< relref "../Features/details#logs" >}}).
 Since logs are potentially sensitive, you could remove that privilege if you
 don't want users to be able to fetch pod logs.
 {{% /alert %}}

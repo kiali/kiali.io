@@ -7,7 +7,7 @@ Kiali offers a native integration with two different Distributed Tracing platfor
 than that, Kiali incorporates tracing into several correlated views, making your investment in trace data even more valuable.
 
 For a quick glimpse at Kiali tracing features, see below.  For a detailed explanation of tracing in Kiali, see this 3-part
-[Trace my mesh](https://medium.com/kialiproject/trace-my-mesh-part-1-3-35e252f9c6a9) blog series. There is a detailed guide to configure access to the different distributed tracing platform, [Jaeger](/docs/configuration/external-services/tracing/jaeger) and [Grafana Tempo](/docs/configuration/external-services/tracing/tempo). 
+[Trace my mesh](https://medium.com/kialiproject/trace-my-mesh-part-1-3-35e252f9c6a9) blog series. There is a detailed guide to configure access to the different distributed tracing platform, [Jaeger]({{< relref "../Configuration/external-services/tracing/jaeger" >}}) and [Grafana Tempo]({{< relref "../Configuration/external-services/tracing/tempo" >}}). 
 
 <br />
 
@@ -17,14 +17,14 @@ When investigating a workload, click the _Traces_ tab to visualize your traces i
 presents a tab for trace detail, and a tab for span details.  Kiali always tries to surface problem areas, Kiali uses a
 heatmap approach to help the user identify problem traces or spans.
 
-![Trace detail](/images/documentation/features/trace-detail.png)
-![Span detail](/images/documentation/features/trace-span-detail.png)
+![Trace detail](/images/documentation/features/tracing/trace-detail.png)
+![Span detail](/images/documentation/features/tracing/trace-span-detail.png)
 
 ### Heatmaps
 
 A heatmap that you see in the Workload's Tracing tab is a matrix that compares a specific trace's request duration against duration metrics aggregated over time.
 
-![Heatmap](/images/documentation/features/tracing-heatmap.png "Heatmap")
+![Heatmap](/images/documentation/features/tracing/tracing-heatmap.png "Heatmap")
 
 Each trace has a corresponding heatmap matrix. Each cell in the matrix corresponds to a specific metric aggregate; the value and color of a cell represents the difference between that metric and the duration of the matrix's associated trace.
 
@@ -37,7 +37,7 @@ The color of a cell will range between red and green; the more green a cell is, 
 Kiali offers span overlays on Metric charts.  The user can simply enable the `spans` option to generate the overlay.  Clicking any
 span will navigate back to the _Traces_ tab, focused on the trace of interest.
 
-![Metrics with Tracing](/images/documentation/features/trace-metric-overlay.png)
+![Metrics with Tracing](/images/documentation/features/tracing/trace-metric-overlay.png)
 
 
 ## Graph Correlation
@@ -47,7 +47,7 @@ the user will be presented with a _Traces_ tab, which lists available traces for
 will display an overlay for the trace's spans.  And the side panel will display span details and offer links back to the trace detail
 views.
 
-![Graph with Tracing](/images/documentation/features/trace-graph-overlay.png)
+![Graph with Tracing](/images/documentation/features/tracing/trace-graph-overlay.png)
 
 
 ## Logs Correlation
@@ -58,5 +58,5 @@ Kiali adds trace entries to the workload logs view.  Below, in time-sorted order
 logs (in white), Envoy proxy logs (in gold), and trace spaces (in blue).  Clicking a span of interest brings you to the detail
 view for the trace of interest.
 
-![Logs with Tracing](/images/documentation/features/trace-logs.png)
+![Logs with Tracing](/images/documentation/features/tracing/trace-logs.png)
 
