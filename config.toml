@@ -6,14 +6,10 @@ enableRobotsTXT = true
 # Increase page rendering timeout because we occasionally take longer then the 30s default
 timeout = 45
 
-# Hugo allows theme composition (and inheritance). The precedence is from left to right.
-theme = ["docsy"]
-
 # Will give values to .Lastmod etc.
 enableGitInfo = true
 
-# Language settings
-contentDir = "content/en"
+# Language settings (contentDir belongs under [languages.en] for Hugo 0.12x+)
 defaultContentLanguage = "en"
 defaultContentLanguageInSubdir = false
 # Useful when translating.
@@ -47,6 +43,10 @@ pygmentsUseClassic = false
 # See https://help.farbox.com/pygments.html
 pygmentsStyle = "tango"
 
+# Hugo 0.12x+ blocks HTML in content files by default; homepage uses content/en/_index.html.
+[security]
+allowContent = ['^text/', '^text/html$']
+
 # Configure how URLs look like per section.
 [permalinks]
 blog = "/:section/:year/:month/:day/:slug/"
@@ -61,8 +61,11 @@ latexDashes = true
 # Image processing configuration.
 [imaging]
 resampleFilter = "CatmullRom"
-quality = 75
 anchor = "smart"
+[imaging.jpeg]
+quality = 75
+[imaging.webp]
+quality = 75
 
 [services]
 [services.googleAnalytics]
@@ -74,11 +77,12 @@ id = "UA-130444728-1"
 [languages]
 [languages.en]
 title = "Kiali"
+# English files live under content/en/ on disk; module mount maps that tree to Hugo's content/.
+contentDir = "content"
+label = "English"
+weight = 1
 [languages.en.params]
 description = "Kiali Project site"
-languageName ="English"
-# Weight used for sorting.
-weight = 1
 
 [markup]
   [markup.goldmark]
@@ -150,8 +154,8 @@ prism_syntax_highlighting = false
 [params.ui]
 #  Set to true to disable breadcrumb navigation.
 breadcrumb_disable = false
-# Set to true to disable the About link in the site footer
-footer_about_disable = false
+# Set to false to hide the About link in the site footer
+footer_about_enable = true
 # Set to false if you don't want to display a logo (/assets/icons/logo.svg) in the top navbar
 navbar_logo = true
 # Set to true if you don't want the top navbar to be translucent when over a `block/cover`, like on the homepage.
@@ -159,7 +163,7 @@ navbar_translucent_over_cover_disable = false
 # Enable to show the side bar menu in its compact state.
 sidebar_menu_compact = false
 # Set to true to hide the sidebar search box (the top nav search box will still be displayed if search is enabled)
-sidebar_search_disable = false
+sidebar_search_disable = true
 # Set to true to make the sidebar foldable
 sidebar_menu_foldable = true
 # Uncomment to specify a fixed unfold depth
@@ -293,3 +297,43 @@ enable = false
 [[params.versions]]
   version = "archive"
   url = "https://pre-v1-41.kiali.io"
+
+[module]
+  [module.hugoVersion]
+    extended = true
+    min = "0.160.1"
+  [[module.imports]]
+    path = "github.com/docsy/docsy/theme"
+  # Custom mounts replace Hugo defaults; re-declare project dirs (see hugo.io/configuration/module/#mounts).
+  # Mount content/en → content so URLs are /docs/… not /en/docs/… (defaultContentLanguageInSubdir is false).
+  [[module.mounts]]
+    source = "content/en"
+    target = "content"
+  [[module.mounts]]
+    source = "data"
+    target = "data"
+  [[module.mounts]]
+    source = "layouts"
+    target = "layouts"
+  [[module.mounts]]
+    source = "i18n"
+    target = "i18n"
+  [[module.mounts]]
+    source = "archetypes"
+    target = "archetypes"
+  [[module.mounts]]
+    source = "assets"
+    target = "assets"
+  [[module.mounts]]
+    source = "static"
+    target = "static"
+  # Docsy mounts theme node_modules in its hugo.yaml; also mount project npm deps for SCSS vendors.
+  [[module.mounts]]
+    source = "node_modules/bootstrap"
+    target = "assets/vendor/bootstrap"
+  [[module.mounts]]
+    source = "node_modules/@fortawesome/fontawesome-free"
+    target = "assets/vendor/Font-Awesome"
+  [[module.mounts]]
+    source = "node_modules/@fortawesome/fontawesome-free/webfonts"
+    target = "static/webfonts"

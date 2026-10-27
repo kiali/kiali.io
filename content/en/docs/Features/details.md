@@ -27,7 +27,7 @@ Each Overview provides:
 * health status.
 * validation information.
 * an Action menu for actions that can be taken on the component.
-  * several [Wizards]({{< relref "wizards" >}}) are available.
+  * several [Wizards]({{< relref "./wizards" >}}) are available.
 
 And also type-specfic information.  For example:
 
@@ -38,7 +38,7 @@ And also type-specfic information.  For example:
 ![Detail overview service](/images/documentation/features/detail-overview-service.png)
 ![Detail overview workload](/images/documentation/features/detail-overview-workload.png)
 
-Both Workload and Service detail can be customized to some extent, by adding additional details supplied as annotations. This is done through the `additional_display_details` field in [the Kiali CR](/docs/configuration/kialis.kiali.io/#.spec.additional_display_details).
+Both Workload and Service detail can be customized to some extent, by adding additional details supplied as annotations. This is done through the `additional_display_details` field in [the Kiali CR]({{< relref "../Configuration/kialis.kiali.io#.spec.additional_display_details" >}}).
 
 ![Detail overview additional details](/images/documentation/features/detail-overview-additional-details.png)
 
@@ -90,7 +90,7 @@ For example, `sidecar.istio.io/statsInclusionPrefixes: cluster_manager,listener_
 
 #### Envoy memory diagnostics {#envoy-memory}
 
-For workloads with an Envoy proxy, Kiali evaluates proxy memory and shows a compact **Envoy memory** status when the [required metrics]({{< ref "/docs/faq/general#requiredmetrics" >}}) are present in Prometheus. The status is meant to highlight sidecars, waypoints, or gateways that may be using more memory than expected and whether configuration size or traffic is the more likely driver.
+For workloads with an Envoy proxy, Kiali evaluates proxy memory and shows a compact **Envoy memory** status when the [required metrics]({{< relref "../FAQ/general#requiredmetrics" >}}) are present in Prometheus. The status is meant to highlight sidecars, waypoints, or gateways that may be using more memory than expected and whether configuration size or traffic is the more likely driver.
 
 On the workload **Overview** tab, the status sits with the rest of the workload summary:
 
@@ -108,7 +108,7 @@ Kiali combines Prometheus Envoy stats with Istio telemetry (and config-dump clus
 
 When the cause points to configuration, Kiali links to Istio [configuration scoping](https://istio.io/latest/docs/ops/configuration/mesh/configuration-scoping/), which can reduce proxy memory by limiting the config each Envoy receives.
 
-Thresholds differ by proxy role (sidecar, waypoint, gateway). If required metrics are missing from Prometheus, the Envoy Memory UI may be hidden or incomplete. See [required Envoy metrics]({{< ref "/docs/faq/general#requiredmetrics" >}}) and [metric tuning / federation]({{< ref "/docs/configuration/external-services/metrics/tuning" >}}) when you scrape or federate only a subset of Istio telemetry.
+Thresholds differ by proxy role (sidecar, waypoint, gateway). If required metrics are missing from Prometheus, the Envoy Memory UI may be hidden or incomplete. See [required Envoy metrics]({{< relref "../FAQ/general#requiredmetrics" >}}) and [metric tuning / federation]({{< relref "../Configuration/external-services/metrics/tuning" >}}) when you scrape or federate only a subset of Istio telemetry.
 
 
 #### Go
@@ -242,6 +242,6 @@ The pod annotation for Kiali with the full list of dashboards is: `kiali.io/dash
 
 ### Custom Dashboards {#custom-dash}
 
-When the built-in dashboards don't offer what you need, it's possible to create your own.  See [Custom Dashboard Configuration]({{< ref "/docs/configuration/custom-dashboard" >}}) for more information.
+When the built-in dashboards don't offer what you need, it's possible to create your own.  See [Custom Dashboard Configuration]({{< relref "../Configuration/custom-dashboard" >}}) for more information.
 
 

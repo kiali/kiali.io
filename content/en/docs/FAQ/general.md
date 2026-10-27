@@ -117,7 +117,7 @@ Private clusters have higher network restrictions. Kiali needs your cluster to a
 
 Make sure that the firewalls in your cluster allow the connections mentioned above.
 
-Check section Google Kubernetes Engine (GKE) Private Cluster requirements in the [Installation Guide]({{< ref "/docs/installation/installation-guide/prerequisites#google-prereqs" >}}).
+Check section Google Kubernetes Engine (GKE) Private Cluster requirements in the [Installation Guide]({{< relref "../Installation/installation-guide/prerequisites#google-prereqs" >}}).
 
 {{% alert color="success" %}}
 Open an [issue](https://github.com/kiali/kiali/issues/new/choose) if you have a private cluster with a different provider than GKE. We'll try to accommodate your scenario and document it for future users.
@@ -128,7 +128,7 @@ Open an [issue](https://github.com/kiali/kiali/issues/new/choose) if you have a 
 No version of Internet Explorer is supported with Kiali. Users may experience some [issues](https://github.com/kiali/kiali/issues/507) when using Kiali through this browser.
 
 {{% alert color="success" %}}
-To have the best Kiali experience you need a [supported browser]({{< ref "/docs/installation/installation-guide/prerequisites#supported-browsers" >}}).
+To have the best Kiali experience you need a [supported browser]({{< relref "../Installation/installation-guide/prerequisites#supported-browsers" >}}).
 {{% /alert %}}
 
 
@@ -140,7 +140,7 @@ a bug, or need a feature, you can _vote_ (using emojis) for any existing bug or 
 [GitHub Issues](https://github.com/kiali/kiali/issues). This will help us prioritize the most
 needed fixes or enhancements.  You can also create a new issue.
 
-See also the [Community page]({{< relref "../../Community" >}}) which lists more contact channels.
+See also the [Community page]({{< relref "../../community" >}}) which lists more contact channels.
 
 ### How do I obtain the logs for Kiali?
 
@@ -283,13 +283,13 @@ See [here](https://github.com/kiali/kiali/blob/master/LICENSE) for the Kiali lic
 
 ### Why isn't my namespace in the Namespace Selection dropdown?
 
-Kiali can be told to restrict the namespaces users can see via the Kiali CR `spec.deployment.discovery_selectors` field. If there are no discovery selectors defined, Kiali will allow all namespaces _unless_ `deployment.cluster_wide_access` is false, in which case only Kiali's own namespace and the Istio control plane namespace will be accessible. If a namespace does not match one of the discovery selectors defined in the Kiali CR `spec.deployment.discovery_selectors` field at the time Kiali is installed by the operator it will not be visible in the Namespace Selection dropdown; if a new namespace is created after Kiali is installed and that namespace matches one of the discovery selectors, it will only be visible in the Namespace Selection dropdown after the operator creates the necessary Roles for the Kiali Server and restarts the Kiali Server pod (see [Operator Namespace Watching]({{< ref "/docs/configuration/namespace-management#operator-namespace-watching" >}})). See the [Namespace Management]({{< ref "/docs/configuration/namespace-management" >}}) documentation for more information.
+Kiali can be told to restrict the namespaces users can see via the Kiali CR `spec.deployment.discovery_selectors` field. If there are no discovery selectors defined, Kiali will allow all namespaces _unless_ `deployment.cluster_wide_access` is false, in which case only Kiali's own namespace and the Istio control plane namespace will be accessible. If a namespace does not match one of the discovery selectors defined in the Kiali CR `spec.deployment.discovery_selectors` field at the time Kiali is installed by the operator it will not be visible in the Namespace Selection dropdown; if a new namespace is created after Kiali is installed and that namespace matches one of the discovery selectors, it will only be visible in the Namespace Selection dropdown after the operator creates the necessary Roles for the Kiali Server and restarts the Kiali Server pod (see [Operator Namespace Watching]({{< relref "../Configuration/namespace-management#operator-namespace-watching" >}})). See the [Namespace Management]({{< relref "../Configuration/namespace-management" >}}) documentation for more information.
 
 Note that Istio has its own set of optional discovery selectors that can be configured in the Istio MeshConfig `discoverySelectors` field, but these Istio discovery selectors are ignored by Kiali.
 
-Kiali also [caches namespaces](/docs/configuration/kialis.kiali.io/#.spec.kubernetes_config.cache_token_namespace_duration) by default for [10 seconds](https://github.com/kiali/kiali-operator/blob/v1.88.0/crd-docs/cr/kiali.io_v1alpha1_kiali.yaml#L447). Therefore, it might take up to the number of seconds specified by `spec.kubernetes_config.cache_token_namespace_duration` in order for a newly added namespace to be seen by Kiali.
+Kiali also [caches namespaces]({{< relref "../Configuration/kialis.kiali.io#.spec.kubernetes_config.cache_token_namespace_duration" >}}) by default for [10 seconds](https://github.com/kiali/kiali-operator/blob/v1.88.0/crd-docs/cr/kiali.io_v1alpha1_kiali.yaml#L447). Therefore, it might take up to the number of seconds specified by `spec.kubernetes_config.cache_token_namespace_duration` in order for a newly added namespace to be seen by Kiali.
 
-Finally, per-user RBAC rules can also cause a namespace to be absent from the dropdown. If [`kiali_feature_flags.authz.require_namespace_get`]({{< ref "/docs/configuration/rbac#multi-tenant-environments-and-require_namespace_get" >}}) is enabled, a namespace that is accessible to the Kiali Server will still be hidden from a user who lacks _GET_ permission on that namespace. See [Namespace access control]({{< ref "/docs/configuration/rbac" >}}) for more details.
+Finally, per-user RBAC rules can also cause a namespace to be absent from the dropdown. If [`kiali_feature_flags.authz.require_namespace_get`]({{< relref "../Configuration/rbac#multi-tenant-environments-and-require_namespace_get" >}}) is enabled, a namespace that is accessible to the Kiali Server will still be hidden from a user who lacks _GET_ permission on that namespace. See [Namespace access control]({{< relref "../Configuration/rbac" >}}) for more details.
 
 ### Workload "is not found as" messages
 
@@ -297,7 +297,7 @@ Kiali queries *Deployment* ,*ReplicaSet*, *ReplicationController*, *DeploymentCo
 *Deployment*, *ReplicaSet* and *StatefulSet* are always queried, but _ReplicationController_, _DeploymentConfig_, _Job_ and _CronJobs_
 are excluded by default for performance reasons.
 
-To include them, update the list of [excluded_workloads](/docs/configuration/kialis.kiali.io/#.spec.kubernetes_config.excluded_workloads) from the Kiali config.
+To include them, update the list of [excluded_workloads]({{< relref "../Configuration/kialis.kiali.io#.spec.kubernetes_config.excluded_workloads" >}}) from the Kiali config.
 
 ```yaml
 #    ---

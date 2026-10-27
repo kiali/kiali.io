@@ -12,7 +12,7 @@ If exposing Kiali in a custom way, you may need to [set some configurations](#ro
 to make Kiali aware of how users will access Kiali.
 
 {{% alert color="warning" %}}
-The examples on this page assume that you followed the [Installation guide]({{< ref "/docs/installation/installation-guide" >}}) to install Kiali, and that you
+The examples on this page assume that you followed the [Installation guide]({{< relref "." >}}) to install Kiali, and that you
 installed Kiali in the `istio-system` namespace.
 {{% /alert %}}
 
@@ -152,7 +152,7 @@ kiali   LoadBalancer   10.105.236.127   192.168.49.201   20001:31966/TCP,9090:30
 
 If you are using the `LoadBalancer` service type to directly expose the Kiali
 service, you may want to check the available options for the
-[HTTP Server]({{<relref "../deployment-options#http-server" >}}) and
+[HTTP Server]({{< relref "../deployment-options#http-server" >}}) and
 [Metrics server]({{< relref "../deployment-options#metrics-server" >}}).
 
 ## Accessing Kiali through an Istio Ingress Gateway
@@ -161,7 +161,7 @@ If you want to take advantage of Istio's infrastructure, you can expose Kiali
 using an Istio Ingress Gateway. The Istio documentation provides a
 [good guide explaining how to expose the sample add-ons](https://istio.io/latest/docs/tasks/observability/gateways/).
 Even if the Istio guide is focused on the sample add-ons, the steps are the same to expose a Kiali
-installed using this [Installation guide]({{< ref "/docs/installation/installation-guide" >}}).
+installed using this [Installation guide]({{< relref "." >}}).
 
 ## Accessing Kiali in OpenShift
 
@@ -213,5 +213,5 @@ Kubernetes and `/` for OpenShift.
 {{% alert color="warning" %}}
 Usually, these settings can be omitted. However, a few features require
 that the Kiali's public route be properly discoverable or that it is properly
-configured; most notably, the [OpenID authentication]({{< ref "/docs/configuration/authentication/openid" >}}).
+configured; most notably, the [OpenID authentication]({{< relref "../../Configuration/authentication/openid" >}}).
 {{% /alert %}}

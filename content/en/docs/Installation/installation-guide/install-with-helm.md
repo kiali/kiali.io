@@ -22,7 +22,7 @@ Charts are provided:
 {{% alert color="warning" %}}
 The `kiali-server` Helm Chart does not provide all the functionality that the Kiali Operator
 provides. Some features you read about in the documentation may only be available if
-you install the Kiali Server using the Kiali Operator (see this [FAQ](/docs/faq/installation/#what-is-the-difference-between-the-operator-and-the-server-helm-chart) for details).
+you install the Kiali Server using the Kiali Operator (see this [FAQ]({{< relref "../../FAQ/installation#what-is-the-difference-between-the-operator-and-the-server-helm-chart" >}}) for details).
 Therefore, although the `kiali-server` Helm Chart
 is actively maintained, it is not recommended and is only provided for convenience.
 If using Helm, the recommended method is to install the `kiali-operator` Helm Chart
@@ -59,7 +59,7 @@ $ helm repo update
 
 {{% alert color="danger" %}}
 This installation method gives Kiali access to existing namespaces as
-well as namespaces created later. See [Namespace Management]({{< ref "/docs/configuration/namespace-management" >}}) for more information.
+well as namespaces created later. See [Namespace Management]({{< relref "../../Configuration/namespace-management" >}}) for more information.
 {{% /alert %}}
 
 Once you've added the Kiali Helm Charts repository, you can install the latest
@@ -85,7 +85,7 @@ cr.namespace=istio-system` flags instructs to create a Kiali CR in the
 the Kiali operator starts, it will process it to deploy Kiali. After Kiali has started,
 you can access Kiali UI through 'http://localhost:20001' by executing 
 `kubectl port-forward service/kiali -n istio-system 20001:20001`
-because of `--set cr.spec.auth.strategy="anonymous"`. But realize that anonymous mode will allow anyone to be able to see and use Kiali. If you wish to require users to authenticate themselves by logging into Kiali, use one of the other [auth strategies](/docs/configuration/authentication/).
+because of `--set cr.spec.auth.strategy="anonymous"`. But realize that anonymous mode will allow anyone to be able to see and use Kiali. If you wish to require users to authenticate themselves by logging into Kiali, use one of the other [auth strategies]({{< relref "../../Configuration/authentication" >}}).
 
 The Kiali Operator Helm Chart is configurable. Check available options and default values by running:
 
@@ -104,7 +104,7 @@ Kiali CR has a `spec.server.web_root` setting which you can configure in the
 `kiali-operator` Helm Chart by passing `--set cr.spec.server.web_root=/your-path`
 to the `helm install` command.
 
-For more information about the Kiali CR, see the [Creating and updating the Kiali CR page]({{< ref creating-updating-kiali-cr >}}).
+For more information about the Kiali CR, see the [Creating and updating the Kiali CR page]({{< relref "./creating-updating-kiali-cr" >}}).
 
 ### Operator-Only Install
 
@@ -119,7 +119,7 @@ $ helm install \
     kiali/kiali-operator
 ```
 
-This will omit creation of the Kiali CR, which you will need to [create later to install Kiali Server]({{< ref creating-updating-kiali-cr >}}).  This
+This will omit creation of the Kiali CR, which you will need to [create later to install Kiali Server]({{< relref "./creating-updating-kiali-cr" >}}).  This
 option is good if you plan to do large customizations to the installation.
 
 ### Installing Multiple Instances of Kiali

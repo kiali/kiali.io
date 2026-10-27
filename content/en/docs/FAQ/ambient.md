@@ -28,11 +28,11 @@ Try to select a longer period of time or enable the Display option to see the id
 
 - Are the right metrics generated in Prometheus?
 
-Kiali requires some metrics and attributes to generate the graph. Refer to [this FAQ]({{< ref "/docs/FAQ/general#requiredmetrics" >}}) to help you ensure you have the required metrics in your Prometheus server.
+Kiali requires some metrics and attributes to generate the graph. Refer to [this FAQ]({{< relref "./general#requiredmetrics" >}}) to help you ensure you have the required metrics in your Prometheus server.
 
 For this particular scenario, the most important ones would be the `istio_tcp_received_bytes_total` and `istio_tcp_sent_bytes_total` where `app=ztunnel`. Make sure those metrics exist in Prometheus. 
 
-Other graph issues are listed [here]({{< ref "/docs/FAQ/graph" >}}).
+Other graph issues are listed [here]({{< relref "./graph" >}}).
 
 ### Why can't I see the traffic graph when the application has a Waypoint proxy?
 
@@ -56,11 +56,11 @@ Try to select a longer period of time or enable the Display option to see the id
 
 - Are the right metrics generated in Prometheus?
 
-Kiali requires some metrics and attributes to generate the graph. Refer to [this FAQ]({{< ref "/docs/FAQ/general#requiredmetrics" >}}) to help you ensure you have the required metrics in your Prometheus server.
+Kiali requires some metrics and attributes to generate the graph. Refer to [this FAQ]({{< relref "./general#requiredmetrics" >}}) to help you ensure you have the required metrics in your Prometheus server.
 
 For this particular scenario, the most important ones would be the `istio_requests_total` where `reporter=waypoint`. Make sure those metrics exist in Prometheus.
 
-Other graph issues are listed [here]({{< ref "/docs/FAQ/graph" >}}).
+Other graph issues are listed [here]({{< relref "./graph" >}}).
 
 ### Why can't I see traces?
 
@@ -81,7 +81,7 @@ If there are traces, verify that the Waypoint proxy has traces in Kiali.
 
 ![Waypoint traces Kiali](/images/documentation/faq/ambient/waypoint-traces-kiali.png)
 
-If there are no traces in Kiali, there might be a problem with its distributed tracing configuration. Please refer to the [distributed tracing FAQ]({{< ref "/docs/FAQ/distributed-tracing" >}}) for additional help. 
+If there are no traces in Kiali, there might be a problem with its distributed tracing configuration. Please refer to the [distributed tracing FAQ]({{< relref "./distributed-tracing" >}}) for additional help. 
 
 If there are traces, they will be filtered by the service name to be shown in the application details (for Kiali 2.5.0+).
 
@@ -104,8 +104,8 @@ You can filter by just the Waypoint Traffic to remove the same telemetry reporte
 
 ### Related documentation
 
-- Other tracing issues can be checked [here]({{< ref "/docs/FAQ/distributed-tracing" >}}).
-- Ambient documentation is [here]({{< ref "/docs/features/ambient" >}}).
+- Other tracing issues can be checked [here]({{< relref "./distributed-tracing" >}}).
+- Ambient documentation is [here]({{< relref "../Features/ambient" >}}).
 
 ### Why don't I see connected inter-cluster edges in Ambient L7 (Istio 1.29)?
 

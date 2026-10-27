@@ -13,7 +13,7 @@ Before proceeding with the setup, ensure you meet the requirements.
 
 1. **Aggregated metrics and traces.** Kiali needs a single endpoint for metrics and a single endpoint for traces where it can consume aggregated metrics/traces across all clusters. There are many ways to aggregate metrics/traces such as Prometheus federation or using OTEL collector pipelines but setting these up are outside of the scope of Kiali.
 
-2. **Anonymous, OpenID or OpenShift authentication strategy.** The unified multi-cluster configuration currently only supports anonymous, OpenID and OpenShift [authentication strategies]({{< relref "../../Configuration/authentication" >}}). In addition, current support varies by provider for OpenID across clusters.
+2. **Anonymous, OpenID or OpenShift authentication strategy.** The unified multi-cluster configuration currently only supports anonymous, OpenID and OpenShift [authentication strategies]({{< relref "../authentication" >}}). In addition, current support varies by provider for OpenID across clusters.
 
 ### Setup
 
@@ -179,7 +179,7 @@ Use the option `--help` for additional details on using the script to create and
 
    - **Auto-discovery by label (default):** The Kiali Operator will automatically detect any secret in the Kiali deployment namespace that has the label `kiali.io/multiCluster="true"`. The secrets created by the `kiali-prepare-remote-cluster.sh` script are labeled this way and will be auto-detected with no additional Kiali CR configuration needed.
 
-   - **Explicit configuration:** In the Kiali CR you can [explicitly specify each remote cluster secret](/docs/configuration/kialis.kiali.io/#.spec.clustering.clusters) rather than rely on auto-discovery.
+   - **Explicit configuration:** In the Kiali CR you can [explicitly specify each remote cluster secret]({{< relref "../kialis.kiali.io#.spec.clustering.clusters" >}}) rather than rely on auto-discovery.
 
    - **Single combined secret:** Create a single secret named `kiali-multi-cluster-secret` in the Kiali deployment namespace containing kubeconfigs for all remote clusters, each under its own top-level key in `stringData` where the key is the cluster name. If you also label this secret with `kiali.io/kiali-multi-cluster-secret="true"`, the Kiali Operator will auto-detect changes and roll out a new Kiali Server pod automatically.
 
@@ -199,7 +199,7 @@ Use the option `--help` for additional details on using the script to create and
 
    In multi-tenant multi-cluster environments where users have broad _LIST_ permission but restricted per-namespace _GET_ permission, consider enabling [`kiali_feature_flags.authz.require_namespace_get`]({{< relref "../rbac#multi-tenant-environments-and-require_namespace_get" >}}) to enforce strict per-namespace visibility.
 
-5. Optional - **Narrow metrics to mesh.** If your unified metrics store also contains data outside of your mesh, you can limit which metrics Kiali will query for by setting the [query_scope](/docs/configuration/kialis.kiali.io#.spec.external_services.prometheus.query_scope) configuration.
+5. Optional - **Narrow metrics to mesh.** If your unified metrics store also contains data outside of your mesh, you can limit which metrics Kiali will query for by setting the [query_scope]({{< relref "../kialis.kiali.io#.spec.external_services.prometheus.query_scope" >}}) configuration.
 
 That's it! From here you can login to Kiali and manage your mesh across all clusters from a single Kiali instance.
 
@@ -211,7 +211,7 @@ To remove a cluster from Kiali, you must delete the associated remote cluster se
 Don't forget to remove the resources (such as the SA and its role/role binding) from the remote cluster. If you created these resources with the Kiali Operator, simply delete the Kiali CR from the remote cluster and these resources will be removed. If you used the `kiali-prepare-remote-cluster.sh` script to create these resources, use it to remove these resources.
 {{% /alert %}}
 
-After the remote cluster secret has been removed, you must then tell the Kiali Operator to re-deploy the Kiali Server so the Kiali Server no longer attempts to access the now-deleted remote cluster secret. If you are using [auto-discovery](/docs/configuration/kialis.kiali.io/#.spec.clustering.autodetect_secrets), you can tell the Kiali Operator to do this by touching the Kiali CR. The easiest way to do this is to simply add or modify any annotation on the Kiali CR. It is recommended that you use the `kiali.io/reconcile` annotation as described [here](/docs/installation/installation-guide/creating-updating-kiali-cr). If you did not rely on auto-discovery but instead [explicitly specified each remote cluster secret](/docs/configuration/kialis.kiali.io/#.spec.clustering.clusters) in the Kiali CR, then you simply have to remove the now-deleted remote cluster secret's information from the Kiali CR's `clustering.clusters` section. Finally, if you are using the single `kiali-multi-cluster-secret` to define all of your remote clusters (and you labeled that secret with `kiali.io/kiali-multi-cluster-secret="true"`), then you do not have to do anything other than delete that one secret. The Kiali Operator will detect that the secret has been removed and will re-deploy the Kiali Server automatically.
+After the remote cluster secret has been removed, you must then tell the Kiali Operator to re-deploy the Kiali Server so the Kiali Server no longer attempts to access the now-deleted remote cluster secret. If you are using [auto-discovery]({{< relref "../kialis.kiali.io#.spec.clustering.autodetect_secrets" >}}), you can tell the Kiali Operator to do this by touching the Kiali CR. The easiest way to do this is to simply add or modify any annotation on the Kiali CR. It is recommended that you use the `kiali.io/reconcile` annotation as described [here]({{< relref "../../Installation/installation-guide/creating-updating-kiali-cr" >}}). If you did not rely on auto-discovery but instead [explicitly specified each remote cluster secret]({{< relref "../kialis.kiali.io#.spec.clustering.clusters" >}}) in the Kiali CR, then you simply have to remove the now-deleted remote cluster secret's information from the Kiali CR's `clustering.clusters` section. Finally, if you are using the single `kiali-multi-cluster-secret` to define all of your remote clusters (and you labeled that secret with `kiali.io/kiali-multi-cluster-secret="true"`), then you do not have to do anything other than delete that one secret. The Kiali Operator will detect that the secret has been removed and will re-deploy the Kiali Server automatically.
 
 ### Adding an Inaccessible Cluster
 

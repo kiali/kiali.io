@@ -24,7 +24,7 @@ You will see an _Install_ button at the right of the page. Press it and you
 will be presented with the installation instructions. Follow these instructions
 to install and manage the Kiali Operator installation using OLM.
 
-Afterwards, you can [create the Kiali CR]({{< ref creating-updating-kiali-cr >}}) to install Kiali.
+Afterwards, you can [create the Kiali CR]({{< relref "./creating-updating-kiali-cr" >}}) to install Kiali.
 
 ## Installing the Kiali Operator in OpenShift
 
@@ -33,5 +33,5 @@ Operator, simply go to the OperatorHub in the OpenShift console and search for
 the Kiali Operator. Then, click on the _Install_ button and follow the
 instruction on the screen.
 
-Afterwards, you can [create the Kiali CR]({{< ref creating-updating-kiali-cr >}}) to install Kiali.
+Afterwards, you can [create the Kiali CR]({{< relref "./creating-updating-kiali-cr" >}}) to install Kiali.
 

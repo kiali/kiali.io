@@ -5,7 +5,7 @@ description: "Configuring the namespaces accessible and visible to Kiali."
 
 ## Introduction
 
-The default Kiali [installation]({{< ref "/docs/installation/installation-guide" >}}) gives Kiali access to all namespaces available in the cluster and will allow all namespaces to be visible.
+The default Kiali [installation]({{< relref "../Installation/installation-guide" >}}) gives Kiali access to all namespaces available in the cluster and will allow all namespaces to be visible.
 
 It is possible to restrict Kiali so that it can only access a specific set of namespaces by providing [discovery selectors](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#resources-that-support-set-based-requirements) that match those namespaces. Note that Kiali will not use [Istio's discovery selectors](https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig); if Istio has been configured with its own discovery selectors, you will likely want to configure Kiali with the same list of discovery selectors.
 
@@ -64,7 +64,7 @@ Because the Kiali Server utilizes Kubernetes watches to watch all accessible nam
 {{% /alert %}}
 
 {{% alert color="warning" %}}
-If you install Kiali using the [Server Helm Chart]({{< ref "/docs/installation/installation-guide/install-with-helm" >}}), these Roles will be created when `cluster_wide_access=false`. However, the Server Helm Chart does not provide the same lifecycle management features as the operator:
+If you install Kiali using the [Server Helm Chart]({{< relref "../Installation/installation-guide/install-with-helm" >}}), these Roles will be created when `cluster_wide_access=false`. However, the Server Helm Chart does not provide the same lifecycle management features as the operator:
 - The operator automatically cleans up Roles/RoleBindings from namespaces that are no longer accessible when discovery selectors (`deployment.discovery_selectors.default`) change
 - The operator handles transitions when `view_only_mode` or `auth.strategy` settings change (RoleBindings are immutable and must be deleted/recreated)
 - The operator explicitly cleans up ClusterRole/ClusterRoleBinding resources when switching from `cluster_wide_access=true` to `false`
@@ -74,7 +74,7 @@ With the Server Helm Chart, you may need to manually clean up resources when cha
 {{% /alert %}}
 
 {{% alert color="warning" %}}
-If you install the Kiali Operator using the [Operator Helm Chart]({{< ref "/docs/installation/installation-guide/install-with-helm#install-with-operator" >}}), to be able to use `cluster_wide_access=true`, you must specify the `--set clusterRoleCreator=true` flag when invoking `helm install`.
+If you install the Kiali Operator using the [Operator Helm Chart]({{< relref "../Installation/installation-guide/install-with-helm#install-with-operator" >}}), to be able to use `cluster_wide_access=true`, you must specify the `--set clusterRoleCreator=true` flag when invoking `helm install`.
 {{% /alert %}}
 
 {{% alert color="warning" %}}
@@ -101,7 +101,7 @@ metadata:
 ```sh
 kubectl annotate kiali my-kiali-cr --namespace istio-system --overwrite trigger-reconcile="$(date)"
 ```
-4. The Kiali Operator can be enabled to watch for namespaces getting created in the cluster. When new namespaces are created, the Kiali Operator will detect this and will then attempt to reconcile all Kiali CRs in the cluster. To enable operator namespace watching, see the [FAQ]({{< ref "/docs/faq/installation" >}}) describing the operator WATCHES_FILE environment variable. Note that on clusters with large numbers of namespaces that get created, enabling this namespace watching feature can cause the operator to consume a lot of CPU, so you may not wish to use this method.
+4. The Kiali Operator can be enabled to watch for namespaces getting created in the cluster. When new namespaces are created, the Kiali Operator will detect this and will then attempt to reconcile all Kiali CRs in the cluster. To enable operator namespace watching, see the [FAQ]({{< relref "../FAQ/installation" >}}) describing the operator WATCHES_FILE environment variable. Note that on clusters with large numbers of namespaces that get created, enabling this namespace watching feature can cause the operator to consume a lot of CPU, so you may not wish to use this method.
 
 Once the Kiali Operator is triggered to reconcile a Kiali CR, the operator will create the necessary Roles for all accessible namespaces, giving the Kiali Server access to any new namespaces that have been created since the last reconciliation.
 

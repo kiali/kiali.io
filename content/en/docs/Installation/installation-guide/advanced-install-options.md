@@ -7,7 +7,7 @@ weight: 60
 ## Canary upgrades
 
 During a canary upgrade where multiple controlplanes are present, Kiali will automatically
-detect both controlplanes. You can visit the [mesh page](/docs/features/istio-component-status/#mesh-page)
+detect both controlplanes. You can visit the [mesh page]({{< relref "../../Features/istio-component-status#mesh-page" >}})
 to visualize your controlplanes during a canary upgrade.
 
 ## Installing a Kiali Server of a different version than the Operator

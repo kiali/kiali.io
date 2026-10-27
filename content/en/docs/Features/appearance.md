@@ -93,4 +93,4 @@ Theme is independent of color scheme and contrast mode. You can combine, for exa
 
 The **Preferences** appearance controls described above apply only to the standalone Kiali Console.
 
-In the [OSSMC plugin]({{< relref "/docs/OSSMC" >}}), appearance is handled by the **OpenShift Console**, not by Kiali. Use the console's appearance settings to change color scheme, contrast, glass, felt, and high-contrast modes; OSSMC inherits those styles from the console.
+In the [OSSMC plugin]({{< relref "../OSSMC" >}}), appearance is handled by the **OpenShift Console**, not by Kiali. Use the console's appearance settings to change color scheme, contrast, glass, felt, and high-contrast modes; OSSMC inherits those styles from the console.

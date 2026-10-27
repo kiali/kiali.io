@@ -60,7 +60,7 @@ kubectl delete crd kialis.kiali.io
 ```
 
 {{% alert color="warning" %}}
-You must delete all Kiali CRs before uninstalling the operator. See [Uninstalling Helm installations]({{< ref "/docs/Installation/installation-guide/install-with-helm#uninstalling-helm-installations" >}}) if removal hangs.
+You must delete all Kiali CRs before uninstalling the operator. See [Uninstalling Helm installations]({{< relref "../../Installation/installation-guide/install-with-helm#uninstalling-helm-installations" >}}) if removal hangs.
 {{% /alert %}}
 
 If you installed the operator from OperatorHub, uninstall it from the OpenShift console using the same mechanism you used to install it.

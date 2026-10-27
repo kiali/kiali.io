@@ -1760,7 +1760,7 @@ The table below shows where each cluster's name appears. Each cluster (`spoke` a
     </tr>
     <tr>
       <td>OTEL collector <code>resource</code> processor (tracing only)</td>
-      <td><code>k8s.cluster.name</code> attribute stamped on spans — only required if setting up distributed tracing (see the <a href="{{< relref "./ossm-dashboards-tracing" >}}">Dashboards and Tracing</a> guide)</td>
+      <td><code>k8s.cluster.name</code> attribute stamped on spans — only required if setting up distributed tracing (see the <a href="{{ relref . "./ossm-dashboards-tracing" }}">Dashboards and Tracing</a> guide)</td>
       <td><code>spoke</code> or <code>spoke-two</code></td>
     </tr>
   </tbody>
@@ -1779,4 +1779,4 @@ Impersonation is disabled by default in this tutorial.
 
 When not using impersonation, logging into `spoke-two` through Kiali's multi-cluster UI will cause Kiali to redirect to `spoke-two`'s OpenShift OAuth endpoint. The redirect URI must therefore be reachable from the user's browser. If `spoke-two`'s OAuth route is on a different domain, ensure the redirect back to the Kiali URL is reachable.
 
-If your installed Kiali version supports OpenShift impersonation and you want users to only need to authenticate once to the home cluster, set `spec.auth.openshift.impersonation.enabled` to `true` on both Kiali CRs. Kiali then accesses remote clusters on the user's behalf, subject to the user's RBAC permissions. Keep the remote `redirect_uris` entry as a fallback if you later disable impersonation, but it is not needed when impersonation is enabled. See the [Kiali impersonation documentation]({{< relref "/docs/configuration/authentication/openshift#impersonation-mode-alternative" >}}) for configuration and security considerations.
+If your installed Kiali version supports OpenShift impersonation and you want users to only need to authenticate once to the home cluster, set `spec.auth.openshift.impersonation.enabled` to `true` on both Kiali CRs. Kiali then accesses remote clusters on the user's behalf, subject to the user's RBAC permissions. Keep the remote `redirect_uris` entry as a fallback if you later disable impersonation, but it is not needed when impersonation is enabled. See the [Kiali impersonation documentation]({{< relref "../../Configuration/authentication/openshift#impersonation-mode-alternative" >}}) for configuration and security considerations.

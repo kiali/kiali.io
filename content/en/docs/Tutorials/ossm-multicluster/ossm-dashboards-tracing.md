@@ -1494,7 +1494,7 @@ echo "Distributed tracing plugin ready"
 
 ### 2.9 Configure Kiali for Tempo
 
-Patch the Kiali CR on `spoke` to enable mesh tracing with Tempo and to emit [Kiali server self-traces]({{< relref "../../Configuration/debugging-kiali" >}}#tracing) through the local OTEL collector from §2.4 (`otel-collector.istio-system.svc:4317`, OTLP gRPC). Self-traces flow through the same collector pipeline as Istio mesh traces and appear on the **Kiali** workload **Traces** tab once `external_services.tracing` is configured.
+Patch the Kiali CR on `spoke` to enable mesh tracing with Tempo and to emit [Kiali server self-traces]({{< relref "../../Configuration/debugging-kiali#tracing" >}}) through the local OTEL collector from §2.4 (`otel-collector.istio-system.svc:4317`, OTLP gRPC). Self-traces flow through the same collector pipeline as Istio mesh traces and appear on the **Kiali** workload **Traces** tab once `external_services.tracing` is configured.
 
 The `url_format: "openshift"` and `tempo_config` settings cause Kiali to use the OpenShift console distributed tracing plugin for UI links. When `tenant` is set in `tempo_config`, Kiali automatically appends the tenant API path to `internal_url` — so providing just the gateway base URL is sufficient.
 

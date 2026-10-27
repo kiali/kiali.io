@@ -1,17 +1,22 @@
 {{- $maxBlogPosts := 3 }}
+{{- $blogCardImage := "" }}
+{{- with .Page.Resources.GetMatch "featured-background*" }}
+  {{- $blogCardImage = .RelPermalink }}
+{{- end }}
+{{- if not $blogCardImage }}
+  {{- $blogCardImage = "/featured-background.png" }}
+{{- end }}
 {{- $mediumFeedURL := "https://medium.com/feed/kialiproject" }}
 {{- $feedData     := dict }}
 {{- $opts         := dict "timeout" "10s" }}
 {{- $r            := resources.GetRemote $mediumFeedURL $opts }}
 {{- if $r }}
-  {{- if $r.Err }}
-    {{- warnf "Blog shortcode: failed to fetch Medium feed: %s" $r.Err }}
-  {{- else }}
-    {{- $parsed := $r.Content | transform.Unmarshal (dict "format" "xml") }}
-    {{- if $parsed.channel }}
-      {{- $feedData = $parsed }}
-    {{- end }}
+  {{- $parsed := $r.Content | transform.Unmarshal (dict "format" "xml") }}
+  {{- if $parsed.channel }}
+    {{- $feedData = $parsed }}
   {{- end }}
+{{- else }}
+  {{- warnf "Blog shortcode: failed to fetch Medium feed from %s" $mediumFeedURL }}
 {{- end }}
 
 {{- $items := slice }}
@@ -57,7 +62,7 @@
   <div class="col-lg-4 mb-5 mb-lg-0 text-center ">
     <div class="blog-card">
       <figure>
-        <img src="/featured-background.png" alt="{{ $title }}" />
+        <img src="{{ $blogCardImage }}" alt="{{ $title }}" />
       </figure>
       <div class="blog-card-body">
         <div class="blog-card-date">Posted {{ $date }}</div>

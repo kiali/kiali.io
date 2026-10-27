@@ -1,8 +1,15 @@
+# Hugo comes from the pinned hugo-extended npm dependency, not HUGO_VERSION.
+
 [build]
-command = "cd themes/docsy && npm install && cd ../.. && hugo"
+command = "npm run _netlify:prepare && npm run build:preview"
 publish = "public"
 
 [build.environment]
-HUGO_VERSION = "0.121.1"
-NPM_VERSION = "10.1.0"
-NODE_VERSION = "20.5.0"
+GO_VERSION = "1.23.4"
+# Netlify auto-install is resolution-only; _netlify:prepare runs the real install.
+NPM_FLAGS = "--dry-run --ignore-scripts"
+NPM_VERSION = "11.19.0"
+NODE_VERSION = "24"
+
+[context.production]
+command = "npm run _netlify:prepare && npm run build:production"

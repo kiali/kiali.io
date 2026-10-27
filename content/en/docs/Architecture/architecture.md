@@ -50,7 +50,7 @@ separately.
 
 Kiali needs to retrieve Istio data and configurations, which are exposed
 through Prometheus, the Kubernetes API, and istiod. For environments where
-istiod is inaccessible, Kiali's communication with istiod [can be disabled]({{< ref "/docs/Configuration/no-istiod" >}}).
+istiod is inaccessible, Kiali's communication with istiod [can be disabled]({{< relref "../Configuration/no-istiod" >}}).
 
 ## Prometheus
 
@@ -67,7 +67,7 @@ Currently, Kiali relies on [Istio's default metrics](https://istio.io/latest/doc
 set. Make sure that these default metrics are always in place.
 Some metric customization is possible as long as the Kiali requirements are
 still met.  For the current list of required metrics see
-[this FAQ entry]({{< ref "/docs/faq/general" >}}).
+[this FAQ entry]({{< relref "../FAQ/general" >}}).
 
 ## Kubernetes API
 
@@ -90,12 +90,12 @@ services, destination rules, route rules, gateways, and quotas.
 Jaeger is optional. When available, Kiali will be able to direct the user to
 Jaeger's tracing data. If you need this feature, make sure Kiali is
 [properly configured for Jaeger
-integration]({{< ref "/docs/features/tracing" >}}).
+integration]({{< relref "../Features/tracing" >}}).
 
 Tracing data will be available only if
 [Istio's distributed tracing](https://istio.io/docs/tasks/telemetry/distributed-tracing/) is enabled. 
 
-As an alternative, [Grafana Tempo](/docs/configuration/external-services/tracing/tempo) can be used. 
+As an alternative, [Grafana Tempo]({{< relref "../Configuration/external-services/tracing/tempo" >}}) can be used. 
 
 ## Grafana
 

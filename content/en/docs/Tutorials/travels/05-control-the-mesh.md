@@ -4,7 +4,7 @@ description: "Using Kiali to configure Istio's traffic management."
 weight: 5
 ---
 
-This chapter uses Kiali [wizards]({{< ref "/docs/Features/wizards" >}}) to configure Istio traffic management on the Travel Demo. Each section introduces a scenario, walks through the wizard, verifies the result in Kiali, and ends with guidance to update or delete the generated configuration.
+This chapter uses Kiali [wizards]({{< relref "../../Features/wizards" >}}) to configure Istio traffic management on the Travel Demo. Each section introduces a scenario, walks through the wizard, verifies the result in Kiali, and ends with guidance to update or delete the generated configuration.
 
 In [Observe the Mesh]({{< relref "./04-observe-the-mesh" >}}) you explored telemetry and tracing. Here you change how traffic flows through the mesh.
 
@@ -133,7 +133,7 @@ To experiment further, open the *travels* service and select **Actions** → **R
 
 ## Fault Injection
 
-The [Observe the Mesh]({{< relref "./04-observe-the-mesh/#graph-walkthrough" >}}) chapter identified that the *hotels* service has additional traffic compared with other services deployed in the *travel-agency* namespace.
+The [Observe the Mesh]({{< relref "./04-observe-the-mesh#graph-walkthrough" >}}) chapter identified that the *hotels* service has additional traffic compared with other services deployed in the *travel-agency* namespace.
 
 Also, this service is critical in the main business logic. It is responsible for querying all available destinations, presenting them to the user, and getting a quote for the selected destination.
 

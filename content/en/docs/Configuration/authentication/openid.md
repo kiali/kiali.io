@@ -21,7 +21,7 @@ Kiali only supports the _authorization code flow_ of the [OpenId Connect spec](h
 
 ## Requirements
 
-The [Kiali's signing key]({{< relref "session-configs" >}}) needs to be 16, 24
+The [Kiali's signing key]({{< relref "./session-configs" >}}) needs to be 16, 24
 or 32 byte long. If you install Kiali via the operator and don't set a custom
 signing key, the operator should create a 16 byte long signing key.
 
@@ -405,7 +405,7 @@ support.
 This section applies when you want to use an external OIDC provider (such as
 Keycloak, Okta, Auth0, or others) with OpenShift. If you want to use
 OpenShift's built-in OAuth server, use the [`openshift` authentication
-strategy]({{< relref "openshift" >}}) instead.
+strategy]({{< relref "./openshift" >}}) instead.
 {{% /alert %}}
 
 #### Prerequisites
@@ -688,7 +688,7 @@ Create a web application for Kiali in your Azure AD panel:
    Kubernetes secret in your cluster as mentioned in the [Set-up
    with namespace access control support](#setup-with-rbac) section. Please, note that the suggested name for the
    Kubernetes Secret is `kiali`. If you want to customize the secret name, you
-   will have to specify your custom name in the Kiali CR. See: [secret_name in Kial CR Reference](/docs/configuration/kialis.kiali.io/#.spec.deployment.secret_name).
+   will have to specify your custom name in the Kiali CR. See: [secret_name in Kial CR Reference]({{< relref "../kialis.kiali.io#.spec.deployment.secret_name" >}}).
 3. Go to _API Permissions_ and press the _Add a permission_ button. In the new page that appears, switch to the
   _APIs my organization uses_ tab.
   1. Type the following ID in the search field:

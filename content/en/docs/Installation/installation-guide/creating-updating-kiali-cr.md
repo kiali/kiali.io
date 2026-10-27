@@ -4,7 +4,7 @@ description: "Creating and updating the Kiali CR."
 weight: 40
 ---
 
-The Kiali Operator watches the _Kiali Custom Resource_ ([Kiali CR](/docs/configuration/kialis.kiali.io)), a custom resource that  contains the Kiali Server deployment configuration. Creating, updating, or removing a
+The Kiali Operator watches the _Kiali Custom Resource_ ([Kiali CR]({{< relref "../../Configuration/kialis.kiali.io" >}})), a custom resource that  contains the Kiali Server deployment configuration. Creating, updating, or removing a
 Kiali CR will trigger the Kiali Operator to install, update, or remove Kiali.
 
 {{% alert color="success" %}}
@@ -81,16 +81,15 @@ Events:        <none>
 *Never* manually edit resources created by the Kiali Operator; only edit the Kiali CR.
 {{% /alert %}}
 
-You may want to check the [example install page]({{< relref "example-install"
->}}) to see some examples where the Kiali CR has a `spec` and to better
+You may want to check the [example install page]({{< relref "./example-install" >}}) to see some examples where the Kiali CR has a `spec` and to better
 understand its structure. Most available attributes of the Kiali CR are
-described in the pages of the [Installation]({{< relref "../" >}}) and
+described in the pages of the [Installation]({{< relref ".." >}}) and
 [Configuration]({{< relref "../../Configuration" >}}) sections of the
-documentation. For a complete list, see the [Kiali CR Reference](/docs/configuration/kialis.kiali.io).
+documentation. For a complete list, see the [Kiali CR Reference]({{< relref "../../Configuration/kialis.kiali.io" >}}).
 
 {{% alert color="danger" %}}
 It is important to understand the `spec.deployment.cluster_wide_access` setting in the CR. See the
-[Namespace Management page]({{< ref "/docs/configuration/namespace-management" >}})
+[Namespace Management page]({{< relref "../../Configuration/namespace-management" >}})
 for more information.
 {{% /alert %}}
 
@@ -101,4 +100,4 @@ the resource using the usual Kubernetes tools:
 $ kubectl edit kiali kiali -n istio-system
 ```
 
-To confirm your Kiali CR is valid, you can utilize the [Kiali CR validation tool](/docs/configuration/kialis.kiali.io/#validating-your-kiali-cr).
+To confirm your Kiali CR is valid, you can utilize the [Kiali CR validation tool]({{< relref "../../Configuration/kialis.kiali.io#validating-your-kiali-cr" >}}).

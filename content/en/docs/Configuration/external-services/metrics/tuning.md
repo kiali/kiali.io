@@ -9,7 +9,7 @@ Production environments should not be using the Istio Prometheus add-on, or carr
 
 This page is primarily for users where Prometheus is being used specifically for Kiali, and possible optimizations that can be made knowing that Kiali does not utilize all of the default Istio and Envoy telemetry.
 
-Istio and Envoy generate a large amount of telemetry for analysis and troubleshooting.  This can result in significant resources being required to ingest and store the telemetry, and to support queries into the data.  If you use the telemetry specifically to support Kiali, it is possible to drop unnecessary metrics and unnecessary labels on required metrics.  This [FAQ Entry]({{< ref "/docs/faq/general#requiredmetrics" >}}) displays the metrics and attributes required for Kiali to operate.
+Istio and Envoy generate a large amount of telemetry for analysis and troubleshooting.  This can result in significant resources being required to ingest and store the telemetry, and to support queries into the data.  If you use the telemetry specifically to support Kiali, it is possible to drop unnecessary metrics and unnecessary labels on required metrics.  This [FAQ Entry]({{< relref "../../../FAQ/general#requiredmetrics" >}}) displays the metrics and attributes required for Kiali to operate.
 
 ## Option 1: Recording Rules and Federation (Recommended)
 
@@ -67,7 +67,7 @@ Federation configuration is split into tiers (metric groupings) so that Federate
 
 | Tier | Purpose | Required for |
 | ---- | ------- | ------------ |
-| **Core** | [Kiali required metrics]({{< ref "/docs/faq/general#requiredmetrics" >}}) | Traffic graph, health, lists, mesh overview |
+| **Core** | [Kiali required metrics]({{< relref "../../../FAQ/general#requiredmetrics" >}}) | Traffic graph, health, lists, mesh overview |
 | **Istio Dashboards** | Optional control-plane, perf, ztunnel, and WASM metrics | [Perses Istio dashboards](https://github.com/perses/community-mixins/tree/main/examples/dashboards/perses/istio) |
 | **Kiali self-monitoring** | Kiali operational metrics (`kiali_*`) | Kiali Internal Metrics dashboard, optional health-status alerting |
 
@@ -229,7 +229,7 @@ Use this checklist when integrating the [production reference files](#production
 7. Validate equivalence between edge aggregates and federated data (see below).
 8. Tune intervals using [Interval tuning](#interval-tuning) below.
 
-For multi-cluster deployments, apply the same edge → federated pattern per mesh cluster: each cluster's Edge Prometheus scrapes local Istio/Envoy telemetry, evaluates recording rules, and federates into that cluster's Federated Prometheus (or into a shared central Federated Prometheus, if your organization consolidates metrics that way). Kiali already supports per-cluster Prometheus URLs in [multicluster configuration]({{< ref "/docs/configuration/multi-cluster" >}})—set each cluster's `external_services.prometheus.url` to the Federated Prometheus instance that holds that cluster's federated mesh metrics, not the local Edge scraper.
+For multi-cluster deployments, apply the same edge → federated pattern per mesh cluster: each cluster's Edge Prometheus scrapes local Istio/Envoy telemetry, evaluates recording rules, and federates into that cluster's Federated Prometheus (or into a shared central Federated Prometheus, if your organization consolidates metrics that way). Kiali already supports per-cluster Prometheus URLs in [multicluster configuration]({{< relref "../../multi-cluster" >}})—set each cluster's `external_services.prometheus.url` to the Federated Prometheus instance that holds that cluster's federated mesh metrics, not the local Edge scraper.
 
 ### Interval tuning
 
@@ -432,7 +432,7 @@ The recommendation for Kiali is to set the longest interval possible, while stil
 
 `rate = (dp2 - dp1) / timePeriod`
 
-That means for Kiali to show anything useful in the graph, or anywhere rates are used (many places), the minimum duration must be `>= 2 x globalScrapeInterval`. Kiali will [eliminate invalid Duration options]({{< ref "/docs/faq/graph#scrapeduration" >}}) given the globalScrapeInterval.
+That means for Kiali to show anything useful in the graph, or anywhere rates are used (many places), the minimum duration must be `>= 2 x globalScrapeInterval`. Kiali will [eliminate invalid Duration options]({{< relref "../../../FAQ/graph#scrapeduration" >}}) given the globalScrapeInterval.
 
 Kiali does a lot of aggregation and querying over time periods. As such, the number of data points will affect query performance, especially for larger time periods.
 
@@ -443,6 +443,6 @@ For more information, see the [Prometheus documentation](https://prometheus.io/d
 
 The Prometheus `tsdbRetentionTime` is an important configuration option. It has a significant effect on metrics storage, as Prometheus will keep each reported data-point for that period of time, performing compaction as needed. The larger the retention time, the larger the required storage.  Note also that Kiali queries against large time periods, and very large data-sets, may result in poor performance or timeouts.
 
-The recommendation for Kiali is to set the shortest retention time that meets your needs and/or operational limits.  In some cases users may want to offload older data to a secondary store.  Kiali will [eliminate invalid Duration options]({{< ref "/docs/faq/graph#scrapeduration" >}}) given the tsdbRetentionTime.
+The recommendation for Kiali is to set the shortest retention time that meets your needs and/or operational limits.  In some cases users may want to offload older data to a secondary store.  Kiali will [eliminate invalid Duration options]({{< relref "../../../FAQ/graph#scrapeduration" >}}) given the tsdbRetentionTime.
 
 For more information, see the [Prometheus documentation](https://prometheus.io/docs/prometheus/latest/storage/#operational-aspects).

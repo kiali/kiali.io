@@ -16,7 +16,7 @@ Kiali performs a set of validations on your Istio Objects, such as Destination R
 
 As of Kiali v2.25, validations support **multi-primary Istio deployments**, including cross-cluster MeshConfig validation.
 
-Check the complete [list of validations]({{< relref "validations" >}}) for further information.
+Check the complete [list of validations]({{< relref "./validations" >}}) for further information.
 
 ![Istio Config Validation](/images/documentation/features/istio-config-validation.png "Istio Config Validation")
 
@@ -89,7 +89,7 @@ required by the ReferenceGrant spec.
 
 ### Other Kiali Wizards
 
-Kiali also has Wizards available from the Namespaces page (Kiali >= 2.23) and many details pages, such as Service Detail to create routing rules. The Kiali [Travel Tutorial]({{< ref "/docs/tutorials/travels" >}}) goes into several of these wizards.
+Kiali also has Wizards available from the Namespaces page (Kiali >= 2.23) and many details pages, such as Service Detail to create routing rules. The Kiali [Travel Tutorial]({{< relref "../Tutorials/travels" >}}) goes into several of these wizards.
 
 #### Namespaces Page Wizards
 
@@ -106,6 +106,6 @@ The Service Detail page offers several wizards to create traffic control config:
 ## AI-Assisted Configuration
 
 As of Kiali v2.22, Istio configuration can also be created and managed through
-Kiali's [AI Assistant](/docs/ai/chatbot/kiali-chatbot/) (developer preview). The AI assistant
+Kiali's [AI Assistant]({{< relref "../AI/chatbot/kiali-chatbot" >}}) (developer preview). The AI assistant
 can generate, inspect, and update Istio resources using natural language prompts.
 

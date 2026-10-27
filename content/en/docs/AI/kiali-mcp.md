@@ -7,7 +7,7 @@ weight: 20
 
 Kiali MCP lets an MCP-capable assistant query a live service mesh, and optionally change Istio configuration, by calling tools that Kiali already implements. The assistant does not talk to Kiali directly. It talks to an MCP server, and that server calls the Kiali API with the caller's Kubernetes token.
 
-This is separate from the [Kiali Chatbot]({{< relref "chatbot/kiali-chatbot" >}}). The chatbot runs inside the Kiali UI and uses Kiali's own tools. Kiali MCP is for an assistant outside Kiali, for example an IDE, that should use the same mesh data.
+This is separate from the [Kiali Chatbot]({{< relref "./chatbot/kiali-chatbot" >}}). The chatbot runs inside the Kiali UI and uses Kiali's own tools. Kiali MCP is for an assistant outside Kiali, for example an IDE, that should use the same mesh data.
 
 The toolset is published by the [Kubernetes MCP Server](https://github.com/containers/kubernetes-mcp-server). Enable the `kiali` toolset and the tools are named with the `kiali_` prefix. The same list is in [Tools and functionalities](https://github.com/containers/kubernetes-mcp-server#tools-and-functionalities). The catalog below is generated from that server's schema.
 

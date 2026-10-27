@@ -6,7 +6,7 @@ weight: 60
 
 There are two settings that are available for the user's session. The first one
 is the **session expiration time**, which is only applicable to
-[token]({{< relref "token" >}}) and [header]({{< relref "header" >}})
+[token]({{< relref "./token" >}}) and [header]({{< relref "./header" >}})
 authentication strategies:
 
 ```yaml

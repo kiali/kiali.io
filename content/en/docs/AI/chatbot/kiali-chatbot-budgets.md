@@ -5,13 +5,13 @@ description: >
 weight: 13
 ---
 
-You can cap ChatAI usage per user with `ai.consumption.budgets`. Each budget sets a reset interval, optional cost and token limits, and optional provider/model allowlists. Cost limits use the same catalog described in [Token prices]({{< relref "kiali-chatbot-prices" >}}).
+You can cap ChatAI usage per user with `ai.consumption.budgets`. Each budget sets a reset interval, optional cost and token limits, and optional provider/model allowlists. Cost limits use the same catalog described in [Token prices]({{< relref "./kiali-chatbot-prices" >}}).
 
 **To use consumption tracking, token prices, and budgets, `ai.metrics` must be enabled (`ai.metrics: true`).** If metrics are disabled, budgets are not enforced and remaining-budget data is not shown.
 
 If `budgets` is empty (the default), there are no budget restrictions.
 
-For the field list, see `ai.consumption` in the [Kiali CR spec](/docs/configuration/kialis.kiali.io/#.spec.ai).
+For the field list, see `ai.consumption` in the [Kiali CR spec]({{< relref "../../Configuration/kialis.kiali.io#.spec.ai" >}}).
 
 ### Budget fields
 

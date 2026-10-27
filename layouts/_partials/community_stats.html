@@ -1,0 +1,131 @@
+<section class="row td-box td-box--white td-box--height-auto linkbox">
+  <h2>Stats</h2>
+  <ul class="nav nav-tabs" id="repositoriesTabs" role="tablist">
+    {{ range $index, $repo := .Site.Params.repositories }}
+    <li class="nav-item" role="presentation">
+      <button class="nav-link {{ if eq $index 0 }}active{{ end }}" onclick="activateRepositoryTab('{{ $repo.name }}')" id="{{ $repo.name }}-tab" data-bs-toggle="tab" data-bs-target="#{{ $repo.name }}" type="button" role="tab" aria-controls="{{ $repo.name }}" aria-selected="{{ if eq $index 0 }}true{{ else }}false{{ end }}">{{ $repo.name }}</button>
+    </li>
+    {{ end }}
+  </ul>
+  <div class="tab-content" id="repoContent">
+    {{ range $index, $repo := .Site.Params.repositories }}
+    <div class="tab-pane fade {{ if eq $index 0 }}show active{{ end }}" id="{{ $repo.name }}" role="tabpanel" aria-labelledby="{{ $repo.name }}-tab">
+      <div class="row td-box td-box--white td-box--height-auto linkbox">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+          <h2>Grow by
+            <select class="btn dropdown-toggle dropdownMenuFilterRepo">
+              <option value="stars">Stars</option>
+              <option value="forks">Forks</option>
+              <option value="issues">Issues</option>
+              <option value="size">Size</option>
+            </select>
+          </h2>
+          <div id="stats-{{ $repo.name }}" class="community-stats-chart"></div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+          <h2>Languages</h2>
+          <div id="language-{{ $repo.name }}" class="community-stats-chart"></div>
+        </div>
+      </div>
+    </div>
+    {{ end }}
+  </div>
+  {{ block "community-graph" . }}{{ end }}
+</section>
+
+{{- define "community-graph" -}}
+<script>
+  const communityMetricsUrl = '{{ printf "%sdata/metrics.json" .RelPermalink | relURL }}';
+
+  function getStatsOptions(data, filterType, repo) {
+    const metrics = data.repositories[repo].metrics;
+    const seriesData = [];
+    Object.keys(metrics).forEach((key) => seriesData.push([key, metrics[key][filterType]]));
+
+    return {
+      tooltip: { trigger: 'axis' },
+      legend: {},
+      toolbox: {
+        show: true,
+        feature: {
+          dataZoom: { yAxisIndex: 'none' },
+          dataView: { readOnly: false },
+          magicType: { type: ['line', 'bar'] },
+          restore: {},
+          saveAsImage: {}
+        }
+      },
+      xAxis: { type: 'category', boundaryGap: false },
+      yAxis: {
+        min: metrics[Object.keys(metrics)[0]][filterType],
+        type: 'value',
+        axisLabel: { formatter: '{value}' }
+      },
+      series: [{
+        type: 'line',
+        smooth: 1,
+        symbol: 'none',
+        lineStyle: { color: '#5470C6', width: 5 },
+        data: seriesData
+      }]
+    };
+  }
+
+  function getLanguageOptions(data, repo) {
+    const metrics = data.repositories[repo].language;
+    const dataLanguage = [];
+    Object.keys(metrics).forEach((key) => dataLanguage.push({ value: metrics[key], name: key }));
+
+    return {
+      tooltip: { trigger: 'item', formatter: '{b} ({d}%)' },
+      legend: { top: '5%', left: 'center' },
+      series: [{
+        name: 'Languages',
+        label: { formatter: '{b} ({d}%)' },
+        type: 'pie',
+        radius: ['40%', '70%'],
+        center: ['50%', '70%'],
+        startAngle: 180,
+        endAngle: 360,
+        data: dataLanguage
+      }]
+    };
+  }
+
+  let activeRepo = '{{ (index .Site.Params.repositories 0).name }}';
+  let optionGrow = 'stars';
+  let metricsJson;
+
+  function chartFor(id) {
+    const el = document.getElementById(id);
+    return el ? echarts.getInstanceByDom(el) || echarts.init(el) : null;
+  }
+
+  function refreshCharts() {
+    if (!metricsJson || typeof echarts === 'undefined') {
+      return;
+    }
+    chartFor('stats-' + activeRepo)?.setOption(getStatsOptions(metricsJson, optionGrow, activeRepo));
+    chartFor('language-' + activeRepo)?.setOption(getLanguageOptions(metricsJson, activeRepo));
+  }
+
+  fetch(communityMetricsUrl)
+    .then((response) => response.json())
+    .then((json) => {
+      metricsJson = json;
+      refreshCharts();
+    });
+
+  document.querySelectorAll('.dropdownMenuFilterRepo').forEach((select) => {
+    select.addEventListener('change', (event) => {
+      optionGrow = event.target.value;
+      refreshCharts();
+    });
+  });
+
+  function activateRepositoryTab(repo) {
+    activeRepo = repo;
+    refreshCharts();
+  }
+</script>
+{{- end -}}

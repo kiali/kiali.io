@@ -1,6 +1,6 @@
 ---
 title: "KIALI-SECURITY-002 - Authentication bypass when using the OpenID login strategy"
-date: 2021-03-4T11:00:00-06:00
+date: 2021-03-04T11:00:00-06:00
 type: docs
 weight: -2
 ---

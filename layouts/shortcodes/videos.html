@@ -4,14 +4,12 @@
 {{- $opts      := dict "timeout" "10s" }}
 {{- $r         := resources.GetRemote $feedURL $opts }}
 {{- if $r }}
-  {{- if $r.Err }}
-    {{- warnf "Videos shortcode: failed to fetch YouTube feed: %s" $r.Err }}
-  {{- else }}
-    {{- $parsed := $r.Content | transform.Unmarshal (dict "format" "xml") }}
-    {{- if $parsed.entry }}
-      {{- $feedData = $parsed }}
-    {{- end }}
+  {{- $parsed := $r.Content | transform.Unmarshal (dict "format" "xml") }}
+  {{- if $parsed.entry }}
+    {{- $feedData = $parsed }}
   {{- end }}
+{{- else }}
+  {{- warnf "Videos shortcode: failed to fetch YouTube feed from %s" $feedURL }}
 {{- end }}
 
 {{- $entries := slice }}

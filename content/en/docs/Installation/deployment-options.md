@@ -9,10 +9,9 @@ weight: 30
 
 There are other, more complex deployment settings, described in dedicated pages:
 * [Authentication]({{< relref "../Configuration/authentication" >}})
-* [Customization of the Ingress resource]({{< relref
-  "installation-guide/accessing-kiali#ingress-access" >}})
+* [Customization of the Ingress resource]({{< relref "./installation-guide/accessing-kiali#ingress-access" >}})
 * [Customization of the service type (LoadBalancer or
-  NodePort)]({{< relref "installation-guide/accessing-kiali#accessing-kiali-through-a-loadbalancer-or-a-nodeport" >}})
+  NodePort)]({{< relref "./installation-guide/accessing-kiali#accessing-kiali-through-a-loadbalancer-or-a-nodeport" >}})
 * [Namespace management (configuring namespaces accessible and visible to
   Kiali)]({{< relref "../Configuration/namespace-management" >}})
 
@@ -74,8 +73,7 @@ spec:
 ```
 
 The `instance_name` will be used as a prefix for all created Kiali resources.
-The exception is the [`kiali-signing-key` secret]({{< relref
-"../Configuration/authentication/session-configs" >}}) which will always have
+The exception is the [`kiali-signing-key` secret]({{< relref "../Configuration/authentication/session-configs" >}}) which will always have
 the same name and will be shared on all deployments of the same namespace,
 unless you specify a custom secret name.
 
@@ -298,7 +296,7 @@ spec:
 
 There is one additional `spec.server.web_root` option that affects the HTTP
 server, but that one is described in the [_Specifying route settings_ section
-of the Instalation guide.]({{< relref "../Installation/installation-guide/accessing-kiali#route-configs" >}})
+of the Instalation guide.]({{< relref "./installation-guide/accessing-kiali#route-configs" >}})
 
 ## Metrics server
 

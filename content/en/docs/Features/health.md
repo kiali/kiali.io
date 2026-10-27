@@ -65,5 +65,5 @@ Kiali uses icons and colors to indicate the health of resources and associated r
 
 ### Custom Request Health
 
-There are times when Kiali's default thresholds for traffic health do not work well for a particular situation.  For example, at times 404 response codes are expected.  Kiali has the ability to set powerful, fine-grained overrides for health configuration.  For details, see [Traffic Health Configuration]({{< ref "docs/configuration/health" >}}).
+There are times when Kiali's default thresholds for traffic health do not work well for a particular situation.  For example, at times 404 response codes are expected.  Kiali has the ability to set powerful, fine-grained overrides for health configuration.  For details, see [Traffic Health Configuration]({{< relref "../Configuration/health" >}}).
 

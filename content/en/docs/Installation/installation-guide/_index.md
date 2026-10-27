@@ -14,7 +14,7 @@ and manages your Kiali installation. It watches the _Kiali Custom Resource_
 
 {{% alert color="success" %}}
 It is only necessary to install the Kiali Operator once. After the
-operator is installed you only need to [create or edit the Kiali CR]({{< relref "creating-updating-kiali-cr" >}}). *Never* manually
+operator is installed you only need to [create or edit the Kiali CR]({{< relref "./creating-updating-kiali-cr" >}}). *Never* manually
 edit resources created by the Kiali Operator.
 {{% /alert %}}
 

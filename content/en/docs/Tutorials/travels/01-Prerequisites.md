@@ -110,11 +110,11 @@ Remove any Kiali installed from the Istio addons bundle before proceeding (set `
 kubectl delete -f ${ISTIO_HOME}/samples/addons/kiali.yaml --ignore-not-found
 ```
 
-This tutorial uses different install methods depending on the platform. On Kind, a standalone Helm install keeps setup minimal. On OpenShift, install via the Kiali Operator — the [recommended production method]({{< ref "/docs/Installation/installation-guide" >}}).
+This tutorial uses different install methods depending on the platform. On Kind, a standalone Helm install keeps setup minimal. On OpenShift, install via the Kiali Operator — the [recommended production method]({{< relref "../../Installation/installation-guide" >}}).
 
 ### Kind
 
-Install the Kiali server using the [Quick Start Helm instructions]({{< ref "/docs/Installation/quick-start#install-via-helm" >}}). The Istio install above deploys Jaeger, but Kiali does not enable tracing integration by default — enable it explicitly:
+Install the Kiali server using the [Quick Start Helm instructions]({{< relref "../../Installation/quick-start#install-via-helm" >}}). The Istio install above deploys Jaeger, but Kiali does not enable tracing integration by default — enable it explicitly:
 
 ```
 helm install \
@@ -141,12 +141,12 @@ kubectl get configmap kiali -n istio-system -o jsonpath='{.data.config\.yaml}' |
 ```
 
 {{% alert color="info" %}}
-The `kiali-server` Helm chart is intended for demo and evaluation. For production clusters, use the [Kiali Operator]({{< ref "/docs/Installation/installation-guide/install-with-helm#install-with-operator" >}}).
+The `kiali-server` Helm chart is intended for demo and evaluation. For production clusters, use the [Kiali Operator]({{< relref "../../Installation/installation-guide/install-with-helm#install-with-operator" >}}).
 {{% /alert %}}
 
 ### OpenShift
 
-Install the Kiali Operator from [OperatorHub in the OpenShift console]({{< ref "/docs/Installation/installation-guide/installing-with-operatorhub" >}}), then [create a Kiali CR]({{< ref "/docs/Installation/installation-guide/creating-updating-kiali-cr" >}}) in the `istio-system` namespace.
+Install the Kiali Operator from [OperatorHub in the OpenShift console]({{< relref "../../Installation/installation-guide/installing-with-operatorhub" >}}), then [create a Kiali CR]({{< relref "../../Installation/installation-guide/creating-updating-kiali-cr" >}}) in the `istio-system` namespace.
 
 For a minimal tutorial setup with anonymous login, you can install the operator and CR in one step using Helm:
 
@@ -171,7 +171,7 @@ kubectl wait --for=condition=Successful kiali kiali -n istio-system --timeout=30
 kubectl get pods,svc -n istio-system -l app.kubernetes.io/name=kiali
 ```
 
-See [Creating and updating the Kiali CR]({{< ref "/docs/Installation/installation-guide/creating-updating-kiali-cr" >}}) for customization options. Production OpenShift deployments typically use the `openshift` auth strategy instead of `anonymous`.
+See [Creating and updating the Kiali CR]({{< relref "../../Installation/installation-guide/creating-updating-kiali-cr" >}}) for customization options. Production OpenShift deployments typically use the `openshift` auth strategy instead of `anonymous`.
 
 ## Access the Kiali UI
 
@@ -197,7 +197,7 @@ oc get route kiali -n istio-system
 
 Open the route host in your browser (for example, `https://<route-host>/`).
 
-See [Accessing Kiali]({{< ref "/docs/Installation/installation-guide/accessing-kiali#accessing-kiali-in-openshift" >}}) for more options.
+See [Accessing Kiali]({{< relref "../../Installation/installation-guide/accessing-kiali#accessing-kiali-in-openshift" >}}) for more options.
 
 After the *Prerequisites* you should be able to access Kiali. Verify its version by clicking the "?" icon and selecting "About":
 
