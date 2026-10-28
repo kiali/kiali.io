@@ -1380,7 +1380,7 @@ echo "Spoke-two remote forwarder ready"
 
 ### 2.7 Configure Istio to Send Traces
 
-Patch both clusters' Istio CRs to add the OTEL collector as a tracing extension provider, then apply a mesh-level `Telemetry` CR to enable 100% sampling. Also apply per-namespace `Telemetry` CRs in the demo namespaces to ensure trace generation from both ambient and sidecar workloads:
+Patch both clusters' Istio CRs to add the OTEL collector as a tracing extension provider, then apply a mesh-level `Telemetry` CR to enable 100% sampling:
 
 ```bash
 # Patch meshConfig on spoke
@@ -1439,25 +1439,6 @@ spec:
 EOF
 done
 
-# Per-namespace Telemetry in demo namespaces
-for CTX in ossm-kiali-spoke ossm-kiali-spoke-two; do
-  for NS in ambient-demo bookinfo; do
-    if oc --context="${CTX}" get namespace "${NS}" &>/dev/null; then
-      oc --context="${CTX}" apply -f - <<EOF
-apiVersion: telemetry.istio.io/v1
-kind: Telemetry
-metadata:
-  name: ${NS}-tracing
-  namespace: ${NS}
-spec:
-  tracing:
-  - providers:
-    - name: otel-tracing
-    randomSamplingPercentage: 100
-EOF
-    fi
-  done
-done
 echo "Telemetry CRs applied"
 
 # Restart waypoints so they pick up the new tracing config
@@ -1469,6 +1450,10 @@ for NS in ambient-demo; do
   done
 done
 ```
+
+{{% alert title="Why are there no per-namespace Telemetry CRs?" color="info" %}}
+The `Telemetry` CR above is created in `istio-system`, the mesh root namespace, so it applies to every workload in the mesh — including the waypoint proxies that handle L7 traffic for ambient namespaces. Per-namespace `Telemetry` CRs in the demo namespaces would be redundant.
+{{% /alert %}}
 
 ### 2.8 Enable the Distributed Tracing Console Plugin
 
@@ -1663,9 +1648,6 @@ oc --context=ossm-kiali-spoke delete uiplugin distributed-tracing --ignore-not-f
 # Remove Telemetry CRs and meshConfig tracing from both clusters
 for CTX in ossm-kiali-spoke ossm-kiali-spoke-two; do
   oc --context="${CTX}" delete telemetry otel-tracing -n istio-system --ignore-not-found
-  for NS in ambient-demo bookinfo; do
-    oc --context="${CTX}" delete telemetry "${NS}-tracing" -n "${NS}" --ignore-not-found
-  done
   oc --context="${CTX}" patch istio default --type=json \
     -p '[{"op":"remove","path":"/spec/values/meshConfig/extensionProviders"},{"op":"remove","path":"/spec/values/meshConfig/enableTracing"}]' \
     2>/dev/null || true
