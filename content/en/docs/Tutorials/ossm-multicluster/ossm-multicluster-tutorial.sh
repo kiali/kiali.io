@@ -3490,23 +3490,6 @@ spec:
     - name: otel-tracing
     randomSamplingPercentage: 100
 EOF
-
-    for NS in ambient-demo bookinfo; do
-      if oc --context="${CTX}" get namespace "${NS}" &>/dev/null; then
-        oc --context="${CTX}" apply -f - <<EOF
-apiVersion: telemetry.istio.io/v1
-kind: Telemetry
-metadata:
-  name: ${NS}-tracing
-  namespace: ${NS}
-spec:
-  tracing:
-  - providers:
-    - name: otel-tracing
-    randomSamplingPercentage: 100
-EOF
-      fi
-    done
   done
 
   # Restart waypoints for tracing
@@ -4061,9 +4044,6 @@ cleanup_guide3() {
   # Remove Telemetry CRs and tracing from Istio
   for CTX in "${SPOKE_CTX}" "${SPOKE_TWO_CTX}"; do
     oc --context="${CTX}" delete telemetry otel-tracing -n istio-system --ignore-not-found
-    for NS in ambient-demo bookinfo; do
-      oc --context="${CTX}" delete telemetry "${NS}-tracing" -n "${NS}" --ignore-not-found
-    done
     oc --context="${CTX}" patch istio default --type=json \
       -p '[{"op":"remove","path":"/spec/values/meshConfig/extensionProviders"},{"op":"remove","path":"/spec/values/meshConfig/enableTracing"}]' 2>/dev/null || true
   done
