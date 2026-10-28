@@ -57,7 +57,7 @@ When a workload, application, or service is part of the Ambient Mesh, a badge wi
 
 ![Waypoint link](/images/documentation/features/ambient/waypoint-link.png)
 
-* Kiali will correlate the ztunnel and waypoint logs related to the application and provide a checkbox to include them with the application logs. This ensures that all relevant information for the application is available in one place:
+* Kiali will correlate the ztunnel and waypoint logs related to the application and provide a checkbox to include them with the application logs. This ensures that all relevant information for the application is available in one place. As with all Kiali views, the user needs access to the application's namespace to see these correlated logs:
 
 ![Workload logs](/images/documentation/features/ambient/ambient-logs.png)
 

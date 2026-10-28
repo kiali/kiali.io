@@ -291,6 +291,14 @@ Kiali also [caches namespaces]({{< relref "../Configuration/kialis.kiali.io#.spe
 
 Finally, per-user RBAC rules can also cause a namespace to be absent from the dropdown. If [`kiali_feature_flags.authz.require_namespace_get`]({{< relref "../Configuration/rbac#multi-tenant-environments-and-require_namespace_get" >}}) is enabled, a namespace that is accessible to the Kiali Server will still be hidden from a user who lacks _GET_ permission on that namespace. See [Namespace access control]({{< relref "../Configuration/rbac" >}}) for more details.
 
+### Why do I get "Cannot access namespace data" errors?
+
+The page you opened refers to a namespace your credentials do not grant access to. This can happen when following an old link or bookmark after permissions changed. Note that Kiali does not distinguish between a namespace that does not exist and one you are not allowed to see. If you believe you should have access, check your namespace permissions — see [Namespace access control]({{< relref "../Configuration/rbac" >}}).
+
+### Why is data from some clusters missing?
+
+In a multi-cluster setup, Kiali only queries the clusters you have logged in to (see the [multi-cluster configuration]({{< relref "../Configuration/multi-cluster" >}})). Views show data from those clusters only, and the traffic graph shows nodes from the other clusters without their Istio configuration decoration. Log in to the remaining clusters to see them.
+
 ### Workload "is not found as" messages
 
 Kiali queries *Deployment* ,*ReplicaSet*, *ReplicationController*, *DeploymentConfig*, *StatefulSet*, *Job* and *CronJob* controllers.

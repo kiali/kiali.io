@@ -115,6 +115,10 @@ It is assumed Kiali will have access to the same set of namespaces on the remote
 
 {{% alert color="info" %}}
 Each remote cluster `overrides` section completely overrides the default discovery selectors. That is to say, if a remote cluster has discovery selector overrides defined, only those selectors are used to determine which remote namespaces are to be visible to users. The `default` discovery selectors will not be used for a particular remote cluster when `overrides` are defined for that remote cluster.
+
+{{% alert color="warning" %}}
+In a multicluster mesh, a namespace participating in the mesh exists — under the same name — in every participating cluster, and Kiali's cross-cluster views (for example the ztunnel dashboard and aggregate metrics) combine the telemetry of all clusters by namespace name. Make sure your discovery selectors select the mesh's namespaces in **every** participating cluster: a namespace that is part of the mesh (producing telemetry) in one cluster but excluded from that cluster's discovery selectors is a misconfiguration, and those cross-cluster views cannot exclude its data from the combined result.
+{{% /alert %}}
 {{% /alert %}}
 
 Here is an example of defining discovery selectors for a remote cluster:

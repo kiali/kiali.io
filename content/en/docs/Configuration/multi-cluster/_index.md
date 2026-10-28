@@ -175,6 +175,10 @@ chmod +x kiali-prepare-remote-cluster.sh
 Use the option `--help` for additional details on using the script to create and delete the remote cluster resources and secrets.
 {{% /alert %}}
 
+{{% alert color="warning" %}}
+Kiali matches trace telemetry's cluster attribution (`istio.cluster_id`) against Kiali's cluster names. These must match the Istio cluster IDs, which they do by default (Kiali derives its home cluster name from istiod's cluster ID). If you explicitly configure `kubernetes_config.cluster_name` or `deployment.cluster_name_overrides` with names that differ from the Istio cluster IDs, every trace that carries cluster attribution is denied for all users.
+{{% /alert %}}
+
 3. **Configure Kiali.** The Kiali Operator needs to know about the remote cluster secrets so it can mount them into the Kiali Server pod. There are three ways to do this:
 
    - **Auto-discovery by label (default):** The Kiali Operator will automatically detect any secret in the Kiali deployment namespace that has the label `kiali.io/multiCluster="true"`. The secrets created by the `kiali-prepare-remote-cluster.sh` script are labeled this way and will be auto-detected with no additional Kiali CR configuration needed.
@@ -198,6 +202,12 @@ Use the option `--help` for additional details on using the script to create and
    - For **OpenShift** with impersonation mode (`spec.auth.openshift.impersonation.enabled: true`), users log in once to the home cluster and Kiali uses API impersonation for all other clusters. See the [OpenShift impersonation documentation]({{< relref "../authentication/openshift#impersonation-mode-alternative" >}}) for setup. Without impersonation mode, see the [OpenShift multi-cluster documentation]({{< relref "../authentication/openshift#multi-cluster" >}}) for per-cluster login setup.
 
    In multi-tenant multi-cluster environments where users have broad _LIST_ permission but restricted per-namespace _GET_ permission, consider enabling [`kiali_feature_flags.authz.require_namespace_get`]({{< relref "../rbac#multi-tenant-environments-and-require_namespace_get" >}}) to enforce strict per-namespace visibility.
+
+   Some Kiali views combine data from all clusters at once — for example the ztunnel dashboard and aggregate metrics. For those views, the user must have access to the namespace in **every** cluster where it exists; otherwise the request is denied. A user who has not logged in to (has no session for) a remote cluster where the namespace exists will also be denied these views. Per-namespace views (workload, app and service detail pages) only require access on the cluster being viewed.
+
+   A user who has not logged in to every cluster still gets working views — they just see less of the mesh. Views scoped to a single cluster (lists, detail pages) show data only from the clusters the user has a session for. In the traffic graph, nodes in a cluster without a session can still appear (the metrics store spans the whole mesh) but are shown without their Istio configuration decoration (for example, virtual service or circuit breaker badges), because Kiali cannot query that cluster's configuration. Cluster-scoped views that name a cluster the user has no session for (for example, the Istio config list or the mesh TLS status) return empty results rather than an error. To see the whole mesh, log in to every cluster.
+
+   For those same combined views, configure [discovery selectors]({{< relref "../namespace-management" >}}) so that the mesh's namespaces are selected in every participating cluster.
 
 5. Optional - **Narrow metrics to mesh.** If your unified metrics store also contains data outside of your mesh, you can limit which metrics Kiali will query for by setting the [query_scope]({{< relref "../kialis.kiali.io#.spec.external_services.prometheus.query_scope" >}}) configuration.
 
