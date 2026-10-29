@@ -58,14 +58,7 @@ see:
   namespaces (`api/v1/namespaces`) will, by default, see every namespace
   returned by the list. This is typically granted via a `ClusterRoleBinding`.
 
-Whichever verb a user has, Kiali applies the result consistently to the
-data it serves itself: graphs, detail pages, metrics, dashboards, traces
-and validations all enforce the same namespace access, and a user's
-answer does not change between requests. Pod logs are fetched with the
-user's own credentials and are authorized by Kubernetes directly, through
-the `pods/log` permission (see below) — namespace access decides whether
-the user can open a namespace's logs view, while `pods/log` decides
-whether Kubernetes returns the log content.
+Whichever verb a user has, Kiali applies the result consistently to the data it serves itself: graphs, detail pages, metrics, dashboards, traces and validations use the same namespace access rules. Application, proxy and waypoint logs are fetched with the user's own credentials, so Kubernetes additionally requires pods/log permission in the namespace containing the pod. Correlated ztunnel logs are fetched with Kiali's service account; Kiali checks the user's access to the application's namespace before returning those logs.
 
 {{% alert color="warning" %}}
 In the default configuration, a user who can _LIST_ namespaces can see all
