@@ -31,7 +31,7 @@ With a multi-cluster Kiali configuration, you can view all apps, workloads, serv
 
 ### Detail Views: Dig into details across clusters
 
-The detail pages provide the same functionality across all clusters that you have access to for a single cluster, including viewing logs, metrics, traces, envoy details, and more.
+The detail pages provide the same functionality across all clusters that you have access to for a single cluster, including viewing logs, metrics, traces, envoy details, and more. Some views combine data from all clusters at once (for example the ztunnel dashboard and aggregate metrics); for those, the user must have access to the namespace in every cluster where it exists, and the mesh's namespaces should be selected by [discovery selectors]({{< relref "../Configuration/namespace-management" >}}) in every cluster where they exist.
 
 ![Multi-cluster detail pages](/images/documentation/features/multi-cluster-details.png "Multi-cluster detail pages")
 

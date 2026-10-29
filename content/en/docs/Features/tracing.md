@@ -11,6 +11,42 @@ For a quick glimpse at Kiali tracing features, see below.  For a detailed explan
 
 <br />
 
+## Access control
+
+Tracing views respect the logged-in user's [namespace access
+permissions]({{< relref "../Configuration/rbac" >}}). The tracing backend
+itself has no access control; Kiali enforces the user's permissions
+before returning trace data to the user. To open a trace by its ID,
+Kiali fetches the trace and then checks the namespaces it participates
+in: the user must have access to at least one of them for the trace to
+be returned. Trace lists are scoped the
+same way: a trace appears in a namespace's traces, spans and error counts
+only when the trace passes through that namespace. Authorization is per
+trace, not per span: once a trace is accessible, all of its spans are
+shown, including the spans of services in namespaces the user cannot
+access.
+
+In a multicluster setup, when the tracing telemetry identifies the cluster
+a trace belongs to, the user must have access to the namespace in that
+cluster; traces whose telemetry does not identify a cluster are checked
+against the namespace name in any cluster. The cluster match uses Kiali's
+cluster names, which must match the Istio cluster IDs — see the
+[multi-cluster configuration]({{< relref "../Configuration/multi-cluster" >}})
+page before overriding cluster names.
+
+A trace must carry namespace information in its telemetry for Kiali to
+show it: Kiali reads the `istio.namespace`, `istio.source_namespace`,
+`istio.destination_namespace` and `k8s.namespace.name` span attributes
+(and the `node_id` of sidecar spans). Traces whose spans carry none of
+these cannot be authorized for any user and are excluded from the tracing
+views. The `service.namespace` attribute is not read for authorization:
+it is a logical service grouping controlled by the application, not the
+Kubernetes namespace the span was produced in. Istio mesh telemetry
+carries the namespace attributes; spans emitted directly by applications
+through an OpenTelemetry collector may not — configure the collector's
+`k8sattributes` processor to set `k8s.namespace.name` on those spans so
+their traces remain visible.
+
 ## Workload detail
 
 When investigating a workload, click the _Traces_ tab to visualize your traces in a chart. When selecting a trace Kiali

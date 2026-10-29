@@ -9,6 +9,8 @@ aliases:
 
 Kiali Chatbot uses **internal MCP-style tools** (implemented inside Kiali) to fetch live data and perform safe actions. These are **not** external MCP server tools.
 
+The AI assistant's tools respect the logged-in user's namespace access permissions: the assistant cannot retrieve logs, metrics, graphs, resources or traces for a namespace the user cannot access.
+
 Administrators can control which of these tools are exposed to the AI by using `ai.chat.tools` for global filtering and `ai.chat.providers[].tools` for provider-specific filtering. Use the exact tool names below in `enabled_tools` and `disabled_tools`.
 
 The tool **input schemas** are defined in Kiali under `kiali/ai/mcp/tools/*.yaml`. The tool **outputs** are JSON structures returned by the Kiali backend and consumed by the model and/or UI.
