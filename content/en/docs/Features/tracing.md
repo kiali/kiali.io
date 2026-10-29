@@ -15,9 +15,11 @@ For a quick glimpse at Kiali tracing features, see below.  For a detailed explan
 
 Tracing views respect the logged-in user's [namespace access
 permissions]({{< relref "../Configuration/rbac" >}}). The tracing backend
-itself has no access control; Kiali enforces the user's permissions before
-querying it. To open a specific trace, the user must have access to at
-least one namespace that trace passes through. Trace lists are scoped the
+itself has no access control; Kiali enforces the user's permissions
+before returning trace data to the user. To open a trace by its ID,
+Kiali fetches the trace and then checks the namespaces it participates
+in: the user must have access to at least one of them for the trace to
+be returned. Trace lists are scoped the
 same way: a trace appears in a namespace's traces, spans and error counts
 only when the trace passes through that namespace. Authorization is per
 trace, not per span: once a trace is accessible, all of its spans are

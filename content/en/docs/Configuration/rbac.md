@@ -58,10 +58,14 @@ see:
   namespaces (`api/v1/namespaces`) will, by default, see every namespace
   returned by the list. This is typically granted via a `ClusterRoleBinding`.
 
-Whichever verb a user has, Kiali applies the result consistently: every
-namespace-scoped view — graphs, detail pages, metrics, dashboards, logs,
-traces and validations — enforces the same namespace access. A user's
-answer does not change between requests.
+Whichever verb a user has, Kiali applies the result consistently to the
+data it serves itself: graphs, detail pages, metrics, dashboards, traces
+and validations all enforce the same namespace access, and a user's
+answer does not change between requests. Pod logs are fetched with the
+user's own credentials and are authorized by Kubernetes directly, through
+the `pods/log` permission (see below) — namespace access decides whether
+the user can open a namespace's logs view, while `pods/log` decides
+whether Kubernetes returns the log content.
 
 {{% alert color="warning" %}}
 In the default configuration, a user who can _LIST_ namespaces can see all
@@ -272,11 +276,12 @@ Kiali's [tracing views]({{< relref "../Features/tracing" >}}) follow the
 same namespace permissions as the rest of Kiali. This is worth knowing
 because the tracing backends Kiali integrates with (Jaeger, Grafana Tempo)
 do not have their own access control — Kiali enforces the logged-in user's
-namespace access before querying them. A user must have access to a
-namespace to see its traces, spans and error-trace counts. To open a trace
-by its ID, the user must have access to at least one namespace the trace
-passes through; a trace that crosses several namespaces is visible to any
-user who can access one of them. Authorization is per trace, not per span:
+namespace access before returning trace data to the user. A user must have
+access to a namespace to see its traces, spans and error-trace counts. To
+open a trace by its ID, the user must have access to at least one namespace
+the trace passes through; a trace that crosses several namespaces is visible
+to any user who can access one of them. Authorization is per trace, not per
+span:
 once a trace is accessible, all of its spans are shown, including the spans
 of services in namespaces the user cannot access.
 
@@ -286,8 +291,9 @@ cluster — access to a same-named namespace in a different cluster does not
 authorize opening the trace. Traces whose telemetry does not identify a
 cluster are checked against the namespace name in any cluster. The cluster
 match uses Kiali's cluster names, which must match the Istio cluster IDs —
-they do by default, but explicitly configured names that diverge deny every
-cluster-identified trace (see the
+they do by default, but explicitly configured names that diverge make the
+mismatched clusters' namespaces unmatchable, so traces whose recognizable
+namespaces are all attributed to those clusters are denied (see the
 [multi-cluster configuration]({{< relref "multi-cluster" >}}) page).
 
 A trace must carry namespace information in its telemetry for Kiali to

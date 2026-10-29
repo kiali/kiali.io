@@ -176,7 +176,7 @@ Use the option `--help` for additional details on using the script to create and
 {{% /alert %}}
 
 {{% alert color="warning" %}}
-Kiali matches trace telemetry's cluster attribution (`istio.cluster_id`) against Kiali's cluster names. These must match the Istio cluster IDs, which they do by default (Kiali derives its home cluster name from istiod's cluster ID). If you explicitly configure `kubernetes_config.cluster_name` or `deployment.cluster_name_overrides` with names that differ from the Istio cluster IDs, every trace that carries cluster attribution is denied for all users.
+Kiali matches trace telemetry's cluster attribution (`istio.cluster_id`) against Kiali's cluster names. These must match the Istio cluster IDs, which they do by default (Kiali derives its home cluster name from istiod's cluster ID). If you explicitly configure `kubernetes_config.cluster_name` or `deployment.cluster_name_overrides` with names that differ from the Istio cluster IDs, the namespaces the telemetry attributes to the misnamed clusters can no longer be matched, which makes the affected traces inaccessible. A trace is still authorized when one of its spans carries no cluster attribution or a namespace attributed to a correctly named cluster — so not every trace is affected, but the mismatch can silently hide traces.
 {{% /alert %}}
 
 3. **Configure Kiali.** The Kiali Operator needs to know about the remote cluster secrets so it can mount them into the Kiali Server pod. There are three ways to do this:
@@ -207,7 +207,7 @@ Kiali matches trace telemetry's cluster attribution (`istio.cluster_id`) against
 
    A user who has not logged in to every cluster still gets working views — they just see less of the mesh. Views scoped to a single cluster (lists, detail pages) show data only from the clusters the user has a session for. In the traffic graph, nodes in a cluster without a session can still appear (the metrics store spans the whole mesh) but are shown without their Istio configuration decoration (for example, virtual service or circuit breaker badges), because Kiali cannot query that cluster's configuration. Cluster-scoped views that name a cluster the user has no session for (for example, the Istio config list or the mesh TLS status) return empty results rather than an error. To see the whole mesh, log in to every cluster.
 
-   For those same combined views, configure [discovery selectors]({{< relref "../namespace-management" >}}) so that the mesh's namespaces are selected in every participating cluster.
+   For those same combined views, configure [discovery selectors]({{< relref "../namespace-management" >}}) so that the mesh's namespaces are selected in every cluster where they exist.
 
 5. Optional - **Narrow metrics to mesh.** If your unified metrics store also contains data outside of your mesh, you can limit which metrics Kiali will query for by setting the [query_scope]({{< relref "../kialis.kiali.io#.spec.external_services.prometheus.query_scope" >}}) configuration.
 
