@@ -1080,12 +1080,18 @@
                     "issues": 88,
                     "stars": 3647,
                     "size": 94302
+                },
+                "2026-10-31": {
+                    "forks": 574,
+                    "issues": 108,
+                    "stars": 3647,
+                    "size": 94022
                 }
             },
             "language": {
-                "Go": 7508949,
-                "TypeScript": 5262486,
-                "Shell": 1660169,
+                "Go": 7879039,
+                "TypeScript": 5263563,
+                "Shell": 1660503,
                 "Gherkin": 259647,
                 "Makefile": 117671,
                 "SCSS": 9628,
@@ -1761,12 +1767,18 @@
                     "issues": 2,
                     "stars": 92,
                     "size": 3406
+                },
+                "2026-10-30": {
+                    "forks": 133,
+                    "issues": 1,
+                    "stars": 92,
+                    "size": 3386
                 }
             },
             "language": {
                 "Shell": 122746,
                 "Python": 112717,
-                "Dockerfile": 39260,
+                "Dockerfile": 39730,
                 "Makefile": 18690
             }
         },
@@ -2340,15 +2352,21 @@
                     "issues": 13,
                     "stars": 8,
                     "size": 15933
+                },
+                "2026-10-30": {
+                    "forks": 20,
+                    "issues": 12,
+                    "stars": 8,
+                    "size": 16371
                 }
             },
             "language": {
-                "TypeScript": 5746390,
-                "Gherkin": 261304,
+                "TypeScript": 6006568,
+                "Gherkin": 261663,
                 "Shell": 174277,
                 "Makefile": 23610,
                 "SCSS": 9722,
-                "JavaScript": 6699,
+                "JavaScript": 6700,
                 "Dockerfile": 1279
             }
         }
