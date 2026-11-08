@@ -1086,19 +1086,25 @@
                     "issues": 108,
                     "stars": 3647,
                     "size": 94022
+                },
+                "2026-11-06": {
+                    "forks": 575,
+                    "issues": 100,
+                    "stars": 3648,
+                    "size": 94750
                 }
             },
             "language": {
-                "Go": 7879039,
-                "TypeScript": 5263563,
+                "Go": 7880265,
+                "TypeScript": 5352812,
                 "Shell": 1660503,
                 "Gherkin": 259647,
                 "Makefile": 117671,
-                "SCSS": 9628,
                 "JavaScript": 8210,
                 "Python": 7930,
                 "Dockerfile": 1595,
-                "HTML": 1254
+                "HTML": 1254,
+                "SCSS": 244
             }
         },
         "kiali-operator": {
@@ -1773,6 +1779,12 @@
                     "issues": 1,
                     "stars": 92,
                     "size": 3386
+                },
+                "2026-11-04": {
+                    "forks": 134,
+                    "issues": 2,
+                    "stars": 92,
+                    "size": 3388
                 }
             },
             "language": {
@@ -2358,16 +2370,22 @@
                     "issues": 12,
                     "stars": 8,
                     "size": 16371
+                },
+                "2026-11-06": {
+                    "forks": 20,
+                    "issues": 14,
+                    "stars": 8,
+                    "size": 16478
                 }
             },
             "language": {
-                "TypeScript": 6006568,
+                "TypeScript": 6112393,
                 "Gherkin": 261663,
                 "Shell": 174277,
                 "Makefile": 23610,
-                "SCSS": 9722,
                 "JavaScript": 6700,
-                "Dockerfile": 1279
+                "Dockerfile": 1279,
+                "SCSS": 338
             }
         }
     }
