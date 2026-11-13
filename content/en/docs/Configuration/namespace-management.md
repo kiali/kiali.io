@@ -121,7 +121,16 @@ In a multicluster mesh, a namespace does not need to exist in every participatin
 {{% /alert %}}
 {{% /alert %}}
 
-Here is an example of defining discovery selectors for a remote cluster:
+{{% alert color="info" %}}
+**Remote overrides also scope the remote cluster's access when `cluster_wide_access` is `false`.** In that mode the remote cluster's Kiali Service Account typically only holds per-namespace Roles, so Kiali scopes the remote cluster's cache, and the access verification it performs on that cluster, to the namespaces the overrides select. This has requirements beyond visibility:
+
+- **The override selectors must resolve to an explicit list of namespace names.** Each selector must match on the `kubernetes.io/metadata.name` label — either a `matchLabels` entry, or a `matchExpressions` entry with the `In` operator. This is the same form the `default` selectors must take when `cluster_wide_access` is `false`. An override that cannot be resolved to namespace names cannot scope the remote access: Kiali logs a warning (once per cluster) and falls back to the `default` accessible namespaces for that cluster. If a remote override appears to be ignored, check the Kiali Server log for that warning.
+- **The remote cluster's Kiali Service Account must be granted read access in exactly the namespaces the overrides select.** The Kiali Operator creates Roles only on the cluster where it is deployed; on remote clusters the roles must be created as part of the [remote cluster setup]({{< relref "multi-cluster" >}}) (for example with `spec.deployment.remote_cluster_resources_only: true` or the `kiali-prepare-remote-cluster.sh` script).
+
+When `cluster_wide_access` is `true` the remote cluster's cache is cluster-scoped and the overrides act purely as visibility filters; any valid label selector form may be used.
+{{% /alert %}}
+
+Here is an example of defining discovery selectors for a remote cluster (in the `kubernetes.io/metadata.name` form required for access scoping when `cluster_wide_access` is `false`):
 
 ```yaml
 spec:
@@ -131,17 +140,18 @@ spec:
       # define accessible namespaces on the local cluster
       default:
       - matchExpressions:
-        - key: my-mesh
-          operator: Exists
+        - key: kubernetes.io/metadata.name
+          operator: In
+          values: ["istio-system", "bookinfo"]
       overrides:
-        # My remote cluster has a different set of namespaces
+        # My remote cluster has a different set of accessible namespaces
         my-remote-cluster:
         - matchLabels:
-            org: production
+            kubernetes.io/metadata.name: team-a-frontend
         - matchExpressions:
-          - key: region
+          - key: kubernetes.io/metadata.name
             operator: In
-            values: ["east"]
+            values: ["team-a-backend", "team-a-services"]
 ```
 
 You can define overrides for multiple remote clusters:
@@ -152,18 +162,21 @@ spec:
     cluster_wide_access: false
     discovery_selectors:
       default:
-      - matchLabels:
-          region: south
+      - matchExpressions:
+        - key: kubernetes.io/metadata.name
+          operator: In
+          values: ["istio-system", "bookinfo"]
       overrides:
         cluster1:
-        - matchLabels:
-            region: east
+        - matchExpressions:
+          - key: kubernetes.io/metadata.name
+            operator: In
+            values: ["team-a-frontend", "team-a-backend"]
         cluster2:
-        - matchLabels:
-            region: west
-        cluster3:
-        - matchLabels:
-            region: north
+        - matchExpressions:
+          - key: kubernetes.io/metadata.name
+            operator: In
+            values: ["team-b-frontend", "team-b-backend"]
 ```
 
 ## Discovery Selectors
