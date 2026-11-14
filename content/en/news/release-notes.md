@@ -6,6 +6,41 @@ weight: 1
 
 For additional information check our [sprint demo videos](https://www.youtube.com/channel/UCcm2NzDN_UCZKk2yYmOpc5w) and [blogs](https://medium.com/kialiproject).
 
+## 2.35.0
+Release: November 16, 2026
+
+Features:
+
+* [AI: Validation for MCP Tools](https://github.com/kiali/kiali/issues/9358)
+* [AI: Chat troubleshooting from the health history ribbon](https://github.com/kiali/kiali/issues/10428)
+* [Ambient: Add waypoint canary upgrade support](https://github.com/kiali/kiali/issues/10394)
+* [Ambient: Enforce namespace authorization on health, ztunnel logs and ztunnel config dump APIs](https://github.com/kiali/kiali/pull/10437)
+* [Config: config.Get() deep-copies the ~5 KB Config on every call; every span-bearing business method pays it](https://github.com/kiali/kiali/issues/10476)
+* [OSSMC: Show OSSM operator install status per cluster](https://github.com/kiali/openshift-servicemesh-plugin/issues/889)
+* [Perf: Bound kube cache reads with a timeout](https://github.com/kiali/kiali/pull/10514)
+* [UI: Add Istio dashboard links to the Mesh page](https://github.com/kiali/kiali/issues/10311)
+* [UI: Improve graph node iconography and tooltips](https://github.com/kiali/kiali/issues/10456)
+* [UI: Complete Chinese UI localization](https://github.com/kiali/kiali/pull/10530)
+* [UI: Complete Korean UI localization](https://github.com/kiali/kiali/pull/10528)
+* [UI: Complete Spanish UI localization](https://github.com/kiali/kiali/pull/10521)
+* [UI: Add French UI localization](https://github.com/kiali/kiali/pull/10337)
+* [UI: Add Japanese UI localization](https://github.com/kiali/kiali/pull/10338)
+* [UI: Migrate deprecated PatternFly Modal API to PF6 composition-based Modal](https://github.com/kiali/kiali/issues/10306)
+* [UI: Replace bootstrap slider with PatternFly Slider](https://github.com/kiali/kiali/issues/10424)
+
+Fixes:
+
+* [AI: Fix hack/setup-mcp.sh with openshift provider](https://github.com/kiali/kiali/issues/10426)
+* [Ambient: Waypoint proxy show wrong services in the Graph target panel](https://github.com/kiali/kiali/issues/10518)
+* [Auth: OpenShift auth: a transient remote-cluster namespace API failure terminates a valid remote session](https://github.com/kiali/kiali/issues/10487)
+* [Auth: Make namespace accessibility checks consistent and mode-aware](https://github.com/kiali/kiali/issues/10443)
+* [UI: refuses Istio config changes to users whose roles name the Istio resources](https://github.com/kiali/kiali/issues/10486)
+* [UI: Fix graph node cursor flicker on hover](https://github.com/kiali/kiali/pull/10504)
+* [UI: Graph context menu remains open when launching a service wizard](https://github.com/kiali/kiali/issues/10498)
+* [UI: Show memory na if not available](https://github.com/kiali/kiali/pull/10463)
+* [UI: Traffic Graph and Mesh refresh reset zoom when Hide is active](https://github.com/kiali/kiali/issues/10532)
+* [Validation: Namespace Istio Config count includes service validations (empty list when clicking)](https://github.com/kiali/kiali/issues/10473)
+
 ## 2.34.0
 Release: October 26, 2026
 

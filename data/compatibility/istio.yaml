@@ -1,6 +1,8 @@
 # The Compatible Version Matrix between upstream Istio and Kiali
 # See: content/en/docs/Installation/installation-guide/prerequisites.md -> {{<compat-table-istio>}}
 versionRange:
+  - meshVersion: "1.32"
+    kialiVersions: "2.34 and higher"
   - meshVersion: "1.31"
     kialiVersions: "2.31 and higher"
   - meshVersion: "1.30"
