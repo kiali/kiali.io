@@ -84,12 +84,18 @@ jobs:
       if: ${{ steps.release_type.outputs.release_type != 'skip' }}
       id: releasing_version
       run: |
-        CURRENT_VERSION=$(awk '/## NEXT/,/url/' config.toml | grep -o '\"v.*\"' | tr -d '\"' | xargs)
+        VERSION_LABEL=$(awk '/## NEXT/,/url/' config.toml | grep -o '"v.*"' | tr -d '"' | xargs)
 
-        # The following command adds the .z part of the version
-        RAW_VERSION=$(echo "$CURRENT_VERSION.0")
+        # Display labels may follow the semver (e.g. v2.33  [ossm 3.5]); semver is always first
+        CURRENT_VERSION=$(echo "$VERSION_LABEL" | grep -oE '^v[0-9]+\.[0-9]+')
+        if [[ -z "$CURRENT_VERSION" ]]; then
+          echo "ERROR! Could not parse semver from version label: ${VERSION_LABEL:-<empty>}"
+          exit 1
+        fi
 
-        echo "releasing_version=$(python bump.py minor $RAW_VERSION)" >> $GITHUB_OUTPUT
+        RAW_VERSION="${CURRENT_VERSION}.0"
+        RELEASING_VERSION=$(python bump.py minor "$RAW_VERSION")
+        echo "releasing_version=${RELEASING_VERSION}" >> "$GITHUB_OUTPUT"
 
     - name: Cleanup
       run: rm bump.py minor.py
@@ -124,4 +130,9 @@ jobs:
       run: |
         echo "Resolved current website version: $RELEASING_VERSION"
 
-        ./scripts/release.sh -cv $RELEASING_VERSION -rn origin -gd true
+        if [[ -z "$RELEASING_VERSION" ]]; then
+          echo "ERROR! RELEASING_VERSION is empty"
+          exit 1
+        fi
+
+        ./scripts/release.sh -cv "$RELEASING_VERSION" -rn origin -gd true
