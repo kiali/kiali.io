@@ -15,22 +15,19 @@ There are two installation mechanisms from which you can choose when installing 
     - The operator explicitly cleans up ClusterRole/ClusterRoleBinding resources when switching from `cluster_wide_access=true` to `false`
     - The operator adds labels to accessible namespaces to mark which Kiali instance manages them
 
-### Operator fails due to `cannot list resource "clusterroles"` error
+### Operator fails due to missing permissions to create cluster roles
 
 When the Kiali Operator installs a Kiali Server, the Operator will assign the Kiali Server the proper roles/rolebindings so the Kiali Server can access the appropriate namespaces.
 
 The Kiali Operator will check to see if the Kiali CR setting `deployment.cluster_wide_access` is set to `true` (which is the default value if it is unset). If it is, this means the Kiali Server is to be given access to all namespaces in the cluster, including namespaces that will be created in the future. In this case, the Kiali Operator will create and assign ClusterRole/ClusterRoleBinding resources to the Kiali Server. But in order to be able to do this, the Kiali Operator must itself be given permission to create those ClusterRole and ClusterRoleBinding resources. When you install the Kiali Operator via OLM, these permissions are automatically granted. However, if you installed the Kiali Operator with the [Operator Helm Chart](https://kiali.org/helm-charts/index.yaml), and if you did so with the value [`clusterRoleCreator`](https://github.com/kiali/helm-charts/blob/v1.88.0/kiali-operator/values.yaml#L41-L45)
-set to `false` then the Kiali Operator will not be given permission to create cluster roles. In this case, you will be unable to install a Kiali Server if your Kiali CR does not have `deployment.cluster_wide_access` set to `true` (and, again, this is the default if unspecified). You will get an error similar to this:
+set to `false` then the Kiali Operator will not be given permission to create cluster roles. In that case, a Kiali CR that requests cluster-wide access (the default) cannot be reconciled. You will get an error similar to this:
 
 ```
-Failed to list rbac.authorization.k8s.io/v1, Kind=ClusterRole:
-clusterroles.rbac.authorization.k8s.io is forbidden:
-User "system:serviceaccount:kiali-operator:kiali-operator"
-cannot list resource "clusterroles" in API group
-"rbac.authorization.k8s.io" at the cluster scope
+The operator cannot support deployment.cluster_wide_access set to 'true'
+because it does not have permissions to create ClusterRoles
 ```
 
-Thus, if you do not give the Kiali Operator the permission to create cluster roles, you must tell the Operator which specific namespaces the Kiali Server can access. When specific namespaces are specified in `deployment.discovery_selectors.default`, the Kiali Operator will create Role and RoleBindings (not the "Cluster" kinds) and assign them to the Kiali Server.
+For a restricted operator, set `spec.deployment.cluster_wide_access: false` and select the accessible namespaces with `spec.deployment.discovery_selectors.default`. The operator creates a Role and RoleBinding in each accessible namespace. If it cannot create the additional cluster-wide grant for Istio revision tag discovery, it logs a warning and continues. If you use revision tags, have a cluster administrator grant the Kiali Server service account `list` on `mutatingwebhookconfigurations.admissionregistration.k8s.io` at cluster scope. Without that permission, Kiali cannot associate namespaces with a control plane through its revision tag.
 
 
 ### What values can be set in the Kiali CR?

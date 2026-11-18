@@ -283,7 +283,7 @@ See [here](https://github.com/kiali/kiali/blob/master/LICENSE) for the Kiali lic
 
 ### Why isn't my namespace in the Namespace Selection dropdown?
 
-Kiali can be told to restrict the namespaces users can see via the Kiali CR `spec.deployment.discovery_selectors` field. If there are no discovery selectors defined, Kiali will allow all namespaces _unless_ `deployment.cluster_wide_access` is false, in which case only Kiali's own namespace and the Istio control plane namespace will be accessible. If a namespace does not match one of the discovery selectors defined in the Kiali CR `spec.deployment.discovery_selectors` field at the time Kiali is installed by the operator it will not be visible in the Namespace Selection dropdown; if a new namespace is created after Kiali is installed and that namespace matches one of the discovery selectors, it will only be visible in the Namespace Selection dropdown after the operator creates the necessary Roles for the Kiali Server and restarts the Kiali Server pod (see [Operator Namespace Watching]({{< relref "../Configuration/namespace-management#operator-namespace-watching" >}})). See the [Namespace Management]({{< relref "../Configuration/namespace-management" >}}) documentation for more information.
+Kiali can be told to restrict the namespaces users can see via the Kiali CR `spec.deployment.discovery_selectors` field. If there are no discovery selectors defined, Kiali will allow all namespaces _unless_ `deployment.cluster_wide_access` is false, in which case only Kiali's own namespace is accessible by default. Include the Istio control plane namespace in the selectors if it is separate. If a namespace does not match one of the discovery selectors defined in the Kiali CR `spec.deployment.discovery_selectors` field at the time Kiali is installed by the operator it will not be visible in the Namespace Selection dropdown; if a new namespace is created after Kiali is installed and that namespace matches one of the discovery selectors, it will only be visible in the Namespace Selection dropdown after the operator creates the necessary Roles for the Kiali Server and restarts the Kiali Server pod (see [Operator Namespace Watching]({{< relref "../Configuration/namespace-management#operator-namespace-watching" >}})). See the [Namespace Management]({{< relref "../Configuration/namespace-management" >}}) documentation for more information.
 
 Note that Istio has its own set of optional discovery selectors that can be configured in the Istio MeshConfig `discoverySelectors` field, but these Istio discovery selectors are ignored by Kiali.
 
@@ -297,7 +297,9 @@ The page you opened refers to a namespace your credentials do not grant access t
 
 ### Why is data from some clusters missing?
 
-In a multi-cluster setup, Kiali only queries the clusters you have logged in to (see the [multi-cluster configuration]({{< relref "../Configuration/multi-cluster" >}})). Views show data from those clusters only, and the traffic graph shows nodes from the other clusters without their Istio configuration decoration. Log in to the remaining clusters to see them.
+If your deployment uses per-cluster login, check that you are logged in to the affected cluster. The graph can show traffic from a cluster even when its Istio configuration is unavailable.
+
+If a cluster you could previously access disappears for several users, check the Kiali Server log for a remote API connection failure, a rejected credential, or revoked service account permissions. The recovery steps differ. See [When Kiali loses access to a remote cluster]({{< relref "../Configuration/multi-cluster#when-kiali-loses-access-to-a-remote-cluster" >}}).
 
 ### Workload "is not found as" messages
 

@@ -36,6 +36,10 @@ In order to restrict the Kiali Server so that it only has access to certain name
 You can still use discovery selectors (explained below) to limit what Kiali will make visible in the UI while `cluster_wide_access` remains `true`. You would want to do this for the performance benefits it provides the Kiali Server. But with this, the Kiali Server will be granted ClusterRole permissions rather than individual Role permissions per namespace. In other words, it will have _access_ to all namespaces, but will not make all of them _visible_.
 {{% /alert %}}
 
+{{% alert color="info" %}}
+Kiali discovers Istio revision tags by reading cluster-scoped mutating webhook configurations. The per-namespace Roles granted when `cluster_wide_access` is `false` do not allow that read — so the Kiali Operator and the server helm chart additionally create a narrow, read-only ClusterRole that grants nothing beyond listing those webhook configurations.
+{{% /alert %}}
+
 ## Accessible Namespaces
 
 With cluster-wide access disabled, the Kiali Server must be told what namespaces are accessible to it.  These accessible namespaces are defined by a list of discovery selectors that match namespaces.
@@ -69,6 +73,8 @@ If you install Kiali using the [Server Helm Chart]({{< relref "../Installation/i
 - The operator handles transitions when `view_only_mode` or `auth.strategy` settings change (RoleBindings are immutable and must be deleted/recreated)
 - The operator explicitly cleans up ClusterRole/ClusterRoleBinding resources when switching from `cluster_wide_access=true` to `false`
 - The operator adds labels to accessible namespaces to mark which Kiali instance manages them
+
+When rendering the chart offline with `helm template` (for example, in a GitOps deployment), use explicit namespace names in `default` to generate Roles outside the release namespace. An offline render cannot look up namespaces by label.
 
 With the Server Helm Chart, you may need to manually clean up resources when changing these configurations. For full lifecycle management, use the operator. The Server Helm Chart is provided only as a convenience.
 {{% /alert %}}
@@ -107,7 +113,7 @@ Once the Kiali Operator is triggered to reconcile a Kiali CR, the operator will 
 
 ## Multi-Cluster Environments
 
-The Kiali CR `deployment.discover_selectors` section supports multi-cluster configurations.
+The Kiali CR `deployment.discovery_selectors` section supports multi-cluster configurations.
 
 The `default` discovery selectors define the namespaces on the local cluster that Kiali will have access to (as explained above). These namespaces are made visible to Kiali users.
 
@@ -124,8 +130,8 @@ In a multicluster mesh, a namespace does not need to exist in every participatin
 {{% alert color="info" %}}
 **Remote overrides also scope the remote cluster's access when `cluster_wide_access` is `false`.** In that mode the remote cluster's Kiali Service Account typically only holds per-namespace Roles, so Kiali scopes the remote cluster's cache, and the access verification it performs on that cluster, to the namespaces the overrides select. This has requirements beyond visibility:
 
-- **The override selectors must resolve to an explicit list of namespace names.** Each selector must match on the `kubernetes.io/metadata.name` label — either a `matchLabels` entry, or a `matchExpressions` entry with the `In` operator. This is the same form the `default` selectors must take when `cluster_wide_access` is `false`. An override that cannot be resolved to namespace names cannot scope the remote access: Kiali logs a warning (once per cluster) and falls back to the `default` accessible namespaces for that cluster. If a remote override appears to be ignored, check the Kiali Server log for that warning.
-- **The remote cluster's Kiali Service Account must be granted read access in exactly the namespaces the overrides select.** The Kiali Operator creates Roles only on the cluster where it is deployed; on remote clusters the roles must be created as part of the [remote cluster setup]({{< relref "multi-cluster" >}}) (for example with `spec.deployment.remote_cluster_resources_only: true` or the `kiali-prepare-remote-cluster.sh` script).
+- **List the remote namespace names explicitly.** Each selector must contain either a single `matchLabels` entry on `kubernetes.io/metadata.name` or a single `matchExpressions` entry using `In` on that key. Supply at least one non-empty namespace name. Both the Operator and the Server Helm Chart reject an empty override or a selector in any other form. To reuse the home cluster's accessible namespace names, omit the override for that cluster. If an invalid override reaches the server through a manually supplied configuration, Kiali logs a warning and uses the default accessible namespaces.
+- **Grant the remote Kiali Service Account access in each selected namespace.** The home cluster's override does not create Roles on the remote cluster. When using the Operator or Server Helm Chart to [prepare the remote cluster]({{< relref "multi-cluster#setup" >}}), set `deployment.remote_cluster_resources_only: true` and `deployment.cluster_wide_access: false` there. Set the remote installation's own `deployment.discovery_selectors.default` to match the namespaces named in the home cluster's override.
 
 When `cluster_wide_access` is `true` the remote cluster's cache is cluster-scoped and the overrides act purely as visibility filters; any valid label selector form may be used.
 {{% /alert %}}
@@ -181,10 +187,10 @@ spec:
 
 ## Discovery Selectors
 
-The `default` and `overrides` discovery selectors are processed in the same manner. They follow the same semantics as Istio as described in the [Istio discoverySelectors documentation](https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig)
+Discovery selectors match namespace labels using the [Istio discovery selector semantics](https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig). With cluster-wide access disabled, [remote overrides](#multi-cluster-environments) must specify namespace names.
 
 {{% alert color="info" %}}
-An empty list of discovery selectors has different semantics depending on the value of `deployment.cluster_wide_access`.
+An empty `deployment.discovery_selectors.default` list has different semantics depending on the value of `deployment.cluster_wide_access`.
 * If `deployment.cluster_wide_access` is `true`, an empty list of discovery selectors means all namespaces will be visible except those that are considered system namespaces. These include namespaces whose names are prefixed with "kube-", "openshift" or "ibm" such as `kube-system`, `openshift-operators`, and `ibm-system`. ([Kubernetes has reserved](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/#working-with-namespaces) all namespaces prefixed with `kube-` as system namespaces and users are cautioned against creating them). System namespaces such as these should not be considered to have service mesh components and so are excluded by Kiali. If, for some reason, you want to consider these namespaces in your service mesh, you can do so by defining discovery selectors, or alternatively you can rename your namespaces so they do not resemble system namespaces.
 * If `deployment.cluster_wide_access` is `false`, an empty list of discovery selectors means only the Kiali deployment namespace will be accessible. This is not particularly useful as it will not include any application namespaces.
 {{% /alert %}}
