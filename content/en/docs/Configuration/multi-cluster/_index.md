@@ -223,6 +223,52 @@ Don't forget to remove the resources (such as the SA and its role/role binding) 
 
 After the remote cluster secret has been removed, you must then tell the Kiali Operator to re-deploy the Kiali Server so the Kiali Server no longer attempts to access the now-deleted remote cluster secret. If you are using [auto-discovery]({{< relref "../kialis.kiali.io#.spec.clustering.autodetect_secrets" >}}), you can tell the Kiali Operator to do this by touching the Kiali CR. The easiest way to do this is to simply add or modify any annotation on the Kiali CR. It is recommended that you use the `kiali.io/reconcile` annotation as described [here]({{< relref "../../Installation/installation-guide/creating-updating-kiali-cr" >}}). If you did not rely on auto-discovery but instead [explicitly specified each remote cluster secret]({{< relref "../kialis.kiali.io#.spec.clustering.clusters" >}}) in the Kiali CR, then you simply have to remove the now-deleted remote cluster secret's information from the Kiali CR's `clustering.clusters` section. Finally, if you are using the single `kiali-multi-cluster-secret` to define all of your remote clusters (and you labeled that secret with `kiali.io/kiali-multi-cluster-secret="true"`), then you do not have to do anything other than delete that one secret. The Kiali Operator will detect that the secret has been removed and will re-deploy the Kiali Server automatically.
 
+### When Kiali Loses Access to a Remote Cluster
+
+The Kiali Service Account's access to a remote cluster can change after Kiali is running — an administrator revokes its RBAC, a Role or namespace is deleted, or the credentials expire. Kiali is designed to keep serving the rest of the mesh when that happens:
+
+- **The Kiali SA's read access is revoked on a remote cluster** (for example its Role or ClusterRoleBinding is deleted, or a required permission such as `pods` is removed): the cluster is _skipped_. The mesh, graph, and list and status views keep rendering with no data for that cluster; a detail view of an object on that cluster (a single workload, app, service or configuration object) shows an error instead — no meaningful empty entity exists to serve. Kiali does not need a restart to recover: a background probe re-checks the cluster's access roughly every 30 seconds, and its data returns on its own once access is restored. A running server notices the revocation when its background connections to the cluster are re-established, which can take a few minutes; restarting the Kiali Server detects it immediately, before any request is served.
+- **A single namespace's access is revoked** (only possible when `cluster_wide_access` is `false`, where access is per-namespace): the cluster stays healthy and keeps serving its other namespaces; the affected namespace's data is hidden rather than shown. The same detection delay applies — the data is hidden once Kiali's connections to that namespace are re-established, or immediately after a restart. It recovers the same way when the namespace's access is restored.
+- **A cluster name in the configuration matches no mounted credential** (for example a mistyped cluster name, or a remote cluster secret that was removed without updating the Kiali CR): this is a configuration error, not a runtime degradation — it will not resolve on its own. Requests that explicitly name that cluster return an error rather than an empty result (HTTP 404 for an unknown cluster name; HTTP 503 when a named cluster's access was revoked), and the aggregating views skip the cluster with an error-level message in the Kiali Server log.
+- **The remote cluster's credentials are invalid** (its token is rejected with an authentication error rather than an authorization error): the cluster is _skipped_. The Kiali Server starts normally and keeps serving the home cluster and the other remote clusters. This does not resolve on its own — fix the remote cluster secret and restart the Kiali Server to recover the cluster.
+- **A remote cluster is unreachable** (a network outage, or its API server is down): the cluster is _not_ skipped — Kiali keeps it configured and keeps trying in the background. The Kiali Server starts and serves even when a remote is unreachable at startup, requests that need the unreachable cluster fail within a bounded time (a few seconds) instead of hanging the page, and the cluster's data returns on its own once connectivity is restored — no restart needed.
+
+Note that a remote cluster being skipped is a Kiali Service Account problem, not a user access problem: users whose own credentials grant access to the remote cluster may still see its namespaces in the namespace list, with no data behind them, until Kiali's access is restored. A few cached views, such as namespace health, may serve the last-known data for a short time (up to their refresh interval) after a cluster is revoked. The home cluster — the cluster Kiali runs on — is never skipped: if its access is revoked, requests fail with an error (HTTP 503) until access is restored.
+
+To diagnose a cluster that disappeared from the UI, look for these messages in the Kiali Server log:
+
+| Log message | Meaning |
+|-------------|---------|
+| `Confirmed revocation: Kiali can no longer read cluster [name]. Removing the cluster's informers` | A revocation was just confirmed; the cluster's cached data is being discarded and the cluster is now skipped |
+| `Kiali lost access to [resource] in cluster [name]` | The cluster's access was confirmed revoked; it is being skipped |
+| `Kiali can read cluster [name] again` | Access was restored; the cluster's data will return |
+| `Kiali can still read [resource] in cluster [name]. Keeping the cache` | A suspected revocation was checked and disproved; the cluster keeps serving |
+| `Access to [resource] in cluster [name] was revoked in namespaces [...]` | A partial, per-namespace revocation; those namespaces' data is hidden |
+| `Kiali can read the partially-revoked namespaces of cluster [name] again` | A partially-revoked namespace recovered |
+| `Remote cluster [name] rejected Kiali's credentials; skipping the cluster` | The cluster's credentials are invalid; it is skipped until the secret is fixed and the Kiali Server is restarted |
+| `Remote cluster [name] is unreachable or unavailable at startup` | The cluster could not be reached at startup; it is kept configured and its data will appear once it is reachable again |
+| `no cache is configured for it. The cluster is likely misconfigured` | The cluster name does not match a mounted credential — a configuration error |
+
+### Tuning for Large or High-Latency Multi-Cluster Environments
+
+Kiali is designed so that a slow or unreachable remote cluster degrades the console rather than breaking it: startup is not blocked by remotes that cannot be reached, and a request that must wait on an unreachable remote fails within a bounded time instead of hanging. If your environment makes those bounds too tight or too loose, a few settings are worth knowing about:
+
+- **Slow remote clusters (for example, connected over a WAN):** Kiali bounds each live API request to a cluster at 10 seconds, and connection establishment at 2 seconds. Remote clusters that legitimately take longer than that to answer will appear to have missing data, because requests against them fail fast rather than wait. If your link to a remote cluster is genuinely that slow, raise the bounds in the `kiali_internal.kubernetes_client` section of the Kiali CR:
+
+  ```yaml
+  spec:
+    kiali_internal:
+      kubernetes_client:
+        dial_timeout: "2s"      # connection establishment budget
+        request_timeout: "10s"  # live API request budget
+  ```
+
+  Set either to `0` to disable its bound. Note that raising these also makes genuinely dead clusters take longer to fail, so only raise them as far as your slowest healthy cluster requires. These are advanced settings — they are not part of the documented CRD schema and are subject to change.
+
+- **Very large clusters:** each cluster's data is served from background caches whose first population can be slow on a very large cluster. A read waits for that first population for at most 30 seconds; if the Kiali Server log shows kube cache read timeouts against a large but healthy cluster, raise `kiali_internal.cache_read_timeout` in the Kiali CR.
+
+- **Slow Kiali startup:** the Kiali pod must report healthy to its startup probe within a fixed budget (90 seconds by default). Startup is not held back by unreachable remote clusters, but a very large or slow home cluster can still take time. If the kubelet restarts the Kiali pod during startup, raise the startup probe's [`failure_threshold`]({{< relref "../kialis.kiali.io#.spec.deployment.probes.startup.failure_threshold" >}}).
+
 ### Adding an Inaccessible Cluster
 
 If you would like to keep a separate Kiali per cluster or you do not want to give Kiali access to remote clusters, you can still manually specify the remote clusters and remote Kiali URLs in the Kiali configuration and the Kiali UI will try to provide links to the remote Kiali UIs where appropriate.
