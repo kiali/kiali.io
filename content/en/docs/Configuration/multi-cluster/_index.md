@@ -259,9 +259,16 @@ Kiali is designed so that a slow or unreachable remote cluster degrades the cons
   spec:
     kiali_internal:
       kubernetes_client:
-        dial_timeout: "2s"      # remote cache connection setup
-        request_timeout: "10s"  # live API request budget
+        dial_timeout: "2s"                    # remote cache connection setup
+        request_timeout: "10s"                # live API request budget
+        discovery_timeout: "10s"              # REST mapper discovery round trips
+        cluster_probe_timeout: "10s"          # credentials/reachability probe
+        pod_log_header_timeout: "10s"         # pod log stream establishment
+        port_forward_establish_timeout: "10s" # port-forward handshake
+        oauth_config_timeout: "60s"           # OAuth config fetch on the login path
   ```
+
+  The same section also bounds the mesh rebuild for very large meshes (`mesh_resolve_timeout`, 60 seconds), the console's capability discovery in one `/api/config` page load (`capability_discovery_timeout`, 5 seconds — raise it only if a proxy in front of Kiali allows longer page loads), and the startup wait for remote caches to sync (`remote_cache_sync_timeout`, 45 seconds — it must stay inside the startup probe's budget, so raise the probe budget alongside it).
 
   If a healthy remote cluster is missing from the namespace picker, fetching all accessible namespaces on that cluster has a separate 15-second budget. For clusters that need longer, raise `namespace_set_compute_timeout` in the same section. Set a timeout to `0` to disable that Kiali limit. A remote that fails at the network level is not re-probed by requests at all: Kiali marks it unreachable and a background prober re-checks it roughly every 30 seconds, so its data returns on its own (within about a probe interval) once the cluster answers again — no restart and no per-request cost. Until then a remote that goes down stays out of the namespace picker, and requests that name the cluster return HTTP 503 (temporarily unavailable) rather than an access denial. Note that raising the timeouts also makes genuinely dead clusters take longer to fail, so only raise them as far as your slowest healthy cluster requires. These are advanced settings — they are not part of the documented CRD schema and are subject to change.
 
