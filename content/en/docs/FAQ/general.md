@@ -287,7 +287,7 @@ Kiali can be told to restrict the namespaces users can see via the Kiali CR `spe
 
 Note that Istio has its own set of optional discovery selectors that can be configured in the Istio MeshConfig `discoverySelectors` field, but these Istio discovery selectors are ignored by Kiali.
 
-Kiali also [caches namespaces]({{< relref "../Configuration/kialis.kiali.io#.spec.kubernetes_config.cache_token_namespace_duration" >}}) by default for [10 seconds](https://github.com/kiali/kiali-operator/blob/v1.88.0/crd-docs/cr/kiali.io_v1alpha1_kiali.yaml#L447). Therefore, it might take up to the number of seconds specified by `spec.kubernetes_config.cache_token_namespace_duration` in order for a newly added namespace to be seen by Kiali.
+Kiali also [caches namespaces]({{< relref "../Configuration/kialis.kiali.io#.spec.kubernetes_config.cache_token_namespace_duration" >}}) by default for 10 seconds. Therefore, it might take up to the number of seconds specified by `spec.kubernetes_config.cache_token_namespace_duration` in order for a newly added namespace to be seen by Kiali.
 
 Finally, per-user RBAC rules can also cause a namespace to be absent from the dropdown. If [`kiali_feature_flags.authz.require_namespace_get`]({{< relref "../Configuration/rbac#multi-tenant-environments-and-require_namespace_get" >}}) is enabled, a namespace that is accessible to the Kiali Server will still be hidden from a user who lacks _GET_ permission on that namespace. See [Namespace access control]({{< relref "../Configuration/rbac" >}}) for more details.
 
