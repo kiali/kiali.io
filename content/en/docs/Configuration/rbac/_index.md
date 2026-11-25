@@ -9,7 +9,7 @@ In authentication strategies other than `anonymous` Kiali supports limiting the
 namespaces that are accessible on a per-user basis. The `anonymous`
 authentication strategy does not support this, although you can still limit
 privileges when using an OpenShift cluster. See the [access control section in
-Anonymous strategy]({{< relref "./authentication/anonymous#access-control" >}}).
+Anonymous strategy]({{< relref "../authentication/anonymous#access-control" >}}).
 
 To authorize namespaces, the standard `Roles` resources (or `ClusterRoles`)
 and `RoleBindings` resources (or `ClusterRoleBindings`) are used.
@@ -27,11 +27,14 @@ access, Kiali won't offer the same privilege granularity that the cluster
 supports. For example, a user that does not have privileges to get Kubernetes
 `Deployments` via typical tools (e.g. `kubectl`) would still be able to get
 some details of Deployments through Kiali when [listing Workloads or when
-viewing detail pages]({{< relref "../Features/details" >}}), or in the
-[Graph]({{< relref "../Features/topology" >}}).
+viewing detail pages]({{< relref "../../Features/details" >}}), or in the
+[Graph]({{< relref "../../Features/topology" >}}).
+
+For the permissions a user needs in order to see each part of the console, see
+[UI visibility by page]({{< relref "./ui-visibility" >}}).
 
 Some features allow creating or changing resources in the cluster (for example,
-[the Wizards]({{< relref "../Features/wizards" >}})). For these _write_
+[the Wizards]({{< relref "../../Features/wizards" >}})). For these _write_
 operations which may be sensitive, the users will need to have the required
 privileges in the cluster to perform updates - i.e. the cluster RBAC takes
 effect.
@@ -90,7 +93,7 @@ rules:
 ``` 
 
 {{% alert color="info" %}}
-The `pods/log` privilege is needed for the [pods Logs view]({{< relref "../Features/details#logs" >}}).
+The `pods/log` privilege is needed for the [pods Logs view]({{< relref "../../Features/details#logs" >}}).
 Since logs are potentially sensitive, you could remove that privilege if you
 don't want users to be able to fetch pod logs.
 {{% /alert %}}
@@ -265,7 +268,7 @@ give read and write privileges only to specific namespaces, or use a
 
 ## Tracing
 
-Kiali's [tracing views]({{< relref "../Features/tracing" >}}) follow the
+Kiali's [tracing views]({{< relref "../../Features/tracing" >}}) follow the
 same namespace permissions as the rest of Kiali. This is worth knowing
 because the tracing backends Kiali integrates with (Jaeger, Grafana Tempo)
 do not have their own access control — Kiali enforces the logged-in user's
@@ -287,7 +290,7 @@ match uses Kiali's cluster names, which must match the Istio cluster IDs —
 they do by default, but explicitly configured names that diverge make the
 mismatched clusters' namespaces unmatchable, so traces whose recognizable
 namespaces are all attributed to those clusters are denied (see the
-[multi-cluster configuration]({{< relref "multi-cluster" >}}) page).
+[multi-cluster configuration]({{< relref "../multi-cluster" >}}) page).
 
 A trace must carry namespace information in its telemetry for Kiali to
 show it: Kiali reads the `istio.namespace`, `istio.source_namespace`,
