@@ -9,12 +9,12 @@ permissions: read-all
 
 jobs:
   build:
-    permissions:
-      contents: write  # needs to commit and push metrics.json
     runs-on: ubuntu-latest
     steps:
       - name: checkout repo content
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
+        with:
+          token: ${{ secrets.KIALI_BOT_TOKEN }}
 
       - name: setup python
         uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405  # v6.2.0
@@ -27,13 +27,14 @@ jobs:
 
       - name: execute py script # run main.py
         env:
-          KIALI_API_TOKEN: ${{ secrets.KIALI_API_TOKEN }}
+          KIALI_BOT_TOKEN: ${{ secrets.KIALI_BOT_TOKEN }}
         run: make generate_metrics_json
-      - name: Configure git
-        run: |
-          git config user.email 'kiali-dev@googlegroups.com'
 
-          git config user.name 'kiali-bot'         
+      - name: Configure kiali-bot git
+        uses: ./.github/actions/configure-kiali-bot-git
+        with:
+          signing-key: ${{ secrets.KIALI_BOT_SIGNING_KEY }}
+
       - name: Update metrics file
         run: |
           if [[ `git status --porcelain` ]]; then
