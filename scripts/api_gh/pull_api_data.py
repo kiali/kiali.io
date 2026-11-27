@@ -10,7 +10,7 @@ REPOS = ["kiali", "kiali-operator", "openshift-servicemesh-plugin"]
 
 class KialiApi:
     def __init__(self):
-        TOKEN = os.getenv("KIALI_API_TOKEN")
+        TOKEN = os.getenv("KIALI_BOT_TOKEN")
         auth = Auth.Token(TOKEN)
         self.client = Github(auth=auth)
         self.organization = "kiali"

@@ -17,8 +17,6 @@ permissions: read-all
 jobs:
   initialize:
     name: Initialize
-    permissions:
-      contents: read
     runs-on: ubuntu-latest
     outputs:
       release_type: ${{ steps.release_type.outputs.release_type }}
@@ -109,8 +107,6 @@ jobs:
     if: ${{ needs.initialize.outputs.release_type != 'skip' && ((github.event_name == 'schedule' && github.repository == 'kiali/kiali.io') || github.event_name != 'schedule') }}
     runs-on: ubuntu-latest
     needs: [initialize]
-    permissions:
-      contents: write  # needs to push branches and tags
     env:
       RELEASING_VERSION: ${{ needs.initialize.outputs.releasing_version }}
     steps:
@@ -119,12 +115,12 @@ jobs:
       with:
         ref: ${{ github.event.inputs.release_branch || github.ref_name }}
         fetch-depth: 0
+        token: ${{ secrets.KIALI_BOT_TOKEN }}
 
-    - name: Configure git
-      run: |
-        git config user.email 'kiali-dev@googlegroups.com'
-
-        git config user.name 'kiali-bot'
+    - name: Configure kiali-bot git
+      uses: ./.github/actions/configure-kiali-bot-git
+      with:
+        signing-key: ${{ secrets.KIALI_BOT_SIGNING_KEY }}
 
     - name: Create release
       run: |
